@@ -1,15 +1,6 @@
-{% load staticfiles %}
-<html>
+{% extends 'epic/base.html' %}
 
-<head>
-    <title>Epic Cycles Menu</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="{% static 'css/epic.css' %}">
-</head>
-
-<body>
-  <h1>Epic Cycles</h1>
+{% block content %}
   <table width="100%" class="menu">
     <tr>
       <td>
@@ -29,8 +20,4 @@
       </td>
     </tr>
   </table>
-
-    <p>Hi there!</p>
-    <p>It works!</p>
-</body>
-</html>
+{% endblock %}

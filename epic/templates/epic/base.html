@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<html>
+
+<head>
+    <title>Epic Cycles Menu</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'css/epic.css' %}">
+</head>
+
+<body>
+  {% if user.is_authenticated %}
+        <a href="{% url 'quote_menu' %}" class="top-menu"><span class="glyphicons glyphicons-home"></span></a>
+        <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+  {% else %}
+        <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+  {% endif %}
+  <h1>Epic Cycles</h1>
+  <div class="content container">
+        {% block content %}
+        {% endblock %}
+  </div>
+</body>
+</html>
