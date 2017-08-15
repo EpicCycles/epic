@@ -68,8 +68,19 @@ class PartType(models.Model):
 
 class Brand(models.Model):
     name = models.CharField(max_length=50,unique=True)
+    link = models.CharField(max_length=100,blank=True)
     def __str__(self):
         return self.name
+
+    # check whether a web kink ispresent
+    def hasLink(self):
+        return (self.link is not None)
+
+    # build a web link as standard
+    def linkNewTab(self):
+        if hasLink(self):
+            return '<a target="_blank" class="externalLink" href="'+self.link+'">'+self.name+'</a>'
+
     class Meta:
         ordering = ('name',)
 

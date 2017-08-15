@@ -1,10 +1,35 @@
+{% load staticfiles %}
 <html>
 
 <head>
     <title>Epic Cycles Menu</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'css/epic.css' %}">
 </head>
 
 <body>
+  <h1>Epic Cycles</h1>
+  <table width="100%" class="menu">
+    <tr>
+      <td>
+        <h2>Sales</h2>
+      </td>
+      <td>
+        <h2>Admin</h2>
+      </td>
+      <td>
+        <h2>External Links</h2>
+        <h3>Brands</h3>
+        <ul>
+        {% for brand in brands %}
+          <li><a target="_blank" class="externalLink" href="{{ brand.link }}">{{brand.name}}</a></li>
+        {% endfor %}
+        </ul>
+      </td>
+    </tr>
+  </table>
+
     <p>Hi there!</p>
     <p>It works!</p>
 </body>
