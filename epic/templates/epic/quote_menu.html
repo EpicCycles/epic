@@ -6,15 +6,21 @@
       <td>
         <h2>Sales</h2>
       </td>
+      {% if user.is_superuser %}
       <td>
         <h2>Admin</h2>
+        <ul>
+          <li><a href="{% url 'bike_upload' %}" class="internal_link">Upload Bike Details</span></a></li>
+          <li><a href="admin/epic/frame/" class="internal_link">Review Bike Details</span></a></li>
+        </ul>
       </td>
+      {% endif %}
       <td>
         <h2>External Links</h2>
         <h3>Brands</h3>
         <ul>
         {% for brand in brands %}
-          <li><a target="_blank" class="externalLink" href="{{ brand.link }}">{{brand.name}}</a></li>
+          <li><a target="_blank" class="externalLink" href="{{ brand.link }}">{{brand.brand_name}}</a></li>
         {% endfor %}
         </ul>
       </td>

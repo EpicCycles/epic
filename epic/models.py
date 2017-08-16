@@ -3,8 +3,8 @@ from django.db import models
 from django.urls import reverse
 
 class Customer(models.Model):
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
+    first_name = models.CharField(max_length=60)
+    last_name = models.CharField(max_length=60)
     email = models.EmailField(max_length=100,blank=True)
     add_date = models.DateTimeField('Date Added',auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated',auto_now=True)
@@ -34,7 +34,7 @@ class CustomerPhone(models.Model):
         choices=NUMBER_TYPE_CHOICES,
         default=HOME,
     )
-    telephone = models.CharField(max_length=30,blank=True)
+    telephone = models.CharField(max_length=60,blank=True)
     add_date = models.DateTimeField('date added', auto_now_add=True)
 
     def __str__(self):
@@ -50,13 +50,15 @@ class CustomerAddress(models.Model):
     add_date = models.DateTimeField('date added',auto_now_add=True)
 
 class  PartSection(models.Model):
-    name  = models.CharField(max_length=30,unique=True)
+    name  = models.CharField(max_length=60,unique=True)
     placing = models.PositiveSmallIntegerField()
+    def __str__(self):
+        return self.name
     class Meta:
         ordering = ['placing','name']
 
 class PartType(models.Model):
-    shortName = models.CharField(max_length=30,unique=True)
+    shortName = models.CharField(max_length=60,unique=True)
     description = models.CharField(max_length=100,blank=True)
     includeInSection = models.ForeignKey(PartSection, on_delete=models.CASCADE)
     placing = models.PositiveSmallIntegerField()
@@ -67,10 +69,10 @@ class PartType(models.Model):
         ordering = ('includeInSection','placing', 'shortName')
 
 class Brand(models.Model):
-    name = models.CharField(max_length=50,unique=True)
+    brand_name = models.CharField(max_length=50,unique=True)
     link = models.CharField(max_length=100,blank=True)
     def __str__(self):
-        return self.name
+        return self.brand_name
 
     # check whether a web kink ispresent
     def hasLink(self):
@@ -79,44 +81,48 @@ class Brand(models.Model):
     # build a web link as standard
     def linkNewTab(self):
         if hasLink(self):
-            return '<a target="_blank" class="externalLink" href="'+self.link+'">'+self.name+'</a>'
+            return '<a target="_blank" class="externalLink" href="'+self.link+'">'+self.brand_name+'</a>'
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('brand_name',)
 
 class Part(models.Model):
     partType = models.ForeignKey(PartType)
     brand = models.ForeignKey(Brand)
-    name = models.CharField(max_length=30,unique=True)
+    part_name = models.CharField(max_length=60)
+    def __str__(self):
+        return self.partType.shortName + ' ' +self.brand.brand_name + ' ' + self.part_name
+    class Meta:
+        unique_together = (("partType", "brand", "part_name"),)
 
 class Frame(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    name = models.CharField(max_length=30)
-    model = models.CharField(max_length=30,blank=True)
+    frame_name = models.CharField(max_length=60)
+    model = models.CharField(max_length=60,blank=True)
     description = models.CharField(max_length=100,blank=True)
 
     def __str__(self):
         if self.model is None:
-            return self.brand.name + ':' + self.name
+            return self.brand.brand_name + ':' + self.frame_name
         else:
-            return self.brand.name + ':' + self.name  + ':' + self.model
+            return self.brand.brand_name + ':' + self.frame_name  + ':' + self.model
     class Meta:
-        unique_together = (("brand", "name", "model"),)
-        ordering = ('brand', 'name', 'model')
+        unique_together = (("brand", "frame_name", "model"),)
+        ordering = ('brand', 'frame_name', 'model')
 
 
 class FramePart(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
     def __str__(self):
-        return self.part.name
+        return self.part.part_name
 
     class Meta:
         unique_together = (("frame", "part"),)
 
 class Quote(models.Model):
     customer = models.ForeignKey(Customer)
-    name = models.CharField(max_length=30)
+    quote_desc = models.CharField('Quote Description',max_length=60)
     version = models.PositiveSmallIntegerField
     created_date = models.DateTimeField('Date added',auto_now_add=True)
     issued_date = models.DateTimeField('Date issued',blank=True)
@@ -129,7 +135,7 @@ class Quote(models.Model):
     frame_sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True)
 
     def __str__(self):
-        return self.name + ' (' + version + ')'
+        return self.quote_desc + ' (' + version + ')'
 
     # set issuedDate whe quote is issued to a customer
     def issue(self):

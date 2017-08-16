@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, CustomerPhone, CustomerAddress, Brand, Part, Frame, FramePart
+from .models import Customer, CustomerPhone, CustomerAddress, Brand, Part, Frame, FramePart, PartType, PartSection
 
 class CustomerPhoneInline(admin.TabularInline):
     model = CustomerPhone
@@ -26,11 +26,17 @@ class FramePartInline(admin.TabularInline):
 
 class FrameAdmin(admin.ModelAdmin):
     inlines = [FramePartInline]
-    list_display = ('brand','name', 'description')
     list_filter = ['brand']
-    search_fields = ['brand','name']
+    search_fields = ['brand']
+
+class PartTypeInLine(admin.TabularInline):
+    model = PartType
+
+class PartSectionAdmin(admin.ModelAdmin):
+    inlines = [PartTypeInLine]
 
 admin.site.register(Frame, FrameAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Brand)
 admin.site.register(Part)
+admin.site.register(PartSection, PartSectionAdmin)
