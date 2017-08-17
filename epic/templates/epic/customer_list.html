@@ -1,0 +1,64 @@
+{% extends 'epic/base.html' %}
+{% block content %}
+<form action="" method="get">
+    <h1>Filter values:</h1>
+    <table>
+        <tr>
+            <th>
+                <label for="id_search_first_name">First Name like:</label>
+            </th>
+            <td>
+                <input id="id_search_first_name" name="search_first_name" type="text" value="{{ search_first_name }}" />
+            </td>
+        </tr>
+        <tr>
+            <th>
+                <label for="id_search_last_name">Last Name like:</label>
+            </th>
+            <td>
+                <input id="id_search_last_name" name="search_last_name" type="text" value="{{ search_last_name }}" />
+            </td>
+        </tr>
+
+    </table>
+    {{ form.as_table }}
+    <input type="submit" value="search" />
+</form>
+<hr/>
+{% if customer_list %}
+<table>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>email</th>
+        <th></th>
+    </tr>
+    {% for customer in customer_list %}
+    {% cycle 'row1' 'row2' as rowcolors silent %}
+    <tr class="{{ rowcolors }}">
+        <td>{{ customer.first_name }}</td>
+        <td>{{ customer.last_name }}</td>
+        <td>{{ customer.email }}</td>
+        <td><a href="{% url 'edit_customer' pk=customer.pk %}">edit</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+  {% if is_paginated %}
+  <div class="pagination">
+      <span class="page-links">
+          {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}"><<</a>
+          {% endif %}
+          <span class="page-current">
+              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+          </span> {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">>></a> {% endif %}
+      </span>
+  </div>
+  {% endif %}
+{% else %}
+<p>No customers to view.</p>
+{% endif %}
+<a href="{% url 'add_customer' %}">Add a Customer</a>
+{% endblock %}

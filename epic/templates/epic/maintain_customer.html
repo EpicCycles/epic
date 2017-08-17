@@ -1,0 +1,45 @@
+{% extends 'epic/base.html' %}
+
+{% block content %}
+<div>
+    <h1>Customer</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <div>
+            {{ customerForm.as_p }}
+        </div>
+        <fieldset>
+            <legend>Customer Address</legend>
+            {{ addressFormSet.management_form }}
+            {{ addressFormSet.non_form_errors }}
+            <table>
+            {% for form in addressFormSet %}
+              {% include "epic/formset_display.html" %}
+            {% endfor %}
+            </table>
+            {% for form in addressFormSet %}
+              {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+            {% endfor %}
+        </fieldset>
+        <fieldset>
+            <legend>Customer Phone</legend>
+            {{ phoneFormSet.management_form }}
+            {{ phoneFormSet.non_form_errors }}
+            <table>
+            {% for form in phoneFormSet %}
+              {% include "epic/formset_display.html" %}
+            {% endfor %}
+            </table>
+            {% for phoneForm in phoneFormSet %}
+              {% for hidden in phoneForm.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+            {% endfor %}
+        </fieldset>
+        <input type="submit" value="Save Customer" />
+    </form>
+</div>
+
+{% endblock %}
