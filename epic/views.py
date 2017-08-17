@@ -15,9 +15,9 @@ from django.contrib import messages
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 #models used in this code
-from .models import Customer, Brand, Frame, FramePart, Part, PartType
+from .models import Customer, Brand, Frame, FramePart, Part, PartType, Quote
 # forms and formsets used in the views
-from .forms import CustomerForm, ChangeCustomerForm, AddressFormSet, PhoneFormSet, FrameForm, PartForm, FramePartForm
+from .forms import CustomerForm, ChangeCustomerForm, AddressFormSet, PhoneFormSet, FittingFormSet, FrameForm, PartForm, FramePartForm, QuoteForm
 
 @login_required
 def quote_menu(request):
@@ -65,6 +65,40 @@ class CustomerList(LoginRequiredMixin, ListView):
         objects = Customer.objects.filter(where_filter).order_by('last_name')
         return objects
 
+# Get QUotes matching a search
+# this extends the mix in for login required rather than the @ method as that doesn'twork for ListViews
+class QuoteList(LoginRequiredMixin, ListView):
+
+    template_name = "quote_list.html"
+    context_object_name = 'quote_list'
+    # attributes for search form
+    search_quote_desc = ''
+
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super(QuoteList, self).get_context_data(**kwargs)
+        # add values fetched from form to context to redisplay
+        context['search_quote_desc'] = self.search_quote_desc
+        return context
+
+    def get(self, request, *args, **kwargs):
+        #get values for search from form
+        self.search_quote_desc = request.GET.get('search_quote_desc', '')
+        return super(QuoteList, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        # define an empty search pattern
+        where_filter = Q()
+
+        # if filter added on first name add it to query set
+        if self.search_quote_desc:
+            where_filter &= Q(quote_desc__icontains=self.search_quote_desc)
+
+        #find objects matching any filter and order them
+        objects = Quote.objects.filter(where_filter)
+        return objects
+
 def add_customer(request):
 
     if request.method == "POST":
@@ -75,10 +109,13 @@ def add_customer(request):
             newCustomer = customerForm.save()
             addressFormSet = AddressFormSet(request.POST, request.FILES, newCustomer)
             phoneFormSet = PhoneFormSet(request.POST, request.FILES, newCustomer)
+            fittingFormSet = FittingFormSet(request.POST, request.FILES, newCustomer)
             if  addressFormSet.is_valid():
                 addressFormSet.save()
             if phoneFormSet.is_valid():
                 phoneFormSet.save()
+            if fittingFormSet.is_valid():
+                fittingFormSet.save()
 
             # Do something. Should generally end with a redirect. For example:
             #return HttpResponseRedirect(success_url)
@@ -86,7 +123,8 @@ def add_customer(request):
     else:
         addressFormSet = AddressFormSet()
         phoneFormSet = PhoneFormSet()
-    return render(request, 'epic/maintain_customer.html', {'customerForm': CustomerForm(),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet})
+        fittingFormSet = FittingFormSet()
+    return render(request, 'epic/maintain_customer.html', {'customerForm': CustomerForm(),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet, 'fittingFormSet':fittingFormSet})
 
 def edit_customer(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
@@ -94,6 +132,7 @@ def edit_customer(request, pk):
         customerForm = ChangeCustomerForm(request.POST,instance=customer)
         addressFormSet = AddressFormSet(request.POST, request.FILES, instance=customer)
         phoneFormSet = PhoneFormSet(request.POST, request.FILES, instance=customer)
+        fittingFormSet = FittingFormSet(request.POST, request.FILES, instance=customer)
 
         if customerForm.is_valid():
 
@@ -102,6 +141,8 @@ def edit_customer(request, pk):
                 addressFormSet.save()
             if phoneFormSet.is_valid():
                 phoneFormSet.save()
+            if fittingFormSet.is_valid():
+                fittingFormSet.save()
 
             # Do something. Should generally end with a redirect. For example:
             #return HttpResponseRedirect(success_url)
@@ -109,8 +150,64 @@ def edit_customer(request, pk):
     else:
         addressFormSet = AddressFormSet(instance=customer)
         phoneFormSet = PhoneFormSet(instance=customer)
-    return render(request, 'epic/maintain_customer.html', {'customerForm': ChangeCustomerForm(instance=customer),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet})
+        fittingFormSet = FittingFormSet(instance=customer)
+    return render(request, 'epic/maintain_customer.html', {'customerForm': ChangeCustomerForm(instance=customer),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet,'fittingFormSet':fittingFormSet})
+#
 
+#incplcomete view for
+@login_required
+def add_quote(request):
+    if request.method == "POST":
+        # new customer to be added
+        quoteForm = QuoteForm(request.POST)
+        if quoteForm.is_valid():
+
+            newCustomer = quoteForm.save()
+
+            # Do something. Should generally end with a redirect. For example:
+            #return HttpResponseRedirect(success_url)
+            return HttpResponseRedirect(reverse('quote_list'))
+    return render(request, 'epic/quote_start.html', {'quoteForm': QuoteForm()})
+
+
+#incplcomete view for
+@login_required
+def copy_quote(request, pk):
+    return HttpResponseRedirect(reverse('quote_menu'))
+
+#incplcomete view for
+#incplcomete view for
+@login_required
+def add_cust_quote(request, pk):
+    return HttpResponseRedirect(reverse('quote_menu'))
+
+@login_required
+def edit_quote(request, pk):
+    return HttpResponseRedirect(reverse('quote_menu'))
+    if request.method == "POST":
+        # new customer to be added
+        customerForm = CustomerForm(request.POST)
+        if customerForm.is_valid():
+
+            newCustomer = customerForm.save()
+            addressFormSet = AddressFormSet(request.POST, request.FILES, newCustomer)
+            phoneFormSet = PhoneFormSet(request.POST, request.FILES, newCustomer)
+            fittingFormSet = FittingFormSet(request.POST, request.FILES, newCustomer)
+            if  addressFormSet.is_valid():
+                addressFormSet.save()
+            if phoneFormSet.is_valid():
+                phoneFormSet.save()
+            if fittingFormSet.is_valid():
+                fittingFormSet.save()
+
+            # Do something. Should generally end with a redirect. For example:
+            #return HttpResponseRedirect(success_url)
+            return HttpResponseRedirect(reverse('quote_menu'))
+    else:
+        addressFormSet = AddressFormSet()
+        phoneFormSet = PhoneFormSet()
+        fittingFormSet = FittingFormSet()
+    return render(request, 'epic/maintain_customer.html', {'customerForm': CustomerForm(),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet, 'fittingFormSet':fittingFormSet})
 
 @login_required
 # based on code in http://thepythondjango.com/upload-process-csv-file-django/

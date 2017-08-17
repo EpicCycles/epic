@@ -49,6 +49,25 @@ class CustomerAddress(models.Model):
     postcode = models.CharField(max_length=200)
     add_date = models.DateTimeField('date added',auto_now_add=True)
 
+class  Fitting(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    CUST = 'C'
+    EPIC = 'E'
+    FITTING_TYPE_CHOICES = (
+        (CUST, 'Customer'),
+        (EPIC, 'Epic'),
+    )
+    fitting_type = models.CharField('Type',
+        max_length=1,
+        choices=FITTING_TYPE_CHOICES,
+        default=EPIC,
+    )
+    saddle_height = models.CharField('Saddle Height',max_length=20)
+    bar_height = models.CharField('Bar Height',max_length=20)
+    reach = models.CharField('Reach',max_length=20)
+    notes = models.CharField(max_length=200,blank=True)
+    add_date = models.DateTimeField('date added', auto_now_add=True)
+
 class  PartSection(models.Model):
     name  = models.CharField(max_length=60,unique=True)
     placing = models.PositiveSmallIntegerField()
@@ -87,8 +106,8 @@ class Brand(models.Model):
         ordering = ('brand_name',)
 
 class Part(models.Model):
-    partType = models.ForeignKey(PartType)
-    brand = models.ForeignKey(Brand)
+    partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     part_name = models.CharField(max_length=60)
     def __str__(self):
         return self.partType.shortName + ' ' +self.brand.brand_name + ' ' + self.part_name
@@ -121,21 +140,33 @@ class FramePart(models.Model):
         unique_together = (("frame", "part"),)
 
 class Quote(models.Model):
-    customer = models.ForeignKey(Customer)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     quote_desc = models.CharField('Quote Description',max_length=60)
-    version = models.PositiveSmallIntegerField
+    version = models.PositiveSmallIntegerField(default=1,editable=False)
     created_date = models.DateTimeField('Date added',auto_now_add=True)
-    issued_date = models.DateTimeField('Date issued',blank=True)
-    cost_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True)
-    sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True)
+    issued_date = models.DateTimeField('Date issued',null=True)
+    cost_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
+    sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
 
     # frame will be null for a quote for items only
-    frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True)
-    frame_cost_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True)
-    frame_sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True)
+    frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True,null=True)
+    frame_cost_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
+    frame_sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
+    fitting = models.ForeignKey(Fitting, on_delete=models.CASCADE, blank=True,null=True)
 
+    BIKE = 'B'
+    PART = 'P'
+    QUOTE_TYPE_CHOICES = (
+        (BIKE, 'Bike'),
+        (PART, 'Parts'),
+    )
+    quote_type = models.CharField('Type',
+        max_length=1,
+        choices=QUOTE_TYPE_CHOICES,
+        default=BIKE,
+    )
     def __str__(self):
-        return self.quote_desc + ' (' + version + ')'
+        return self.quote_desc + ' (' + str(self.version) + ')'
 
     # set issuedDate whe quote is issued to a customer
     def issue(self):
@@ -160,11 +191,14 @@ class Quote(models.Model):
                 self.cost_price += quote_part.cost_price * quote_part.quantity
                 self.sell_price += quote_part.sell_price * quote_part.quantity
 
+    class Meta:
+        # order most recent first
+        ordering =('-created_date', 'quote_desc')
 
 class QuotePart(models.Model):
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
     line = models.PositiveSmallIntegerField
-    partType = models.ForeignKey(PartType)
+    partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     # part can be None if the part has not been selected
     part = models.ForeignKey(Part, on_delete=models.CASCADE,blank=True)
     # framePart will be null when this a standalone quote

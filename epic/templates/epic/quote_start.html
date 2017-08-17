@@ -1,0 +1,12 @@
+{% extends 'epic/base.html' %}
+
+{% block content %}
+<h2>Quote</h2>
+<form action="" method="post">
+    {% csrf_token %}
+    <div>
+        {{ quoteForm.as_table }}
+    </div>
+    <input type="submit" value="Save Quote" />
+</form>
+{% endblock %}

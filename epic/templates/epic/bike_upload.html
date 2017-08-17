@@ -1,6 +1,7 @@
 {% extends 'epic/base.html' %}
 
 {% block content %}
+<h2>Upload Bike specs</h2>
 <form action="{% url "bike_upload" %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
   {% csrf_token %}
   <table>

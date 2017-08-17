@@ -2,11 +2,18 @@
 
 {% block content %}
 <div>
-    <h1>Customer</h1>
+    <h2>Customer</h2>
     <form action="" method="post">
         {% csrf_token %}
         <div>
-            {{ customerForm.as_p }}
+          {% for hidden in customerForm.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+          {% for field in customerForm.visible_fields %}
+            {{ field.errors }}
+            {{ field.label_tag }} {{ field }}
+          &nbsp;
+          {% endfor %}
         </div>
         <fieldset>
             <legend>Customer Address</legend>
@@ -23,21 +30,37 @@
               {% endfor %}
             {% endfor %}
         </fieldset>
-        <fieldset>
-            <legend>Customer Phone</legend>
-            {{ phoneFormSet.management_form }}
-            {{ phoneFormSet.non_form_errors }}
-            <table>
-            {% for form in phoneFormSet %}
-              {% include "epic/formset_display.html" %}
-            {% endfor %}
-            </table>
-            {% for phoneForm in phoneFormSet %}
-              {% for hidden in phoneForm.hidden_fields %}
-                {{ hidden }}
+        <table><tr>
+          <td><fieldset>
+              <legend>Customer Phone</legend>
+              {{ phoneFormSet.management_form }}
+              {{ phoneFormSet.non_form_errors }}
+              <table>
+              {% for form in phoneFormSet %}
+                {% include "epic/formset_display.html" %}
               {% endfor %}
-            {% endfor %}
-        </fieldset>
+              </table>
+              {% for phoneForm in phoneFormSet %}
+                {% for hidden in phoneForm.hidden_fields %}
+                  {{ hidden }}
+                {% endfor %}
+              {% endfor %}
+          </fieldset></td>
+          <td><fieldset>
+              <legend>Customer Fittings</legend>
+              {{ fittingFormSet.management_form }}
+              {{ fittingFormSet.non_form_errors }}
+              <table>
+              {% for form in fittingFormSet %}
+                {% include "epic/formset_display.html" %}
+              {% endfor %}
+              </table>
+              {% for fittingForm in fittingFormSet %}
+                {% for hidden in fittingForm.hidden_fields %}
+                  {{ hidden }}
+                {% endfor %}
+              {% endfor %}
+          </fieldset></td>        </tr></table>
         <input type="submit" value="Save Customer" />
     </form>
 </div>

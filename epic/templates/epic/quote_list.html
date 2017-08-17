@@ -1,23 +1,15 @@
 {% extends 'epic/base.html' %}
 {% block content %}
-<h2>Customers</h2>
+<h2>Quotes</h2>
 <form action="" method="get">
     <h3>Filter values:</h3>
     <table>
         <tr>
             <th>
-                <label for="id_search_first_name">First Name like:</label>
+                <label for="id_search_quote_desc">Quote Description like:</label>
             </th>
             <td>
-                <input id="id_search_first_name" name="search_first_name" type="text" value="{{ search_first_name }}" />
-            </td>
-        </tr>
-        <tr>
-            <th>
-                <label for="id_search_last_name">Last Name like:</label>
-            </th>
-            <td>
-                <input id="id_search_last_name" name="search_last_name" type="text" value="{{ search_last_name }}" />
+                <input id="id_search_quote_desc" name="search_quote_desc" type="text" value="{{ search_quote_desc }}" />
             </td>
         </tr>
 
@@ -26,21 +18,27 @@
     <input type="submit" value="search" />
 </form>
 <hr/>
-{% if customer_list %}
+{% if quote_list %}
 <table>
     <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>email</th>
+        <th>Customer</th>
+        <th>Quote Description</th>
+        <th>Bike</th>
+        <th>Date Created</th>
+        <th>Quote Total</th>
+        <th></th>
         <th></th>
     </tr>
-    {% for customer in customer_list %}
+    {% for quote in quote_list %}
     {% cycle 'row1' 'row2' as rowcolors silent %}
     <tr class="{{ rowcolors }}">
-        <td>{{ customer.first_name }}</td>
-        <td>{{ customer.last_name }}</td>
-        <td>{{ customer.email }}</td>
-        <td><a href="{% url 'edit_customer' pk=customer.pk %}">edit</a></td>
+        <td>{{ quote.customer }}</td>
+        <td>{{ quote }}</td>
+        <td>{{ quote.frame }}</td>
+        <td>{{ quote.created_date }}</td>
+        <td>{{ quote.sell_price }}</td>
+        <td>{%if quote.issuedDate == None %}<a href="{% url 'edit_quote' pk=quote.pk %}">edit</a>{% endif %}</td>
+        <td><a href="{% url 'copy_quote' pk=quote.pk %}">copy</a></td>
     </tr>
     {% endfor %}
 </table>
@@ -59,7 +57,7 @@
   </div>
   {% endif %}
 {% else %}
-<p>No customers to view.</p>
+<p>No quotes to view.</p>
 {% endif %}
-<a href="{% url 'add_customer' %}">Add a Customer</a>
+<a href="{% url 'add_quote' %}">Add a quote</a>
 {% endblock %}

@@ -2,7 +2,7 @@
 
 from django.forms import ModelForm, CharField
 from django.forms.models import inlineformset_factory
-from .models import Customer, CustomerAddress, CustomerPhone, Brand, Frame, FramePart, Part, PartType
+from .models import Customer, CustomerAddress, CustomerPhone, Brand, Frame, FramePart, Part, PartType, Fitting, Quote
 
 class CustomerForm(ModelForm):
     class Meta:
@@ -16,6 +16,7 @@ class ChangeCustomerForm(ModelForm):
 
 AddressFormSet = inlineformset_factory(Customer, CustomerAddress,fields = '__all__')
 PhoneFormSet = inlineformset_factory(Customer, CustomerPhone,fields = '__all__')
+FittingFormSet = inlineformset_factory(Customer, Fitting,fields = ('fitting_type','saddle_height','bar_height','reach'))
 
 class BrandForm(ModelForm):
     class Meta:
@@ -41,3 +42,9 @@ class PartTypeForm(ModelForm):
     class Meta:
         model = PartType
         fields = '__all__'
+
+# form for basic Quote details
+class QuoteForm(ModelForm):
+    class Meta:
+        model = Quote
+        fields = ['customer', 'quote_desc', 'quote_type', 'frame']
