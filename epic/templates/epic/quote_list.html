@@ -23,6 +23,7 @@
     <tr>
         <th>Customer</th>
         <th>Quote Description</th>
+        <th>Quote Type</th>
         <th>Bike</th>
         <th>Date Created</th>
         <th>Quote Total</th>
@@ -34,10 +35,17 @@
     <tr class="{{ rowcolors }}">
         <td>{{ quote.customer }}</td>
         <td>{{ quote }}</td>
+        <td>{{ quote.get_quote_type_display  }}</td>
         <td>{{ quote.frame }}</td>
         <td>{{ quote.created_date }}</td>
         <td>{{ quote.sell_price }}</td>
-        <td>{%if quote.issuedDate == None %}<a href="{% url 'edit_quote' pk=quote.pk %}">edit</a>{% endif %}</td>
+        <td>{%if quote.issuedDate == None %}
+              {%if quote.quote_type == 'B' %}
+                <a href="{% url 'quote_edit_bike' pk=quote.pk %}">
+              {% else %}
+                <a href="{% url 'quote_edit_simple' pk=quote.pk %}">
+              {% endif %}
+                edit</a>{% endif %}</td>
         <td><a href="{% url 'copy_quote' pk=quote.pk %}">copy</a></td>
     </tr>
     {% endfor %}

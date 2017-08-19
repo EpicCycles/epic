@@ -1,0 +1,29 @@
+{% extends 'epic/base.html' %}
+
+{% block content %}
+<h2>Quote</h2>
+<form action="" method="post">
+    {% csrf_token %}
+    {% with quoteForm as form %}
+      {% include "epic/form_as_table.html" %}
+    {% endwith %}
+
+    <fieldset>
+        <legend>Quote items</legend>
+        {{ quotePartFormSet.management_form }}
+        {{ quotePartFormSet.non_form_errors }}
+        <table>
+        {% for form in quotePartFormSet %}
+          {% include "epic/formset_display.html" %}
+        {% endfor %}
+        </table>
+        {% for form in quotePartFormSet %}
+          {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+        {% endfor %}
+    </fieldset>
+
+    <input type="submit" value="Save Quote" />
+</form>
+{% endblock %}

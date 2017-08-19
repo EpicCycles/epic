@@ -5,9 +5,15 @@
     <tr>
       <td>
         <h2>Sales</h2>
+        <h3>Customer</h3>
         <ul>
-          <li><a href="{% url 'customer_list' %}" class="internal_link">Maintain Customers</span></a></li>
-          <li><a href="{% url 'quote_list' %}" class="internal_link">Quote List</span></a></li>
+          <li><a href="{% url 'customer_list' %}" class="internal_link">Find Customer</span></a></li>
+          <li><a href="{% url 'add_customer' %}" class="internal_link">New Customer</span></a></li>
+        </ul>
+        <h3>Quote</h3>
+        <ul>
+          <li><a href="{% url 'quote_list' %}" class="internal_link">Find Quote</span></a></li>
+          <li><a href="{% url 'add_quote' %}">New quote</a></li>
         </ul>
       </td>
       {% if user.is_superuser %}

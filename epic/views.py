@@ -15,9 +15,9 @@ from django.contrib import messages
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 #models used in this code
-from .models import Customer, Brand, Frame, FramePart, Part, PartType, Quote
+from .models import Customer, Brand, Frame, FramePart, Part, PartType, Quote, PartSection
 # forms and formsets used in the views
-from .forms import CustomerForm, ChangeCustomerForm, AddressFormSet, PhoneFormSet, FittingFormSet, FrameForm, PartForm, FramePartForm, QuoteForm
+from .forms import *
 
 @login_required
 def quote_menu(request):
@@ -91,7 +91,7 @@ class QuoteList(LoginRequiredMixin, ListView):
         # define an empty search pattern
         where_filter = Q()
 
-        # if filter added on first name add it to query set
+        # if filter added on quote_desc add it to query set
         if self.search_quote_desc:
             where_filter &= Q(quote_desc__icontains=self.search_quote_desc)
 
@@ -99,6 +99,7 @@ class QuoteList(LoginRequiredMixin, ListView):
         objects = Quote.objects.filter(where_filter)
         return objects
 
+@login_required
 def add_customer(request):
 
     if request.method == "POST":
@@ -126,6 +127,7 @@ def add_customer(request):
         fittingFormSet = FittingFormSet()
     return render(request, 'epic/maintain_customer.html', {'customerForm': CustomerForm(),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet, 'fittingFormSet':fittingFormSet})
 
+@login_required
 def edit_customer(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     if request.method == "POST":
@@ -144,9 +146,7 @@ def edit_customer(request, pk):
             if fittingFormSet.is_valid():
                 fittingFormSet.save()
 
-            # Do something. Should generally end with a redirect. For example:
-            #return HttpResponseRedirect(success_url)
-            return HttpResponseRedirect(reverse('quote_menu'))
+            messages.info(request,'Customer changes saved. ')
     else:
         addressFormSet = AddressFormSet(instance=customer)
         phoneFormSet = PhoneFormSet(instance=customer)
@@ -157,17 +157,81 @@ def edit_customer(request, pk):
 #incplcomete view for
 @login_required
 def add_quote(request):
+
     if request.method == "POST":
         # new customer to be added
         quoteForm = QuoteForm(request.POST)
         if quoteForm.is_valid():
 
-            newCustomer = quoteForm.save()
+            newQuote = quoteForm.save()
+            if newQuote.quote_type == Quote.BIKE:
+                # create lines for quote
+                quote_line = 0
+                partSections = PartSection.objects.all()
+                for partSection in partSections:
+                    partTypes = PartType.objects.filter(includeInSection=partSection)
+                    for partType in partTypes:
+                        # add the part typte to the list
+                        quote_line +=1
+                        data_dict = {}
+                        data_dict["quote"] = newQuote.pk
+                        data_dict["line"] = quote_line
+                        data_dict["partType"] = partType.pk
+                        try:
+                            form = QuoteBikePartForm(data_dict)
+                            if form.is_valid():
+                                frame = form.save()
+                            else:
+                                logging.getLogger("error_logger").error(quoteForm.errors.as_json())
+                                return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
+                        except Exception as e:
+                            logging.getLogger("error_logger").error(quoteForm.errors.as_json())
+                            return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
+                # now add frame specific parts
+                frameParts = FramePart.objects.filter(frame=newQuote.frame)
+                for framePart in frameParts:
+                    try:
+                        quotePart = QuotePart.objects.get(quote=newQuote,partType=framePart.partType)
+                        try:
+                            form = QuoteBikePartForm(instance=quotePart)
+                            form.part = framePart.part
+                            form.frame_part = framePart
+                            if form.is_valid():
+                                frame = form.save()
+                            else:
+                                logging.getLogger("error_logger").error(quoteForm.errors.as_json())
+                                return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
+                        except Exception as e:
+                            logging.getLogger("error_logger").error(quoteForm.errors.as_json())
+                            return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
+                    except MultipleObjectsReturned :
+                        messages.error(request,'Bike has multiple options for Part Type: ' + framePart.partType)
+                        return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
+                    except ObjectDoesNotExist:
+                        # this is fine bike may just not have this part
+                        pass
+                # display the bike based quote edit page
+                quoteBikePartFormSet = QuoteBikePartFormSet(instance=newQuote)
+                if quote.fitting == None:
+                    fittingForm = QuoteFittingForm()
+                else:
+                    fittingForm = QuoteFittingForm(instance=quote.fitting)
+                return render(request, 'epic/quote_edit_bike.html', {'quoteForm': QuoteBikeForm(instance=newQuote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': fittingForm})
+            else:
+                # display the simple quote edit page
+                quotePartFormSet = QuotePartFormSet(instance=newQuote)
+                return render(request, 'epic/quote_edit_simple.html', {'quoteForm': QuoteSimpleForm(instance=newQuote),'quotePartFormSet': quotePartFormSet})
+        else:
+            logging.getLogger("error_logger").error(quoteForm.errors.as_json())
+            return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
 
-            # Do something. Should generally end with a redirect. For example:
-            #return HttpResponseRedirect(success_url)
-            return HttpResponseRedirect(reverse('quote_list'))
-    return render(request, 'epic/quote_start.html', {'quoteForm': QuoteForm()})
+
+
+        # Do something. Should generally end with a redirect. For example:
+        #return HttpResponseRedirect(success_url)
+        return render(request, "epic/quote_start.html", quoteForm)
+    quoteForm = QuoteForm()
+    return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
 
 
 #incplcomete view for
@@ -182,32 +246,61 @@ def add_cust_quote(request, pk):
     return HttpResponseRedirect(reverse('quote_menu'))
 
 @login_required
-def edit_quote(request, pk):
-    return HttpResponseRedirect(reverse('quote_menu'))
+# edit a quote based on a specific frame
+def quote_edit_bike(request, pk):
+    quote = get_object_or_404(Quote, pk=pk)
+    quote_page = 'quote_edit_bike.html'
     if request.method == "POST":
         # new customer to be added
-        customerForm = CustomerForm(request.POST)
-        if customerForm.is_valid():
+        quoteForm = QuoteForm(request.POST,instance=quote)
+        if quoteForm.is_valid():
 
-            newCustomer = customerForm.save()
-            addressFormSet = AddressFormSet(request.POST, request.FILES, newCustomer)
-            phoneFormSet = PhoneFormSet(request.POST, request.FILES, newCustomer)
-            fittingFormSet = FittingFormSet(request.POST, request.FILES, newCustomer)
-            if  addressFormSet.is_valid():
-                addressFormSet.save()
-            if phoneFormSet.is_valid():
-                phoneFormSet.save()
-            if fittingFormSet.is_valid():
-                fittingFormSet.save()
+            quote = quoteForm.save()
+            quoteBikePartFormSet = QuoteBikePartFormSet(request.POST, request.FILES, instance=quote)
+            if  quoteBikePartFormSet.is_valid():
+                quoteBikePartFormSet.save()
+
+            fittingForm = QuoteFittingForm(request.POST)
+            if fittingForm.has_changed():
+                fittingForm.customer = quote.customer
+                if fittingForm.is_valid():
+                    fitting = fittingForm.save()
+
+                    # update the fitting value on the quote and re-save
+                    quote.fitting = fitting
+                    quote = quoteForm.save()
 
             # Do something. Should generally end with a redirect. For example:
-            #return HttpResponseRedirect(success_url)
-            return HttpResponseRedirect(reverse('quote_menu'))
+            return render(request, 'epic/quote_edit_bike.html', {'quoteForm': QuoteBikeForm(instance=quote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': fittingForm})
     else:
-        addressFormSet = AddressFormSet()
-        phoneFormSet = PhoneFormSet()
-        fittingFormSet = FittingFormSet()
-    return render(request, 'epic/maintain_customer.html', {'customerForm': CustomerForm(),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet, 'fittingFormSet':fittingFormSet})
+        quoteBikePartFormSet = QuoteBikePartFormSet(instance=quote)
+        if quote.fitting == None:
+            fittingForm = QuoteFittingForm()
+        else:
+            fittingForm = QuoteFittingForm(instance=quote.fitting)
+        return render(request, 'epic/quote_edit_bike.html', {'quoteForm': QuoteBikeForm(instance=quote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': fittingForm})
+
+#
+@login_required
+# edit a quote based on a specific frame
+def quote_edit_simple(request, pk):
+    quote = get_object_or_404(Quote, pk=pk)
+    quote_page = 'quote_edit_bike.html'
+    if request.method == "POST":
+        # new customer to be added
+        quoteForm = QuoteForm(request.POST,instance=quote)
+        if quoteForm.is_valid():
+
+            quote = quoteForm.save()
+            quotePartFormSet = QuotePartFormSet(request.POST, request.FILES, instance=quote)
+            if  quotePartFormSet.is_valid():
+                quotePartFormSet.save()
+
+            # Do something. Should generally end with a redirect. For example:
+            return render(request, 'epic/quote_edit_simple.html', {'quoteForm': QuoteSimpleForm(instance=quote),'quotePartFormSet': quotePartFormSet})
+    else:
+        quotePartFormSet = QuotePartFormSet(instance=quote)
+        return render(request, 'epic/quote_edit_simple.html', {'quoteForm': QuoteSimpleForm(instance=quote),'quotePartFormSet': quotePartFormSet})
 
 @login_required
 # based on code in http://thepythondjango.com/upload-process-csv-file-django/

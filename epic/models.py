@@ -168,6 +168,10 @@ class Quote(models.Model):
     def __str__(self):
         return self.quote_desc + ' (' + str(self.version) + ')'
 
+    # display for the choice of type of quote
+    #def get_quote_type_display(self):
+    #    return dict(QUOTE_TYPE_CHOICES).get(self.quote_type)
+
     # set issuedDate whe quote is issued to a customer
     def issue(self):
         self.issued_date = timezone.now()
@@ -187,7 +191,7 @@ class Quote(models.Model):
         # loop through the parts for the quote
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
-            if not ((quote_part.sell_price is None) or (quote_part.cost_price is None)):
+            if not ((quote_part.quantity is None) or (quote_part.sell_price is None) or (quote_part.cost_price is None)):
                 self.cost_price += quote_part.cost_price * quote_part.quantity
                 self.sell_price += quote_part.sell_price * quote_part.quantity
 
@@ -197,15 +201,15 @@ class Quote(models.Model):
 
 class QuotePart(models.Model):
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
-    line = models.PositiveSmallIntegerField
+    line = models.PositiveSmallIntegerField(default=1)
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     # part can be None if the part has not been selected
     part = models.ForeignKey(Part, on_delete=models.CASCADE,blank=True)
     # framePart will be null when this a standalone quote
     frame_part = models.ForeignKey(FramePart, on_delete=models.CASCADE,blank=True)
-    quantity = models.IntegerField(blank=True)
-    cost_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True)
-    sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True)
+    quantity = models.IntegerField(default=1,blank=True)
+    cost_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
+    sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     def __str__(self):
         if self.part is None:
             return self.partType.name
@@ -214,6 +218,7 @@ class QuotePart(models.Model):
 
     class Meta:
         unique_together = (("quote", "partType"),)
+        ordering =('line', '-quote')
 
 # Upload tables - transient
 class Column(models.Model):
