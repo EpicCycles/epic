@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Customer, CustomerPhone, CustomerAddress, Brand, Part, Frame, FramePart, PartType, PartSection
+from .models import *
 
 class CustomerPhoneInline(admin.TabularInline):
     model = CustomerPhone
@@ -40,3 +40,4 @@ admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Brand)
 admin.site.register(Part)
 admin.site.register(PartSection, PartSectionAdmin)
+admin.site.register(Quote)

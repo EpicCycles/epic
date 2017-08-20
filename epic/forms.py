@@ -4,6 +4,8 @@ from django.forms import ModelForm, CharField, ModelChoiceField
 from django.forms.models import inlineformset_factory
 from .models import *
 
+# useful documentation here - https://docs.djangoproject.com/en/1.10/topics/forms/
+
 class CustomerForm(ModelForm):
     class Meta:
         model = Customer
@@ -66,7 +68,7 @@ class QuoteForm(ModelForm):
 class QuoteSimpleForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuoteSimpleForm, self).__init__(*args, **kwargs)
-        self.fields['customer'].widget.attrs['readonly'] = True
+        self.fields['customer'].widget.attrs['disabled'] = True
 
     class Meta:
         model = Quote
@@ -75,23 +77,31 @@ class QuoteSimpleForm(ModelForm):
 # quote for a  bike based (items only)
 class QuoteBikeForm(ModelForm):
     def __init__(self, *args, **kwargs):
-        super(QuoteSimpleForm, self).__init__(*args, **kwargs)
+        super(QuoteBikeForm, self).__init__(*args, **kwargs)
         self.fields['customer'].widget.attrs['readonly'] = True
         self.fields['frame'].widget.attrs['readonly'] = True
 
     class Meta:
         model = Quote
         fields = ['customer', 'quote_desc', 'frame']
+# basic quote kine for adding lines
+class QuotePartBasicForm(ModelForm):
+    class Meta:
+        model = QuotePart
+        fields = '__all__'
+
 # fomr for use in inline formeset
 class QuoteBikePartForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuoteBikePartForm, self).__init__(*args, **kwargs)
-        self.fields['partType'].widget.attrs['readonly'] = True
-        self.fields['frame_part'].widget.attrs['readonly'] = True
+        self.fields['quote'].widget.attrs['hidden'] = True
+        self.fields['line'].widget.attrs['hidden'] = True
+        self.fields['partType'].widget.attrs['disabled'] = True
+        self.fields['frame_part'].widget.attrs['disabled'] = True
 
     class Meta:
         model = QuotePart
-        fields = ['partType','frame_part', 'part', 'quantity','cost_price', 'sell_price']
+        fields = ['quote','line','partType','frame_part', 'part', 'quantity','cost_price', 'sell_price']
 
 QuoteBikePartFormSet = inlineformset_factory(Quote, QuotePart, form=QuoteBikePartForm)
 
@@ -99,7 +109,7 @@ QuoteBikePartFormSet = inlineformset_factory(Quote, QuotePart, form=QuoteBikePar
 class QuotePartForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuotePartForm, self).__init__(*args, **kwargs)
-        self.fields['partType'].widget.attrs['readonly'] = True
+        self.fields['partType'].widget.attrs['disabled'] = True
 
     class Meta:
         model = QuotePart

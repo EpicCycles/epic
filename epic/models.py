@@ -204,17 +204,17 @@ class QuotePart(models.Model):
     line = models.PositiveSmallIntegerField(default=1)
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     # part can be None if the part has not been selected
-    part = models.ForeignKey(Part, on_delete=models.CASCADE,blank=True)
+    part = models.ForeignKey(Part, on_delete=models.CASCADE,blank=True,null=True)
     # framePart will be null when this a standalone quote
-    frame_part = models.ForeignKey(FramePart, on_delete=models.CASCADE,blank=True)
+    frame_part = models.ForeignKey(FramePart, on_delete=models.CASCADE,blank=True,null=True)
     quantity = models.IntegerField(default=1,blank=True)
     cost_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     def __str__(self):
         if self.part is None:
-            return self.partType.name
+            return self.partType.shortName
         else:
-            return self.partType.name + ' ' + self.part.name
+            return self.partType.shortName + ' ' + self.part.name
 
     class Meta:
         unique_together = (("quote", "partType"),)

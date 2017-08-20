@@ -168,6 +168,8 @@ def add_quote(request):
                 # create lines for quote
                 quote_line = 0
                 partSections = PartSection.objects.all()
+                frameParts = FramePart.objects.filter(frame=newQuote.frame)
+
                 for partSection in partSections:
                     partTypes = PartType.objects.filter(includeInSection=partSection)
                     for partType in partTypes:
@@ -177,45 +179,35 @@ def add_quote(request):
                         data_dict["quote"] = newQuote.pk
                         data_dict["line"] = quote_line
                         data_dict["partType"] = partType.pk
+                        data_dict["quantity"] = 1
+
+                        # add any parts specified
+                        for framePart in frameParts:
+                            if framePart.part.partType == partType:
+                                data_dict["part"] = framePart.part.pk
+                                data_dict["frame_part"] = framePart.pk
+
                         try:
-                            form = QuoteBikePartForm(data_dict)
+                            form = QuotePartBasicForm(data_dict)
                             if form.is_valid():
-                                frame = form.save()
+                                try:
+                                    frame = form.save()
+                                except Exception as e:
+                                    logging.getLogger("error_logger").exception('Quote add for Part Type failed: ' )
+                                    return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
                             else:
-                                logging.getLogger("error_logger").error(quoteForm.errors.as_json())
+                                logging.getLogger("error_logger").error(form.errors.as_json())
                                 return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
                         except Exception as e:
-                            logging.getLogger("error_logger").error(quoteForm.errors.as_json())
+                            logging.getLogger("error_logger").exception('QUote add for Part Type failed: ' )
                             return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
-                # now add frame specific parts
-                frameParts = FramePart.objects.filter(frame=newQuote.frame)
-                for framePart in frameParts:
-                    try:
-                        quotePart = QuotePart.objects.get(quote=newQuote,partType=framePart.partType)
-                        try:
-                            form = QuoteBikePartForm(instance=quotePart)
-                            form.part = framePart.part
-                            form.frame_part = framePart
-                            if form.is_valid():
-                                frame = form.save()
-                            else:
-                                logging.getLogger("error_logger").error(quoteForm.errors.as_json())
-                                return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
-                        except Exception as e:
-                            logging.getLogger("error_logger").error(quoteForm.errors.as_json())
-                            return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
-                    except MultipleObjectsReturned :
-                        messages.error(request,'Bike has multiple options for Part Type: ' + framePart.partType)
-                        return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
-                    except ObjectDoesNotExist:
-                        # this is fine bike may just not have this part
-                        pass
+
                 # display the bike based quote edit page
                 quoteBikePartFormSet = QuoteBikePartFormSet(instance=newQuote)
-                if quote.fitting == None:
+                if newQuote.fitting == None:
                     fittingForm = QuoteFittingForm()
                 else:
-                    fittingForm = QuoteFittingForm(instance=quote.fitting)
+                    fittingForm = QuoteFittingForm(instance=newQuote.fitting)
                 return render(request, 'epic/quote_edit_bike.html', {'quoteForm': QuoteBikeForm(instance=newQuote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': fittingForm})
             else:
                 # display the simple quote edit page
@@ -223,14 +215,17 @@ def add_quote(request):
                 return render(request, 'epic/quote_edit_simple.html', {'quoteForm': QuoteSimpleForm(instance=newQuote),'quotePartFormSet': quotePartFormSet})
         else:
             logging.getLogger("error_logger").error(quoteForm.errors.as_json())
+            messages.info(request,'QuoteBikePartForm not valid should have errors ')
             return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
 
 
 
         # Do something. Should generally end with a redirect. For example:
         #return HttpResponseRedirect(success_url)
+        messages.info(request,'Dropped through to default render for POST')
         return render(request, "epic/quote_start.html", quoteForm)
     quoteForm = QuoteForm()
+    messages.info(request,'Dropped through to default render')
     return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
 
 
@@ -249,7 +244,7 @@ def add_cust_quote(request, pk):
 # edit a quote based on a specific frame
 def quote_edit_bike(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
-    quote_page = 'quote_edit_bike.html'
+    quote_page = 'epic/quote_edit_bike.html'
     if request.method == "POST":
         # new customer to be added
         quoteForm = QuoteForm(request.POST,instance=quote)
@@ -267,18 +262,22 @@ def quote_edit_bike(request, pk):
                     fitting = fittingForm.save()
 
                     # update the fitting value on the quote and re-save
-                    quote.fitting = fitting
+                    quoteForm.fitting = fitting
                     quote = quoteForm.save()
 
             # Do something. Should generally end with a redirect. For example:
-            return render(request, 'epic/quote_edit_bike.html', {'quoteForm': QuoteBikeForm(instance=quote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': fittingForm})
+            return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': fittingForm})
     else:
         quoteBikePartFormSet = QuoteBikePartFormSet(instance=quote)
         if quote.fitting == None:
             fittingForm = QuoteFittingForm()
+            return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': fittingForm})
         else:
             fittingForm = QuoteFittingForm(instance=quote.fitting)
-        return render(request, 'epic/quote_edit_bike.html', {'quoteForm': QuoteBikeForm(instance=quote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': fittingForm})
+            return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': fittingForm})
+
+        # catch all return
+        return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': QuoteFittingForm()})
 
 #
 @login_required

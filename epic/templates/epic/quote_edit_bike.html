@@ -1,0 +1,33 @@
+{% extends 'epic/base.html' %}
+
+{% block content %}
+<h2>Quote</h2>
+<form action="" method="post">
+    {% csrf_token %}
+    {% with quoteForm as form %}
+      {% include "epic/form_as_table.html" %}
+    {% endwith %}
+
+    <fieldset>
+        <legend>Bike specification</legend>
+        {{ quoteBikePartFormSet.management_form }}
+        {{ quoteBikePartFormSet.non_form_errors }}
+        <table>
+        {% for form in quoteBikePartFormSet %}
+          {% include "epic/formset_display.html" %}
+        {% endfor %}
+        </table>
+        {% for form in quoteBikePartFormSet %}
+          {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+        {% endfor %}
+    </fieldset>
+
+    {% with fittingForm as form %}
+      {% include "epic/form_as_table.html" %}
+    {% endwith %}
+
+    <input type="submit" value="Save Quote" />
+</form>
+{% endblock %}
