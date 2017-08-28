@@ -1,15 +1,25 @@
 {% extends 'epic/base.html' %}
 
 {% block content %}
-<h2>Quote</h2>
+
 <form action="" method="post">
     {% csrf_token %}
-    {% with quoteForm as form %}
-      {% include "epic/form_as_table.html" %}
-    {% endwith %}
+    <table><tr>
+      <td>
+        <h2>Quote Summary</h2>
+        {% with quoteForm as form %}
+          {% include "epic/form_as_table.html" %}
+        {% endwith %}
+      </td>
+      <td>
+        {% with fittingForm as form %}
+          {% include "epic/form_as_table.html" %}
+        {% endwith %}
+      </td>
+    </tr></table>
 
     <fieldset>
-        <legend>Bike specification</legend>
+        <h3>Bike specification</h3>
         {{ quoteBikePartFormSet.management_form }}
         {{ quoteBikePartFormSet.non_form_errors }}
         <table>
@@ -24,9 +34,6 @@
         {% endfor %}
     </fieldset>
 
-    {% with fittingForm as form %}
-      {% include "epic/form_as_table.html" %}
-    {% endwith %}
 
     <input type="submit" value="Save Quote" />
 </form>

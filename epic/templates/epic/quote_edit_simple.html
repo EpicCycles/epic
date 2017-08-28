@@ -4,24 +4,72 @@
 <h2>Quote</h2>
 <form action="" method="post">
     {% csrf_token %}
-    {% with quoteForm as form %}
-      {% include "epic/form_as_table.html" %}
-    {% endwith %}
+    <table><tr>
+      <td>
+          <h3>{{ customer }}</h3>
+          {{ quoteForm.non_field_errors }}
+          <table>
+              {% for field in quoteForm.visible_fields %}
+              <tr>
+                  <th>{{ field.label_tag }}</th>
+                  <td>{{ field }}</td>
+                  <td>{{ field.errors }}</td>
+              </tr>
+              {% endfor %}
+              <tr>
+                  <th>Total Cost</th>
+                  <td>{{ quoteForm.cost_price.value }}</td>
+                  <td></td>
+              </tr>
+              <tr>
+                  <th>Calculated Total</th>
+                  <td>{{ quoteForm.sell_price.value }}</td>
+                  <td></td>
+              </tr>
+          </table>
+          {% for hidden in quoteForm.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+      </td>
+      <td>
+        <h3>Add Item</h3>
+        {% with quoteSimpleAddPart as form %}
+          {% include "epic/form_as_table.html" %}
+        {% endwith %}
+      <td>
+      </td>
+    </tr></table>
 
     <fieldset>
-        <legend>Quote items</legend>
+        <h3>Amend Items</h3>
         {{ quotePartFormSet.management_form }}
         {{ quotePartFormSet.non_form_errors }}
         <table>
-        {% for form in quotePartFormSet %}
-          {% include "epic/formset_display.html" %}
-        {% endfor %}
+            <tr>
+              <th>Part Type</th>
+              <th>Part</th>
+              <th>Quantity</th>
+              <th>Cost Price</th>
+              <th>Sell Price</th>
+            </tr>
+            {% for quotePart, form in zipped_values %}
+            {% cycle 'row1' 'row2' as rowcolors silent %}
+            <tr class="{{ rowcolors }}">
+              <td>{{ quotePart.partType }}</td>
+              <td>
+              {{ quotePart.part }}
+              {% for hidden in form.hidden_fields %}
+                  {{ hidden }}
+              {% endfor %}
+              </td>
+              {% for field in form.visible_fields %}
+              <td>
+                  {{ field }}{{ field.errors }}
+              </td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
         </table>
-        {% for form in quotePartFormSet %}
-          {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-          {% endfor %}
-        {% endfor %}
     </fieldset>
 
     <input type="submit" value="Save Quote" />

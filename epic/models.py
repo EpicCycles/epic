@@ -110,7 +110,7 @@ class Part(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     part_name = models.CharField(max_length=60)
     def __str__(self):
-        return self.partType.shortName + ' ' +self.brand.brand_name + ' ' + self.part_name
+        return self.brand.brand_name + ' ' + self.part_name
     class Meta:
         unique_together = (("partType", "brand", "part_name"),)
 
@@ -153,6 +153,7 @@ class Quote(models.Model):
     frame_cost_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     frame_sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     fitting = models.ForeignKey(Fitting, on_delete=models.CASCADE, blank=True,null=True)
+    keyed_sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
 
     BIKE = 'B'
     PART = 'P'
@@ -195,6 +196,7 @@ class Quote(models.Model):
                 self.cost_price += quote_part.cost_price * quote_part.quantity
                 self.sell_price += quote_part.sell_price * quote_part.quantity
 
+
     class Meta:
         # order most recent first
         ordering =('-created_date', 'quote_desc')
@@ -214,11 +216,14 @@ class QuotePart(models.Model):
         if self.part is None:
             return self.partType.shortName
         else:
-            return self.partType.shortName + ' ' + self.part.name
+            if self.part.name is None:
+                return self.partType.shortName
+            else:
+                return self.partType.shortName + ' ' + self.part.name
 
     class Meta:
         unique_together = (("quote", "partType"),)
-        ordering =('line', '-quote')
+        #ordering =('line', '-quote')
 
 # Upload tables - transient
 class Column(models.Model):

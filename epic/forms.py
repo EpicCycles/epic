@@ -2,6 +2,8 @@
 from django import forms
 from django.forms import ModelForm, CharField, ModelChoiceField
 from django.forms.models import inlineformset_factory
+from django.forms.widgets import HiddenInput
+
 from .models import *
 
 # useful documentation here - https://docs.djangoproject.com/en/1.10/topics/forms/
@@ -68,11 +70,48 @@ class QuoteForm(ModelForm):
 class QuoteSimpleForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuoteSimpleForm, self).__init__(*args, **kwargs)
-        self.fields['customer'].widget.attrs['disabled'] = True
+        self.fields['customer'].widget = HiddenInput()
+        self.fields["quote_type"].widget = HiddenInput()
+        self.fields["cost_price"].widget = HiddenInput()
+        self.fields["sell_price"].widget = HiddenInput()
 
     class Meta:
         model = Quote
-        fields = ['customer', 'quote_desc']
+        fields = ['customer', 'quote_type','quote_desc', 'cost_price', 'sell_price', 'keyed_sell_price']
+
+# simple quote add item
+class QuoteSimpleAddPartForm(forms.Form):
+    new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(),required=False)
+    new_partType = forms.ModelChoiceField(queryset=PartType.objects.all(),required=False)
+    new_part_name = forms.CharField(max_length=60,required=False)
+    new_quantity = forms.IntegerField(max_value=9999, min_value=1,required=False)
+    new_cost_price = forms.DecimalField(max_digits=6,decimal_places=2,min_value=0.00,required=False)
+    new_sell_price = forms.DecimalField(max_digits=6,decimal_places=2,min_value=0.00,required=False)
+
+    def clean(self):
+        cleaned_data = super(QuoteSimpleAddPartForm, self).clean()
+
+        new_brand = cleaned_data.get("new_brand")
+        new_partType = cleaned_data.get("new_partType")
+        new_part_name = cleaned_data.get("new_part_name")
+        new_quantity = cleaned_data.get("new_quantity")
+        new_cost_price = cleaned_data.get("new_cost_price")
+        new_sell_price = cleaned_data.get("new_sell_price")
+
+        # no fieldsare required but if any are present all must be
+        if new_brand or new_partType  or new_part_name or new_quantity or new_cost_price or new_sell_price:
+            if not ( new_brand and new_partType  and new_part_name and new_quantity):
+                raise forms.ValidationError(
+                    "All data must be entered to add a new item to a quote."
+                )
+
+        # if cost and sell price are entered sell price cannot be lower
+        if new_cost_price and new_sell_price:
+            # Only do something if both fields are valid so far.
+            if new_sell_price < new_cost_price:
+                raise forms.ValidationError(
+                    "Selling price cannot be less than cost price."
+                )
 
 # quote for a  bike based (items only)
 class QuoteBikeForm(ModelForm):
@@ -92,12 +131,15 @@ class QuotePartBasicForm(ModelForm):
 
 # fomr for use in inline formeset
 class QuoteBikePartForm(ModelForm):
+    #part = forms.ModelChoiceField(queryset=Part.objects.all())
     def __init__(self, *args, **kwargs):
+        partType = kwargs.pop('partType', None)
         super(QuoteBikePartForm, self).__init__(*args, **kwargs)
-        self.fields['quote'].widget.attrs['hidden'] = True
-        self.fields['line'].widget.attrs['hidden'] = True
-        self.fields['partType'].widget.attrs['disabled'] = True
-        self.fields['frame_part'].widget.attrs['disabled'] = True
+        self.fields['partType'].widget = HiddenInput()
+        self.fields['frame_part'].widget = HiddenInput()
+        if partType:
+            self.fields['part'].queryset = Part.objects.filter(partType=partType)
+        #self.fields['part'].choices = Part.objects.filter(partType=self.fields['partType'])
 
     class Meta:
         model = QuotePart
@@ -109,13 +151,14 @@ QuoteBikePartFormSet = inlineformset_factory(Quote, QuotePart, form=QuoteBikePar
 class QuotePartForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuotePartForm, self).__init__(*args, **kwargs)
-        self.fields['partType'].widget.attrs['disabled'] = True
+        self.fields['partType'].widget = HiddenInput()
+        self.fields['part'].widget = HiddenInput()
 
     class Meta:
         model = QuotePart
         fields = ['partType', 'part', 'quantity','cost_price', 'sell_price']
 
-QuotePartFormSet = inlineformset_factory(Quote, QuotePart, form=QuotePartForm)
+QuotePartFormSet = inlineformset_factory(Quote, QuotePart, form=QuotePartForm,extra=0)
 
 # includes notes for use on quotes for bikes
 class QuoteFittingForm(ModelForm):

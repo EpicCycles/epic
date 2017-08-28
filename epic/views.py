@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.generic.list import ListView
 from django.db.models import Q
 from django.shortcuts import render
+
 ## secutiy bits
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
@@ -211,8 +212,10 @@ def add_quote(request):
                 return render(request, 'epic/quote_edit_bike.html', {'quoteForm': QuoteBikeForm(instance=newQuote),'quoteBikePartFormSet': quoteBikePartFormSet, 'fittingForm': fittingForm})
             else:
                 # display the simple quote edit page
-                quotePartFormSet = QuotePartFormSet(instance=newQuote)
-                return render(request, 'epic/quote_edit_simple.html', {'quoteForm': QuoteSimpleForm(instance=newQuote),'quotePartFormSet': quotePartFormSet})
+                return HttpResponseRedirect(reverse('quote_edit_simple', args=(newQuote.id,)))
+                #quoteSimpleAddPart = QuoteSimpleAddPartForm(empty_permitted=True)
+                #return render(request, 'epic/quote_edit_simple.html', {'quoteForm': QuoteSimpleForm(instance=newQuote),'customer': newQuote.customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(newQuote)})
+
         else:
             logging.getLogger("error_logger").error(quoteForm.errors.as_json())
             messages.info(request,'QuoteBikePartForm not valid should have errors ')
@@ -221,8 +224,6 @@ def add_quote(request):
 
 
         # Do something. Should generally end with a redirect. For example:
-        #return HttpResponseRedirect(success_url)
-        messages.info(request,'Dropped through to default render for POST')
         return render(request, "epic/quote_start.html", quoteForm)
     quoteForm = QuoteForm()
     messages.info(request,'Dropped through to default render')
@@ -284,22 +285,72 @@ def quote_edit_bike(request, pk):
 # edit a quote based on a specific frame
 def quote_edit_simple(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
-    quote_page = 'quote_edit_bike.html'
+    quote.recalculate_prices()
+    customer = quote.customer
+    old_sell_price = 0 + quote.sell_price
+
+    quote_page = 'epic/quote_edit_simple.html'
     if request.method == "POST":
-        # new customer to be added
-        quoteForm = QuoteForm(request.POST,instance=quote)
+        # get back the form from the page to save hanges
+        quoteForm = QuoteSimpleForm(request.POST,instance=quote)
+
+        #get quote parts as they existed before update
+        quoteParts = QuotePart.objects.filter(quote=quote)
+        quotePartForms = []
+
+        #get back all the quote part forms from the page
+        for quotePart in quoteParts:
+            quotePartForm = QuotePartForm(request.POST, request.FILES, instance=quotePart,prefix=str(quotePart.id))
+            quotePartForms.append(quotePartForm)
+
+        zipped_values = zip(quoteParts, quotePartForms)
+        quoteSimpleAddPart = QuoteSimpleAddPartForm(request.POST)
         if quoteForm.is_valid():
-
             quote = quoteForm.save()
-            quotePartFormSet = QuotePartFormSet(request.POST, request.FILES, instance=quote)
-            if  quotePartFormSet.is_valid():
-                quotePartFormSet.save()
+            for quotePartForm in quotePartForms:
+                if  quotePartForm.is_valid():
+                    quotePartForm.save()
+                else:
+                    # quote part formset not valid
+                    messages.info(request,'Part failed validation' + str(quotePart))
+                    return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
 
-            # Do something. Should generally end with a redirect. For example:
-            return render(request, 'epic/quote_edit_simple.html', {'quoteForm': QuoteSimpleForm(instance=quote),'quotePartFormSet': quotePartFormSet})
+            if  quoteSimpleAddPart.is_valid():
+                part = validateAndCreatePart(quoteSimpleAddPart)
+                if part != None:
+                    quote_line = len(quoteParts) + 1
+                    createQuotePart(quoteSimpleAddPart, quote.pk, part.pk, quote_line)
+            else:
+                # quoteSimpleAddPart not valid
+                messages.error(request,'Check the details you are adding ')
+                return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
+
+
+            # save all ok get new simple part and refresh items
+
+            for quotePart in quoteParts:
+                #delete any quote parts no longer required.
+                if quotePart.quantity == 0:
+                    quotePart.delete()
+
+            quote.recalculate_prices()
+            # if sell price has changed blank keyed value
+            if old_sell_price != quote.sell_price:
+                quote.keyed_sell_price = None
+            quoteSimpleAddPart = QuoteSimpleAddPartForm(empty_permitted=True)
+            return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote)})
+
+        #quote form not valid
+        else:
+            logging.getLogger("error_logger").error(quoteForm.errors.as_json())
+            return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
+
+        # Do something. Should generally end with a redirect. For example:
+        quoteSimpleAddPart = QuoteSimpleAddPartForm(empty_permitted=True)
+        return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote)})
     else:
-        quotePartFormSet = QuotePartFormSet(instance=quote)
-        return render(request, 'epic/quote_edit_simple.html', {'quoteForm': QuoteSimpleForm(instance=quote),'quotePartFormSet': quotePartFormSet})
+        quoteSimpleAddPart = QuoteSimpleAddPartForm(empty_permitted=True)
+        return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote)})
 
 @login_required
 # based on code in http://thepythondjango.com/upload-process-csv-file-django/
@@ -441,6 +492,19 @@ def logout_view(request):
     logout(request)
     # Redirect to a success page.
 
+# build array of quote parts for use on simple quote screen
+def getQuotePartsAndForms(quote):
+    quoteParts = []
+    quotePartForms = []
+    quotePartObjects = QuotePart.objects.filter(quote=quote)
+    for quotePart in quotePartObjects:
+        quoteParts.append(quotePart)
+        quotePartForms.append(QuotePartForm(instance=quotePart,prefix=str(quotePart.id)))
+
+    # build a merged array
+    zipped_values = zip(quoteParts, quotePartForms)
+    return zipped_values
+
 def findBrandForString(search_string, brand_list, default_brand, request):
     for brand in brand_list:
         check_prefix = str(brand.brand_name).lower()
@@ -448,3 +512,43 @@ def findBrandForString(search_string, brand_list, default_brand, request):
             #messages.info(request, 'found ' + check_prefix)
             return brand
     return default_brand
+
+# another try at creating the part
+def validateAndCreatePart(form):
+    if form.cleaned_data['new_brand'] != None:
+        brand = form.cleaned_data['new_brand']
+        partType = form.cleaned_data['new_partType']
+        part_name = form.cleaned_data['new_part_name']
+        part_possibles = Part.objects.filter(partType=partType,brand=brand,part_name=part_name)
+        if len(part_possibles) == 0:
+            # create a new one and add it
+            data_dict = {}
+            data_dict["brand"] = brand.pk
+            data_dict["partType"] = partType.pk
+            data_dict["part_name"] = part_name
+            form = PartForm(data_dict)
+            if form.is_valid():
+                return form.save()
+            else:
+                raise forms.ValidationError('Part not valid: Brand:' + str(brand) + ', part type:' + str(partType) + ', part name:' + str(part_name))
+        else:
+            return part_possibles[0]
+    else:
+        return None
+# create quote part
+def createQuotePart(form, quote_pk, part_pk, quote_line):
+
+        # now add the quote line
+        data_dict = {}
+        data_dict["quote"] = quote_pk
+        data_dict["line"] = quote_line
+        data_dict["partType"] = form.cleaned_data['new_partType'].pk
+        data_dict["part"] = part_pk
+        data_dict["quantity"] = form.cleaned_data['new_quantity']
+        data_dict["cost_price"] = form.cleaned_data['new_cost_price']
+        data_dict["sell_price"] = form.cleaned_data['new_sell_price']
+        form = QuotePartBasicForm(data_dict)
+        if form.is_valid():
+            form.save()
+        else:
+            raise forms.ValidationError('QuotePartBasicForm  save failed')
