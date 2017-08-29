@@ -222,8 +222,8 @@ class QuotePart(models.Model):
                 return self.partType.shortName + ' ' + self.part.name
 
     class Meta:
-        unique_together = (("quote", "partType"),)
-        #ordering =('line', '-quote')
+        #unique_together = (("quote", "partType"),)
+        ordering =('line', '-quote')
 
 # Upload tables - transient
 class Column(models.Model):

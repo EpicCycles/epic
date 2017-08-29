@@ -1,40 +1,87 @@
 {% extends 'epic/base.html' %}
 
 {% block content %}
-
+<h2>Quote</h2>
 <form action="" method="post">
     {% csrf_token %}
     <table><tr>
-      <td>
-        <h2>Quote Summary</h2>
-        {% with quoteForm as form %}
-          {% include "epic/form_as_table.html" %}
-        {% endwith %}
-      </td>
-      <td>
-        {% with fittingForm as form %}
-          {% include "epic/form_as_table.html" %}
-        {% endwith %}
-      </td>
-    </tr></table>
+        <td>
+            <h3>{{ customer }}</h3>
+            {{ quoteForm.non_field_errors }}
+            <table>
+                {% for field in quoteForm.visible_fields %}
+                <tr>
+                    <th>{{ field.label_tag }}</th>
+                    <td>{{ field }}</td>
+                    <td>{{ field.errors }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <th>Total Cost</th>
+                    <td>{{ quoteForm.cost_price.value }}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Calculated Total</th>
+                    <td>{{ quoteForm.sell_price.value }}</td>
+                    <td></td>
+                </tr>
+            </table>
+            {% for hidden in quoteForm.hidden_fields %}
+              {{ hidden }}
+            {% endfor %}
+          </td>
+          <td>
+            <h3>Add Item to Quote</h3>
+            {% with quoteSimpleAddPart as form %}
+              {% include "epic/form_as_table.html" %}
+            {% endwith %}
+          </td>
+          <td>
+            <h3>Fitting Details</h3>
+            {% with fittingForm as form %}
+              {% include "epic/form_as_table.html" %}
+            {% endwith %}
+            <input type="submit" value="Save Changes" />
+          </td>
+      </tr></table>
 
-    <fieldset>
-        <h3>Bike specification</h3>
-        {{ quoteBikePartFormSet.management_form }}
-        {{ quoteBikePartFormSet.non_form_errors }}
-        <table>
-        {% for form in quoteBikePartFormSet %}
-          {% include "epic/formset_display.html" %}
-        {% endfor %}
-        </table>
-        {% for form in quoteBikePartFormSet %}
-          {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-          {% endfor %}
-        {% endfor %}
-    </fieldset>
+      <h3>Bike specification</h3>
+            <table>
+                <tr>
+                  <th>Part Type</th>
+                  <th>Bike Part</th>
+                  <th>Quote Brand</th>
+                  <th>Quote Part</th>
+                  <th>Quantity</th>
+                  <th>Cost Price</th>
+                  <th>Sell Price</th>
+                </tr>
 
+                {% for section, sectionContents in quoteSections%}
+                <tr><td colspan='7' class="section_part"><strong>{{ section.name }}</strong></td></tr>
+                  {% for quotePart, form in sectionContents %}
+                    {% cycle 'row1' 'row2' as rowcolors silent %}
+                <tr class="{{ rowcolors }}">
+                    <td>{{ quotePart.partType }}</td>
+                    <td>
+                      {{ quotePart.frame_part.part }}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+                    </td>
+                    {% for field in form.visible_fields %}
+                    <td>
+                        {{ field }}{{ field.errors }}
+                    </td>
+                    {% endfor %}
+                  </tr>
+                  {% endfor %}
+                  {% endfor %}
+              </table>
+          </fieldset>
 
-    <input type="submit" value="Save Quote" />
+          <input type="submit" value="Save Quote" />
+
 </form>
 {% endblock %}

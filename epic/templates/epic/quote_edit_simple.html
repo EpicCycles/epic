@@ -36,14 +36,11 @@
         {% with quoteSimpleAddPart as form %}
           {% include "epic/form_as_table.html" %}
         {% endwith %}
-      <td>
       </td>
     </tr></table>
 
     <fieldset>
         <h3>Amend Items</h3>
-        {{ quotePartFormSet.management_form }}
-        {{ quotePartFormSet.non_form_errors }}
         <table>
             <tr>
               <th>Part Type</th>
