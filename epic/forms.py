@@ -137,7 +137,6 @@ class QuoteBikeForm(ModelForm):
         self.fields["cost_price"].widget = HiddenInput()
         self.fields["sell_price"].widget = HiddenInput()
         self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 6, 'title': 'Quote Price'})
-
     class Meta:
         model = Quote
         fields = ['customer','quote_type', 'quote_desc', 'frame','cost_price', 'sell_price', 'keyed_sell_price']
@@ -150,6 +149,7 @@ class QuotePartBasicForm(ModelForm):
 # change part on existing line
 # simple quote add item
 class QuoteBikeChangePartForm(forms.Form):
+    not_required = forms.BooleanField(required=False)
     new_brand = forms.CharField(max_length=60,required=False,label='Brand')
     new_part_name = forms.CharField(max_length=60,required=False,label='Part Name')
     new_quantity = forms.IntegerField(max_value=9999, min_value=1,required=False,label='Quantity')
@@ -166,7 +166,7 @@ class QuoteBikeChangePartForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(QuoteBikeChangePartForm, self).clean()
-
+        not_required = cleaned_data.get("not_required")
         new_brand = cleaned_data.get("new_brand")
         new_part_name = cleaned_data.get("new_part_name")
         new_quantity = cleaned_data.get("new_quantity")
@@ -175,7 +175,11 @@ class QuoteBikeChangePartForm(forms.Form):
 
         # no fieldsare required but if any are present all must be
         if new_brand or new_part_name or new_quantity or new_cost_price or new_sell_price:
-            if not ( new_brand and new_part_name and new_quantity):
+            if not_required == True:
+                raise forms.ValidationError(
+                    "Either set part to not required and remove part details, or untick the checkbox and add part details to replace the existing values."
+                )
+            elif not ( new_brand and new_part_name and new_quantity):
                 raise forms.ValidationError(
                     "All data must be entered to update an item on a quote."
                 )
@@ -198,8 +202,6 @@ class QuoteBikePartForm(ModelForm):
         self.fields['quantity'].widget = forms.TextInput(attrs={'size': 4, 'title': 'Qty'})
         self.fields['cost_price'].widget = forms.TextInput(attrs={'size': 6, 'title': 'Cost Price'})
         self.fields['sell_price'].widget = forms.TextInput(attrs={'size': 6, 'title': 'Sell Price'})
-        if exp:
-           self.fields['expiration'].initial = exp
 
     class Meta:
         model = QuotePart
@@ -221,10 +223,26 @@ class QuotePartForm(ModelForm):
 QuotePartFormSet = inlineformset_factory(Quote, QuotePart, form=QuotePartForm,extra=0)
 
 # includes notes for use on quotes for bikes
-class QuoteFittingForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(QuoteFittingForm, self).__init__(*args, **kwargs)
-        self.fields['customer'].widget = HiddenInput()
-    class Meta:
-        model = Fitting
-        fields = '__all__'
+class QuoteFittingForm(forms.Form):
+    # create choices for types
+    FITTING_TYPE_CHOICES = list(Fitting.FITTING_TYPE_CHOICES)
+    FITTING_TYPE_CHOICES.insert(0, (None,'---------') )
+    fitting_type = forms.ChoiceField(label='Fitting Source',choices=FITTING_TYPE_CHOICES,required=False)
+    saddle_height = forms.CharField(label='Saddle Height',max_length=20,required=False)
+    bar_height = forms.CharField(label='Bar Height',max_length=20,required=False)
+    reach = forms.CharField(label='Reach',max_length=20,required=False)
+    notes = forms.CharField(label='Notes',max_length=200,required=False)
+
+    def clean(self):
+        cleaned_data = super(QuoteFittingForm, self).clean()
+        fitting_type = cleaned_data.get("fitting_type")
+        saddle_height = cleaned_data.get("saddle_height")
+        bar_height = cleaned_data.get("bar_height")
+        reach = cleaned_data.get("reach")
+
+        # no fieldsare required but if any are present all must be
+        if fitting_type or saddle_height or bar_height or reach:
+            if not ( fitting_type and saddle_height and bar_height and reach):
+                raise forms.ValidationError(
+                    "All measures must be entered to save a fitting."
+                )

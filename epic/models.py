@@ -68,6 +68,9 @@ class  Fitting(models.Model):
     notes = models.CharField(max_length=200,blank=True)
     add_date = models.DateTimeField('date added', auto_now_add=True)
 
+    def __str__(self):
+        return 'Saddle Height:' + self.saddle_height + ' Bar Height' + self.bar_height + ' Reach:' + self.reach
+
 class  PartSection(models.Model):
     name  = models.CharField(max_length=60,unique=True)
     placing = models.PositiveSmallIntegerField()
