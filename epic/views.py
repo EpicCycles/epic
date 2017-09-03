@@ -112,21 +112,29 @@ def add_customer(request):
             addressFormSet = AddressFormSet(request.POST, request.FILES, newCustomer)
             phoneFormSet = PhoneFormSet(request.POST, request.FILES, newCustomer)
             fittingFormSet = FittingFormSet(request.POST, request.FILES, newCustomer)
+            customerQuoteForm = CustomerQuoteForm(request.POST, prefix='new')
             if  addressFormSet.is_valid():
                 addressFormSet.save()
             if phoneFormSet.is_valid():
                 phoneFormSet.save()
             if fittingFormSet.is_valid():
                 fittingFormSet.save()
+            if customerQuoteForm.has_changed():
+                if customerQuoteForm.is_valid():
+                    quote = createCustomerQuote(newCustomer, customerQuoteForm)
+                    if quote.quote_type == BIKE:
+                        return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+                    else:
+                        return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+            return HttpResponseRedirect(reverse('edit_customer', args=(newCustomer.id,)))
 
-            # Do something. Should generally end with a redirect. For example:
-            #return HttpResponseRedirect(success_url)
-            return HttpResponseRedirect(reverse('quote_menu'))
     else:
         addressFormSet = AddressFormSet()
         phoneFormSet = PhoneFormSet()
         fittingFormSet = FittingFormSet()
-    return render(request, 'epic/maintain_customer.html', {'customerForm': CustomerForm(),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet, 'fittingFormSet':fittingFormSet})
+        customerQuoteForm = CustomerQuoteForm(prefix='new')
+
+    return render(request, 'epic/maintain_customer.html', {'customerForm': CustomerForm(),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet, 'fittingFormSet':fittingFormSet,'customerQuoteForm':customerQuoteForm})
 
 @login_required
 def edit_customer(request, pk):
@@ -136,6 +144,7 @@ def edit_customer(request, pk):
         addressFormSet = AddressFormSet(request.POST, request.FILES, instance=customer)
         phoneFormSet = PhoneFormSet(request.POST, request.FILES, instance=customer)
         fittingFormSet = FittingFormSet(request.POST, request.FILES, instance=customer)
+        customerQuoteForm = CustomerQuoteForm(request.POST, prefix='new')
 
         if customerForm.is_valid():
 
@@ -146,16 +155,21 @@ def edit_customer(request, pk):
                 phoneFormSet.save()
             if fittingFormSet.is_valid():
                 fittingFormSet.save()
-
-            messages.info(request,'Customer changes saved. ')
+            if customerQuoteForm.has_changed():
+                if customerQuoteForm.is_valid():
+                    createCustomerQuote(customer, customerQuoteForm)
+                    customerQuoteForm = CustomerQuoteForm(prefix='new')
     else:
         addressFormSet = AddressFormSet(instance=customer)
         phoneFormSet = PhoneFormSet(instance=customer)
         fittingFormSet = FittingFormSet(instance=customer)
-    return render(request, 'epic/maintain_customer.html', {'customerForm': ChangeCustomerForm(instance=customer),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet,'fittingFormSet':fittingFormSet})
+        customerQuoteForm = CustomerQuoteForm(prefix='new')
+
+    existingQuotes = Quote.objects.filter(customer=customer)
+    return render(request, 'epic/maintain_customer.html', {'customerForm': ChangeCustomerForm(instance=customer),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet,'fittingFormSet':fittingFormSet, 'customerQuoteForm':customerQuoteForm, 'existingQuotes':existingQuotes})
 #
 
-#incplcomete view for
+#Add a new quote - display basic form and when saved make a new quote
 @login_required
 def add_quote(request):
 
@@ -163,49 +177,13 @@ def add_quote(request):
         # new customer to be added
         quoteForm = QuoteForm(request.POST)
         if quoteForm.is_valid():
+            try:
+                newQuote = quoteForm.save()
+            except Exception as e:
+                logging.getLogger("error_logger").exception('Quote could not be saved' )
+                return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
 
-            newQuote = quoteForm.save()
-            if newQuote.quote_type == Quote.BIKE:
-                # create lines for quote
-                quote_line = 0
-                partSections = PartSection.objects.all()
-                frameParts = FramePart.objects.filter(frame=newQuote.frame)
-
-                for partSection in partSections:
-                    partTypes = PartType.objects.filter(includeInSection=partSection)
-                    for partType in partTypes:
-                        # add the part typte to the list
-                        quote_line +=1
-                        data_dict = {}
-                        data_dict["quote"] = newQuote.pk
-                        data_dict["line"] = quote_line
-                        data_dict["partType"] = partType.pk
-                        data_dict["quantity"] = 0
-
-                        # add any parts specified
-                        for framePart in frameParts:
-                            if framePart.part.partType == partType:
-                                data_dict["part"] = framePart.part.pk
-                                data_dict["frame_part"] = framePart.pk
-                                data_dict["quantity"] = 1
-                                data_dict["cost_price"] = 0
-                                data_dict["sell_price"] = 0
-
-                        try:
-                            form = QuotePartBasicForm(data_dict)
-                            if form.is_valid():
-                                try:
-                                    frame = form.save()
-                                except Exception as e:
-                                    logging.getLogger("error_logger").exception('Quote add for Part Type failed: ' )
-                                    return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
-                            else:
-                                logging.getLogger("error_logger").error(form.errors.as_json())
-                                return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
-                        except Exception as e:
-                            logging.getLogger("error_logger").exception('QUote add for Part Type failed: ' )
-                            return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
-
+            if newQuote.quote_type == BIKE:
                 # display the bike based quote edit page
                 return HttpResponseRedirect(reverse('quote_edit_bike', args=(newQuote.id,)))
             else:
@@ -222,16 +200,55 @@ def add_quote(request):
     return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
 
 
-#incplcomete view for
+#create a new quote based on an existing quote
 @login_required
 def copy_quote(request, pk):
-    return HttpResponseRedirect(reverse('quote_menu'))
+    if request.method == "POST":
+        # shouldnt be here!
+        messages.info(request,'Invalid action ')
+    else:
+        # get the quote you are basing it on and create a copy_quote
+        old_quote = get_object_or_404(Quote, pk=pk)
+        quote_same_name = Quote.objects.filter(customer=old_quote.customer,quote_desc=old_quote.quote_desc).count()
+        new_quote = old_quote
+        new_quote.pk = None
+        new_quote.version  = quote_same_name + 1
+        new_quote.save()
+        old_quoteParts = QuotePart.objects.filter(quote=old_quote)
 
-#incplcomete view for
-#incplcomete view for
-@login_required
-def add_cust_quote(request, pk):
-    return HttpResponseRedirect(reverse('quote_menu'))
+        if new_quote.quote_type == BIKE:
+            new_quoteParts = QuotePart.objects.filter(quote=new_quote)
+            line_count = len(new_quoteParts)
+            # replicate the changes from the first quote
+            for old_quotePart in old_quoteParts:
+                try:
+                    new_quotePart = new_quoteParts.get(quote=new_quote, partType=old_quotePart.partType)
+                    new_quotePart.part = old_quotePart.part
+                    new_quotePart.quantity = old_quotePart.quantity
+                    new_quotePart.cost_price = old_quotePart.cost_price
+                    new_quotePart.sell_price = old_quotePart.sell_price
+                    new_quotePart.save()
+                except MultipleObjectsReturned :
+                    messages.info(request,'Could not copy details for part: ' + old_quotePart.partType)
+                except ObjectDoesNotExist:
+                    line_count = line_count + 1
+                    new_quotePart = old_quotePart
+                    new_quotePart.quote = new_quote
+                    new_quotePart.pk = None
+                    new_quotePart.frame_part = None
+                    new_quotePart.line = line_count
+                    new_quotePart.save()
+            # display the bike based quote edit page
+            return HttpResponseRedirect(reverse('quote_edit_bike', args=(new_quote.id,)))
+        else:
+            # replicate items on first quote
+            for old_quotePart in old_quoteParts:
+                new_quotePart = old_quotePart
+                new_quotePart.pk = None
+                new_quotePart.quote = new_quote
+                new_quotePart.save()
+            # display the simple quote edit page
+            return HttpResponseRedirect(reverse('quote_edit_simple', args=(new_quote.id,)))
 
 @login_required
 # edit a quote based on a specific frame
@@ -280,7 +297,7 @@ def quote_edit_bike(request, pk):
                         updateQuotePartFromForm(quotePart, quoteBikeChangePartForm, request)
                 else:
                     # quote part formset not valid
-                    messages.info(request,'Part failed validation' + str(quotePart))
+                    messages.error(request,'Part failed validation' + str(quotePart))
                     return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote),'quote': quote,'quoteSections': getQuoteSectionPartsAndForms(quote), 'fittingForm': fittingForm, 'customerFittings':customerFittings,'quoteSimpleAddPart': quoteSimpleAddPart})
 
             if  quoteSimpleAddPart.is_valid():
@@ -290,7 +307,7 @@ def quote_edit_bike(request, pk):
                     createQuotePart(quoteSimpleAddPart, quote.pk, part.pk, quote_line)
             else:
                 # quoteSimpleAddPart not valid
-                messages.info(request,'New Part failed validation')
+                messages.error(request,'New Part failed validation')
                 return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote),'quote': quote, 'quoteSections': getQuoteSectionPartsAndForms(quote), 'fittingForm': fittingForm, 'customerFittings':customerFittings,'quoteSimpleAddPart': quoteSimpleAddPart})
 
             if fittingForm.has_changed():
@@ -305,7 +322,7 @@ def quote_edit_bike(request, pk):
                 else:
                     # fittingForm not valid
                     logging.getLogger("error_logger").error(fittingForm.errors.as_json())
-                    messages.info(request,'Fitting form failed validation')
+                    messages.error(request,'Fitting form failed validation')
                     return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote),'quote': quote,'quoteSections': getQuoteSectionPartsAndForms(quote), 'fittingForm': fittingForm, 'customerFittings':customerFittings,'quoteSimpleAddPart': quoteSimpleAddPart})
             else:
                 # get the currently selected fitting and add it to the quote.
@@ -359,7 +376,7 @@ def quote_edit_simple(request, pk):
                     quotePartForm.save()
                 else:
                     # quote part formset not valid
-                    messages.info(request,'Part failed validation' + str(quotePart))
+                    messages.error(request,'Part failed validation' + str(quotePart))
                     return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
 
             if  quoteSimpleAddPart.is_valid():
@@ -586,7 +603,6 @@ def findBrandForString(search_string, brand_list, default_brand, request):
     for brand in brand_list:
         check_prefix = str(brand.brand_name).lower()
         if search_string.lower().startswith(check_prefix):
-            #messages.info(request, 'found ' + check_prefix)
             return brand
     return default_brand
 
@@ -624,6 +640,18 @@ def createQuotePart(form, quote_pk, part_pk, quote_line):
             form.save()
         else:
             raise forms.ValidationError('QuotePartBasicForm  save failed')
+
+# create a new quote from form details and customer
+def createCustomerQuote(customer, form):
+    if form.cleaned_data['quote_type'] != '':
+        quote_desc = form.cleaned_data['quote_desc']
+        quote_type = form.cleaned_data['quote_type']
+        frame = form.cleaned_data['frame']
+        quote = Quote(customer=customer, quote_desc=quote_desc, quote_type=quote_type, frame=frame)
+        quote.save()
+        return quote
+    else:
+        return None
 
 # create a new fitting object from form details
 def createFitting(customer, form):

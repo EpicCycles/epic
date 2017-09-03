@@ -2,21 +2,52 @@
 
 {% block content %}
 <div>
-    <h2>Customer</h2>
+    <h2>Customer Details</h2>
     <form action="" method="post">
         {% csrf_token %}
-        <div>
-          {% for hidden in customerForm.hidden_fields %}
-            {{ hidden }}
-          {% endfor %}
-          {% for field in customerForm.visible_fields %}
-            {{ field.errors }}
-            {{ field.label_tag }} {{ field }}
-          &nbsp;
-          {% endfor %}
-        </div>
+        <table><tr>
+          <td>
+            <h3>Customer</h3>
+              {% with customerForm as form %}
+                {% include "epic/form_as_table.html" %}
+              {% endwith %}
+              <br />
+              <input type="submit" value="Save Changes" />
+          </td>
+          <td>
+            <h3>New Quote</h3>
+              {% with customerQuoteForm as form %}
+                {% include "epic/form_as_table.html" %}
+              {% endwith %}
+          </td>
+          <td>
+            <h3>Existing Quotes</h3>
+            <table>
+              <tr>
+                <th>Name</th>
+                <th>Value</th>
+                <th></th>
+                <th></th>
+              </tr>
+              {% for quote in existingQuotes %}
+                <tr>
+                  <td>{{ quote }}</td>
+                  <td>{{ quote.keyed_sell_price }}</td>
+                  <td>{%if quote.issuedDate == None %}
+                        {%if quote.quote_type == 'B' %}
+                          <a href="{% url 'quote_edit_bike' pk=quote.pk %}"  target="_blank">
+                        {% else %}
+                          <a href="{% url 'quote_edit_simple' pk=quote.pk %}" target="_blank">
+                        {% endif %}
+                          edit</a>{% endif %}</td>
+                  <td><a href="{% url 'copy_quote' pk=quote.pk %}" target="_blank">copy</a></td>
+                </tr>
+              {% endfor %}
+            </table>
+          </td>
+        </tr></table>
         <fieldset>
-            <legend>Customer Address</legend>
+            <h3>Customer Address</h3>
             {{ addressFormSet.management_form }}
             {{ addressFormSet.non_form_errors }}
             <table>
@@ -32,7 +63,7 @@
         </fieldset>
         <table><tr>
           <td><fieldset>
-              <legend>Customer Phone</legend>
+              <h3>Customer Phone</h3>
               {{ phoneFormSet.management_form }}
               {{ phoneFormSet.non_form_errors }}
               <table>
@@ -47,7 +78,7 @@
               {% endfor %}
           </fieldset></td>
           <td><fieldset>
-              <legend>Customer Fittings</legend>
+              <h3>Customer Fittings</h3>
               {{ fittingFormSet.management_form }}
               {{ fittingFormSet.non_form_errors }}
               <table>
@@ -62,7 +93,7 @@
               {% endfor %}
           </fieldset></td>
         </tr></table>
-        <input type="submit" value="Save Customer" />
+        <input type="submit" value="Save Changes" />
     </form>
 </div>
 

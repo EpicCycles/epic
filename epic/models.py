@@ -2,6 +2,29 @@ from __future__ import unicode_literals
 from django.db import models
 from django.urls import reverse
 
+# Global variables
+HOME = 'H'
+WORK = 'W'
+MOBILE = 'M'
+NUMBER_TYPE_CHOICES = (
+    (HOME, 'Home'),
+    (WORK, 'Work'),
+    (MOBILE, 'Mobile'),
+)
+CUST = 'C'
+EPIC = 'E'
+FITTING_TYPE_CHOICES = (
+    (CUST, 'Customer'),
+    (EPIC, 'Epic'),
+)
+
+BIKE = 'B'
+PART = 'P'
+QUOTE_TYPE_CHOICES = (
+    (BIKE, 'Bike'),
+    (PART, 'Parts'),
+)
+
 class Customer(models.Model):
     first_name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=60)
@@ -21,14 +44,7 @@ class Customer(models.Model):
 
 class CustomerPhone(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    HOME = 'H'
-    WORK = 'W'
-    MOBILE = 'M'
-    NUMBER_TYPE_CHOICES = (
-        (HOME, 'Home'),
-        (WORK, 'Work'),
-        (MOBILE, 'Mobile'),
-    )
+
     number_type = models.CharField(
         max_length=1,
         choices=NUMBER_TYPE_CHOICES,
@@ -51,12 +67,6 @@ class CustomerAddress(models.Model):
 
 class  Fitting(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    CUST = 'C'
-    EPIC = 'E'
-    FITTING_TYPE_CHOICES = (
-        (CUST, 'Customer'),
-        (EPIC, 'Epic'),
-    )
     fitting_type = models.CharField('Type',
         max_length=1,
         choices=FITTING_TYPE_CHOICES,
@@ -157,18 +167,41 @@ class Quote(models.Model):
     frame_sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     fitting = models.ForeignKey(Fitting, on_delete=models.CASCADE, blank=True,null=True)
     keyed_sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
-
-    BIKE = 'B'
-    PART = 'P'
-    QUOTE_TYPE_CHOICES = (
-        (BIKE, 'Bike'),
-        (PART, 'Parts'),
-    )
     quote_type = models.CharField('Type',
         max_length=1,
         choices=QUOTE_TYPE_CHOICES,
         default=BIKE,
     )
+    def save(self, *args, **kwargs):
+        # calculate sum before saving.
+        self.recalculate_prices()
+        #is_new = self._state.adding
+        is_new = (self.pk == None)
+        super(Quote, self).save(*args, **kwargs)
+        if is_new and self.quote_type == BIKE:
+            # create lines for quote
+            quote_line = 0
+            partSections = PartSection.objects.all()
+            frameParts = FramePart.objects.filter(frame=self.frame)
+
+            for partSection in partSections:
+                partTypes = PartType.objects.filter(includeInSection=partSection)
+                for partType in partTypes:
+                    # add the part typte to the list
+                    quote_line +=1
+                    quotePart = QuotePart(quote=self, line=quote_line,partType=partType,quantity=0)
+
+                    # add any parts specified
+                    for framePart in frameParts:
+                        if framePart.part.partType == partType:
+                            quotePart.part = framePart.part
+                            quotePart.frame_part = framePart
+                            quotePart.quantity = 1
+                            quotePart.cost_price = 0
+                            quotePart.sell_price = 0
+
+                    quotePart.save()
+
     def __str__(self):
         return self.quote_desc + ' (' + str(self.version) + ')'
 
@@ -219,10 +252,10 @@ class QuotePart(models.Model):
         if self.part is None:
             return self.partType.shortName
         else:
-            if self.part.name is None:
+            if self.part.part_name is None:
                 return self.partType.shortName
             else:
-                return self.partType.shortName + ' ' + self.part.name
+                return self.partType.shortName + ' ' + self.part.part_name
 
     class Meta:
         #unique_together = (("quote", "partType"),)

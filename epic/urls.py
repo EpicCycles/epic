@@ -12,6 +12,5 @@ urlpatterns = [
     url(r'^editQuoteBike/(?P<pk>\d+)/$', views.quote_edit_bike, name='quote_edit_bike'),
     url(r'^editQuoteSimple/(?P<pk>\d+)/$', views.quote_edit_simple, name='quote_edit_simple'),
     url(r'^copyQuote/(?P<pk>\d+)/$', views.copy_quote, name='copy_quote'),
-    url(r'^addCustomerQuote/(?P<pk>\d+)/$', views.add_cust_quote, name='add_cust_quote'),
     url(r'^addQuote/$', views.add_quote, name='add_quote'),
 ]

@@ -9,7 +9,7 @@
 <tr class="{{ rowcolors }}">
 {% for field in form.visible_fields %}
   <td>
-        {{ field.errors }}{{ field }}
+        {{ field }}{{ field.errors }}
   </td>
 {% endfor %}
 </tr>
