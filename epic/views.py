@@ -254,8 +254,6 @@ def copy_quote(request, pk):
 # edit a quote based on a specific frame
 def quote_edit_bike(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
-    quote.recalculate_prices()
-    old_sell_price = 0 + quote.sell_price
     quote_page = 'epic/quote_edit_bike.html'
     customerFittings = Fitting.objects.filter(customer=quote.customer)
 
@@ -265,36 +263,14 @@ def quote_edit_bike(request, pk):
         quoteSimpleAddPart = QuoteSimpleAddPartForm(request.POST)
         fittingForm = QuoteFittingForm(request.POST,prefix='fitting')
 
-        #get quote parts as they existed before update
-        quoteParts = QuotePart.objects.filter(quote=quote)
-        quotePartUpdates = []
-
-        #get back all the quote part forms from the page
-        partSections = PartSection.objects.all()
-        partContents = []
-        for partSection in partSections:
-            partTypes = PartType.objects.filter(includeInSection=partSection)
-            sectionParts = []
-            sectionForms = []
-            for partType in partTypes:
-                quotePartObjects = QuotePart.objects.filter(quote=quote,partType=partType)
-                for quotePart in quotePartObjects:
-                    sectionParts.append(quotePart)
-                    sectionForm = QuoteBikeChangePartForm(request.POST, request.FILES,prefix=str(quotePart.id))
-                    sectionForms.append(sectionForm)
-                    quotePartUpdates.append(sectionForm)
-
-            zipped_parts = zip(sectionParts, sectionForms)
-            partContents.append(zipped_parts)
-        quoteSections = zip(partSections,partContents)
-
         if quoteForm.is_valid():
             quote = quoteForm.save()
-            validate_zipped = zip(quoteParts, quotePartUpdates)
-            for quotePart, quoteBikeChangePartForm in validate_zipped:
+
+            quotePartObjects = QuotePart.objects.filter(quote=quote)
+            for quotePart in quotePartObjects:
+                quoteBikeChangePartForm = QuoteBikeChangePartForm(request.POST, request.FILES, prefix=str(quotePart.id))
                 if  quoteBikeChangePartForm.is_valid():
-                    if quoteBikeChangePartForm.has_changed():
-                        updateQuotePartFromForm(quotePart, quoteBikeChangePartForm, request)
+                    updateQuotePartFromForm(quotePart, quoteBikeChangePartForm, request)
                 else:
                     # quote part formset not valid
                     messages.error(request,'Part failed validation' + str(quotePart))
@@ -317,7 +293,8 @@ def quote_edit_bike(request, pk):
                     # update the fitting value on the quote and re-save
                     quote.fitting = fitting
                     quote.save()
-                    customerFittings = Fitting.objects.filter(customer=customer)
+                    customerFittings = Fitting.objects.filter(customer=quote.customer)
+                    fittingForm = QuoteFittingForm(prefix='fitting')
 
                 else:
                     # fittingForm not valid
@@ -332,6 +309,13 @@ def quote_edit_bike(request, pk):
                     # update the fitting value on the quote and re-save
                     quote.fitting = fitting
                     quote.save()
+
+            old_sell_price = quote.sell_price
+            quote.recalculate_prices()
+            # if sell price has changed blank keyed value
+            if old_sell_price != quote.sell_price:
+                quote.keyed_sell_price = None
+                quote.save()
 
             # Do something. Should generally end with a redirect. For example:
             return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote),'quote': quote,'quoteSections': getQuoteSectionPartsAndForms(quote), 'fittingForm': fittingForm, 'customerFittings':customerFittings,'quoteSimpleAddPart': QuoteSimpleAddPartForm(empty_permitted=True)})
@@ -400,6 +384,7 @@ def quote_edit_simple(request, pk):
             # if sell price has changed blank keyed value
             if old_sell_price != quote.sell_price:
                 quote.keyed_sell_price = None
+                quote.save()
             quoteSimpleAddPart = QuoteSimpleAddPartForm(empty_permitted=True)
             return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote)})
 
@@ -670,38 +655,46 @@ def createFitting(customer, form):
 def updateQuotePartFromForm(quotePart, form, request):
     not_required = form.cleaned_data['not_required']
     if not_required == True:
-        quotePart.part = None
-        quotePart.quantity = 0
-        quotePart.cost_price = None
-        quotePart.sell_price = None
+        if (quotePart.frame_part == None) and (QuotePart.objects.filter(quote=quotePart.quote, partType=quotePart.partType).count() > 1):
+            quotePart.delete()
+        else:
+            quotePart.part = None
+            quotePart.quantity = 0
+            quotePart.cost_price = None
+            quotePart.sell_price = None
+            quotePart.save()
     else:
         brand_name = form.cleaned_data['new_brand']
-        if brand_name == '':
+        quantity = form.cleaned_data['new_quantity']
+        if (brand_name == '') or (quantity == 0):
             # values have been removed reset row
             if quotePart.frame_part == None:
-                quotePart.part = None
-                quotePart.quantity = 0
-                quotePart.cost_price = None
-                quotePart.sell_price = None
+                if (QuotePart.objects.filter(quote=quotePart.quote, partType=quotePart.partType).count() > 1):
+                    quotePart.delete()
+                else:
+                    quotePart.part = None
+                    quotePart.quantity = 0
+                    quotePart.cost_price = None
+                    quotePart.sell_price = None
+                    quotePart.save()
             else:
                 quotePart.part = quotePart.frame_part.part
                 quotePart.quantity = 1
                 quotePart.cost_price = None
                 quotePart.sell_price = None
+                quotePart.save()
         else:
             # values have changed
             brand = findBrandForName(brand_name, request)
             partType = quotePart.partType
             part_name = form.cleaned_data['new_part_name']
             part = findOrCreatePart(brand, partType, part_name)
-            if part == None:
-                return
-            else:
+            if part != None:
                 quotePart.part = part
-                quotePart.quantity = form.cleaned_data['new_quantity']
+                quotePart.quantity = quantity
                 quotePart.cost_price = form.cleaned_data['new_cost_price']
                 quotePart.sell_price = form.cleaned_data['new_sell_price']
-    quotePart.save()
+                quotePart.save()
 
 # common finr brand
 def findBrandForName(brand_name, request):
