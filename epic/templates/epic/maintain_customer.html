@@ -12,7 +12,7 @@
                 {% include "epic/form_as_table.html" %}
               {% endwith %}
               <br />
-              <input type="submit" value="Save Changes" />
+              <input type="submit" value="Save Changes"  class="button"/>
           </td>
           <td>
             <h3>New Quote</h3>
@@ -24,10 +24,10 @@
             <h3>Existing Quotes</h3>
             <table>
               <tr>
-                <th>Name</th>
-                <th>Value</th>
-                <th></th>
-                <th></th>
+                <th class="listHead">Name</th>
+                <th class="listHead">Value</th>
+                <th class="listHead"></th>
+                <th class="listHead"></th>
               </tr>
               {% for quote in existingQuotes %}
                 <tr>
@@ -35,12 +35,12 @@
                   <td>{{ quote.keyed_sell_price }}</td>
                   <td>{%if quote.issuedDate == None %}
                         {%if quote.quote_type == 'B' %}
-                          <a href="{% url 'quote_edit_bike' pk=quote.pk %}"  target="_blank">
+                          <a href="{% url 'quote_edit_bike' pk=quote.pk %}"  target="_blank" class="button">
                         {% else %}
-                          <a href="{% url 'quote_edit_simple' pk=quote.pk %}" target="_blank">
+                          <a href="{% url 'quote_edit_simple' pk=quote.pk %}" target="_blank" class="button">
                         {% endif %}
                           edit</a>{% endif %}</td>
-                  <td><a href="{% url 'copy_quote' pk=quote.pk %}" target="_blank">copy</a></td>
+                  <td><a href="{% url 'copy_quote' pk=quote.pk %}" target="_blank" class="button">copy</a></td>
                 </tr>
               {% endfor %}
             </table>
@@ -93,7 +93,7 @@
               {% endfor %}
           </fieldset></td>
         </tr></table>
-        <input type="submit" value="Save Changes" />
+        <input type="submit" value="Save Changes" class="button" />
     </form>
 </div>
 

@@ -15,20 +15,20 @@
 
     </table>
     {{ form.as_table }}
-    <input type="submit" value="search" />
+    <input type="submit" value="Search" class="button" />
 </form>
 <hr/>
 {% if quote_list %}
 <table>
     <tr>
-        <th>Customer</th>
-        <th>Quote Description</th>
-        <th>Quote Type</th>
-        <th>Bike</th>
-        <th>Date Created</th>
-        <th>Quote Total</th>
-        <th></th>
-        <th></th>
+        <th class="listHead">Customer</th>
+        <th class="listHead">Quote Description</th>
+        <th class="listHead">Quote Type</th>
+        <th class="listHead">Bike</th>
+        <th class="listHead">Date Created</th>
+        <th class="listHead">Quote Total</th>
+        <th class="listHead"></th>
+        <th class="listHead"></th>
     </tr>
     {% for quote in quote_list %}
     {% cycle 'row1' 'row2' as rowcolors silent %}
@@ -41,31 +41,19 @@
         <td>{{ quote.sell_price }}</td>
         <td>{%if quote.issuedDate == None %}
               {%if quote.quote_type == 'B' %}
-                <a href="{% url 'quote_edit_bike' pk=quote.pk %}">
+                <a href="{% url 'quote_edit_bike' pk=quote.pk %}" class="button">
               {% else %}
-                <a href="{% url 'quote_edit_simple' pk=quote.pk %}">
+                <a href="{% url 'quote_edit_simple' pk=quote.pk %}" class="button">
               {% endif %}
                 edit</a>{% endif %}</td>
-        <td><a href="{% url 'copy_quote' pk=quote.pk %}">copy</a></td>
+        <td><a href="{% url 'copy_quote' pk=quote.pk %}" class="button">copy</a></td>
     </tr>
     {% endfor %}
 </table>
+  {% include "epic/pagination.html" %}
 
-  {% if is_paginated %}
-  <div class="pagination">
-      <span class="page-links">
-          {% if page_obj.has_previous %}
-              <a href="?page={{ page_obj.previous_page_number }}"><<</a>
-          {% endif %}
-          <span class="page-current">
-              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-          </span> {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}">>></a> {% endif %}
-      </span>
-  </div>
-  {% endif %}
 {% else %}
 <p>No quotes to view.</p>
 {% endif %}
-<a href="{% url 'add_quote' %}">Add a quote</a>
+<a href="{% url 'add_quote' %}" class="button">Add a quote</a>
 {% endblock %}

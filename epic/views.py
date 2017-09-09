@@ -35,7 +35,7 @@ class CustomerList(LoginRequiredMixin, ListView):
     search_first_name = ''
     search_last_name = ''
 
-    paginate_by = 20
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super(CustomerList, self).get_context_data(**kwargs)
@@ -75,7 +75,7 @@ class QuoteList(LoginRequiredMixin, ListView):
     # attributes for search form
     search_quote_desc = ''
 
-    paginate_by = 20
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super(QuoteList, self).get_context_data(**kwargs)

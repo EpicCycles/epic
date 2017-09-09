@@ -256,6 +256,7 @@ class QuoteBikeForm(ModelForm):
     class Meta:
         model = Quote
         fields = ['customer','quote_type', 'quote_desc', 'frame','cost_price', 'sell_price', 'keyed_sell_price','frame_cost_price','frame_sell_price']
+
 # basic quote kine for adding lines
 class QuotePartBasicForm(ModelForm):
     class Meta:
@@ -264,6 +265,7 @@ class QuotePartBasicForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuotePartBasicForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
+
 # change part on existing line
 # simple quote add item
 class QuoteBikeChangePartForm(forms.Form):

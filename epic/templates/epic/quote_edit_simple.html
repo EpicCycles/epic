@@ -37,18 +37,18 @@
           {% include "epic/form_as_table.html" %}
         {% endwith %}
       </td>
-      <td><input type="submit" value="Save Quote" /></td>
+      <td><input type="submit" value="Save Quote" class="button" /></td>
     </tr></table>
 
     <fieldset>
         <h3>Amend Items</h3>
         <table>
             <tr>
-              <th>Part Type</th>
-              <th>Part</th>
-              <th>Quantity</th>
-              <th>Cost Price</th>
-              <th>Sell Price</th>
+              <th class="listHead">Part Type</th>
+              <th class="listHead">Part</th>
+              <th class="listHead">Quantity</th>
+              <th class="listHead">Cost Price</th>
+              <th class="listHead">Sell Price</th>
             </tr>
             {% for quotePart, form in zipped_values %}
             {% cycle 'row1' 'row2' as rowcolors silent %}
@@ -70,6 +70,6 @@
         </table>
     </fieldset>
 
-    <input type="submit" value="Save Quote" />
+    <input type="submit" value="Save Quote" class="button" />
 </form>
 {% endblock %}

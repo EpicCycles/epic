@@ -4,13 +4,19 @@ body {
     font-size: 10pt;
     letter-spacing: 0px;
 }
-a a:visited a:active {
-  colour:#ed1b24;
-}
+
 th {
     padding: 5px;
     font-size: 10pt;
     font-weight: bold;
+    vertical-align: bottom;
+}
+.listHead {
+    padding: 5px;
+    font-size: 11pt;
+    font-weight: bold;
+    background-color: #ed1b24;
+    color: white;
     vertical-align: bottom;
 }
 td {
@@ -33,9 +39,11 @@ td {
     color: #ffffff;
     text-decoration: none;
 }
-
+a:hover, a:focus {
+    text-decoration: underline;
+}
 a a:visited a:active {
-  colour:#ed1b24;
+  text-decoration: none;
 }
 .content {
     margin-left: 10px;
@@ -73,16 +81,43 @@ body h4 {
     float: right;
     font-size: 11pt;
     margin-right: 20px;
+    text-decoration: none;
 }
-input:enabled {
-  background-color: yellow;
+input:disabled {
+  background-color: grey;
 }
 .section_part {
-  background-color: red;
+  background-color: #adaaaa;
 }
 .row1 {
-    background-color: #cfcfd1;
+    background-color: #e2e2e2;
 }
 .row2 {
-    background-color: #ededef;
+    background-color: #f2f2f2;
+}
+
+/* button properties */
+.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.button {
+    background-color: #ed1b24;
+    border: 1px #000000;;
+    border-radius: 4px;
+    color: white;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family:  Lato, Arial, Helvetica, sans-serif;
+}
+.button:hover, .button:focus {
+    text-decoration: underline;
+    color: white;
 }

@@ -51,19 +51,19 @@
             {% endwith %}
           </td>
       </tr></table>
-      <input type="submit" value="Save Changes" />
+      <input type="submit" value="Save Changes" class="button" />
 
       <h3>Bike specification</h3>
             <table>
                 <tr>
-                  <th>Part Type</th>
-                  <th>Bike Part</th>
-                  <th>Not Required</th>
-                  <th>Quote Brand</th>
-                  <th>Quote Part</th>
-                  <th>Quantity</th>
-                  <th>Cost Price</th>
-                  <th>Sell Price</th>
+                  <th class="listHead">Part Type</th>
+                  <th class="listHead">Bike Part</th>
+                  <th class="listHead">Not Required</th>
+                  <th class="listHead">Quote Brand</th>
+                  <th class="listHead">Quote Part</th>
+                  <th class="listHead">Quantity</th>
+                  <th class="listHead">Cost Price</th>
+                  <th class="listHead">Sell Price</th>
                 </tr>
 
                 {% for section, sectionContents in quoteSections%}
@@ -89,7 +89,7 @@
               </table>
           </fieldset>
 
-          <input type="submit" value="Save Quote" />
+          <input type="submit" value="Save Quote" class="button" />
 
 </form>
 {% endblock %}

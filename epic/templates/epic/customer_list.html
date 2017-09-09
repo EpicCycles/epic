@@ -6,7 +6,7 @@
     <table>
         <tr>
             <th>
-                <label for="id_search_first_name">First Name like:</label>
+                <label for="id_search_first_name">First Name like</label>
             </th>
             <td>
                 <input id="id_search_first_name" name="search_first_name" type="text" value="{{ search_first_name }}" />
@@ -14,7 +14,7 @@
         </tr>
         <tr>
             <th>
-                <label for="id_search_last_name">Last Name like:</label>
+                <label for="id_search_last_name">Last Name like</label>
             </th>
             <td>
                 <input id="id_search_last_name" name="search_last_name" type="text" value="{{ search_last_name }}" />
@@ -23,16 +23,16 @@
 
     </table>
     {{ form.as_table }}
-    <input type="submit" value="search" />
+    <input type="submit" value="Search"  class="button"/>
 </form>
 <hr/>
 {% if customer_list %}
 <table>
     <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>email</th>
-        <th></th>
+        <th class="listHead">First Name</th>
+        <th class="listHead">Last Name</th>
+        <th class="listHead">email</th>
+        <th class="listHead"></th>
     </tr>
     {% for customer in customer_list %}
     {% cycle 'row1' 'row2' as rowcolors silent %}
@@ -40,26 +40,13 @@
         <td>{{ customer.first_name }}</td>
         <td>{{ customer.last_name }}</td>
         <td>{{ customer.email }}</td>
-        <td><a href="{% url 'edit_customer' pk=customer.pk %}">edit</a></td>
+        <td><a href="{% url 'edit_customer' pk=customer.pk %}" class="button">Edit</a></td>
     </tr>
     {% endfor %}
 </table>
-
-  {% if is_paginated %}
-  <div class="pagination">
-      <span class="page-links">
-          {% if page_obj.has_previous %}
-              <a href="?page={{ page_obj.previous_page_number }}"><<</a>
-          {% endif %}
-          <span class="page-current">
-              Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-          </span> {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}">>></a> {% endif %}
-      </span>
-  </div>
-  {% endif %}
+  {% include "epic/pagination.html" %}
 {% else %}
 <p>No customers to view.</p>
 {% endif %}
-<a href="{% url 'add_customer' %}">Add a Customer</a>
+<a href="{% url 'add_customer' %}" class="button">Add New Customer</a>
 {% endblock %}
