@@ -1,12 +1,18 @@
 {% extends 'epic/base.html' %}
 
 {% block content %}
-<h2>Quote</h2>
 <form action="" method="post">
     {% csrf_token %}
+    <table width="100%"><tr>
+      <td><h2>Quote</h2></td>
+      <td class="page_actions">
+        <input type="submit" value="Save Quote" class="button" />
+        <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
+      </td>
+    </tr></table>
     <table><tr>
       <td>
-          <h3>{{ customer }}</h3>
+          <h3>{{ quote.customer }}</h3>
           {{ quoteForm.non_field_errors }}
           <table>
               {% for field in quoteForm.visible_fields %}
@@ -37,7 +43,6 @@
           {% include "epic/form_as_table.html" %}
         {% endwith %}
       </td>
-      <td><input type="submit" value="Save Quote" class="button" /></td>
     </tr></table>
 
     <fieldset>

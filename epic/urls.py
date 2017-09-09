@@ -13,4 +13,7 @@ urlpatterns = [
     url(r'^editQuoteSimple/(?P<pk>\d+)/$', views.quote_edit_simple, name='quote_edit_simple'),
     url(r'^copyQuote/(?P<pk>\d+)/$', views.copy_quote, name='copy_quote'),
     url(r'^addQuote/$', views.add_quote, name='add_quote'),
+    url(r'^issueQuote/(?P<pk>\d+)/$', views.quote_issue, name='quote_issue'),
+    url(r'^reQuote/(?P<pk>\d+)/$', views.quote_requote, name='quote_requote'),
+    url(r'^createOrder/(?P<pk>\d+)/$', views.quote_order, name='quote_order'),
 ]

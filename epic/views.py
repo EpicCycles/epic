@@ -199,7 +199,11 @@ def add_quote(request):
     quoteForm = QuoteForm()
     return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
 
-
+# create and order from a quote
+@login_required
+def quote_order(request, pk):
+    return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
+    
 #create a new quote based on an existing quote
 @login_required
 def copy_quote(request, pk):
@@ -210,10 +214,17 @@ def copy_quote(request, pk):
         # get the quote you are basing it on and create a copy_quote
         old_quote = get_object_or_404(Quote, pk=pk)
         quote_same_name = Quote.objects.filter(customer=old_quote.customer,quote_desc=old_quote.quote_desc).count()
+        # copy quote details
         new_quote = old_quote
         new_quote.pk = None
         new_quote.version  = quote_same_name + 1
         new_quote.save()
+
+        # update old quote to archived
+        #old_quote.quote_status = ARCHIVED
+        #old_quote.save()
+
+        # get parts from old quote and copy across to new_quote
         old_quoteParts = QuotePart.objects.filter(quote=old_quote)
 
         if new_quote.quote_type == BIKE:
@@ -249,6 +260,62 @@ def copy_quote(request, pk):
                 new_quotePart.save()
             # display the simple quote edit page
             return HttpResponseRedirect(reverse('quote_edit_simple', args=(new_quote.id,)))
+
+# re-open and issued quote
+@login_required
+def quote_requote(request, pk):
+    if request.method == "POST":
+        # shouldnt be here!
+        messages.info(request,'Invalid action ')
+    else:
+        # get the quote you are basing it on and create a copy_quote
+        quote = get_object_or_404(Quote, pk=pk)
+        quote.requote()
+        if (quote.quote_status == INITIAL):
+            if quote.quote_type == BIKE:
+                # display the bike based quote edit page
+                messages.error(request,'Quote needs prices before it can be issued')
+                return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+            else:
+                # display the simple quote edit page
+                messages.error(request,'Quote needs prices before it can be issued')
+                return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+        else:
+            messages.error(request,'Quote cannot be edited' + str(quote))
+            return HttpResponseRedirect(reverse('quotes'))
+    # default return
+    return HttpResponseRedirect(reverse('quotes'))
+
+# finalise a quote by issuing it
+@login_required
+def quote_issue(request, pk):
+    if request.method == "POST":
+        # shouldnt be here!
+        messages.info(request,'Invalid action ')
+    else:
+        # get the quote you are basing it on and create a copy_quote
+        quote = get_object_or_404(Quote, pk=pk)
+        quote.issue()
+        if (quote.quote_status == ISSUED):
+            if quote.quote_type == BIKE:
+                return render(request, 'epic/quote_issued_bike.html', {'quote': quote})
+            else:
+                quoteParts = QuotePart.objects.filter(quote=quote)
+                return render(request, 'epic/quote_issued_simple.html', {'quote': quote, 'quoteParts':quoteParts})
+        elif (quote.quote_status == INITIAL):
+            if quote.quote_type == BIKE:
+                # display the bike based quote edit page
+                messages.error(request,'Quote needs prices before it can be issued')
+                return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+            else:
+                # display the simple quote edit page
+                messages.error(request,'Quote needs prices before it can be issued')
+                return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+        else:
+            messages.error(request,'Quote cannot be Issued or edited' + str(quote))
+            return HttpResponseRedirect(reverse('quotes'))
+    # default return
+    return HttpResponseRedirect(reverse('quotes'))
 
 @login_required
 # edit a quote based on a specific frame
@@ -361,7 +428,7 @@ def quote_edit_simple(request, pk):
                 else:
                     # quote part formset not valid
                     messages.error(request,'Part failed validation' + str(quotePart))
-                    return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
+                    return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'quote': quote,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
 
             if  quoteSimpleAddPart.is_valid():
                 part = validateAndCreatePart(quoteSimpleAddPart,request)
@@ -370,7 +437,7 @@ def quote_edit_simple(request, pk):
                     createQuotePart(quoteSimpleAddPart, quote.pk, part.pk, quote_line)
             else:
                 # quoteSimpleAddPart not valid
-                return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
+                return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'quote': quote,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
 
 
             # save all ok get new simple part and refresh items
@@ -386,19 +453,19 @@ def quote_edit_simple(request, pk):
                 quote.keyed_sell_price = None
                 quote.save()
             quoteSimpleAddPart = QuoteSimpleAddPartForm(empty_permitted=True)
-            return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote)})
+            return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'quote': quote,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote)})
 
         #quote form not valid
         else:
             logging.getLogger("error_logger").error(quoteForm.errors.as_json())
-            return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
+            return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'quote': quote,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
 
         # Do something. Should generally end with a redirect. For example:
         quoteSimpleAddPart = QuoteSimpleAddPartForm(empty_permitted=True)
-        return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote)})
+        return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'quote': quote,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote)})
     else:
         quoteSimpleAddPart = QuoteSimpleAddPartForm(empty_permitted=True)
-        return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'customer': customer,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote)})
+        return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'quote': quote,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote)})
 
 @login_required
 # based on code in http://thepythondjango.com/upload-process-csv-file-django/

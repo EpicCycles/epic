@@ -1,0 +1,40 @@
+{% extends 'epic/base.html' %}
+
+{% block content %}
+<table width="100%"><tr>
+    <td><h2>Quote</h2></td>
+    <td class="page_actions">
+      <a href="{% url 'quote_requote' pk=quote.pk %}"  {% if quote.can_be_edited %} class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Edit Quote</a>
+      <a href="{% url 'quote_order' pk=quote.pk %}"  {% if quote.can_be_ordered %} class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Place Order</a>
+      <a href="{% url 'copy_quote' pk=quote.pk %}" class="button">Copy to New quote</a>
+    </td>
+</tr></table>
+<table>
+  <tr>
+    <th>Customer</th>
+    <td>{{ quote.customer }}</td>
+  </tr>
+  <tr>
+      <th></th>
+      <td><table>
+            <tr >
+              <th colspan="2">Item(s)</th>
+              <th>Quantity</th>
+            </tr>
+            {% for quotePart in quoteParts %}
+            {% cycle 'row1' 'row2' as rowcolors silent %}
+            <tr class="{{ rowcolors }}">
+              <td>{{ quotePart.partType }}</td>
+              <td>{{ quotePart.part }}</td>
+              <td>{{ quotePart.quantity }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+              <th colspan="2">Quote Total</th>
+              <th>{{ quote.keyed_sell_price }}</th>
+            </tr>
+        </table>
+      </td>
+    </tr>
+</table>
+{% endblock %}

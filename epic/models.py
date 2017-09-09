@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 # Global variables
 HOME = 'H'
@@ -24,7 +25,16 @@ QUOTE_TYPE_CHOICES = (
     (BIKE, 'Bike'),
     (PART, 'Parts'),
 )
-
+INITIAL = '1'
+ISSUED = '2'
+ARCHIVED = '3'
+ORDERED = '4'
+QUOTE_STATUS_CHOICES = (
+    (INITIAL, 'New'),
+    (ISSUED, 'Quoted'),
+    (ARCHIVED, 'Archived'),
+    (ORDERED, 'Order Created'),
+)
 class Customer(models.Model):
     first_name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=60)
@@ -100,6 +110,20 @@ class PartType(models.Model):
         unique_together = (("includeInSection", "shortName"),)
         ordering = ('includeInSection','placing', 'shortName')
 
+# trings for attributes for PartTypes
+
+class PartTypeAttribute(models.Model):
+    partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
+    attribute_name = models.CharField(max_length=30)
+    in_use = models.BooleanField()
+    mandatory = models.BooleanField()
+    placing = models.PositiveSmallIntegerField()
+    def __str__(self):
+        return self.attribute_name
+    class Meta:
+        unique_together = (("partType", "attribute_name"),)
+        ordering = ('placing',)
+
 class Brand(models.Model):
     brand_name = models.CharField(max_length=50,unique=True)
     link = models.CharField(max_length=100,blank=True)
@@ -151,6 +175,18 @@ class FramePart(models.Model):
 
     class Meta:
         unique_together = (("frame", "part"),)
+#
+
+# Order Header
+class CustomerOrder(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    created_date = models.DateTimeField('Date added',auto_now_add=True)
+    completed_date = models.DateTimeField('Date complete',null=True)
+    customer_required_date = models.DateField('Customer Date',null=True)
+    final_date = models.DateField('Handover Date',null=True)
+    order_total = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
+    amount_due = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
+    discount_percentage = models.DecimalField(max_digits=4,decimal_places=2,blank=True,null=True)
 
 class Quote(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -172,6 +208,13 @@ class Quote(models.Model):
         choices=QUOTE_TYPE_CHOICES,
         default=BIKE,
     )
+    quote_status = models.CharField('Status',
+        max_length=1,
+        choices=QUOTE_STATUS_CHOICES,
+        default=INITIAL,
+    )
+    customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True,null=True)
+
     def save(self, *args, **kwargs):
         # calculate sum before saving.
         self.recalculate_prices()
@@ -211,7 +254,67 @@ class Quote(models.Model):
 
     # set issuedDate whe quote is issued to a customer
     def issue(self):
-        self.issued_date = timezone.now()
+        #check all prices complete and quantities set before issuing
+        if self.can_be_issued():
+            self.issued_date = timezone.now()
+            self.quote_status = ISSUED
+            self.save()
+    # check if a quote can be edited
+    def can_be_edited(self):
+        if self.quote_status == ISSUED:
+            return True
+        elif self.quote_status == INITIAL:
+            return True
+        elif self.quote_status == ARCHIVED:
+            return True
+        return False
+
+    # check if a quote can be turned into an order
+    def can_be_ordered(self):
+        if self.quote_status == ISSUED:
+            return True
+        return False
+
+    # check if a quote can be issued
+    def can_be_issued(self):
+        if not (self.quote_status == INITIAL):
+            return False
+
+        #check all prices complete and quantities set before issuing
+        if (self.keyed_sell_price is None):
+            return False
+
+        if (self.frame is not None):
+            if (self.frame_cost_price is None) or (self.frame_sell_price is None):
+                return False
+
+        if self.quotepart_set.count() == 0:
+            return False
+
+        quote_parts = self.quotepart_set.all()
+        for quote_part in quote_parts:
+            if (quote_part.requires_prices()):
+                return False
+
+        return True
+
+    def archive(self):
+        self.quote_status = ARCHIVED
+        self.save()
+
+    def requote(self):
+        self.keyed_sell_price = None
+        self.frame_cost_price = None
+        self.frame_sell_price = None
+
+        quote_parts = self.quotepart_set.all()
+        for quote_part in quote_parts:
+            if quote_part.quantity is not None:
+                quote_part.sell_price = None
+                quote_part.cost_price = None
+                quote_part.save()
+
+        self.quote_status = INITIAL
         self.save()
 
     def recalculate_prices(self):
@@ -228,6 +331,7 @@ class Quote(models.Model):
         # loop through the parts for the quote
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
+
             if not ((quote_part.quantity is None) or (quote_part.sell_price is None) or (quote_part.cost_price is None)):
                 self.cost_price += quote_part.cost_price * quote_part.quantity
                 self.sell_price += quote_part.sell_price * quote_part.quantity
@@ -257,18 +361,63 @@ class QuotePart(models.Model):
             else:
                 return self.partType.shortName + ' ' + self.part.part_name
 
+    def requires_prices(self):
+        if (self.part is None):
+            return False
+
+        if (self.frame_part is not None) and (self.part == self.frame_part.part):
+            return False
+
+        if (self.sell_price is None) or (self.cost_price is None):
+            return True
+
+        return False
+
     class Meta:
         #unique_together = (("quote", "partType"),)
         ordering =('line', '-quote')
 
-# Upload tables - transient
-class Column(models.Model):
-    name = models.CharField
+# PartTypeAttribute linked to quote parts
+class QuotePartAttribute(models.Model):
+    quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE)
+    partTypeAttribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE)
+    attribute_value =  models.CharField('Quote Description',max_length=40)
 
-class Row(models.Model):
-    name = models.CharField
+# suppliersfor bikes/parts etc
+class Supplier(models.Model):
+    supplier_name =  models.CharField('Supplier',max_length=100,unique=True)
+    def __str__(self):
+        return self.supplier_name
 
-class Cell(models.Model):
-    column = models.ForeignKey(Column, on_delete=models.CASCADE)
-    row = models.ForeignKey(Row, on_delete=models.CASCADE)
-    attribute =  models.CharField
+# Supplier Order details
+class SupplierOrder(models.Model):
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    order_identifier = models.CharField('Order',max_length=20,unique=True)
+    date_placed = models.DateField('Order Date',null=True)
+
+# Supplier Order details
+class SupplierOrderItem(models.Model):
+    supplierOrder = models.ForeignKey(SupplierOrder, on_delete=models.CASCADE)
+    item_description = models.TextField('Detail')
+
+class OrderFrame(models.Model):
+    customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True,null=True)
+    leadtime = models.IntegerField('Leadtime (weeks)',blank=True,null=True)
+    supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True,null=True)
+    receipt_date = models.DateTimeField('Date received',null=True)
+
+class OrderItem(models.Model):
+    customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True,null=True)
+    leadtime = models.IntegerField('Leadtime (weeks)',blank=True,null=True)
+    supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True,null=True)
+    receipt_date = models.DateTimeField('Date received',null=True)
+
+class CustomerNote(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    quote = models.ForeignKey(Quote, on_delete=models.CASCADE, blank=True,null=True)
+    customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True,null=True)
+    note_text = models.TextField('Notes')

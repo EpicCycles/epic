@@ -35,9 +35,17 @@ class PartTypeInLine(admin.TabularInline):
 class PartSectionAdmin(admin.ModelAdmin):
     inlines = [PartTypeInLine]
 
+
+class PartTypeAttributeInLine(admin.TabularInline):
+    model = PartTypeAttribute
+
+class PartTypeAdmin(admin.ModelAdmin):
+    inlines = [PartTypeAttributeInLine]
+
 admin.site.register(Frame, FrameAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Brand)
 admin.site.register(Part)
 admin.site.register(PartSection, PartSectionAdmin)
+admin.site.register(PartType, PartTypeAdmin)
 admin.site.register(Quote)

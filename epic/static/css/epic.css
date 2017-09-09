@@ -29,6 +29,10 @@ td {
     padding: 15px;
     vertical-align: top;
 }
+.page_actions td {
+  vertical-align: middle;
+  align-content: end;
+}
 .page-header {
     background-color: #ff9400;
     margin-top: 0;
@@ -98,16 +102,23 @@ input:disabled {
 
 /* button properties */
 .disabled {
+    text-decoration: none;
     opacity: 0.6;
     cursor: not-allowed;
 }
 
+.disabled:hover, .disabled:focus {
+    text-decoration: none;
+    opacity: 0.6;
+    color: white;
+    cursor: not-allowed;
+}
 .button {
     background-color: #ed1b24;
     border: 1px #000000;;
     border-radius: 4px;
     color: white;
-    padding: 5px 5px;
+    padding: 2px 5px;
     text-align: center;
     text-decoration: none;
     font-weight: bold;
