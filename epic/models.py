@@ -2,6 +2,11 @@ from __future__ import unicode_literals
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+# exceptionsfrom django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+# added to allow user details on models and history tables
+from django.conf import settings
+from simple_history.models import HistoricalRecords
 
 # Global variables
 HOME = 'H'
@@ -41,6 +46,7 @@ class Customer(models.Model):
     email = models.EmailField(max_length=100,blank=True)
     add_date = models.DateTimeField('Date Added',auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated',auto_now=True)
+    history = HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse('views.editCustomer', args={self.pk})
@@ -62,6 +68,7 @@ class CustomerPhone(models.Model):
     )
     telephone = models.CharField(max_length=60,blank=True)
     add_date = models.DateTimeField('date added', auto_now_add=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.number_type + ' ' + self.telephone
@@ -74,6 +81,7 @@ class CustomerAddress(models.Model):
     address4 = models.CharField(max_length=200,blank=True)
     postcode = models.CharField(max_length=200)
     add_date = models.DateTimeField('date added',auto_now_add=True)
+    history = HistoricalRecords()
 
 class  Fitting(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -87,6 +95,7 @@ class  Fitting(models.Model):
     reach = models.CharField('Reach',max_length=20)
     notes = models.CharField(max_length=200,blank=True)
     add_date = models.DateTimeField('date added', auto_now_add=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return 'Saddle Height:' + self.saddle_height + ' Bar Height' + self.bar_height + ' Reach:' + self.reach
@@ -187,6 +196,7 @@ class CustomerOrder(models.Model):
     order_total = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     amount_due = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     discount_percentage = models.DecimalField(max_digits=4,decimal_places=2,blank=True,null=True)
+    history = HistoricalRecords()
 
 class Quote(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -214,6 +224,8 @@ class Quote(models.Model):
         default=INITIAL,
     )
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True,null=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True,null=True)
+    history = HistoricalRecords()
 
     def save(self, *args, **kwargs):
         # calculate sum before saving.
@@ -336,7 +348,6 @@ class Quote(models.Model):
                 self.cost_price += quote_part.cost_price * quote_part.quantity
                 self.sell_price += quote_part.sell_price * quote_part.quantity
 
-
     class Meta:
         # order most recent first
         ordering =('-created_date', 'quote_desc')
@@ -352,12 +363,42 @@ class QuotePart(models.Model):
     quantity = models.IntegerField(default=1,blank=True)
     cost_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     sell_price = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
+
+    #make sure attributes reflected when you save
+    def save(self, *args, **kwargs):
+        # calculate sum before saving.
+        old_part = self.part
+        is_new = (self.pk == None)
+        super(QuotePart, self).save(*args, **kwargs)
+        if self.part == None or self.quantity < 1:
+            QuotePartAttribute.objects.filter(quotePart=self).delete()
+        elif old_part != self.part:
+            partTypeAttributes = PartTypeAttribute.objects.filter(partType=self.partType,in_use=True)
+            for partTypeAttribute in partTypeAttributes:
+                try:
+                    quotePartAttribute = QuotePartAttribute.objects.get(quotePart=self, partTypeAttribute=partTypeAttribute)
+                    quotePartAttribute.attribute_value == None
+                    quotePartAttribute.save()
+                except ObjectDoesNotExist:
+                    # create a new QuotePartAttribute
+                    quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute)
+                    quotePartAttribute.save()
+        else:
+            partTypeAttributes = PartTypeAttribute.objects.filter(partType=self.partType,in_use=True)
+            for partTypeAttribute in partTypeAttributes:
+                try:
+                    quotePartAttribute = QuotePartAttribute.objects.get(quotePart=self, partTypeAttribute=partTypeAttribute)
+                except ObjectDoesNotExist:
+                    # create a new QuotePartAttribute
+                    quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute)
+                    quotePartAttribute.save()
+
     def __str__(self):
         if self.part is None:
-            return self.partType.shortName
+            return self.partType.shortName + "N/A"
         else:
             if self.part.part_name is None:
-                return self.partType.shortName
+                return self.partType.shortName + "N/A"
             else:
                 return self.partType.shortName + ' ' + self.part.part_name
 
@@ -381,7 +422,15 @@ class QuotePart(models.Model):
 class QuotePartAttribute(models.Model):
     quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE)
     partTypeAttribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE)
-    attribute_value =  models.CharField('Quote Description',max_length=40)
+    attribute_value =  models.CharField('Quote Description',max_length=40,null=True)
+    history = HistoricalRecords()
+
+
+    def str(self):
+        return str(self.partTypeAttribute) + ": "+ self.attribute_value
+
+    class Meta:
+        unique_together = (("quotePart", "partTypeAttribute"),)
 
 # suppliersfor bikes/parts etc
 class Supplier(models.Model):
@@ -407,6 +456,7 @@ class OrderFrame(models.Model):
     leadtime = models.IntegerField('Leadtime (weeks)',blank=True,null=True)
     supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True,null=True)
     receipt_date = models.DateTimeField('Date received',null=True)
+    history = HistoricalRecords()
 
 class OrderItem(models.Model):
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
@@ -415,9 +465,12 @@ class OrderItem(models.Model):
     leadtime = models.IntegerField('Leadtime (weeks)',blank=True,null=True)
     supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True,null=True)
     receipt_date = models.DateTimeField('Date received',null=True)
+    history = HistoricalRecords()
 
 class CustomerNote(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE, blank=True,null=True)
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True,null=True)
     note_text = models.TextField('Notes')
+    created_on = models.DateTimeField(auto_now_add = True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True,null=True)

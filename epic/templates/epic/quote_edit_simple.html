@@ -11,7 +11,7 @@
       </td>
     </tr></table>
     <table><tr>
-      <td>
+      <td class="align_top">
           <h3>{{ quote.customer }}</h3>
           {{ quoteForm.non_field_errors }}
           <table>
@@ -37,7 +37,7 @@
             {{ hidden }}
           {% endfor %}
       </td>
-      <td>
+      <td class="align_top">
         <h3>Add Item</h3>
         {% with quoteSimpleAddPart as form %}
           {% include "epic/form_as_table.html" %}
@@ -51,20 +51,35 @@
             <tr>
               <th class="listHead">Part Type</th>
               <th class="listHead">Part</th>
+              <th class="listHead">Additional Details</th>
               <th class="listHead">Quantity</th>
               <th class="listHead">Cost Price</th>
               <th class="listHead">Sell Price</th>
             </tr>
-            {% for quotePart, form in zipped_values %}
+            {% for quotePartDetails, form in zipped_values %}
             {% cycle 'row1' 'row2' as rowcolors silent %}
             <tr class="{{ rowcolors }}">
-              <td>{{ quotePart.partType }}</td>
-              <td>
-              {{ quotePart.part }}
+              {% for quote_part_data in quotePartDetails %}
+                {% if forloop.counter == 1 %}
+              <td>{{ quote_part_data.partType }}</td>
+              <td>{{ quote_part_data.part }}</td>
+                {% endif %}
+                {% if forloop.counter == 2 %}
+              <td class="noPadding">
+                <table>
+                  {% for quotePartAttributeForm in quote_part_data %}
+                      <tr class="{{ rowcolors }}">
+                        <td>{{ quotePartAttributeForm.attribute_name.value }}</td>
+                        <td>{{ quotePartAttributeForm.attribute_value }}{{ quotePartAttributeForm.attribute_value.errors }}
+                      </tr>
+                  {% endfor %}
+                </table>
               {% for hidden in form.hidden_fields %}
                   {{ hidden }}
               {% endfor %}
               </td>
+                {% endif %}
+              {% endfor %}
               {% for field in form.visible_fields %}
               <td>
                   {{ field }}{{ field.errors }}

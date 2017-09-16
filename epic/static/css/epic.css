@@ -20,10 +20,10 @@ th {
     vertical-align: bottom;
 }
 td {
-    padding: 5px;
+    padding: 2px;
     font-size: 10pt;
     font-weight: normal;
-    vertical-align: top;
+    vertical-align: middle;
 }
 .menu td {
     padding: 15px;
@@ -92,6 +92,7 @@ input:disabled {
 }
 .section_part {
   background-color: #adaaaa;
+  font-weight: bold;
 }
 .row1 {
     background-color: #e2e2e2;
@@ -99,7 +100,19 @@ input:disabled {
 .row2 {
     background-color: #f2f2f2;
 }
+.red {
+    color: #ed1b24;
+}
 
+.noPadding td {
+  padding: 0px;
+}
+.align_top {
+  vertical-align: top;
+}
+.align_right {
+  text-align: right;
+}
 /* button properties */
 .disabled {
     text-decoration: none;

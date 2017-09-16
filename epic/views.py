@@ -66,7 +66,7 @@ class CustomerList(LoginRequiredMixin, ListView):
         objects = Customer.objects.filter(where_filter).order_by('last_name')
         return objects
 
-# Get QUotes matching a search
+# Get Quotes matching a search
 # this extends the mix in for login required rather than the @ method as that doesn'twork for ListViews
 class QuoteList(LoginRequiredMixin, ListView):
 
@@ -121,7 +121,7 @@ def add_customer(request):
                 fittingFormSet.save()
             if customerQuoteForm.has_changed():
                 if customerQuoteForm.is_valid():
-                    quote = createCustomerQuote(newCustomer, customerQuoteForm)
+                    quote = createCustomerQuote(newCustomer, customerQuoteForm, request.user)
                     if quote.quote_type == BIKE:
                         return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
                     else:
@@ -157,7 +157,7 @@ def edit_customer(request, pk):
                 fittingFormSet.save()
             if customerQuoteForm.has_changed():
                 if customerQuoteForm.is_valid():
-                    createCustomerQuote(customer, customerQuoteForm)
+                    createCustomerQuote(customer, customerQuoteForm, request.user)
                     customerQuoteForm = CustomerQuoteForm(prefix='new')
     else:
         addressFormSet = AddressFormSet(instance=customer)
@@ -167,7 +167,6 @@ def edit_customer(request, pk):
 
     existingQuotes = Quote.objects.filter(customer=customer)
     return render(request, 'epic/maintain_customer.html', {'customerForm': ChangeCustomerForm(instance=customer),'addressFormSet': addressFormSet, 'phoneFormSet': phoneFormSet,'fittingFormSet':fittingFormSet, 'customerQuoteForm':customerQuoteForm, 'existingQuotes':existingQuotes})
-#
 
 #Add a new quote - display basic form and when saved make a new quote
 @login_required
@@ -179,6 +178,8 @@ def add_quote(request):
         if quoteForm.is_valid():
             try:
                 newQuote = quoteForm.save()
+                newQuote.created_by = request.user
+                newQuote.save()
             except Exception as e:
                 logging.getLogger("error_logger").exception('Quote could not be saved' )
                 return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
@@ -203,7 +204,7 @@ def add_quote(request):
 @login_required
 def quote_order(request, pk):
     return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
-    
+
 #create a new quote based on an existing quote
 @login_required
 def copy_quote(request, pk):
@@ -218,6 +219,7 @@ def copy_quote(request, pk):
         new_quote = old_quote
         new_quote.pk = None
         new_quote.version  = quote_same_name + 1
+        new_quote.created_by = request.user
         new_quote.save()
 
         # update old quote to archived
@@ -234,6 +236,7 @@ def copy_quote(request, pk):
             for old_quotePart in old_quoteParts:
                 try:
                     new_quotePart = new_quoteParts.get(quote=new_quote, partType=old_quotePart.partType)
+                    # already have a part of this type update it to reflect this one
                     new_quotePart.part = old_quotePart.part
                     new_quotePart.quantity = old_quotePart.quantity
                     new_quotePart.cost_price = old_quotePart.cost_price
@@ -298,10 +301,9 @@ def quote_issue(request, pk):
         quote.issue()
         if (quote.quote_status == ISSUED):
             if quote.quote_type == BIKE:
-                return render(request, 'epic/quote_issued_bike.html', {'quote': quote})
+                return render(request, 'epic/quote_issued_bike.html', {'quote': quote, 'quoteSections':quotePartsForBikeDisplay(quote)})
             else:
-                quoteParts = QuotePart.objects.filter(quote=quote)
-                return render(request, 'epic/quote_issued_simple.html', {'quote': quote, 'quoteParts':quoteParts})
+                return render(request, 'epic/quote_issued_simple.html', {'quote': quote, 'quoteDetails':quotePartsForSimpleDisplay(quote)})
         elif (quote.quote_status == INITIAL):
             if quote.quote_type == BIKE:
                 # display the bike based quote edit page
@@ -335,13 +337,16 @@ def quote_edit_bike(request, pk):
 
             quotePartObjects = QuotePart.objects.filter(quote=quote)
             for quotePart in quotePartObjects:
-                quoteBikeChangePartForm = QuoteBikeChangePartForm(request.POST, request.FILES, prefix=str(quotePart.id))
+                quoteBikeChangePartForm = QuoteBikeChangePartForm(request.POST, request.FILES, prefix="QP"+str(quotePart.id))
                 if  quoteBikeChangePartForm.is_valid():
                     updateQuotePartFromForm(quotePart, quoteBikeChangePartForm, request)
                 else:
                     # quote part formset not valid
                     messages.error(request,'Part failed validation' + str(quotePart))
                     return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote),'quote': quote,'quoteSections': getQuoteSectionPartsAndForms(quote), 'fittingForm': fittingForm, 'customerFittings':customerFittings,'quoteSimpleAddPart': quoteSimpleAddPart})
+
+            # get attributes updated for quote
+            saveQuotePartAttributes(quote, request)
 
             if  quoteSimpleAddPart.is_valid():
                 part = validateAndCreatePart(quoteSimpleAddPart, request)
@@ -415,7 +420,7 @@ def quote_edit_simple(request, pk):
 
         #get back all the quote part forms from the page
         for quotePart in quoteParts:
-            quotePartForm = QuotePartForm(request.POST, request.FILES, instance=quotePart,prefix=str(quotePart.id))
+            quotePartForm = QuotePartForm(request.POST, request.FILES, instance=quotePart,prefix="QP"+str(quotePart.id))
             quotePartForms.append(quotePartForm)
 
         zipped_values = zip(quoteParts, quotePartForms)
@@ -429,6 +434,7 @@ def quote_edit_simple(request, pk):
                     # quote part formset not valid
                     messages.error(request,'Part failed validation' + str(quotePart))
                     return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote), 'quote': quote,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': zipped_values})
+
 
             if  quoteSimpleAddPart.is_valid():
                 part = validateAndCreatePart(quoteSimpleAddPart,request)
@@ -446,6 +452,9 @@ def quote_edit_simple(request, pk):
                 #delete any quote parts no longer required.
                 if quotePart.quantity == 0:
                     quotePart.delete()
+
+            # get attributes updated for quote
+            saveQuotePartAttributes(quote, request)
 
             quote.recalculate_prices()
             # if sell price has changed blank keyed value
@@ -607,6 +616,35 @@ def logout_view(request):
     logout(request)
     # Redirect to a success page.
 
+# simple display ofsections
+def quotePartsForSimpleDisplay(quote):
+    quotePartObjects = QuotePart.objects.filter(quote=quote)
+    quotePartDetails = []
+    for quotePart in quotePartObjects:
+        quotePartDetails.append(QuotePartAttribute.objects.filter(quotePart=quotePart))
+    # build a merged array
+    zipped_values = zip(quotePartObjects, quotePartDetails)
+    return zipped_values
+
+# simple display ofsections
+def quotePartsForBikeDisplay(quote):
+    partSections = PartSection.objects.all()
+    partSectionDetails = []
+
+    for partSection in partSections:
+        quoteParts = []
+        quotePartDetails = []
+        partTypes = PartType.objects.filter(includeInSection=partSection)
+        for partType in partTypes:
+            quotePartObjects = QuotePart.objects.filter(quote=quote,partType=partType)
+            for quotePart in quotePartObjects:
+                quoteParts.append(quotePart)
+                quotePartDetails.append(QuotePartAttribute.objects.filter(quotePart=quotePart))
+        partSectionDetails.append(zip(quoteParts,quotePartDetails))
+    # build a merged array
+    zipped_values = zip(partSections, partSectionDetails)
+    return zipped_values
+
 # build arrays for bike quote
 def getQuoteSectionPartsAndForms(quote):
     partSections = PartSection.objects.all()
@@ -618,21 +656,28 @@ def getQuoteSectionPartsAndForms(quote):
         for partType in partTypes:
             quotePartObjects = QuotePart.objects.filter(quote=quote,partType=partType)
             for quotePart in quotePartObjects:
-                sectionParts.append(quotePart)
+                quotePartDetails = []
+                quotePartDetails.append(quotePart)
+                quotePartAttributes = QuotePartAttribute.objects.filter(quotePart=quotePart)
+                quotePartAttributeForms = []
+                for quotePartAttribute in quotePartAttributes:
+                    quotePartAttributeForms.append(QuotePartAttributeForm(initial={'attribute_name':str(quotePartAttribute.partTypeAttribute),'attribute_value':quotePartAttribute.attribute_value},prefix="QPA"+str(quotePartAttribute.id)))
+                quotePartDetails.append(quotePartAttributeForms)
+                sectionParts.append(quotePartDetails)
                 if quotePart.part == None:
                     if (quotePart.frame_part != None):
-                        sectionForms.append(QuoteBikeChangePartForm(initial={'not_required':True},prefix=str(quotePart.id)))
+                        sectionForms.append(QuoteBikeChangePartForm(initial={'not_required':True},prefix="QP"+str(quotePart.id)))
                     else:
-                        sectionForms.append(QuoteBikeChangePartForm(prefix=str(quotePart.id)))
+                        sectionForms.append(QuoteBikeChangePartForm(prefix="QP"+str(quotePart.id)))
                 elif (quotePart.frame_part != None) and (quotePart.part == quotePart.frame_part.part):
-                    sectionForms.append(QuoteBikeChangePartForm(prefix=str(quotePart.id)))
+                    sectionForms.append(QuoteBikeChangePartForm(prefix="QP"+str(quotePart.id)))
                 else:
                     new_brand = quotePart.part.brand.brand_name
                     new_part_name = quotePart.part.part_name
                     new_quantity = quotePart.quantity
                     new_cost_price = quotePart.cost_price
                     new_sell_price = quotePart.sell_price
-                    sectionForms.append(QuoteBikeChangePartForm(initial={'new_brand':new_brand,'new_part_name':new_part_name,'new_quantity':new_quantity,'new_cost_price':new_cost_price,'new_sell_price':new_sell_price},prefix=str(quotePart.id)))
+                    sectionForms.append(QuoteBikeChangePartForm(initial={'new_brand':new_brand,'new_part_name':new_part_name,'new_quantity':new_quantity,'new_cost_price':new_cost_price,'new_sell_price':new_sell_price},prefix="QP"+str(quotePart.id)))
 
         zipped_parts = zip(sectionParts, sectionForms)
         partContents.append(zipped_parts)
@@ -644,8 +689,16 @@ def getQuotePartsAndForms(quote):
     quotePartForms = []
     quotePartObjects = QuotePart.objects.filter(quote=quote)
     for quotePart in quotePartObjects:
-        quoteParts.append(quotePart)
-        quotePartForms.append(QuoteBikePartForm(instance=quotePart,prefix=str(quotePart.id)))
+        quotePartDetails = []
+        quotePartDetails.append(quotePart)
+        quotePartAttributes = QuotePartAttribute.objects.filter(quotePart=quotePart)
+        quotePartAttributeForms = []
+        for quotePartAttribute in quotePartAttributes:
+            quotePartAttributeForms.append(QuotePartAttributeForm(initial={'attribute_name':str(quotePartAttribute.partTypeAttribute),'attribute_value':quotePartAttribute.attribute_value},prefix="QPA"+str(quotePartAttribute.id)))
+        quotePartDetails.append(quotePartAttributeForms)
+        # now put the combined details into the array
+        quoteParts.append(quotePartDetails)
+        quotePartForms.append(QuoteBikePartForm(instance=quotePart,prefix="QP"+str(quotePart.id)))
 
     # build a merged array
     zipped_values = zip(quoteParts, quotePartForms)
@@ -689,17 +742,17 @@ def createQuotePart(form, quote_pk, part_pk, quote_line):
         data_dict["sell_price"] = form.cleaned_data['new_sell_price']
         form = QuotePartBasicForm(data_dict)
         if form.is_valid():
-            form.save()
+            new_quotePart = form.save()
         else:
             raise forms.ValidationError('QuotePartBasicForm  save failed')
 
 # create a new quote from form details and customer
-def createCustomerQuote(customer, form):
+def createCustomerQuote(customer, form, user):
     if form.cleaned_data['quote_type'] != '':
         quote_desc = form.cleaned_data['quote_desc']
         quote_type = form.cleaned_data['quote_type']
         frame = form.cleaned_data['frame']
-        quote = Quote(customer=customer, quote_desc=quote_desc, quote_type=quote_type, frame=frame)
+        quote = Quote(customer=customer, quote_desc=quote_desc, quote_type=quote_type, created_by=user)
         quote.save()
         return quote
     else:
@@ -718,6 +771,8 @@ def createFitting(customer, form):
         return fitting
     else:
         return None
+
+
 # update an existing quote part based on keyed values
 def updateQuotePartFromForm(quotePart, form, request):
     not_required = form.cleaned_data['not_required']
@@ -762,6 +817,22 @@ def updateQuotePartFromForm(quotePart, form, request):
                 quotePart.cost_price = form.cleaned_data['new_cost_price']
                 quotePart.sell_price = form.cleaned_data['new_sell_price']
                 quotePart.save()
+
+def saveQuotePartAttributes(quote, request):
+    quotePartObjects = QuotePart.objects.filter(quote=quote)
+    for quotePart in quotePartObjects:
+        #get the attributes as they were at the start
+        quotePartAttributes = QuotePartAttribute.objects.filter(quotePart=quotePart)
+        # refresh any quote parts
+        for quotePartAttribute in quotePartAttributes:
+            quotePartAttributeForm = QuotePartAttributeForm(request.POST, request.FILES, prefix="QPA"+str(quotePartAttribute.id))
+            if quotePartAttributeForm.is_valid():
+                if quotePartAttributeForm.cleaned_data['attribute_value'] != quotePartAttribute.attribute_value:
+                    quotePartAttribute.attribute_value = quotePartAttributeForm.cleaned_data['attribute_value']
+                    quotePartAttribute.save()
+            else:
+                logging.getLogger("error_logger").error(quotePartAttributeForm.errors.as_json())
+
 
 # common finr brand
 def findBrandForName(brand_name, request):

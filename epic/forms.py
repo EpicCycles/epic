@@ -279,8 +279,8 @@ class QuoteBikeChangePartForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(QuoteBikeChangePartForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['new_brand'].widget = forms.TextInput(attrs={'size': 30})
-        self.fields['new_part_name'].widget = forms.TextInput(attrs={'size': 30})
+        self.fields['new_brand'].widget = forms.TextInput(attrs={'size': 20})
+        self.fields['new_part_name'].widget = forms.TextInput(attrs={'size': 20})
         self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': 4})
         self.fields['new_cost_price'].widget = forms.TextInput(attrs={'size': 6})
         self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': 6})
@@ -344,6 +344,16 @@ class QuotePartForm(ModelForm):
         fields = ['partType', 'part', 'quantity','cost_price', 'sell_price']
 
 QuotePartFormSet = inlineformset_factory(Quote, QuotePart, form=QuotePartForm,extra=0)
+
+# attributes for quote parts
+class QuotePartAttributeForm(forms.Form):
+    attribute_name = forms.CharField(required=False)
+    attribute_value = forms.CharField(max_length=15,required=False)
+    def __init__(self, *args, **kwargs):
+        super(QuotePartAttributeForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+        self.fields['attribute_value'].widget = forms.TextInput(attrs={'size': 10})
+        self.fields['attribute_name'].widget = HiddenInput()
 
 # includes notes for use on quotes for bikes
 class QuoteFittingForm(forms.Form):
