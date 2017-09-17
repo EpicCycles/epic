@@ -175,7 +175,6 @@ class Frame(models.Model):
         unique_together = (("brand", "frame_name", "model"),)
         ordering = ('brand', 'frame_name', 'model')
 
-
 class FramePart(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
@@ -184,7 +183,6 @@ class FramePart(models.Model):
 
     class Meta:
         unique_together = (("frame", "part"),)
-#
 
 # Order Header
 class CustomerOrder(models.Model):
@@ -474,3 +472,4 @@ class CustomerNote(models.Model):
     note_text = models.TextField('Notes')
     created_on = models.DateTimeField(auto_now_add = True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True,null=True)
+    customer_visible = models.BooleanField(default=False)

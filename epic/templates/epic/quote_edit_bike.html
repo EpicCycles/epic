@@ -50,8 +50,11 @@
               {% include "epic/form_as_table.html" %}
             {% endwith %}
           </td>
+          <td class="align_top">
+            {% include "epic/add_notes.html" %}
+          </td>
       </tr></table>
-      <input type="submit" value="Save Changes" class="button" />
+      {% include "epic/form_standard_actions.html" %}
       <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
 
       <h3>Bike specification</h3>
@@ -107,8 +110,9 @@
               </table>
           </fieldset>
 
-          <input type="submit" value="Save Quote" class="button" />
+        {% include "epic/form_standard_actions.html" %}
         <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
 
 </form>
+{% include "epic/quote_notes.html" %}
 {% endblock %}

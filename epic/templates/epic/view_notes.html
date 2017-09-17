@@ -1,0 +1,30 @@
+{% extends 'epic/base_popup.html' %}
+{% block content %}
+<!-- All notes - used as a popup -->
+
+  {% if customerNotes %}
+    {{ customer }}
+    <table>
+      <tr>
+        <th class="listHead">Quote</th>
+        <th class="listHead">Order</th>
+        <th class="listHead">Note</th>
+        <th class="listHead">Date Created</th>
+        <th class="listHead">Created by</th>
+        <th class="listHead">Customer Visible</th>
+      </tr>
+      {% for customerNote in customerNotes %}
+      {% cycle 'row1' 'row2' as rowcolors silent %}
+        <tr class="{{ rowcolors }}">
+          <td>{% if customerNote.quote != None %}{{ customerNote.quote }}{% endif %}</td>
+          <td>{% if customerNote.customerOrder != None %}{{ customerNote.customerOrder }}{% endif %}</td>
+          <td>{{ customerNote.note_text }}</td>
+          <td>{{ customerNote.created_on }}</td>
+          <td>{{ customerNote.created_by }}</td>
+          <td>{% if customerNote.customer_visible %}Yes{% endif %}</td>
+        </tr>
+      {% endfor %}
+  {% else %}
+    No Notes exist
+  {% endif %}
+{% endblock %}

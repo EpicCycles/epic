@@ -12,7 +12,6 @@
                 {% include "epic/form_as_table.html" %}
               {% endwith %}
               <br />
-              <input type="submit" value="Save Changes"  class="button"/>
           </td>
           <td class="align_top">
             <h3>New Quote</h3>
@@ -45,7 +44,13 @@
               {% endfor %}
             </table>
           </td>
+          <td class="align_top">
+            {% include "epic/add_notes.html" %}
+            <br />
+            <button type="button" onclick="popupDetail('{% url 'view_customer_notes' pk=customer.pk %}','Customer Notes')"  class="button">View Notes</button>
+          </td>
         </tr></table>
+        {% include "epic/form_standard_actions.html" %}
         <fieldset>
             <h3>Customer Address</h3>
             {{ addressFormSet.management_form }}
@@ -62,7 +67,7 @@
             {% endfor %}
         </fieldset>
         <table><tr>
-          <td><fieldset>
+          <td class="align_top"><fieldset>
               <h3>Customer Phone</h3>
               {{ phoneFormSet.management_form }}
               {{ phoneFormSet.non_form_errors }}
@@ -77,7 +82,7 @@
                 {% endfor %}
               {% endfor %}
           </fieldset></td>
-          <td><fieldset>
+          <td class="align_top"><fieldset>
               <h3>Customer Fittings</h3>
               {{ fittingFormSet.management_form }}
               {{ fittingFormSet.non_form_errors }}
@@ -93,7 +98,8 @@
               {% endfor %}
           </fieldset></td>
         </tr></table>
-        <input type="submit" value="Save Changes" class="button" />
+        {% include "epic/form_standard_actions.html" %}
+
     </form>
 </div>
 
