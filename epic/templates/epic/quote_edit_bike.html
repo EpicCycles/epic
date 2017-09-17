@@ -55,7 +55,7 @@
           </td>
       </tr></table>
       {% include "epic/form_standard_actions.html" %}
-      <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
+      <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button"{% else %} class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
 
       <h3>Bike specification</h3>
             <table>

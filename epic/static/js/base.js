@@ -2,14 +2,8 @@ var pageChanged = false;
 // add event listeners to all input objects
 function addListeners() {
     //get all input elements
-    var inputs = document.getElementsByTagName('input');
-    for (i = 0; i < inputs.length; i++) {
-      if (inputs[i].addEventListener) {                    // For all major browsers, except IE 8 and earlier
-        inputs[i].addEventListener("change", setChangeFlag);
-      } else if (x.attachEvent) {                  // For IE 8 and earlier versions
-        inputs[i].attachEvent("change", setChangeFlag);
-      }
-    }
+    attachChangeEventToList(document.getElementsByTagName('input'));
+    attachChangeEventToList(document.getElementsByTagName('textarea'));
 
     // get all links and add a =n onclick to those not opening in a new window
     var links = document.getElementsByTagName('a');
@@ -24,6 +18,16 @@ function addListeners() {
     }
 }
 
+function attachChangeEventToList(inputs) {
+    for (i = 0; i < inputs.length; i++) {
+      if (inputs[i].addEventListener) {                    // For all major browsers, except IE 8 and earlier
+        inputs[i].addEventListener("change", setChangeFlag);
+      } else if (x.attachEvent) {                  // For IE 8 and earlier versions
+        inputs[i].attachEvent("change", setChangeFlag);
+      }
+    }
+
+}
 function setChangeFlag() {
   pageChanged = true;
 }

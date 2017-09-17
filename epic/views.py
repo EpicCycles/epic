@@ -297,6 +297,7 @@ def copy_quote(request, pk):
         new_quote = old_quote
         new_quote.pk = None
         new_quote.version  = quote_same_name + 1
+        new_quote.quote_status = INITIAL
         new_quote.created_by = request.user
         new_quote.save()
 
@@ -355,11 +356,9 @@ def quote_requote(request, pk):
         if (quote.quote_status == INITIAL):
             if quote.quote_type == BIKE:
                 # display the bike based quote edit page
-                messages.error(request,'Quote needs prices before it can be issued')
                 return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
             else:
                 # display the simple quote edit page
-                messages.error(request,'Quote needs prices before it can be issued')
                 return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
         else:
             messages.error(request,'Quote cannot be edited' + str(quote))
@@ -402,13 +401,15 @@ def quote_browse(request, pk):
         messages.info(request,'Invalid action ')
     else:
         quote = get_object_or_404(Quote, pk=pk)
+        customerNotes = CustomerNote.objects.filter(quote=quote)
         if quote.quote_type == BIKE:
-            return render(request, 'epic/quote_issued_bike.html', {'quote': quote, 'quoteSections':quotePartsForBikeDisplay(quote)})
+            return render(request, 'epic/quote_issued_bike.html', {'quote': quote, 'quoteSections':quotePartsForBikeDisplay(quote),'customerNotes':customerNotes})
         else:
-            return render(request, 'epic/quote_issued_simple.html', {'quote': quote, 'quoteDetails':quotePartsForSimpleDisplay(quote)})
+            return render(request, 'epic/quote_issued_simple.html', {'quote': quote, 'quoteDetails':quotePartsForSimpleDisplay(quote),'customerNotes':customerNotes})
 
-# browse a quote based on a specific frame
-def quote_edit(request, pk):
+# amend a quote  save will reset to INITIAL if required
+def quote_amend(request, pk):
+    quote = get_object_or_404(Quote, pk=pk)
     if request.method == "POST":
         # shouldnt be here!
         messages.info(request,'Invalid action ')
@@ -419,7 +420,22 @@ def quote_edit(request, pk):
         else:
             # display the simple quote edit page
             return HttpResponseRedirect(reverse('quote_edit_simple', args=(pk,)))
-        
+
+@login_required
+# edit a quote
+def quote_edit(request, pk):
+    quote = get_object_or_404(Quote, pk=pk)
+    if request.method == "POST":
+        # shouldnt be here!
+        messages.info(request,'Invalid action ')
+    else:
+        if quote.quote_type == BIKE:
+            # display the bike based quote edit page
+            return HttpResponseRedirect(reverse('quote_edit_bike', args=(pk,)))
+        else:
+            # display the simple quote edit page
+            return HttpResponseRedirect(reverse('quote_edit_simple', args=(pk,)))
+
 @login_required
 # edit a quote based on a specific frame
 def quote_edit_bike(request, pk):
@@ -432,6 +448,7 @@ def quote_edit_bike(request, pk):
         quoteForm = QuoteBikeForm(request.POST,instance=quote)
         quoteSimpleAddPart = QuoteSimpleAddPartForm(request.POST)
         fittingForm = QuoteFittingForm(request.POST,prefix='fitting')
+        old_sell_price = quote.sell_price
 
         if quoteForm.is_valid():
             quote = quoteForm.save()
@@ -485,11 +502,11 @@ def quote_edit_bike(request, pk):
                     quote.fitting = fitting
                     quote.save()
 
-            old_sell_price = quote.sell_price
             quote.recalculate_prices()
-            # if sell price has changed blank keyed value
+            # if sell price has changed blank keyed value and reset quote status
             if old_sell_price != quote.sell_price:
                 quote.keyed_sell_price = None
+                quote.quote_status = INITIAL
                 quote.save()
 
             # Do something. Should generally end with a redirect. For example:
@@ -566,6 +583,7 @@ def quote_edit_simple(request, pk):
             # if sell price has changed blank keyed value
             if old_sell_price != quote.sell_price:
                 quote.keyed_sell_price = None
+                quote.quote_status = INITIAL
                 quote.save()
             quoteSimpleAddPart = QuoteSimpleAddPartForm(empty_permitted=True)
             return render(request, quote_page, {'quoteForm': QuoteSimpleForm(instance=quote),'quote': quote,'quoteSimpleAddPart': quoteSimpleAddPart,'zipped_values': getQuotePartsAndForms(quote),'customerNotes':customerNotes})

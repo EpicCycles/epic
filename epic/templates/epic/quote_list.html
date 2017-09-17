@@ -17,7 +17,7 @@
         <th class="listHead">Quote Type</th>
         <th class="listHead">Bike</th>
         <th class="listHead">Date Created</th>
-        <th class="listHead">Quote Total</th>
+        <th class="listHead">Quote Total (&pound;)</th>
         <th class="listHead">Owner</th>
         <th class="listHead"></th>
         <th class="listHead"></th>
@@ -28,9 +28,9 @@
         <td>{{ quote.customer }}</td>
         <td>{{ quote }}</td>
         <td>{{ quote.get_quote_type_display  }}</td>
-        <td>{{ quote.frame }}</td>
+        <td>{% if quote.frame != None %}{{ quote.frame }}{% endif %}</td>
         <td>{{ quote.created_date }}</td>
-        <td>{{ quote.sell_price }}</td>
+        <td>{{ quote.keyed_sell_price }}</td>
         <td>{{ quote.created_by }}</td>
         <td>{%if quote.can_be_edited %}
               <a href="{% url 'quote_edit' pk=quote.pk %}" class="button">Edit</a>

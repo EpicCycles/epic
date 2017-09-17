@@ -98,7 +98,7 @@ class  Fitting(models.Model):
     history = HistoricalRecords()
 
     def __str__(self):
-        return 'Saddle Height:' + self.saddle_height + ' Bar Height' + self.bar_height + ' Reach:' + self.reach
+        return 'Saddle Height:' + self.saddle_height + ' Bar Height:' + self.bar_height + ' Reach:' + self.reach
 
 class  PartSection(models.Model):
     name  = models.CharField(max_length=60,unique=True)
@@ -271,17 +271,18 @@ class Quote(models.Model):
             self.save()
     # check if a quote can be edited
     def can_be_edited(self):
-        if self.quote_status == ISSUED:
-            return False
-        elif self.quote_status == INITIAL:
+        if self.quote_status == INITIAL:
             return True
-        elif self.quote_status == ARCHIVED:
-            return True
+
         return False
 
     # check if a quote can be turned into an order
     def can_be_ordered(self):
         if self.quote_status == ISSUED:
+            for quotePart in self.quotepart_set.all():
+                for quotePartAttribute in quotePart.quotepartattribute_set.all():
+                    if (quotePartAttribute.partTypeAttribute.mandatory) and ((quotePartAttribute.attribute_value is None) or (quotePartAttribute.attribute_value == '')):
+                        return False
             return True
         return False
 
@@ -307,6 +308,13 @@ class Quote(models.Model):
                 return False
 
         return True
+
+    def can_be_reissued(self):
+        if self.quote_status == ISSUED:
+            return True
+        elif self.quote_status == ARCHIVED:
+            return True
+        return False
 
     def archive(self):
         self.quote_status = ARCHIVED
