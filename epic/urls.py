@@ -9,6 +9,7 @@ urlpatterns = [
     url(r'^editCustomer/(?P<pk>\d+)/$', views.edit_customer, name='edit_customer'),
     url(r'^bikeUpload/$', views.bike_upload, name='bike_upload'),
     url(r'^quotes/$', views.QuoteList.as_view(), name='quote_list'),
+    url(r'^myQuotes/$', views.MyQuoteList.as_view(), name='my_quote_list'),
     url(r'^editQuoteBike/(?P<pk>\d+)/$', views.quote_edit_bike, name='quote_edit_bike'),
     url(r'^editQuoteSimple/(?P<pk>\d+)/$', views.quote_edit_simple, name='quote_edit_simple'),
     url(r'^copyQuote/(?P<pk>\d+)/$', views.copy_quote, name='copy_quote'),

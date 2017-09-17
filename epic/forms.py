@@ -5,6 +5,7 @@ from django.forms.models import inlineformset_factory
 from django.forms.widgets import HiddenInput
 
 from .models import *
+from django.contrib.auth.models import User
 
 # useful documentation here - https://docs.djangoproject.com/en/1.10/topics/forms/
 # global variables for forms
@@ -112,6 +113,26 @@ class PartTypeForm(ModelForm):
     class Meta:
         model = PartType
         fields = '__all__'
+
+# form for searching for quotes
+
+# simple quote add item
+class QuoteSearchForm(forms.Form):
+    search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(),required=False,label='Bike/Frame',label_suffix='')
+    search_quote_desc = forms.CharField(max_length=30,required=False,label='Description Like',label_suffix='')
+    search_user = forms.ModelChoiceField(queryset=User.objects.all(),required=False,label='Created By',label_suffix='')
+
+    def __init__(self, *args, **kwargs):
+        super(QuoteSearchForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+        # simple quote add item
+class MyQuoteSearchForm(forms.Form):
+    search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(),required=False,label='Bike/Frame',label_suffix='')
+    search_quote_desc = forms.CharField(max_length=30,required=False,label='Description Like',label_suffix='')
+
+    def __init__(self, *args, **kwargs):
+        super(MyQuoteSearchForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
 
 # form for basic Quote details
 class QuoteForm(ModelForm):

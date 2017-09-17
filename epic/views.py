@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, render
 from django.views.generic.list import ListView
 from django.db.models import Q
 from django.shortcuts import render
+from django.core.paginator import Paginator
 
 ## secutiy bits
 from django.contrib.auth.decorators import login_required
@@ -17,6 +18,7 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
 #models used in this code
 from .models import Customer, Brand, Frame, FramePart, Part, PartType, Quote, PartSection
+from django.contrib.auth.models import User
 # forms and formsets used in the views
 from .forms import *
 
@@ -67,25 +69,25 @@ class CustomerList(LoginRequiredMixin, ListView):
         return objects
 
 # Get Quotes matching a search
-# this extends the mix in for login required rather than the @ method as that doesn'twork for ListViews
+# this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
 class QuoteList(LoginRequiredMixin, ListView):
 
     template_name = "quote_list.html"
     context_object_name = 'quote_list'
     # attributes for search form
-    search_quote_desc = ''
+    quoteSearchForm = QuoteSearchForm()
 
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super(QuoteList, self).get_context_data(**kwargs)
         # add values fetched from form to context to redisplay
-        context['search_quote_desc'] = self.search_quote_desc
+        context['quoteSearchForm'] = self.quoteSearchForm
         return context
 
     def get(self, request, *args, **kwargs):
         #get values for search from form
-        self.search_quote_desc = request.GET.get('search_quote_desc', '')
+        self.quoteSearchForm = QuoteSearchForm(request.GET)
         return super(QuoteList, self).get(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -93,12 +95,76 @@ class QuoteList(LoginRequiredMixin, ListView):
         where_filter = Q()
 
         # if filter added on quote_desc add it to query set
-        if self.search_quote_desc:
-            where_filter &= Q(quote_desc__icontains=self.search_quote_desc)
+        if self.quoteSearchForm.is_valid():
+            search_frame = self.quoteSearchForm.cleaned_data['search_frame']
+            search_quote_desc = self.quoteSearchForm.cleaned_data['search_quote_desc']
+            search_user = self.quoteSearchForm.cleaned_data['search_user']
+            if search_frame:
+                where_filter &= Q(frame__exact=search_frame)
+            if search_quote_desc:
+                where_filter &= Q(quote_desc__icontains=search_quote_desc)
+            if search_user:
+                where_filter &= Q(created_by__exact=search_user)
 
         #find objects matching any filter and order them
         objects = Quote.objects.filter(where_filter)
         return objects
+
+# Get Quotes matching a search
+# this extends the mix in for login required rather than the @ method as that doesn'twork for ListViews
+class MyQuoteList(LoginRequiredMixin, ListView):
+    template_name = "quote_list.html"
+    context_object_name = 'quote_list'
+    # attributes for search form
+    quoteSearchForm = MyQuoteSearchForm()
+
+
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(MyQuoteList, self).get_context_data(**kwargs)
+
+        context['quoteSearchForm'] = self.quoteSearchForm
+        return context
+
+    def get(self, request, *args, **kwargs):
+        #get values for search from form
+        self.quoteSearchForm = MyQuoteSearchForm(request.GET)
+        return super(MyQuoteList, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        # define an empty search pattern
+        where_filter = Q()
+
+        # if filter added on quote_desc add it to query set
+        if self.quoteSearchForm.is_valid():
+            search_frame = self.quoteSearchForm.cleaned_data['search_frame']
+            search_quote_desc = self.quoteSearchForm.cleaned_data['search_quote_desc']
+            search_user = self.request.user
+            if search_frame:
+                where_filter &= Q(frame__exact=search_frame)
+            if search_quote_desc:
+                where_filter &= Q(quote_desc__icontains=search_quote_desc)
+            if search_user:
+                where_filter &= Q(created_by__exact=search_user)
+
+        #find objects matching any filter and order them
+        objects = Quote.objects.filter(where_filter)
+        return objects
+
+# QUote list with search form
+@login_required
+def my_quote_list(request):
+    if request.method == "POST":
+        # shouldn't be here
+        return QuoteList.as_view()
+    else:
+        data_dict = {}
+        data_dict["search_user"] = request.user.pk
+        quoteSearchForm = QuoteSearchForm(data_dict)
+        quote_list = Quote.objects.filter(created_by=request.user)
+        paginator = Paginator(quote_list, 10) # Show 10 contacts per page
+        return render(request, 'epic/quote_list.html', {'quote_list': paginator.page(1),'quoteSearchForm': quoteSearchForm})
 
 @login_required
 def add_customer(request):

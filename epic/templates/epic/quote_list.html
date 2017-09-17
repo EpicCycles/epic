@@ -3,18 +3,9 @@
 <h2>Quotes</h2>
 <form action="" method="get">
     <h3>Filter values:</h3>
-    <table>
-        <tr>
-            <th>
-                <label for="id_search_quote_desc">Quote Description like:</label>
-            </th>
-            <td>
-                <input id="id_search_quote_desc" name="search_quote_desc" type="text" value="{{ search_quote_desc }}" />
-            </td>
-        </tr>
-
-    </table>
-    {{ form.as_table }}
+    {% with quoteSearchForm as form %}
+      {% include "epic/form_as_table.html" %}
+    {% endwith %}
     <input type="submit" value="Search" class="button" />
 </form>
 <hr/>
@@ -27,6 +18,7 @@
         <th class="listHead">Bike</th>
         <th class="listHead">Date Created</th>
         <th class="listHead">Quote Total</th>
+        <th class="listHead">Owner</th>
         <th class="listHead"></th>
         <th class="listHead"></th>
     </tr>
@@ -39,13 +31,14 @@
         <td>{{ quote.frame }}</td>
         <td>{{ quote.created_date }}</td>
         <td>{{ quote.sell_price }}</td>
+        <td>{{ quote.created_by }}</td>
         <td>{%if quote.issuedDate == None %}
               {%if quote.quote_type == 'B' %}
                 <a href="{% url 'quote_edit_bike' pk=quote.pk %}" class="button">
               {% else %}
                 <a href="{% url 'quote_edit_simple' pk=quote.pk %}" class="button">
               {% endif %}
-                edit</a>{% endif %}</td>
+                Edit</a>{% endif %}</td>
         <td><a href="{% url 'copy_quote' pk=quote.pk %}" class="button">Copy</a></td>
     </tr>
     {% endfor %}

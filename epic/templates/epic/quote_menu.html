@@ -14,6 +14,7 @@
         <ul>
           <li><a href="{% url 'quote_list' %}" class="internal_link">Find Quote</span></a></li>
           <li><a href="{% url 'add_quote' %}">New quote</a></li>
+          <li><a href="{% url 'my_quote_list' %}">View my quotes</a></li>
         </ul>
       </td>
       {% if user.is_superuser %}
