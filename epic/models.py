@@ -272,7 +272,7 @@ class Quote(models.Model):
     # check if a quote can be edited
     def can_be_edited(self):
         if self.quote_status == ISSUED:
-            return True
+            return False
         elif self.quote_status == INITIAL:
             return True
         elif self.quote_status == ARCHIVED:

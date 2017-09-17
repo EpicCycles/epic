@@ -378,10 +378,7 @@ def quote_issue(request, pk):
         quote = get_object_or_404(Quote, pk=pk)
         quote.issue()
         if (quote.quote_status == ISSUED):
-            if quote.quote_type == BIKE:
-                return render(request, 'epic/quote_issued_bike.html', {'quote': quote, 'quoteSections':quotePartsForBikeDisplay(quote)})
-            else:
-                return render(request, 'epic/quote_issued_simple.html', {'quote': quote, 'quoteDetails':quotePartsForSimpleDisplay(quote)})
+            return HttpResponseRedirect(reverse('quote_browse', args=(quote.id,)))
         elif (quote.quote_status == INITIAL):
             if quote.quote_type == BIKE:
                 # display the bike based quote edit page
@@ -397,6 +394,32 @@ def quote_issue(request, pk):
     # default return
     return HttpResponseRedirect(reverse('quotes'))
 
+@login_required
+# browse a quote based on a specific frame
+def quote_browse(request, pk):
+    if request.method == "POST":
+        # shouldnt be here!
+        messages.info(request,'Invalid action ')
+    else:
+        quote = get_object_or_404(Quote, pk=pk)
+        if quote.quote_type == BIKE:
+            return render(request, 'epic/quote_issued_bike.html', {'quote': quote, 'quoteSections':quotePartsForBikeDisplay(quote)})
+        else:
+            return render(request, 'epic/quote_issued_simple.html', {'quote': quote, 'quoteDetails':quotePartsForSimpleDisplay(quote)})
+
+# browse a quote based on a specific frame
+def quote_edit(request, pk):
+    if request.method == "POST":
+        # shouldnt be here!
+        messages.info(request,'Invalid action ')
+    else:
+        if quote.quote_type == BIKE:
+            # display the bike based quote edit page
+            return HttpResponseRedirect(reverse('quote_edit_bike', args=(pk,)))
+        else:
+            # display the simple quote edit page
+            return HttpResponseRedirect(reverse('quote_edit_simple', args=(pk,)))
+        
 @login_required
 # edit a quote based on a specific frame
 def quote_edit_bike(request, pk):
