@@ -67,6 +67,47 @@ class CustomerList(LoginRequiredMixin, ListView):
         #find objects matching any filter and order them
         objects = Customer.objects.filter(where_filter).order_by('last_name')
         return objects
+# get customers for popup
+
+# this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
+class CustomerSelect(LoginRequiredMixin, ListView):
+
+    template_name = 'epic/select_customer_popup.html'
+    context_object_name = 'customer_list'
+    # attributes for search form
+    search_first_name = ''
+    search_last_name = ''
+
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomerSelect, self).get_context_data(**kwargs)
+        # add values fetched from form to context to redisplay
+        context['search_first_name'] = self.search_first_name
+        context['search_last_name'] = self.search_last_name
+        return context
+
+    def get(self, request, *args, **kwargs):
+        #get values for search from form
+        self.search_first_name = request.GET.get('search_first_name', '')
+        self.search_last_name = request.GET.get('search_last_name', '')
+        return super(CustomerSelect, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        # define an empty search pattern
+        where_filter = Q()
+
+        # if filter added on first name add it to query set
+        if self.search_first_name:
+            where_filter &= Q(first_name__icontains=self.search_first_name)
+
+        #if filter added on last name add it to query set
+        if self.search_last_name:
+            where_filter &= Q(last_name__icontains=self.search_last_name)
+
+        #find objects matching any filter and order them
+        objects = Customer.objects.filter(where_filter).order_by('last_name')
+        return objects
 
 # Get Quotes matching a search
 # this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
@@ -188,7 +229,7 @@ def add_customer(request):
             if customerQuoteForm.has_changed():
                 if customerQuoteForm.is_valid():
                     quote = createCustomerQuote(newCustomer, customerQuoteForm, request.user)
-                    if quote.quote_type == BIKE:
+                    if quote.is_bike():
                         return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
                     else:
                         return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
@@ -262,7 +303,7 @@ def add_quote(request):
                 logging.getLogger("error_logger").exception('Quote could not be saved' )
                 return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
 
-            if newQuote.quote_type == BIKE:
+            if newQuote.is_bike():
                 # display the bike based quote edit page
                 return HttpResponseRedirect(reverse('quote_edit_bike', args=(newQuote.id,)))
             else:
@@ -308,13 +349,12 @@ def copy_quote(request, pk):
         # get parts from old quote and copy across to new_quote
         old_quoteParts = QuotePart.objects.filter(quote=old_quote)
 
-        if new_quote.quote_type == BIKE:
-            new_quoteParts = QuotePart.objects.filter(quote=new_quote)
-            line_count = len(new_quoteParts)
+        if new_quote.is_bike():
+            line_count = 1
             # replicate the changes from the first quote
             for old_quotePart in old_quoteParts:
                 try:
-                    new_quotePart = new_quoteParts.get(quote=new_quote, partType=old_quotePart.partType)
+                    new_quotePart = QuotePart.objects.get(quote=new_quote, partType=old_quotePart.partType)
                     # already have a part of this type update it to reflect this one
                     new_quotePart.part = old_quotePart.part
                     new_quotePart.quantity = old_quotePart.quantity
@@ -328,11 +368,10 @@ def copy_quote(request, pk):
                     new_quotePart = old_quotePart
                     new_quotePart.quote = new_quote
                     new_quotePart.pk = None
-                    new_quotePart.frame_part = None
                     new_quotePart.line = line_count
                     new_quotePart.save()
-            # display the bike based quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_bike', args=(new_quote.id,)))
+            # display the bike based quote copy page
+            return HttpResponseRedirect(reverse('quote_copy_bike', args=(new_quote.id,)))
         else:
             # replicate items on first quote
             for old_quotePart in old_quoteParts:
@@ -343,18 +382,37 @@ def copy_quote(request, pk):
             # display the simple quote edit page
             return HttpResponseRedirect(reverse('quote_edit_simple', args=(new_quote.id,)))
 
+# bike copy allows new customer
+def quote_copy_bike(request, pk):
+    quote = get_object_or_404(Quote, pk=pk)
+    if request.method == "POST":
+        new_customer_id = request.POST.get('new_customer_id', '')
+        if new_customer_id != '':
+            customer = get_object_or_404(Customer, pk=new_customer_id)
+            quote_same_name = Quote.objects.filter(customer=customer,quote_desc=quote.quote_desc).count()
+            # update the quote with the new customer and an appropriate version
+            quote.customer = customer
+            quote.version = quote_same_name + 1
+            quote.save()
+            return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+        else:
+            return render(request, 'epic/quote_copy_bike.html', {'quote': quote, 'quoteSections':quotePartsForBikeDisplay(quote)})
+
+    else:
+        quote = get_object_or_404(Quote, pk=pk)
+        return render(request, 'epic/quote_copy_bike.html', {'quote': quote, 'quoteSections':quotePartsForBikeDisplay(quote)})
+
 # re-open and issued quote
 @login_required
 def quote_requote(request, pk):
     if request.method == "POST":
-        # shouldnt be here!
         messages.info(request,'Invalid action ')
     else:
         # get the quote you are basing it on and create a copy_quote
         quote = get_object_or_404(Quote, pk=pk)
         quote.requote()
         if (quote.quote_status == INITIAL):
-            if quote.quote_type == BIKE:
+            if quote.is_bike():
                 # display the bike based quote edit page
                 return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
             else:
@@ -379,7 +437,7 @@ def quote_issue(request, pk):
         if (quote.quote_status == ISSUED):
             return HttpResponseRedirect(reverse('quote_browse', args=(quote.id,)))
         elif (quote.quote_status == INITIAL):
-            if quote.quote_type == BIKE:
+            if quote.is_bike():
                 # display the bike based quote edit page
                 messages.error(request,'Quote needs prices before it can be issued')
                 return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
@@ -402,7 +460,7 @@ def quote_browse(request, pk):
     else:
         quote = get_object_or_404(Quote, pk=pk)
         customerNotes = CustomerNote.objects.filter(quote=quote)
-        if quote.quote_type == BIKE:
+        if quote.is_bike():
             return render(request, 'epic/quote_issued_bike.html', {'quote': quote, 'quoteSections':quotePartsForBikeDisplay(quote),'customerNotes':customerNotes})
         else:
             return render(request, 'epic/quote_issued_simple.html', {'quote': quote, 'quoteDetails':quotePartsForSimpleDisplay(quote),'customerNotes':customerNotes})
@@ -414,7 +472,7 @@ def quote_amend(request, pk):
         # shouldnt be here!
         messages.info(request,'Invalid action ')
     else:
-        if quote.quote_type == BIKE:
+        if quote.is_bike():
             # display the bike based quote edit page
             return HttpResponseRedirect(reverse('quote_edit_bike', args=(pk,)))
         else:
@@ -429,7 +487,7 @@ def quote_edit(request, pk):
         # shouldnt be here!
         messages.info(request,'Invalid action ')
     else:
-        if quote.quote_type == BIKE:
+        if quote.is_bike():
             # display the bike based quote edit page
             return HttpResponseRedirect(reverse('quote_edit_bike', args=(pk,)))
         else:

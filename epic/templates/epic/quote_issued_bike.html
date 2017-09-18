@@ -7,43 +7,7 @@
       {% include "epic/quote_issued_buttons.html" %}
     </td>
 </tr></table>
-<table>
-  <tr>
-    <th>Customer</th>
-    <td colspan=5>{{ quote.customer }}</td>
-  </tr>
-  <tr>
-    <th>Complete Bike</th>
-    <td colspan=5>{{ quote.frame }}</td>
-  </tr>
-    {% for section, sectionContents in quoteSections%}
-        {% for quotePart, quotePartAttributes in sectionContents %}
-          {% cycle 'row1' 'row2' as rowcolors silent %}
-          <tr class="{{ rowcolors }}">
-            <td class="section_part">{% if forloop.counter == 1 %}{{ section.name }}{% endif %}</td>
-            <td>{{ quotePart.partType }}</td>
-            <td>
-              {{ quotePart.part }}
-              {% if quotePart.sell_price != None %}<span class="red">**</span>{% endif %}
-            </td>
-            <td><table><tr>
-              {% for quotePartAttribute in quotePartAttributes %}
-              <td>{{ quotePartAttribute.partTypeAttribute }}: {{ quotePartAttribute.attribute_value }}</td>
-              {% endfor %}
-            </tr></table></td>
-            <td class="align_right">{% if quotePart.quantity > 1 %} {{ quotePart.quantity }} @ {% endif %}</td>
-            <td class="align_right">{% if quotePart.sell_price != None %}&pound;{{ quotePart.sell_price }}{% endif %}</td>
-          </tr>
-        {% endfor %}
-      {% endfor %}
-    <tr>
-      <th class="align_right" colspan=5>Quote Total</th>
-      <th class="align_right">&pound;{{ quote.keyed_sell_price }}</th>
-    </tr>
-    <tr>
-      <th class="align_right">Fitting</th>
-      <td colspan=5>{{ quote.fitting }}</th>
-    </tr>
-</table>
+{% include "epic/quote_issued_bike_detail.html" %}
+
 {% include "epic/quote_notes.html" %}
 {% endblock %}

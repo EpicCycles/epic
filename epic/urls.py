@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^editQuoteBike/(?P<pk>\d+)/$', views.quote_edit_bike, name='quote_edit_bike'),
     url(r'^editQuoteSimple/(?P<pk>\d+)/$', views.quote_edit_simple, name='quote_edit_simple'),
     url(r'^copyQuote/(?P<pk>\d+)/$', views.copy_quote, name='copy_quote'),
+    url(r'^copyQuoteBike/(?P<pk>\d+)/$', views.quote_copy_bike, name='quote_copy_bike'),
     url(r'^addQuote/$', views.add_quote, name='add_quote'),
     url(r'^issueQuote/(?P<pk>\d+)/$', views.quote_issue, name='quote_issue'),
     url(r'^browseQuote/(?P<pk>\d+)/$', views.quote_browse, name='quote_browse'),
@@ -21,4 +22,5 @@ urlpatterns = [
     url(r'^amendQuote/(?P<pk>\d+)/$', views.quote_amend, name='quote_amend'),
     url(r'^createOrder/(?P<pk>\d+)/$', views.quote_order, name='quote_order'),
     url(r'^viewCustomerNotes/(?P<pk>\d+)/$', views.view_customer_notes, name='view_customer_notes'),
+    url(r'^selectCustomer/$', views.CustomerSelect.as_view(), name='select_customer'),
 ]

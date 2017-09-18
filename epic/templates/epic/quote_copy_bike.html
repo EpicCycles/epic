@@ -1,0 +1,21 @@
+{% extends 'epic/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block content %}
+<table width="100%"><tr>
+    <td><h2>Copy Quote</h2></td>
+    <td class="page_actions align_right">
+          <button type="button" onclick="popupDetail('{% url 'select_customer' %}','Select Customer')"  class="button">Select New Customer</button>
+          <a href="{% url 'quote_amend' pk=quote.pk %}"  class="button" >Edit</a>
+    </td>
+</tr></table>
+<h3>Current Quote Details</h3>
+{% include "epic/quote_issued_bike_detail.html" %}
+<form id="change_customer_form"  name="change_customer_form" action="" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="new_customer_id"  id="new_customer_id" />
+</form>
+<!-- pop up specific script -->
+<script src="{% static 'js/quote_copy_bike.js' %}"></script>
+{% endblock %}

@@ -231,7 +231,7 @@ class Quote(models.Model):
         #is_new = self._state.adding
         is_new = (self.pk == None)
         super(Quote, self).save(*args, **kwargs)
-        if is_new and self.quote_type == BIKE:
+        if is_new and self.is_bike():
             # create lines for quote
             quote_line = 0
             partSections = PartSection.objects.all()
@@ -269,6 +269,10 @@ class Quote(models.Model):
             self.issued_date = timezone.now()
             self.quote_status = ISSUED
             self.save()
+    # is it a bike quote
+    def is_bike(self):
+        return (self.quote_type == BIKE)
+
     # check if a quote can be edited
     def can_be_edited(self):
         if self.quote_status == INITIAL:
@@ -407,6 +411,14 @@ class QuotePart(models.Model):
                 return self.partType.shortName + "N/A"
             else:
                 return self.partType.shortName + ' ' + self.part.part_name
+
+    def notStandard(self):
+        if (self.frame_part != None):
+            if (self.part != self.frame_part.part):
+                return True
+        elif (self.part != None):
+            return True
+        return False
 
     def requires_prices(self):
         if (self.part is None):
