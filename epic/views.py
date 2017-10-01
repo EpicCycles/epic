@@ -339,7 +339,7 @@ def quote_order(request, pk):
         # create part elements and forms for them
         quotePartObjects = QuotePart.objects.filter(quote=quote)
         for quotePart in quotePartObjects:
-            if (quotePart.notStandard()):
+            if quote.part and quotePart.notStandard():
                 orderItem = OrderItem.objects.create_orderItem(quotePart.part,customerOrder,quotePart)
                 orderItem.save()
 
@@ -362,7 +362,7 @@ def order_edit(request,pk):
 # this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
 class OrderList(LoginRequiredMixin, ListView):
 
-    template_name = "order_list.html"
+    template_name = "customerorder_list.html"
     context_object_name = 'order_list'
     # attributes for search form
     orderSearchForm = OrderSearchForm()
@@ -388,18 +388,17 @@ class OrderList(LoginRequiredMixin, ListView):
         if self.orderSearchForm.is_valid():
             completeOrder = self.orderSearchForm.cleaned_data['completeOrder']
             if completeOrder:
-                where_filter &= Q(completed_date!=None)
+                where_filter &= Q(completed_date__isnull=False)
             else:
-                where_filter &= Q(completed_date=None)
+                where_filter &= Q(completed_date__isnull=True)
             balanceOutstanding = self.orderSearchForm.cleaned_data['balanceOutstanding']
-            if balanceOutstanding:
+            if balanceOutstanding == True:
                 where_filter &= Q(amount_due > 0)
             cancelledOrder = self.orderSearchForm.cleaned_data['cancelledOrder']
             if cancelledOrder:
-                where_filter &= Q(cancelled_date!=None)
+                where_filter &= Q(cancelled_date__isnull=False)
             else:
-                where_filter &= Q(cancelled_date=None)
-            #
+                where_filter &= Q(cancelled_date__isnull=True)
             lowerLimit = self.orderSearchForm.cleaned_data['lowerLimit']
             if lowerLimit:
                 where_filter &= Q(order_total > lowerLimit)

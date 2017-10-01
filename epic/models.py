@@ -443,7 +443,10 @@ class QuotePart(models.Model):
     # return a part summary for use on Order and other pages
     def summaryBikePart(self):
         if self.notStandard():
-            return str(self) + ' Substitute part required'
+            if self.part:
+                return str(self) + ' Substitute part required'
+            else:
+                return str(self) + ' NOT REQUIRED'
         else:
             return self.summary()
 
@@ -523,14 +526,15 @@ class OrderFrame(models.Model):
 
     # display frame for HTML output in a view
     def viewOrderFrame(self):
-        viewBreak = '\n'
-        orderFrameDetail = str(self.frame)
+        orderFrameDetails = []
+        orderFrameDetails.append(str(self.frame))
         bike_quoteParts = QuotePart.objects.filter(quote=self.quote)
+        orderFrameParts = []
         for quotePart in bike_quoteParts:
             if (quotePart.frame_part):
-                orderFrameDetail += viewBreak
-                orderFrameDetail += quotePart.summaryBikePart()
-        return orderFrameDetail
+                orderFrameParts.append(quotePart.summaryBikePart())
+        orderFrameDetails.append(orderFrameParts)
+        return orderFrameDetails
 
 
 # Managers for OrderItem

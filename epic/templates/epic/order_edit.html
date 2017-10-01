@@ -51,8 +51,15 @@
             {% for bikeDetail, form in orderFrameForms %}
             {% cycle 'row1' 'row2' as rowcolors silent %}
             <tr class="{{ rowcolors }}">
-              <td>{{ bikeDetail|linebreaks }}</td>
-              <td>{% include "epic/form_as_table.html" %}</td>
+              <td>
+                <b>{{ bikeDetail.0 }}</b>
+                <ul>
+                  {% for detail in bikeDetail.1 %}
+                  <li>{{ detail }}</li>
+                  {% endfor %}
+                </ul>
+              </td>
+              <td class="align_top">{% include "epic/form_as_table.html" %}</td>
             </tr>
             {% endfor %}
         </table>
@@ -67,7 +74,7 @@
             {% for partDetail, form in orderItemForms %}
             {% cycle 'row1' 'row2' as rowcolors silent %}
             <tr class="{{ rowcolors }}">
-              <td>{{ partDetail }}</td>
+              <td class="align_top">{{ partDetail }}</td>
               <td>{% include "epic/form_as_table.html" %}</td>
             </tr>
             {% endfor %}

@@ -16,6 +16,10 @@
           <li><a href="{% url 'add_quote' %}">New quote</a></li>
           <li><a href="{% url 'my_quote_list' %}">View my quotes</a></li>
         </ul>
+        <h3>Order</h3>
+        <ul>
+          <li><a href="{% url 'order_list' %}" class="internal_link">Find Order</span></a></li>
+        </ul>
       </td>
       {% if user.is_superuser %}
       <td>
