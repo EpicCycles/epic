@@ -184,6 +184,16 @@ class FramePart(models.Model):
     class Meta:
         unique_together = (("frame", "part"),)
 
+# # Managers for CustomerOrder
+class CustomerOrderManager(models.Manager):
+    # create a new CustomerOrder for a quote
+    def create_customerOrder(self, quote):
+        customer = quote.customer
+        order_total = quote.keyed_sell_price
+        customerOrder = self.create(customer=customer,order_total=order_total)
+        # do something with the customerOrder
+        return customerOrder
+
 # Order Header
 class CustomerOrder(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -194,7 +204,9 @@ class CustomerOrder(models.Model):
     order_total = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     amount_due = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     discount_percentage = models.DecimalField(max_digits=4,decimal_places=2,blank=True,null=True)
+    cancelled_date = models.DateTimeField('Date cancelled',null=True)
     history = HistoricalRecords()
+    objects = CustomerOrderManager()
 
 class Quote(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -412,6 +424,29 @@ class QuotePart(models.Model):
             else:
                 return self.partType.shortName + ' ' + self.part.part_name
 
+    # return a part summary for use on Order and other pages
+    def summary(self):
+        attributeDetail=''
+        quotePartAttributes = self.quotepartattribute_set.all()
+        if (quotePartAttributes):
+
+            for quotePartAttribute in quotePartAttributes:
+                if (attributeDetail !=''):
+                    attributeDetail += ', '
+                else:
+                    attributeDetail += '('
+                attributeDetail += str(quotePartAttribute)
+            attributeDetail += ')'
+
+        return str(self) + attributeDetail
+
+    # return a part summary for use on Order and other pages
+    def summaryBikePart(self):
+        if self.notStandard():
+            return str(self) + ' Substitute part required'
+        else:
+            return self.summary()
+
     def notStandard(self):
         if (self.frame_part != None):
             if (self.part != self.frame_part.part):
@@ -444,7 +479,7 @@ class QuotePartAttribute(models.Model):
     history = HistoricalRecords()
 
 
-    def str(self):
+    def __str__(self):
         return str(self.partTypeAttribute) + ": "+ self.attribute_value
 
     class Meta:
@@ -467,23 +502,55 @@ class SupplierOrderItem(models.Model):
     supplierOrder = models.ForeignKey(SupplierOrder, on_delete=models.CASCADE)
     item_description = models.TextField('Detail')
 
+# Managers for OrderFrame
+class OrderFrameManager(models.Manager):
+
+    # this creates a skinny version to use on a form incomplete cannot be saved
+    def create_orderFrame(self, frame, customerOrder,quote):
+        orderFrame = self.create(customerOrder=customerOrder,frame=frame,quote=quote)
+        return orderFrame
+
 class OrderFrame(models.Model):
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, blank=True,null=True)
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True,null=True)
     leadtime = models.IntegerField('Leadtime (weeks)',blank=True,null=True)
     supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True,null=True)
     receipt_date = models.DateTimeField('Date received',null=True)
+    quote = models.ForeignKey(Quote, on_delete=models.CASCADE, blank=True,null=True)
     history = HistoricalRecords()
+    objects = OrderFrameManager()
+
+    # display frame for HTML output in a view
+    def viewOrderFrame(self):
+        viewBreak = '\n'
+        orderFrameDetail = str(self.frame)
+        bike_quoteParts = QuotePart.objects.filter(quote=self.quote)
+        for quotePart in bike_quoteParts:
+            if (quotePart.frame_part):
+                orderFrameDetail += viewBreak
+                orderFrameDetail += quotePart.summaryBikePart()
+        return orderFrameDetail
+
+
+# Managers for OrderItem
+class OrderItemManager(models.Manager):
+
+    # this creates a skinny version to use on a form incomplete cannot be saved
+    def create_orderItem(self, part, customerOrder, quotePart):
+        orderItem = self.create(customerOrder=customerOrder,part=part,quotePart=quotePart)
+        return orderItem
 
 class OrderItem(models.Model):
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, blank=True,null=True)
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True,null=True)
     leadtime = models.IntegerField('Leadtime (weeks)',blank=True,null=True)
     supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True,null=True)
     receipt_date = models.DateTimeField('Date received',null=True)
+    quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE, blank=True,null=True)
     history = HistoricalRecords()
+    objects = OrderItemManager()
 
 class CustomerNote(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

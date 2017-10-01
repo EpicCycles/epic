@@ -21,6 +21,8 @@ urlpatterns = [
     url(r'^reQuote/(?P<pk>\d+)/$', views.quote_requote, name='quote_requote'),
     url(r'^amendQuote/(?P<pk>\d+)/$', views.quote_amend, name='quote_amend'),
     url(r'^createOrder/(?P<pk>\d+)/$', views.quote_order, name='quote_order'),
+    url(r'^orders/$', views.OrderList.as_view(), name='order_list'),
+    url(r'^editOrder/(?P<pk>\d+)/$', views.order_edit, name='order_edit'),
     url(r'^viewCustomerNotes/(?P<pk>\d+)/$', views.view_customer_notes, name='view_customer_notes'),
     url(r'^selectCustomer/$', views.CustomerSelect.as_view(), name='select_customer'),
 ]

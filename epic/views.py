@@ -322,7 +322,91 @@ def add_quote(request):
 # create and order from a quote
 @login_required
 def quote_order(request, pk):
+    if request.method == "POST":
+        # shouldnt be here!
+        messages.info(request,'Invalid action ')
+    else:
+        quote = get_object_or_404(Quote, pk=pk)
+        customerOrder = CustomerOrder.objects.create_customerOrder(quote)
+        customerOrder.save()
+        # create form for customer order
+        customerOrderForm = CustomerOrderForm(instance=customerOrder)
+
+        if (quote.is_bike()):
+            # create frame element and part elements and forms for them
+            orderFrame = OrderFrame.objects.create_orderFrame(quote.frame, customerOrder, quote)
+
+        # create part elements and forms for them
+        quotePartObjects = QuotePart.objects.filter(quote=quote)
+        for quotePart in quotePartObjects:
+            if (quotePart.notStandard()):
+                orderItem = OrderItem.objects.create_orderItem(quotePart.part,customerOrder,quotePart)
+                orderItem.save()
+
+
+        #display order page
+        return HttpResponseRedirect(reverse('order_edit', args=(customerOrder.id,)))
+# show edit order page
+def order_edit(request,pk):
+    customerOrder = get_object_or_404(CustomerOrder, pk=pk)
+    if request.method == "POST":
+        # save changes
+        pass
+    else:
+        return render(request, 'epic/order_edit.html', {'customerOrder': customerOrder, 'customerOrderForm': CustomerOrderForm(instance=customerOrder), 'orderFrameForms': buildOrderFrameForms(customerOrder), 'orderItemForms':buildOrderItemForms(customerOrder)})
+
+
     return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
+
+# Get Orders matching a search
+# this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
+class OrderList(LoginRequiredMixin, ListView):
+
+    template_name = "order_list.html"
+    context_object_name = 'order_list'
+    # attributes for search form
+    orderSearchForm = OrderSearchForm()
+
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderList, self).get_context_data(**kwargs)
+        # add values fetched from form to context to redisplay
+        context['orderSearchForm'] = self.orderSearchForm
+        return context
+
+    def get(self, request, *args, **kwargs):
+        #get values for search from form
+        self.orderSearchForm = OrderSearchForm(request.GET)
+        return super(OrderList, self).get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        # define an empty search pattern
+        where_filter = Q()
+
+        # if filter added on quote_desc add it to query set
+        if self.orderSearchForm.is_valid():
+            completeOrder = self.orderSearchForm.cleaned_data['completeOrder']
+            if completeOrder:
+                where_filter &= Q(completed_date!=None)
+            else:
+                where_filter &= Q(completed_date=None)
+            balanceOutstanding = self.orderSearchForm.cleaned_data['balanceOutstanding']
+            if balanceOutstanding:
+                where_filter &= Q(amount_due > 0)
+            cancelledOrder = self.orderSearchForm.cleaned_data['cancelledOrder']
+            if cancelledOrder:
+                where_filter &= Q(cancelled_date!=None)
+            else:
+                where_filter &= Q(cancelled_date=None)
+            #
+            lowerLimit = self.orderSearchForm.cleaned_data['lowerLimit']
+            if lowerLimit:
+                where_filter &= Q(order_total > lowerLimit)
+
+        #find objects matching any filter and order them
+        objects = CustomerOrder.objects.filter(where_filter)
+        return objects
 
 #create a new quote based on an existing quote
 @login_required
@@ -529,7 +613,7 @@ def quote_edit_bike(request, pk):
             if  quoteSimpleAddPart.is_valid():
                 part = validateAndCreatePart(quoteSimpleAddPart, request)
                 if part != None:
-                    quote_line = len(quoteParts) + 1
+                    quote_line = len(quotePartObjects) + 1
                     createQuotePart(quoteSimpleAddPart, quote.pk, part.pk, quote_line)
             else:
                 # quoteSimpleAddPart not valid
@@ -798,6 +882,29 @@ def logout_view(request):
     logout(request)
     # Redirect to a success page.
 
+# build array of forms for customer order item details
+def buildOrderFrameForms(customerOrder):
+    orderFrameObjects = OrderFrame.objects.filter(customerOrder=customerOrder)
+    orderFrameForms = []
+    orderFrameDetails = []
+    for orderFrame in orderFrameObjects:
+        orderFrameForms.append(OrderFrameForm(instance=orderFrame,prefix="OF"+str(orderFrame.id)))
+        orderFrameDetails.append(orderFrame.viewOrderFrame())
+    zipped_values = zip(orderFrameDetails, orderFrameForms)
+    return zipped_values
+
+# build array of forms for customer order item details
+def buildOrderItemForms(customerOrder):
+    orderItemObjects = OrderItem.objects.filter(customerOrder=customerOrder)
+    orderItemDetails = []
+    orderItemForms = []
+    for orderItem in orderItemObjects:
+        orderItemForm = OrderItemForm(instance=orderItem,prefix="OI"+str(orderItem.id))
+        orderItemForms.append(orderItemForm)
+        orderItemDetails.append(orderItem.quotePart.summary())
+    zipped_values = zip(orderItemDetails, orderItemForms)
+    return zipped_values
+
 # simple display ofsections
 def quotePartsForSimpleDisplay(quote):
     quotePartObjects = QuotePart.objects.filter(quote=quote)
@@ -910,6 +1017,7 @@ def validateAndCreatePart(form, request):
 
     else:
         return None
+
 # create quote part
 def createQuotePart(form, quote_pk, part_pk, quote_line):
 

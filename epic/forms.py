@@ -23,6 +23,7 @@ class CustomerForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(CustomerForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
+
 class ChangeCustomerForm(ModelForm):
      class Meta(CustomerForm.Meta):
          model = Customer
@@ -115,8 +116,6 @@ class PartTypeForm(ModelForm):
         fields = '__all__'
 
 # form for searching for quotes
-
-# simple quote add item
 class QuoteSearchForm(forms.Form):
     search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(),required=False,label='Bike/Frame',label_suffix='')
     search_quote_desc = forms.CharField(max_length=30,required=False,label='Description Like',label_suffix='')
@@ -125,7 +124,8 @@ class QuoteSearchForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(QuoteSearchForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        # simple quote add item
+
+# Get back quotes for the current user
 class MyQuoteSearchForm(forms.Form):
     search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(),required=False,label='Bike/Frame',label_suffix='')
     search_quote_desc = forms.CharField(max_length=30,required=False,label='Description Like',label_suffix='')
@@ -350,8 +350,6 @@ class QuoteBikePartForm(ModelForm):
         model = QuotePart
         fields = ['partType','frame_part', 'part', 'quantity','cost_price', 'sell_price']
 
-QuoteBikePartFormSet = inlineformset_factory(Quote, QuotePart, form=QuoteBikePartForm)
-
 #form for use n u=inline frameset after
 class QuotePartForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -363,8 +361,6 @@ class QuotePartForm(ModelForm):
     class Meta:
         model = QuotePart
         fields = ['partType', 'part', 'quantity','cost_price', 'sell_price']
-
-QuotePartFormSet = inlineformset_factory(Quote, QuotePart, form=QuotePartForm,extra=0)
 
 # attributes for quote parts
 class QuotePartAttributeForm(forms.Form):
@@ -406,3 +402,41 @@ class QuoteFittingForm(forms.Form):
                 raise forms.ValidationError(
                     "All measures must be entered to save a fitting."
                 )
+# Customer Order related forms
+# form for searching for orders
+class OrderSearchForm(forms.Form):
+    completeOrder = forms.BooleanField(required=False,label='Complete Orders')
+    balanceOutstanding = forms.BooleanField(required=False,label='Has outstanding balance')
+    cancelledOrder = forms.BooleanField(required=False,label='Cancelled Orders')
+    lowerLimit = forms.DecimalField(required=False,label='Total greater than')
+
+    def __init__(self, *args, **kwargs):
+        super(OrderSearchForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+#edit order details
+class CustomerOrderForm(ModelForm):
+    class Meta:
+        model = CustomerOrder
+        fields = ['customer_required_date', 'final_date', 'order_total', 'amount_due']
+    def __init__(self, *args, **kwargs):
+        super(CustomerOrderForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+
+# Form for details of frames being ordered.
+class OrderFrameForm(ModelForm):
+    class Meta:
+        model = OrderFrame
+        fields = ['supplier', 'leadtime', 'receipt_date']
+    def __init__(self, *args, **kwargs):
+        super(OrderFrameForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+
+# Form for details of parts being ordered.
+class OrderItemForm(ModelForm):
+    class Meta:
+        model = OrderItem
+        fields = ['part', 'supplier', 'leadtime', 'receipt_date']
+    def __init__(self, *args, **kwargs):
+        super(OrderItemForm, self).__init__(*args, **kwargs)
+        self.fields['part'].widget = HiddenInput()
+        self.label_suffix = ''

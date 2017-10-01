@@ -1,0 +1,81 @@
+{% extends 'epic/base.html' %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <table width="100%"><tr>
+      <td><h2>Quote</h2></td>
+      <td class="page_actions">
+        {% include "epic/form_standard_actions.html" %}
+      </td>
+    </tr></table>
+    <table><tr>
+      <td class="align_top">
+          <h3>{{ customerOrder.customer }}</h3>
+          {{ customerOrderForm.non_field_errors }}
+          <table>
+              {% for field in customerOrderForm.visible_fields %}
+              <tr>
+                  <th>{{ field.label_tag }}</th>
+                  <td>
+                    {{ field }}{{ field.errors }}
+                  </td>
+              </tr>
+              {% endfor %}
+              <tr>
+                  <th>Total &pound;</th>
+                  <td>{{ customerOrder.order_total }}</td>
+              </tr>
+              <tr>
+                  <th>Balance Outstanding &pound;</th>
+                  <td>{{ customerOrder.amount_due }}</td>
+              </tr>
+          </table>
+          {% for hidden in customerOrderForm.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+      </td>
+      <td class="align_top">
+        {% include "epic/add_notes.html" %}
+      </td>
+    </tr></table>
+
+    <fieldset>
+      {% if orderFrameForms %}
+        <h3>Bike(s)</h3>
+        <table>
+            <tr>
+              <th class="listHead">Bike</th>
+              <th class="listHead">Order Details</th>
+            </tr>
+            {% for bikeDetail, form in orderFrameForms %}
+            {% cycle 'row1' 'row2' as rowcolors silent %}
+            <tr class="{{ rowcolors }}">
+              <td>{{ bikeDetail|linebreaks }}</td>
+              <td>{% include "epic/form_as_table.html" %}</td>
+            </tr>
+            {% endfor %}
+        </table>
+      {% endif %}
+      {% if orderItemForms %}
+        <h3>Part(s)</h3>
+        <table>
+            <tr>
+              <th class="listHead">Summary</th>
+              <th class="listHead">Order Details</th>
+            </tr>
+            {% for partDetail, form in orderItemForms %}
+            {% cycle 'row1' 'row2' as rowcolors silent %}
+            <tr class="{{ rowcolors }}">
+              <td>{{ partDetail }}</td>
+              <td>{% include "epic/form_as_table.html" %}</td>
+            </tr>
+            {% endfor %}
+        </table>
+      {% endif %}
+    </fieldset>
+
+    {% include "epic/form_standard_actions.html" %}
+</form>
+
+{% endblock %}

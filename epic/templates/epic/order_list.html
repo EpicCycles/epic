@@ -1,0 +1,42 @@
+{% extends 'epic/base.html' %}
+{% block content %}
+<h2>Orders</h2>
+<form action="" method="get">
+    <h3>Filter values:</h3>
+    {% with orderSearchForm as form %}
+      {% include "epic/form_as_table.html" %}
+    {% endwith %}
+    <input type="submit" value="Search" class="button" />
+</form>
+<hr/>
+{% if order_list %}
+<table>
+    <tr>
+        <th class="listHead">Customer</th>
+        <th class="listHead">Date Created</th>
+        <th class="listHead">Date Completed</th>
+        <th class="listHead">Date Required</th>
+        <th class="listHead">Order Total (&pound;)</th>
+        <th class="listHead">Outstanding Total (&pound;)</th>
+        <th class="listHead">Date Cancelled</th>
+        <th class="listHead"></th>
+    </tr>
+    {% for order in order_list %}
+    {% cycle 'row1' 'row2' as rowcolors silent %}
+    <tr class="{{ rowcolors }}">
+        <td>{{ order.customer }}</td>
+        <td>{{ order.created_date }}</td>
+        <td>{{ order.completed_date  }}</td>
+        <td>{{ order.customer_required_date }}</td>
+        <td>{{ order.order_total }}</td>
+        <td>{{ order.amount_due }}</td>
+        <td><a href="{% url 'order_edit' pk=order.pk %}" class="button">Edit</a>
+    </tr>
+    {% endfor %}
+</table>
+  {% include "epic/pagination.html" %}
+
+{% else %}
+<p>No orders to view.</p>
+{% endif %}
+{% endblock %}
