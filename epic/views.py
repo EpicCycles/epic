@@ -938,25 +938,29 @@ def logout_view(request):
 # build array of forms for customer order item details
 def buildOrderFrameForms(customerOrder):
     orderFrameObjects = OrderFrame.objects.filter(customerOrder=customerOrder)
-    orderFrameForms = []
-    orderFrameDetails = []
-    for orderFrame in orderFrameObjects:
-        orderFrameForms.append(OrderFrameForm(instance=orderFrame,prefix="OF"+str(orderFrame.id)))
-        orderFrameDetails.append(orderFrame.viewOrderFrame())
-    zipped_values = zip(orderFrameDetails, orderFrameForms)
-    return zipped_values
+    if orderFrameObjects:
+        orderFrameForms = []
+        orderFrameDetails = []
+        for orderFrame in orderFrameObjects:
+            orderFrameForms.append(OrderFrameForm(instance=orderFrame,prefix="OF"+str(orderFrame.id)))
+            orderFrameDetails.append(orderFrame.viewOrderFrame())
+        zipped_values = zip(orderFrameDetails, orderFrameForms)
+        return zipped_values
+    return None
 
 # build array of forms for customer order item details
 def buildOrderItemForms(customerOrder):
     orderItemObjects = OrderItem.objects.filter(customerOrder=customerOrder)
-    orderItemDetails = []
-    orderItemForms = []
-    for orderItem in orderItemObjects:
-        orderItemForm = OrderItemForm(instance=orderItem,prefix="OI"+str(orderItem.id))
-        orderItemForms.append(orderItemForm)
-        orderItemDetails.append(orderItem.quotePart.summary())
-    zipped_values = zip(orderItemDetails, orderItemForms)
-    return zipped_values
+    if orderItemObjects:
+        orderItemDetails = []
+        orderItemForms = []
+        for orderItem in orderItemObjects:
+            orderItemForm = OrderItemForm(instance=orderItem,prefix="OI"+str(orderItem.id))
+            orderItemForms.append(orderItemForm)
+            orderItemDetails.append(orderItem.quotePart.summary())
+        zipped_values = zip(orderItemDetails, orderItemForms)
+        return zipped_values
+    return None
 
 # simple display ofsections
 def quotePartsForSimpleDisplay(quote):
