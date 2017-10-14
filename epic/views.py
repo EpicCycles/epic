@@ -359,7 +359,7 @@ def order_edit(request,pk):
                 customerOrderForm.save()
             except Exception as e:
                 logging.getLogger("error_logger").exception('Order changes could not be saved' )
-                
+
         orderPaymentForm = OrderPaymentForm(request.POST)
         if orderPaymentForm.is_valid():
             try:
@@ -367,9 +367,9 @@ def order_edit(request,pk):
                 if paymentAmount:
                     orderPayment = OrderPayment.objects.create_orderPayment(customerOrder, paymentAmount, request.user)
                     orderPayment.save()
-                    orderPaymentForm =  OrderPaymentForm(initial={'amountDue':customerOrder.amount_due})
                     customerOrder.calculate_balance()
                     customerOrder.save()
+                    orderPaymentForm =  OrderPaymentForm(initial={'amountDue':customerOrder.amount_due})
 
             except Exception as e:
                 logging.getLogger("error_logger").exception('Payment could not be saved' )

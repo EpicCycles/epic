@@ -1,7 +1,7 @@
 {% extends 'epic/base_popup.html' %}
 {% block content %}
 <!-- All notes - used as a popup -->
-
+<div>
   {% if customerNotes %}
     {{ customer }}
     <table>
@@ -27,4 +27,5 @@
   {% else %}
     No Notes exist
   {% endif %}
+</div>
 {% endblock %}
