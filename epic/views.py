@@ -26,7 +26,25 @@ from .forms import *
 def quote_menu(request):
     # create list of brands to display for external links
     brands = Brand.objects.filter(link__startswith="http")
-    return render(request, 'epic/quote_menu.html', {'brands': brands})
+
+    # create a list of suppliers with items requiring orders
+    suppliers = Supplier.objects.all()
+    suppliersRequiringOrders = []
+    for supplier in suppliers:
+        orderFrames = OrderFrame.objects.filter(supplier=supplier,supplierOrderItem=None)
+        if orderFrames:
+            suppliersRequiringOrders.append(supplier)
+        else:
+            orderItems = OrderItem.objects.filter(supplier=supplier,supplierOrderItem=None)
+            if orderItems:
+                suppliersRequiringOrders.append(supplier)
+    return render(request, 'epic/quote_menu.html', {'brands': brands,'suppliersRequiringOrders':suppliersRequiringOrders})
+
+# TODO create a list of items requiring rodering and tickboxes to add them
+@login_required
+def supplier_order_reqd(request, pk):
+    supplier = get_object_or_404(Supplier, pk=pk)
+    messages.info(request,'not built yet ')
 
 # this extends the mix in for login required rather than the @ method as that doesn'twork for ListViews
 class CustomerList(LoginRequiredMixin, ListView):

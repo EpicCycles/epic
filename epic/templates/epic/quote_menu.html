@@ -24,6 +24,16 @@
       {% if user.is_superuser %}
       <td>
         <h2>Admin</h2>
+          {% if suppliersRequiringOrders %}
+            <h3>Create Supplier Order</h3>
+    <ul>
+    {% for supplier in suppliersRequiringOrders %}
+        <li><a href="/supplierOrderRequired/{{ supplier.id }}/">{{ supplier.supplier_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
           <h3>Maintain core data</h3>
         <ul>
           <li><a href="{% url 'bike_upload' %}" class="internal_link">Upload Bike Details</span></a></li>
