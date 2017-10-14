@@ -411,25 +411,6 @@ def order_edit(request,pk):
 
 
     return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
-def order_payment (request,pk):
-    customerOrder = get_object_or_404(CustomerOrder, pk=pk)
-    # new quote to be added
-    orderPaymentForm = OrderPaymentForm(request.POST)
-    if orderPaymentForm.is_valid():
-        try:
-            orderPayment = OrderPayment.objects.create_orderPayment(customerOrder, self.orderSearchForm.cleaned_data['paymentAmount'],request.user)
-            orderPayment.save()
-            customerOrder.calculate_balance()
-            customerOrder.save()
-
-        except Exception as e:
-            logging.getLogger("error_logger").exception('Payment could not be saved' )
-            return render(request, "epic/order_payment.html", {'orderPaymentForm': orderPaymentForm})
-
-    orderPaymentForm = OrderPaymentForm(initial={'amountDue':customerOrder.amount_due})
-
-    # Show a new empty form:
-    return render(request, "epic/order_payment.html", {'orderPaymentForm': orderPaymentForm})
 
 # Get Orders matching a search
 # this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
