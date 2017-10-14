@@ -24,9 +24,20 @@
       {% if user.is_superuser %}
       <td>
         <h2>Admin</h2>
+          <h3>Maintain core data</h3>
         <ul>
           <li><a href="{% url 'bike_upload' %}" class="internal_link">Upload Bike Details</span></a></li>
           <li><a href="admin/epic/frame/" class="internal_link">Review Bike Details</span></a></li>
+          <li><a href="admin/epic/brand/" class="internal_link">Brands</span></a></li>
+          <li><a href="admin/epic/supplier/" class="internal_link">Suppliers</span></a></li>
+          <li><a href="admin/epic/partsection/" class="internal_link">Quote Sections</span></a></li>
+          <li><a href="admin/epic/parttype/" class="internal_link">Part Types and attributes</span></a></li>
+          </ul>
+        <h3>Admin Actions</h3>
+        <ul>
+          <li><a href="admin/epic/customer/" class="internal_link">Customers</span></a></li>
+          <li><a href="admin/epic/quote/" class="internal_link">Customer Quotes</span></a></li>
+          <li><a href="admin/epic/customerorder/" class="internal_link">Customer Orders</span></a></li>
         </ul>
       </td>
       {% endif %}

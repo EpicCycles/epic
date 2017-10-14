@@ -3,6 +3,7 @@ from django import forms
 from django.forms import ModelForm, CharField, ModelChoiceField
 from django.forms.models import inlineformset_factory
 from django.forms.widgets import HiddenInput
+from django.forms.widgets import SelectDateWidget
 
 from .models import *
 from django.contrib.auth.models import User
@@ -418,25 +419,58 @@ class CustomerOrderForm(ModelForm):
     class Meta:
         model = CustomerOrder
         fields = ['customer_required_date', 'final_date', 'order_total', 'amount_due']
+
     def __init__(self, *args, **kwargs):
         super(CustomerOrderForm, self).__init__(*args, **kwargs)
+        self.fields['order_total'].widget = HiddenInput()
+        self.fields['amount_due'].widget = HiddenInput()
+        self.fields['customer_required_date'].widget = SelectDateWidget()
+        self.fields['final_date'].widget = SelectDateWidget()
+
         self.label_suffix = ''
 
 # Form for details of frames being ordered.
 class OrderFrameForm(ModelForm):
     class Meta:
         model = OrderFrame
-        fields = ['supplier', 'leadtime', 'receipt_date']
+        fields = '__all__'
     def __init__(self, *args, **kwargs):
         super(OrderFrameForm, self).__init__(*args, **kwargs)
+        self.fields['customerOrder'].widget = HiddenInput()
+        self.fields['frame'].widget = HiddenInput()
+        self.fields['supplierOrderItem'].widget = HiddenInput()
+        self.fields['quote'].widget = HiddenInput()
         self.label_suffix = ''
 
 # Form for details of parts being ordered.
 class OrderItemForm(ModelForm):
     class Meta:
         model = OrderItem
-        fields = ['part', 'supplier', 'leadtime', 'receipt_date']
+        fields = ['customerOrder','part', 'supplier', 'leadtime', 'receipt_date']
     def __init__(self, *args, **kwargs):
         super(OrderItemForm, self).__init__(*args, **kwargs)
+        self.fields['customerOrder'].widget = HiddenInput()
         self.fields['part'].widget = HiddenInput()
+        self.fields['receipt_date'].widget = SelectDateWidget()
         self.label_suffix = ''
+
+# Form for a new payment
+class OrderPaymentForm(forms.Form):
+    paymentAmount = forms.DecimalField(max_digits=6,decimal_places=2,min_value=0.00,required=False,label='Amount')
+    amountDue = forms.DecimalField(required=False)
+    def __init__(self, *args, **kwargs):
+        super(OrderPaymentForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+        self.fields['paymentAmount'].widget = forms.TextInput(attrs={'size': 6})
+        self.fields['amountDue'].widget = HiddenInput()
+    # validate the data input
+    def clean(self):
+        cleaned_data = super(OrderPaymentForm, self).clean()
+        paymentAmount = cleaned_data.get("paymentAmount")
+        amountDue = cleaned_data.get("amountDue")
+
+        if paymentAmount:
+            if (paymentAmount > amountDue):
+                # can't over pay
+                msg = "Amount is greater than the outstanding balance."
+                self.add_error('paymentAmount', msg)

@@ -15,7 +15,7 @@ th {
     padding: 5px;
     font-size: 11pt;
     font-weight: bold;
-    background-color: #ed1b24;
+    background-color: #c82011;
     color: white;
     vertical-align: bottom;
 }
@@ -81,7 +81,7 @@ body h4 {
 }
 
 .top-menu, .top-menu:hover, .top-menu:visited {
-    color: #ed1b24;
+    color: #c82011;
     float: right;
     font-size: 11pt;
     margin-right: 20px;
@@ -101,7 +101,7 @@ input:disabled {
     background-color: #f2f2f2;
 }
 .red {
-    color: #ed1b24;
+    color: #c82011;
 }
 
 .noPadding td {
@@ -127,7 +127,7 @@ input:disabled {
     cursor: not-allowed;
 }
 .button {
-    background-color: #ed1b24;
+    background-color: #c82011;
     border: 1px #000000;;
     border-radius: 4px;
     color: white;

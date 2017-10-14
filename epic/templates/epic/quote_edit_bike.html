@@ -114,5 +114,5 @@
         <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
 
 </form>
-{% include "epic/quote_notes.html" %}
+{% include "epic/notes_display.html" %}
 {% endblock %}

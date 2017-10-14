@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^editOrder/(?P<pk>\d+)/$', views.order_edit, name='order_edit'),
     url(r'^viewCustomerNotes/(?P<pk>\d+)/$', views.view_customer_notes, name='view_customer_notes'),
     url(r'^selectCustomer/$', views.CustomerSelect.as_view(), name='select_customer'),
+    url(r'^orderPayment/(?P<pk>\d+)/$', views.order_payment, name='order_payment'),
 ]

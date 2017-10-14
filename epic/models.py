@@ -190,7 +190,8 @@ class CustomerOrderManager(models.Manager):
     def create_customerOrder(self, quote):
         customer = quote.customer
         order_total = quote.keyed_sell_price
-        customerOrder = self.create(customer=customer,order_total=order_total)
+        amount_due = quote.keyed_sell_price
+        customerOrder = self.create(customer=customer,order_total=order_total,amount_due=amount_due)
         # do something with the customerOrder
         return customerOrder
 
@@ -198,15 +199,25 @@ class CustomerOrderManager(models.Manager):
 class CustomerOrder(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     created_date = models.DateTimeField('Date added',auto_now_add=True)
-    completed_date = models.DateTimeField('Date complete',null=True)
-    customer_required_date = models.DateField('Customer Date',null=True)
-    final_date = models.DateField('Handover Date',null=True)
+    completed_date = models.DateTimeField('Date complete',null=True,blank=True)
+    customer_required_date = models.DateField('Customer Date',null=True,blank=True)
+    final_date = models.DateField('Handover Date',null=True,blank=True)
     order_total = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     amount_due = models.DecimalField(max_digits=7,decimal_places=2,blank=True,null=True)
     discount_percentage = models.DecimalField(max_digits=4,decimal_places=2,blank=True,null=True)
     cancelled_date = models.DateTimeField('Date cancelled',null=True)
     history = HistoricalRecords()
     objects = CustomerOrderManager()
+
+    # calculate the outstanding balance
+    def calculate_balance(self):
+        # loop through the payments taken
+        self.amount_due = self.order_total
+
+        orderPayments = OrderPayment.objects.filter(customerOrder=self)
+        for orderPayment in orderPayments:
+            if not (orderPayment.amount is None):
+                self.amount_due -= orderPayment.amount
 
 class Quote(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -481,7 +492,6 @@ class QuotePartAttribute(models.Model):
     attribute_value =  models.CharField('Quote Description',max_length=40,null=True)
     history = HistoricalRecords()
 
-
     def __str__(self):
         return str(self.partTypeAttribute) + ": "+ self.attribute_value
 
@@ -498,7 +508,7 @@ class Supplier(models.Model):
 class SupplierOrder(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     order_identifier = models.CharField('Order',max_length=20,unique=True)
-    date_placed = models.DateField('Order Date',null=True)
+    date_placed = models.DateField('Order Date',null=True,blank=True)
 
 # Supplier Order details
 class SupplierOrderItem(models.Model):
@@ -519,7 +529,7 @@ class OrderFrame(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True,null=True)
     leadtime = models.IntegerField('Leadtime (weeks)',blank=True,null=True)
     supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True,null=True)
-    receipt_date = models.DateTimeField('Date received',null=True)
+    receipt_date = models.DateTimeField('Date received',null=True,blank=True)
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE, blank=True,null=True)
     history = HistoricalRecords()
     objects = OrderFrameManager()
@@ -536,6 +546,20 @@ class OrderFrame(models.Model):
         orderFrameDetails.append(orderFrameParts)
         return orderFrameDetails
 
+# Manager for Order payment
+class OrderPaymentManager(models.Manager):
+    # create a payment and retrigger balance calculation for orderItem
+    def create_orderPayment(self, customerOrder,amount,user):
+        orderPayment =  self.create(customerOrder=customerOrder,amount=amount,created_by=user)
+        return orderPayment
+
+# model for a single payment
+class OrderPayment(models.Model):
+    customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
+    amount = models.DecimalField('Payment Amount',max_digits=7,decimal_places=2,blank=True,null=True)
+    created_on = models.DateTimeField(auto_now_add = True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True,null=True)
+    objects = OrderPaymentManager()
 
 # Managers for OrderItem
 class OrderItemManager(models.Manager):
@@ -551,7 +575,7 @@ class OrderItem(models.Model):
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True,null=True)
     leadtime = models.IntegerField('Leadtime (weeks)',blank=True,null=True)
     supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True,null=True)
-    receipt_date = models.DateTimeField('Date received',null=True)
+    receipt_date = models.DateTimeField('Date received',null=True,blank=True)
     quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE, blank=True,null=True)
     history = HistoricalRecords()
     objects = OrderItemManager()

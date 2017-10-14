@@ -30,6 +30,7 @@
         <td>{{ order.customer_required_date }}</td>
         <td>{{ order.order_total }}</td>
         <td>{{ order.amount_due }}</td>
+        <td>{{ order.cancelled_date }}</td>
         <td><a href="{% url 'order_edit' pk=order.pk %}" class="button">Edit</a>
     </tr>
     {% endfor %}

@@ -36,6 +36,26 @@
           {% endfor %}
       </td>
       <td class="align_top">
+        <h3>Payments</h3>
+        {% with orderPaymentForm as form %}
+          {% include "epic/form_as_table.html" %}
+        {% endwith %}
+        {% if orderPayments %}
+          <table>
+            <tr class="listHead"><th>Payment Date</th><th>Amount</th><th>Taken By</th></tr>
+            {% for orderPayment in orderPayments%}
+            {% cycle 'row1' 'row2' as rowcolors silent %}
+            <tr class="{{ rowcolors }}">
+            <td>{{orderPayment.created_on}}</td>
+            <td>&pound;{{orderPayment.amount}}</td>
+            <td>{{orderPayment.created_by}}</td></tr>
+            {% endfor %}
+          </table>
+        {% else %}
+        <b>Fully Outstanding</b>
+        {% endif %}
+      </td>
+      <td class="align_top">
         {% include "epic/add_notes.html" %}
       </td>
     </tr></table>
@@ -81,8 +101,7 @@
         </table>
       {% endif %}
     </fieldset>
-
     {% include "epic/form_standard_actions.html" %}
 </form>
-
+{% include "epic/notes_display.html" %}
 {% endblock %}
