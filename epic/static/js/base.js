@@ -49,8 +49,8 @@ function checkForChanges() {
 
 // basic popup with url and title passed in
 function popupDetail(url,title) {
-  var width = screen.width/2
-  var height = screen.height/2
+  var width = screen.width/2;
+  var height = screen.height/2;
   var left = (screen.width/4);
   var top = (screen.height/4);
   return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, width='+width+', height='+height+', top='+top+', left='+left);

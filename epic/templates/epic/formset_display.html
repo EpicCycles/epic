@@ -1,15 +1,15 @@
 {% if forloop.first %}
-  <tr>
-    {% for field in form.visible_fields %}
-      <th  class="listHead">{{ field.label_tag }}</th>
-    {% endfor %}
-  </tr>
+    <tr>
+        {% for field in form.visible_fields %}
+            <th class="listHead">{{ field.label_tag }}</th>
+        {% endfor %}
+    </tr>
 {% endif %}
 {% cycle 'row1' 'row2' as rowcolors silent %}
 <tr class="{{ rowcolors }}">
-{% for field in form.visible_fields %}
-  <td>
-        {{ field }}{{ field.errors }}
-  </td>
-{% endfor %}
+    {% for field in form.visible_fields %}
+        <td>
+            {{ field }}{{ field.errors }}
+        </td>
+    {% endfor %}
 </tr>

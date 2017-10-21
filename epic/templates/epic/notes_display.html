@@ -1,21 +1,22 @@
 <h3>Notes:</h3>
-  {% if customerNotes %}
+{% if customer_notes %}
     <table>
-      <tr>
-        <th class="listHead">Note</th>
-        <th class="listHead">Date Created</th>
-        <th class="listHead">Created by</th>
-        <th class="listHead">Customer Visible</th>
-      </tr>
-      {% for customerNote in customerNotes %}
-      {% cycle 'row1' 'row2' as rowcolors silent %}
-        <tr class="{{ rowcolors }}">
-          <td>{{ customerNote.note_text }}</td>
-          <td>{{ customerNote.created_on }}</td>
-          <td>{{ customerNote.created_by }}</td>
-          <td>{% if customerNote.customer_visible %}Yes{% endif %}</td>
+        <tr>
+            <th class="listHead">Note</th>
+            <th class="listHead">Date Created</th>
+            <th class="listHead">Created by</th>
+            <th class="listHead">Customer Visible</th>
         </tr>
-      {% endfor %}
-  {% else %}
+        {% for customer_note in customer_notes %}
+            {% cycle 'row1' 'row2' as rowcolors silent %}
+            <tr class="{{ rowcolors }}">
+                <td>{{ customer_note.note_text }}</td>
+                <td>{{ customer_note.created_on }}</td>
+                <td>{{ customer_note.created_by }}</td>
+                <td>{% if customer_note.customer_visible %}Yes{% endif %}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
     No Notes exist
-  {% endif %}
+{% endif %}
