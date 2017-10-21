@@ -1,5 +1,4 @@
 {% extends 'epic/base.html' %}
-
 {% block content %}
     <table width="100%" class="menu">
         <tr>
@@ -32,26 +31,26 @@
                                 </li>
                             {% endfor %}
                         </ul>
-                    {% else %}
-                        <p>No polls are available.</p>
+
                     {% endif %}
                     <h3>Maintain core data</h3>
                     <ul>
                         <li><a href="{% url 'bike_upload' %}" class="internal_link">Upload Bike Details</a></li>
-                        <li><a href="{% url 'admin:epic:frame' %}" class="internal_link">Review Bike Details</a></li>
-                        <li><a href="{% url 'admin:epic:brand' %}" class="internal_link">Brands</a></li>
-                        <li><a href="{% url 'admin:epic:supplier' %}" class="internal_link">Suppliers</a></li>
-                        <li><a href="{% url 'admin:epic:partsection' %}" class="internal_link">Quote Sections</a></li>
-                        <li><a href="{% url 'admin:epic:parttype' %}" class="internal_link">Part Types and attributes</a>
-                        </li>
+                        {% if admin_links %}
+                            {% for admin_link_text, admin_link_url in admin_links %}
+                                <li><a href="{{ admin_link_url }}" class="internal_link">{{ admin_link_text }}</a></li>
+                            {% endfor %}
+                        {% endif %}
                     </ul>
-                    <h3>Admin Actions</h3>
-                    <ul>
-                        <li><a href="{% url 'admin:epic:customer' %}" class="internal_link">Customers</a></li>
-                        <li><a href="{% url 'admin:epic:quote' %}" class="internal_link">Customer Quotes</a></li>
-                        <li><a href="{% url 'admin:epic:customerorder' %}" class="internal_link">Customer Orders</a></li>
-                    </ul>
-                </td>
+                    {% if customer_links %}
+                        <h3>Customer Data Maintenance</h3>
+                        <ul>
+                            {% for cust_link_text, cust_link_url in customer_links %}
+                                <li><a href="{{ cust_link_url }}" class="internal_link">{{ cust_link_text }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        </td>
+                    {% endif %}
             {% endif %}
             <td>
                 <h2>External Links</h2>

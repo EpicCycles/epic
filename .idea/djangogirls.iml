@@ -21,6 +21,8 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/epic/templates" />
+        <option value="$MODULE_DIR$/epic/templates/epic" />
+        <option value="$MODULE_DIR$/epic/templates/registration" />
       </list>
     </option>
   </component>

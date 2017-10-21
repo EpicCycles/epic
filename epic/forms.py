@@ -244,7 +244,7 @@ class QuoteSimpleForm(ModelForm):
 class QuoteSimpleAddPartForm(forms.Form):
     new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand', label_suffix='')
     new_brand_add = forms.CharField(max_length=30, required=False, label='Add Brand', label_suffix='')
-    new_partType = forms.ModelChoiceField(queryset=PartType.objects.all().order_by('shortName'), required=False,
+    new_part_type = forms.ModelChoiceField(queryset=PartType.objects.all().order_by('shortName'), required=False,
                                           label='Part Type', label_suffix='')
     new_part_name = forms.CharField(max_length=60, required=False, label='Part Name', label_suffix='')
     new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity', label_suffix='')
@@ -272,7 +272,7 @@ class QuoteSimpleAddPartForm(forms.Form):
         new_sell_price = cleaned_data.get("new_sell_price")
 
         # no fieldsare required but if any are present all must be
-        if new_brand or new_brand_add or new_part_type or new_part_name or new_quantity or new_cost_price or new_sell_price and not (
+        if (new_brand or new_brand_add or new_part_type or new_part_name or new_quantity or new_cost_price or new_sell_price) and not (
                             (new_brand or new_brand_add) and new_part_type and new_part_name and new_quantity):
             raise forms.ValidationError("All data must be entered to add a new item to a quote.")
         # must have only one of new_brand and new_brand_add

@@ -1,6 +1,6 @@
-from django.http import HttpResponseRedirect, request
-import django.shortcuts
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.shortcuts import get_object_or_404, render
 from django.views.generic.list import ListView
 from django.db.models import Q
 from django.shortcuts import render
@@ -36,15 +36,32 @@ def quote_menu(request):
             if order_items:
                 suppliers_requiring_orders.append(supplier)
 
+    admin_link_text = ["Review Bike Details"]
+    admin_link_url = [reverse('admin:epic_frame_changelist')]
+    admin_link_text.append("Brands")
+    admin_link_url.append(reverse('admin:epic_brand_changelist'))
+    admin_link_text.append("Suppliers")
+    admin_link_url.append(reverse('admin:epic_supplier_changelist'))
+    admin_link_text.append("Quote Sections")
+    admin_link_url.append(reverse('admin:epic_partsection_changelist'))
+    admin_link_text.append("Part Types and attributes")
+    admin_link_url.append(reverse('admin:epic_parttype_changelist'))
+
+    cust_link_text = ["Customers"]
+    cust_link_url = [reverse('admin:epic_customer_changelist')]
+    cust_link_text.append("Customer Quotes")
+    cust_link_url.append(reverse('admin:epic_quote_changelist'))
+    cust_link_text.append("Customer Orders")
+    cust_link_url.append(reverse('admin:epic_customerorder_changelist'))
+
+
     return render(request, 'epic/quote_menu.html',
-                  {'brands': brands, 'suppliers_requiring_orders': suppliers_requiring_orders})
+                  {'brands': brands, 'suppliers_requiring_orders': suppliers_requiring_orders, 'customer_links': zip(cust_link_text, cust_link_url),'admin_links': zip(admin_link_text, admin_link_url)})
 
-
-# TODO create a list of items requiring rodering and tickboxes to add them
 
 @login_required
 def supplier_order_reqd(request, pk):
-    supplier = django.get_object_or_404(Supplier, pk=pk)
+    supplier = get_object_or_404(Supplier, pk=pk)
     if request.method == "POST":
         supplier_order_form = SupplierOrderForm(request.POST, request.FILES)
         possible_items = []
@@ -59,7 +76,6 @@ def supplier_order_reqd(request, pk):
                 messages.info(request, 'Bike. ' + str(bike.id))
                 supplier_order_possible = SupplierOrderPossible(request.POST, request.FILES, prefix='OF' + str(bike.id))
                 if supplier_order_possible.is_valid():
-                    # messages.info(request,'item prefix. ' + 'OF'+str(bike.id) + ' is selected ' + supplier_order_possible.cleaned_data['add_to_order'] )
                     if supplier_order_possible.cleaned_data['add_to_order']:
                         supplier_order_item = SupplierOrderItem.objects.create_supplierOrderItem(supplierOrder,
                                                                                                  supplier_order_possible.cleaned_data[
@@ -73,7 +89,7 @@ def supplier_order_reqd(request, pk):
                     else:
                         possible_items.append(supplier_order_possible)
 
-            # cycle through parts requireing orders
+            # cycle through parts requiring orders
             parts = OrderItem.objects.filter(supplier=supplier)
             for part in parts:
                 supplier_order_possible = SupplierOrderPossible(request.POST, request.FILES, prefix='OP' + str(part.id))
@@ -99,6 +115,9 @@ def supplier_order_reqd(request, pk):
                               {'supplier': supplier, 'supplier_order_form': supplier_order_form,
                                'possible_items': possible_items})
             # order created return to the menu
+            return quote_menu(request)
+        else:
+            logging.getLogger("error_logger").error(supplier_order_form.errors.as_json())
             return quote_menu(request)
     else:
 
@@ -360,7 +379,7 @@ def add_customer(request):
 
 @login_required
 def edit_customer(request, pk):
-    customer = django.get_object_or_404(Customer, pk=pk)
+    customer = get_object_or_404(Customer, pk=pk)
     if request.method == "POST":
         customer_form = ChangeCustomerForm(request.POST, instance=customer)
         address_form_set = AddressFormSet(request.POST, request.FILES, instance=customer)
@@ -402,7 +421,7 @@ def edit_customer(request, pk):
 # popup with all notes relating to a customer
 
 def view_customer_notes(request, pk):
-    customer = django.shortcuts.get_object_or_404(Customer, pk=pk)
+    customer = get_object_or_404(Customer, pk=pk)
     customer_notes = CustomerNote.objects.filter(customer=customer)
     return render(request, 'epic/view_notes.html', {'customer': customer, 'customer_notes': customer_notes})
 
@@ -442,10 +461,10 @@ def add_quote(request):
 @login_required
 def quote_order(request, pk):
     if request.method == "POST":
-        # shouldnt be here!
+        # shouldn't be here!
         messages.info(request, 'Invalid action ')
     else:
-        quote = django.shortcuts.get_object_or_404(Quote, pk=pk)
+        quote = get_object_or_404(Quote, pk=pk)
         customerOrder = CustomerOrder.objects.create_customerOrder(quote)
         customerOrder.save()
         # create form for customer order
@@ -472,7 +491,7 @@ def quote_order(request, pk):
 # show edit order page
 @login_required
 def order_edit(request, pk):
-    customerOrder = django.shortcuts.get_object_or_404(CustomerOrder, pk=pk)
+    customerOrder = get_object_or_404(CustomerOrder, pk=pk)
     if request.method == "POST":
         customerOrderForm = CustomerOrderForm(request.POST, instance=customerOrder)
         if customerOrderForm.is_valid():
@@ -597,7 +616,7 @@ def copy_quote(request, pk):
         messages.info(request, 'Invalid action ')
     else:
         # get the quote you are basing it on and create a copy_quote
-        old_quote = django.shortcuts.get_object_or_404(Quote, pk=pk)
+        old_quote = get_object_or_404(Quote, pk=pk)
         quote_same_name = Quote.objects.filter(customer=old_quote.customer, quote_desc=old_quote.quote_desc).count()
         # copy quote details
         new_quote = old_quote
@@ -650,11 +669,11 @@ def copy_quote(request, pk):
 
 # bike copy allows new customer
 def quote_copy_bike(request, pk):
-    quote = django.shortcuts.get_object_or_404(Quote, pk=pk)
+    quote = get_object_or_404(Quote, pk=pk)
     if request.method == "POST":
         new_customer_id = request.POST.get('new_customer_id', '')
         if new_customer_id != '':
-            customer = django.shortcuts.get_object_or_404(Customer, pk=new_customer_id)
+            customer = get_object_or_404(Customer, pk=new_customer_id)
             quote_same_name = Quote.objects.filter(customer=customer, quote_desc=quote.quote_desc).count()
             # update the quote with the new customer and an appropriate version
             quote.customer = customer
@@ -666,7 +685,7 @@ def quote_copy_bike(request, pk):
                           {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote)})
 
     else:
-        quote = django.shortcuts.get_object_or_404(Quote, pk=pk)
+        quote = get_object_or_404(Quote, pk=pk)
         return render(request, 'epic/quote_copy_bike.html',
                       {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote)})
 
@@ -678,7 +697,7 @@ def quote_requote(request, pk):
         messages.info(request, 'Invalid action ')
     else:
         # get the quote you are basing it on and create a copy_quote
-        quote = django.shortcuts.get_object_or_404(Quote, pk=pk)
+        quote = get_object_or_404(Quote, pk=pk)
         quote.requote()
         if quote.quote_status == INITIAL:
             if quote.is_bike():
@@ -702,7 +721,7 @@ def quote_issue(request, pk):
         messages.info(request, 'Invalid action ')
     else:
         # get the quote you are basing it on and create a copy_quote
-        quote = django.shortcuts.get_object_or_404(Quote, pk=pk)
+        quote = get_object_or_404(Quote, pk=pk)
         quote.issue()
         if quote.quote_status == ISSUED:
             return HttpResponseRedirect(reverse('quote_browse', args=(quote.id,)))
@@ -729,7 +748,7 @@ def quote_browse(request, pk):
         # shouldn't be here!
         messages.info(request, 'Invalid action ')
     else:
-        quote = django.shortcuts.get_object_or_404(Quote, pk=pk)
+        quote = get_object_or_404(Quote, pk=pk)
         customer_notes = CustomerNote.objects.filter(quote=quote)
         if quote.is_bike():
             return render(request, 'epic/quote_issued_bike.html',
@@ -743,7 +762,7 @@ def quote_browse(request, pk):
 
 @login_required
 def quote_amend(request, pk):
-    quote = django.shortcuts.get_object_or_404(Quote, pk=pk)
+    quote = get_object_or_404(Quote, pk=pk)
     if request.method == "POST":
         # shouldnt be here!
         messages.info(request, 'Invalid action ')
@@ -759,7 +778,7 @@ def quote_amend(request, pk):
 # edit a quote
 @login_required
 def quote_edit(request, pk):
-    quote = django.shortcuts.get_object_or_404(Quote, pk=pk)
+    quote = get_object_or_404(Quote, pk=pk)
     if request.method == "POST":
         # shouldn't be here!
         messages.info(request, 'Invalid action ')
@@ -775,7 +794,7 @@ def quote_edit(request, pk):
 # edit a quote based on a specific frame
 @login_required
 def quote_edit_bike(request, pk):
-    quote = django.shortcuts.get_object_or_404(Quote, pk=pk)
+    quote = get_object_or_404(Quote, pk=pk)
     quote_page = 'epic/quote_edit_bike.html'
     customerFittings = Fitting.objects.filter(customer=quote.customer)
     customer_notes = CustomerNote.objects.filter(quote=quote)
@@ -811,7 +830,7 @@ def quote_edit_bike(request, pk):
             save_quote_part_attributes(quote, request)
 
             if quoteSimpleAddPart.is_valid():
-                part = validate_and_create_part(quoteSimpleAddPart)
+                part = validate_and_create_part(quoteSimpleAddPart, request)
                 if part is not None:
                     quote_line = len(quotePartObjects) + 1
                     create_quote_part(quoteSimpleAddPart, quote.pk, part.pk, quote_line)
@@ -887,7 +906,7 @@ def quote_edit_bike(request, pk):
 # edit a quote based on a specific frame
 @login_required
 def quote_edit_simple(request, pk):
-    quote = django.get_object_or_404(Quote, pk=pk)
+    quote = get_object_or_404(Quote, pk=pk)
     quote.recalculate_prices()
     old_sell_price = 0 + quote.sell_price
     customer_notes = CustomerNote.objects.filter(quote=quote)
@@ -926,7 +945,7 @@ def quote_edit_simple(request, pk):
                                                         'customer_notes': customer_notes})
 
             if quoteSimpleAddPart.is_valid():
-                part = validate_and_create_part(quoteSimpleAddPart)
+                part = validate_and_create_part(quoteSimpleAddPart, request)
                 if part is not None:
                     quote_line = len(quote_parts) + 1
                     create_quote_part(quoteSimpleAddPart, quote.pk, part.pk, quote_line)
@@ -1102,7 +1121,7 @@ def bike_upload(request):
     return quote_menu(request)
 
 
-def logout_view():
+def logout_view(request):
     logout(request)
     # Redirect to a success page.
 
@@ -1245,8 +1264,8 @@ def find_brand_for_string(search_string, brand_list, default_brand, request):
 
 
 # another try at creating the part
-def validate_and_create_part(form):
-    if form.cleaned_data['new_partType'] is not None:
+def validate_and_create_part(form, request):
+    if form.cleaned_data['new_part_type'] is not None:
         brand = form.cleaned_data['new_brand']
         if brand is None:
             # look for a brand matching what has been entered for new_brand_add
@@ -1255,7 +1274,7 @@ def validate_and_create_part(form):
             if brand is None:
                 return
 
-        partType = form.cleaned_data['new_partType']
+        partType = form.cleaned_data['new_part_type']
         part_name = form.cleaned_data['new_part_name']
         return find_or_create_part(brand, partType, part_name)
 
@@ -1266,7 +1285,7 @@ def validate_and_create_part(form):
 # create quote part
 def create_quote_part(form, quote_pk, part_pk, quote_line):
     # now add the quote line
-    data_dict = {"quote": quote_pk, "line": quote_line, "partType": form.cleaned_data['new_partType'].pk,
+    data_dict = {"quote": quote_pk, "line": quote_line, "partType": form.cleaned_data['new_part_type'].pk,
                  "part": part_pk, "quantity": form.cleaned_data['new_quantity'],
                  "cost_price": form.cleaned_data['new_cost_price'], "sell_price": form.cleaned_data['new_sell_price']}
     form = QuotePartBasicForm(data_dict)

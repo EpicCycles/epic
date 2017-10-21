@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from . import views
 
 # good explanation of patterns here https://tutorial.djangogirls.org/en/extend_your_application/
@@ -24,5 +24,4 @@ urlpatterns = [url(r'^$', views.quote_menu, name='quote_menu'),
     url(r'^editOrder/(?P<pk>\d+)/$', views.order_edit, name='order_edit'),
     url(r'^viewCustomerNotes/(?P<pk>\d+)/$', views.view_customer_notes, name='view_customer_notes'),
     url(r'^selectCustomer/$', views.CustomerSelect.as_view(), name='select_customer'),
-    url(r'^supplierOrderRequired/(?P<pk>\d+)/$', views.supplier_order_reqd, name='supplier_order_reqd'),
-    url(r'', include(admin.site.urls)), ]
+    url(r'^supplierOrderRequired/(?P<pk>\d+)/$', views.supplier_order_reqd, name='supplier_order_reqd'),]

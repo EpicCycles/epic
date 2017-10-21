@@ -8,7 +8,7 @@
       <h3>Order Details</h3>
       {% csrf_token %}
       {{ supplier }}
-      {% with supplierOrderForm as form %}
+      {% with supplier_order_form as form %}
       {% include "epic/form_as_table.html" %}
       {% endwith %}
     </td>
