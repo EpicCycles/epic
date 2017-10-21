@@ -1,0 +1,45 @@
+{% extends 'epic/base.html' %}
+
+{% block content %}
+<h2>Supplier Order</h2>
+<form action="" method="post">
+  <table><tr>
+    <td class="align_top">
+      <h3>Order Details</h3>
+      {% csrf_token %}
+      {{ supplier }}
+      {% with supplierOrderForm as form %}
+      {% include "epic/form_as_table.html" %}
+      {% endwith %}
+    </td>
+    <td class="align_top">
+      {% include "epic/form_standard_actions.html" %}
+    </td>
+  </tr></table>
+  <h3>Items to be ordered</h3>
+  <table>
+    <tr>
+      <th class="listHead">Description</th>
+      <th class="listHead">Quote</th>
+      <th class="listHead">Customer</th>
+      <th class="listHead">Add to Order</th>
+    </tr>
+
+    {% for possible_item in possible_items %}
+    {% cycle 'row1' 'row2' as rowcolors silent %}
+    <tr class="{{ rowcolors }}">
+      <td>{{ possible_item.item_description.value }}</td>
+      <td>{{ possible_item.quote_name.value }}</td>
+      <td>{{ possible_item.customer_name.value }}</td>
+      {% for field in possible_item.visible_fields %}
+      <td class="center">
+        {{ field }}{{ field.errors }}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+</fieldset>
+{% include "epic/form_standard_actions.html" %}
+</form>
+{% endblock %}
