@@ -355,41 +355,10 @@ def add_customer(request):
 def edit_customer(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     if request.method == "POST":
-        customer_form = ChangeCustomerForm(request.POST, instance=customer)
-        address_form_set = AddressFormSet(request.POST, request.FILES, instance=customer)
-        phone_form_set = PhoneFormSet(request.POST, request.FILES, instance=customer)
-        fitting_form_set = FittingFormSet(request.POST, request.FILES, instance=customer)
-        customer_quote_form = CustomerQuoteForm(request.POST, prefix='new')
-
-        if customer_form.is_valid():
-
-            customer_form.save()
-            create_customer_note(request, customer, None, None)
-            if address_form_set.is_valid():
-                address_form_set.save()
-                address_form_set = AddressFormSet(instance=customer)
-            if phone_form_set.is_valid():
-                phone_form_set.save()
-                phone_form_set = PhoneFormSet(instance=customer)
-            if fitting_form_set.is_valid():
-                fitting_form_set.save()
-                fitting_form_set = FittingFormSet(instance=customer)
-            if customer_quote_form.has_changed():
-                if customer_quote_form.is_valid():
-                    create_customer_quote(customer, customer_quote_form, request.user)
-                    customer_quote_form = CustomerQuoteForm(prefix='new')
+        return  process_customer_edit(request, customer)
     else:
-        address_form_set = AddressFormSet(instance=customer)
-        phone_form_set = PhoneFormSet(instance=customer)
-        fitting_form_set = FittingFormSet(instance=customer)
-        customer_quote_form = CustomerQuoteForm(prefix='new')
+        return show_customer_edit(request, customer )
 
-    existing_quotes = Quote.objects.filter(customer=customer)
-    return render(request, 'epic/maintain_customer.html',
-                  {'customer': customer, 'customer_form': ChangeCustomerForm(instance=customer),
-                   'address_form_set': address_form_set, 'phone_form_set': phone_form_set,
-                   'fitting_form_set': fitting_form_set, 'customer_quote_form': customer_quote_form,
-                   'existing_quotes': existing_quotes})
 
 
 # popup with all notes relating to a customer
