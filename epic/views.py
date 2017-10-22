@@ -1,19 +1,20 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
-from django.views.generic.list import ListView
-from django.db.models import Q
-from django.core.paginator import Paginator
-
-# security bits
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
-from django.contrib.auth.mixins import LoginRequiredMixin
-
 # import the logging library and the messages
 import logging
+
 from django.contrib import messages
+from django.contrib.auth import logout
+# security bits
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.core.paginator import Paginator
+from django.db.models import Q
+from django.shortcuts import get_object_or_404, render
+from django.views.generic.list import ListView
+from django.urls import reverse
 
 # forms and formsets used in the views
+from epic.view_helpers.customer_view_helper import *
 from .forms import *
 
 
@@ -201,7 +202,6 @@ class CustomerList(LoginRequiredMixin, ListView):
 
 
 # get customers for popup
-
 # this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
 class CustomerSelect(LoginRequiredMixin, ListView):
     template_name = 'epic/select_customer_popup.html'
@@ -345,41 +345,10 @@ def my_quote_list(request):
 @login_required
 def add_customer(request):
     if request.method == "POST":
-        # new customer to be added
-        customer_form = CustomerForm(request.POST)
-        if customer_form.is_valid():
-
-            new_customer = customer_form.save()
-            address_form_set = AddressFormSet(request.POST, request.FILES, new_customer)
-            phone_form_set = PhoneFormSet(request.POST, request.FILES, new_customer)
-            fitting_form_set = FittingFormSet(request.POST, request.FILES, new_customer)
-            customer_quote_form = CustomerQuoteForm(request.POST, prefix='new')
-            if address_form_set.is_valid():
-                address_form_set.save()
-            if phone_form_set.is_valid():
-                phone_form_set.save()
-            if fitting_form_set.is_valid():
-                fitting_form_set.save()
-            if customer_quote_form.has_changed():
-                if customer_quote_form.is_valid():
-                    quote = create_customer_quote(new_customer, customer_quote_form, request.user)
-                    if quote.is_bike():
-                        return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
-                    else:
-                        return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
-
-            return HttpResponseRedirect(reverse('edit_customer', args=(new_customer.id,)))
-
+        return process_customer_add(request)
     else:
+        return add_customer_view(request)
 
-        address_form_set = AddressFormSet()
-        phone_form_set = PhoneFormSet()
-        fitting_form_set = FittingFormSet()
-        customer_quote_form = CustomerQuoteForm(prefix='new')
-        return render(request, 'epic/maintain_customer.html',
-                      {'customer_form': CustomerForm(), 'address_form_set': address_form_set,
-                       'phone_form_set': phone_form_set, 'fitting_form_set': fitting_form_set,
-                       'customer_quote_form': customer_quote_form})
 
 
 @login_required
@@ -1298,50 +1267,6 @@ def create_quote_part(form, quote_pk, part_pk, quote_line):
         form.save()
     else:
         raise forms.ValidationError('QuotePartBasicForm  save failed')
-
-
-# create a new quote from form details and customer
-def create_customer_quote(customer, form, user):
-    if form.cleaned_data['quote_type'] != '':
-        quote_desc = form.cleaned_data['quote_desc']
-        quote_type = form.cleaned_data['quote_type']
-        frame = form.cleaned_data['frame']
-        quote = Quote(customer=customer, quote_desc=quote_desc, quote_type=quote_type, created_by=user, frame=frame)
-        quote.save()
-        return quote
-    else:
-        return None
-
-
-# add a note to with details as specified
-def create_customer_note(request, customer, quote, customer_order):
-    note_type = request.POST.get('note_type', '')
-    note_contents = request.POST.get('note_contents', '')
-
-    if note_contents != '':
-        note_text = note_contents
-        created_by = request.user
-        customer_visible = (note_type == "customer")
-
-        customerNote = CustomerNote(customer=customer, quote=quote, customerOrder=customer_order, note_text=note_text,
-                                    created_by=created_by, customer_visible=customer_visible)
-        customerNote.save()
-
-
-# create a new fitting object from form details
-def create_fitting(customer, form):
-    if form.cleaned_data['fitting_type'] is not None:
-        fitting_type = form.cleaned_data['fitting_type']
-        saddle_height = form.cleaned_data['saddle_height']
-        bar_height = form.cleaned_data['bar_height']
-        reach = form.cleaned_data['reach']
-        notes = form.cleaned_data['notes']
-        fitting = Fitting(customer=customer, fitting_type=fitting_type, saddle_height=saddle_height,
-                          bar_height=bar_height, reach=reach, notes=notes)
-        fitting.save()
-        return fitting
-    else:
-        return None
 
 
 # update an existing quote part based on keyed values
