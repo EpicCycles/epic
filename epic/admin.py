@@ -14,7 +14,7 @@ class CustomerAddressInline(admin.TabularInline):
 
 class CustomerAdmin(admin.ModelAdmin):
     fieldsets = [(None, {'fields': ['first_name', 'last_name']}),
-        ('Email', {'fields': ['email'], 'classes': ['collapse']}), ]
+                 ('Email', {'fields': ['email'], 'classes': ['collapse']}), ]
     inlines = [CustomerAddressInline, CustomerPhoneInline]
     list_display = ('first_name', 'last_name', 'email', 'add_date')
     list_filter = ['first_name', 'last_name']
@@ -48,6 +48,17 @@ class PartTypeAdmin(admin.ModelAdmin):
     inlines = [PartTypeAttributeInLine]
 
 
+class SupplierOrderItemInline(admin.TabularInline):
+    model = SupplierOrderItem
+    extra = 0
+
+
+class SupplierOrderAdmin(admin.ModelAdmin):
+    inlines = [SupplierOrderItemInline]
+    list_filter = ['supplier']
+    list_per_page = 15
+
+
 admin.site.register(Frame, FrameAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Brand)
@@ -57,3 +68,4 @@ admin.site.register(PartType, PartTypeAdmin)
 admin.site.register(Quote)
 admin.site.register(CustomerOrder)
 admin.site.register(Supplier)
+admin.site.register(SupplierOrder, SupplierOrderAdmin)
