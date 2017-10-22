@@ -527,15 +527,19 @@ class SupplierOrderForm(ModelForm):
 
 
 # Form for possible items for a supplier orderSearchForm
-class SupplierOrderPossible(forms.Form):
+class SupplierOrderPossibleForm(forms.Form):
     item_description = forms.CharField(required=False)
     quote_name = forms.CharField(required=False)
     customer_name = forms.CharField(required=False)
     add_to_order = forms.BooleanField(required=False, label='Ordered')
+    item_type = forms.ChoiceField(label='Type', label_suffix='', choices=FORM_QUOTE_TYPE_CHOICES, required=False)
+    item_id = forms.IntegerField(required=False)
 
     def __init__(self, *args, **kwargs):
-        super(SupplierOrderPossible, self).__init__(*args, **kwargs)
+        super(SupplierOrderPossibleForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields['item_description'].widget = HiddenInput()
         self.fields['quote_name'].widget = HiddenInput()
         self.fields['customer_name'].widget = HiddenInput()
+        self.fields['item_type'].widget = HiddenInput()
+        self.fields['item_id'].widget = HiddenInput()

@@ -113,6 +113,9 @@ input:disabled {
 .align_right {
   text-align: right;
 }
+.align_center {
+  text-align: center;
+}
 /* button properties */
 .disabled {
     text-decoration: none;

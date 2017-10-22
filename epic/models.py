@@ -511,10 +511,19 @@ class SupplierOrder(models.Model):
     order_identifier = models.CharField('Order',max_length=20,unique=True)
     date_placed = models.DateField('Order Date',null=True,blank=True)
 
+# Managers for OrderItem
+class SupplierOrderItemManager(models.Manager):
+
+    # this creates a skinny version to use on a form incomplete cannot be saved
+    def create_supplier_order_item(self, supplierOrder, item_description):
+        supplierOrderItem = self.create(supplierOrder=supplierOrder,item_description=item_description)
+        return supplierOrderItem
+
 # Supplier Order details
 class SupplierOrderItem(models.Model):
     supplierOrder = models.ForeignKey(SupplierOrder, on_delete=models.CASCADE)
     item_description = models.TextField('Detail')
+    objects = SupplierOrderItemManager()
 
 # Managers for OrderFrame
 class OrderFrameManager(models.Manager):

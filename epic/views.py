@@ -1,9 +1,7 @@
 from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.shortcuts import get_object_or_404, render
 from django.views.generic.list import ListView
 from django.db.models import Q
-from django.shortcuts import render
 from django.core.paginator import Paginator
 
 # security bits
@@ -54,58 +52,57 @@ def quote_menu(request):
     cust_link_text.append("Customer Orders")
     cust_link_url.append(reverse('admin:epic_customerorder_changelist'))
 
-
     return render(request, 'epic/quote_menu.html',
-                  {'brands': brands, 'suppliers_requiring_orders': suppliers_requiring_orders, 'customer_links': zip(cust_link_text, cust_link_url),'admin_links': zip(admin_link_text, admin_link_url)})
+                  {'brands': brands, 'suppliers_requiring_orders': suppliers_requiring_orders,
+                   'customer_links': zip(cust_link_text, cust_link_url),
+                   'admin_links': zip(admin_link_text, admin_link_url)})
 
 
 @login_required
 def supplier_order_reqd(request, pk):
     supplier = get_object_or_404(Supplier, pk=pk)
     if request.method == "POST":
+        #get back all the forms before anything else
         supplier_order_form = SupplierOrderForm(request.POST, request.FILES)
-        possible_items = []
+        form_possible_items = []
+        bikes = OrderFrame.objects.filter(supplier=supplier)
+        for bike in bikes:
+            form_possible_items.append(SupplierOrderPossibleForm(request.POST, request.FILES, prefix='OF' + str(bike.id)))
+        parts = OrderItem.objects.filter(supplier=supplier)
+        for part in parts:
+            form_possible_items.append(SupplierOrderPossibleForm(request.POST, request.FILES, prefix='OP' + str(part.id)))
+
+        # once all forms in from session validate and redisplay
         if supplier_order_form.is_valid():
             supplierOrder = supplier_order_form.save()
-
+            new_form_possible_items = []
             order_item_count = 0
 
-            # get back frame and quote details for supplier
-            bikes = OrderFrame.objects.filter(supplier=supplier)
-            for bike in bikes:
-                messages.info(request, 'Bike. ' + str(bike.id))
-                supplier_order_possible = SupplierOrderPossible(request.POST, request.FILES, prefix='OF' + str(bike.id))
+            # save any items that are valid
+            for supplier_order_possible in form_possible_items:
                 if supplier_order_possible.is_valid():
                     if supplier_order_possible.cleaned_data['add_to_order']:
-                        supplier_order_item = SupplierOrderItem.objects.create_supplierOrderItem(supplierOrder,
-                                                                                                 supplier_order_possible.cleaned_data[
-                                                                                                     'item_description'])
+                        supplier_order_item = SupplierOrderItem.objects.create_supplier_order_item(supplierOrder,
+                                                                                                   supplier_order_possible.cleaned_data[
+                                                                                                       'item_description'])
                         supplier_order_item.save()
-
-                        bike.supplierOrderItem = supplier_order_item
-                        bike.save()
+                        item_type = supplier_order_possible.cleaned_data['item_type']
+                        item_id = supplier_order_possible.cleaned_data['item_id']
+                        if item_type == BIKE:
+                            bike = OrderFrame.objects.get(id=item_id)
+                            bike.supplierOrderItem = supplier_order_item
+                            bike.save()
+                        else:
+                            part = OrderItem.objects.get(id=item_id)
+                            part.supplierOrderItem = supplier_order_item
+                            part.save()
 
                         order_item_count = order_item_count + 1
                     else:
-                        possible_items.append(supplier_order_possible)
-
-            # cycle through parts requiring orders
-            parts = OrderItem.objects.filter(supplier=supplier)
-            for part in parts:
-                supplier_order_possible = SupplierOrderPossible(request.POST, request.FILES, prefix='OP' + str(part.id))
-                if supplier_order_possible.is_valid():
-                    if supplier_order_possible.cleaned_data['add_to_order']:
-                        supplier_order_item = SupplierOrderItem.objects.create_supplierOrderItem(supplierOrder,
-                                                                                                 supplier_order_possible.cleaned_data[
-                                                                                                     'item_description'])
-                        supplier_order_item.save()
-
-                        part.supplierOrderItem = supplier_order_item
-                        part.save()
-
-                        order_item_count = order_item_count + 1
-                    else:
-                        possible_items.append(supplier_order_possible)
+                        new_form_possible_items.append(supplier_order_possible)
+                else:
+                    logging.getLogger("error_logger").error(supplier_order_possible.errors.as_json())
+                    new_form_possible_items.append(supplier_order_possible)
 
             # check that some items are selected
             if order_item_count == 0:
@@ -113,12 +110,20 @@ def supplier_order_reqd(request, pk):
                 messages.info(request, 'Order cannot be created if no items are selected. ')
                 return render(request, 'epic/supplier_order_build.html',
                               {'supplier': supplier, 'supplier_order_form': supplier_order_form,
-                               'possible_items': possible_items})
-            # order created return to the menu
-            return quote_menu(request)
+                               'possible_items': form_possible_items})
+            else:
+                if len(new_form_possible_items) > 0:
+                    return render(request, 'epic/supplier_order_build.html',
+                                  {'supplier': supplier, 'supplier_order_form': supplier_order_form,
+                                   'possible_items': new_form_possible_items})
+                else:
+                    # order created an no items remaind return to the menu
+                    return quote_menu(request)
         else:
             logging.getLogger("error_logger").error(supplier_order_form.errors.as_json())
-            return quote_menu(request)
+            variables = {'supplier': supplier, 'supplier_order_form': supplier_order_form,
+                               'possible_items': form_possible_items}
+            return render(request, 'epic/supplier_order_build.html', variables)
     else:
 
         possible_items = []
@@ -131,9 +136,9 @@ def supplier_order_reqd(request, pk):
             quote_name = str(quote)
             customer = quote.customer
             customer_name = str(customer)
-            supplier_order_possible = SupplierOrderPossible(
+            supplier_order_possible = SupplierOrderPossibleForm(
                 initial={'item_description': item_description, 'quote_name': quote_name,
-                         'customer_name': customer_name}, prefix='OF' + str(bike.id))
+                         'customer_name': customer_name,'item_type':BIKE,'item_id': bike.id}, prefix='OF' + str(bike.id))
             possible_items.append(supplier_order_possible)
 
         # get back part  and quote details for supplier
@@ -145,9 +150,9 @@ def supplier_order_reqd(request, pk):
             quote_name = str(quote)
             customer = quote.customer
             customer_name = str(customer)
-            supplier_order_possible = SupplierOrderPossible(
+            supplier_order_possible = SupplierOrderPossibleForm(
                 initial={'item_description': item_description, 'quote_name': quote_name,
-                         'customer_name': customer_name}, prefix='OP' + str(part.id))
+                         'customer_name': customer_name,'item_type':PART,'item_id': part.id}, prefix='OP' + str(part.id))
             possible_items.append(supplier_order_possible)
 
         return render(request, 'epic/supplier_order_build.html',
@@ -922,7 +927,7 @@ def quote_edit_simple(request, pk):
         # get back all the quote part forms from the page
         for quote_part in quote_parts:
             quote_part_form = QuotePartForm(request.POST, request.FILES, instance=quote_part,
-                                          prefix="QP" + str(quote_part.id))
+                                            prefix="QP" + str(quote_part.id))
             quote_part_forms.append(quote_part_form)
 
         zipped_values = zip(quote_parts, quote_part_forms)
@@ -1100,7 +1105,7 @@ def bike_upload(request):
                                         logging.getLogger("error_logger").error(form.errors.as_json())
                                         return render(request, "epic/bike_upload.html", data)
                                 except Exception as e:
-                                     return render(request, "epic/bike_upload.html", data)
+                                    return render(request, "epic/bike_upload.html", data)
 
                             data_dict = {"frame": frames[j].pk, "part": part_possibles[0].pk}
                             try:
