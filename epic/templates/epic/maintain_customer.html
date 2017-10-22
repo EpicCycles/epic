@@ -71,6 +71,7 @@
                     {% endfor %}
                 </table>
                 {% for form in address_form_set %}
+                    {{ form.non_field_errors }}
                     {% for hidden in form.hidden_fields %}
                         {{ hidden }}
                     {% endfor %}
@@ -89,6 +90,7 @@
                                 {% endfor %}
                             </table>
                             {% for phoneForm in phone_form_set %}
+                                {{ phoneForm.non_field_errors }}
                                 {% for hidden in phoneForm.hidden_fields %}
                                     {{ hidden }}
                                 {% endfor %}
@@ -106,6 +108,7 @@
                                 {% endfor %}
                             </table>
                             {% for fitting_form in fitting_form_set %}
+                                {{ fitting_form.non_field_errors }}
                                 {% for hidden in fitting_form.hidden_fields %}
                                     {{ hidden }}
                                 {% endfor %}
