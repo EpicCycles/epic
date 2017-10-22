@@ -1,166 +1,36 @@
 # import the logging library and the messages
-import logging
-
 from django.contrib import messages
 from django.contrib.auth import logout
 # security bits
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from django.core.paginator import Paginator
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
-from django.urls import reverse
 
 # forms and formsets used in the views
 from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.fitting_view_helper import create_fitting
+from epic.view_helpers.menu_view_helper import show_menu
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote
+from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
 from .forms import *
 
 
 @login_required
 def menu_home(request):
-    # create list of brands to display for external links
-    brands = Brand.objects.filter(link__startswith="http")
+    return show_menu(request)
 
-    # create a list of suppliers with items requiring orders
-    suppliers = Supplier.objects.all()
-    suppliers_requiring_orders = []
-    for supplier in suppliers:
-        order_frames = OrderFrame.objects.filter(supplier=supplier, supplierOrderItem=None)
-        if order_frames:
-            suppliers_requiring_orders.append(supplier)
-        else:
-            order_items = OrderItem.objects.filter(supplier=supplier, supplierOrderItem=None)
-            if order_items:
-                suppliers_requiring_orders.append(supplier)
-
-    admin_link_text = ["Review Bike Details"]
-    admin_link_url = [reverse('admin:epic_frame_changelist')]
-    admin_link_text.append("Brands")
-    admin_link_url.append(reverse('admin:epic_brand_changelist'))
-    admin_link_text.append("Suppliers")
-    admin_link_url.append(reverse('admin:epic_supplier_changelist'))
-    admin_link_text.append("Quote Sections")
-    admin_link_url.append(reverse('admin:epic_partsection_changelist'))
-    admin_link_text.append("Part Types and attributes")
-    admin_link_url.append(reverse('admin:epic_parttype_changelist'))
-
-    cust_link_text = ["Customers"]
-    cust_link_url = [reverse('admin:epic_customer_changelist')]
-    cust_link_text.append("Customer Quotes")
-    cust_link_url.append(reverse('admin:epic_quote_changelist'))
-    cust_link_text.append("Customer Orders")
-    cust_link_url.append(reverse('admin:epic_customerorder_changelist'))
-
-    return render(request, 'epic/menu_home.html',
-                  {'brands': brands, 'suppliers_requiring_orders': suppliers_requiring_orders,
-                   'customer_links': zip(cust_link_text, cust_link_url),
-                   'admin_links': zip(admin_link_text, admin_link_url)})
 
 
 @login_required
 def supplier_order_reqd(request, pk):
     supplier = get_object_or_404(Supplier, pk=pk)
     if request.method == "POST":
-        #get back all the forms before anything else
-        supplier_order_form = SupplierOrderForm(request.POST, request.FILES)
-        form_possible_items = []
-        bikes = OrderFrame.objects.filter(supplier=supplier)
-        for bike in bikes:
-            form_possible_items.append(SupplierOrderPossibleForm(request.POST, request.FILES, prefix='OF' + str(bike.id)))
-        parts = OrderItem.objects.filter(supplier=supplier)
-        for part in parts:
-            form_possible_items.append(SupplierOrderPossibleForm(request.POST, request.FILES, prefix='OP' + str(part.id)))
-
-        # once all forms in from session validate and redisplay
-        if supplier_order_form.is_valid():
-            supplierOrder = supplier_order_form.save()
-            new_form_possible_items = []
-            order_item_count = 0
-
-            # save any items that are valid
-            for supplier_order_possible in form_possible_items:
-                if supplier_order_possible.is_valid():
-                    if supplier_order_possible.cleaned_data['add_to_order']:
-                        supplier_order_item = SupplierOrderItem.objects.create_supplier_order_item(supplierOrder,
-                                                                                                   supplier_order_possible.cleaned_data[
-                                                                                                       'item_description'])
-                        supplier_order_item.save()
-                        item_type = supplier_order_possible.cleaned_data['item_type']
-                        item_id = supplier_order_possible.cleaned_data['item_id']
-                        if item_type == BIKE:
-                            bike = OrderFrame.objects.get(id=item_id)
-                            bike.supplierOrderItem = supplier_order_item
-                            bike.save()
-                        else:
-                            part = OrderItem.objects.get(id=item_id)
-                            part.supplierOrderItem = supplier_order_item
-                            part.save()
-
-                        order_item_count = order_item_count + 1
-                    else:
-                        new_form_possible_items.append(supplier_order_possible)
-                else:
-                    logging.getLogger("error_logger").error(supplier_order_possible.errors.as_json())
-                    new_form_possible_items.append(supplier_order_possible)
-
-            # check that some items are selected
-            if order_item_count == 0:
-                supplierOrder.delete()
-                messages.info(request, 'Order cannot be created if no items are selected. ')
-                return render(request, 'epic/supplier_order_build.html',
-                              {'supplier': supplier, 'supplier_order_form': supplier_order_form,
-                               'possible_items': form_possible_items})
-            else:
-                if len(new_form_possible_items) > 0:
-                    return render(request, 'epic/supplier_order_build.html',
-                                  {'supplier': supplier, 'supplier_order_form': supplier_order_form,
-                                   'possible_items': new_form_possible_items})
-                else:
-                    # order created an no items remaind return to the menu
-                    return menu_home(request)
-        else:
-            logging.getLogger("error_logger").error(supplier_order_form.errors.as_json())
-            variables = {'supplier': supplier, 'supplier_order_form': supplier_order_form,
-                               'possible_items': form_possible_items}
-            return render(request, 'epic/supplier_order_build.html', variables)
+        return save_supplier_order(request, supplier)
     else:
-
-        possible_items = []
-
-        # get back frame and quote details for supplier
-        bikes = OrderFrame.objects.filter(supplier=supplier).select_related('quote__customer')
-        for bike in bikes:
-            item_description = str(bike.frame)
-            quote = bike.quote
-            quote_name = str(quote)
-            customer = quote.customer
-            customer_name = str(customer)
-            supplier_order_possible = SupplierOrderPossibleForm(
-                initial={'item_description': item_description, 'quote_name': quote_name,
-                         'customer_name': customer_name,'item_type':BIKE,'item_id': bike.id}, prefix='OF' + str(bike.id))
-            possible_items.append(supplier_order_possible)
-
-        # get back part  and quote details for supplier
-        parts = OrderItem.objects.filter(supplier=supplier).select_related('quotePart__quote__customer')
-        for part in parts:
-            quotePart = part.quotePart
-            item_description = str(quotePart)
-            quote = quotePart.quote
-            quote_name = str(quote)
-            customer = quote.customer
-            customer_name = str(customer)
-            supplier_order_possible = SupplierOrderPossibleForm(
-                initial={'item_description': item_description, 'quote_name': quote_name,
-                         'customer_name': customer_name,'item_type':PART,'item_id': part.id}, prefix='OP' + str(part.id))
-            possible_items.append(supplier_order_possible)
-
-        return render(request, 'epic/supplier_order_build.html',
-                      {'supplier': supplier, 'supplier_order_form': SupplierOrderForm(initial={'supplier': supplier}),
-                       'possible_items': possible_items})
+        return show_orders_required_for_supplier(request, supplier)
 
 
 # this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
@@ -328,21 +198,6 @@ class MyQuoteList(LoginRequiredMixin, ListView):
         return Quote.objects.filter(where_filter)
 
 
-# QUote list with search form
-@login_required
-def my_quote_list(request):
-    if request.method == "POST":
-        # shouldn't be here
-        return QuoteList.as_view()
-    else:
-        data_dict = {}
-        data_dict["search_user"] = request.user.pk
-        quote_search_form = QuoteSearchForm(data_dict)
-        quote_list = Quote.objects.filter(created_by=request.user)
-        paginator = Paginator(quote_list, 10)  # Show 10 contacts per page
-        return render(request, 'epic/quote_list.html',
-                      {'quote_list': paginator.page(1), 'quote_search_form': quote_search_form})
-
 
 @login_required
 def add_customer(request):
@@ -352,15 +207,13 @@ def add_customer(request):
         return add_customer_view(request)
 
 
-
 @login_required
 def edit_customer(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     if request.method == "POST":
-        return  process_customer_edit(request, customer)
+        return process_customer_edit(request, customer)
     else:
-        return show_customer_edit(request, customer )
-
+        return show_customer_edit(request, customer)
 
 
 # popup with all notes relating to a customer
@@ -376,7 +229,7 @@ def view_customer_notes(request, pk):
 def add_quote(request):
     if request.method == "POST":
         return create_new_quote(request)
-    else :
+    else:
         return show_add_quote(request)
 
 
