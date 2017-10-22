@@ -19,7 +19,7 @@ from .forms import *
 
 
 @login_required
-def quote_menu(request):
+def menu_home(request):
     # create list of brands to display for external links
     brands = Brand.objects.filter(link__startswith="http")
 
@@ -53,7 +53,7 @@ def quote_menu(request):
     cust_link_text.append("Customer Orders")
     cust_link_url.append(reverse('admin:epic_customerorder_changelist'))
 
-    return render(request, 'epic/quote_menu.html',
+    return render(request, 'epic/menu_home.html',
                   {'brands': brands, 'suppliers_requiring_orders': suppliers_requiring_orders,
                    'customer_links': zip(cust_link_text, cust_link_url),
                    'admin_links': zip(admin_link_text, admin_link_url)})
@@ -119,7 +119,7 @@ def supplier_order_reqd(request, pk):
                                    'possible_items': new_form_possible_items})
                 else:
                     # order created an no items remaind return to the menu
-                    return quote_menu(request)
+                    return menu_home(request)
         else:
             logging.getLogger("error_logger").error(supplier_order_form.errors.as_json())
             variables = {'supplier': supplier, 'supplier_order_form': supplier_order_form,
@@ -1061,7 +1061,7 @@ def bike_upload(request):
         logging.getLogger("error_logger").error("Unable to upload file. " + repr(e))
         messages.error(request, "Unable to upload file. " + repr(e))
         return render(request, "epic/bike_upload.html", data)
-    return quote_menu(request)
+    return menu_home(request)
 
 
 def logout_view(request):
