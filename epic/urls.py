@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
 from . import views
 
 # good explanation of patterns here https://tutorial.djangogirls.org/en/extend_your_application/

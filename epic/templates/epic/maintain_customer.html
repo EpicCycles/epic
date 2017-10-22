@@ -49,12 +49,14 @@
                         </table>
                     </td>
                     <td class="align_top">
+                        {%  if customer %}
                         {% include "epic/add_notes.html" %}
                         <br/>
                         <button type="button"
                                 onclick="popupDetail('{% url 'view_customer_notes' pk=customer.pk %}','Customer Notes')"
                                 class="button">View Notes
                         </button>
+                        {%  endif %}
                     </td>
                 </tr>
             </table>
