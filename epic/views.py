@@ -10,9 +10,11 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 
 # forms and formsets used in the views
+from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote
 from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.menu_view_helper import show_menu
+from epic.view_helpers.note_view_helper import show_notes_popup
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote
 from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
 from .forms import *
@@ -21,7 +23,6 @@ from .forms import *
 @login_required
 def menu_home(request):
     return show_menu(request)
-
 
 
 @login_required
@@ -198,7 +199,6 @@ class MyQuoteList(LoginRequiredMixin, ListView):
         return Quote.objects.filter(where_filter)
 
 
-
 @login_required
 def add_customer(request):
     if request.method == "POST":
@@ -217,11 +217,9 @@ def edit_customer(request, pk):
 
 
 # popup with all notes relating to a customer
-
 def view_customer_notes(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
-    customer_notes = CustomerNote.objects.filter(customer=customer)
-    return render(request, 'epic/view_notes.html', {'customer': customer, 'customer_notes': customer_notes})
+    return show_notes_popup(request, customer)
 
 
 # Add a new quote - display basic form and when saved make a new quote
@@ -241,27 +239,8 @@ def quote_order(request, pk):
         messages.info(request, 'Invalid action ')
     else:
         quote = get_object_or_404(Quote, pk=pk)
-        customerOrder = CustomerOrder.objects.create_customerOrder(quote)
-        customerOrder.save()
-        # create form for customer order
-        customerOrderForm = CustomerOrderForm(instance=customerOrder)
+        return create_customer_order_from_quote(request,quote)
 
-        if (quote.is_bike()):
-            # create frame element and part elements and forms for them
-            orderFrame = OrderFrame.objects.create_orderFrame(quote.frame, customerOrder, quote)
-
-        # create part elements and forms for them
-        quotePartObjects = QuotePart.objects.filter(quote=quote)
-        for quotePart in quotePartObjects:
-            if quotePart.part and quotePart.notStandard():
-                orderItem = OrderItem.objects.create_orderItem(quotePart.part, customerOrder, quotePart)
-                orderItem.save()
-
-        # calculate the order balance
-        customerOrder.calculate_balance()
-        customerOrder.save()
-        # display order page
-        return HttpResponseRedirect(reverse('order_edit', args=(customerOrder.id,)))
 
 
 # show edit order page
