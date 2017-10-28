@@ -104,6 +104,10 @@ input:disabled {
     color: #c82011;
 }
 
+.errorlist {
+    color: #c82011;
+    font-weight: bold;
+}
 .noPadding td {
   padding: 0px;
 }

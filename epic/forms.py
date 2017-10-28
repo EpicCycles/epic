@@ -229,15 +229,16 @@ class QuoteSimpleForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuoteSimpleForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['customer'].widget = HiddenInput()
-        self.fields["quote_type"].widget = HiddenInput()
+        # self.fields['customer'].widget = HiddenInput()
+        # self.fields["quote_type"].widget = HiddenInput()
         self.fields["cost_price"].widget = HiddenInput()
         self.fields["sell_price"].widget = HiddenInput()
         self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 6, 'title': 'Quote Price'})
 
     class Meta:
         model = Quote
-        fields = ['customer', 'quote_type', 'quote_desc', 'cost_price', 'sell_price', 'keyed_sell_price']
+        # fields = ['customer', 'quote_type', 'quote_desc', 'cost_price', 'sell_price', 'keyed_sell_price']
+        fields = ['quote_desc', 'cost_price', 'sell_price', 'keyed_sell_price']
 
 
 # simple quote add item
@@ -435,10 +436,10 @@ class QuoteFittingForm(forms.Form):
 # Customer Order related forms
 # form for searching for orders
 class OrderSearchForm(forms.Form):
-    completeOrder = forms.BooleanField(required=False, label='Complete Orders')
-    balanceOutstanding = forms.BooleanField(required=False, label='Has outstanding balance')
-    cancelledOrder = forms.BooleanField(required=False, label='Cancelled Orders')
-    lowerLimit = forms.DecimalField(required=False, label='Total greater than')
+    complete_order = forms.BooleanField(required=False, label='Complete Orders')
+    balance_outstanding = forms.BooleanField(required=False, label='Has outstanding balance')
+    cancelled_order = forms.BooleanField(required=False, label='Cancelled Orders')
+    lower_limit = forms.DecimalField(required=False, label='Total greater than')
 
     def __init__(self, *args, **kwargs):
         super(OrderSearchForm, self).__init__(*args, **kwargs)
@@ -492,14 +493,14 @@ class OrderItemForm(ModelForm):
 
 # Form for a new payment
 class OrderPaymentForm(forms.Form):
-    paymentAmount = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False, label='Amount')
-    amountDue = forms.DecimalField(required=False)
+    payment_amount = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False, label='Amount')
+    amount_due = forms.DecimalField(required=False)
 
     def __init__(self, *args, **kwargs):
         super(OrderPaymentForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['paymentAmount'].widget = forms.TextInput(attrs={'size': 6})
-        self.fields['amountDue'].widget = HiddenInput()
+        self.fields['payment_amount'].widget = forms.TextInput(attrs={'size': 6})
+        self.fields['amount_due'].widget = HiddenInput()
 
     # validate the data input
     def clean(self):

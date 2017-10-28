@@ -13,9 +13,9 @@
     <table><tr>
       <td class="align_top">
           <h3>{{ quote.customer }}</h3>
-          {{ quoteForm.non_field_errors }}
+          {{ quote_form.non_field_errors }}
           <table>
-              {% for field in quoteForm.visible_fields %}
+              {% for field in quote_form.visible_fields %}
               <tr>
                   <th>{{ field.label_tag }}</th>
                   <td>{{ field }}</td>
@@ -24,16 +24,16 @@
               {% endfor %}
               <tr>
                   <th>Total Cost</th>
-                  <td>{{ quoteForm.cost_price.value }}</td>
+                  <td>{{ quote_form.cost_price.value }}</td>
                   <td></td>
               </tr>
               <tr>
                   <th>Calculated Total</th>
-                  <td>{{ quoteForm.sell_price.value }}</td>
+                  <td>{{ quote_form.sell_price.value }}</td>
                   <td></td>
               </tr>
           </table>
-          {% for hidden in quoteForm.hidden_fields %}
+          {% for hidden in quote_form.hidden_fields %}
             {{ hidden }}
           {% endfor %}
       </td>
