@@ -128,7 +128,6 @@ class QuoteList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(QuoteList, self).get_context_data(**kwargs)
-        # add values fetched from form to context to redisplay
         context['quoteSearchForm'] = self.quoteSearchForm
         return context
 
@@ -170,7 +169,6 @@ class MyQuoteList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(MyQuoteList, self).get_context_data(**kwargs)
-
         context['quoteSearchForm'] = self.quoteSearchForm
         return context
 
@@ -179,7 +177,6 @@ class MyQuoteList(LoginRequiredMixin, ListView):
         self.quoteSearchForm = MyQuoteSearchForm(request.GET)
         return super(MyQuoteList, self).get(request, *args, **kwargs)
 
-    @property
     def get_queryset(self):
         # define an empty search pattern
         where_filter = Q()
@@ -188,13 +185,10 @@ class MyQuoteList(LoginRequiredMixin, ListView):
         if self.quoteSearchForm.is_valid():
             search_frame = self.quoteSearchForm.cleaned_data['search_frame']
             search_quote_desc = self.quoteSearchForm.cleaned_data['search_quote_desc']
-            search_user = self.request.user
             if search_frame:
                 where_filter &= Q(frame__exact=search_frame)
             if search_quote_desc:
                 where_filter &= Q(quote_desc__icontains=search_quote_desc)
-            if search_user:
-                where_filter &= Q(created_by__exact=search_user)
 
         # find objects matching any filter and order them
         return Quote.objects.filter(where_filter)

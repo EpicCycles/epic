@@ -495,7 +495,12 @@ class QuotePartAttribute(models.Model):
     history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
-        return str(self.partTypeAttribute) + ": " + self.attribute_value
+        if (self.partTypeAttribute) and  (self.attribute_value):
+            return str(self.partTypeAttribute) + ": " + self.attribute_value
+        elif self.partTypeAttribute:
+            return str(self.partTypeAttribute) + ":  NOT SET"
+        else:
+            return str("Hmmm")
 
     class Meta:
         unique_together = (("quotePart", "partTypeAttribute"),)

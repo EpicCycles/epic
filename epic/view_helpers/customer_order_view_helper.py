@@ -5,13 +5,15 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from epic.forms import CustomerOrderForm, OrderPaymentForm, OrderFrameForm, OrderItemForm
-from epic.models import OrderItem, QuotePart, OrderFrame, CustomerOrder, OrderPayment, CustomerNote
+from epic.models import OrderItem, QuotePart, OrderFrame, CustomerOrder, OrderPayment, CustomerNote, ORDERED
 from epic.view_helpers.note_view_helper import create_customer_note
 
 
 def create_customer_order_from_quote(quote):
     customerOrder = CustomerOrder.objects.create_customerOrder(quote)
     customerOrder.save()
+    quote.quote_status = ORDERED
+    quote.save()
 
     if quote.is_bike():
         # create frame element and part elements and forms for them
