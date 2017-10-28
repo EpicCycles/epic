@@ -14,10 +14,10 @@
         <table>
             <tr>
                 <td class="align_top">
-                    <h3>{{ customerOrder.customer }}</h3>
-                    {{ customerOrderForm.non_field_errors }}
+                    <h3>{{ customer_order.customer }}</h3>
+                    {{ customer_order_form.non_field_errors }}
                     <table>
-                        {% for field in customerOrderForm.visible_fields %}
+                        {% for field in customer_order_form.visible_fields %}
                             <tr>
                                 <th>{{ field.label_tag }}</th>
                                 <td>
@@ -27,35 +27,35 @@
                         {% endfor %}
                         <tr>
                             <th>Total &pound;</th>
-                            <td>{{ customerOrder.order_total }}</td>
+                            <td>{{ customer_order.order_total }}</td>
                         </tr>
                         <tr>
                             <th>Balance Outstanding &pound;</th>
-                            <td>{{ customerOrder.amount_due }}</td>
+                            <td>{{ customer_order.amount_due }}</td>
                         </tr>
                     </table>
-                    {% for hidden in customerOrderForm.hidden_fields %}
+                    {% for hidden in customer_order_form.hidden_fields %}
                         {{ hidden }}
                     {% endfor %}
                 </td>
                 <td class="align_top">
                     <h3>Payments</h3>
-                    {% with orderPaymentForm as form %}
+                    {% with order_payment_form as form %}
                         {% include "epic/form_as_table.html" %}
                     {% endwith %}
-                    {% if orderPayments %}
+                    {% if order_payments %}
                         <table>
                             <tr class="listHead">
                                 <th>Payment Date</th>
                                 <th>Amount</th>
                                 <th>Taken By</th>
                             </tr>
-                            {% for orderPayment in orderPayments %}
+                            {% for order_payment in order_payments %}
                                 {% cycle 'row1' 'row2' as rowcolors silent %}
                                 <tr class="{{ rowcolors }}">
-                                    <td>{{ orderPayment.created_on }}</td>
-                                    <td>&pound;{{ orderPayment.amount }}</td>
-                                    <td>{{ orderPayment.created_by }}</td>
+                                    <td>{{ order_payment.created_on }}</td>
+                                    <td>&pound;{{ order_payment.amount }}</td>
+                                    <td>{{ order_payment.created_by }}</td>
                                 </tr>
                             {% endfor %}
                         </table>
@@ -70,14 +70,14 @@
         </table>
 
         <fieldset>
-            {% if orderFrameForms %}
+            {% if order_frame_forms %}
                 <h3>Bike(s)</h3>
                 <table>
                     <tr>
                         <th class="listHead">Bike</th>
                         <th class="listHead">Order Details</th>
                     </tr>
-                    {% for bikeDetail, form in orderFrameForms %}
+                    {% for bikeDetail, form in order_frame_forms %}
                         {% cycle 'row1' 'row2' as rowcolors silent %}
                         <tr class="{{ rowcolors }}">
                             <td>
@@ -93,14 +93,14 @@
                     {% endfor %}
                 </table>
             {% endif %}
-            {% if orderItemForms %}
+            {% if order_item_forms %}
                 <h3>Part(s)</h3>
                 <table>
                     <tr>
                         <th class="listHead">Summary</th>
                         <th class="listHead">Order Details</th>
                     </tr>
-                    {% for partDetail, form in orderItemForms %}
+                    {% for partDetail, form in order_item_forms %}
                         {% cycle 'row1' 'row2' as rowcolors silent %}
                         <tr class="{{ rowcolors }}">
                             <td class="align_top">{{ partDetail }}</td>

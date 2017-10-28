@@ -10,7 +10,8 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 
 # forms and formsets used in the views
-from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote
+from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote, edit_customer_order, \
+    process_customer_order_edits
 from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.menu_view_helper import show_menu
@@ -239,7 +240,7 @@ def quote_order(request, pk):
         messages.info(request, 'Invalid action ')
     else:
         quote = get_object_or_404(Quote, pk=pk)
-        return create_customer_order_from_quote(request,quote)
+        return create_customer_order_from_quote(quote)
 
 
 
@@ -248,70 +249,10 @@ def quote_order(request, pk):
 def order_edit(request, pk):
     customerOrder = get_object_or_404(CustomerOrder, pk=pk)
     if request.method == "POST":
-        customerOrderForm = CustomerOrderForm(request.POST, instance=customerOrder)
-        if customerOrderForm.is_valid():
-            try:
-                customerOrderForm.save()
-            except Exception as e:
-                logging.getLogger("error_logger").exception('Order changes could not be saved')
-
-        orderPaymentForm = OrderPaymentForm(request.POST)
-        if orderPaymentForm.is_valid():
-            try:
-                paymentAmount = orderPaymentForm.cleaned_data['paymentAmount']
-                if paymentAmount:
-                    orderPayment = OrderPayment.objects.create_orderPayment(customerOrder, paymentAmount, request.user)
-                    orderPayment.save()
-                    customerOrder.calculate_balance()
-                    customerOrder.save()
-                    orderPaymentForm = OrderPaymentForm(initial={'amountDue': customerOrder.amount_due})
-
-            except Exception as e:
-                logging.getLogger("error_logger").exception('Payment could not be saved')
-        # save any note keyed
-        create_customer_note(request, customerOrder.customer, None, customerOrder)
-
-        # get back the order frame foems and save
-        orderFrameObjects = OrderFrame.objects.filter(customerOrder=customerOrder)
-        for orderFrame in orderFrameObjects:
-            orderFrameForm = OrderFrameForm(request.POST, request.FILES, instance=orderFrame,
-                                            prefix="OF" + str(orderFrame.id))
-            if orderFrameForm.is_valid():
-                try:
-                    orderFrameForm.save()
-
-                except Exception as e:
-                    logging.getLogger("error_logger").exception('Order Frame updates could not be saved')
-
-        # get back the order item forms and save.
-        orderItemObjects = OrderItem.objects.filter(customerOrder=customerOrder)
-        for orderItem in orderItemObjects:
-            orderItemForm = OrderItemForm(request.POST, request.FILES, instance=orderItem,
-                                          prefix="OI" + str(orderItem.id))
-            if orderItemForm.is_valid():
-                try:
-                    orderItemForm.save()
-
-                except Exception as e:
-                    logging.getLogger("error_logger").exception('Order Item updates could not be saved')
-
-        orderPayments = OrderPayment.objects.filter(customerOrder=customerOrder)
-        customer_notes = CustomerNote.objects.filter(customerOrder=customerOrder)
-        return render(request, 'epic/order_edit.html',
-                      {'customerOrder': customerOrder, 'customerOrderForm': CustomerOrderForm(instance=customerOrder),
-                       'orderFrameForms': build_order_frame_forms(customerOrder),
-                       'orderItemForms': build_order_item_forms(customerOrder), 'orderPaymentForm': orderPaymentForm,
-                       'orderPayments': orderPayments, 'customer_notes': customer_notes})
+        return process_customer_order_edits(request, customerOrder)
 
     else:
-        orderPayments = OrderPayment.objects.filter(customerOrder=customerOrder)
-        orderPaymentForm = OrderPaymentForm(initial={'amountDue': customerOrder.amount_due})
-        customer_notes = CustomerNote.objects.filter(customerOrder=customerOrder)
-        return render(request, 'epic/order_edit.html',
-                      {'customerOrder': customerOrder, 'customerOrderForm': CustomerOrderForm(instance=customerOrder),
-                       'orderFrameForms': build_order_frame_forms(customerOrder),
-                       'orderItemForms': build_order_item_forms(customerOrder), 'orderPaymentForm': orderPaymentForm,
-                       'orderPayments': orderPayments, 'customer_notes': customer_notes})
+       return edit_customer_order(request, customerOrder)
 
 
 # Get Orders matching a search
@@ -879,35 +820,6 @@ def bike_upload(request):
 def logout_view(request):
     logout(request)
     # Redirect to a success page.
-
-
-# build array of forms for customer order item details
-def build_order_frame_forms(customer_order):
-    orderFrameObjects = OrderFrame.objects.filter(customerOrder=customer_order)
-    if orderFrameObjects:
-        orderFrameForms = []
-        orderFrameDetails = []
-        for orderFrame in orderFrameObjects:
-            orderFrameForms.append(OrderFrameForm(instance=orderFrame, prefix="OF" + str(orderFrame.id)))
-            orderFrameDetails.append(orderFrame.viewOrderFrame())
-        zipped_values = zip(orderFrameDetails, orderFrameForms)
-        return zipped_values
-    return None
-
-
-# build array of forms for customer order item details
-def build_order_item_forms(customer_order):
-    orderItemObjects = OrderItem.objects.filter(customerOrder=customer_order)
-    if orderItemObjects:
-        orderItemDetails = []
-        orderItemForms = []
-        for orderItem in orderItemObjects:
-            orderItemForm = OrderItemForm(instance=orderItem, prefix="OI" + str(orderItem.id))
-            orderItemForms.append(orderItemForm)
-            orderItemDetails.append(orderItem.quotePart.summary())
-        zipped_values = zip(orderItemDetails, orderItemForms)
-        return zipped_values
-    return None
 
 
 # simple display ofsections
