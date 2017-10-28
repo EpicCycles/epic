@@ -229,15 +229,16 @@ class QuoteSimpleForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuoteSimpleForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['customer'].widget = HiddenInput()
-        self.fields["quote_type"].widget = HiddenInput()
+        # self.fields['customer'].widget = HiddenInput()
+        # self.fields["quote_type"].widget = HiddenInput()
         self.fields["cost_price"].widget = HiddenInput()
         self.fields["sell_price"].widget = HiddenInput()
         self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 6, 'title': 'Quote Price'})
 
     class Meta:
         model = Quote
-        fields = ['customer', 'quote_type', 'quote_desc', 'cost_price', 'sell_price', 'keyed_sell_price']
+        # fields = ['customer', 'quote_type', 'quote_desc', 'cost_price', 'sell_price', 'keyed_sell_price']
+        fields = ['quote_desc', 'cost_price', 'sell_price', 'keyed_sell_price']
 
 
 # simple quote add item

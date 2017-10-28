@@ -15,7 +15,6 @@ def find_or_create_part(brand, part_type, part_name):
         return part
 
 
-
 # another try at creating the part
 def validate_and_create_part(request, add_part_form):
     if add_part_form.cleaned_data['new_part_type'] is not None:
