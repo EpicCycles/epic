@@ -145,10 +145,16 @@ class Brand(models.Model):
         ordering = ('brand_name',)
 
 
+class PartManager(models.Manager):
+    def create_part(self, partType, brand, part_name):
+        return self.create(partType=partType, brand=brand, part_name=part_name)
+
+
 class Part(models.Model):
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     part_name = models.CharField(max_length=60)
+    objects = PartManager()
 
     def __str__(self):
         return self.brand.brand_name + ' ' + self.part_name
@@ -156,12 +162,19 @@ class Part(models.Model):
     class Meta:
         unique_together = (("partType", "brand", "part_name"),)
 
+class FrameManager(models.Manager):
+    def create_frame_sparse(self, brand, frame_name, model):
+        return self.create(brand=brand, frame_name=frame_name, model=model)
+
+    def create_frame(self, brand, frame_name, model, description):
+        return self.create(brand=brand, frame_name=frame_name, model=model, description=description)
 
 class Frame(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     frame_name = models.CharField(max_length=60)
     model = models.CharField(max_length=60, blank=True)
     description = models.CharField(max_length=100, blank=True)
+    objects = FrameManager()
 
     def __str__(self):
         if self.model is None:
@@ -174,9 +187,16 @@ class Frame(models.Model):
         ordering = ('brand', 'frame_name', 'model')
 
 
+# Manager for PramePart
+class FramePartManager(models.Manager):
+    def create_framePart(self, frame, part):
+        return self.create(frame=frame, part=part)
+
+
 class FramePart(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
+    objects = FramePartManager()
 
     def __str__(self):
         return self.part.part_name
@@ -305,7 +325,8 @@ class Quote(models.Model):
             for quotePart in self.quotepart_set.all():
                 for quotePartAttribute in quotePart.quotepartattribute_set.all():
                     if (quotePartAttribute.partTypeAttribute.mandatory) and (
-                        (quotePartAttribute.attribute_value is None) or (quotePartAttribute.attribute_value == '')):
+                                (quotePartAttribute.attribute_value is None) or (
+                                quotePartAttribute.attribute_value == '')):
                         return False
             return True
         return False
@@ -375,7 +396,7 @@ class Quote(models.Model):
         for quote_part in quote_parts:
 
             if not ((quote_part.quantity is None) or (quote_part.sell_price is None) or (
-                quote_part.cost_price is None)):
+                        quote_part.cost_price is None)):
                 self.cost_price += quote_part.cost_price * quote_part.quantity
                 self.sell_price += quote_part.sell_price * quote_part.quantity
 
@@ -495,7 +516,7 @@ class QuotePartAttribute(models.Model):
     history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
-        if (self.partTypeAttribute) and  (self.attribute_value):
+        if (self.partTypeAttribute) and (self.attribute_value):
             return str(self.partTypeAttribute) + ": " + self.attribute_value
         elif self.partTypeAttribute:
             return str(self.partTypeAttribute) + ":  NOT SET"

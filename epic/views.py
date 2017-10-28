@@ -10,6 +10,9 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 
 # forms and formsets used in the views
+from epic.model_helpers.brand_helper import find_brand_for_name
+from epic.model_helpers.part_helper import validate_and_create_part, find_or_create_part
+from epic.view_helpers.bike_upload_helper import process_upload
 from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote, edit_customer_order, \
     process_customer_order_edits
 from epic.view_helpers.customer_view_helper import *
@@ -691,124 +694,12 @@ def bike_upload(request):
         return render(request, "epic/bike_upload.html", data)
 
     # if not GET, then proceed
-    try:
-        brand_name = request.POST.get('brand_name', '')
-        try:
-            bike_brand = Brand.objects.get(brand_name=str(brand_name).strip())
-        except MultipleObjectsReturned:
-            messages.error(request, 'Brand Not unique - use Admin function to enure Brands are unique: ' + brand_name)
-            return render(request, "epic/bike_upload.html", data)
-        except ObjectDoesNotExist:
-            messages.error(request, 'Brand Not found: ' + brand_name)
-            return render(request, "epic/bike_upload.html", data)
+    next_screen =  process_upload(request)
+    if next_screen:
+        return next_screen
+    else:
+        return menu_home(request)
 
-        bike_name = request.POST.get('bike_name', '')
-
-        csv_file = request.FILES["csv_file"]
-
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request, 'File is not CSV type')
-            return render(request, "epic/bike_upload.html", data)
-
-        # if file is too large, return
-        if csv_file.multiple_chunks():
-            messages.error(request, "Uploaded file is too big (%.2f MB)." % (csv_file.size / (1000 * 1000),))
-            return render(request, "epic/bike_upload.html", data)
-
-        file_data = csv_file.read().decode("utf-8")
-
-        # split the file into lines
-        lines = file_data.split("\n")
-
-        frames = []
-        # get non web brands to look for part brands
-        non_web_brands = Brand.objects.all()
-
-        # loop over the lines and save them in db. If error , store as string and then display
-        for i in range(len(lines)):
-            if i == 0:
-                #  first line is the ModelAdmin
-                model_names = lines[i].split(",")
-                for j in range(len(model_names)):
-                    if j == 0:
-                        frames.append("not a frame")
-                    else:
-                        model_name = model_names[j]
-                        data_dict = {"brand": bike_brand.pk, "frame_name": bike_name, "model": model_name}
-                        try:
-                            form = FrameForm(data_dict)
-                            if form.is_valid():
-                                frame = form.save()
-                                frames.append(frame)
-                            else:
-                                logging.getLogger("error_logger").error(form.errors.as_json())
-                                return render(request, "epic/bike_upload.html", data)
-                        except Exception as e:
-                            return render(request, "epic/bike_upload.html", data)
-            else:
-                # attribute line
-                attributes = lines[i].split(",")
-                # get the partType for the lilne
-                # this is the part name - look it up - fail if not found
-                try:
-                    shortName = str(attributes[0]).strip()
-                    partType = PartType.objects.get(shortName=shortName)
-                except MultipleObjectsReturned:
-                    messages.error(request, 'PartType Not unique - use Admin function to enure PartTypes are unique: ' +
-                                   attributes[0])
-                    return render(request, "epic/bike_upload.html", data)
-                except ObjectDoesNotExist:
-                    messages.error(request, 'PartType Not found' + attributes[0])
-                    return render(request, "epic/bike_upload.html", data)
-
-                for j in range(len(attributes)):
-                    # ignore the first column - already used
-                    if j > 0:
-                        # look for brand for part attributes
-                        part_name = str(attributes[j]).strip()
-                        if len(part_name) > 0:
-                            part_brand = find_brand_for_string(part_name, non_web_brands, bike_brand, request)
-
-                            # take the brand name out of the part name
-                            part_name = part_name.strip(part_brand.brand_name)
-                            part_name = part_name.strip()
-
-                            # now look to see if Part exists, if not add it
-                            part_possibles = Part.objects.filter(partType=partType, brand=part_brand,
-                                                                 part_name=part_name)
-                            if len(part_possibles) == 0:
-                                # create a new one and add it
-                                data_dict = {"brand": part_brand.pk, "partType": partType.pk, "part_name": part_name}
-                                try:
-                                    form = PartForm(data_dict)
-                                    if form.is_valid():
-                                        new_part = form.save()
-                                        part_possibles = Part.objects.filter(partType=partType, brand=part_brand,
-                                                                             part_name=part_name)
-                                    else:
-                                        messages.error(request, 'Part save failed')
-                                        logging.getLogger("error_logger").error(form.errors.as_json())
-                                        return render(request, "epic/bike_upload.html", data)
-                                except Exception as e:
-                                    return render(request, "epic/bike_upload.html", data)
-
-                            data_dict = {"frame": frames[j].pk, "part": part_possibles[0].pk}
-                            try:
-                                form = FramePartForm(data_dict)
-                                if form.is_valid():
-                                    form.save()
-                                else:
-                                    logging.getLogger("error_logger").error(form.errors.as_json())
-                                    return render(request, "epic/bike_upload.html", data)
-                            except Exception as e:
-                                return render(request, "epic/bike_upload.html", data)
-
-        messages.add_message(request, messages.INFO, 'Bike added:' + bike_name)
-    except Exception as e:
-        logging.getLogger("error_logger").error("Unable to upload file. " + repr(e))
-        messages.error(request, "Unable to upload file. " + repr(e))
-        return render(request, "epic/bike_upload.html", data)
-    return menu_home(request)
 
 
 def logout_view(request):
@@ -916,32 +807,6 @@ def get_quote_parts_and_forms(quote):
     return zipped_values
 
 
-def find_brand_for_string(search_string, brand_list, default_brand, request):
-    for brand in brand_list:
-        check_prefix = str(brand.brand_name).lower()
-        if search_string.lower().startswith(check_prefix):
-            return brand
-    return default_brand
-
-
-# another try at creating the part
-def validate_and_create_part(form, request):
-    if form.cleaned_data['new_part_type'] is not None:
-        brand = form.cleaned_data['new_brand']
-        if brand is None:
-            # look for a brand matching what has been entered for new_brand_add
-            brand_name = form.cleaned_data['new_brand_add']
-            brand = find_brand_for_name(brand_name, request)
-            if brand is None:
-                return
-
-        partType = form.cleaned_data['new_part_type']
-        part_name = form.cleaned_data['new_part_name']
-        return find_or_create_part(brand, partType, part_name)
-
-    else:
-        return None
-
 
 # create quote part
 def create_quote_part(form, quote_pk, part_pk, quote_line):
@@ -1019,34 +884,3 @@ def save_quote_part_attributes(quote, request):
             else:
                 logging.getLogger("error_logger").error(quotePartAttributeForm.errors.as_json())
 
-
-# common finr brand
-def find_brand_for_name(brand_name, request):
-    try:
-        brand = Brand.objects.get(brand_name=str(brand_name).strip())
-        return brand
-    except MultipleObjectsReturned:
-        messages.error(request, "Brand Not unique - use Admin function to ensure Brands are unique: " + brand_name)
-        return None
-    except ObjectDoesNotExist:
-        # create a new Brand
-        brand = Brand(brand_name=brand_name)
-        brand.save()
-        return brand
-
-
-# given values try and create a part
-def find_or_create_part(brand, part_type, part_name):
-    part_possibles = Part.objects.filter(partType=part_type, brand=brand, part_name=part_name)
-    if len(part_possibles) == 0:
-        # create a new one and add it
-        data_dict = {"brand": brand.pk, "partType": part_type.pk, "part_name": part_name}
-        form = PartForm(data_dict)
-        if form.is_valid():
-            return form.save()
-        else:
-            raise forms.ValidationError(
-                'Part not valid: Brand:' + str(brand) + ', part type:' + str(part_type) + ', part name:' + str(
-                    part_name))
-    else:
-        return part_possibles[0]
