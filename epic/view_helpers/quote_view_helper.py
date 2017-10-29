@@ -114,19 +114,21 @@ def process_bike_quote_changes(request, quote):
 
         quotePartObjects = QuotePart.objects.filter(quote=quote)
         for quotePart in quotePartObjects:
-            quoteBikeChangePartForm = QuoteBikeChangePartForm(request.POST, request.FILES,
-                                                              prefix="QP" + str(quotePart.id))
-            if quoteBikeChangePartForm.is_valid():
-                update_quote_part_from_form(quotePart, quoteBikeChangePartForm, request)
-            else:
-                # quote part formset not valid
-                messages.error(request, 'Part failed validation' + str(quotePart))
-                return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote), 'quote': quote,
-                                                    'quoteSections': get_quote_section_parts_and_forms(quote),
-                                                    'fittingForm': fittingForm,
-                                                    'customerFittings': Fitting.objects.filter(customer=quote.customer),
-                                                    'quoteSimpleAddPart': quoteSimpleAddPart,
-                                                    'customer_notes': CustomerNote.objects.filter(quote=quote)})
+            if quotePart.partType.can_be_omitted or quotePart.partType.can_be_substituted:
+
+                quoteBikeChangePartForm = QuoteBikeChangePartForm(request.POST, request.FILES,
+                                                                  prefix="QP" + str(quotePart.id))
+                if quoteBikeChangePartForm.is_valid():
+                    update_quote_part_from_form(quotePart, quoteBikeChangePartForm, request)
+                else:
+                    # quote part formset not valid
+                    messages.error(request, 'Part failed validation' + str(quotePart))
+                    return render(request, quote_page, {'quoteForm': QuoteBikeForm(instance=quote), 'quote': quote,
+                                                        'quoteSections': get_quote_section_parts_and_forms(quote),
+                                                        'fittingForm': fittingForm,
+                                                        'customerFittings': Fitting.objects.filter(customer=quote.customer),
+                                                        'quoteSimpleAddPart': quoteSimpleAddPart,
+                                                        'customer_notes': CustomerNote.objects.filter(quote=quote)})
 
         # get attributes updated for quote
         save_quote_part_attributes(quote, request)
@@ -329,7 +331,6 @@ def quote_parts_for_bike_display(quote):
     zipped_values = zip(partSections, partSectionDetails)
     return zipped_values
 
-
 # build arrays for bike quote
 def get_quote_section_parts_and_forms(quote):
     partSections = PartSection.objects.all()
@@ -340,6 +341,9 @@ def get_quote_section_parts_and_forms(quote):
         sectionForms = []
         for partType in partTypes:
             quotePartObjects = QuotePart.objects.filter(quote=quote, partType=partType)
+            can_be_substituted = partType.can_be_substituted
+            can_be_omitted = partType.can_be_omitted
+
             for quotePart in quotePartObjects:
                 quotePartDetails = [quotePart]
                 quotePartAttributes = QuotePartAttribute.objects.filter(quotePart=quotePart)
@@ -354,11 +358,20 @@ def get_quote_section_parts_and_forms(quote):
                 if quotePart.part is None:
                     if quotePart.frame_part is not None:
                         sectionForms.append(
-                            QuoteBikeChangePartForm(initial={'not_required': True}, prefix="QP" + str(quotePart.id)))
+                            QuoteBikeChangePartForm(initial={'not_required': True},
+                                                    prefix="QP" + str(quotePart.id),
+                                                    can_be_substituted=can_be_substituted,
+                                                    can_be_omitted=can_be_omitted))
                     else:
-                        sectionForms.append(QuoteBikeChangePartForm(prefix="QP" + str(quotePart.id)))
+                        sectionForms.append(QuoteBikeChangePartForm(initial={},
+                                                                    prefix="QP" + str(quotePart.id),
+                                                                    can_be_substituted=can_be_substituted,
+                                                                    can_be_omitted=False))
                 elif (quotePart.frame_part is not None) and (quotePart.part == quotePart.frame_part.part):
-                    sectionForms.append(QuoteBikeChangePartForm(prefix="QP" + str(quotePart.id)))
+                    sectionForms.append(QuoteBikeChangePartForm(initial={},
+                                                                prefix="QP" + str(quotePart.id),
+                                                                can_be_substituted=can_be_substituted,
+                                                                can_be_omitted=can_be_omitted))
                 else:
                     new_brand = quotePart.part.brand.brand_name
                     new_part_name = quotePart.part.part_name
@@ -368,7 +381,9 @@ def get_quote_section_parts_and_forms(quote):
                     sectionForms.append(QuoteBikeChangePartForm(
                         initial={'new_brand': new_brand, 'new_part_name': new_part_name, 'new_quantity': new_quantity,
                                  'new_cost_price': new_cost_price, 'new_sell_price': new_sell_price},
-                        prefix="QP" + str(quotePart.id)))
+                        prefix="QP" + str(quotePart.id),
+                        can_be_substituted=can_be_substituted,
+                        can_be_omitted=can_be_omitted))
 
         zipped_parts = zip(sectionParts, sectionForms)
         partContents.append(zipped_parts)
