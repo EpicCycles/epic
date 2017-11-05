@@ -1,118 +1,131 @@
 {% extends 'epic/base.html' %}
 
 {% block content %}
-<h2>Quote</h2>
-<form action="" method="post">
-    {% csrf_token %}
-    <table><tr>
-        <td class="align_top">
-            <h3>{{ quote.customer }}</h3>
-            {{ quoteForm.non_field_errors }}
-            <table>
-                {% for field in quoteForm.visible_fields %}
-                <tr>
-                    <th>{{ field.label_tag }}</th>
-                    <td>{{ field }}</td>
-                    <td>{{ field.errors }}</td>
-                </tr>
-                {% endfor %}
-                <tr>
-                    <th>Total Cost</th>
-                    <td>{{ quoteForm.cost_price.value }}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>Calculated Total</th>
-                    <td>{{ quoteForm.sell_price.value }}</td>
-                    <td></td>
-                </tr>
-            </table>
-            {% for hidden in quoteForm.hidden_fields %}
-              {{ hidden }}
-            {% endfor %}
-          </td>
-          <td class="align_top">
-            <h3>Add Item to Quote</h3>
-            {% with quoteSimpleAddPart as form %}
-              {% include "epic/form_as_table.html" %}
-            {% endwith %}
-          </td>
-          <td class="align_top">
-            <h3>Fitting Details</h3>
-            <h4>Existing Fitting<h4>
-              <select name='id_fitting' id='id_fitting'>
-                {% for fitting in customerFittings %}
-                <option value="{{fitting.id}}" {% if quote.fitting == fitting.id %} selected {% endif %}>{{ fitting }}</option>
-                {% endfor %}
-              </select>
-            <h4>New Fitting<h4>
-            {% with fittingForm as form %}
-              {% include "epic/form_as_table.html" %}
-            {% endwith %}
-          </td>
-          <td class="align_top">
-            {% include "epic/add_notes.html" %}
-          </td>
-      </tr></table>
-      {% include "epic/form_standard_actions.html" %}
-      <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button"{% else %} class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
-
-      <h3>Bike specification</h3>
-            <table>
-                <tr>
-                  <th class="listHead">Part Type</th>
-                  <th class="listHead">Bike Part</th>
-                  <th class="listHead">Additional Details</th>
-                  <th class="listHead">Not Required</th>
-                  <th class="listHead">Quote Brand</th>
-                  <th class="listHead">Quote Part</th>
-                  <th class="listHead">Quantity</th>
-                  <th class="listHead">Cost Price</th>
-                  <th class="listHead">Sell Price</th>
-                </tr>
-
-                {% for section, sectionContents in quoteSections%}
-                <tr><td colspan='9' class="section_part">{{ section.name }}</td></tr>
-                  {% for quotePartDetails, form in sectionContents %}
-                    {% cycle 'row1' 'row2' as rowcolors silent %}
-                <tr class="{{ rowcolors }}">
-                    {% for quote_part_data in quotePartDetails %}
-                      {% if forloop.counter == 1 %}
-                    <td>{{ quote_part_data.partType }}</td>
-                    <td>
-                      {{ quote_part_data.frame_part.part }}
-                      </td>
-                      {% endif %}
-                      {% if forloop.counter == 2 %}
-                    <td>
-                      <table>
-                        {% for quotePartAttributeForm in quote_part_data %}
-                            <tr class="{{ rowcolors }}">
-                              <td>{{ quotePartAttributeForm.attribute_name.value }}</td>
-                              <td>{{ quotePartAttributeForm.attribute_value }}{{ quotePartAttributeForm.attribute_value.errors }}
+    <h2>Quote</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td class="align_top">
+                    <h3>{{ quote.customer }}</h3>
+                    {{ quoteForm.non_field_errors }}
+                    <table>
+                        {% for field in quoteForm.visible_fields %}
+                            <tr>
+                                <th>{{ field.label_tag }}</th>
+                                <td>{{ field }}</td>
+                                <td>{{ field.errors }}</td>
                             </tr>
                         {% endfor %}
-                      </table>
-                    {% for hidden in form.hidden_fields %}
+                        <tr>
+                            <th>Total Cost</th>
+                            <td>{{ quoteForm.cost_price.value }}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>Calculated Total</th>
+                            <td>{{ quoteForm.sell_price.value }}</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    {% for hidden in quoteForm.hidden_fields %}
                         {{ hidden }}
                     {% endfor %}
-                    </td>
-                      {% endif %}
-                    {% endfor %}
-                    {% for field in form.visible_fields %}
-                    <td>
-                        {{ field }}{{ field.errors }}
-                    </td>
-                    {% endfor %}
-                  </tr>
-                  {% endfor %}
-                  {% endfor %}
-              </table>
-          </fieldset>
+                </td>
+                <td class="align_top">
+                    <h3>Add Item to Quote</h3>
+                    {% with quoteSimpleAddPart as form %}
+                        {% include "epic/form_as_table.html" %}
+                    {% endwith %}
+                </td>
+                <td class="align_top">
+                    <h3>Fitting Details</h3>
+                    {% if customerFittings %}
+                        <h4>Existing Fitting
+                        <h4>
+                        <select name='id_fitting' id='id_fitting'>
+                            {% for fitting in customerFittings %}
+                                <option value="{{ fitting.id }}" {% if quote.fitting == fitting.id %}
+                                        selected {% endif %}>{{ fitting }}</option>
+                            {% endfor %}
+                        </select>
+                    {% else %}
+                        <h4>Self Sized</h4>
+                    {% endif %}
+                    <h4>New Fitting<h4>
+                        {% with fittingForm as form %}
+                            {% include "epic/form_as_table.html" %}
+                        {% endwith %}
+                </td>
+                <td class="align_top">
+                    {% include "epic/add_notes.html" %}
+                </td>
+            </tr>
+        </table>
+        {% include "epic/form_standard_actions.html" %}
+        <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button"{% else %}
+           class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
+
+        <h3>Bike specification</h3>
+        <table>
+            <tr>
+                <th class="listHead">Part Type</th>
+                <th class="listHead">Bike Part</th>
+                <th class="listHead">Additional Details</th>
+                <th class="listHead">Not Required</th>
+                <th class="listHead">Quote Brand</th>
+                <th class="listHead">Quote Part</th>
+                <th class="listHead">Quantity</th>
+                <th class="listHead">Cost Price</th>
+                <th class="listHead">Sell Price</th>
+            </tr>
+
+            {% for section, sectionContents in quoteSections %}
+                <tr>
+                    <td colspan='9' class="section_part">{{ section.name }}</td>
+                </tr>
+                {% for quotePartDetails, form in sectionContents %}
+                    {% cycle 'row1' 'row2' as rowcolors silent %}
+                    <tr class="{{ rowcolors }}">
+                        {% for quote_part_data in quotePartDetails %}
+                            {% if forloop.counter == 1 %}
+                                <td>{{ quote_part_data.partType }}</td>
+                                <td>
+                                    {{ quote_part_data.frame_part.part }}
+                                </td>
+                            {% endif %}
+                            {% if forloop.counter == 2 %}
+                                <td>
+                                    <table>
+                                        {% for quotePartAttributeForm in quote_part_data %}
+                                            <tr class="{{ rowcolors }}">
+                                                <td>{{ quotePartAttributeForm.attribute_name.value }}</td>
+                                                <td>
+                                                    {{ quotePartAttributeForm.attribute_value }}{{ quotePartAttributeForm.attribute_value.errors }}
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                        {% for field in form.visible_fields %}
+                            <td>
+                                {{ field }}{{ field.errors }}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+        </fieldset>
 
         {% include "epic/form_standard_actions.html" %}
-        <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
+        <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button" {% else %}
+           class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
 
-</form>
-{% include "epic/notes_display.html" %}
+    </form>
+    {% include "epic/notes_display.html" %}
 {% endblock %}
