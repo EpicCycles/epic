@@ -332,8 +332,6 @@ class QuoteBikeChangePartForm(forms.Form):
         can_be_substituted = kwargs.pop('can_be_substituted', False)
         can_be_omitted = kwargs.pop('can_be_omitted', False)
 
-        print("from kwargs", can_be_substituted)
-
         super(QuoteBikeChangePartForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields['new_brand'].widget = forms.TextInput(attrs={'size': 20})

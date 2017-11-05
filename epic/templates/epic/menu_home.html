@@ -6,18 +6,18 @@
                 <h2>Sales</h2>
                 <h3>Customer</h3>
                 <ul>
-                    <li><a href="{% url 'customer_list' %}" class="internal_link">Find Customer</a></li>
-                    <li><a href="{% url 'add_customer' %}" class="internal_link">New Customer</a></li>
+                    <li><a href="{% url 'customer_list' %}" class="menu-link">Find Customer</a></li>
+                    <li><a href="{% url 'add_customer' %}" class="menu-link">New Customer</a></li>
                 </ul>
                 <h3>Quote</h3>
                 <ul>
-                    <li><a href="{% url 'quote_list' %}" class="internal_link">Find Quote</a></li>
-                    <li><a href="{% url 'add_quote' %}">New quote</a></li>
-                    <li><a href="{% url 'my_quote_list' %}">View my quotes</a></li>
+                    <li><a href="{% url 'add_quote' %}" class="menu-link">New quote</a></li>
+                    <li><a href="{% url 'quote_list' %}" class="menu-link">Find Quote</a></li>
+                    <li><a href="{% url 'my_quote_list' %}" class="menu-link">View my quotes</a></li>
                 </ul>
                 <h3>Order</h3>
                 <ul>
-                    <li><a href="{% url 'order_list' %}" class="internal_link">Find Order</a></li>
+                    <li><a href="{% url 'order_list' %}" class="menu-link">Find Order</a></li>
                 </ul>
             </td>
             {% if user.is_superuser %}
@@ -27,7 +27,8 @@
                         <h3>Create Supplier Order</h3>
                         <ul>
                             {% for supplier in suppliers_requiring_orders %}
-                                <li><a href="/supplierOrderRequired/{{ supplier.id }}/">{{ supplier.supplier_name }}</a>
+                                <li><a href="/supplierOrderRequired/{{ supplier.id }}/"
+                                       class="menu-link">{{ supplier.supplier_name }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -35,29 +36,23 @@
                     {% endif %}
                     <h3>Maintain core data</h3>
                     <ul>
-                        <li><a href="{% url 'bike_upload' %}" class="internal_link">Upload Bike Details</a></li>
-                        {% if admin_links %}
-                            {% for admin_link_text, admin_link_url in admin_links %}
-                                <li><a href="{{ admin_link_url }}" class="internal_link">{{ admin_link_text }}</a></li>
-                            {% endfor %}
-                        {% endif %}
+                        <li><a href="{% url 'bike_upload' %}" class="menu-link">Upload Bike Details</a></li>
+                        {% with "menu-link" as linkClass %}
+                        {% include "epic/menu_admin_links.html" %}
+                    {% endwith %}
                     </ul>
-                    {% if customer_links %}
-                        <h3>Customer Data Maintenance</h3>
-                        <ul>
-                            {% for cust_link_text, cust_link_url in customer_links %}
-                                <li><a href="{{ cust_link_url }}" class="internal_link">{{ cust_link_text }}</a></li>
-                            {% endfor %}
-                        </ul>
-                        </td>
-                    {% endif %}
+                    <h3>Customer Data Maintenance</h3>
+                    <ul>{% with "menu-link" as linkClass %}
+                        {% include "epic/menu_cust_admin.html" %}
+                    {% endwith %}</ul>
+                </td>
             {% endif %}
             <td>
                 <h2>External Links</h2>
                 <h3>Brands</h3>
                 <ul>
                     {% for brand in brands %}
-                        <li><a target="_blank" class="externalLink" href="{{ brand.link }}">{{ brand.brand_name }}</a>
+                        <li><a target="_blank" class="menu-link" href="{{ brand.link }}">{{ brand.brand_name }}</a>
                         </li>
                     {% endfor %}
                 </ul>
