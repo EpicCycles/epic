@@ -328,6 +328,10 @@ class QuoteBikeChangePartForm(forms.Form):
                                         label='Sell Price', label_suffix='')
 
     def __init__(self, *args, **kwargs):
+        # pop out additional arguments added just for this!
+        can_be_substituted = kwargs.pop('can_be_substituted', False)
+        can_be_omitted = kwargs.pop('can_be_omitted', False)
+
         super(QuoteBikeChangePartForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields['new_brand'].widget = forms.TextInput(attrs={'size': 20})
@@ -335,6 +339,18 @@ class QuoteBikeChangePartForm(forms.Form):
         self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': 4})
         self.fields['new_cost_price'].widget = forms.TextInput(attrs={'size': 6})
         self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': 6})
+
+        #modify the form to reflect the actual possibilities
+
+        if can_be_substituted != True:
+            self.fields['new_brand'].widget.attrs['disabled'] = 'disabled'
+            self.fields['new_part_name'].widget.attrs['disabled'] = 'disabled'
+            self.fields['new_quantity'].widget.attrs['disabled'] = 'disabled'
+            self.fields['new_cost_price'].widget.attrs['disabled'] = 'disabled'
+            self.fields['new_sell_price'].widget.attrs['disabled'] = 'disabled'
+
+        if can_be_omitted != True:
+            self.fields['not_required'].widget.attrs['disabled'] = 'disabled'
 
     def clean(self):
         cleaned_data = super(QuoteBikeChangePartForm, self).clean()

@@ -1,0 +1,59 @@
+<ul class="nav">
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Home</a>
+        <div class="dropdown-content">
+            {% if user.is_authenticated %}
+                <a href="{% url 'menu_home' %}">Home</a>
+                <a href="{% url 'logout' %}">Log out {{ user.username }}</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="top-menu">Login</a>
+            {% endif %}
+        </div>
+    </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Customer</a>
+        <div class="dropdown-content">
+            <a href="{% url 'customer_list' %}">Find Customer</a>
+            <a href="{% url 'add_customer' %}">New Customer</a>
+            {% if user.is_superuser %}
+                {% with "" as linkClass %}
+                    {% include "epic/menu_admin_links.html" %}
+                {% endwith %}
+            {% endif %}
+
+        </div>
+    </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropbtn">Quotes</a>
+        <div class="dropdown-content">
+            <a href="{% url 'add_quote' %}">New Quote</a>
+            <a href="{% url 'quote_list' %}">Find Quote</a>
+            <a href="{% url 'my_quote_list' %}">Find My Quotes</a>
+        </div>
+    </li>
+    {% if user and  user.is_superuser %}
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Supplier Orders</a>
+            <div class="dropdown-content">
+                {% if suppliers_requiring_orders %}
+                    {% for supplier in suppliers_requiring_orders %}
+                        <a href="/supplierOrderRequired/{{ supplier.id }}/">{{ supplier.supplier_name }}</a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Core Data</a>
+            <div class="dropdown-content">
+                <a href="{% url 'bike_upload' %}" class="menu-link">Upload Bike Details</a>
+                {% if admin_links %}
+                    {% for admin_link_text, admin_link_url in admin_links %}
+                        <a href="{{ admin_link_url }}">{{ admin_link_text }}</a>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </li>
+    {% endif %}
+
+</ul>
+

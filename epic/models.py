@@ -3,7 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 # exceptionsfrom django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 # added to allow user details on models and history tables
 from django.conf import settings
 import simple_history.models
@@ -99,6 +99,8 @@ class PartType(models.Model):
     description = models.CharField(max_length=100, blank=True)
     includeInSection = models.ForeignKey(PartSection, on_delete=models.CASCADE)
     placing = models.PositiveSmallIntegerField()
+    can_be_substituted = models.BooleanField('Can be substituted',default=False)
+    can_be_omitted = models.BooleanField('Can be omitted',default=False)
 
     def __str__(self):
         return self.shortName
@@ -116,6 +118,7 @@ class PartTypeAttribute(models.Model):
     in_use = models.BooleanField()
     mandatory = models.BooleanField()
     placing = models.PositiveSmallIntegerField()
+    default_value_for_quote = models.CharField('Default for Bike Quotes ', max_length=40, null=True,blank=True)
 
     def __str__(self):
         return self.attribute_name
@@ -445,7 +448,10 @@ class QuotePart(models.Model):
                                                                         partTypeAttribute=partTypeAttribute)
                 except ObjectDoesNotExist:
                     # create a new QuotePartAttribute
-                    quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute)
+                    attribute_value = None
+                    if self.frame_part != None:
+                        attribute_value = partTypeAttribute.default_value_for_quote
+                    quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute,attribute_value=attribute_value)
                     quotePartAttribute.save()
 
     def __str__(self):

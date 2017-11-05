@@ -4,20 +4,12 @@
 
 <head>
     <title>Epic Cycles Menu</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/epic.css' %}">
 </head>
 
 <body onload="addListeners()">
-{% if user.is_authenticated %}
-    <a href="{% url 'menu_home' %}" class="top-menu">Home</a>
-    <p class="top-menu">Hello {{ user.username }}
-        <small>(<a href="{% url 'logout' %}">Log out</a>)</small>
-    </p>
-{% else %}
-    <a href="{% url 'login' %}" class="top-menu">Login</a>
-{% endif %}
+    {% include "epic/menu_nav.html" %}
 <h1>Epic Cycles</h1>
 {% if messages %}
     <ul class="messages">

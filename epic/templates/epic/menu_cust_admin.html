@@ -1,0 +1,10 @@
+{% if linkClass == "menu-link" %}
+    <li><a href="{% url 'admin:epic_customer_changelist' %}" class="{{ linkClass }}">Customers</a></li>
+    <li><a href="{% url 'admin:epic_quote_changelist' %}" class="{{ linkClass }}">Customer Quotes</a></li>
+    <li><a href="{% url 'admin:epic_customerorder_changelist' %}" class="{{ linkClass }}">Customer Orders</a></li>
+{% else %}
+
+    <a href="{% url 'admin:epic_customer_changelist' %}" class="{{ linkClass }}">Customers</a>
+    <a href="{% url 'admin:epic_quote_changelist' %}" class="{{ linkClass }}">Customer Quotes</a>
+    <a href="{% url 'admin:epic_customerorder_changelist' %}" class="{{ linkClass }}">Customer Orders</a>
+{% endif %}
