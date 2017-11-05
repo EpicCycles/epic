@@ -357,33 +357,39 @@ def get_quote_section_parts_and_forms(quote):
                 sectionParts.append(quotePartDetails)
                 if quotePart.part is None:
                     if quotePart.frame_part is not None:
+                        # Bike part exists take defaults
                         sectionForms.append(
                             QuoteBikeChangePartForm(initial={'not_required': True},
                                                     prefix="QP" + str(quotePart.id),
                                                     can_be_substituted=can_be_substituted,
                                                     can_be_omitted=can_be_omitted))
                     else:
+                        # No part and noequivalent part
                         sectionForms.append(QuoteBikeChangePartForm(initial={},
                                                                     prefix="QP" + str(quotePart.id),
-                                                                    can_be_substituted=can_be_substituted,
-                                                                    can_be_omitted=False))
-                elif (quotePart.frame_part is not None) and (quotePart.part == quotePart.frame_part.part):
-                    sectionForms.append(QuoteBikeChangePartForm(initial={},
+                                                                    can_be_substituted=True,
+                                                                    can_be_omitted=True))
+                else:
+                    # part is specified
+                    if quotePart.frame_part is not None:
+                        # replaces an original frame related part
+                        sectionForms.append(QuoteBikeChangePartForm(initial={},
                                                                 prefix="QP" + str(quotePart.id),
                                                                 can_be_substituted=can_be_substituted,
                                                                 can_be_omitted=can_be_omitted))
-                else:
-                    new_brand = quotePart.part.brand.brand_name
-                    new_part_name = quotePart.part.part_name
-                    new_quantity = quotePart.quantity
-                    new_cost_price = quotePart.cost_price
-                    new_sell_price = quotePart.sell_price
-                    sectionForms.append(QuoteBikeChangePartForm(
-                        initial={'new_brand': new_brand, 'new_part_name': new_part_name, 'new_quantity': new_quantity,
-                                 'new_cost_price': new_cost_price, 'new_sell_price': new_sell_price},
-                        prefix="QP" + str(quotePart.id),
-                        can_be_substituted=can_be_substituted,
-                        can_be_omitted=can_be_omitted))
+                    else:
+                        # part with no equivalent bike part
+                        new_brand = quotePart.part.brand.brand_name
+                        new_part_name = quotePart.part.part_name
+                        new_quantity = quotePart.quantity
+                        new_cost_price = quotePart.cost_price
+                        new_sell_price = quotePart.sell_price
+                        sectionForms.append(QuoteBikeChangePartForm(
+                            initial={'new_brand': new_brand, 'new_part_name': new_part_name, 'new_quantity': new_quantity,
+                                     'new_cost_price': new_cost_price, 'new_sell_price': new_sell_price},
+                            prefix="QP" + str(quotePart.id),
+                            can_be_substituted=True,
+                            can_be_omitted=False))
 
         zipped_parts = zip(sectionParts, sectionForms)
         partContents.append(zipped_parts)
