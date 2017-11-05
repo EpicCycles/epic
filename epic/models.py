@@ -1,4 +1,7 @@
 from __future__ import unicode_literals
+
+from datetime import date
+
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -99,8 +102,9 @@ class PartType(models.Model):
     description = models.CharField(max_length=100, blank=True)
     includeInSection = models.ForeignKey(PartSection, on_delete=models.CASCADE)
     placing = models.PositiveSmallIntegerField()
-    can_be_substituted = models.BooleanField('Can be substituted',default=False)
-    can_be_omitted = models.BooleanField('Can be omitted',default=False)
+    can_be_substituted = models.BooleanField('Can be substituted', default=False)
+    can_be_omitted = models.BooleanField('Can be omitted', default=False)
+    customer_facing = models.BooleanField('Show Customer', default=False)
 
     def __str__(self):
         return self.shortName
@@ -118,7 +122,7 @@ class PartTypeAttribute(models.Model):
     in_use = models.BooleanField()
     mandatory = models.BooleanField()
     placing = models.PositiveSmallIntegerField()
-    default_value_for_quote = models.CharField('Default for Bike Quotes ', max_length=40, null=True,blank=True)
+    default_value_for_quote = models.CharField('Default for Bike Quotes ', max_length=40, null=True, blank=True)
 
     def __str__(self):
         return self.attribute_name
@@ -165,6 +169,7 @@ class Part(models.Model):
     class Meta:
         unique_together = (("partType", "brand", "part_name"),)
 
+
 class FrameManager(models.Manager):
     def create_frame_sparse(self, brand, frame_name, model):
         return self.create(brand=brand, frame_name=frame_name, model=model)
@@ -172,11 +177,14 @@ class FrameManager(models.Manager):
     def create_frame(self, brand, frame_name, model, description):
         return self.create(brand=brand, frame_name=frame_name, model=model, description=description)
 
+
 class Frame(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     frame_name = models.CharField(max_length=60)
     model = models.CharField(max_length=60, blank=True)
     description = models.CharField(max_length=100, blank=True)
+    colour = models.CharField(max_length=100, blank=True)
+    sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     objects = FrameManager()
 
     def __str__(self):
@@ -199,6 +207,8 @@ class FramePartManager(models.Manager):
 class FramePart(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
+    not_applicable = models.BooleanField('Not Applicable', default=False)
+
     objects = FramePartManager()
 
     def __str__(self):
@@ -251,15 +261,15 @@ class Quote(models.Model):
     version = models.PositiveSmallIntegerField(default=1, editable=False)
     created_date = models.DateTimeField('Date added', auto_now_add=True)
     issued_date = models.DateTimeField('Date issued', null=True)
-    cost_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
-    sell_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
+    cost_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
 
     # frame will be null for a quote for items only
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True, null=True)
     frame_cost_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     frame_sell_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     fitting = models.ForeignKey(Fitting, on_delete=models.CASCADE, blank=True, null=True)
-    keyed_sell_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
+    keyed_sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     quote_type = models.CharField('Type', max_length=1, choices=QUOTE_TYPE_CHOICES, default=BIKE, )
     quote_status = models.CharField('Status', max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True, null=True)
@@ -272,7 +282,13 @@ class Quote(models.Model):
         # is_new = self._state.adding
         is_new = (self.pk == None)
         super(Quote, self).save(*args, **kwargs)
+
         if is_new and self.is_bike():
+            # create quote frame link
+            self.frame_sell_price = self.frame.sell_price
+            quote_frame = QuoteFrame(quote=self,colour=self.frame.colour)
+            quote_frame.save()
+
             # create lines for quote
             quote_line = 0
             partSections = PartSection.objects.all()
@@ -293,6 +309,7 @@ class Quote(models.Model):
                             quotePart.quantity = 1
                             quotePart.cost_price = 0
                             quotePart.sell_price = 0
+                            quotePart.not_applicable = framePart.not_applicable
 
                     quotePart.save()
 
@@ -329,7 +346,7 @@ class Quote(models.Model):
                 for quotePartAttribute in quotePart.quotepartattribute_set.all():
                     if (quotePartAttribute.partTypeAttribute.mandatory) and (
                                 (quotePartAttribute.attribute_value is None) or (
-                                quotePartAttribute.attribute_value == '')):
+                                        quotePartAttribute.attribute_value == '')):
                         return False
             return True
         return False
@@ -344,7 +361,7 @@ class Quote(models.Model):
             return False
 
         if (self.frame is not None):
-            if (self.frame_cost_price is None) or (self.frame_sell_price is None):
+            if (self.frame_sell_price is None):
                 return False
 
         if self.quotepart_set.count() == 0:
@@ -369,6 +386,12 @@ class Quote(models.Model):
         self.save()
 
     def requote(self):
+        self.frame_cost_price = None
+        self.frame_sell_price = None
+        self.quote_status = INITIAL
+        self.save()
+
+    def requote_prices(self):
         self.keyed_sell_price = None
         self.frame_cost_price = None
         self.frame_sell_price = None
@@ -385,27 +408,29 @@ class Quote(models.Model):
 
     def recalculate_prices(self):
         if self.frame is None:
-            self.cost_price = 0
             self.sell_price = 0
-        elif (self.frame_sell_price is None) or (self.frame_cost_price is None):
-            self.cost_price = 0
+        elif (self.frame_sell_price is None):
             self.sell_price = 0
         else:
-            self.cost_price = self.frame_cost_price
             self.sell_price = self.frame_sell_price
 
         # loop through the parts for the quote
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
 
-            if not ((quote_part.quantity is None) or (quote_part.sell_price is None) or (
-                        quote_part.cost_price is None)):
-                self.cost_price += quote_part.cost_price * quote_part.quantity
+            if not ((quote_part.quantity is None) or (quote_part.sell_price is None)):
                 self.sell_price += quote_part.sell_price * quote_part.quantity
 
     class Meta:
         # order most recent first
         ordering = ('-created_date', 'quote_desc')
+
+
+class QuoteFrame(models.Model):
+    quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
+    colour = models.TextField('Colour')
+    colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    frameSize = models.TextField('Frame Size')
 
 
 class QuotePart(models.Model):
@@ -417,8 +442,10 @@ class QuotePart(models.Model):
     # framePart will be null when this a standalone quote
     frame_part = models.ForeignKey(FramePart, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=1, blank=True)
-    cost_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
-    sell_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
+    cost_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    not_applicable = models.BooleanField('Not Applicable', default=False)
 
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
@@ -434,7 +461,7 @@ class QuotePart(models.Model):
                 try:
                     quotePartAttribute = QuotePartAttribute.objects.get(quotePart=self,
                                                                         partTypeAttribute=partTypeAttribute)
-                    quotePartAttribute.attribute_value == None
+                    quotePartAttribute.attribute_value = None
                     quotePartAttribute.save()
                 except ObjectDoesNotExist:
                     # create a new QuotePartAttribute
@@ -451,7 +478,8 @@ class QuotePart(models.Model):
                     attribute_value = None
                     if self.frame_part != None:
                         attribute_value = partTypeAttribute.default_value_for_quote
-                    quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute,attribute_value=attribute_value)
+                    quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute,
+                                                            attribute_value=attribute_value)
                     quotePartAttribute.save()
 
     def __str__(self):
@@ -504,7 +532,7 @@ class QuotePart(models.Model):
         if (self.frame_part is not None) and (self.part == self.frame_part.part):
             return False
 
-        if (self.sell_price is None) or (self.cost_price is None):
+        if (self.sell_price is None):
             return True
 
         return False
@@ -545,7 +573,7 @@ class Supplier(models.Model):
 class SupplierOrder(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     order_identifier = models.CharField('Order', max_length=20, unique=True)
-    date_placed = models.DateField('Order Date', null=True, blank=True)
+    date_placed = models.DateField('Order Date', null=True, blank=True,default=date.today)
 
     def __str__(self):
         item_count = SupplierOrderItem.objects.filter(supplierOrder=self.id).count()
