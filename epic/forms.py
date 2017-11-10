@@ -162,11 +162,13 @@ class QuoteForm(ModelForm):
     class Meta:
         model = Quote
         fields = ['customer', 'quote_desc', 'quote_type', 'frame']
-        # start of how to add fiting dropdown - contact_country = forms.ModelChoiceField(queryset=Country.objects.all())
 
     def __init__(self, *args, **kwargs):
         super(QuoteForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
+        self.fields['quote_type'].widget = forms.Select(attrs={'onchange': "changeQuoteType(this);"})
+        self.fields['quote_type'].choices = FORM_QUOTE_TYPE_CHOICES;
+
 
     def clean(self):
         cleaned_data = super(QuoteForm, self).clean()
@@ -194,7 +196,7 @@ class QuoteForm(ModelForm):
 # quote adding for a customer
 class CustomerQuoteForm(forms.Form):
     quote_desc = forms.CharField(label='Quote Description', max_length=30, required=False, label_suffix='')
-    quote_type = forms.ChoiceField(label='Type', label_suffix='', choices=FORM_QUOTE_TYPE_CHOICES, required=False)
+    quote_type = forms.ChoiceField(label='Type', label_suffix='', choices=FORM_QUOTE_TYPE_CHOICES, required=False, widget=forms.Select(attrs={'onchange' : "changeQuoteType();"}))
     frame = forms.ModelChoiceField(label='Bike/Frame', queryset=Frame.objects.all(), required=False, label_suffix='')
 
     def __init__(self, *args, **kwargs):
@@ -231,14 +233,12 @@ class QuoteSimpleForm(ModelForm):
         self.label_suffix = ''
         # self.fields['customer'].widget = HiddenInput()
         # self.fields["quote_type"].widget = HiddenInput()
-        self.fields["cost_price"].widget = HiddenInput()
         self.fields["sell_price"].widget = HiddenInput()
         self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 6, 'title': 'Quote Price'})
 
     class Meta:
         model = Quote
-        # fields = ['customer', 'quote_type', 'quote_desc', 'cost_price', 'sell_price', 'keyed_sell_price']
-        fields = ['quote_desc', 'cost_price', 'sell_price', 'keyed_sell_price']
+        fields = ['quote_desc', 'sell_price', 'keyed_sell_price']
 
 
 # simple quote add item
@@ -246,11 +246,9 @@ class QuoteSimpleAddPartForm(forms.Form):
     new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand', label_suffix='')
     new_brand_add = forms.CharField(max_length=30, required=False, label='Add Brand', label_suffix='')
     new_part_type = forms.ModelChoiceField(queryset=PartType.objects.all().order_by('shortName'), required=False,
-                                          label='Part Type', label_suffix='')
+                                           label='Part Type', label_suffix='')
     new_part_name = forms.CharField(max_length=60, required=False, label='Part Name', label_suffix='')
     new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity', label_suffix='')
-    new_cost_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
-                                        label='Cost Price', label_suffix='')
     new_sell_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
                                         label='Sell Price', label_suffix='')
 
@@ -258,7 +256,6 @@ class QuoteSimpleAddPartForm(forms.Form):
         super(QuoteSimpleAddPartForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': 4, 'title': 'Qty'})
-        self.fields['new_cost_price'].widget = forms.TextInput(attrs={'size': 6, 'title': 'Cost Price'})
         self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': 6, 'title': 'Sell Price'})
 
     def clean(self):
@@ -269,19 +266,15 @@ class QuoteSimpleAddPartForm(forms.Form):
         new_part_type = cleaned_data.get("new_part_type")
         new_part_name = cleaned_data.get("new_part_name")
         new_quantity = cleaned_data.get("new_quantity")
-        new_cost_price = cleaned_data.get("new_cost_price")
         new_sell_price = cleaned_data.get("new_sell_price")
 
         # no fieldsare required but if any are present all must be
-        if (new_brand or new_brand_add or new_part_type or new_part_name or new_quantity or new_cost_price or new_sell_price) and not (
+        if (new_brand or new_brand_add or new_part_type or new_part_name or new_quantity or new_sell_price) and not (
                             (new_brand or new_brand_add) and new_part_type and new_part_name and new_quantity):
             raise forms.ValidationError("All data must be entered to add a new item to a quote.")
         # must have only one of new_brand and new_brand_add
         if new_brand and new_brand_add:
             raise forms.ValidationError("Either select an existing Brand or type a New Brand.")
-        # if cost and sell price are entered sell price cannot be lower
-        if new_cost_price and new_sell_price and new_sell_price < new_cost_price:
-            raise forms.ValidationError("Selling price cannot be less than cost price.")
 
 
 # quote for a  bike based (items only)
@@ -292,16 +285,23 @@ class QuoteBikeForm(ModelForm):
         self.fields['customer'].widget = HiddenInput()
         self.fields['frame'].widget = HiddenInput()
         self.fields["quote_type"].widget = HiddenInput()
-        self.fields["cost_price"].widget = HiddenInput()
         self.fields["sell_price"].widget = HiddenInput()
-        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 6})
-        self.fields['frame_cost_price'].widget = forms.TextInput(attrs={'size': 6})
-        self.fields['frame_sell_price'].widget = forms.TextInput(attrs={'size': 6})
+        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 9})
+        self.fields['frame_sell_price'].widget = forms.TextInput(attrs={'size': 9})
 
     class Meta:
         model = Quote
-        fields = ['customer', 'quote_type', 'quote_desc', 'frame', 'cost_price', 'sell_price', 'keyed_sell_price',
-                  'frame_cost_price', 'frame_sell_price']
+        fields = ['customer', 'quote_type', 'quote_desc', 'frame', 'sell_price', 'keyed_sell_price', 'frame_sell_price']
+
+class QuoteFrameForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(QuoteFrameForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+        self.fields['quote'].widget = HiddenInput()
+
+    class Meta:
+        model = QuoteFrame
+        fields = '__all__'
 
 
 # basic quote kine for adding lines
@@ -322,8 +322,6 @@ class QuoteBikeChangePartForm(forms.Form):
     new_brand = forms.CharField(max_length=60, required=False, label='Brand', label_suffix='')
     new_part_name = forms.CharField(max_length=60, required=False, label='Part Name', label_suffix='')
     new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity', label_suffix='')
-    new_cost_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
-                                        label='Cost Price', label_suffix='')
     new_sell_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
                                         label='Sell Price', label_suffix='')
 
@@ -337,16 +335,14 @@ class QuoteBikeChangePartForm(forms.Form):
         self.fields['new_brand'].widget = forms.TextInput(attrs={'size': 20})
         self.fields['new_part_name'].widget = forms.TextInput(attrs={'size': 20})
         self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': 4})
-        self.fields['new_cost_price'].widget = forms.TextInput(attrs={'size': 6})
-        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': 6})
+        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': 8})
 
-        #modify the form to reflect the actual possibilities
+        # modify the form to reflect the actual possibilities
 
         if can_be_substituted != True:
             self.fields['new_brand'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_part_name'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_quantity'].widget.attrs['disabled'] = 'disabled'
-            self.fields['new_cost_price'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_sell_price'].widget.attrs['disabled'] = 'disabled'
 
         if can_be_omitted != True:
@@ -358,22 +354,15 @@ class QuoteBikeChangePartForm(forms.Form):
         new_brand = cleaned_data.get("new_brand")
         new_part_name = cleaned_data.get("new_part_name")
         new_quantity = cleaned_data.get("new_quantity")
-        new_cost_price = cleaned_data.get("new_cost_price")
         new_sell_price = cleaned_data.get("new_sell_price")
 
         # no fieldsare required but if any are present all must be
-        if new_brand or new_part_name or new_quantity or new_cost_price or new_sell_price:
+        if new_brand or new_part_name or new_quantity or new_sell_price:
             if not_required:
                 raise forms.ValidationError(
                     "Cannot have part not required and part detsils" + "Either set part to not required and remove part details," + " or untick the checkbox and add part details to replace the existing values.")
             elif not (new_brand and new_part_name and new_quantity):
                 raise forms.ValidationError("All data must be entered to update an item on a quote.")
-
-        # if cost and sell price are entered sell price cannot be lower
-        if new_cost_price and new_sell_price:
-            # Only do something if both fields are valid so far.
-            if new_sell_price < new_cost_price:
-                raise forms.ValidationError("Selling price cannot be less than cost price.")
 
 
 # fomr for use in inline formeset
@@ -385,12 +374,11 @@ class QuoteBikePartForm(ModelForm):
         self.fields['frame_part'].widget = HiddenInput()
         self.fields['part'].widget = HiddenInput()
         self.fields['quantity'].widget = forms.TextInput(attrs={'size': 4})
-        self.fields['cost_price'].widget = forms.TextInput(attrs={'size': 6})
         self.fields['sell_price'].widget = forms.TextInput(attrs={'size': 6})
 
     class Meta:
         model = QuotePart
-        fields = ['partType', 'frame_part', 'part', 'quantity', 'cost_price', 'sell_price']
+        fields = ['partType', 'frame_part', 'part', 'quantity', 'sell_price']
 
 
 # form for use n u=inline frameset after
@@ -403,7 +391,7 @@ class QuotePartForm(ModelForm):
 
     class Meta:
         model = QuotePart
-        fields = ['partType', 'part', 'quantity', 'cost_price', 'sell_price']
+        fields = ['partType', 'part', 'quantity', 'sell_price']
 
 
 # attributes for quote parts

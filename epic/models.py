@@ -428,9 +428,9 @@ class Quote(models.Model):
 
 class QuoteFrame(models.Model):
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
-    colour = models.TextField('Colour')
+    colour = models.CharField('Colour', max_length=40, null=True)
     colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    frameSize = models.TextField('Frame Size')
+    frameSize = models.CharField('Frame Size', max_length=40, null=True)
 
 
 class QuotePart(models.Model):
