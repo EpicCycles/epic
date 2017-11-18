@@ -16,6 +16,8 @@ FORM_NUMBER_TYPE_CHOICES = list(NUMBER_TYPE_CHOICES)
 FORM_NUMBER_TYPE_CHOICES.insert(0, (None, '----'))
 FORM_QUOTE_TYPE_CHOICES = list(QUOTE_TYPE_CHOICES)
 FORM_QUOTE_TYPE_CHOICES.insert(0, (None, '-----'))
+name_pattern = '[A-Za-z -]+'
+postcode_pattern = '[A-Za-z]{1,2}[0-9]{1,2}[ ][0-9]{1,2}[A-Za-z]{1,2}'
 
 
 class CustomerForm(ModelForm):
@@ -35,6 +37,13 @@ class ChangeCustomerForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ChangeCustomerForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].widget = forms.TextInput(
+            attrs={'size': 20, 'minlength': 1, 'maxlength': 40, 'pattern': name_pattern})
+        self.fields['last_name'].widget = forms.TextInput(
+            attrs={'size': 30, 'minlength': 1, 'maxlength': 40, 'pattern': name_pattern})
+        self.fields['email'].widget = forms.TextInput(
+            attrs={'type': 'email', 'size': 50, 'minlength': 3, 'maxlength': 100})
+
         self.label_suffix = ''
 
 
@@ -50,7 +59,7 @@ class AddressForm(ModelForm):
         self.fields['address2'].widget = forms.TextInput(attrs={'size': 20})
         self.fields['address3'].widget = forms.TextInput(attrs={'size': 15})
         self.fields['address4'].widget = forms.TextInput(attrs={'size': 15})
-        self.fields['postcode'].widget = forms.TextInput(attrs={'size': 10})
+        self.fields['postcode'].widget = forms.TextInput(attrs={'size': 10, 'pattern': postcode_pattern})
 
 
 # Form for phone details
@@ -167,8 +176,7 @@ class QuoteForm(ModelForm):
         super(QuoteForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields['quote_type'].widget = forms.Select(attrs={'onchange': "changeQuoteType(this);"})
-        self.fields['quote_type'].choices = FORM_QUOTE_TYPE_CHOICES;
-
+        self.fields['quote_type'].choices = FORM_QUOTE_TYPE_CHOICES
 
     def clean(self):
         cleaned_data = super(QuoteForm, self).clean()
@@ -196,8 +204,10 @@ class QuoteForm(ModelForm):
 # quote adding for a customer
 class CustomerQuoteForm(forms.Form):
     quote_desc = forms.CharField(label='Quote Description', max_length=30, required=False, label_suffix='')
-    quote_type = forms.ChoiceField(label='Type', label_suffix='', choices=FORM_QUOTE_TYPE_CHOICES, required=False, widget=forms.Select(attrs={'onchange' : "changeQuoteType();"}))
+    quote_type = forms.ChoiceField(label='Type', label_suffix='', choices=FORM_QUOTE_TYPE_CHOICES, required=False,
+                                   widget=forms.Select(attrs={'onchange': "changeQuoteType(this);"}))
     frame = forms.ModelChoiceField(label='Bike/Frame', queryset=Frame.objects.all(), required=False, label_suffix='')
+                             #      disabled=(quote_type.initial != BIKE))
 
     def __init__(self, *args, **kwargs):
         super(CustomerQuoteForm, self).__init__(*args, **kwargs)
@@ -293,15 +303,15 @@ class QuoteBikeForm(ModelForm):
         model = Quote
         fields = ['customer', 'quote_type', 'quote_desc', 'frame', 'sell_price', 'keyed_sell_price', 'frame_sell_price']
 
+
 class QuoteFrameForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuoteFrameForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['quote'].widget = HiddenInput()
 
     class Meta:
         model = QuoteFrame
-        fields = '__all__'
+        fields = ['id','colour','colour_price', 'frameSize']
 
 
 # basic quote kine for adding lines
@@ -339,13 +349,13 @@ class QuoteBikeChangePartForm(forms.Form):
 
         # modify the form to reflect the actual possibilities
 
-        if can_be_substituted != True:
+        if not can_be_substituted:
             self.fields['new_brand'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_part_name'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_quantity'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_sell_price'].widget.attrs['disabled'] = 'disabled'
 
-        if can_be_omitted != True:
+        if not can_be_omitted:
             self.fields['not_required'].widget.attrs['disabled'] = 'disabled'
 
     def clean(self):

@@ -3,14 +3,15 @@ body {
     padding: 0;
     font-family: Lato, Arial, Helvetica, sans-serif;
     font-size: 10pt;
-    letter-spacing: 0px;
+    letter-spacing: 0;
 }
 
 th {
     padding: 5px;
     font-size: 10pt;
     font-weight: bold;
-    vertical-align: bottom;
+    vertical-align: top;
+    text-align: right;
 }
 
 .listHead {
@@ -20,6 +21,7 @@ th {
     background-color: #c82011;
     color: white;
     vertical-align: bottom;
+    text-align: center;
 }
 
 td {
@@ -40,7 +42,7 @@ td {
 }
 
 .page-header {
-    background-color: #ff9400;
+    background-color: #c82011;
     margin-top: 0;
     padding: 10px 10px 10px 10px;
 }
@@ -91,7 +93,9 @@ td {
 }
 
 h1, h2, h3, h4 {
+    color: #c82011;
     font-family: Lato, Arial, Helvetica, sans-serif;
+    margin: 10px 0 5px 0;
 }
 
 body h1, .h1 {
@@ -108,6 +112,7 @@ body h3 {
 
 body h4 {
     font-size: 11pt;
+    font-style: italic;
 }
 
 .date {
@@ -128,6 +133,37 @@ body h4 {
     font-size: 11pt;
     margin-right: 20px;
     text-decoration: none;
+}
+
+/* input validation bits */
+input[type=text],
+input[type=email],
+input[type=number],
+textarea,
+fieldset {
+    /* required to properly style form
+       elements on WebKit based browsers */
+    -webkit-appearance: none;
+
+    width: 100%;
+    border: 1px solid #333;
+    margin: 0;
+
+    font-family: inherit;
+    font-size: 90%;
+
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+input:invalid {
+    box-shadow: 0 0 5px 1px #c82011;
+    color: #c82011;
+    font-weight: bold;
+}
+
+input:focus:invalid {
+    outline: none;
 }
 
 input:disabled {
@@ -186,7 +222,7 @@ input:disabled {
     cursor: not-allowed;
 }
 
-a.button {
+a.button, input.button {
     background-color: #c82011;
     border: 1px #000000;;
     border-radius: 4px;
@@ -200,9 +236,15 @@ a.button {
     margin: 4px 2px;
     cursor: pointer;
     font-family: Lato, Arial, Helvetica, sans-serif;
+    min-width: 50px;
 }
 
-a.button:hover, a.button:focus {
+.button:hover, .button:focus {
     text-decoration: underline;
     color: white;
+}
+
+/* override defaults */
+fieldset {
+    border: hidden;
 }

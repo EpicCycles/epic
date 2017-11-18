@@ -12,7 +12,7 @@ from epic.forms import QuoteForm, QuotePartAttributeForm, QuotePartBasicForm, Qu
     QuoteFrameForm
 from epic.model_helpers.brand_helper import find_brand_for_name
 from epic.model_helpers.part_helper import find_or_create_part, validate_and_create_part
-from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote
+from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote, QuoteFrame
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.note_view_helper import create_customer_note
 
@@ -20,7 +20,7 @@ from epic.view_helpers.note_view_helper import create_customer_note
 def show_add_quote(request):
     quoteForm = QuoteForm()
     quote_frame_form = QuoteFrameForm()
-    return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm, 'quote_frame_form':quote_frame_form})
+    return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm, 'quote_frame_form': quote_frame_form})
 
 
 def copy_quote_and_display(request, pk):
@@ -86,9 +86,24 @@ def create_new_quote(request):
             create_customer_note(request, newQuote.customer, newQuote, None)
         except Exception as e:
             logging.getLogger("error_logger").exception('Quote could not be saved')
-            return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
+            return render(request, "epic/quote_start.html",
+                          {'quoteForm': quoteForm, 'quote_frame_form': QuoteFrameForm(request.POST)})
 
         if newQuote.is_bike():
+            quote_frame = QuoteFrame(quote=newQuote)
+            quote_frame_form = QuoteFrameForm(request.POST,instance=quote_frame)
+            if quote_frame_form.is_valid():
+                try:
+                    new_quote_frame = quote_frame_form.save()
+                    new_quote_frame.save()
+                except Exception as e:
+                    logging.getLogger("error_logger").exception('Quote could not be saved')
+                    return render(request, "epic/quote_start.html",
+                                  {'quoteForm': QuoteForm(instance=newQuote), 'quote_frame_form': quote_frame_form})
+            else:
+                newQuote.delete()
+                return render(request, "epic/quote_start.html",
+                              {'quoteForm': quoteForm, 'quote_frame_form': quote_frame_form})
             # display the bike based quote edit page
             return HttpResponseRedirect(reverse('quote_edit_bike', args=(newQuote.id,)))
         else:
@@ -97,7 +112,9 @@ def create_new_quote(request):
 
     else:
         logging.getLogger("error_logger").error(quoteForm.errors.as_json())
-        return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
+        quote_frame_form = QuoteFrameForm(request.POST)
+
+        return render(request, "epic/quote_start.html", {'quoteForm': quoteForm, 'quote_frame_form': quote_frame_form})
 
 
 def process_bike_quote_changes(request, quote):
@@ -374,10 +391,14 @@ def get_quote_section_parts_and_forms(quote):
                     # part is specified
                     if quotePart.frame_part is not None:
                         # replaces an original frame related part
+                        new_brand = quotePart.part.brand.brand_name
+                        new_part_name = quotePart.part.part_name
+                        new_quantity = quotePart.quantity
+                        new_sell_price = quotePart.sell_price
                         sectionForms.append(QuoteBikeChangePartForm(
                             initial={'new_brand': new_brand, 'new_part_name': new_part_name,
                                      'new_quantity': new_quantity, 'new_sell_price': new_sell_price},
-                            prefix="QP" + str(quotePart.id), can_be_substituted=can_be_substituted,
+                             prefix="QP" + str(quotePart.id), can_be_substituted=can_be_substituted,
                             can_be_omitted=can_be_omitted))
                     else:
                         # part with no equivalent bike part
