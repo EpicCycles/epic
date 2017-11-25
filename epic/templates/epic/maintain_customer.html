@@ -1,4 +1,5 @@
 {% extends 'epic/base.html' %}
+{% load static %}
 
 {% block content %}
     <div>
@@ -14,50 +15,22 @@
                         {% endwith %}
                         <br/>
                     </td>
-                    <td class="align_top">
-                        <h3>New Quote</h3>
-                        {% with customer_quote_form as form %}
-                            {% include "epic/form_as_table.html" %}
-                        {% endwith %}
-                    </td>
-                    <td class="align_top">
-                        <h3>Existing Quotes</h3>
-                        <table>
-                            <tr>
-                                <th class="listHead">Name</th>
-                                <th class="listHead">Value</th>
-                                <th class="listHead"></th>
-                                <th class="listHead"></th>
-                            </tr>
-                            {% for quote in existing_quotes %}
-                                <tr>
-                                    <td>{{ quote }}</td>
-                                    <td>{{ quote.keyed_sell_price }}</td>
-                                    <td>{% if quote.issuedDate == None %}
-                                        {% if quote.quote_type == 'B' %}
-                                            <a href="{% url 'quote_edit_bike' pk=quote.pk %}" target="_blank"
-                                               class="button">
-                                        {% else %}
-                                            <a href="{% url 'quote_edit_simple' pk=quote.pk %}" target="_blank"
-                                               class="button">
-                                        {% endif %}
-                                    edit</a>{% endif %}</td>
-                                    <td><a href="{% url 'copy_quote' pk=quote.pk %}" target="_blank"
-                                           class="button">copy</a></td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    </td>
-                    <td class="align_top">
-                        {%  if customer %}
-                        {% include "epic/add_notes.html" %}
-                        <br/>
-                        <button type="button"
-                                onclick="popupDetail('{% url 'view_customer_notes' pk=customer.pk %}','Customer Notes')"
-                                class="button">View Notes
-                        </button>
-                        {%  endif %}
-                    </td>
+                    {% if customer %}
+                        <td class="align_top">
+                            <h3>New Quote</h3>
+                            {% with customer_quote_form as form %}
+                                {% include "epic/form_as_table.html" %}
+                            {% endwith %}
+                        </td>
+                        <td class="align_top">
+                            {% include "epic/add_notes.html" %}
+                            <br/>
+                            <input type="button"
+                                   onclick="popupDetail('{% url 'view_customer_notes' pk=customer.pk %}','Customer Notes')"
+                                   class="button" value="View Notes"
+                            />
+                        </td>
+                    {% endif %}
                 </tr>
             </table>
             {% include "epic/form_standard_actions.html" %}
@@ -118,8 +91,36 @@
                 </tr>
             </table>
             {% include "epic/form_standard_actions.html" %}
-
+            {% if existing_quotes %}
+                <h3>Existing Quotes</h3>
+                <table>
+                    <tr>
+                        <th class="listHead">Name</th>
+                        <th class="listHead">Value</th>
+                        <th class="listHead"></th>
+                        <th class="listHead"></th>
+                    </tr>
+                    {% for quote in existing_quotes %}
+                        <tr>
+                            <td>{{ quote }}</td>
+                            <td>{{ quote.keyed_sell_price }}</td>
+                            <td>{% if quote.issuedDate == None %}
+                                {% if quote.quote_type == 'B' %}
+                                    <a href="{% url 'quote_edit_bike' pk=quote.pk %}" target="_blank"
+                                       class="button">
+                                {% else %}
+                                    <a href="{% url 'quote_edit_simple' pk=quote.pk %}" target="_blank"
+                                       class="button">
+                                {% endif %}
+                            edit</a>{% endif %}</td>
+                            <td><a href="{% url 'copy_quote' pk=quote.pk %}" target="_blank"
+                                   class="button">copy</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
         </form>
-    </div>
+     <script src="{% static 'js/maintain_customer.js' %}"></script>
+   </div>
 
 {% endblock %}

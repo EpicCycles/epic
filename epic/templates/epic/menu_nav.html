@@ -17,10 +17,9 @@
             <a href="{% url 'add_customer' %}">New Customer</a>
             {% if user.is_superuser %}
                 {% with "" as linkClass %}
-                    {% include "epic/menu_admin_links.html" %}
+                    {% include "epic/menu_cust_admin.html" %}
                 {% endwith %}
             {% endif %}
-
         </div>
     </li>
     <li class="dropdown">
@@ -46,14 +45,13 @@
             <a href="javascript:void(0)" class="dropbtn">Core Data</a>
             <div class="dropdown-content">
                 <a href="{% url 'bike_upload' %}" class="menu-link">Upload Bike Details</a>
-                {% if admin_links %}
-                    {% for admin_link_text, admin_link_url in admin_links %}
-                        <a href="{{ admin_link_url }}">{{ admin_link_text }}</a>
-                    {% endfor %}
-                {% endif %}
+            {% if user.is_superuser %}
+                {% with "" as linkClass %}
+                    {% include "epic/menu_admin_links.html" %}
+                {% endwith %}
+            {% endif %}
             </div>
         </li>
     {% endif %}
-
 </ul>
 
