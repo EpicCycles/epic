@@ -46,7 +46,6 @@ def process_upload(request):
                 #  first line is the model names
                 model_names = lines[i].split(",")
                 for j in range(len(model_names)):
-                    print("column " + str(j) + " cel value " + model_names[j])
                     if j == 0:
                         frames.append("not a frame")
                     else:

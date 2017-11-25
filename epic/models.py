@@ -268,6 +268,9 @@ class Quote(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True, null=True)
     frame_cost_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     frame_sell_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
+    colour = models.CharField('Colour', max_length=40, blank=True, null=True)
+    colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    frame_size = models.CharField('Frame Size', max_length=15, blank=True, null=True)
     fitting = models.ForeignKey(Fitting, on_delete=models.CASCADE, blank=True, null=True)
     keyed_sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     quote_type = models.CharField('Type', max_length=1, choices=QUOTE_TYPE_CHOICES, default=BIKE, )
@@ -285,9 +288,8 @@ class Quote(models.Model):
 
         if is_new and self.is_bike():
             # create quote frame link
-            self.frame_sell_price = self.frame.sell_price
-            quote_frame = QuoteFrame(quote=self,colour=self.frame.colour)
-            quote_frame.save()
+            if  not self.frame_sell_price:
+                self.frame_sell_price = self.frame.sell_price
 
             # create lines for quote
             quote_line = 0
@@ -297,7 +299,7 @@ class Quote(models.Model):
             for partSection in partSections:
                 partTypes = PartType.objects.filter(includeInSection=partSection)
                 for partType in partTypes:
-                    # add the part typte to the list
+                    # add the part type to the list
                     quote_line += 1
                     quotePart = QuotePart(quote=self, line=quote_line, partType=partType, quantity=0)
 

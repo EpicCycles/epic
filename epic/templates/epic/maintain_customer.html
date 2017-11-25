@@ -21,12 +21,6 @@
                             {% with customer_quote_form as form %}
                                 {% include "epic/form_as_table.html" %}
                             {% endwith %}
-                            <div {% if customer_quote_form.quote_type.value != "B" %}style="display: none"{% endif %} id="frame_detail">
-                                <h4>Frame Details</h4>
-                                {% with quote_frame_form as form %}
-                                    {% include "epic/form_as_table.html" %}
-                                {% endwith %}
-                            </div>
                         </td>
                         <td class="align_top">
                             {% include "epic/add_notes.html" %}
