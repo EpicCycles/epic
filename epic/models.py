@@ -132,9 +132,18 @@ class PartTypeAttribute(models.Model):
         ordering = ('placing',)
 
 
+# suppliersfor bikes/parts etc
+class Supplier(models.Model):
+    supplier_name = models.CharField('Supplier', max_length=100, unique=True)
+
+    def __str__(self):
+        return self.supplier_name
+
+
 class Brand(models.Model):
     brand_name = models.CharField(max_length=50, unique=True)
     link = models.CharField(max_length=100, blank=True)
+    supplier =  models.ForeignKey(Supplier, blank=True, null=True)
 
     def __str__(self):
         return self.brand_name
@@ -562,13 +571,6 @@ class QuotePartAttribute(models.Model):
     class Meta:
         unique_together = (("quotePart", "partTypeAttribute"),)
 
-
-# suppliersfor bikes/parts etc
-class Supplier(models.Model):
-    supplier_name = models.CharField('Supplier', max_length=100, unique=True)
-
-    def __str__(self):
-        return self.supplier_name
 
 
 # Supplier Order details

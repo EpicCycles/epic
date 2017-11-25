@@ -24,4 +24,5 @@ urlpatterns = [url(r'^$', views.menu_home, name='menu_home'),
     url(r'^editOrder/(?P<pk>\d+)/$', views.order_edit, name='order_edit'),
     url(r'^viewCustomerNotes/(?P<pk>\d+)/$', views.view_customer_notes, name='view_customer_notes'),
     url(r'^selectCustomer/$', views.CustomerSelect.as_view(), name='select_customer'),
-    url(r'^supplierOrderRequired/(?P<pk>\d+)/$', views.supplier_order_reqd, name='supplier_order_reqd'),]
+    url(r'^supplierOrderRequired/(?P<pk>\d+)/$', views.supplier_order_reqd, name='supplier_order_reqd'),
+    url(r'^add_brand/$', views.add_brand, name='add_brand'), ]

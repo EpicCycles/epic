@@ -11,8 +11,9 @@ from django.views.generic.list import ListView
 
 # forms and formsets used in the views
 from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm
-from epic.models import Customer, Supplier, CustomerOrder, INITIAL, ISSUED
+from epic.models import Customer, Supplier, CustomerOrder, INITIAL, ISSUED, CustomerNote
 from epic.view_helpers.bike_upload_helper import process_upload
+from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote, edit_customer_order, \
     process_customer_order_edits
 from epic.view_helpers.customer_view_helper import *
@@ -227,6 +228,14 @@ def add_quote(request):
         return create_new_quote(request)
     else:
         return show_add_quote(request)
+
+# Add a new brand - display basic form and when saved make a new brand
+@login_required
+def add_brand(request):
+    if request.method == "POST":
+        return save_brand(request)
+    else:
+        return show_brand_popup(request)
 
 
 # create and order from a quote

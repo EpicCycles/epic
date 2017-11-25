@@ -296,16 +296,30 @@ def update_quote_section_parts_and_forms(request, quote, new_quote_part):
                 quotePartAttributeForms = []
 
                 quoteBikeChangePartForm = None
+                initial_QP = {'can_be_substituted': partType.can_be_substituted,
+                              'can_be_omitted': partType.can_be_omitted}
+
                 if (quotePart == new_quote_part):
                     initial_QP = {'new_brand': quotePart.part.brand.brand_name,
                                   'new_part_name': quotePart.part.part_name, 'new_quantity': quotePart.quantity,
                                   'new_sell_price': quotePart.sell_price}
                     initial_QP['can_be_substituted'] = True
-                    initial_QP['can_be_omitted'] = True
+                    initial_QP['can_be_omitted'] = False
                     quoteBikeChangePartForm = QuoteBikeChangePartForm(initial=initial_QP,
                                                                       prefix="QP" + str(quotePart.id))
                 else:
-                    quoteBikeChangePartForm = QuoteBikeChangePartForm(request.POST, request.FILES,
+                    # make sure flags are correct
+                    if quotePart.part is None:
+                        if quotePart.frame_part is None:
+                            # No part and no equivalent part
+                            initial_QP['can_be_substituted'] = True
+                            initial_QP['can_be_omitted'] = False
+                    else:
+                        # part is specified
+                        if quotePart.frame_part is None:
+                            initial_QP['can_be_substituted'] = True
+
+                    quoteBikeChangePartForm = QuoteBikeChangePartForm(request.POST, request.FILES, initial=initial_QP,
                                                                       prefix="QP" + str(quotePart.id))
                     if quoteBikeChangePartForm.is_valid():
                         update_quote_part_from_form(quotePart, quoteBikeChangePartForm, request)
@@ -355,7 +369,8 @@ def get_quote_section_parts_and_forms(quote):
 
                 quotePartDetails.append(quotePartAttributeForms)
                 sectionParts.append(quotePartDetails)
-                initial_QP = {'can_be_substituted': partType.can_be_substituted,'can_be_omitted': partType.can_be_omitted}
+                initial_QP = {'can_be_substituted': partType.can_be_substituted,
+                              'can_be_omitted': partType.can_be_omitted}
                 if quotePart.part is None:
                     if quotePart.frame_part is not None:
                         # Bike part exists take defaults
