@@ -6,7 +6,7 @@
 <table width="100%"><tr>
     <td><h2>Copy Quote</h2></td>
     <td class="page_actions align_right">
-          <button type="button" onclick="popupDetail('{% url 'select_customer' %}','Select Customer')"  class="button">Select New Customer</button>
+          <input type="button" onclick="popupDetail('{% url 'select_customer' %}','Select Customer')"  class="button" value="Select New Customer" />
           <a href="{% url 'quote_amend' pk=quote.pk %}"  class="button" >Edit</a>
     </td>
 </tr></table>

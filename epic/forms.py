@@ -331,11 +331,13 @@ class QuoteBikeChangePartForm(forms.Form):
             self.fields['new_part_name'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_quantity'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_sell_price'].widget.attrs['disabled'] = 'disabled'
-            self.fields['trade_in_price'].widget.attrs['disabled'] = 'disabled'
 
         if not can_be_omitted:
-            self.fields['trade_in_price'].widget.attrs['disabled'] = 'disabled'
             self.fields['not_required'].widget.attrs['disabled'] = 'disabled'
+
+        if not (can_be_substituted or can_be_omitted):
+            self.fields['trade_in_price'].widget.attrs['disabled'] = 'disabled'
+
 
     def clean(self):
         cleaned_data = super(QuoteBikeChangePartForm, self).clean()

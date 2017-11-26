@@ -10,7 +10,8 @@ from epic.forms import QuoteForm, QuotePartAttributeForm, QuotePartBasicForm, Qu
     QuoteBikeChangePartForm, QuoteSimpleAddPartForm, QuoteSimpleForm, QuotePartForm, QuoteFittingForm, QuoteBikeForm
 from epic.model_helpers.brand_helper import find_brand_for_name
 from epic.model_helpers.part_helper import find_or_create_part, validate_and_create_part
-from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote
+from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote, \
+    Customer
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.note_view_helper import create_customer_note
 
@@ -142,12 +143,15 @@ def process_bike_quote_changes(request, quote):
 
     if quoteForm.is_valid():
         quote = quoteForm.save()
-        quote.recalculate_prices()
-        # if sell price has changed blank keyed value and reset quote status
-        if old_sell_price != quote.sell_price:
-            quote.keyed_sell_price = None
-            quote.quote_status = INITIAL
-            quote.save()
+
+    quote.recalculate_prices()
+    print(old_sell_price, quote.sell_price)
+    # if sell price has changed blank keyed value and reset quote status
+    if old_sell_price != quote.sell_price:
+        quote.keyed_sell_price = None
+        quote.quote_status = INITIAL
+        quote.save()
+
 
     return render(request, quote_page, details_for_page)
 
@@ -162,6 +166,16 @@ def show_bike_quote_edit(request, quote):
                                         'quoteSections': get_quote_section_parts_and_forms(quote),
                                         'fittingForm': fittingForm, 'customerFittings': customerFittings,
                                         'quoteSimpleAddPart': quoteSimpleAddPart, 'customer_notes': customer_notes})
+
+
+def show_bike_quote_edit_new_customer(request, quote, new_customer_id):
+    customer = get_object_or_404(Customer, pk=new_customer_id)
+    # update the quote with the new customer and an appropriate version
+    quote.customer = customer
+    quote.version = 1
+    quote.save()
+    quote.quote_desc = None
+    return show_bike_quote_edit(request, quote)
 
 
 def process_simple_quote_changes(request, quote):
@@ -251,7 +265,73 @@ def show_simple_quote_edit(request, quote):
                                         'customer_notes': customer_notes})
 
 
-# simple display ofsections
+# requote based on original quote
+def process_quote_requote(request, quote):
+    quote.requote()
+    if quote.quote_status == INITIAL:
+        if quote.is_bike():
+            # display the bike based quote edit page
+            return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+        else:
+            # display the simple quote edit page
+            return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+    else:
+        messages.error(request, 'Quote cannot be edited' + str(quote))
+        return HttpResponseRedirect(reverse('quotes'))
+
+def show_quote_browse(request, quote):
+
+    customer_notes = CustomerNote.objects.filter(quote=quote,customer_visible=True)
+
+    if quote.is_bike():
+        return render(request, 'epic/quote_issued_bike.html',
+                      {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, False),
+                       'customer_notes': customer_notes})
+    else:
+        return render(request, 'epic/quote_issued_simple.html',
+                      {'quote': quote, 'quoteDetails': quote_parts_for_simple_display(quote, False),
+                       'customer_notes': customer_notes})  # amend a quote  save will reset to INITIAL if required
+
+
+# show the quote ready to issue
+def  show_quote_issue(request, quote):
+    if quote.can_be_issued():
+        return show_quote_browse(request,quote)
+    elif quote.quote_status == INITIAL:
+        if quote.is_bike():
+            # display the bike based quote edit page
+            messages.error(request, 'Quote needs prices before it can be issued')
+            return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+        else:
+            # display the simple quote edit page
+            messages.error(request, 'Quote needs prices before it can be issued')
+            return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+    else:
+        messages.error(request, 'Quote cannot be Issued or edited' + str(quote))
+        return show_quote_browse(request, quote)
+
+
+# post from browse quote page to issue quote
+def process_quote_issue(request, quote):
+    if quote.quote_status == INITIAL:
+        quote.issue()
+        messages.info(request, 'Quote has been issued')
+
+    return HttpResponseRedirect(reverse('quote_browse', args=(quote.id,)))
+
+def show_quote_text(request,quote):
+    customer_notes = CustomerNote.objects.filter(quote=quote, customer_visible=True)
+    if quote.is_bike():
+        return render(request, 'epic/quote_text.html',
+                      {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, True),
+                       'customer_notes': customer_notes, 'summary_view':True})
+    else:
+        return render(request, 'epic/quote_text.html',
+                      {'quote': quote, 'quoteDetails': quote_parts_for_simple_display(quote),
+                       'customer_notes': customer_notes, 'summary_view':True})
+
+
+# simple display of sections
 def quote_parts_for_simple_display(quote):
     quotePartObjects = QuotePart.objects.filter(quote=quote)
     quotePartDetails = []
@@ -263,7 +343,7 @@ def quote_parts_for_simple_display(quote):
 
 
 # simple display ofsections
-def quote_parts_for_bike_display(quote):
+def quote_parts_for_bike_display(quote, for_customer):
     partSections = PartSection.objects.all()
     partSectionDetails = []
 
@@ -271,11 +351,19 @@ def quote_parts_for_bike_display(quote):
         quoteParts = []
         quotePartDetails = []
         partTypes = PartType.objects.filter(includeInSection=partSection)
+
         for partType in partTypes:
             quotePartObjects = QuotePart.objects.filter(quote=quote, partType=partType)
             for quotePart in quotePartObjects:
-                quoteParts.append(quotePart)
-                quotePartDetails.append(QuotePartAttribute.objects.filter(quotePart=quotePart))
+                include_part = True
+                if for_customer and not partType.customer_facing:
+                    include_part = False
+                    if quotePart.not_applicable or quotePart.notStandard():
+                        include_part = True
+
+                if include_part:
+                    quoteParts.append(quotePart)
+                    quotePartDetails.append(QuotePartAttribute.objects.filter(quotePart=quotePart))
         partSectionDetails.append(zip(quoteParts, quotePartDetails))
     # build a merged array
     zipped_values = zip(partSections, partSectionDetails)

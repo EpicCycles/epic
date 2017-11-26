@@ -7,41 +7,7 @@
       {% include "epic/quote_issued_buttons.html" %}
     </td>
 </tr></table>
-<table>
-  <tr>
-    <th>Customer</th>
-    <td>{{ quote.customer }}</td>
-  </tr>
-  <tr>
-      <th></th>
-      <td><table>
-            <tr >
-              <th colspan="2">Item(s)</th>
-              <th>Details</th>
-              <th class="align_right">Quantity</th>
-              <th class="align_right">Price</th>
-            </tr>
-            {% for quotePart, quotePartAttributes in quoteDetails %}
-            {% cycle 'row1' 'row2' as rowcolors silent %}
-            <tr class="{{ rowcolors }}">
-              <td>{{ quotePart.partType }}</td>
-              <td>{{ quotePart.part }}</td>
-              <td><table><tr>
-                {% for quotePartAttribute in quotePartAttributes %}
-                <td>{{ quotePartAttribute.partTypeAttribute }}: {{ quotePartAttribute.attribute_value }}</td>
-                {% endfor %}
-              </tr></table></td>
-              <td class="align_right">{{ quotePart.quantity }} @</td>
-              <td class="align_right">&pound;{{ quotePart.sell_price }}</td>
-            </tr>
-            {% endfor %}
-            <tr>
-              <th colspan="4">Quote Total</th>
-              <th class="align_right">&pound;{{ quote.keyed_sell_price }}</th>
-            </tr>
-        </table>
-      </td>
-    </tr>
-</table>
+
+{% include "epic/quote_issued_simple_text.html.html" %}
 {% include "epic/notes_display.html" %}
 {% endblock %}

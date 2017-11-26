@@ -21,7 +21,8 @@ from epic.view_helpers.menu_view_helper import show_menu
 from epic.view_helpers.note_view_helper import show_notes_popup
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_simple_quote_edit, \
     process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, quote_parts_for_simple_display, \
-    quote_parts_for_bike_display, copy_quote_and_display
+    quote_parts_for_bike_display, copy_quote_and_display, show_bike_quote_edit_new_customer, process_quote_requote, \
+    process_quote_issue, show_quote_issue, show_quote_browse, show_quote_text
 from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
 
 
@@ -325,19 +326,11 @@ def quote_copy_bike(request, pk):
     if request.method == "POST":
         new_customer_id = request.POST.get('new_customer_id', '')
         if new_customer_id != '':
-            customer = get_object_or_404(Customer, pk=new_customer_id)
-            quote_same_name = Quote.objects.filter(customer=customer, quote_desc=quote.quote_desc).count()
-            # update the quote with the new customer and an appropriate version
-            quote.customer = customer
-            quote.version = quote_same_name + 1
-            quote.save()
-            return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+            return show_bike_quote_edit_new_customer(request, quote, new_customer_id)
         else:
             return render(request, 'epic/quote_copy_bike.html',
                           {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote)})
-
     else:
-        quote = get_object_or_404(Quote, pk=pk)
         return render(request, 'epic/quote_copy_bike.html',
                       {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote)})
 
@@ -350,17 +343,8 @@ def quote_requote(request, pk):
     else:
         # get the quote you are basing it on and create a copy_quote
         quote = get_object_or_404(Quote, pk=pk)
-        quote.requote()
-        if quote.quote_status == INITIAL:
-            if quote.is_bike():
-                # display the bike based quote edit page
-                return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
-            else:
-                # display the simple quote edit page
-                return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
-        else:
-            messages.error(request, 'Quote cannot be edited' + str(quote))
-            return HttpResponseRedirect(reverse('quotes'))
+        return process_quote_requote(request, quote)
+
     # default return
     return HttpResponseRedirect(reverse('quotes'))
 
@@ -368,48 +352,35 @@ def quote_requote(request, pk):
 # finalise a quote by issuing it
 @login_required
 def quote_issue(request, pk):
+    quote = get_object_or_404(Quote, pk=pk)
+
     if request.method == "POST":
-        # shouldn't be here!
-        messages.info(request, 'Invalid action ')
+        return process_quote_issue(request, quote)
+
     else:
+        return show_quote_issue(request, quote)
         # get the quote you are basing it on and create a copy_quote
-        quote = get_object_or_404(Quote, pk=pk)
-        quote.issue()
-        if quote.quote_status == ISSUED:
-            return HttpResponseRedirect(reverse('quote_browse', args=(quote.id,)))
-        elif quote.quote_status == INITIAL:
-            if quote.is_bike():
-                # display the bike based quote edit page
-                messages.error(request, 'Quote needs prices before it can be issued')
-                return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
-            else:
-                # display the simple quote edit page
-                messages.error(request, 'Quote needs prices before it can be issued')
-                return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
-        else:
-            messages.error(request, 'Quote cannot be Issued or edited' + str(quote))
-            return HttpResponseRedirect(reverse('quotes'))
+
     # default return
     return HttpResponseRedirect(reverse('quotes'))
+
+def quote_text(request,pk):
+    quote = get_object_or_404(Quote, pk=pk)
+    return show_quote_text(request,quote)
 
 
 # browse a quote based on a specific frame
 @login_required
 def quote_browse(request, pk):
+    quote = get_object_or_404(Quote, pk=pk)
+
     if request.method == "POST":
         # shouldn't be here!
+        return process_quote_issue(request, quote)
         messages.info(request, 'Invalid action ')
+        return show_quote_browse(request, quote)
     else:
-        quote = get_object_or_404(Quote, pk=pk)
-        customer_notes = CustomerNote.objects.filter(quote=quote)
-        if quote.is_bike():
-            return render(request, 'epic/quote_issued_bike.html',
-                          {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote),
-                           'customer_notes': customer_notes})
-        else:
-            return render(request, 'epic/quote_issued_simple.html',
-                          {'quote': quote, 'quoteDetails': quote_parts_for_simple_display(quote),
-                           'customer_notes': customer_notes})  # amend a quote  save will reset to INITIAL if required
+        return show_quote_browse(request,quote)
 
 
 @login_required
