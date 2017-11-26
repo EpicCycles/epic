@@ -665,7 +665,9 @@ class OrderPayment(models.Model):
 class OrderItemManager(models.Manager):
     # this creates a skinny version to use on a form incomplete cannot be saved
     def create_orderItem(self, part, customerOrder, quotePart):
-        orderItem = self.create(customerOrder=customerOrder, part=part, quotePart=quotePart)
+        brand = part.brand
+        orderItem = self.create(customerOrder=customerOrder, part=part, quotePart=quotePart,
+                                supplier=brand.supplier)
         return orderItem
 
 
