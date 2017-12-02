@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd7212f9-6eef-4ce2-90a4-95407cf747e0" name="Default" comment="Admin for SUpplier Orders and removing invalid myenv">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/epic/static/js/quote_standard_build.js" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/epic/templates/epic/quote_standard_build.html" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/epic/view_helpers/bike_upload_helper.py" afterPath="$PROJECT_DIR$/epic/view_helpers/frame_view_helper.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/admin.py" afterPath="$PROJECT_DIR$/epic/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/models.py" afterPath="$PROJECT_DIR$/epic/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/templates/epic/quote_issued_bike.html" afterPath="$PROJECT_DIR$/epic/templates/epic/quote_issued_bike.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/urls.py" afterPath="$PROJECT_DIR$/epic/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py" afterPath="$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/views.py" afterPath="$PROJECT_DIR$/epic/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -44,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/epic/admin.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
-              <caret line="24" column="17" lean-forward="true" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
+              <caret line="24" column="17" lean-forward="false" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
               <folding>
                 <element signature="e#0#32#0" expanded="true" />
               </folding>
@@ -106,7 +97,7 @@
         <entry file="file://$PROJECT_DIR$/epic/view_helpers/frame_view_helper.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="222">
-              <caret line="34" column="78" lean-forward="true" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="78" />
+              <caret line="34" column="78" lean-forward="false" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="78" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -250,7 +241,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="10" />
     <option name="y" value="20" />
     <option name="width" value="1346" />
@@ -464,7 +455,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296355" sideWeight="0.5058565" order="7" side_tool="true" content_ui="tabs" />
@@ -856,7 +847,7 @@
     <entry file="file://$PROJECT_DIR$/epic/view_helpers/frame_view_helper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="222">
-          <caret line="34" column="78" lean-forward="true" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="78" />
+          <caret line="34" column="78" lean-forward="false" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="78" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
@@ -892,7 +883,7 @@
     <entry file="file://$PROJECT_DIR$/epic/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="24" column="17" lean-forward="true" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
+          <caret line="24" column="17" lean-forward="false" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
           </folding>
