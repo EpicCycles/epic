@@ -1,12 +1,46 @@
 import logging
+from operator import eq
 
 from django.contrib import messages
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 
 from epic.model_helpers.brand_helper import find_brand_for_string, find_brand_for_name
 from epic.model_helpers.part_helper import find_or_create_part
-from epic.models import Brand, PartType, FramePart, Frame
+from epic.models import Brand, PartType, FramePart, Frame, QuotePart, FrameExclusion
+
+
+def create_new_model(request, quote, model):
+    new_frame = quote.frame
+    new_frame.pk = None
+    new_frame.model = model
+    new_frame.sell_price = quote.keyed_sell_price
+
+    try:
+        new_frame.save()
+        # get parts from quote and copy across to new_quote
+        old_quoteParts = QuotePart.objects.filter(quote=quote)
+        # replicate the changes from the first quote
+        for quote_part in old_quoteParts:
+            part = quote_part.part
+            if part is not None:
+                framePart = FramePart.objects.create_framePart(new_frame, part)
+                framePart.save()
+
+        old_frame_exclusions = FrameExclusion.objects.get(frame=quote.frame)
+        for frame_exclusion in old_frame_exclusions:
+            exclude_part_type = frame_exclusion.partType
+            if not old_quoteParts.filter(partType=exclude_part_type).exists():
+                frameExclusion = FrameExclusion.objects.create_frameExclusion(new_frame, exclude_part_type)
+                frameExclusion.save()
+
+    except Exception as e:
+        messages.error(request, e)
+        logging.getLogger("error_logger").exception('Model could not be saved')
+
+    return HttpResponseRedirect(reverse('add_quote'))
 
 
 
@@ -73,22 +107,26 @@ def process_upload(request):
                     for j in range(len(attributes)):
                         # ignore the first column - already used
                         if j > 0:
-                            # look for brand for part attributes
                             part_name = str(attributes[j])
+
                             if len(part_name) > 0:
-                                part_brand = find_brand_for_string(part_name, non_web_brands, bike_brand, request)
+                                if eq(part_name.lower(),'n/a'):
+                                    frameExclusion = FrameExclusion.objects.create_frameExclusion(frames[j], partType)
+                                    frameExclusion.save()
+                                else:
+                                    # look for brand for part attributes
+                                    part_brand = find_brand_for_string(part_name, non_web_brands, bike_brand, request)
 
-                                # take the brand name out of the part name
-                                if (part_name.lower().startswith(part_brand.brand_name.lower())):
-                                    brand_name_length = len(part_brand.brand_name)
-                                    part_name = part_name[brand_name_length:]
-                                part_name = part_name.strip()
+                                    # take the brand name out of the part name
+                                    if (part_name.lower().startswith(part_brand.brand_name.lower())):
+                                        brand_name_length = len(part_brand.brand_name)
+                                        part_name = part_name[brand_name_length:]
+                                    part_name = part_name.strip()
 
-
-                                # now look to see if Part exists, if not add it
-                                part = find_or_create_part(part_brand,partType,part_name)
-                                framePart = FramePart.objects.create_framePart(frames[j],part)
-                                framePart.save()
+                                    # now look to see if Part exists, if not add it
+                                    part = find_or_create_part(part_brand,partType,part_name)
+                                    framePart = FramePart.objects.create_framePart(frames[j],part)
+                                    framePart.save()
 
         messages.add_message(request, messages.INFO, 'Bike added:' + bike_name)
 

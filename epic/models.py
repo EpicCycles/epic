@@ -216,15 +216,32 @@ class FramePartManager(models.Manager):
 class FramePart(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
-    not_applicable = models.BooleanField('Not Applicable', default=False)
 
     objects = FramePartManager()
 
     def __str__(self):
-        return self.part.part_name
+        return self.part.partType.shortName + ':' + self.part.part_name
 
     class Meta:
         unique_together = (("frame", "part"),)
+
+# Manager for PramePart
+class FrameExclusionManager(models.Manager):
+    def create_frameExclusion(self, frame, partType):
+        return self.create(frame=partType, part=partType)
+
+
+class FrameExclusion(models.Model):
+    frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
+    partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
+
+    objects = FramePartManager()
+
+    def __str__(self):
+        return self.partType
+
+    class Meta:
+        unique_together = (("frame", "partType"),)
 
 
 # # Managers for CustomerOrder
@@ -308,21 +325,21 @@ class Quote(models.Model):
             for partSection in partSections:
                 partTypes = PartType.objects.filter(includeInSection=partSection)
                 for partType in partTypes:
-                    # add the part type to the list
-                    quote_line += 1
-                    quotePart = QuotePart(quote=self, line=quote_line, partType=partType, quantity=0)
+                    if not FrameExclusion.objects.filter(frame=self.frame, partType=partType).exists():
+                        # add the part type to the list
+                        quote_line += 1
+                        quotePart = QuotePart(quote=self, line=quote_line, partType=partType, quantity=0)
 
-                    # add any parts specified
-                    for framePart in frameParts:
-                        if framePart.part.partType == partType:
-                            quotePart.part = framePart.part
-                            quotePart.frame_part = framePart
-                            quotePart.quantity = 1
-                            quotePart.cost_price = 0
-                            quotePart.sell_price = 0
-                            quotePart.not_applicable = framePart.not_applicable
+                        # add any parts specified
+                        for framePart in frameParts:
+                            if framePart.part.partType == partType:
+                                quotePart.part = framePart.part
+                                quotePart.frame_part = framePart
+                                quotePart.quantity = 1
+                                quotePart.cost_price = 0
+                                quotePart.sell_price = 0
 
-                    quotePart.save()
+                        quotePart.save()
 
     def __str__(self):
         return self.quote_desc + ' (' + str(self.version) + ')'
@@ -472,7 +489,6 @@ class QuotePart(models.Model):
     cost_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    not_applicable = models.BooleanField('Not Applicable', default=False)
 
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):

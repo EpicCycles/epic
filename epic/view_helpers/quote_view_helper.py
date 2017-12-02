@@ -353,7 +353,6 @@ def copy_quote_detail(old_quote, request, frame):
                     new_quotePart.part = old_quotePart.part
                     new_quotePart.quantity = old_quotePart.quantity
                     new_quotePart.sell_price = old_quotePart.sell_price
-                    new_quotePart.not_applicable = old_quotePart.not_applicable
                     new_quotePart.save()
                     old_quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=old_quotePart)
                     for attribute in old_quote_part_attributes:
@@ -405,7 +404,7 @@ def quote_parts_for_bike_display(quote, for_customer):
                 include_part = True
                 if for_customer and not partType.customer_facing:
                     include_part = False
-                    if quotePart.not_applicable or quotePart.notStandard():
+                    if quotePart.notStandard():
                         include_part = True
 
                 if include_part:

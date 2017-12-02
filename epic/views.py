@@ -12,7 +12,7 @@ from django.views.generic.list import ListView
 # forms and formsets used in the views
 from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm, FrameSearchForm
 from epic.models import Customer, Supplier, CustomerOrder, INITIAL, ISSUED, CustomerNote, Frame
-from epic.view_helpers.bike_upload_helper import process_upload
+from epic.view_helpers.frame_view_helper import process_upload, create_new_model
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote, edit_customer_order, \
     process_customer_order_edits
@@ -230,6 +230,7 @@ def add_quote(request):
     else:
         return show_add_quote(request)
 
+
 # Add a new brand - display basic form and when saved make a new brand
 @login_required
 def add_brand(request):
@@ -244,7 +245,7 @@ def bike_select_popup(request):
     # define an empty search pattern
     where_filter = Q()
 
-    if request.method =="POST":
+    if request.method == "POST":
         frame_search_form = FrameSearchForm(request.POST)
         if frame_search_form.is_valid():
             search_brand = frame_search_form.cleaned_data['search_brand']
@@ -257,7 +258,9 @@ def bike_select_popup(request):
         frame_search_form = FrameSearchForm()
 
     possible_frames = Frame.objects.filter(where_filter)
-    return render(request, 'epic/frame_select_popup.html',{'frame_search_form':frame_search_form, 'possible_frames': possible_frames})
+    return render(request, 'epic/frame_select_popup.html',
+                  {'frame_search_form': frame_search_form, 'possible_frames': possible_frames})
+
 
 # create and order from a quote
 @login_required
@@ -348,7 +351,8 @@ def quote_change_frame(request):
         frame = get_object_or_404(Frame, pk=new_frame_id)
 
         if (new_frame_id != '') and (copy_quote_id != ''):
-            return copy_quote_new_bike(request, quote,frame)
+            return copy_quote_new_bike(request, quote, frame)
+
 
 # bike copy allows new customer
 def quote_copy_bike(request, pk):
@@ -358,7 +362,8 @@ def quote_copy_bike(request, pk):
         if new_customer_id != '':
             return show_bike_quote_edit_new_customer(request, quote, new_customer_id)
 
-    return render(request, 'epic/quote_copy_bike.html',{'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, False)})
+    return render(request, 'epic/quote_copy_bike.html',
+                  {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, False)})
 
 
 # re-open and issued quote
@@ -366,13 +371,12 @@ def quote_copy_bike(request, pk):
 def quote_requote(request, pk):
     if request.method == "POST":
         messages.info(request, 'Invalid action ')
-    else:
-        # get the quote you are basing it on and create a copy_quote
-        quote = get_object_or_404(Quote, pk=pk)
-        return process_quote_requote(request, quote)
+        return HttpResponseRedirect(reverse('quotes'))
 
-    # default return
-    return HttpResponseRedirect(reverse('quotes'))
+    # get the quote you are basing it on and create a copy_quote
+    quote = get_object_or_404(Quote, pk=pk)
+
+    return process_quote_requote(request, quote)
 
 
 # finalise a quote by issuing it
@@ -390,9 +394,10 @@ def quote_issue(request, pk):
     # default return
     return HttpResponseRedirect(reverse('quotes'))
 
-def quote_text(request,pk):
+
+def quote_text(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
-    return show_quote_text(request,quote)
+    return show_quote_text(request, quote)
 
 
 # browse a quote based on a specific frame
@@ -404,7 +409,7 @@ def quote_browse(request, pk):
         # shouldn't be here!
         messages.info(request, 'Invalid action ')
 
-    return show_quote_browse(request,quote)
+    return show_quote_browse(request, quote)
 
 
 @login_required
@@ -473,6 +478,22 @@ def bike_upload(request):
         return next_screen
     else:
         return menu_home(request)
+
+
+def create_model(request):
+    if request.method != "POST":
+        messages.info(request, 'Invalid action ')
+        return HttpResponseRedirect(reverse('menu_home'))
+
+    model = request.POST.get('model', '')
+    copy_quote_id = request.POST.get('copy_quote_id', '')
+    quote = get_object_or_404(Quote, pk=copy_quote_id)
+    if not quote.is_bike():
+        messages.info(request, 'Cannot create a standard build from this quote ' + str(quote))
+        return HttpResponseRedirect(reverse('menu_home'))
+
+    if (model != '') and (copy_quote_id != ''):
+        return create_new_model(request, quote, model)
 
 
 def logout_view(request):
