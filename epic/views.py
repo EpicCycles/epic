@@ -10,8 +10,8 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 
 # forms and formsets used in the views
-from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm
-from epic.models import Customer, Supplier, CustomerOrder, INITIAL, ISSUED, CustomerNote
+from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm, FrameSearchForm
+from epic.models import Customer, Supplier, CustomerOrder, INITIAL, ISSUED, CustomerNote, Frame
 from epic.view_helpers.bike_upload_helper import process_upload
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote, edit_customer_order, \
@@ -22,7 +22,7 @@ from epic.view_helpers.note_view_helper import show_notes_popup
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_simple_quote_edit, \
     process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, quote_parts_for_simple_display, \
     quote_parts_for_bike_display, copy_quote_and_display, show_bike_quote_edit_new_customer, process_quote_requote, \
-    process_quote_issue, show_quote_issue, show_quote_browse, show_quote_text
+    process_quote_issue, show_quote_issue, show_quote_browse, show_quote_text, copy_quote_new_bike
 from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
 
 
@@ -239,6 +239,26 @@ def add_brand(request):
         return show_brand_popup(request)
 
 
+# get frame details for pop-up
+def bike_select_popup(request):
+    # define an empty search pattern
+    where_filter = Q()
+
+    if request.method =="POST":
+        frame_search_form = FrameSearchForm(request.POST)
+        if frame_search_form.is_valid():
+            search_brand = frame_search_form.cleaned_data['search_brand']
+            search_name = frame_search_form.cleaned_data['search_name']
+            if search_brand:
+                where_filter &= Q(brand__exact=search_brand)
+            if search_name:
+                where_filter &= Q(frame_name__icontains=search_name)
+    else:
+        frame_search_form = FrameSearchForm()
+
+    possible_frames = Frame.objects.filter(where_filter)
+    return render(request, 'epic/frame_select_popup.html',{'frame_search_form':frame_search_form, 'possible_frames': possible_frames})
+
 # create and order from a quote
 @login_required
 def quote_order(request, pk):
@@ -320,6 +340,16 @@ def copy_quote(request, pk):
         return copy_quote_and_display(request, pk)
 
 
+def quote_change_frame(request):
+    if request.method == "POST":
+        new_frame_id = request.POST.get('new_frame_id', '')
+        copy_quote_id = request.POST.get('copy_quote_id', '')
+        quote = get_object_or_404(Quote, pk=copy_quote_id)
+        frame = get_object_or_404(Frame, pk=new_frame_id)
+
+        if (new_frame_id != '') and (copy_quote_id != ''):
+            return copy_quote_new_bike(request, quote,frame)
+
 # bike copy allows new customer
 def quote_copy_bike(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
@@ -327,12 +357,8 @@ def quote_copy_bike(request, pk):
         new_customer_id = request.POST.get('new_customer_id', '')
         if new_customer_id != '':
             return show_bike_quote_edit_new_customer(request, quote, new_customer_id)
-        else:
-            return render(request, 'epic/quote_copy_bike.html',
-                          {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote)})
-    else:
-        return render(request, 'epic/quote_copy_bike.html',
-                      {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote)})
+
+    return render(request, 'epic/quote_copy_bike.html',{'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, False)})
 
 
 # re-open and issued quote
@@ -376,11 +402,9 @@ def quote_browse(request, pk):
 
     if request.method == "POST":
         # shouldn't be here!
-        return process_quote_issue(request, quote)
         messages.info(request, 'Invalid action ')
-        return show_quote_browse(request, quote)
-    else:
-        return show_quote_browse(request,quote)
+
+    return show_quote_browse(request,quote)
 
 
 @login_required

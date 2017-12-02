@@ -1,13 +1,13 @@
 {% extends 'epic/base.html' %}
-
+{% load staticfiles %}
+{% load static %}
 {% block content %}
-    <h2>Quote</h2>
+    <h2>Quote - {{ quote.customer }} / {{ quote.frame }}</h2>
     <form action="{% url 'quote_edit_bike' pk=quote.pk %}" method="post">
         {% csrf_token %}
         <table>
             <tr>
                 <td class="align_top">
-                    <h3>{{ quote.customer }}</h3>
                     {{ quoteForm.non_field_errors }}
                     <table>
                         {% for field in quoteForm.visible_fields %}
@@ -28,7 +28,7 @@
                     {% endfor %}
                 </td>
                 <td class="align_top">
-                    <h3>Add Item to Quote</h3>
+                    <h4>Add Item to Quote</h4>
                     {% with quoteSimpleAddPart as form %}
                         {% include "epic/form_as_table.html" %}
                     {% endwith %}
@@ -38,10 +38,9 @@
                     />
                 </td>
                 <td class="align_top">
-                    <h3>Fitting Details</h3>
+                    <h4>Fitting Details</h4>
                     {% if customerFittings %}
-                        <h4>Existing Fitting
-                        <h4>
+                        <strong>Existing Fitting</strong>
                         <select name='id_fitting' id='id_fitting'>
                             {% for fitting in customerFittings %}
                                 <option value="{{ fitting.id }}" {% if quote.fitting == fitting.id %}
@@ -49,12 +48,12 @@
                             {% endfor %}
                         </select>
                     {% else %}
-                        <h4>Self Sized</h4>
+                        <strong>Self Sized</strong>
                     {% endif %}
-                    <h4>New Fitting<h4>
-                        {% with fittingForm as form %}
-                            {% include "epic/form_as_table.html" %}
-                        {% endwith %}
+                    <h4>New Fitting</h4>
+                    {% with fittingForm as form %}
+                        {% include "epic/form_as_table.html" %}
+                    {% endwith %}
                 </td>
                 <td class="align_top">
                     {% include "epic/add_notes.html" %}
@@ -64,7 +63,8 @@
         {% include "epic/form_standard_actions.html" %}
         <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button"{% else %}
            class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
-
+        <input type="button" onclick="popupDetail('{% url 'bike_select_popup' %}','Select Bike')" class="button"
+               value="Copy with Alternate Bike"/>
         <h3>Bike specification</h3>
         <table>
             <tr>
@@ -127,4 +127,13 @@
 
     </form>
     {% include "epic/notes_display.html" %}
+    <form id="change_frame_form" name="change_frame_form" action="{% url 'quote_change_frame'%}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="new_frame_id" id="new_frame_id" value=""/>
+
+        <input type="hidden" name="copy_quote_id" id="copy_quote_id" value="{{ quote.id }}"/>
+
+    </form>
+    <script src="{% static 'js/quote_edit_bike.js' %}"></script>
+
 {% endblock %}

@@ -390,6 +390,18 @@ class Quote(models.Model):
             return True
         elif self.quote_status == ARCHIVED:
             return True
+
+        # TODO status change not allowed if ordered
+        if not self.customerOrder:
+            return True
+        else:
+            if OrderFrame.objects.filter(customerOrder=self.customerOrder, supplierOrderItem__isnull=False).exists():
+                return False
+            elif OrderItem.objects.filter(customerOrder=self.customerOrder, supplierOrderItem__isnull=False).exists():
+                return False
+            else:
+                # no orders placed
+                return True
         return False
 
     def archive(self):
@@ -398,6 +410,7 @@ class Quote(models.Model):
 
     def requote(self):
         self.quote_status = INITIAL
+        # TODO delete any Customer Order element
         self.save()
 
     def requote_prices(self):
@@ -414,8 +427,7 @@ class Quote(models.Model):
                 quote_part.cost_price = None
                 quote_part.save()
 
-        self.quote_status = INITIAL
-        self.save()
+        self.requote()
 
     def recalculate_prices(self):
         if self.frame is None:
@@ -533,19 +545,21 @@ class QuotePart(models.Model):
             return self.summary()
 
     def notStandard(self):
+        notStandard = False
         if (self.frame_part != None):
-            if (self.part != self.frame_part.part):
+            if (self.part == None):
+                return True
+            elif (self.part != self.frame_part.part):
                 return True
             else:
                 quotePartAttributes = self.quotepartattribute_set.all()
                 for quotePartAttribute in quotePartAttributes:
-                    if (
-                                quotePartAttribute.attribute_value != quotePartAttribute.partTypeAttribute.default_value_for_quote):
-                        return True
+                    if (quotePartAttribute.attribute_value != quotePartAttribute.partTypeAttribute.default_value_for_quote):
+                        notStandard = True
 
         elif (self.part != None):
             return True
-        return False
+        return notStandard
 
     def requires_prices(self):
         if (self.part is None):
