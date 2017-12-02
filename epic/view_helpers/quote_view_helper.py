@@ -10,9 +10,12 @@ from epic.forms import QuoteForm, QuotePartAttributeForm, QuotePartBasicForm, Qu
     QuoteBikeChangePartForm, QuoteSimpleAddPartForm, QuoteSimpleForm, QuotePartForm, QuoteFittingForm, QuoteBikeForm
 from epic.model_helpers.brand_helper import find_brand_for_name
 from epic.model_helpers.part_helper import find_or_create_part, validate_and_create_part
-from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote
+from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote, \
+    Customer, FramePart
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.note_view_helper import create_customer_note
+
+COPIED = "Replace Me"
 
 
 def show_add_quote(request):
@@ -23,49 +26,28 @@ def show_add_quote(request):
 def copy_quote_and_display(request, pk):
     # get the quote you are basing it on and create a copy_quote
     old_quote = get_object_or_404(Quote, pk=pk)
-    quote_same_name = Quote.objects.filter(customer=old_quote.customer, quote_desc=old_quote.quote_desc).count()
-    # copy quote details
-    new_quote = old_quote
-    new_quote.pk = None
-    new_quote.version = quote_same_name + 1
-    new_quote.quote_status = INITIAL
-    new_quote.created_by = request.user
+    new_quote = copy_quote_detail(old_quote, request, old_quote.frame)
+    new_quote.quote_desc = COPIED
     new_quote.save()
 
-    # get parts from old quote and copy across to new_quote
-    old_quoteParts = QuotePart.objects.filter(quote=old_quote)
-
     if new_quote.is_bike():
-        line_count = 1
-        # replicate the changes from the first quote
-        for old_quotePart in old_quoteParts:
-            try:
-                new_quotePart = QuotePart.objects.get(quote=new_quote, partType=old_quotePart.partType)
-                # already have a part of this type update it to reflect this one
-                new_quotePart.part = old_quotePart.part
-                new_quotePart.quantity = old_quotePart.quantity
-                new_quotePart.sell_price = old_quotePart.sell_price
-                new_quotePart.save()
-            except MultipleObjectsReturned:
-                messages.info(request, 'Could not copy details for part: ' + old_quotePart.partType)
-            except ObjectDoesNotExist:
-                line_count = line_count + 1
-                new_quotePart = old_quotePart
-                new_quotePart.quote = new_quote
-                new_quotePart.pk = None
-                new_quotePart.line = line_count
-                new_quotePart.save()
         # display the bike based quote copy page
         return HttpResponseRedirect(reverse('quote_copy_bike', args=(new_quote.id,)))
     else:
-        # replicate items on first quote
-        for old_quotePart in old_quoteParts:
-            new_quotePart = old_quotePart
-            new_quotePart.pk = None
-            new_quotePart.quote = new_quote
-            new_quotePart.save()
         # display the simple quote edit page
         return HttpResponseRedirect(reverse('quote_edit_simple', args=(new_quote.id,)))
+
+
+def copy_quote_new_bike(request, quote, frame):
+    # get the quote you are basing it on and create a copy_quote
+    new_quote = copy_quote_detail(quote, request, frame)
+    new_quote.frame_sell_price = frame.sell_price
+    new_quote.recalculate_prices()
+    new_quote.keyed_sell_price = None
+    new_quote.quote_desc = COPIED
+    new_quote.save()
+
+    return HttpResponseRedirect(reverse('quote_edit_bike', args=(new_quote.id,)))
 
 
 def create_new_quote(request):
@@ -142,17 +124,21 @@ def process_bike_quote_changes(request, quote):
 
     if quoteForm.is_valid():
         quote = quoteForm.save()
-        quote.recalculate_prices()
-        # if sell price has changed blank keyed value and reset quote status
-        if old_sell_price != quote.sell_price:
-            quote.keyed_sell_price = None
-            quote.quote_status = INITIAL
-            quote.save()
+
+    quote.recalculate_prices()
+    # if sell price has changed blank keyed value and reset quote status
+    if old_sell_price != quote.sell_price:
+        quote.keyed_sell_price = None
+        quote.quote_status = INITIAL
+        quote.save()
 
     return render(request, quote_page, details_for_page)
 
 
 def show_bike_quote_edit(request, quote):
+    if quote.quote_desc == COPIED:
+        quote.quote_desc = None
+
     quoteSimpleAddPart = QuoteSimpleAddPartForm(empty_permitted=True)
     quote_page = 'epic/quote_edit_bike.html'
     customerFittings = Fitting.objects.filter(customer=quote.customer)
@@ -162,6 +148,16 @@ def show_bike_quote_edit(request, quote):
                                         'quoteSections': get_quote_section_parts_and_forms(quote),
                                         'fittingForm': fittingForm, 'customerFittings': customerFittings,
                                         'quoteSimpleAddPart': quoteSimpleAddPart, 'customer_notes': customer_notes})
+
+
+def show_bike_quote_edit_new_customer(request, quote, new_customer_id):
+    customer = get_object_or_404(Customer, pk=new_customer_id)
+    # update the quote with the new customer and an appropriate version
+    quote.customer = customer
+    quote.version = 1
+    quote.save()
+    quote.quote_desc = None
+    return show_bike_quote_edit(request, quote)
 
 
 def process_simple_quote_changes(request, quote):
@@ -199,7 +195,6 @@ def process_simple_quote_changes(request, quote):
                                                     'quoteSimpleAddPart': quoteSimpleAddPart,
                                                     'zipped_values': zipped_values, 'customer_notes': customer_notes})
 
-        new_quote_part = None
         if quoteSimpleAddPart.is_valid():
             part = validate_and_create_part(request, quoteSimpleAddPart)
             if part is not None:
@@ -251,7 +246,74 @@ def show_simple_quote_edit(request, quote):
                                         'customer_notes': customer_notes})
 
 
-# simple display ofsections
+# requote based on original quote
+def process_quote_requote(request, quote):
+    quote.requote()
+    if quote.quote_status == INITIAL:
+        if quote.is_bike():
+            # display the bike based quote edit page
+            return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+        else:
+            # display the simple quote edit page
+            return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+    else:
+        messages.error(request, 'Quote cannot be edited' + str(quote))
+        return HttpResponseRedirect(reverse('quotes'))
+
+
+def show_quote_browse(request, quote):
+    customer_notes = CustomerNote.objects.filter(quote=quote, customer_visible=True)
+
+    if quote.is_bike():
+        return render(request, 'epic/quote_issued_bike.html',
+                      {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, False),
+                       'customer_notes': customer_notes})
+    else:
+        return render(request, 'epic/quote_issued_simple.html',
+                      {'quote': quote, 'quoteDetails': quote_parts_for_simple_display(quote),
+                       'customer_notes': customer_notes})  # amend a quote  save will reset to INITIAL if required
+
+
+# show the quote ready to issue
+def show_quote_issue(request, quote):
+    if quote.can_be_issued():
+        return show_quote_browse(request, quote)
+    elif quote.quote_status == INITIAL:
+        if quote.is_bike():
+            # display the bike based quote edit page
+            messages.error(request, 'Quote needs prices before it can be issued')
+            return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+        else:
+            # display the simple quote edit page
+            messages.error(request, 'Quote needs prices before it can be issued')
+            return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+    else:
+        messages.error(request, 'Quote cannot be Issued or edited' + str(quote))
+        return show_quote_browse(request, quote)
+
+
+# post from browse quote page to issue quote
+def process_quote_issue(request, quote):
+    if quote.quote_status == INITIAL:
+        quote.issue()
+        messages.info(request, 'Quote has been issued')
+
+    return HttpResponseRedirect(reverse('quote_browse', args=(quote.id,)))
+
+
+def show_quote_text(request, quote):
+    customer_notes = CustomerNote.objects.filter(quote=quote, customer_visible=True)
+    if quote.is_bike():
+        return render(request, 'epic/quote_text.html',
+                      {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, True),
+                       'customer_notes': customer_notes, 'summary_view': True})
+    else:
+        return render(request, 'epic/quote_text.html',
+                      {'quote': quote, 'quoteDetails': quote_parts_for_simple_display(quote),
+                       'customer_notes': customer_notes, 'summary_view': True})
+
+
+# simple display of sections
 def quote_parts_for_simple_display(quote):
     quotePartObjects = QuotePart.objects.filter(quote=quote)
     quotePartDetails = []
@@ -262,8 +324,73 @@ def quote_parts_for_simple_display(quote):
     return zipped_values
 
 
-# simple display ofsections
-def quote_parts_for_bike_display(quote):
+# create a new quote based on an existing quote
+def copy_quote_detail(old_quote, request, frame):
+    # get the quote you are basing it on and create a copy_quote
+    quote_same_name = Quote.objects.filter(customer=old_quote.customer, quote_desc=old_quote.quote_desc).count()
+    # copy quote details
+    new_quote = Quote.objects.get(pk=old_quote.pk)
+    new_quote.pk = None
+    new_quote.version = quote_same_name + 1
+    new_quote.quote_status = INITIAL
+    new_quote.created_by = request.user
+    new_quote.frame = frame
+    if frame != old_quote.frame:
+        new_quote.keyed_sell_price = None
+    # save creates all the parts required for a bike
+    new_quote.save()
+
+    # get parts from old quote and copy across to new_quote
+    old_quoteParts = QuotePart.objects.filter(quote=old_quote)
+
+    if new_quote.is_bike():
+        # replicate the changes from the first quote
+        for old_quotePart in old_quoteParts:
+            if old_quotePart.notStandard():
+                try:
+                    new_quotePart = QuotePart.objects.get(quote=new_quote, partType=old_quotePart.partType)
+                    # already have a part of this type update it to reflect this one
+                    new_quotePart.part = old_quotePart.part
+                    new_quotePart.quantity = old_quotePart.quantity
+                    new_quotePart.sell_price = old_quotePart.sell_price
+                    new_quotePart.not_applicable = old_quotePart.not_applicable
+                    new_quotePart.save()
+                    old_quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=old_quotePart)
+                    for attribute in old_quote_part_attributes:
+                        try:
+                            new_quote_part_attribute = QuotePartAttribute.objects.get(quotePart=new_quotePart,
+                                                                                      partTypeAttribute=attribute.partTypeAttribute)
+                            new_quote_part_attribute.attribute_value = attribute.attribute_value
+                            new_quote_part_attribute.save()
+                        except ObjectDoesNotExist:
+                            pass
+
+                except MultipleObjectsReturned:
+                    messages.info(request, 'Could not copy details for part: ' + old_quotePart.partType)
+                except ObjectDoesNotExist:
+                    if not old_quotePart.frame_part:
+                        line_count = QuotePart.objects.filter(quote=new_quote).count() + 1
+                        new_quotePart = old_quotePart
+                        new_quotePart.quote = new_quote
+                        new_quotePart.pk = None
+                        new_quotePart.line = line_count
+                        new_quotePart.save()
+
+
+    else:
+        # replicate items on first quote
+        for old_quotePart in old_quoteParts:
+            new_quotePart = old_quotePart
+            new_quotePart.pk = None
+            new_quotePart.quote = new_quote
+            new_quotePart.save()
+
+    new_quote.keyed_sell_price = None
+    return new_quote
+
+
+# simple display of sections
+def quote_parts_for_bike_display(quote, for_customer):
     partSections = PartSection.objects.all()
     partSectionDetails = []
 
@@ -271,11 +398,19 @@ def quote_parts_for_bike_display(quote):
         quoteParts = []
         quotePartDetails = []
         partTypes = PartType.objects.filter(includeInSection=partSection)
+
         for partType in partTypes:
             quotePartObjects = QuotePart.objects.filter(quote=quote, partType=partType)
             for quotePart in quotePartObjects:
-                quoteParts.append(quotePart)
-                quotePartDetails.append(QuotePartAttribute.objects.filter(quotePart=quotePart))
+                include_part = True
+                if for_customer and not partType.customer_facing:
+                    include_part = False
+                    if quotePart.not_applicable or quotePart.notStandard():
+                        include_part = True
+
+                if include_part:
+                    quoteParts.append(quotePart)
+                    quotePartDetails.append(QuotePartAttribute.objects.filter(quotePart=quotePart))
         partSectionDetails.append(zip(quoteParts, quotePartDetails))
     # build a merged array
     zipped_values = zip(partSections, partSectionDetails)
@@ -295,24 +430,37 @@ def update_quote_section_parts_and_forms(request, quote, new_quote_part):
                 quotePartDetails = [quotePart]
                 quotePartAttributeForms = []
 
-                quoteBikeChangePartForm = None
+                initial_QP = {'can_be_substituted': partType.can_be_substituted,
+                              'can_be_omitted': partType.can_be_omitted}
+
                 if (quotePart == new_quote_part):
                     initial_QP = {'new_brand': quotePart.part.brand.brand_name,
                                   'new_part_name': quotePart.part.part_name, 'new_quantity': quotePart.quantity,
                                   'new_sell_price': quotePart.sell_price}
                     initial_QP['can_be_substituted'] = True
-                    initial_QP['can_be_omitted'] = True
+                    initial_QP['can_be_omitted'] = False
                     quoteBikeChangePartForm = QuoteBikeChangePartForm(initial=initial_QP,
                                                                       prefix="QP" + str(quotePart.id))
                 else:
-                    quoteBikeChangePartForm = QuoteBikeChangePartForm(request.POST, request.FILES,
+                    # make sure flags are correct
+                    if quotePart.part is None:
+                        if quotePart.frame_part is None:
+                            # No part and no equivalent part
+                            initial_QP['can_be_substituted'] = True
+                            initial_QP['can_be_omitted'] = False
+                    else:
+                        # part is specified
+                        if quotePart.frame_part is None:
+                            initial_QP['can_be_substituted'] = True
+
+                    quoteBikeChangePartForm = QuoteBikeChangePartForm(request.POST, request.FILES, initial=initial_QP,
                                                                       prefix="QP" + str(quotePart.id))
                     if quoteBikeChangePartForm.is_valid():
                         update_quote_part_from_form(quotePart, quoteBikeChangePartForm, request)
 
                 quotePartAttributes = QuotePartAttribute.objects.filter(quotePart=quotePart)
                 for quotePartAttribute in quotePartAttributes:
-                    if (quotePart == new_quote_part):
+                    if quotePart == new_quote_part:
                         quotePartAttributeForms.append(QuotePartAttributeForm(
                             initial={'attribute_name': str(quotePartAttribute.partTypeAttribute),
                                      'attribute_value': quotePartAttribute.attribute_value},
@@ -355,7 +503,8 @@ def get_quote_section_parts_and_forms(quote):
 
                 quotePartDetails.append(quotePartAttributeForms)
                 sectionParts.append(quotePartDetails)
-                initial_QP = {'can_be_substituted': partType.can_be_substituted,'can_be_omitted': partType.can_be_omitted}
+                initial_QP = {'can_be_substituted': partType.can_be_substituted,
+                              'can_be_omitted': partType.can_be_omitted}
                 if quotePart.part is None:
                     if quotePart.frame_part is not None:
                         # Bike part exists take defaults

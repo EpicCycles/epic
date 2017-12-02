@@ -8,19 +8,29 @@ function addListeners() {
 
     // get all links and add a =n onclick to those not opening in a new window
     var links = document.getElementsByTagName('a');
-    for (i = 0; i < links.length; i++) {
+    for (var i = 0; i < links.length; i++) {
         if (links[i].target != "_blank") {
             if (links[i].addEventListener) {                    // For all major browsers, except IE 8 and earlier
                 links[i].addEventListener("click", checkForChanges);
-            } else if (x.attachEvent) {                  // For IE 8 and earlier versions
+            } else if (links[i].attachEvent) {                  // For IE 8 and earlier versions
                 links[i].attachEvent("click", checkForChanges);
             }
         }
     }
+
+    var buttons = document.querySelectorAll('input[type="button"]');
+    for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].addEventListener) {                    // For all major browsers, except IE 8 and earlier
+            buttons[i].addEventListener("click", checkForChanges);
+        } else if (buttons[i].attachEvent) {                  // For IE 8 and earlier versions
+            buttons[i].attachEvent("click", checkForChanges);
+        }
+    }
+
 }
 
 function attachChangeEventToList(inputs) {
-    for (i = 0; i < inputs.length; i++) {
+    for (var i = 0; i < inputs.length; i++) {
         if (inputs[i].addEventListener) {                    // For all major browsers, except IE 8 and earlier
             inputs[i].addEventListener("change", setChangeFlag);
         } else if (x.attachEvent) {                  // For IE 8 and earlier versions

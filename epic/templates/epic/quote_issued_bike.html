@@ -1,13 +1,19 @@
 {% extends 'epic/base.html' %}
 
 {% block content %}
-<table width="100%"><tr>
-    <td><h2>Quote</h2></td>
-    <td class="page_actions align_right">
-      {% include "epic/quote_issued_buttons.html" %}
-    </td>
-</tr></table>
-{% include "epic/quote_issued_bike_detail.html" %}
+    <form action="" method="post">
+        {% csrf_token %}
 
-{% include "epic/notes_display.html" %}
+        <table width="100%">
+            <tr>
+                <td><h2>Quote</h2></td>
+                <td class="page_actions align_right">
+                    {% include "epic/quote_issued_buttons.html" %}
+                </td>
+            </tr>
+        </table>
+    </form>
+    {% include "epic/quote_issued_bike_detail.html" %}
+
+    {% include "epic/notes_display.html" %}
 {% endblock %}

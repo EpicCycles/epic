@@ -1,9 +1,19 @@
-      {% if quote.can_be_reissued %}
-        <a href="{% url 'quote_requote' pk=quote.pk %}"  class="button" >Re Quote</a>
-        <a href="{% url 'quote_amend' pk=quote.pk %}"  class="button" >Amend</a>
-      {% else %}
-        <a href="{% url 'quote_requote' pk=quote.pk %}"  class="button disabled" onclick="return false;">Re Quote</a>
-        <a href="{% url 'quote_amend' pk=quote.pk %}"  class="button disabled" onclick="return false;">Amend</a>
-      {% endif %}
-      <a href="{% url 'quote_order' pk=quote.pk %}"  {% if quote.can_be_ordered %} class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Place Order</a>
-      <a href="{% url 'copy_quote' pk=quote.pk %}" class="button">Copy to New quote</a>
+{% if quote.can_be_issued %}
+    <input type="submit" value="Issue Quote and email" class="button"/>
+    <a href="{% url 'quote_amend' pk=quote.pk %}" class="button">Continue Editing</a>
+{% else %}
+    {% if quote.can_be_reissued %}
+        <a href="{% url 'quote_requote' pk=quote.pk %}" class="button">Re Quote</a>
+        <a href="{% url 'quote_amend' pk=quote.pk %}" class="button">Amend</a>
+        <input type="button"
+               onclick="popupDetail('{% url 'quote_text' pk=quote.pk %}','Quote Text')"
+               class="button" value="Quote Summary"
+        />
+    {% else %}
+        <a href="{% url 'quote_requote' pk=quote.pk %}" class="button disabled" onclick="return false;">Re Quote</a>
+        <a href="{% url 'quote_amend' pk=quote.pk %}" class="button disabled" onclick="return false;">Amend</a>
+    {% endif %}
+{% endif %}
+<a href="{% url 'quote_order' pk=quote.pk %}"  {% if quote.can_be_ordered %} class="button" {% else %}
+   class="button disabled" onclick="return false;" {% endif %}>Place Order</a>
+<a href="{% url 'copy_quote' pk=quote.pk %}" class="button">Copy to New quote</a>

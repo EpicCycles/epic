@@ -8,7 +8,7 @@
         <td colspan=3>{{ quote.frame }}</td>
         <th>Bike Price</th>
         <td colspan=5>{{ quote.frame_sell_price }}</td>
-   </tr>
+    </tr>
     {% for section, sectionContents in quoteSections %}
         {% for quotePart, quotePartAttributes in sectionContents %}
             {% cycle 'row1' 'row2' as rowcolors silent %}
@@ -29,7 +29,19 @@
                     </table>
                 </td>
                 <td class="align_right">{% if quotePart.quantity > 1 %} {{ quotePart.quantity }} @ {% endif %}</td>
-                <td class="align_right">{% if quotePart.sell_price and quotePart.notStandard %}&pound;{{ quotePart.sell_price }}{% endif %}</td>
+                <td class="align_right">
+                    {% if not summary_view %}
+                        {% if quotePart.notStandard %}
+                            {% if quotePart.sell_price %}
+                                &pound;{{ quotePart.sell_price }}&nbsp;
+                            {% endif %}
+
+                            {% if quotePart.trade_in_price %}
+                                Trade in &pound;{{ quotePart.trade_in_price }}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
     {% endfor %}
@@ -40,6 +52,7 @@
     <tr>
         <th class="align_right">Fitting</th>
         <td colspan=5>
-        {{ quote.fitting }}</th>
+            {{ quote.fitting }}
+        </td>
     </tr>
 </table>

@@ -1,0 +1,40 @@
+{% extends 'epic/base_popup.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block content %}
+    <!-- select a frame - used as a popup -->
+    <form action="" method="post">
+        {% csrf_token %}
+
+        <h3>Filter values:</h3>
+        {% with frame_search_form as form %}
+            {% include "epic/form_as_table.html" %}
+        {% endwith %}
+        <input type="submit" value="Search" class="button"/>
+    </form>
+    <hr/>
+    {% if possible_frames %}
+        <table style='height:60%;'>
+            <tr>
+                <td>
+                    <div style='height:100%; overflow: scroll;'>
+                        {% for frame in possible_frames %}
+                            <input type="radio" name="frame" id="frame" value="{{ frame.pk }}"
+                                   onclick="handleClick(this)"/>
+                            <label for="choice{{ forloop.counter }}">{{ frame }}</label>
+                            <br/>
+                        {% endfor %}
+                    </div>
+                </td>
+                <td><input type='button' class="button" value='Select Frame' onclick='selectAndClose()'/></td>
+            </tr>
+        </table>
+
+
+    {% else %}
+        <p>No frames match search criteria.</p>
+    {% endif %}
+    <!-- pop up specific script -->
+    <script src="{% static 'js/frame_select_popup.js' %}"></script>
+{% endblock %}

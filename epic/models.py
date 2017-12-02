@@ -132,16 +132,25 @@ class PartTypeAttribute(models.Model):
         ordering = ('placing',)
 
 
+# suppliersfor bikes/parts etc
+class Supplier(models.Model):
+    supplier_name = models.CharField('Supplier', max_length=100, unique=True)
+
+    def __str__(self):
+        return self.supplier_name
+
+
 class Brand(models.Model):
     brand_name = models.CharField(max_length=50, unique=True)
     link = models.CharField(max_length=100, blank=True)
+    supplier = models.ForeignKey(Supplier, blank=True, null=True)
 
     def __str__(self):
         return self.brand_name
 
     # check whether a web kink ispresent
     def hasLink(self):
-        return (self.link is not None)
+        return self.link is not None
 
     # build a web link as standard
     def linkNewTab(self):
@@ -283,12 +292,12 @@ class Quote(models.Model):
         # calculate sum before saving.
         self.recalculate_prices()
         # is_new = self._state.adding
-        is_new = (self.pk == None)
+        is_new = (self.pk is None)
         super(Quote, self).save(*args, **kwargs)
 
         if is_new and self.is_bike():
             # create quote frame link
-            if  not self.frame_sell_price:
+            if not self.frame_sell_price:
                 self.frame_sell_price = self.frame.sell_price
 
             # create lines for quote
@@ -381,6 +390,18 @@ class Quote(models.Model):
             return True
         elif self.quote_status == ARCHIVED:
             return True
+
+        # TODO status change not allowed if ordered
+        if not self.customerOrder:
+            return True
+        else:
+            if OrderFrame.objects.filter(customerOrder=self.customerOrder, supplierOrderItem__isnull=False).exists():
+                return False
+            elif OrderItem.objects.filter(customerOrder=self.customerOrder, supplierOrderItem__isnull=False).exists():
+                return False
+            else:
+                # no orders placed
+                return True
         return False
 
     def archive(self):
@@ -388,25 +409,25 @@ class Quote(models.Model):
         self.save()
 
     def requote(self):
-        self.frame_cost_price = None
-        self.frame_sell_price = None
         self.quote_status = INITIAL
+        # TODO delete any Customer Order element
         self.save()
 
     def requote_prices(self):
+        self.sell_price = None
         self.keyed_sell_price = None
         self.frame_cost_price = None
         self.frame_sell_price = None
 
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
+            quote_part.trade_in_price = None
             if quote_part.quantity is not None:
                 quote_part.sell_price = None
                 quote_part.cost_price = None
                 quote_part.save()
 
-        self.quote_status = INITIAL
-        self.save()
+        self.requote()
 
     def recalculate_prices(self):
         if self.frame is None:
@@ -415,6 +436,8 @@ class Quote(models.Model):
             self.sell_price = 0
         else:
             self.sell_price = self.frame_sell_price
+            if self.colour_price is not None:
+                self.sell_price += self.colour_price
 
         # loop through the parts for the quote
         quote_parts = self.quotepart_set.all()
@@ -422,6 +445,8 @@ class Quote(models.Model):
 
             if not ((quote_part.quantity is None) or (quote_part.sell_price is None)):
                 self.sell_price += quote_part.sell_price * quote_part.quantity
+            if (quote_part.trade_in_price is not None):
+                self.sell_price -= quote_part.trade_in_price
 
     class Meta:
         # order most recent first
@@ -520,12 +545,21 @@ class QuotePart(models.Model):
             return self.summary()
 
     def notStandard(self):
+        notStandard = False
         if (self.frame_part != None):
-            if (self.part != self.frame_part.part):
+            if (self.part == None):
                 return True
+            elif (self.part != self.frame_part.part):
+                return True
+            else:
+                quotePartAttributes = self.quotepartattribute_set.all()
+                for quotePartAttribute in quotePartAttributes:
+                    if (quotePartAttribute.attribute_value != quotePartAttribute.partTypeAttribute.default_value_for_quote):
+                        notStandard = True
+
         elif (self.part != None):
             return True
-        return False
+        return notStandard
 
     def requires_prices(self):
         if (self.part is None):
@@ -563,19 +597,11 @@ class QuotePartAttribute(models.Model):
         unique_together = (("quotePart", "partTypeAttribute"),)
 
 
-# suppliersfor bikes/parts etc
-class Supplier(models.Model):
-    supplier_name = models.CharField('Supplier', max_length=100, unique=True)
-
-    def __str__(self):
-        return self.supplier_name
-
-
 # Supplier Order details
 class SupplierOrder(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     order_identifier = models.CharField('Order', max_length=20, unique=True)
-    date_placed = models.DateField('Order Date', null=True, blank=True,default=date.today)
+    date_placed = models.DateField('Order Date', null=True, blank=True, default=date.today)
 
     def __str__(self):
         item_count = SupplierOrderItem.objects.filter(supplierOrder=self.id).count()
@@ -653,7 +679,9 @@ class OrderPayment(models.Model):
 class OrderItemManager(models.Manager):
     # this creates a skinny version to use on a form incomplete cannot be saved
     def create_orderItem(self, part, customerOrder, quotePart):
-        orderItem = self.create(customerOrder=customerOrder, part=part, quotePart=quotePart)
+        brand = part.brand
+        orderItem = self.create(customerOrder=customerOrder, part=part, quotePart=quotePart,
+                                supplier=brand.supplier)
         return orderItem
 
 

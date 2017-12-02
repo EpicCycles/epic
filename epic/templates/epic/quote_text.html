@@ -1,0 +1,14 @@
+{% extends 'epic/base_popup.html' %}
+{% block content %}
+    <!-- Customer facing quote summary - used as a popup -->
+    {% if quote.is_bike %}
+        {% include "epic/quote_issued_bike_detail.html" %}
+    {% else %}
+        {% include "epic/quote_issued_simple_detail.html" %}
+
+    {% endif %}
+    {% if customer_notes and customer_notes.length > 0 %}
+        {% include "epic/notes_display.html" %}
+    {% endif %}
+
+{% endblock %}

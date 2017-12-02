@@ -155,6 +155,25 @@ class QuoteSearchForm(forms.Form):
         self.label_suffix = ''
 
 
+# form for searching for quotes
+class FrameSearchForm(forms.Form):
+    search_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
+    search_name = forms.CharField(max_length=30, required=False, label='Name Like')
+
+    def __init__(self, *args, **kwargs):
+        super(FrameSearchForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+
+class BrandForm(ModelForm):
+    class Meta:
+        model = Brand
+        fields = ['brand_name', 'supplier']
+
+    def __init__(self, *args, **kwargs):
+        super(BrandForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+
+
 # Get back quotes for the current user
 class MyQuoteSearchForm(forms.Form):
     search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Bike/Frame',
@@ -170,7 +189,8 @@ class MyQuoteSearchForm(forms.Form):
 class QuoteForm(ModelForm):
     class Meta:
         model = Quote
-        fields = ['customer', 'quote_desc', 'quote_type', 'frame', 'frame_sell_price','colour','colour_price','frame_size']
+        fields = ['customer', 'quote_desc', 'quote_type', 'frame', 'frame_sell_price', 'colour', 'colour_price',
+                  'frame_size']
 
     def __init__(self, *args, **kwargs):
         super(QuoteForm, self).__init__(*args, **kwargs)
@@ -230,7 +250,6 @@ class QuoteSimpleForm(ModelForm):
 # simple quote add item
 class QuoteSimpleAddPartForm(forms.Form):
     new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand', label_suffix='')
-    new_brand_add = forms.CharField(max_length=30, required=False, label='Add Brand', label_suffix='')
     new_part_type = forms.ModelChoiceField(queryset=PartType.objects.all().order_by('shortName'), required=False,
                                            label='Part Type', label_suffix='')
     new_part_name = forms.CharField(max_length=60, required=False, label='Part Name', label_suffix='')
@@ -248,19 +267,15 @@ class QuoteSimpleAddPartForm(forms.Form):
         cleaned_data = super(QuoteSimpleAddPartForm, self).clean()
 
         new_brand = cleaned_data.get("new_brand")
-        new_brand_add = cleaned_data.get("new_brand_add")
         new_part_type = cleaned_data.get("new_part_type")
         new_part_name = cleaned_data.get("new_part_name")
         new_quantity = cleaned_data.get("new_quantity")
         new_sell_price = cleaned_data.get("new_sell_price")
 
         # no fieldsare required but if any are present all must be
-        if (new_brand or new_brand_add or new_part_type or new_part_name or new_quantity or new_sell_price) and not (
-                            (new_brand or new_brand_add) and new_part_type and new_part_name and new_quantity):
+        if (new_brand or new_part_type or new_part_name or new_quantity or new_sell_price) and not (
+                    new_brand and new_part_type and new_part_name and new_quantity):
             raise forms.ValidationError("All data must be entered to add a new item to a quote.")
-        # must have only one of new_brand and new_brand_add
-        if new_brand and new_brand_add:
-            raise forms.ValidationError("Either select an existing Brand or type a New Brand.")
 
 
 # quote for a  bike based (items only)
@@ -275,9 +290,11 @@ class QuoteBikeForm(ModelForm):
         self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 9})
         self.fields['frame_sell_price'].widget = forms.TextInput(attrs={'size': 9})
         self.fields['colour_price'].widget = forms.TextInput(attrs={'size': 9})
+
     class Meta:
         model = Quote
-        fields = ['customer', 'quote_type', 'quote_desc', 'frame', 'sell_price', 'keyed_sell_price', 'frame_sell_price','colour','colour_price','frame_size']
+        fields = ['customer', 'quote_type', 'quote_desc', 'frame', 'sell_price', 'keyed_sell_price', 'frame_sell_price',
+                  'colour', 'colour_price', 'frame_size']
 
 
 # basic quote kine for adding lines
@@ -295,8 +312,8 @@ class QuotePartBasicForm(ModelForm):
 # simple quote add item
 class QuoteBikeChangePartForm(forms.Form):
     not_required = forms.BooleanField(required=False, label='None', label_suffix='')
-    can_be_substituted = forms.BooleanField(required=False, label='None', label_suffix='')
-    can_be_omitted = forms.BooleanField(required=False, label='None', label_suffix='')
+    can_be_substituted = forms.BooleanField(required=False, label='Subs', label_suffix='')
+    can_be_omitted = forms.BooleanField(required=False, label='Omit', label_suffix='')
     trade_in_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
                                         label='Trade In', label_suffix='')
     new_brand = forms.CharField(max_length=60, required=False, label='Brand', label_suffix='')
@@ -322,16 +339,18 @@ class QuoteBikeChangePartForm(forms.Form):
         # modify the form to reflect the actual possibilities
         can_be_substituted = initialValues['can_be_substituted']
         can_be_omitted = initialValues['can_be_omitted']
-        print(can_be_substituted)
         if not can_be_substituted:
             self.fields['new_brand'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_part_name'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_quantity'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_sell_price'].widget.attrs['disabled'] = 'disabled'
-            self.fields['trade_in_price'].widget.attrs['disabled'] = 'disabled'
 
         if not can_be_omitted:
             self.fields['not_required'].widget.attrs['disabled'] = 'disabled'
+
+        if not (can_be_substituted or can_be_omitted):
+            self.fields['trade_in_price'].widget.attrs['disabled'] = 'disabled'
+
 
     def clean(self):
         cleaned_data = super(QuoteBikeChangePartForm, self).clean()
