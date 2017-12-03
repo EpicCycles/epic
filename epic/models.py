@@ -173,7 +173,7 @@ class Part(models.Model):
     objects = PartManager()
 
     def __str__(self):
-        return self.brand.brand_name + ' ' + self.part_name
+        return self.partType.shortName + ':' + self.brand.brand_name + ' ' + self.part_name
 
     class Meta:
         unique_together = (("partType", "brand", "part_name"),)
@@ -279,6 +279,20 @@ class CustomerOrder(models.Model):
         for orderPayment in orderPayments:
             if not (orderPayment.amount is None):
                 self.amount_due -= orderPayment.amount
+
+    def can_be_cancelled(self):
+        print("in can be cancelled")
+        if OrderFrame.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
+            print("order frame with supplier orders")
+
+            return False
+        elif OrderItem.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
+            print("order item with supplier orders")
+            return False
+        else:
+            # no orders placed
+            print("no supplier orders")
+            return True
 
 
 class Quote(models.Model):
@@ -412,13 +426,8 @@ class Quote(models.Model):
         if not self.customerOrder:
             return True
         else:
-            if OrderFrame.objects.filter(customerOrder=self.customerOrder, supplierOrderItem__isnull=False).exists():
-                return False
-            elif OrderItem.objects.filter(customerOrder=self.customerOrder, supplierOrderItem__isnull=False).exists():
-                return False
-            else:
-                # no orders placed
-                return True
+            return self.customerOrder.can_be_cancelled()
+
         return False
 
     def archive(self):
@@ -427,8 +436,10 @@ class Quote(models.Model):
 
     def requote(self):
         self.quote_status = INITIAL
-        # TODO delete any Customer Order element
+        self.customerOrder = None
         self.save()
+
+
 
     def requote_prices(self):
         self.sell_price = None
@@ -532,7 +543,7 @@ class QuotePart(models.Model):
             if self.part.part_name is None:
                 return self.partType.shortName + "N/A"
             else:
-                return self.partType.shortName + ' ' + self.part.part_name
+                return str(self.part)
 
     # return a part summary for use on Order and other pages
     def summary(self):
@@ -646,7 +657,7 @@ class SupplierOrderItem(models.Model):
 class OrderFrameManager(models.Manager):
     # this creates a skinny version to use on a form incomplete cannot be saved
     def create_orderFrame(self, frame, customerOrder, quote):
-        orderFrame = self.create(customerOrder=customerOrder, frame=frame, quote=quote)
+        orderFrame = self.create(customerOrder=customerOrder, frame=frame, supplier=frame.brand.supplier, quote=quote)
         return orderFrame
 
 

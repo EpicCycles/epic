@@ -11,16 +11,16 @@ from django.views.generic.list import ListView
 
 # forms and formsets used in the views
 from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm, FrameSearchForm
-from epic.models import Customer, Supplier, CustomerOrder, INITIAL, ISSUED, CustomerNote, Frame
+from epic.models import Customer, Supplier, CustomerOrder, Frame
 from epic.view_helpers.frame_view_helper import process_upload, create_new_model
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote, edit_customer_order, \
-    process_customer_order_edits
+    process_customer_order_edits, cancel_order_and_requote, cancel_order_and_quote
 from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.menu_view_helper import show_menu
 from epic.view_helpers.note_view_helper import show_notes_popup
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_simple_quote_edit, \
-    process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, quote_parts_for_simple_display, \
+    process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, \
     quote_parts_for_bike_display, copy_quote_and_display, show_bike_quote_edit_new_customer, process_quote_requote, \
     process_quote_issue, show_quote_issue, show_quote_browse, show_quote_text, copy_quote_new_bike
 from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
@@ -284,6 +284,27 @@ def order_edit(request, pk):
         return edit_customer_order(request, customerOrder)
 
 
+# create and order from a quote
+@login_required
+def order_requote(request, pk):
+    if request.method == "POST":
+        # shouldn't be here!
+        messages.info(request, 'Invalid action ')
+    else:
+        customer_order = get_object_or_404(CustomerOrder, pk=pk)
+        return cancel_order_and_requote(request, customer_order)
+
+
+@login_required
+def cancel_order(request, pk):
+    if request.method == "POST":
+        # shouldn't be here!
+        messages.info(request, 'Invalid action ')
+    else:
+        customer_order = get_object_or_404(CustomerOrder, pk=pk)
+        return cancel_order_and_quote(request, customer_order)
+
+
 # Get Orders matching a search
 # this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
 class OrderList(LoginRequiredMixin, ListView):
@@ -390,9 +411,6 @@ def quote_issue(request, pk):
     else:
         return show_quote_issue(request, quote)
         # get the quote you are basing it on and create a copy_quote
-
-    # default return
-    return HttpResponseRedirect(reverse('quotes'))
 
 
 def quote_text(request, pk):
