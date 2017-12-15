@@ -56,14 +56,14 @@ def cancel_order_and_requote(request, customer_order):
         customer_order.delete()
         if show_quote:
             messages.info(request, 'Associated Customer Order has been cancelled ')
-            HttpResponseRedirect(reverse('quote_edit', args=(show_quote.pk,)))
+            return HttpResponseRedirect(reverse('quote_edit', args=(show_quote.pk,)))
         else:
             messages.info(request, 'Customer Order has been deleted ')
-            HttpResponseRedirect(reverse('order_list'))
+            return HttpResponseRedirect(reverse('order_list'))
     else:
         messages.info(request, 'Supplier Orders have been placed these must be cancelled first')
 
-    HttpResponseRedirect(reverse('order_edit', args=(customer_order.pk,)))
+    return HttpResponseRedirect(reverse('order_edit', args=(customer_order.pk,)))
 
 
 def cancel_order_and_quote(request, customer_order):

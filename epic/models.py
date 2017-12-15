@@ -565,7 +565,10 @@ class QuotePart(models.Model):
     def summaryBikePart(self):
         if self.notStandard():
             if self.part:
-                return str(self) + ' Substitute part required'
+                if self.frame_part:
+                    return self.summary() + ' (Substitute part)'
+                else:
+                    return self.summary()
             else:
                 return str(self) + ' NOT REQUIRED'
         else:
@@ -627,12 +630,14 @@ class QuotePartAttribute(models.Model):
 # Supplier Order details
 class SupplierOrder(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    order_identifier = models.CharField('Order', max_length=20, unique=True)
+    order_identifier = models.CharField('Order', max_length=20)
     date_placed = models.DateField('Order Date', null=True, blank=True, default=date.today)
 
     def __str__(self):
-        item_count = SupplierOrderItem.objects.filter(supplierOrder=self.id).count()
-        return str(self.supplier) + "Order id" + self.order_identifier + "(" + str(item_count) + " items)"
+        return str(self.supplier) + "Order id" + self.order_identifier
+
+    class Meta:
+        unique_together = (("supplier", "order_identifier"),)
 
 
 # Managers for OrderItem
@@ -720,6 +725,7 @@ class OrderItem(models.Model):
     supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True, null=True)
     receipt_date = models.DateTimeField('Date received', null=True, blank=True)
     quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE, blank=True, null=True)
+    stock_item = models.BooleanField(default=False)
     history = simple_history.models.HistoricalRecords()
     objects = OrderItemManager()
 

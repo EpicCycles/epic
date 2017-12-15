@@ -1,4 +1,10 @@
+import json
+from datetime import date, datetime
+
+import apostle
+import apostle as apostle
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -293,9 +299,53 @@ def show_quote_issue(request, quote):
 
 
 # post from browse quote page to issue quote
+def build_quote_detail_for_email(quote):
+    # todo additional details formatting
+    quote_for_email = {}
+    if quote.is_bike():
+        quote_for_email['bike'] = str(quote.frame)
+        if quote.fitting:
+            quote_for_email['fitting'] = {'source': quote.fitting.fitting_type,
+                                          'saddle_height': quote.fitting.saddle_height,
+                                          'bar_height': quote.fitting.bar_height, 'reach': quote.fitting.reach}
+
+    partSections = PartSection.objects.all()
+    items = []
+    for partSection in partSections:
+        partTypes = PartType.objects.filter(includeInSection=partSection)
+
+        for partType in partTypes:
+            quotePartObjects = QuotePart.objects.filter(quote=quote, partType=partType)
+            for quotePart in quotePartObjects:
+                include_part = True
+                if not partType.customer_facing:
+                    include_part = False
+                    if quotePart.notStandard():
+                        include_part = True
+
+                if include_part:
+                    if quote.is_bike():
+                        items.append({'name': quotePart.summaryBikePart(), 'qty': str(quotePart.quantity)})
+                    else:
+                        items.append({'name': quotePart.summary(), 'qty': str(quotePart.quantity)})
+    quote_for_email['id'] = str(quote)
+    quote_for_email['cost'] = str(quote.keyed_sell_price)
+    quote_for_email['date'] = str(date.today())
+    quote_for_email['items'] = items
+    return quote_for_email
+
+
 def process_quote_issue(request, quote):
     if quote.quote_status == INITIAL:
         quote.issue()
+        quote_detail = build_quote_detail_for_email(quote)
+        apostle.domain_key = "130b06ec68e5d0805ffd8d57db463f0d99f85627"
+        mail = apostle.Mail("quote-details",
+                            {"name":str(quote.customer),"email": "anna.weaverhr6@gmail.com", "from_address": "appdev.epiccycles@gmail.com"})
+        mail.quote = quote_detail
+        queue = apostle.Queue()
+        queue.add(mail)
+        queue.deliver()
         messages.info(request, 'Quote has been issued')
 
     return HttpResponseRedirect(reverse('quote_browse', args=(quote.id,)))

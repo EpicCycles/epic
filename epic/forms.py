@@ -112,12 +112,6 @@ PhoneFormSet = inlineformset_factory(Customer, CustomerPhone, form=PhoneForm, ex
 FittingFormSet = inlineformset_factory(Customer, Fitting, form=FittingForm, extra=1)
 
 
-class BrandForm(ModelForm):
-    class Meta:
-        model = Brand
-        fields = '__all__'
-
-
 class FrameForm(ModelForm):
     class Meta:
         model = Frame
@@ -163,6 +157,7 @@ class FrameSearchForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(FrameSearchForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
+
 
 class BrandForm(ModelForm):
     class Meta:
@@ -274,7 +269,7 @@ class QuoteSimpleAddPartForm(forms.Form):
 
         # no fieldsare required but if any are present all must be
         if (new_brand or new_part_type or new_part_name or new_quantity or new_sell_price) and not (
-                    new_brand and new_part_type and new_part_name and new_quantity):
+                            new_brand and new_part_type and new_part_name and new_quantity):
             raise forms.ValidationError("All data must be entered to add a new item to a quote.")
 
 
@@ -337,6 +332,7 @@ class QuoteBikeChangePartForm(forms.Form):
         self.fields['trade_in_price'].widget = forms.TextInput(attrs={'size': 8})
 
         # modify the form to reflect the actual possibilities
+        print(self.base_fields['new_part_name'])
         can_be_substituted = initialValues['can_be_substituted']
         can_be_omitted = initialValues['can_be_omitted']
         if not can_be_substituted:
@@ -350,7 +346,6 @@ class QuoteBikeChangePartForm(forms.Form):
 
         if not (can_be_substituted or can_be_omitted):
             self.fields['trade_in_price'].widget.attrs['disabled'] = 'disabled'
-
 
     def clean(self):
         cleaned_data = super(QuoteBikeChangePartForm, self).clean()
@@ -369,7 +364,11 @@ class QuoteBikeChangePartForm(forms.Form):
         if new_brand or new_part_name or new_quantity or new_sell_price:
             if not_required:
                 raise forms.ValidationError(
-                    "Cannot have part not required and part details" + "Either set part to not required and remove part details," + " or untick the checkbox and add part details to replace the existing values.")
+                    "Cannot have part not required and part details" + "Either set part to not required and remove "
+                                                                       "part details," + " or untick the checkbox and"
+                                                                                         " add part details to "
+                                                                                         "replace the existing "
+                                                                                         "values.")
             elif not (new_brand and new_part_name and new_quantity):
                 raise forms.ValidationError("All data must be entered to update an item on a quote.")
 
@@ -501,6 +500,29 @@ class OrderItemForm(ModelForm):
         self.fields['customerOrder'].widget = HiddenInput()
         self.fields['part'].widget = HiddenInput()
         self.fields['receipt_date'].widget = SelectDateWidget()
+        self.label_suffix = ''
+
+# Form for details of parts being ordered.
+class OrderItemDetailForm(forms.Form):
+    part = forms.HiddenInput()
+    stock_item = forms.BooleanField(label='Stock Item')
+    supplier = forms.ModelChoiceField(Supplier.objects)
+    receipt_date = forms.DateField(label='Receipt Date')
+    leadtime = forms.IntegerField(label='Leadtime (weeks)')
+    cancel_item = forms.BooleanField(label='Cancel Item')
+    supplier_order = forms.HiddenInput()
+    order_date = forms.HiddenInput()
+
+    def __init__(self, *args, **kwargs):
+        super(OrderItemDetailForm, self).__init__(*args, **kwargs)
+        stock_item = self.instance.stock_item
+        supplier_order = self.instance.supplier_order
+        if stock_item:
+            self.fields['receipt_date'].widget.attrs['disabled'] = True
+
+        if (stock_item or supplier_order):
+            self.fields['supplier'].widget = HiddenInput()
+
         self.label_suffix = ''
 
 
