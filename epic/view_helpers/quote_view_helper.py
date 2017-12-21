@@ -69,17 +69,20 @@ def create_new_quote(request):
             logging.getLogger("error_logger").exception('Quote could not be saved')
             return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
 
-        if newQuote.is_bike():
-            # display the bike based quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_bike', args=(newQuote.id,)))
-        else:
-            # display the simple quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_simple', args=(newQuote.id,)))
+        return show_quote_edit(request, newQuote)
 
     else:
         logging.getLogger("error_logger").error(quoteForm.errors.as_json())
 
         return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
+
+def show_quote_edit(request, quote):
+    if quote.is_bike():
+        # display the bike based quote edit page
+        return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+    else:
+        # display the simple quote edit page
+        return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
 
 
 def process_bike_quote_changes(request, quote):
@@ -256,12 +259,7 @@ def show_simple_quote_edit(request, quote):
 def process_quote_requote(request, quote):
     quote.requote()
     if quote.quote_status == INITIAL:
-        if quote.is_bike():
-            # display the bike based quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
-        else:
-            # display the simple quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+        return show_quote_edit(request, quote)
     else:
         messages.error(request, 'Quote cannot be edited' + str(quote))
         return HttpResponseRedirect(reverse('quotes'))
@@ -285,14 +283,8 @@ def show_quote_issue(request, quote):
     if quote.can_be_issued():
         return show_quote_browse(request, quote)
     elif quote.quote_status == INITIAL:
-        if quote.is_bike():
-            # display the bike based quote edit page
-            messages.error(request, 'Quote needs prices before it can be issued')
-            return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
-        else:
-            # display the simple quote edit page
-            messages.error(request, 'Quote needs prices before it can be issued')
-            return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+        messages.error(request, 'Quote needs prices before it can be issued')
+        return show_quote_edit(request, quote)
     else:
         messages.error(request, 'Quote cannot be Issued or edited' + str(quote))
         return show_quote_browse(request, quote)
@@ -684,7 +676,7 @@ def save_quote_part_attributes(quote, request):
 
 def save_quote_part_attribute_form(quotePartAttribute, quotePartAttributeForm):
     if quotePartAttributeForm.is_valid():
-        if quotePartAttributeForm.cleaned_data['attribute_value'] != quotePartAttribute.attribute_value:
+        if quotePartAttributeForm.has_changed():
             quotePartAttribute.attribute_value = quotePartAttributeForm.cleaned_data['attribute_value']
             quotePartAttribute.save()
     else:

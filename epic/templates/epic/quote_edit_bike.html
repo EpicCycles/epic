@@ -100,7 +100,11 @@
                                             <tr class="{{ rowcolors }}">
                                                 <td>{{ quotePartAttributeForm.attribute_name.value }}</td>
                                                 <td>
-                                                    {{ quotePartAttributeForm.attribute_value }}{{ quotePartAttributeForm.attribute_value.errors }}
+                                                    {{ quotePartAttributeForm.attribute_value }}
+                                                    {{ quotePartAttributeForm.attribute_value.errors }}
+                                                    {% for hidden in quotePartAttributeForm.hidden_fields %}
+                                                        {{ hidden }}
+                                                    {% endfor %}
                                             </tr>
                                         {% endfor %}
                                     </table>
@@ -119,7 +123,6 @@
                 {% endfor %}
             {% endfor %}
         </table>
-        </fieldset>
 
         {% include "epic/form_standard_actions.html" %}
         <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button" {% else %}
@@ -127,7 +130,7 @@
 
     </form>
     {% include "epic/notes_display.html" %}
-    <form id="change_frame_form" name="change_frame_form" action="{% url 'quote_change_frame'%}" method="post">
+    <form id="change_frame_form" name="change_frame_form" action="{% url 'quote_change_frame' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="new_frame_id" id="new_frame_id" value=""/>
 

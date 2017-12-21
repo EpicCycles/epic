@@ -15,13 +15,13 @@
                         {% endwith %}
                         <br/>
                     </td>
-                    {% if customer %}
                         <td class="align_top">
                             <h3>New Quote</h3>
                             {% with customer_quote_form as form %}
                                 {% include "epic/form_as_table.html" %}
                             {% endwith %}
                         </td>
+                    {% if customer %}
                         <td class="align_top">
                             {% include "epic/add_notes.html" %}
                             <br/>

@@ -225,6 +225,7 @@ class FramePart(models.Model):
     class Meta:
         unique_together = (("frame", "part"),)
 
+
 # Manager for PramePart
 class FrameExclusionManager(models.Manager):
     def create_frameExclusion(self, frame, partType):
@@ -439,8 +440,6 @@ class Quote(models.Model):
         self.customerOrder = None
         self.save()
 
-
-
     def requote_prices(self):
         self.sell_price = None
         self.keyed_sell_price = None
@@ -503,34 +502,24 @@ class QuotePart(models.Model):
 
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
-        # calculate sum before saving.
-        old_part = self.part
-        is_new = (self.pk == None)
         super(QuotePart, self).save(*args, **kwargs)
         if self.part == None or self.quantity < 1:
             QuotePartAttribute.objects.filter(quotePart=self).delete()
-        elif old_part != self.part:
-            partTypeAttributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
-            for partTypeAttribute in partTypeAttributes:
-                try:
-                    quotePartAttribute = QuotePartAttribute.objects.get(quotePart=self,
-                                                                        partTypeAttribute=partTypeAttribute)
-                    quotePartAttribute.attribute_value = None
-                    quotePartAttribute.save()
-                except ObjectDoesNotExist:
-                    # create a new QuotePartAttribute
-                    quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute)
-                    quotePartAttribute.save()
         else:
             partTypeAttributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
             for partTypeAttribute in partTypeAttributes:
                 try:
                     quotePartAttribute = QuotePartAttribute.objects.get(quotePart=self,
                                                                         partTypeAttribute=partTypeAttribute)
+                    if not self.is_frame_part():
+                        if quotePartAttribute.attribute_value == partTypeAttribute.default_value_for_quote:
+                            quotePartAttribute.attribute_value = None
+                            quotePartAttribute.save()
+
                 except ObjectDoesNotExist:
                     # create a new QuotePartAttribute
                     attribute_value = None
-                    if self.frame_part != None:
+                    if self.is_frame_part():
                         attribute_value = partTypeAttribute.default_value_for_quote
                     quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute,
                                                             attribute_value=attribute_value)
@@ -574,22 +563,24 @@ class QuotePart(models.Model):
         else:
             return self.summary()
 
-    def notStandard(self):
-        notStandard = False
-        if (self.frame_part != None):
-            if (self.part == None):
-                return True
-            elif (self.part != self.frame_part.part):
-                return True
-            else:
-                quotePartAttributes = self.quotepartattribute_set.all()
-                for quotePartAttribute in quotePartAttributes:
-                    if (quotePartAttribute.attribute_value != quotePartAttribute.partTypeAttribute.default_value_for_quote):
-                        notStandard = True
-
-        elif (self.part != None):
+    def is_frame_part(self):
+        if self.frame_part is None:
+            return False
+        if self.frame_part.part == self.part:
             return True
-        return notStandard
+        return False
+
+    def notStandard(self):
+        if self.is_frame_part():
+            quotePartAttributes = self.quotepartattribute_set.all()
+            for quotePartAttribute in quotePartAttributes:
+                if (quotePartAttribute.attribute_value != quotePartAttribute.partTypeAttribute.default_value_for_quote):
+                    return True
+            return False
+        if (self.part is None):
+            if self.frame_part is None:
+                return False
+        return True
 
     def requires_prices(self):
         if (self.part is None):
@@ -712,8 +703,7 @@ class OrderItemManager(models.Manager):
     # this creates a skinny version to use on a form incomplete cannot be saved
     def create_orderItem(self, part, customerOrder, quotePart):
         brand = part.brand
-        orderItem = self.create(customerOrder=customerOrder, part=part, quotePart=quotePart,
-                                supplier=brand.supplier)
+        orderItem = self.create(customerOrder=customerOrder, part=part, quotePart=quotePart, supplier=brand.supplier)
         return orderItem
 
 

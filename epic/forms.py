@@ -79,9 +79,9 @@ class FittingForm(ModelForm):
     # create choices for types
     fitting_type = forms.ChoiceField(label='Fitting Source', choices=FORM_FITTING_TYPE_CHOICES, required=False,
                                      label_suffix='')
-    saddle_height = forms.CharField(label='Saddle Height', max_length=20, required=False, label_suffix='')
-    bar_height = forms.CharField(label='Bar Height', max_length=20, required=False, label_suffix='')
-    reach = forms.CharField(label='Reach', max_length=20, required=False, label_suffix='')
+    saddle_height = forms.CharField(label='Saddle Height', max_length=20, required=False)
+    bar_height = forms.CharField(label='Bar Height', max_length=20, required=False)
+    reach = forms.CharField(label='Reach', max_length=20, required=False)
 
     class Meta:
         model = Fitting
@@ -140,7 +140,7 @@ class PartTypeForm(ModelForm):
 class QuoteSearchForm(forms.Form):
     search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Bike/Frame',
                                           label_suffix='')
-    search_quote_desc = forms.CharField(max_length=30, required=False, label='Description Like', label_suffix='')
+    search_quote_desc = forms.CharField(max_length=30, required=False, label='Description Like')
     search_user = forms.ModelChoiceField(queryset=User.objects.all(), required=False, label='Created By',
                                          label_suffix='')
 
@@ -173,7 +173,7 @@ class BrandForm(ModelForm):
 class MyQuoteSearchForm(forms.Form):
     search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Bike/Frame',
                                           label_suffix='')
-    search_quote_desc = forms.CharField(max_length=30, required=False, label='Description Like', label_suffix='')
+    search_quote_desc = forms.CharField(max_length=30, required=False, label='Description Like')
 
     def __init__(self, *args, **kwargs):
         super(MyQuoteSearchForm, self).__init__(*args, **kwargs)
@@ -229,6 +229,13 @@ class CustomerQuoteForm(QuoteForm):
         self.fields['customer'].widget = HiddenInput()
 
 
+class NewCustomerQuoteForm(QuoteForm):
+    def __init__(self, *args, **kwargs):
+        super(QuoteForm, self).__init__(*args, **kwargs)
+        self.fields['customer'].widget = HiddenInput()
+        self.fields['customer'].required = False
+
+
 # quote for a non bike based (items only)
 class QuoteSimpleForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -244,13 +251,13 @@ class QuoteSimpleForm(ModelForm):
 
 # simple quote add item
 class QuoteSimpleAddPartForm(forms.Form):
-    new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand', label_suffix='')
+    new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
     new_part_type = forms.ModelChoiceField(queryset=PartType.objects.all().order_by('shortName'), required=False,
-                                           label='Part Type', label_suffix='')
-    new_part_name = forms.CharField(max_length=60, required=False, label='Part Name', label_suffix='')
-    new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity', label_suffix='')
+                                           label='Part Type')
+    new_part_name = forms.CharField(max_length=60, required=False, label='Part Name')
+    new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity')
     new_sell_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
-                                        label='Sell Price', label_suffix='')
+                                        label='Sell Price')
 
     def __init__(self, *args, **kwargs):
         super(QuoteSimpleAddPartForm, self).__init__(*args, **kwargs)
@@ -306,16 +313,16 @@ class QuotePartBasicForm(ModelForm):
 # change part on existing line
 # simple quote add item
 class QuoteBikeChangePartForm(forms.Form):
-    not_required = forms.BooleanField(required=False, label='None', label_suffix='')
-    can_be_substituted = forms.BooleanField(required=False, label='Subs', label_suffix='')
-    can_be_omitted = forms.BooleanField(required=False, label='Omit', label_suffix='')
+    not_required = forms.BooleanField(required=False, label='None')
+    can_be_substituted = forms.BooleanField(required=False, label='Subs')
+    can_be_omitted = forms.BooleanField(required=False, label='Omit')
     trade_in_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
-                                        label='Trade In', label_suffix='')
-    new_brand = forms.CharField(max_length=60, required=False, label='Brand', label_suffix='')
-    new_part_name = forms.CharField(max_length=60, required=False, label='Part Name', label_suffix='')
-    new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity', label_suffix='')
+                                        label='Trade In')
+    new_brand = forms.CharField(max_length=60, required=False, label='Brand')
+    new_part_name = forms.CharField(max_length=60, required=False, label='Part Name')
+    new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity')
     new_sell_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
-                                        label='Sell Price', label_suffix='')
+                                        label='Sell Price')
 
     def __init__(self, *args, **kwargs):
         # pop out additional arguments added just for this!
@@ -420,10 +427,10 @@ class QuoteFittingForm(forms.Form):
 
     fitting_type = forms.ChoiceField(label='Fitting Source', choices=FORM_FITTING_TYPE_CHOICES, required=False,
                                      label_suffix='')
-    saddle_height = forms.CharField(label='Saddle Height', max_length=20, required=False, label_suffix='')
-    bar_height = forms.CharField(label='Bar Height', max_length=20, required=False, label_suffix='')
-    reach = forms.CharField(label='Reach', max_length=20, required=False, label_suffix='')
-    notes = forms.CharField(label='Notes', max_length=200, required=False, label_suffix='')
+    saddle_height = forms.CharField(label='Saddle Height', max_length=20, required=False)
+    bar_height = forms.CharField(label='Bar Height', max_length=20, required=False)
+    reach = forms.CharField(label='Reach', max_length=20, required=False)
+    notes = forms.CharField(label='Notes', max_length=200, required=False)
 
     def __init__(self, *args, **kwargs):
         super(QuoteFittingForm, self).__init__(*args, **kwargs)
@@ -568,7 +575,7 @@ class SupplierOrderPossibleForm(forms.Form):
     quote_name = forms.CharField(required=False)
     customer_name = forms.CharField(required=False)
     add_to_order = forms.BooleanField(required=False, label='Ordered')
-    item_type = forms.ChoiceField(label='Type', label_suffix='', choices=FORM_QUOTE_TYPE_CHOICES, required=False)
+    item_type = forms.ChoiceField(label='Type', choices=FORM_QUOTE_TYPE_CHOICES, required=False)
     item_id = forms.IntegerField(required=False)
 
     def __init__(self, *args, **kwargs):
