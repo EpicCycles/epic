@@ -42,7 +42,12 @@ class Customer(models.Model):
         return reverse('views.editCustomer', args={self.pk})
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        display_value = self.first_name + ' ' + self.last_name
+        if self.email:
+            display_value += '(' + self.email+ ')'
+        else:
+            display_value += '(Last Updated:' + f"{self.upd_date:%b %d, %Y}" + ')'
+        return display_value
 
     class Meta:
         unique_together = (("first_name", "last_name", "email"),)

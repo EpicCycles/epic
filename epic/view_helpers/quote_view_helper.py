@@ -322,7 +322,7 @@ def build_quote_detail_for_email(quote):
                         items.append({'name': quotePart.summary(), 'qty': str(quotePart.quantity)})
     quote_for_email['id'] = str(quote)
     quote_for_email['cost'] = str(quote.keyed_sell_price)
-    quote_for_email['date'] = str(date.today())
+    quote_for_email['date'] = f"{date.today():%b %d, %Y}"
     quote_for_email['items'] = items
     return quote_for_email
 
