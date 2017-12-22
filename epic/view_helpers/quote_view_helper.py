@@ -2,7 +2,6 @@ import json
 from datetime import date, datetime
 
 import apostle
-import apostle as apostle
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from django.http import HttpResponseRedirect
@@ -26,6 +25,11 @@ COPIED = "Replace Me"
 
 def show_add_quote(request):
     quoteForm = QuoteForm()
+    return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
+
+
+def show_add_quote_for_customer(request,customer):
+    quoteForm = QuoteForm(initial={'customer':customer})
     return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
 
 
