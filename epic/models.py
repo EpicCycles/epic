@@ -44,7 +44,7 @@ class Customer(models.Model):
     def __str__(self):
         display_value = self.first_name + ' ' + self.last_name
         if self.email:
-            display_value += '(' + self.email+ ')'
+            display_value += '(' + self.email + ')'
         else:
             display_value += '(Last Updated:' + f"{self.upd_date:%b %d, %Y}" + ')'
         return display_value
@@ -63,7 +63,7 @@ class CustomerPhone(models.Model):
     history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
-        return self.number_type + ' ' + self.telephone
+        return dict(NUMBER_TYPE_CHOICES).get(self.number_type) + ' ' + self.telephone
 
 
 class CustomerAddress(models.Model):
@@ -75,6 +75,17 @@ class CustomerAddress(models.Model):
     postcode = models.CharField(max_length=200)
     add_date = models.DateTimeField('date added', auto_now_add=True)
     history = simple_history.models.HistoricalRecords()
+
+    def __str__(self):
+        returnAddress = self.address1
+        if self.address2:
+            returnAddress += ', ' + self.address2
+        if self.address3:
+            returnAddress += ', ' + self.address3
+        if self.address4:
+            returnAddress += ', ' + self.address4
+        returnAddress += ', ' + self.postcode
+        return returnAddress
 
 
 class Fitting(models.Model):
@@ -88,7 +99,7 @@ class Fitting(models.Model):
     history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
-        return 'Saddle Height:' + self.saddle_height + ' Bar Height:' + self.bar_height + ' Reach:' + self.reach
+        return dict(FITTING_TYPE_CHOICES).get(self.fitting_type) + ' - Saddle Height:' + self.saddle_height + ' Bar Height:' + self.bar_height + ' Reach:' + self.reach
 
 
 class PartSection(models.Model):

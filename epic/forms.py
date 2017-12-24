@@ -190,6 +190,7 @@ class QuoteForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuoteForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
+        self.fields['customer'].widget = HiddenInput()
         self.fields['quote_type'].widget = forms.Select(attrs={'onchange': "changeQuoteType(this);"})
         self.fields['quote_type'].choices = FORM_QUOTE_TYPE_CHOICES
 
@@ -227,12 +228,14 @@ class CustomerQuoteForm(QuoteForm):
     def __init__(self, *args, **kwargs):
         super(QuoteForm, self).__init__(*args, **kwargs)
         self.fields['customer'].widget = HiddenInput()
+        self.fields['quote_desc'].required = False
 
 
 class NewCustomerQuoteForm(QuoteForm):
     def __init__(self, *args, **kwargs):
         super(QuoteForm, self).__init__(*args, **kwargs)
         self.fields['customer'].widget = HiddenInput()
+        self.fields['quote_desc'].required = False
         self.fields['customer'].required = False
 
 

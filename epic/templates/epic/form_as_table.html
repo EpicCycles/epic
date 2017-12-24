@@ -1,10 +1,12 @@
 {{ form.non_field_errors }}
+{{ form.source.errors }}
+  {{ form.source }}
 <table>
     {% for field in form.visible_fields %}
         <tr>
             <th>{{ field.label_tag }}</th>
-            <td>{{ field }}</td>
-            <td>{{ field.errors }}</td>
+            <td>{{ field }}
+            {{ field.errors }}</td>
         </tr>
     {% endfor %}
 </table>

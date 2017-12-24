@@ -22,7 +22,8 @@ from epic.view_helpers.note_view_helper import show_notes_popup
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_simple_quote_edit, \
     process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, quote_parts_for_bike_display, \
     copy_quote_and_display, show_bike_quote_edit_new_customer, process_quote_requote, process_quote_issue, \
-    show_quote_issue, show_quote_browse, show_quote_text, copy_quote_new_bike, show_add_quote_for_customer
+    show_quote_issue, show_quote_browse, show_quote_text, copy_quote_new_bike, show_add_quote_for_customer, \
+    new_quote_change_customer
 from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
 
 
@@ -231,7 +232,11 @@ def view_customer_notes(request, pk):
 @login_required
 def add_quote(request):
     if request.method == "POST":
-        return create_new_quote(request)
+        form_action = request.POST.get('form_action', '')
+        if form_action == 'change_customer':
+            return new_quote_change_customer(request)
+        else:
+            return create_new_quote(request)
     else:
         return show_add_quote(request)
 

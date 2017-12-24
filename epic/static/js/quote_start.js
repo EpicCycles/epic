@@ -1,3 +1,16 @@
+// show the select customer pop up so they can select a customer
+function newCustomerSelect(url, title) {
+    popupDetail(url, title);
+}
+
+// triggered from popup this changes the quote customer but does not create the quote
+function changeQuoteCustomer() {
+    if (document.getElementById('new_customer_id').value !== '') {
+        document.getElementById('form_action').value = 'change_customer';
+        document.forms['new_quote_form'].submit();
+    }
+}
+
 function changeQuoteType(quoteType) {
     var id_frame = document.getElementById("id_frame");
     var id_frame_sell_price = document.getElementById("id_frame_sell_price");
