@@ -1,4 +1,5 @@
 # forms.py
+from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
@@ -138,7 +139,7 @@ class PartTypeForm(ModelForm):
 
 # form for searching for quotes
 class QuoteSearchForm(forms.Form):
-    search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Bike/Frame',
+    search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Frameset/Base Bike',
                                           label_suffix='')
     search_quote_desc = forms.CharField(max_length=30, required=False, label='Description Like')
     search_user = forms.ModelChoiceField(queryset=User.objects.all(), required=False, label='Created By',
@@ -171,7 +172,7 @@ class BrandForm(ModelForm):
 
 # Get back quotes for the current user
 class MyQuoteSearchForm(forms.Form):
-    search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Bike/Frame',
+    search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Frameset/Base Bike',
                                           label_suffix='')
     search_quote_desc = forms.CharField(max_length=30, required=False, label='Description Like')
 
@@ -186,6 +187,9 @@ class QuoteForm(ModelForm):
         model = Quote
         fields = ['customer', 'quote_desc', 'quote_type', 'frame', 'frame_sell_price', 'colour', 'colour_price',
                   'frame_size']
+        labels = {'frame': _('Frameset/Base Bike'), 'quote_desc': _('Quote Description'), 'quote_type': _('Type'),
+                  'frame_sell_price': _('Base Sell Price £'), 'colour_price': _('Colour Additional Price £'),
+                  'frame_size': _('Frame Size')}
 
     def __init__(self, *args, **kwargs):
         super(QuoteForm, self).__init__(*args, **kwargs)
@@ -245,11 +249,12 @@ class QuoteSimpleForm(ModelForm):
         super(QuoteSimpleForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields["sell_price"].widget = HiddenInput()
-        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 6, 'title': 'Quote Price'})
+        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 6})
 
     class Meta:
         model = Quote
         fields = ['quote_desc', 'sell_price', 'keyed_sell_price']
+        labels = {'sell_price': _('Total Price £'), 'quote_desc': _('Quote Description'), 'keyed_sell_price': _('Quote Price £')}
 
 
 # simple quote add item
@@ -300,6 +305,9 @@ class QuoteBikeForm(ModelForm):
         model = Quote
         fields = ['customer', 'quote_type', 'quote_desc', 'frame', 'sell_price', 'keyed_sell_price', 'frame_sell_price',
                   'colour', 'colour_price', 'frame_size']
+        labels = {'frame': _('Frameset/Base Bike'), 'quote_desc': _('Quote Description'), 'quote_type': _('Type'),
+                  'frame_sell_price': _('Base Sell Price £'), 'colour_price': _('Colour Additional Price £'),
+                  'frame_size': _('Frame Size'), 'sell_price': _('Total Price £'), 'keyed_sell_price': _('Quote Price £')}
 
 
 # basic quote kine for adding lines
@@ -473,6 +481,8 @@ class CustomerOrderForm(ModelForm):
     class Meta:
         model = CustomerOrder
         fields = ['customer_required_date', 'final_date', 'order_total', 'amount_due']
+        labels = {'customer_required_date': _('Customer Date'), 'final_date': _('Handover Date'),
+                  'order_total': _('Order Total'), 'amount_due': _('Balance Outstanding'), }
 
     def __init__(self, *args, **kwargs):
         super(CustomerOrderForm, self).__init__(*args, **kwargs)
@@ -489,6 +499,7 @@ class OrderFrameForm(ModelForm):
     class Meta:
         model = OrderFrame
         fields = '__all__'
+        labels = {'frame': _('Frameset/Base Bike'), }
 
     def __init__(self, *args, **kwargs):
         super(OrderFrameForm, self).__init__(*args, **kwargs)
@@ -511,6 +522,7 @@ class OrderItemForm(ModelForm):
         self.fields['part'].widget = HiddenInput()
         self.fields['receipt_date'].widget = SelectDateWidget()
         self.label_suffix = ''
+
 
 # Form for details of parts being ordered.
 class OrderItemDetailForm(forms.Form):

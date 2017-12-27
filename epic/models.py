@@ -99,7 +99,8 @@ class Fitting(models.Model):
     history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
-        return dict(FITTING_TYPE_CHOICES).get(self.fitting_type) + ' - Saddle Height:' + self.saddle_height + ' Bar Height:' + self.bar_height + ' Reach:' + self.reach
+        return dict(FITTING_TYPE_CHOICES).get(
+            self.fitting_type) + ' - Saddle Height:' + self.saddle_height + ' Bar Height:' + self.bar_height + ' Reach:' + self.reach
 
 
 class PartSection(models.Model):
@@ -276,14 +277,14 @@ class CustomerOrderManager(models.Manager):
 # Order Header
 class CustomerOrder(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    created_date = models.DateTimeField('Date added', auto_now_add=True)
-    completed_date = models.DateTimeField('Date complete', null=True, blank=True)
-    customer_required_date = models.DateField('Customer Date', null=True, blank=True)
-    final_date = models.DateField('Handover Date', null=True, blank=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    completed_date = models.DateTimeField(null=True, blank=True)
+    customer_required_date = models.DateField(null=True, blank=True)
+    final_date = models.DateField(null=True, blank=True)
     order_total = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     amount_due = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     discount_percentage = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
-    cancelled_date = models.DateTimeField('Date cancelled', null=True)
+    cancelled_date = models.DateTimeField(null=True)
     history = simple_history.models.HistoricalRecords()
     objects = CustomerOrderManager()
 
@@ -314,10 +315,10 @@ class CustomerOrder(models.Model):
 
 class Quote(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    quote_desc = models.CharField('Quote Description', max_length=60)
+    quote_desc = models.CharField( max_length=60)
     version = models.PositiveSmallIntegerField(default=1, editable=False)
-    created_date = models.DateTimeField('Date added', auto_now_add=True)
-    issued_date = models.DateTimeField('Date issued', null=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    issued_date = models.DateTimeField(null=True)
     cost_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
 
@@ -325,13 +326,14 @@ class Quote(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True, null=True)
     frame_cost_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     frame_sell_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
-    colour = models.CharField('Colour', max_length=40, blank=True, null=True)
-    colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    frame_size = models.CharField('Frame Size', max_length=15, blank=True, null=True)
+    colour = models.CharField(max_length=40, blank=True, null=True)
+    colour_price = models.DecimalField( max_digits=9, decimal_places=2, blank=True,
+                                       null=True)
+    frame_size = models.CharField(max_length=15, blank=True, null=True)
     fitting = models.ForeignKey(Fitting, on_delete=models.CASCADE, blank=True, null=True)
     keyed_sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    quote_type = models.CharField('Type', max_length=1, choices=QUOTE_TYPE_CHOICES, default=BIKE, )
-    quote_status = models.CharField('Status', max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
+    quote_type = models.CharField(max_length=1, choices=QUOTE_TYPE_CHOICES, default=BIKE, )
+    quote_status = models.CharField(max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
     history = simple_history.models.HistoricalRecords()
@@ -428,7 +430,7 @@ class Quote(models.Model):
 
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
-            if (quote_part.requires_prices()):
+            if quote_part.requires_prices():
                 return False
 
         return True
@@ -496,13 +498,6 @@ class Quote(models.Model):
         ordering = ('-created_date', 'quote_desc')
 
 
-class QuoteFrame(models.Model):
-    quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
-    colour = models.CharField('Colour', max_length=40, blank=True, null=True)
-    colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    frameSize = models.CharField('Frame Size', max_length=15, blank=True, null=True)
-
-
 class QuotePart(models.Model):
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
     line = models.PositiveSmallIntegerField(default=1)
@@ -554,7 +549,7 @@ class QuotePart(models.Model):
     def summary(self):
         attributeDetail = ''
         quotePartAttributes = self.quotepartattribute_set.all()
-        if (quotePartAttributes):
+        if quotePartAttributes:
 
             for quotePartAttribute in quotePartAttributes:
                 if (attributeDetail != ''):

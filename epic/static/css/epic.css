@@ -202,6 +202,9 @@ input:disabled {
 .align_top {
     vertical-align: top;
 }
+.vertical-middle{
+    vertical-align: middle;
+}
 
 .align_right {
     text-align: right;

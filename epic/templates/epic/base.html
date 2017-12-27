@@ -10,7 +10,7 @@
 </head>
 
 <body onload="addListeners()">
-    {% include "epic/menu_nav.html" %}
+{% include "epic/menu_nav.html" %}
 <h1>Epic Cycles</h1>
 {% if messages %}
     <ul class="messages">
@@ -23,8 +23,10 @@
     {% block content %}
     {% endblock %}
 </div>
+<div style="display: none">
+<i class="material-icons red" onclick="popupDetail('{% url 'add_brand' %}','Add New Brand')" id="brand_add_link">add_box</i>
+</div>
 </body>
-
 <script src="{% static 'js/base.js' %}"></script>
 
 </html>

@@ -3,13 +3,15 @@ var pageChanged = false;
 // add event listeners to all input objects
 function addListeners() {
     //get all input elements
+    console.log("in addListeners");
     attachChangeEventToList(document.getElementsByTagName('input'));
     attachChangeEventToList(document.getElementsByTagName('textarea'));
+    addExtrasToSelects(document.getElementsByTagName('select'));
 
     // get all links and add a =n onclick to those not opening in a new window
     var links = document.getElementsByTagName('a');
     for (var i = 0; i < links.length; i++) {
-        if (links[i].target != "_blank") {
+        if (links[i].target !== "_blank") {
             if (links[i].addEventListener) {                    // For all major browsers, except IE 8 and earlier
                 links[i].addEventListener("click", checkForChanges);
             } else if (links[i].attachEvent) {                  // For IE 8 and earlier versions
@@ -40,6 +42,21 @@ function attachChangeEventToList(inputs) {
 
 }
 
+/**
+ * Add links to add additional elements to selects as required.
+ * @param selects
+ */
+function addExtrasToSelects(select_elements) {
+    var brand_add_link = document.getElementById('brand_add_link');
+    console.log(brand_add_link);
+    for (var i = 0; i < select_elements.length; i++) {
+
+        if (select_elements[i].id.indexOf('brand') >= 0) {
+            select_elements[i].insertAdjacentElement('afterend', brand_add_link);
+            console.log('brand link added');
+        }
+    }
+}
 function setChangeFlag() {
     pageChanged = true;
 }

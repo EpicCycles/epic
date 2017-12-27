@@ -3,7 +3,7 @@
   {{ form.source }}
 <table>
     {% for field in form.visible_fields %}
-        <tr>
+        <tr  class="vertical-middle">
             <th>{{ field.label_tag }}</th>
             <td>{{ field }}
             {{ field.errors }}</td>
