@@ -1,3 +1,4 @@
+{% load popup_helper %}
 {% if forloop.first %}
     <tr>
         {% for field in form.visible_fields %}
@@ -9,7 +10,7 @@
 <tr class="{{ rowcolors }}">
     {% for field in form.visible_fields %}
         <td>
-            {{ field }}{{ field.errors }}
+            {{ field }}{{ field|getBrandLink }}{{ field.errors }}
         </td>
     {% endfor %}
 </tr>

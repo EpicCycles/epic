@@ -1,6 +1,7 @@
 {% extends 'epic/base.html' %}
 {% load staticfiles %}
 {% load static %}
+{% load popup_helper %}
 {% block content %}
     <h2>Quote - {{ quote.customer }} / {{ quote.frame }}</h2>
     <form action="{% url 'quote_edit_bike' pk=quote.pk %}" method="post">
@@ -32,10 +33,6 @@
                     {% with quoteSimpleAddPart as form %}
                         {% include "epic/form_as_table.html" %}
                     {% endwith %}
-                    <input type="button"
-                           onclick="popupDetail('{% url 'add_brand' %}','Add New Brand')"
-                           class="button" value="Add New Brand"
-                    />
                 </td>
                 <td class="align_top">
                     <h4>Fitting Details</h4>
@@ -64,7 +61,7 @@
         <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button"{% else %}
            class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
         <input type="button" onclick="popupDetail('{% url 'bike_select_popup' %}','Select Bike')" class="button"
-               value="Copy with Alternate Bike"/>
+               value="Duplicate with Alternate Bike"/>
         <h3>Bike specification</h3>
         <table>
             <tr>
@@ -116,7 +113,7 @@
                         {% endfor %}
                         {% for field in form.visible_fields %}
                             <td>
-                                {{ field }}{{ field.errors }}
+                                {{ field }}{{ field|getBrandLink }}{{ field.errors }}
                             </td>
                         {% endfor %}
                     </tr>

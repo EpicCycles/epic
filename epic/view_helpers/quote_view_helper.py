@@ -504,7 +504,7 @@ def update_quote_section_parts_and_forms(request, quote, new_quote_part):
                               'can_be_omitted': partType.can_be_omitted}
 
                 if (quotePart == new_quote_part):
-                    initial_QP = {'new_brand': quotePart.part.brand.brand_name,
+                    initial_QP = {'new_brand': quotePart.part.brand,
                                   'new_part_name': quotePart.part.part_name, 'new_quantity': quotePart.quantity,
                                   'new_sell_price': quotePart.sell_price}
                     initial_QP['can_be_substituted'] = True
@@ -594,7 +594,7 @@ def get_quote_section_parts_and_forms(quote):
                         initial_QP['can_be_substituted'] = True
                     elif quotePart.frame_part.part != quotePart.part:
                         # replaces an original frame related part
-                        initial_QP['new_brand'] = quotePart.part.brand.brand_name
+                        initial_QP['new_brand'] = quotePart.part.brand
                         initial_QP['new_part_name'] = quotePart.part.part_name
                         initial_QP['new_quantity'] = quotePart.quantity
                         initial_QP['new_sell_price'] = quotePart.sell_price
