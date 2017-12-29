@@ -13,7 +13,6 @@ import logging
 
 from epic.forms import QuoteForm, QuotePartAttributeForm, QuotePartBasicForm, QuoteBikePartForm, \
     QuoteBikeChangePartForm, QuoteSimpleAddPartForm, QuoteSimpleForm, QuotePartForm, QuoteFittingForm, QuoteBikeForm
-from epic.model_helpers.brand_helper import find_brand_for_name
 from epic.model_helpers.part_helper import find_or_create_part, validate_and_create_part
 from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote, \
     Customer, FramePart, FITTING_TYPE_CHOICES
@@ -147,11 +146,14 @@ def process_bike_quote_changes(request, quote):
             details_for_page['fittingForm'] = QuoteFittingForm(prefix='fitting')
     else:
         # get the currently selected fitting and add it to the quote.
-        id_fitting = request.POST.get('id_fitting', None)
-        if id_fitting is not None:
+        id_fitting = request.POST.get('id_fitting', '')
+        if id_fitting is not '':
             fitting = Fitting.objects.get(pk=id_fitting)
             # update the fitting value on the quote and re-save
             quote.fitting = fitting
+            quote.save()
+        elif quote.fitting:
+            quote.fitting = None
             quote.save()
 
     details_for_page['customerFittings'] = Fitting.objects.filter(customer=quote.customer)
@@ -658,10 +660,10 @@ def update_quote_part_from_form(quote_part, form, request):
             quote_part.trade_in_price = trade_in_price
             quote_part.save()
     else:
-        brand_name = form.cleaned_data['new_brand']
+        brand = form.cleaned_data['new_brand']
         quantity = form.cleaned_data['new_quantity']
 
-        if (brand_name == '') or (quantity == 0):
+        if brand is None or (quantity == 0):
             # values have been removed reset row
             quote_part.trade_in_price = None
             if quote_part.frame_part is None:
@@ -679,7 +681,6 @@ def update_quote_part_from_form(quote_part, form, request):
                 quote_part.save()
         else:
             # values have changed
-            brand = find_brand_for_name(brand_name, request)
             partType = quote_part.partType
             part_name = form.cleaned_data['new_part_name']
             part = find_or_create_part(brand, partType, part_name)
