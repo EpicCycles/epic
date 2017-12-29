@@ -6,32 +6,42 @@
     <!-- select a frame - used as a popup -->
     <form action="" method="post">
         {% csrf_token %}
-
-        <h3>Filter values:</h3>
-        {% with frame_search_form as form %}
-            {% include "epic/form_as_table.html" %}
-        {% endwith %}
-        <input type="submit" value="Search" class="button"/>
+        <section style="padding:5px;">
+            <div><b>Filter values:</b></div>
+            <div>
+                <table>
+                    {% for field in frame_search_form.visible_fields %}
+                        <tr>
+                            <td>
+                                {{ field.label_tag }}
+                            </td>
+                            <td>
+                                {{ field }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div><input type="submit" value="Search" class="button"/></div>
+        </section>
     </form>
     <hr/>
     {% if possible_frames %}
-        <table style='height:60%;'>
-            <tr>
-                <td>
-                    <div style='height:100%; overflow: scroll;'>
-                        {% for frame in possible_frames %}
-                            <input type="radio" name="frame" id="frame" value="{{ frame.pk }}"
-                                   onclick="handleClick(this)"/>
-                            <label for="choice{{ forloop.counter }}">{{ frame }}</label>
-                            <br/>
-                        {% endfor %}
-                    </div>
-                </td>
-                <td><input type='button' class="button" value='Select Frame' onclick='selectAndClose()'/></td>
-            </tr>
-        </table>
-
-
+        <section>
+            <div style='padding-left: 10px; overflow: auto;'>
+                {% for frame in possible_frames %}
+                    <label>
+                        <input type="radio" name="frame" id="frame" value="{{ frame.pk }}"
+                               onclick="handleClick(this)"/>
+                        &nbsp;
+                        {{ frame }}</label>
+                    <br/>
+                {% endfor %}
+            </div>
+            <div style="padding-left: 20px;">
+                <input type='button' class="button" value='Select Frame' onclick='selectAndClose()'/>
+            </div>
+        </section>
     {% else %}
         <p>No frames match search criteria.</p>
     {% endif %}
