@@ -84,7 +84,7 @@ class CustomerList(LoginRequiredMixin, ListView):
 # get customers for popup
 # this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
 class CustomerSelect(LoginRequiredMixin, ListView):
-    template_name = 'epic/select_customer_popup.html'
+    template_name = 'epic/customer_select_popup.html'
     context_object_name = 'customer_list'
     # attributes for search form
     search_first_name = ''
@@ -248,6 +248,14 @@ def add_brand(request):
         return save_brand(request)
     else:
         return show_brand_popup(request)
+
+
+@login_required
+def add_customer(request):
+    if request.method == "POST":
+        return save_customer(request)
+    else:
+        return show_add_customer_popup(request)
 
 
 # get frame details for pop-up

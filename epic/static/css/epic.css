@@ -114,8 +114,23 @@ body h4 {
     font-size: 11pt;
     font-style: italic;
 }
+
 section {
-  display: flex;
+    display: flex;
+    flex-direction: row;
+}
+
+section.flex-vertical {
+    display: flex;
+    flex-direction: column;
+}
+div.field-label {
+    font-weight: bold;
+    padding-left: 5px;
+}
+div.field-input {
+    font-weight: bold;
+    padding-left: 25px;
 }
 
 .date {
@@ -202,7 +217,8 @@ input:disabled {
 .align_top {
     vertical-align: top;
 }
-.vertical-middle{
+
+.vertical-middle {
     vertical-align: middle;
 }
 

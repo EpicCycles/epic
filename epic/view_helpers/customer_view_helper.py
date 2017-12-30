@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from epic.forms import CustomerForm, AddressFormSet, PhoneFormSet, FittingFormSet, CustomerQuoteForm, \
-    ChangeCustomerForm, NewCustomerQuoteForm
+    ChangeCustomerForm, NewCustomerQuoteForm, AddressForm, PhoneForm
 from epic.models import Quote
 from epic.view_helpers.note_view_helper import create_customer_note
 from epic.view_helpers.quote_view_helper import show_quote_edit
@@ -21,7 +21,7 @@ def add_customer_view(request):
     variables = {'customer_form': CustomerForm(), 'address_form_set': address_form_set,
                  'phone_form_set': phone_form_set, 'fitting_form_set': fitting_form_set,
                  'customer_quote_form': customer_quote_form}
-    return render(request, 'epic/maintain_customer.html', variables)
+    return render(request, 'epic/customer_edit.html', variables)
 
 
 def process_customer_add(request):
@@ -59,10 +59,19 @@ def show_customer_edit(request, customer):
     fitting_form_set = FittingFormSet(instance=customer)
     customer_quote_form = CustomerQuoteForm(prefix='new', initial={'customer': customer})
     existing_quotes = Quote.objects.filter(customer=customer)
-    return render(request, 'epic/maintain_customer.html',
+    return render(request, 'epic/customer_edit.html',
                   {'customer': customer, 'customer_form': customer_form, 'address_form_set': address_form_set,
                    'phone_form_set': phone_form_set, 'fitting_form_set': fitting_form_set,
                    'customer_quote_form': customer_quote_form, 'existing_quotes': existing_quotes})
+
+
+def show_add_customer_popup(request):
+    customer_form = CustomerForm()
+    address_form = AddressForm()
+    phone_form = PhoneForm()
+    return render(request, 'epic/customer_add_popup.html',
+                  {'customer_form': customer_form, 'address_form': address_form,
+                   'phone_form': phone_form})
 
 
 def process_customer_edit(request, customer):
@@ -97,7 +106,7 @@ def process_customer_edit(request, customer):
 
     existing_quotes = Quote.objects.filter(customer=customer)
 
-    return render(request, 'epic/maintain_customer.html',
+    return render(request, 'epic/customer_edit.html',
                   {'customer': customer, 'customer_form': ChangeCustomerForm(instance=customer),
                    'address_form_set': address_form_set, 'phone_form_set': phone_form_set,
                    'fitting_form_set': fitting_form_set, 'customer_quote_form': customer_quote_form,
