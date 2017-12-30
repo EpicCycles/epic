@@ -15,5 +15,10 @@
         <input type='button' value='Close' onclick='closeAddBrand();'  class="button"/>
     </form>
     <script src="{% static 'js/brand_add_popup.js' %}"></script>
+    {% if saved_brand   %}
+        <script>
+            addBrandToOpener("{{ saved_brand.id }}","{{ saved_brand.brand_name }}");
+        </script>
+    {% endif %}
 
 {% endblock %}

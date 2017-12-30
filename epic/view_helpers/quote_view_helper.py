@@ -2,7 +2,6 @@ import json
 from datetime import date, datetime
 
 import apostle
-import apostle as apostle
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from django.http import HttpResponseRedirect
@@ -17,7 +16,7 @@ from epic.forms import QuoteForm, QuotePartAttributeForm, QuotePartBasicForm, Qu
 from epic.model_helpers.brand_helper import find_brand_for_name
 from epic.model_helpers.part_helper import find_or_create_part, validate_and_create_part
 from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote, \
-    Customer, FramePart
+    Customer, FramePart, FITTING_TYPE_CHOICES
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.note_view_helper import create_customer_note
 
@@ -26,7 +25,12 @@ COPIED = "Replace Me"
 
 def show_add_quote(request):
     quoteForm = QuoteForm()
-    return render(request, 'epic/quote_start.html', {'quoteForm': quoteForm})
+    return show_new_quote_form(request, quoteForm, None)
+
+
+def show_add_quote_for_customer(request, customer):
+    quoteForm = QuoteForm(initial={'customer': customer})
+    return show_new_quote_form(request, quoteForm, customer)
 
 
 def copy_quote_and_display(request, pk):
@@ -56,6 +60,31 @@ def copy_quote_new_bike(request, quote, frame):
     return HttpResponseRedirect(reverse('quote_edit_bike', args=(new_quote.id,)))
 
 
+def new_quote_change_customer(request):
+    new_customer_id = request.POST.get('new_customer_id', '')
+    customer = get_object_or_404(Customer, pk=new_customer_id)
+    quoteForm = QuoteForm(request.POST, initial={'customer': customer})
+
+    return show_new_quote_form(request, quoteForm, customer)
+
+
+def show_new_quote_form(request, quoteForm, customer):
+    details_for_page = {'quoteForm': quoteForm, }
+    if customer:
+        details_for_page['customer'] = customer
+        details_for_page['customer_addresses'] = customer.customeraddress_set.all()
+        details_for_page['customer_phones'] = customer.customerphone_set.all()
+
+    if request.method == "POST":
+        details_for_page['note_contents_epic'] = request.POST.get('note_contents_epic', '')
+        details_for_page['note_contents_cust'] = request.POST.get('note_contents_cust', '')
+    else:
+        details_for_page['note_contents_epic'] = ''
+        details_for_page['note_contents_cust'] = ''
+
+    return render(request, "epic/quote_start.html", details_for_page)
+
+
 def create_new_quote(request):
     # new quote to be added
     quoteForm = QuoteForm(request.POST)
@@ -67,14 +96,14 @@ def create_new_quote(request):
             create_customer_note(request, newQuote.customer, newQuote, None)
         except Exception as e:
             logging.getLogger("error_logger").exception('Quote could not be saved')
-            return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
+            return show_new_quote_form(request, quoteForm, quoteForm.customer)
 
         return show_quote_edit(request, newQuote)
 
     else:
         logging.getLogger("error_logger").error(quoteForm.errors.as_json())
+        return show_new_quote_form(request, quoteForm, quoteForm.customer)
 
-        return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
 
 def show_quote_edit(request, quote):
     if quote.is_bike():
@@ -297,7 +326,7 @@ def build_quote_detail_for_email(quote):
     if quote.is_bike():
         quote_for_email['bike'] = str(quote.frame)
         if quote.fitting:
-            quote_for_email['fitting'] = {'source': quote.fitting.fitting_type,
+            quote_for_email['fitting'] = {'source': dict(FITTING_TYPE_CHOICES).get(quote.fitting.fitting_type),
                                           'saddle_height': quote.fitting.saddle_height,
                                           'bar_height': quote.fitting.bar_height, 'reach': quote.fitting.reach}
 
@@ -322,7 +351,7 @@ def build_quote_detail_for_email(quote):
                         items.append({'name': quotePart.summary(), 'qty': str(quotePart.quantity)})
     quote_for_email['id'] = str(quote)
     quote_for_email['cost'] = str(quote.keyed_sell_price)
-    quote_for_email['date'] = f"{date.today():%b %d, %Y}"
+    quote_for_email['date'] = f"{quote.issued_date:%b %d, %Y}"
     quote_for_email['items'] = items
     return quote_for_email
 
@@ -332,8 +361,8 @@ def process_quote_issue(request, quote):
         quote.issue()
         quote_detail = build_quote_detail_for_email(quote)
         apostle.domain_key = "130b06ec68e5d0805ffd8d57db463f0d99f85627"
-        mail = apostle.Mail("quote-details",
-                            {"name":str(quote.customer),"email": "anna.weaverhr6@gmail.com", "from_address": "appdev.epiccycles@gmail.com"})
+        mail = apostle.Mail("quote-details", {"name": str(quote.customer), "email": "anna.weaverhr6@gmail.com",
+                                              "from_address": "appdev.epiccycles@gmail.com"})
         mail.quote = quote_detail
         queue = apostle.Queue()
         queue.add(mail)

@@ -20,9 +20,10 @@ from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.menu_view_helper import show_menu
 from epic.view_helpers.note_view_helper import show_notes_popup
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_simple_quote_edit, \
-    process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, \
-    quote_parts_for_bike_display, copy_quote_and_display, show_bike_quote_edit_new_customer, process_quote_requote, \
-    process_quote_issue, show_quote_issue, show_quote_browse, show_quote_text, copy_quote_new_bike
+    process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, quote_parts_for_bike_display, \
+    copy_quote_and_display, show_bike_quote_edit_new_customer, process_quote_requote, process_quote_issue, \
+    show_quote_issue, show_quote_browse, show_quote_text, copy_quote_new_bike, show_add_quote_for_customer, \
+    new_quote_change_customer
 from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
 
 
@@ -215,6 +216,11 @@ def edit_customer(request, pk):
     else:
         return show_customer_edit(request, customer)
 
+@login_required
+def quote_for_customer(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    return show_add_quote_for_customer(request, customer)
+
 
 # popup with all notes relating to a customer
 def view_customer_notes(request, pk):
@@ -226,7 +232,11 @@ def view_customer_notes(request, pk):
 @login_required
 def add_quote(request):
     if request.method == "POST":
-        return create_new_quote(request)
+        form_action = request.POST.get('form_action', '')
+        if form_action == 'change_customer':
+            return new_quote_change_customer(request)
+        else:
+            return create_new_quote(request)
     else:
         return show_add_quote(request)
 

@@ -114,6 +114,9 @@ body h4 {
     font-size: 11pt;
     font-style: italic;
 }
+section {
+  display: flex;
+}
 
 .date {
     color: #828282;
@@ -198,6 +201,9 @@ input:disabled {
 
 .align_top {
     vertical-align: top;
+}
+.vertical-middle{
+    vertical-align: middle;
 }
 
 .align_right {
