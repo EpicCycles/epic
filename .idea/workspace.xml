@@ -5,13 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd7212f9-6eef-4ce2-90a4-95407cf747e0" name="Default" comment="Admin for SUpplier Orders and removing invalid myenv">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/models.py" afterPath="$PROJECT_DIR$/epic/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/static/js/quote_copy_bike.js" afterPath="$PROJECT_DIR$/epic/static/js/quote_copy_bike.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/templates/epic/frame_select_popup.html" afterPath="$PROJECT_DIR$/epic/templates/epic/frame_select_popup.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/templates/epic/quote_copy_bike.html" afterPath="$PROJECT_DIR$/epic/templates/epic/quote_copy_bike.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py" afterPath="$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/epic/views.py" afterPath="$PROJECT_DIR$/epic/views.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/epic/migrations/0031_auto_20171227_1452.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/epic/templatetags/__init__.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/epic/templatetags/popup_helper.py" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/epic/forms.py" afterPath="$PROJECT_DIR$/epic/forms.py" />
+      <change beforePath="$PROJECT_DIR$/epic/models.py" afterPath="$PROJECT_DIR$/epic/models.py" />
+      <change beforePath="$PROJECT_DIR$/epic/static/css/epic.css" afterPath="$PROJECT_DIR$/epic/static/css/epic.css" />
+      <change beforePath="$PROJECT_DIR$/epic/static/js/base.js" afterPath="$PROJECT_DIR$/epic/static/js/base.js" />
+      <change beforePath="$PROJECT_DIR$/epic/static/js/brand_add_popup.js" afterPath="$PROJECT_DIR$/epic/static/js/brand_add_popup.js" />
+      <change beforePath="$PROJECT_DIR$/epic/static/js/customer_select_popup.js" afterPath="$PROJECT_DIR$/epic/static/js/customer_select_popup.js" />
+      <change beforePath="$PROJECT_DIR$/epic/static/js/quote_copy_bike.js" afterPath="$PROJECT_DIR$/epic/static/js/quote_copy_bike.js" />
+      <change beforePath="$PROJECT_DIR$/epic/static/js/quote_edit_bike.js" afterPath="$PROJECT_DIR$/epic/static/js/quote_edit_bike.js" />
+      <change beforePath="$PROJECT_DIR$/epic/templates/epic/base.html" afterPath="$PROJECT_DIR$/epic/templates/epic/base.html" />
+      <change beforePath="$PROJECT_DIR$/epic/templates/epic/base_popup.html" afterPath="$PROJECT_DIR$/epic/templates/epic/base_popup.html" />
+      <change beforePath="$PROJECT_DIR$/epic/templates/epic/customer_add_popup.html" afterPath="$PROJECT_DIR$/epic/templates/epic/customer_add_popup.html" />
+      <change beforePath="$PROJECT_DIR$/epic/templates/epic/customer_select_popup.html" afterPath="$PROJECT_DIR$/epic/templates/epic/customer_select_popup.html" />
+      <change beforePath="$PROJECT_DIR$/epic/templates/epic/form_as_table.html" afterPath="$PROJECT_DIR$/epic/templates/epic/form_as_table.html" />
+      <change beforePath="$PROJECT_DIR$/epic/templates/epic/formset_display.html" afterPath="$PROJECT_DIR$/epic/templates/epic/formset_display.html" />
+      <change beforePath="$PROJECT_DIR$/epic/templates/epic/frame_select_popup.html" afterPath="$PROJECT_DIR$/epic/templates/epic/frame_select_popup.html" />
+      <change beforePath="$PROJECT_DIR$/epic/templates/epic/quote_copy_bike.html" afterPath="$PROJECT_DIR$/epic/templates/epic/quote_copy_bike.html" />
+      <change beforePath="$PROJECT_DIR$/epic/templates/epic/quote_edit_bike.html" afterPath="$PROJECT_DIR$/epic/templates/epic/quote_edit_bike.html" />
+      <change beforePath="$PROJECT_DIR$/epic/urls.py" afterPath="$PROJECT_DIR$/epic/urls.py" />
+      <change beforePath="$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py" afterPath="$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py" />
+      <change beforePath="$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py" afterPath="$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py" />
+      <change beforePath="$PROJECT_DIR$/epic/views.py" afterPath="$PROJECT_DIR$/epic/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,109 +42,64 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="quote_view_helper.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py">
+    <leaf>
+      <file leaf-file-name="customer_select_popup.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/epic/static/js/customer_select_popup.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="114">
-              <caret line="713" column="44" lean-forward="false" selection-start-line="713" selection-start-column="35" selection-end-line="713" selection-end-column="44" />
+            <state relative-caret-position="153">
+              <caret line="9" column="62" lean-forward="false" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="62" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="customer_add_popup.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/epic/templates/epic/customer_add_popup.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="71">
+              <caret line="12" column="54" lean-forward="false" selection-start-line="12" selection-start-column="54" selection-end-line="12" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="customer_view_helper.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="309">
+              <caret line="86" column="37" lean-forward="false" selection-start-line="85" selection-start-column="16" selection-end-line="87" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/epic/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="161">
+              <caret line="104" column="29" lean-forward="false" selection-start-line="104" selection-start-column="29" selection-end-line="104" selection-end-column="29" />
               <folding>
-                <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#14445#14970#0" expanded="false" />
+                <element signature="e#11#66#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="customer_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/templates/epic/customer_list.html">
+      <file leaf-file-name="form_as_flex_column.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/epic/templates/epic/form_as_flex_column.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="11" lean-forward="false" selection-start-line="10" selection-start-column="3" selection-end-line="22" selection-end-column="11" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="frame_select_popup.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/templates/epic/frame_select_popup.html">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/epic/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="35" column="25" lean-forward="false" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
-              <folding>
-                <element signature="e#222#242#0#HTML" expanded="true" />
-                <element signature="e#952#995#0#HTML" expanded="true" />
-                <element signature="e#1394#1421#0#HTML" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="epic.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/static/css/epic.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1192">
-              <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="form_as_table.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/templates/epic/form_as_table.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="16" lean-forward="true" selection-start-line="5" selection-start-column="4" selection-end-line="11" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="quote_edit_bike.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_edit_bike.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2312">
-              <caret line="136" column="0" lean-forward="false" selection-start-line="136" selection-start-column="0" selection-end-line="142" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="select_customer_popup.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/templates/epic/select_customer_popup.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="23" column="22" lean-forward="false" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="quote_start.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_start.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="10" column="8" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="11" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="396" column="39" lean-forward="false" selection-start-line="396" selection-start-column="39" selection-end-line="396" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="quote_copy_bike.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/static/js/quote_copy_bike.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state relative-caret-position="237">
+              <caret line="59" column="15" lean-forward="false" selection-start-line="59" selection-start-column="4" selection-end-line="59" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -146,13 +119,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>QuotePartAttributeForm</find>
-      <find>save_quote_part_attributes</find>
-      <find>fieldset</find>
-      <find>quote_edit_bike</find>
-      <find>initial</find>
-      <find>QuoteF</find>
-      <find>quote_start</find>
       <find>_type</find>
       <find>CHOICES</find>
       <find>links</find>
@@ -176,6 +142,13 @@
       <find>quo</find>
       <find>_set</find>
       <find>new_brand</find>
+      <find>exce</find>
+      <find>size</find>
+      <find>input</find>
+      <find>webkit</find>
+      <find>width:</find>
+      <find>length=30,</find>
+      <find>choices=</find>
     </findStrings>
     <replaceStrings>
       <replace>fitting_form</replace>
@@ -197,6 +170,7 @@
       <replace>c89692</replace>
       <replace>select_elements</replace>
       <replace>applyWidth</replace>
+      <replace>length='30',</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -210,12 +184,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/epic/templates/epic/base_popup.html" />
-        <option value="$PROJECT_DIR$/epic/templates/epic/quote_edit_simple.html" />
-        <option value="$PROJECT_DIR$/epic/view_helpers/email_helper.py" />
-        <option value="$PROJECT_DIR$/epic/templates/epic/quote_issued_simple_text.html" />
-        <option value="$PROJECT_DIR$/epic/templates/epic/quote_issued_simple.html" />
-        <option value="$PROJECT_DIR$/epic/templates/epic/quote_text.html" />
         <option value="$PROJECT_DIR$/epic/templates/epic/quote_issued_simple_detail.html" />
         <option value="$PROJECT_DIR$/epic/templates/epic/quote_issued_bike_detail.html" />
         <option value="$PROJECT_DIR$/epic/static/js/frame_select_popup.js" />
@@ -233,8 +201,6 @@
         <option value="$PROJECT_DIR$/epic/templates/epic/order_edit.html" />
         <option value="$PROJECT_DIR$/epic/view_helpers/customer_order_view_helper.py" />
         <option value="$PROJECT_DIR$/epic/templates/epic/maintain_customer.html" />
-        <option value="$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py" />
-        <option value="$PROJECT_DIR$/epic/urls.py" />
         <option value="$PROJECT_DIR$/epic/templates/epic/customer_search_params.html" />
         <option value="$PROJECT_DIR$/epic/templates/epic/customer_list.html" />
         <option value="$PROJECT_DIR$/epic/templates/epic/select_customer_popup.html" />
@@ -243,7 +209,6 @@
         <option value="$PROJECT_DIR$/epic/templates/epic/add_notes.html" />
         <option value="$PROJECT_DIR$/epic/view_helpers/brand_view_helper.py" />
         <option value="$PROJECT_DIR$/epic/templates/epic/brand_add_popup.html" />
-        <option value="$PROJECT_DIR$/epic/forms.py" />
         <option value="$PROJECT_DIR$/epic/form_helpers/popup_helper.py" />
         <option value="$PROJECT_DIR$/epic/templates/epic/form_as_table.html" />
         <option value="$PROJECT_DIR$/epic/templates/epic/formset_display.html" />
@@ -252,15 +217,24 @@
         <option value="$PROJECT_DIR$/epic/static/js/brand_add_popup.js" />
         <option value="$PROJECT_DIR$/epic/templatetags/popup_helper.py" />
         <option value="$PROJECT_DIR$/epic/templates/epic/base.html" />
-        <option value="$PROJECT_DIR$/epic/static/css/epic.css" />
         <option value="$PROJECT_DIR$/epic/static/js/quote_edit_bike.js" />
         <option value="$PROJECT_DIR$/epic/templates/epic/quote_edit_bike.html" />
         <option value="$PROJECT_DIR$/epic/templates/epic/quote_copy_bike.html" />
         <option value="$PROJECT_DIR$/epic/models.py" />
         <option value="$PROJECT_DIR$/epic/static/js/quote_copy_bike.js" />
-        <option value="$PROJECT_DIR$/epic/views.py" />
         <option value="$PROJECT_DIR$/epic/templates/epic/frame_select_popup.html" />
         <option value="$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py" />
+        <option value="$PROJECT_DIR$/epic/static/js/customer_select_popup.js" />
+        <option value="$PROJECT_DIR$/epic/views.py" />
+        <option value="$PROJECT_DIR$/epic/urls.py" />
+        <option value="$PROJECT_DIR$/epic/templates/epic/customer_select_popup.html" />
+        <option value="$PROJECT_DIR$/myvenv/Lib/site-packages/django/forms/templates/django/forms/widgets/input.html" />
+        <option value="$PROJECT_DIR$/myvenv/Lib/site-packages/django/forms/templates/django/forms/widgets/attrs.html" />
+        <option value="$PROJECT_DIR$/epic/static/css/epic.css" />
+        <option value="$PROJECT_DIR$/epic/templates/epic/base_popup.html" />
+        <option value="$PROJECT_DIR$/epic/templates/epic/customer_add_popup.html" />
+        <option value="$PROJECT_DIR$/epic/forms.py" />
+        <option value="$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py" />
       </list>
     </option>
   </component>
@@ -295,9 +269,6 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -313,8 +284,89 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="epic" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="epic" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="epic" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="epic" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="epic" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="epic" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="epic" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="epic" type="462c0819:PsiDirectoryNode" />
+              <item name="view_helpers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="myvenv" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="djangogirls" type="462c0819:PsiDirectoryNode" />
+              <item name="myvenv" type="462c0819:PsiDirectoryNode" />
+              <item name="Lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 3.6.1 virtualenv at C:\Users\Ben\djangogirls\myvenv &gt;" type="70bed36:NamedLibraryElementNode" />
+            </path>
+            <path>
+              <item name="djangogirls" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 3.6.1 virtualenv at C:\Users\Ben\djangogirls\myvenv &gt;" type="70bed36:NamedLibraryElementNode" />
+              <item name="Lib" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -386,6 +438,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -417,7 +471,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Django server.djangogirls">
+  <component name="RunManager">
     <configuration name="djangogirls" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -444,6 +498,9 @@
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",SHOW_INHERITED,SHOW_FIELDS,ALPHA_COMPARATOR" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -492,26 +549,39 @@
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296355" sideWeight="0.5058565" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30921054" sideWeight="0.50907713" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296355" sideWeight="0.4941435" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30921054" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30921054" sideWeight="0.49092284" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2647504" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.4941435" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26096824" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Concurrent Activities Diagram" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Concurrent Activities Diagram" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3296355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -574,121 +644,11 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/django/core/serializers/json.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/apostle/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="25" column="16" lean-forward="false" selection-start-line="25" selection-start-column="16" selection-end-line="25" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/apostle/mail.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-346">
-          <caret line="38" column="8" lean-forward="false" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/pagination.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/menu_cust_admin.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/menu_home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="93" lean-forward="true" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="93" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_issued_bike_detail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="10" column="9" lean-forward="true" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/view_helpers/note_view_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="7" selection-start-column="3" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/view_helpers/supplier_order_view_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="35" column="47" lean-forward="false" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/view_helpers/fitting_view_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/view_helpers/customer_order_view_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-231">
-          <caret line="58" column="34" lean-forward="false" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="45" column="42" lean-forward="false" selection-start-line="45" selection-start-column="42" selection-end-line="45" selection-end-column="42" />
-          <folding>
-            <element signature="e#40#54#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/static/js/quote_start.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-155">
-          <caret line="8" column="44" lean-forward="false" selection-start-line="8" selection-start-column="33" selection-end-line="8" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/static/js/select_customer_popup.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="25" lean-forward="true" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/static/js/select_customer_popup.js" />
     <entry file="file://$PROJECT_DIR$/epic/view_helpers/brand_view_helper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="83">
           <caret line="13" column="116" lean-forward="false" selection-start-line="13" selection-start-column="116" selection-end-line="13" selection-end-column="116" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -703,14 +663,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_edit_simple.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="45" column="27" lean-forward="false" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="89" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -730,31 +682,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="355" column="34" lean-forward="false" selection-start-line="355" selection-start-column="25" selection-end-line="355" selection-end-column="34" />
-          <folding>
-            <element signature="e#11#66#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/epic/model_helpers/brand_helper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#35#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/base_popup.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -762,9 +693,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#27#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -772,9 +700,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#27#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -782,7 +707,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -790,7 +714,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="23" lean-forward="false" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -798,7 +721,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1105">
           <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -806,7 +728,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="17" column="64" lean-forward="false" selection-start-line="17" selection-start-column="64" selection-end-line="17" selection-end-column="64" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -814,9 +735,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#31#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -824,15 +742,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1071">
           <caret line="63" column="20" lean-forward="false" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="53" lean-forward="false" selection-start-line="9" selection-start-column="53" selection-end-line="9" selection-end-column="53" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -840,15 +749,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="21" column="7" lean-forward="false" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="18" column="63" lean-forward="false" selection-start-line="18" selection-start-column="60" selection-end-line="18" selection-end-column="63" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -856,7 +756,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="53" lean-forward="false" selection-start-line="2" selection-start-column="41" selection-end-line="2" selection-end-column="53" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -864,7 +763,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="22" column="47" lean-forward="false" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="47" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -872,15 +770,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1734">
           <caret line="113" column="53" lean-forward="false" selection-start-line="113" selection-start-column="53" selection-end-line="113" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="374" column="40" lean-forward="true" selection-start-line="362" selection-start-column="24" selection-end-line="374" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -888,14 +777,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="396" column="39" lean-forward="false" selection-start-line="396" selection-start-column="39" selection-end-line="396" selection-end-column="39" />
           <folding />
         </state>
       </provider>
@@ -911,32 +792,15 @@
     <entry file="file://$PROJECT_DIR$/epic/templates/epic/form_as_table.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="16" lean-forward="true" selection-start-line="5" selection-start-column="4" selection-end-line="11" selection-end-column="16" />
-          <folding />
+          <caret line="11" column="16" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="11" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/maintain_customer.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="24" column="2" lean-forward="false" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/maintain_customer.html" />
     <entry file="file://$PROJECT_DIR$/epic/templates/epic/order_edit.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-714">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/brand_add_popup.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="10" lean-forward="false" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -950,48 +814,214 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_start.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
+        <state relative-caret-position="170">
           <caret line="10" column="8" lean-forward="false" selection-start-line="10" selection-start-column="8" selection-end-line="11" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/select_customer_popup.html">
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/select_customer_popup.html" />
+    <entry file="file://$PROJECT_DIR$/epic/view_helpers/customer_order_view_helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="23" column="22" lean-forward="false" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
+        <state relative-caret-position="85">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/static/css/epic.css">
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/brand_add_popup.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1192">
-          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        <state relative-caret-position="34">
+          <caret line="2" column="10" lean-forward="false" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/epic/templates/epic/frame_select_popup.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="35" column="25" lean-forward="false" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
+        <state relative-caret-position="136">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding>
-            <element signature="e#222#242#0#HTML" expanded="true" />
-            <element signature="e#952#995#0#HTML" expanded="true" />
-            <element signature="e#1394#1421#0#HTML" expanded="true" />
+            <element signature="e#222#242#0#HTML" expanded="false" />
+            <element signature="e#1252#1258#0#HTML" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/pagination.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/menu_cust_admin.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="253" column="23" lean-forward="false" selection-start-line="253" selection-start-column="4" selection-end-line="253" selection-end-column="23" />
+          <folding>
+            <element signature="e#46#84#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/form_standard_actions.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_edit_simple.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="9" column="52" lean-forward="false" selection-start-line="9" selection-start-column="52" selection-end-line="9" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/django/forms/templates/django/forms/widgets/text.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/django/forms/templates/django/forms/widgets/input.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="98" lean-forward="false" selection-start-line="1" selection-start-column="98" selection-end-line="1" selection-end-column="98" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/django/forms/templates/django/forms/widgets/attrs.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/django/forms/widgets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-135">
+          <caret line="167" column="6" lean-forward="false" selection-start-line="167" selection-start-column="6" selection-end-line="167" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/static/css/epic.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="259" column="14" lean-forward="false" selection-start-line="259" selection-start-column="8" selection-end-line="259" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="21" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/base_popup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/customer_select_popup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="24" lean-forward="false" selection-start-line="0" selection-start-column="24" selection-end-line="0" selection-end-column="24" />
+          <folding>
+            <element signature="n#style#0;n#section#0;n#form#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#section#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="8" column="65" lean-forward="false" selection-start-line="8" selection-start-column="65" selection-end-line="8" selection-end-column="65" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="713" column="44" lean-forward="false" selection-start-line="713" selection-start-column="35" selection-end-line="713" selection-end-column="44" />
+        <state relative-caret-position="-2737">
+          <caret line="283" column="0" lean-forward="false" selection-start-line="283" selection-start-column="0" selection-end-line="284" selection-end-column="0" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
             <element signature="e#14445#14970#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/form_as_flex_column.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="59" column="15" lean-forward="false" selection-start-line="59" selection-start-column="4" selection-end-line="59" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/static/js/customer_select_popup.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="62" lean-forward="false" selection-start-line="9" selection-start-column="47" selection-end-line="9" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/customer_add_popup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="71">
+          <caret line="12" column="54" lean-forward="false" selection-start-line="12" selection-start-column="54" selection-end-line="12" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="104" column="29" lean-forward="false" selection-start-line="104" selection-start-column="29" selection-end-line="104" selection-end-column="29" />
+          <folding>
+            <element signature="e#11#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="86" column="37" lean-forward="false" selection-start-line="85" selection-start-column="16" selection-end-line="87" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>
