@@ -1,10 +1,11 @@
-.nav, .dropbtn, .dropdown {
-        background-color: #c82011;
+.nav, .dropbtn, .dropdown, a.dropbtn:hover, a.dropbtn:visited, a.dropbtn:focus, a.dropbtn:active {
+    background-color: #c82011;
 }
+
 ul.nav {
     list-style-type: none;
-     background-color: #c82011;
-   margin: 0;
+    background-color: #c82011;
+    margin: 0;
     padding: 0;
     overflow: hidden;
 }
@@ -21,7 +22,7 @@ li.nav {
 li.dropdown a, .dropbtn {
     display: inline-block;
     color: white;
-   text-align: center;
+    text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
@@ -38,7 +39,7 @@ div.dropdown-content {
     display: none;
     position: absolute;
     min-width: 160px;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -50,7 +51,9 @@ div.dropdown-content a {
     text-align: left;
 }
 
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
 
 .dropdown:hover .dropdown-content {
     display: block;
