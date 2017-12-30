@@ -8,6 +8,12 @@
                 <td><h2>Order</h2></td>
                 <td class="page_actions">
                     {% include "epic/form_standard_actions.html" %}
+                     {% if customer_order.can_be_cancelled %}
+                        <a href="{% url 'order_requote' pk=customer_order.pk %}" class="button"
+                           title="Remove Order and edit quote to re-issue">Re Quote</a>
+                        <a href="{% url 'cancel_order' pk=customer_order.pk %}" class="button"
+                           title="Cancel Order and archive associated quote">Cancel</a>
+                    {% endif %}
                 </td>
             </tr>
         </table>

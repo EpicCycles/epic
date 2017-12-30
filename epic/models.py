@@ -42,7 +42,12 @@ class Customer(models.Model):
         return reverse('views.editCustomer', args={self.pk})
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        display_value = self.first_name + ' ' + self.last_name
+        if self.email:
+            display_value += '(' + self.email+ ')'
+        else:
+            display_value += '(Last Updated:' + f"{self.upd_date:%b %d, %Y}" + ')'
+        return display_value
 
     class Meta:
         unique_together = (("first_name", "last_name", "email"),)
@@ -173,7 +178,7 @@ class Part(models.Model):
     objects = PartManager()
 
     def __str__(self):
-        return self.brand.brand_name + ' ' + self.part_name
+        return self.partType.shortName + ':' + self.brand.brand_name + ' ' + self.part_name
 
     class Meta:
         unique_together = (("partType", "brand", "part_name"),)
@@ -216,15 +221,33 @@ class FramePartManager(models.Manager):
 class FramePart(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
-    not_applicable = models.BooleanField('Not Applicable', default=False)
 
     objects = FramePartManager()
 
     def __str__(self):
-        return self.part.part_name
+        return self.part.partType.shortName + ':' + self.part.part_name
 
     class Meta:
         unique_together = (("frame", "part"),)
+
+
+# Manager for PramePart
+class FrameExclusionManager(models.Manager):
+    def create_frameExclusion(self, frame, partType):
+        return self.create(frame=partType, part=partType)
+
+
+class FrameExclusion(models.Model):
+    frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
+    partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
+
+    objects = FramePartManager()
+
+    def __str__(self):
+        return self.partType
+
+    class Meta:
+        unique_together = (("frame", "partType"),)
 
 
 # # Managers for CustomerOrder
@@ -262,6 +285,20 @@ class CustomerOrder(models.Model):
         for orderPayment in orderPayments:
             if not (orderPayment.amount is None):
                 self.amount_due -= orderPayment.amount
+
+    def can_be_cancelled(self):
+        print("in can be cancelled")
+        if OrderFrame.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
+            print("order frame with supplier orders")
+
+            return False
+        elif OrderItem.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
+            print("order item with supplier orders")
+            return False
+        else:
+            # no orders placed
+            print("no supplier orders")
+            return True
 
 
 class Quote(models.Model):
@@ -308,21 +345,21 @@ class Quote(models.Model):
             for partSection in partSections:
                 partTypes = PartType.objects.filter(includeInSection=partSection)
                 for partType in partTypes:
-                    # add the part type to the list
-                    quote_line += 1
-                    quotePart = QuotePart(quote=self, line=quote_line, partType=partType, quantity=0)
+                    if not FrameExclusion.objects.filter(frame=self.frame, partType=partType).exists():
+                        # add the part type to the list
+                        quote_line += 1
+                        quotePart = QuotePart(quote=self, line=quote_line, partType=partType, quantity=0)
 
-                    # add any parts specified
-                    for framePart in frameParts:
-                        if framePart.part.partType == partType:
-                            quotePart.part = framePart.part
-                            quotePart.frame_part = framePart
-                            quotePart.quantity = 1
-                            quotePart.cost_price = 0
-                            quotePart.sell_price = 0
-                            quotePart.not_applicable = framePart.not_applicable
+                        # add any parts specified
+                        for framePart in frameParts:
+                            if framePart.part.partType == partType:
+                                quotePart.part = framePart.part
+                                quotePart.frame_part = framePart
+                                quotePart.quantity = 1
+                                quotePart.cost_price = 0
+                                quotePart.sell_price = 0
 
-                    quotePart.save()
+                        quotePart.save()
 
     def __str__(self):
         return self.quote_desc + ' (' + str(self.version) + ')'
@@ -395,13 +432,8 @@ class Quote(models.Model):
         if not self.customerOrder:
             return True
         else:
-            if OrderFrame.objects.filter(customerOrder=self.customerOrder, supplierOrderItem__isnull=False).exists():
-                return False
-            elif OrderItem.objects.filter(customerOrder=self.customerOrder, supplierOrderItem__isnull=False).exists():
-                return False
-            else:
-                # no orders placed
-                return True
+            return self.customerOrder.can_be_cancelled()
+
         return False
 
     def archive(self):
@@ -410,7 +442,7 @@ class Quote(models.Model):
 
     def requote(self):
         self.quote_status = INITIAL
-        # TODO delete any Customer Order element
+        self.customerOrder = None
         self.save()
 
     def requote_prices(self):
@@ -472,38 +504,27 @@ class QuotePart(models.Model):
     cost_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    not_applicable = models.BooleanField('Not Applicable', default=False)
 
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
-        # calculate sum before saving.
-        old_part = self.part
-        is_new = (self.pk == None)
         super(QuotePart, self).save(*args, **kwargs)
         if self.part == None or self.quantity < 1:
             QuotePartAttribute.objects.filter(quotePart=self).delete()
-        elif old_part != self.part:
-            partTypeAttributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
-            for partTypeAttribute in partTypeAttributes:
-                try:
-                    quotePartAttribute = QuotePartAttribute.objects.get(quotePart=self,
-                                                                        partTypeAttribute=partTypeAttribute)
-                    quotePartAttribute.attribute_value = None
-                    quotePartAttribute.save()
-                except ObjectDoesNotExist:
-                    # create a new QuotePartAttribute
-                    quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute)
-                    quotePartAttribute.save()
         else:
             partTypeAttributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
             for partTypeAttribute in partTypeAttributes:
                 try:
                     quotePartAttribute = QuotePartAttribute.objects.get(quotePart=self,
                                                                         partTypeAttribute=partTypeAttribute)
+                    if not self.is_frame_part():
+                        if quotePartAttribute.attribute_value == partTypeAttribute.default_value_for_quote:
+                            quotePartAttribute.attribute_value = None
+                            quotePartAttribute.save()
+
                 except ObjectDoesNotExist:
                     # create a new QuotePartAttribute
                     attribute_value = None
-                    if self.frame_part != None:
+                    if self.is_frame_part():
                         attribute_value = partTypeAttribute.default_value_for_quote
                     quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute,
                                                             attribute_value=attribute_value)
@@ -516,7 +537,7 @@ class QuotePart(models.Model):
             if self.part.part_name is None:
                 return self.partType.shortName + "N/A"
             else:
-                return self.partType.shortName + ' ' + self.part.part_name
+                return str(self.part)
 
     # return a part summary for use on Order and other pages
     def summary(self):
@@ -538,28 +559,33 @@ class QuotePart(models.Model):
     def summaryBikePart(self):
         if self.notStandard():
             if self.part:
-                return str(self) + ' Substitute part required'
+                if self.frame_part:
+                    return self.summary() + ' (Substitute part)'
+                else:
+                    return self.summary()
             else:
                 return str(self) + ' NOT REQUIRED'
         else:
             return self.summary()
 
-    def notStandard(self):
-        notStandard = False
-        if (self.frame_part != None):
-            if (self.part == None):
-                return True
-            elif (self.part != self.frame_part.part):
-                return True
-            else:
-                quotePartAttributes = self.quotepartattribute_set.all()
-                for quotePartAttribute in quotePartAttributes:
-                    if (quotePartAttribute.attribute_value != quotePartAttribute.partTypeAttribute.default_value_for_quote):
-                        notStandard = True
-
-        elif (self.part != None):
+    def is_frame_part(self):
+        if self.frame_part is None:
+            return False
+        if self.frame_part.part == self.part:
             return True
-        return notStandard
+        return False
+
+    def notStandard(self):
+        if self.is_frame_part():
+            quotePartAttributes = self.quotepartattribute_set.all()
+            for quotePartAttribute in quotePartAttributes:
+                if (quotePartAttribute.attribute_value != quotePartAttribute.partTypeAttribute.default_value_for_quote):
+                    return True
+            return False
+        if (self.part is None):
+            if self.frame_part is None:
+                return False
+        return True
 
     def requires_prices(self):
         if (self.part is None):
@@ -600,12 +626,14 @@ class QuotePartAttribute(models.Model):
 # Supplier Order details
 class SupplierOrder(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    order_identifier = models.CharField('Order', max_length=20, unique=True)
+    order_identifier = models.CharField('Order', max_length=20)
     date_placed = models.DateField('Order Date', null=True, blank=True, default=date.today)
 
     def __str__(self):
-        item_count = SupplierOrderItem.objects.filter(supplierOrder=self.id).count()
-        return str(self.supplier) + "Order id" + self.order_identifier + "(" + str(item_count) + " items)"
+        return str(self.supplier) + "Order id" + self.order_identifier
+
+    class Meta:
+        unique_together = (("supplier", "order_identifier"),)
 
 
 # Managers for OrderItem
@@ -630,7 +658,7 @@ class SupplierOrderItem(models.Model):
 class OrderFrameManager(models.Manager):
     # this creates a skinny version to use on a form incomplete cannot be saved
     def create_orderFrame(self, frame, customerOrder, quote):
-        orderFrame = self.create(customerOrder=customerOrder, frame=frame, quote=quote)
+        orderFrame = self.create(customerOrder=customerOrder, frame=frame, supplier=frame.brand.supplier, quote=quote)
         return orderFrame
 
 
@@ -680,8 +708,7 @@ class OrderItemManager(models.Manager):
     # this creates a skinny version to use on a form incomplete cannot be saved
     def create_orderItem(self, part, customerOrder, quotePart):
         brand = part.brand
-        orderItem = self.create(customerOrder=customerOrder, part=part, quotePart=quotePart,
-                                supplier=brand.supplier)
+        orderItem = self.create(customerOrder=customerOrder, part=part, quotePart=quotePart, supplier=brand.supplier)
         return orderItem
 
 
@@ -693,6 +720,7 @@ class OrderItem(models.Model):
     supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True, null=True)
     receipt_date = models.DateTimeField('Date received', null=True, blank=True)
     quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE, blank=True, null=True)
+    stock_item = models.BooleanField(default=False)
     history = simple_history.models.HistoricalRecords()
     objects = OrderItemManager()
 

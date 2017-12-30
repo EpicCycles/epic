@@ -3,9 +3,10 @@ import logging
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib import messages
 
 from epic.forms import CustomerOrderForm, OrderPaymentForm, OrderFrameForm, OrderItemForm
-from epic.models import OrderItem, QuotePart, OrderFrame, CustomerOrder, OrderPayment, CustomerNote, ORDERED
+from epic.models import OrderItem, QuotePart, OrderFrame, CustomerOrder, OrderPayment, CustomerNote, ORDERED, Quote
 from epic.view_helpers.note_view_helper import create_customer_note
 
 
@@ -43,6 +44,40 @@ def edit_customer_order(request, customer_order):
                    'order_frame_forms': build_order_frame_forms(customer_order),
                    'order_item_forms': build_order_item_forms(customer_order), 'order_payment_form': order_payment_form,
                    'order_payments': order_payments, 'customer_notes': customer_notes})
+
+
+def cancel_order_and_requote(request, customer_order):
+    if customer_order.can_be_cancelled():
+        quotes_for_order = Quote.objects.filter(customerOrder=customer_order)
+        show_quote = None
+        for quote in quotes_for_order:
+            show_quote = quote
+            quote.requote()
+        customer_order.delete()
+        if show_quote:
+            messages.info(request, 'Associated Customer Order has been cancelled ')
+            return HttpResponseRedirect(reverse('quote_edit', args=(show_quote.pk,)))
+        else:
+            messages.info(request, 'Customer Order has been deleted ')
+            return HttpResponseRedirect(reverse('order_list'))
+    else:
+        messages.info(request, 'Supplier Orders have been placed these must be cancelled first')
+
+    return HttpResponseRedirect(reverse('order_edit', args=(customer_order.pk,)))
+
+
+def cancel_order_and_quote(request, customer_order):
+    if customer_order.can_be_cancelled():
+        quotes_for_order = Quote.objects.filter(customerOrder=customer_order)
+        for quote in quotes_for_order:
+            quote.archive()
+        customer_order.delete()
+        messages.info(request, 'Customer Order has been deleted ')
+        return HttpResponseRedirect(reverse('order_list'))
+    else:
+        messages.info(request, 'Supplier Orders have been placed these must be cancelled first')
+
+    return HttpResponseRedirect(reverse('order_edit', args=(customer_order.pk,)))
 
 
 def process_customer_order_edits(request, customer_order):
@@ -91,7 +126,8 @@ def process_customer_order_edits(request, customer_order):
     # get back the order item forms and save.
     orderItemObjects = OrderItem.objects.filter(customerOrder=customer_order)
     for orderItem in orderItemObjects:
-        order_item_form = OrderItemForm(request.POST, request.FILES, instance=orderItem, prefix="OI" + str(orderItem.id))
+        order_item_form = OrderItemForm(request.POST, request.FILES, instance=orderItem,
+                                        prefix="OI" + str(orderItem.id))
         if order_item_form.is_valid():
             try:
                 order_item_form.save()

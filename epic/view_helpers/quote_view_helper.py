@@ -1,4 +1,10 @@
+import json
+from datetime import date, datetime
+
+import apostle
+import apostle as apostle
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -63,17 +69,20 @@ def create_new_quote(request):
             logging.getLogger("error_logger").exception('Quote could not be saved')
             return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
 
-        if newQuote.is_bike():
-            # display the bike based quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_bike', args=(newQuote.id,)))
-        else:
-            # display the simple quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_simple', args=(newQuote.id,)))
+        return show_quote_edit(request, newQuote)
 
     else:
         logging.getLogger("error_logger").error(quoteForm.errors.as_json())
 
         return render(request, "epic/quote_start.html", {'quoteForm': quoteForm})
+
+def show_quote_edit(request, quote):
+    if quote.is_bike():
+        # display the bike based quote edit page
+        return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
+    else:
+        # display the simple quote edit page
+        return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
 
 
 def process_bike_quote_changes(request, quote):
@@ -250,12 +259,7 @@ def show_simple_quote_edit(request, quote):
 def process_quote_requote(request, quote):
     quote.requote()
     if quote.quote_status == INITIAL:
-        if quote.is_bike():
-            # display the bike based quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
-        else:
-            # display the simple quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+        return show_quote_edit(request, quote)
     else:
         messages.error(request, 'Quote cannot be edited' + str(quote))
         return HttpResponseRedirect(reverse('quotes'))
@@ -279,23 +283,61 @@ def show_quote_issue(request, quote):
     if quote.can_be_issued():
         return show_quote_browse(request, quote)
     elif quote.quote_status == INITIAL:
-        if quote.is_bike():
-            # display the bike based quote edit page
-            messages.error(request, 'Quote needs prices before it can be issued')
-            return HttpResponseRedirect(reverse('quote_edit_bike', args=(quote.id,)))
-        else:
-            # display the simple quote edit page
-            messages.error(request, 'Quote needs prices before it can be issued')
-            return HttpResponseRedirect(reverse('quote_edit_simple', args=(quote.id,)))
+        messages.error(request, 'Quote needs prices before it can be issued')
+        return show_quote_edit(request, quote)
     else:
         messages.error(request, 'Quote cannot be Issued or edited' + str(quote))
         return show_quote_browse(request, quote)
 
 
 # post from browse quote page to issue quote
+def build_quote_detail_for_email(quote):
+    # todo additional details formatting
+    quote_for_email = {}
+    if quote.is_bike():
+        quote_for_email['bike'] = str(quote.frame)
+        if quote.fitting:
+            quote_for_email['fitting'] = {'source': quote.fitting.fitting_type,
+                                          'saddle_height': quote.fitting.saddle_height,
+                                          'bar_height': quote.fitting.bar_height, 'reach': quote.fitting.reach}
+
+    partSections = PartSection.objects.all()
+    items = []
+    for partSection in partSections:
+        partTypes = PartType.objects.filter(includeInSection=partSection)
+
+        for partType in partTypes:
+            quotePartObjects = QuotePart.objects.filter(quote=quote, partType=partType)
+            for quotePart in quotePartObjects:
+                include_part = True
+                if not partType.customer_facing:
+                    include_part = False
+                    if quotePart.notStandard():
+                        include_part = True
+
+                if include_part:
+                    if quote.is_bike():
+                        items.append({'name': quotePart.summaryBikePart(), 'qty': str(quotePart.quantity)})
+                    else:
+                        items.append({'name': quotePart.summary(), 'qty': str(quotePart.quantity)})
+    quote_for_email['id'] = str(quote)
+    quote_for_email['cost'] = str(quote.keyed_sell_price)
+    quote_for_email['date'] = f"{date.today():%b %d, %Y}"
+    quote_for_email['items'] = items
+    return quote_for_email
+
+
 def process_quote_issue(request, quote):
     if quote.quote_status == INITIAL:
         quote.issue()
+        quote_detail = build_quote_detail_for_email(quote)
+        apostle.domain_key = "130b06ec68e5d0805ffd8d57db463f0d99f85627"
+        mail = apostle.Mail("quote-details",
+                            {"name":str(quote.customer),"email": "anna.weaverhr6@gmail.com", "from_address": "appdev.epiccycles@gmail.com"})
+        mail.quote = quote_detail
+        queue = apostle.Queue()
+        queue.add(mail)
+        queue.deliver()
         messages.info(request, 'Quote has been issued')
 
     return HttpResponseRedirect(reverse('quote_browse', args=(quote.id,)))
@@ -353,7 +395,6 @@ def copy_quote_detail(old_quote, request, frame):
                     new_quotePart.part = old_quotePart.part
                     new_quotePart.quantity = old_quotePart.quantity
                     new_quotePart.sell_price = old_quotePart.sell_price
-                    new_quotePart.not_applicable = old_quotePart.not_applicable
                     new_quotePart.save()
                     old_quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=old_quotePart)
                     for attribute in old_quote_part_attributes:
@@ -405,7 +446,7 @@ def quote_parts_for_bike_display(quote, for_customer):
                 include_part = True
                 if for_customer and not partType.customer_facing:
                     include_part = False
-                    if quotePart.not_applicable or quotePart.notStandard():
+                    if quotePart.notStandard():
                         include_part = True
 
                 if include_part:
@@ -635,7 +676,7 @@ def save_quote_part_attributes(quote, request):
 
 def save_quote_part_attribute_form(quotePartAttribute, quotePartAttributeForm):
     if quotePartAttributeForm.is_valid():
-        if quotePartAttributeForm.cleaned_data['attribute_value'] != quotePartAttribute.attribute_value:
+        if quotePartAttributeForm.has_changed():
             quotePartAttribute.attribute_value = quotePartAttributeForm.cleaned_data['attribute_value']
             quotePartAttribute.save()
     else:

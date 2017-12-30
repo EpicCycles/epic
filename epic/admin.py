@@ -24,10 +24,13 @@ class CustomerAdmin(admin.ModelAdmin):
 class FramePartInline(admin.TabularInline):
     model = FramePart
     extra = 3
+class FrameExclusionInline(admin.TabularInline):
+    model = FrameExclusion
+    extra = 3
 
 
 class FrameAdmin(admin.ModelAdmin):
-    inlines = [FramePartInline]
+    inlines = [FramePartInline, FrameExclusionInline]
     list_filter = ['brand']
     search_fields = ['brand']
 

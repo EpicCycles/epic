@@ -1,0 +1,13 @@
+{% load staticfiles %}
+{% load static %}
+<form id="create_model_form" name="create_model_form" action="{% url 'create_model' %}" method="post">
+    {% csrf_token %}
+    <input type="button"
+           onclick="createStandardBuild('{{ quote.frame.brand }}','{{ quote.frame.frame_name }}','{{ quote.frame.model }}')"
+           class="button" value="Save as Standard Build"
+    />
+    <input type="hidden" name="model" id="model" value=""/>
+    <input type="hidden" name="copy_quote_id" id="copy_quote_id" value="{{ quote.id }}"/>
+
+</form>
+<script src="{% static 'js/quote_standard_build.js' %}"></script>
