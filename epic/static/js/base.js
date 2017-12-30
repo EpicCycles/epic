@@ -3,10 +3,8 @@ var pageChanged = false;
 // add event listeners to all input objects
 function addListeners() {
     //get all input elements
-    console.log("in addListeners");
     attachChangeEventToList(document.getElementsByTagName('input'));
     attachChangeEventToList(document.getElementsByTagName('textarea'));
-    addExtrasToSelects(document.getElementsByTagName('select'));
 
     // get all links and add a =n onclick to those not opening in a new window
     var links = document.getElementsByTagName('a');
@@ -42,21 +40,7 @@ function attachChangeEventToList(inputs) {
 
 }
 
-/**
- * Add links to add additional elements to selects as required.
- * @param selects
- */
-function addExtrasToSelects(select_elements) {
-    var brand_add_link = document.getElementById('brand_add_link');
-    console.log(brand_add_link);
-    for (var i = 0; i < select_elements.length; i++) {
 
-        if (select_elements[i].id.indexOf('brand') >= 0) {
-            select_elements[i].insertAdjacentElement('afterend', brand_add_link);
-            console.log('brand link added');
-        }
-    }
-}
 function setChangeFlag() {
     pageChanged = true;
 }
@@ -82,5 +66,16 @@ function popupDetail(url, title) {
     var height = screen.height / 2;
     var left = (screen.width / 4);
     var top = (screen.height / 4);
+    return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
+}
+
+
+// basic popup with url and title passed in
+function popupSelector(url, title, selectorSaverId, selectorId) {
+    var width = screen.width / 2;
+    var height = screen.height / 2;
+    var left = (screen.width / 4);
+    var top = (screen.height / 4);
+    document.getElementById(selectorSaverId).value = selectorId;
     return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, copyhistory=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left);
 }

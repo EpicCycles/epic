@@ -13,10 +13,9 @@ import logging
 
 from epic.forms import QuoteForm, QuotePartAttributeForm, QuotePartBasicForm, QuoteBikePartForm, \
     QuoteBikeChangePartForm, QuoteSimpleAddPartForm, QuoteSimpleForm, QuotePartForm, QuoteFittingForm, QuoteBikeForm
-from epic.model_helpers.brand_helper import find_brand_for_name
 from epic.model_helpers.part_helper import find_or_create_part, validate_and_create_part
 from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote, \
-    Customer, FramePart, FITTING_TYPE_CHOICES
+    Customer, FramePart, FITTING_TYPE_CHOICES, FrameExclusion, Frame
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.note_view_helper import create_customer_note
 
@@ -147,11 +146,14 @@ def process_bike_quote_changes(request, quote):
             details_for_page['fittingForm'] = QuoteFittingForm(prefix='fitting')
     else:
         # get the currently selected fitting and add it to the quote.
-        id_fitting = request.POST.get('id_fitting', None)
-        if id_fitting is not None:
+        id_fitting = request.POST.get('id_fitting', '')
+        if id_fitting is not '':
             fitting = Fitting.objects.get(pk=id_fitting)
             # update the fitting value on the quote and re-save
             quote.fitting = fitting
+            quote.save()
+        elif quote.fitting:
+            quote.fitting = None
             quote.save()
 
     details_for_page['customerFittings'] = Fitting.objects.filter(customer=quote.customer)
@@ -194,6 +196,58 @@ def show_bike_quote_edit_new_customer(request, quote, new_customer_id):
     quote.customer = customer
     quote.version = 1
     quote.save()
+    quote.quote_desc = None
+    return show_bike_quote_edit(request, quote)
+
+
+def show_bike_quote_edit_new_frame(request, quote, new_frame_id):
+    frame = get_object_or_404(Frame, pk=new_frame_id)
+    # update the quote with the new customer and an appropriate version
+    quote.frame = frame
+    quote.frame_sell_price = frame.sell_price
+    quote.colour = None
+    quote.colour_price = None
+    quote.keyed_sell_price = None
+    quote.save()
+
+    # go through quote parts and find equivalents for new frame
+    quote_parts = quote.quotepart_set.all()
+    quote_part_count = quote_parts.count()
+    for partType in PartType.objects.all():
+        new_frame_part = FramePart.objects.filter(frame=frame, part__partType=partType).first()
+        if FrameExclusion.objects.filter(frame=frame, partType=partType).exists():
+            # delete all quote parts with frame parts for part type
+            quote_parts.filter(partType=partType).delete()
+        else:
+            frame_part_used = False
+            # get all quote parts for part type
+            for quote_part in quote_parts.filter(partType=partType, frame_part__isnull=False):
+                if new_frame_part != quote_part.frame_part:
+                    if new_frame_part:
+                        if quote_part.is_frame_part():
+                            quote_part.part = new_frame_part.part
+                        else:
+                            quote_part.trade_in_price = None
+                    else:
+                        # if this was a standard part and not isn't remove part
+                        if quote_part.is_frame_part():
+                            quote_part.part = None
+
+                    quote_part.frame_part = new_frame_part
+                    quote_part.save()
+                frame_part_used = True
+
+            if new_frame_part and not frame_part_used:
+                quote_part = quote_parts.filter(partType=partType, frame_part__isnull=True).first()
+                if quote_part:
+                    quote_part.frame_part = new_frame_part
+                    quote_part.save()
+                else:
+                    quote_part_count += 1
+                    quotePart = QuotePart(quote=quote, line=quote_part_count, partType=partType, quantity=1,
+                                          part=new_frame_part.part, frame_part=new_frame_part)
+                    quotePart.save()
+
     quote.quote_desc = None
     return show_bike_quote_edit(request, quote)
 
@@ -504,9 +558,8 @@ def update_quote_section_parts_and_forms(request, quote, new_quote_part):
                               'can_be_omitted': partType.can_be_omitted}
 
                 if (quotePart == new_quote_part):
-                    initial_QP = {'new_brand': quotePart.part.brand.brand_name,
-                                  'new_part_name': quotePart.part.part_name, 'new_quantity': quotePart.quantity,
-                                  'new_sell_price': quotePart.sell_price}
+                    initial_QP = {'new_brand': quotePart.part.brand, 'new_part_name': quotePart.part.part_name,
+                                  'new_quantity': quotePart.quantity, 'new_sell_price': quotePart.sell_price}
                     initial_QP['can_be_substituted'] = True
                     initial_QP['can_be_omitted'] = False
                     quoteBikeChangePartForm = QuoteBikeChangePartForm(initial=initial_QP,
@@ -587,14 +640,14 @@ def get_quote_section_parts_and_forms(quote):
                 else:
                     # part is specified
                     if quotePart.frame_part is None:
-                        initial_QP['new_brand'] = quotePart.part.brand.brand_name
+                        initial_QP['new_brand'] = quotePart.part.brand
                         initial_QP['new_part_name'] = quotePart.part.part_name
                         initial_QP['new_quantity'] = quotePart.quantity
                         initial_QP['new_sell_price'] = quotePart.sell_price
                         initial_QP['can_be_substituted'] = True
                     elif quotePart.frame_part.part != quotePart.part:
                         # replaces an original frame related part
-                        initial_QP['new_brand'] = quotePart.part.brand.brand_name
+                        initial_QP['new_brand'] = quotePart.part.brand
                         initial_QP['new_part_name'] = quotePart.part.part_name
                         initial_QP['new_quantity'] = quotePart.quantity
                         initial_QP['new_sell_price'] = quotePart.sell_price
@@ -658,10 +711,10 @@ def update_quote_part_from_form(quote_part, form, request):
             quote_part.trade_in_price = trade_in_price
             quote_part.save()
     else:
-        brand_name = form.cleaned_data['new_brand']
+        brand = form.cleaned_data['new_brand']
         quantity = form.cleaned_data['new_quantity']
 
-        if (brand_name == '') or (quantity == 0):
+        if brand is None or (quantity == 0):
             # values have been removed reset row
             quote_part.trade_in_price = None
             if quote_part.frame_part is None:
@@ -679,7 +732,6 @@ def update_quote_part_from_form(quote_part, form, request):
                 quote_part.save()
         else:
             # values have changed
-            brand = find_brand_for_name(brand_name, request)
             partType = quote_part.partType
             part_name = form.cleaned_data['new_part_name']
             part = find_or_create_part(brand, partType, part_name)

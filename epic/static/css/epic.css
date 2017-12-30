@@ -141,7 +141,7 @@ div.field-input {
     float: right;
 }
 
-.post-form textarea, .post-form input {
+.post-form textarea {
     width: 100%;
 }
 
@@ -163,7 +163,6 @@ fieldset {
        elements on WebKit based browsers */
     -webkit-appearance: none;
 
-    width: 100%;
     border: 1px solid #333;
     margin: 0;
 

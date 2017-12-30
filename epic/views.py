@@ -1,5 +1,4 @@
 # import the logging library and the messages
-from django.contrib import messages
 from django.contrib.auth import logout
 # security bits
 from django.contrib.auth.decorators import login_required
@@ -23,7 +22,7 @@ from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote
     process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, quote_parts_for_bike_display, \
     copy_quote_and_display, show_bike_quote_edit_new_customer, process_quote_requote, process_quote_issue, \
     show_quote_issue, show_quote_browse, show_quote_text, copy_quote_new_bike, show_add_quote_for_customer, \
-    new_quote_change_customer
+    new_quote_change_customer, show_bike_quote_edit_new_frame
 from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
 
 
@@ -216,6 +215,7 @@ def edit_customer(request, pk):
     else:
         return show_customer_edit(request, customer)
 
+
 @login_required
 def quote_for_customer(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
@@ -251,9 +251,9 @@ def add_brand(request):
 
 
 @login_required
-def add_customer(request):
+def add_customer_simple(request):
     if request.method == "POST":
-        return save_customer(request)
+        return save_customer_from_popup(request)
     else:
         return show_add_customer_popup(request)
 
@@ -393,13 +393,15 @@ def quote_change_frame(request):
             return copy_quote_new_bike(request, quote, frame)
 
 
-# bike copy allows new customer
 def quote_copy_bike(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
     if request.method == "POST":
         new_customer_id = request.POST.get('new_customer_id', '')
+        new_frame_id = request.POST.get('new_frame_id', '')
         if new_customer_id != '':
             return show_bike_quote_edit_new_customer(request, quote, new_customer_id)
+        if new_frame_id != '':
+            return show_bike_quote_edit_new_frame(request, quote, new_frame_id)
 
     return render(request, 'epic/quote_copy_bike.html',
                   {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, False)})

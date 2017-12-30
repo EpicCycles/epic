@@ -39,11 +39,11 @@ class ChangeCustomerForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ChangeCustomerForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].widget = forms.TextInput(
-            attrs={'size': 20, 'minlength': 1, 'maxlength': 40, 'pattern': name_pattern})
+            attrs={'size': '20', 'minlength': '1', 'maxlength': '40', 'pattern': name_pattern})
         self.fields['last_name'].widget = forms.TextInput(
-            attrs={'size': 30, 'minlength': 1, 'maxlength': 40, 'pattern': name_pattern})
+            attrs={'size': '30', 'minlength': '1', 'maxlength': '40', 'pattern': name_pattern})
         self.fields['email'].widget = forms.TextInput(
-            attrs={'type': 'email', 'size': 50, 'minlength': 3, 'maxlength': 100})
+            attrs={'type': 'email', 'size': '50', 'minlength': '3', 'maxlength': '100'})
 
         self.label_suffix = ''
 
@@ -56,11 +56,34 @@ class AddressForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddressForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['address1'].widget = forms.TextInput(attrs={'size': 30})
-        self.fields['address2'].widget = forms.TextInput(attrs={'size': 20})
-        self.fields['address3'].widget = forms.TextInput(attrs={'size': 15})
-        self.fields['address4'].widget = forms.TextInput(attrs={'size': 15})
-        self.fields['postcode'].widget = forms.TextInput(attrs={'size': 10, 'pattern': postcode_pattern})
+        self.fields['address1'].widget = forms.TextInput(attrs={'size': '30'})
+        self.fields['address2'].widget = forms.TextInput(attrs={'size': '20'})
+        self.fields['address3'].widget = forms.TextInput(attrs={'size': '15'})
+        self.fields['address4'].widget = forms.TextInput(attrs={'size': '15'})
+        self.fields['postcode'].widget = forms.TextInput(attrs={'size':'9','pattern': postcode_pattern})
+        self.fields['customer'].widget = forms.HiddenInput()
+
+class AddressFormSimple(AddressForm):
+    def __init__(self, *args, **kwargs):
+        super(AddressFormSimple, self).__init__(*args, **kwargs)
+        self.fields['customer'].widget = HiddenInput()
+        self.fields['customer'].required = False
+        self.fields['address1'].required = False
+        self.fields['postcode'].required = False
+
+    # validate the data input
+    def clean(self):
+        cleaned_data = super(AddressFormSimple, self).clean()
+        address1 = cleaned_data.get("address1")
+        postcode = cleaned_data.get("postcode")
+
+        if (address1 or postcode) and not (address1 and postcode):
+            # cannot over pay
+            msg = "Both first line of address and a postcode must be entered."
+            if address1:
+                self.add_error('postcode', msg)
+            if postcode:
+                self.add_error('address1', msg)
 
 
 # Form for phone details
@@ -72,17 +95,24 @@ class PhoneForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(PhoneForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['telephone'].widget = forms.TextInput(attrs={'size': 15})
+        self.fields['telephone'].widget = forms.TextInput(attrs={'size': '15'})
+        self.fields['customer'].widget = forms.HiddenInput()
 
+class PhoneFormSimple(PhoneForm):
+    def __init__(self, *args, **kwargs):
+        super(PhoneFormSimple, self).__init__(*args, **kwargs)
+        self.fields['customer'].widget = HiddenInput()
+        self.fields['customer'].required = False
+        self.fields['number_type'].required = False
 
 # form for full fitting details
 class FittingForm(ModelForm):
     # create choices for types
     fitting_type = forms.ChoiceField(label='Fitting Source', choices=FORM_FITTING_TYPE_CHOICES, required=False,
                                      label_suffix='')
-    saddle_height = forms.CharField(label='Saddle Height', max_length=20, required=False)
-    bar_height = forms.CharField(label='Bar Height', max_length=20, required=False)
-    reach = forms.CharField(label='Reach', max_length=20, required=False)
+    saddle_height = forms.CharField(label='Saddle Height', max_length="20", required=False)
+    bar_height = forms.CharField(label='Bar Height', max_length="20", required=False)
+    reach = forms.CharField(label='Reach', max_length="20", required=False)
 
     class Meta:
         model = Fitting
@@ -91,9 +121,9 @@ class FittingForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(FittingForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['saddle_height'].widget = forms.TextInput(attrs={'size': 10})
-        self.fields['bar_height'].widget = forms.TextInput(attrs={'size': 10})
-        self.fields['reach'].widget = forms.TextInput(attrs={'size': 10})
+        self.fields['saddle_height'].widget = forms.TextInput(attrs={'size': '10'})
+        self.fields['bar_height'].widget = forms.TextInput(attrs={'size': '10'})
+        self.fields['reach'].widget = forms.TextInput(attrs={'size': '10'})
 
     def clean(self):
         cleaned_data = super(FittingForm, self).clean()
@@ -141,7 +171,7 @@ class PartTypeForm(ModelForm):
 class QuoteSearchForm(forms.Form):
     search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Frameset/Base Bike',
                                           label_suffix='')
-    search_quote_desc = forms.CharField(max_length=30, required=False, label='Description Like')
+    search_quote_desc = forms.CharField(max_length='30', required=False, label='Description Like')
     search_user = forms.ModelChoiceField(queryset=User.objects.all(), required=False, label='Created By',
                                          label_suffix='')
 
@@ -153,7 +183,7 @@ class QuoteSearchForm(forms.Form):
 # form for searching for quotes
 class FrameSearchForm(forms.Form):
     search_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
-    search_name = forms.CharField(max_length=30, required=False, label='Name Like')
+    search_name = forms.CharField(max_length='30', required=False, label='Name Like')
 
     def __init__(self, *args, **kwargs):
         super(FrameSearchForm, self).__init__(*args, **kwargs)
@@ -174,7 +204,7 @@ class BrandForm(ModelForm):
 class MyQuoteSearchForm(forms.Form):
     search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Frameset/Base Bike',
                                           label_suffix='')
-    search_quote_desc = forms.CharField(max_length=30, required=False, label='Description Like')
+    search_quote_desc = forms.CharField(max_length='30', required=False, label='Description Like')
 
     def __init__(self, *args, **kwargs):
         super(MyQuoteSearchForm, self).__init__(*args, **kwargs)
@@ -197,8 +227,12 @@ class QuoteForm(ModelForm):
         self.fields['customer'].widget = HiddenInput()
         self.fields['quote_type'].widget = forms.Select(attrs={'onchange': "changeQuoteType(this);"})
         self.fields['quote_type'].choices = FORM_QUOTE_TYPE_CHOICES
+        self.fields['frame_sell_price'].widget = forms.TextInput(attrs={'size': 6})
+        self.fields['colour_price'].widget = forms.TextInput(attrs={'size': 6})
+        self.fields['frame_size'].widget = forms.TextInput(attrs={'size': 4})
 
         if self.instance.quote_type is not BIKE:
+
             self.fields['frame'].widget.attrs['disabled'] = True
             self.fields['frame_sell_price'].widget.attrs['disabled'] = True
             self.fields['colour'].widget.attrs['disabled'] = True
@@ -270,8 +304,8 @@ class QuoteSimpleAddPartForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(QuoteSimpleAddPartForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': 4, 'title': 'Qty'})
-        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': 6, 'title': 'Sell Price'})
+        self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': '4', 'title': 'Qty'})
+        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': '6', 'title': 'Sell Price'})
 
     def clean(self):
         cleaned_data = super(QuoteSimpleAddPartForm, self).clean()
@@ -297,9 +331,9 @@ class QuoteBikeForm(ModelForm):
         self.fields['frame'].widget = HiddenInput()
         self.fields["quote_type"].widget = HiddenInput()
         self.fields["sell_price"].widget = HiddenInput()
-        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 9})
-        self.fields['frame_sell_price'].widget = forms.TextInput(attrs={'size': 9})
-        self.fields['colour_price'].widget = forms.TextInput(attrs={'size': 9})
+        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': '9'})
+        self.fields['frame_sell_price'].widget = forms.TextInput(attrs={'size': '9'})
+        self.fields['colour_price'].widget = forms.TextInput(attrs={'size': '9'})
 
     class Meta:
         model = Quote
@@ -329,7 +363,7 @@ class QuoteBikeChangePartForm(forms.Form):
     can_be_omitted = forms.BooleanField(required=False, label='Omit')
     trade_in_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
                                         label='Trade In')
-    new_brand = forms.CharField(max_length=60, required=False, label='Brand')
+    new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
     new_part_name = forms.CharField(max_length=60, required=False, label='Part Name')
     new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity')
     new_sell_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
@@ -343,11 +377,10 @@ class QuoteBikeChangePartForm(forms.Form):
         self.label_suffix = ''
         self.fields['can_be_substituted'].widget = HiddenInput()
         self.fields['can_be_omitted'].widget = HiddenInput()
-        self.fields['new_brand'].widget = forms.TextInput(attrs={'size': 20})
-        self.fields['new_part_name'].widget = forms.TextInput(attrs={'size': 20})
-        self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': 4})
-        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': 8})
-        self.fields['trade_in_price'].widget = forms.TextInput(attrs={'size': 8})
+        self.fields['new_part_name'].widget = forms.TextInput(attrs={'size': '20'})
+        self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': '4'})
+        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': '8'})
+        self.fields['trade_in_price'].widget = forms.TextInput(attrs={'size': '8'})
 
         # modify the form to reflect the actual possibilities
         print(self.base_fields['new_part_name'])
@@ -399,8 +432,8 @@ class QuoteBikePartForm(ModelForm):
         self.fields['partType'].widget = HiddenInput()
         self.fields['frame_part'].widget = HiddenInput()
         self.fields['part'].widget = HiddenInput()
-        self.fields['quantity'].widget = forms.TextInput(attrs={'size': 4})
-        self.fields['sell_price'].widget = forms.TextInput(attrs={'size': 6})
+        self.fields['quantity'].widget = forms.TextInput(attrs={'size': '4'})
+        self.fields['sell_price'].widget = forms.TextInput(attrs={'size': '6'})
 
     class Meta:
         model = QuotePart
@@ -428,7 +461,7 @@ class QuotePartAttributeForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(QuotePartAttributeForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-        self.fields['attribute_value'].widget = forms.TextInput(attrs={'size': 10})
+        self.fields['attribute_value'].widget = forms.TextInput(attrs={'size': '10'})
         self.fields['attribute_name'].widget = HiddenInput()
 
 
@@ -438,16 +471,16 @@ class QuoteFittingForm(forms.Form):
 
     fitting_type = forms.ChoiceField(label='Fitting Source', choices=FORM_FITTING_TYPE_CHOICES, required=False,
                                      label_suffix='')
-    saddle_height = forms.CharField(label='Saddle Height', max_length=20, required=False)
-    bar_height = forms.CharField(label='Bar Height', max_length=20, required=False)
-    reach = forms.CharField(label='Reach', max_length=20, required=False)
-    notes = forms.CharField(label='Notes', max_length=200, required=False)
+    saddle_height = forms.CharField(label='Saddle Height', max_length="20", required=False)
+    bar_height = forms.CharField(label='Bar Height', max_length="20", required=False)
+    reach = forms.CharField(label='Reach', max_length="20", required=False)
+    notes = forms.CharField(label='Notes', max_length="200", required=False)
 
     def __init__(self, *args, **kwargs):
         super(QuoteFittingForm, self).__init__(*args, **kwargs)
-        self.fields['saddle_height'].widget = forms.TextInput(attrs={'size': 10})
-        self.fields['bar_height'].widget = forms.TextInput(attrs={'size': 10})
-        self.fields['reach'].widget = forms.TextInput(attrs={'size': 10})
+        self.fields['saddle_height'].widget = forms.TextInput(attrs={'size': '10'})
+        self.fields['bar_height'].widget = forms.TextInput(attrs={'size': '10'})
+        self.fields['reach'].widget = forms.TextInput(attrs={'size': '10'})
         self.label_suffix = ''
 
     def clean(self):

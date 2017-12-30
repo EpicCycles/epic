@@ -5,34 +5,41 @@
 {% block content %}
     <!-- select a customer - used as a popup -->
     <form action="" method="get">
-        <table>
-            <tr>
-                <td>
-                    {% include "epic/customer_search_params.html" %}
-                    {{ form.as_table }}
-                </td>
-                <td>
-                    <input type="submit" value="Search" class="button"/>
-                </td>
-            </tr>
-        </table>
+        <section style="padding:5px;">
+            <div>
+                {% include "epic/customer_search_params.html" %}
+                {{ form.as_table }}
+            </div>
+            <div>
+                <input type="submit" value="Search" class="button"/>
+            </div>
+        </section>
     </form>
     <hr/>
-    {% if customer_list %}
-        <table>
-            {% for customer in customer_list %}
-                <label>
-                    <input type="radio" name="customer" id="customer" value="{{ customer.pk }}"
-                           onclick="handleClick(this)"/>
-                    {{ customer }}</label>
-                <br/>
-            {% endfor %}
-        </table>
-        <input type='button' value='Select Customer' onclick='selectAndClose()' class="button"/>
-        {% include "epic/pagination.html" %}
-    {% else %}
-        <p>No customers to view.</p>
-    {% endif %}
+    <section style="padding:5px;" class="flex-vertical">
+        <div>
+            {% if customer_list %}
+                {% for customer in customer_list %}
+                    <label>
+                        <input type="radio" name="customer" id="customer" value="{{ customer.pk }}"
+                               onclick="handleClick(this)"/>
+                        {{ customer }}
+                    </label>
+                    <br/>
+                {% endfor %}
+                {% include "epic/pagination.html" %}
+
+                <input type='button' value='Use Customer' id="use_customer" onclick='selectAndClose()' class="button"
+                       disabled="disabled"/>
+                <input type="hidden" id="selected_customer_id" value=""/>
+            {% else %}
+                <p>No customers to view.</p>
+            {% endif %}
+        </div>
+        <div>
+            <a href="{% url 'add_customer_simple' %}" class="button">Add New Customer</a>
+        </div>
+    </section>
     <!-- pop up specific script -->
     <script src="{% static 'js/customer_select_popup.js' %}"></script>
 {% endblock %}
