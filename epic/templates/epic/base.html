@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/epic.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="{% static 'js/base.js' %}"></script>
 </head>
 
 <body onload="addListeners()">
@@ -24,9 +25,9 @@
     {% endblock %}
 </div>
 <div style="display: none">
-<i class="material-icons red" onclick="popupDetail('{% url 'add_brand' %}','Add New Brand')" id="brand_add_link">add_box</i>
+    <input type="hidden" id="brandSelectorId">
 </div>
 </body>
-<script src="{% static 'js/base.js' %}"></script>
+
 
 </html>

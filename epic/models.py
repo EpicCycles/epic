@@ -246,7 +246,7 @@ class FramePart(models.Model):
 # Manager for PramePart
 class FrameExclusionManager(models.Manager):
     def create_frameExclusion(self, frame, partType):
-        return self.create(frame=partType, part=partType)
+        return self.create(frame=frame, part=partType)
 
 
 class FrameExclusion(models.Model):

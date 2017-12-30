@@ -1,6 +1,7 @@
 {% extends 'epic/base.html' %}
 {% load staticfiles %}
 {% load static %}
+{% load popup_helper %}
 {% block content %}
     <h2>Quote - {{ quote.customer }} / {{ quote.frame }}</h2>
     <form action="{% url 'quote_edit_bike' pk=quote.pk %}" method="post">
@@ -32,18 +33,15 @@
                     {% with quoteSimpleAddPart as form %}
                         {% include "epic/form_as_table.html" %}
                     {% endwith %}
-                    <input type="button"
-                           onclick="popupDetail('{% url 'add_brand' %}','Add New Brand')"
-                           class="button" value="Add New Brand"
-                    />
                 </td>
                 <td class="align_top">
                     <h4>Fitting Details</h4>
                     {% if customerFittings %}
                         <strong>Existing Fitting</strong>
                         <select name='id_fitting' id='id_fitting'>
+                            <option value="">No Fitting details</option>
                             {% for fitting in customerFittings %}
-                                <option value="{{ fitting.id }}" {% if quote.fitting == fitting.id %}
+                                <option value="{{ fitting.id }}" {% if quote.fitting == fitting %}
                                         selected {% endif %}>{{ fitting }}</option>
                             {% endfor %}
                         </select>
@@ -64,10 +62,10 @@
         <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button"{% else %}
            class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
         <input type="button" onclick="popupDetail('{% url 'bike_select_popup' %}','Select Bike')" class="button"
-               value="Copy with Alternate Bike"/>
+               value="Duplicate with Alternate Bike"/>
         <h3>Bike specification</h3>
         <table>
-            <tr>
+            <tr id="bike_header">
                 <th class="listHead">Part Type</th>
                 <th class="listHead">Bike Part</th>
                 <th class="listHead">Additional Details</th>
@@ -78,51 +76,57 @@
                 <th class="listHead">Quantity</th>
                 <th class="listHead">Sell Price</th>
             </tr>
-
-            {% for section, sectionContents in quoteSections %}
-                <tr>
-                    <td colspan='9' class="section_part">{{ section.name }}</td>
-                </tr>
-                {% for quotePartDetails, form in sectionContents %}
-                    {% cycle 'row1' 'row2' as rowcolors silent %}
-                    <tr class="{{ rowcolors }}">
-                        {% for quote_part_data in quotePartDetails %}
-                            {% if forloop.counter == 1 %}
-                                <td>{{ quote_part_data.partType }}</td>
-                                <td>
-                                    {{ quote_part_data.frame_part.part }}
-                                </td>
-                            {% endif %}
-                            {% if forloop.counter == 2 %}
-                                <td>
-                                    <table>
-                                        {% for quotePartAttributeForm in quote_part_data %}
-                                            <tr class="{{ rowcolors }}">
-                                                <td>{{ quotePartAttributeForm.attribute_name.value }}</td>
-                                                <td>
-                                                    {{ quotePartAttributeForm.attribute_value }}
-                                                    {{ quotePartAttributeForm.attribute_value.errors }}
-                                                    {% for hidden in quotePartAttributeForm.hidden_fields %}
-                                                        {{ hidden }}
-                                                    {% endfor %}
-                                            </tr>
-                                        {% endfor %}
-                                    </table>
-                                    {% for hidden in form.hidden_fields %}
-                                        {{ hidden }}
-                                    {% endfor %}
-                                </td>
-                            {% endif %}
-                        {% endfor %}
-                        {% for field in form.visible_fields %}
-                            <td>
-                                {{ field }}{{ field.errors }}
-                            </td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            {% endfor %}
         </table>
+        <div style="height: 50%;overflow: scroll;">
+            <table>
+                {% for section, sectionContents in quoteSections %}
+                    <tr>
+                        <td colspan='9' class="section_part">{{ section.name }}</td>
+                    </tr>
+                    {% for quotePartDetails, form in sectionContents %}
+                        {% cycle 'row1' 'row2' as rowcolors silent %}
+                        <tr class="{{ rowcolors }}"
+                                {% if forloop.first %}
+                            id="bike_row"
+                                {% endif %}>
+                            {% for quote_part_data in quotePartDetails %}
+                                {% if forloop.counter == 1 %}
+                                    <td>{{ quote_part_data.partType }}</td>
+                                    <td>
+                                        {{ quote_part_data.frame_part.part }}
+                                    </td>
+                                {% endif %}
+                                {% if forloop.counter == 2 %}
+                                    <td>
+                                        <table>
+                                            {% for quotePartAttributeForm in quote_part_data %}
+                                                <tr class="{{ rowcolors }}">
+                                                    <td>{{ quotePartAttributeForm.attribute_name.value }}</td>
+                                                    <td>
+                                                        {{ quotePartAttributeForm.attribute_value }}
+                                                        {{ quotePartAttributeForm.attribute_value.errors }}
+                                                        {% for hidden in quotePartAttributeForm.hidden_fields %}
+                                                            {{ hidden }}
+                                                        {% endfor %}
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                        {% for hidden in form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                    </td>
+                                {% endif %}
+                            {% endfor %}
+                            {% for field in form.visible_fields %}
+                                <td>
+                                    {{ field }}{{ field|getBrandLink }}{{ field.errors }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </table>
+        </div>
 
         {% include "epic/form_standard_actions.html" %}
         <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button" {% else %}
