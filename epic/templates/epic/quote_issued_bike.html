@@ -1,21 +1,17 @@
 {% extends 'epic/base.html' %}
 {% block content %}
+    <form action="" method="post">
 
-    <table width="100%">
-        <tr>
-            <td><h2>Quote</h2></td>
-            <td class="page_actions align_right">
-                <form action="" method="post">
-                    {% csrf_token %}
-                    {% include "epic/quote_issued_buttons.html" %}
-                </form>
-
-                <br>
+        <section style="width:100%">
+            <div><h2>Quote</h2></div>
+            <div  style="width:80%;  text-align:right;">
+                {% csrf_token %}
+                {% include "epic/quote_issued_buttons.html" %}
+                <br/>
                 {% include "epic/quote_standard_build.html" %}
-            </td>
-        </tr>
-    </table>
+            </div>
+        </section>
+    </form>
     {% include "epic/quote_issued_bike_detail.html" %}
-
     {% include "epic/notes_display.html" %}
 {% endblock %}
