@@ -5,8 +5,7 @@ from datetime import date
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-# exceptionsfrom django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-from django.core.exceptions import ObjectDoesNotExist
+
 # added to allow user details on models and history tables
 from django.conf import settings
 import simple_history.models
@@ -434,7 +433,7 @@ class Quote(models.Model):
 
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
-            if quote_part.requires_prices():
+            if quote_part.is_incomplete():
                 return False
 
         return True
@@ -517,27 +516,22 @@ class QuotePart(models.Model):
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
         super(QuotePart, self).save(*args, **kwargs)
-        if self.part is None or self.quantity < 1:
-            QuotePartAttribute.objects.filter(quotePart=self).delete()
-        else:
-            partTypeAttributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
-            for partTypeAttribute in partTypeAttributes:
-                try:
-                    quotePartAttribute = QuotePartAttribute.objects.get(quotePart=self,
-                                                                        partTypeAttribute=partTypeAttribute)
-                    if not self.is_frame_part():
-                        if quotePartAttribute.attribute_value == partTypeAttribute.default_value_for_quote:
-                            quotePartAttribute.attribute_value = None
-                            quotePartAttribute.save()
+        partTypeAttributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
 
-                except ObjectDoesNotExist:
-                    # create a new QuotePartAttribute
-                    attribute_value = None
-                    if self.is_frame_part():
-                        attribute_value = partTypeAttribute.default_value_for_quote
-                    quotePartAttribute = QuotePartAttribute(quotePart=self, partTypeAttribute=partTypeAttribute,
-                                                            attribute_value=attribute_value)
-                    quotePartAttribute.save()
+        for part_type_attribute in partTypeAttributes:
+            quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=self,
+                                                                      partTypeAttribute=part_type_attribute)
+            if quote_part_attributes.count() > 0:
+                # reset the value if the value was the default and this is not the frame patt
+                if not self.is_frame_part():
+                    for quote_part_attribute in quote_part_attributes:
+                        if quote_part_attribute.attribute_value == part_type_attribute.default_value_for_quote:
+                            quote_part_attribute.attribute_value = None
+                            quote_part_attribute.save()
+
+            else:
+                # create a new QuotePartAttribute
+                QuotePartAttribute.objects.create_quote_part_attribute(self, part_type_attribute)
 
     def __str__(self):
         if self.part is None or self.part.part_name is None:
@@ -581,6 +575,16 @@ class QuotePart(models.Model):
             return True
         return False
 
+    def is_incomplete(self):
+        if self.is_not_standard_part():
+            if self.sell_price is None:
+                return True
+
+            quotePartAttributes = self.quotepartattribute_set.all()
+            for quotePartAttribute in quotePartAttributes:
+                if quotePartAttribute.attribute_value == quotePartAttribute.partTypeAttribute.default_value_for_quote:
+                    return True
+
     def is_not_standard_part(self):
         if self.is_frame_part():
             quotePartAttributes = self.quotepartattribute_set.all()
@@ -610,12 +614,25 @@ class QuotePart(models.Model):
         ordering = ('line', '-quote')
 
 
+# Managers for QuotePartAttribute
+class QuotePartAttributeManager(models.Manager):
+    # this creates a skinny version to use on a form incomplete cannot be saved
+    def create_quote_part_attribute(self, quote_part, part_type_attribute):
+        attribute_value = None
+        if quote_part.is_frame_part():
+            attribute_value = part_type_attribute.default_value_for_quote
+        quotePartAttribute = self.create(quotePart=quote_part, partTypeAttribute=part_type_attribute,
+                                         attribute_value=attribute_value)
+        return quotePartAttribute
+
+
 # PartTypeAttribute linked to quote parts
 class QuotePartAttribute(models.Model):
     quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE)
     partTypeAttribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE)
     attribute_value = models.CharField('Quote Description', max_length=40, null=True)
     history = simple_history.models.HistoricalRecords()
+    objects = QuotePartAttributeManager()
 
     def __str__(self):
         if self.partTypeAttribute and self.attribute_value:
