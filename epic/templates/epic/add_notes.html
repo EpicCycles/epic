@@ -1,19 +1,19 @@
 <!--Form elements for adding a note-->
-<h3>Notes</h3>
-<table>
-    <tr>
-        <th class="align-left">Epic Notes</th>
-    </tr>
-    <tr>
-        <td>
-            <textarea rows="4" cols="30" id="note_contents_epic" name="note_contents_epic" placeholder="New Notes"></textarea>
-        </td>
-    </tr>   <tr>
-        <th class="align-left">Customer Notes</th>
-    </tr>
-    <tr>
-        <td>
-            <textarea rows="4" cols="30" id="note_contents_cust" name="note_contents_cust" placeholder="New Customer Notes"></textarea>
-        </td>
-    </tr>
-</table>
+<section class="flex-vertical">
+    <div>
+        <h3>Epic Notes</h3>
+    </div>
+    <div title="Notes to be used internally, not visible to the customer">
+        <textarea rows="4" cols="30" id="note_contents_epic" name="note_contents_epic"
+                  placeholder="New Notes"></textarea>
+    </div>
+    <div>
+        <h3>Customer Notes</h3>
+    </div>
+    <div title="Notes visible to the customer">
+        <textarea rows="4" cols="30" id="note_contents_cust" name="note_contents_cust"
+                  placeholder="New Customer Notes"></textarea>
+    </div>
+</section>
+
+

@@ -5,19 +5,17 @@
 {% block content %}
     <!-- add brand - used as a popup -->
     <form action="" method="post">
-    {% csrf_token %}
+        {% csrf_token %}
         <h3>Brand</h3>
-        {% with brand_form as form %}
-            {% include "epic/form_as_table.html" %}
-        {% endwith %}
-        <input type='submit' value='Add Brand'  class="button"/>
+        {% include "epic/form_as_table.html"  with form=brand_form %}
+        <input type='submit' value='Add Brand' class="button"/>
         <hr/>
-        <input type='button' value='Close' onclick='closeAddBrand();'  class="button"/>
+        <input type='button' value='Close' onclick='closeAddBrand();' class="button"/>
     </form>
     <script src="{% static 'js/brand_add_popup.js' %}"></script>
-    {% if saved_brand   %}
+    {% if saved_brand %}
         <script>
-            addBrandToOpener("{{ saved_brand.id }}","{{ saved_brand.brand_name }}");
+            addBrandToOpener("{{ saved_brand.id }}", "{{ saved_brand.brand_name }}");
         </script>
     {% endif %}
 

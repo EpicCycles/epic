@@ -9,9 +9,7 @@
                     <h3>Order Details</h3>
                     {% csrf_token %}
                     {{ supplier }}
-                    {% with supplier_order_form as form %}
-                        {% include "epic/form_as_table.html" %}
-                    {% endwith %}
+                    {% include "epic/form_as_table.html" with form=supplier_order_form %}
                 </td>
                 <td class="align_top">
                     {% include "epic/form_standard_actions.html" %}
@@ -44,14 +42,11 @@
                         {% endfor %}
                     </td>
                     {% for field in possible_item.visible_fields %}
-                        <td class="align_center">
-                            {{ field }}{{ field.errors }}
-                        </td>
+                        {% include "epic/field_as_td.html"  with field=field %}
                     {% endfor %}
                 </tr>
             {% endfor %}
         </table>
-        </fieldset>
         {% include "epic/form_standard_actions.html" %}
     </form>
 {% endblock %}

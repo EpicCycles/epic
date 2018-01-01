@@ -42,11 +42,11 @@ class Customer(models.Model):
         return reverse('views.editCustomer', args={self.pk})
 
     def __str__(self):
-        display_value = self.first_name + ' ' + self.last_name
+        display_value = f'{self.first_name} {self.last_name}'
         if self.email:
-            display_value += '(' + self.email + ')'
+            display_value += f'({self.email})'
         else:
-            display_value += '(Last Updated:' + f"{self.upd_date:%b %d, %Y}" + ')'
+            display_value += "(Last Updated:{self.upd_date:%b %d, %Y})"
         return display_value
 
     class Meta:
@@ -63,7 +63,7 @@ class CustomerPhone(models.Model):
     history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
-        return dict(NUMBER_TYPE_CHOICES).get(self.number_type) + ' ' + self.telephone
+        return f'{dict(NUMBER_TYPE_CHOICES).get(self.number_type)} {self.telephone}'
 
 
 class CustomerAddress(models.Model):
@@ -79,12 +79,12 @@ class CustomerAddress(models.Model):
     def __str__(self):
         returnAddress = self.address1
         if self.address2:
-            returnAddress += ', ' + self.address2
+            returnAddress += f', {self.address2}'
         if self.address3:
-            returnAddress += ', ' + self.address3
+            returnAddress += f', {self.address3}'
         if self.address4:
-            returnAddress += ', ' + self.address4
-        returnAddress += ', ' + self.postcode
+            returnAddress += f', {self.address4}'
+        returnAddress += f', {self.postcode}'
         return returnAddress
 
 
@@ -99,8 +99,7 @@ class Fitting(models.Model):
     history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
-        return dict(FITTING_TYPE_CHOICES).get(
-            self.fitting_type) + ' - Saddle Height:' + self.saddle_height + ' Bar Height:' + self.bar_height + ' Reach:' + self.reach
+        return f'{dict(FITTING_TYPE_CHOICES).get(self.fitting_type)} - Saddle Height:{self.saddle_height} Bar Height:{self.bar_height} Reach:{self.reach}'
 
 
 class PartSection(models.Model):
@@ -166,12 +165,12 @@ class Brand(models.Model):
         return self.brand_name
 
     # check whether a web kink ispresent
-    def hasLink(self):
+    def has_link(self):
         return self.link is not None
 
     # build a web link as standard
-    def linkNewTab(self):
-        if self.hasLink():
+    def build_link_new_tab(self):
+        if self.has_link():
             return '<a target="_blank" class="externalLink" href="' + self.link + '">' + self.brand_name + '</a>'
 
     class Meta:
@@ -179,8 +178,15 @@ class Brand(models.Model):
 
 
 class PartManager(models.Manager):
-    def create_part(self, partType, brand, part_name):
-        return self.create(partType=partType, brand=brand, part_name=part_name)
+    def create_part(self, part_type, brand, part_name):
+        """
+        creates a Part with the required values
+        :param part_type: PartType
+        :param brand: Brand
+        :param part_name: String
+        :return: Part
+        """
+        return self.create(partType=part_type, brand=brand, part_name=part_name)
 
 
 class Part(models.Model):
@@ -190,7 +196,7 @@ class Part(models.Model):
     objects = PartManager()
 
     def __str__(self):
-        return self.partType.shortName + ':' + self.brand.brand_name + ' ' + self.part_name
+        return f'{self.partType.shortName}:{self.brand.brand_name} {self.part_name}'
 
     class Meta:
         unique_together = (("partType", "brand", "part_name"),)
@@ -215,9 +221,9 @@ class Frame(models.Model):
 
     def __str__(self):
         if self.model is None:
-            return self.brand.brand_name + ':' + self.frame_name
+            return f'{self.brand.brand_name}:{self.frame_name}'
         else:
-            return self.brand.brand_name + ':' + self.frame_name + ':' + self.model
+            return f'{self.brand.brand_name}:{self.frame_name}:{self.model}'
 
     class Meta:
         unique_together = (("brand", "frame_name", "model"),)
@@ -226,7 +232,7 @@ class Frame(models.Model):
 
 # Manager for PramePart
 class FramePartManager(models.Manager):
-    def create_framePart(self, frame, part):
+    def create_frame_part(self, frame, part):
         return self.create(frame=frame, part=part)
 
 
@@ -237,7 +243,7 @@ class FramePart(models.Model):
     objects = FramePartManager()
 
     def __str__(self):
-        return self.part.partType.shortName + ':' + self.part.part_name
+        return f'{self.part.partType.shortName}:{self.part.part_name}'
 
     class Meta:
         unique_together = (("frame", "part"),)
@@ -245,8 +251,8 @@ class FramePart(models.Model):
 
 # Manager for PramePart
 class FrameExclusionManager(models.Manager):
-    def create_frameExclusion(self, frame, partType):
-        return self.create(frame=frame, part=partType)
+    def create_frame_exclusion(self, frame, part_type):
+        return self.create(frame=frame, partType=part_type)
 
 
 class FrameExclusion(models.Model):
@@ -265,7 +271,7 @@ class FrameExclusion(models.Model):
 # # Managers for CustomerOrder
 class CustomerOrderManager(models.Manager):
     # create a new CustomerOrder for a quote
-    def create_customerOrder(self, quote):
+    def create_customer_order(self, quote):
         customer = quote.customer
         order_total = quote.keyed_sell_price
         amount_due = quote.keyed_sell_price
@@ -315,7 +321,7 @@ class CustomerOrder(models.Model):
 
 class Quote(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    quote_desc = models.CharField( max_length=60)
+    quote_desc = models.CharField(max_length=60)
     version = models.PositiveSmallIntegerField(default=1, editable=False)
     created_date = models.DateTimeField(auto_now_add=True)
     issued_date = models.DateTimeField(null=True)
@@ -327,8 +333,7 @@ class Quote(models.Model):
     frame_cost_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     frame_sell_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     colour = models.CharField(max_length=40, blank=True, null=True)
-    colour_price = models.DecimalField( max_digits=9, decimal_places=2, blank=True,
-                                       null=True)
+    colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     frame_size = models.CharField(max_length=15, blank=True, null=True)
     fitting = models.ForeignKey(Fitting, on_delete=models.CASCADE, blank=True, null=True)
     keyed_sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
@@ -375,7 +380,7 @@ class Quote(models.Model):
                         quotePart.save()
 
     def __str__(self):
-        return self.quote_desc + ' (' + str(self.version) + ')'
+        return f'{self.quote_desc} ({str(self.version)})'
 
     # display for the choice of type of quote
     # def get_quote_type_display(self):
@@ -391,7 +396,7 @@ class Quote(models.Model):
 
     # is it a bike quote
     def is_bike(self):
-        return (self.quote_type == BIKE)
+        return self.quote_type == BIKE
 
     # check if a quote can be edited
     def can_be_edited(self):
@@ -405,24 +410,23 @@ class Quote(models.Model):
         if self.quote_status == ISSUED:
             for quotePart in self.quotepart_set.all():
                 for quotePartAttribute in quotePart.quotepartattribute_set.all():
-                    if (quotePartAttribute.partTypeAttribute.mandatory) and (
-                                (quotePartAttribute.attribute_value is None) or (
-                                        quotePartAttribute.attribute_value == '')):
-                        return False
+                    if quotePartAttribute.partTypeAttribute.mandatory:
+                        if quotePartAttribute.attribute_value is None or quotePartAttribute.attribute_value == '':
+                            return False
             return True
         return False
 
     # check if a quote can be issued
     def can_be_issued(self):
-        if not (self.quote_status == INITIAL):
+        if self.quote_status != INITIAL:
             return False
 
         # check all prices complete and quantities set before issuing
-        if (self.keyed_sell_price is None):
+        if self.keyed_sell_price is None:
             return False
 
-        if (self.frame is not None):
-            if (self.frame_sell_price is None):
+        if self.frame is not None:
+            if self.frame_sell_price is None:
                 return False
 
         if self.quotepart_set.count() == 0:
@@ -436,18 +440,17 @@ class Quote(models.Model):
         return True
 
     def can_be_reissued(self):
-        if self.quote_status == ISSUED:
+        if self.quote_status == INITIAL:
+            return False
+        elif self.quote_status == ISSUED:
             return True
         elif self.quote_status == ARCHIVED:
             return True
 
-        # TODO status change not allowed if ordered
         if not self.customerOrder:
             return True
         else:
             return self.customerOrder.can_be_cancelled()
-
-        return False
 
     def archive(self):
         self.quote_status = ARCHIVED
@@ -477,7 +480,7 @@ class Quote(models.Model):
     def recalculate_prices(self):
         if self.frame is None:
             self.sell_price = 0
-        elif (self.frame_sell_price is None):
+        elif self.frame_sell_price is None:
             self.sell_price = 0
         else:
             self.sell_price = self.frame_sell_price
@@ -490,7 +493,7 @@ class Quote(models.Model):
 
             if not ((quote_part.quantity is None) or (quote_part.sell_price is None)):
                 self.sell_price += quote_part.sell_price * quote_part.quantity
-            if (quote_part.trade_in_price is not None):
+            if quote_part.trade_in_price is not None:
                 self.sell_price -= quote_part.trade_in_price
 
     class Meta:
@@ -514,7 +517,7 @@ class QuotePart(models.Model):
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
         super(QuotePart, self).save(*args, **kwargs)
-        if self.part == None or self.quantity < 1:
+        if self.part is None or self.quantity < 1:
             QuotePartAttribute.objects.filter(quotePart=self).delete()
         else:
             partTypeAttributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
@@ -537,13 +540,10 @@ class QuotePart(models.Model):
                     quotePartAttribute.save()
 
     def __str__(self):
-        if self.part is None:
-            return self.partType.shortName + "N/A"
+        if self.part is None or self.part.part_name is None:
+            return f"{self.partType.shortName} N/A"
         else:
-            if self.part.part_name is None:
-                return self.partType.shortName + "N/A"
-            else:
-                return str(self.part)
+            return str(self.part)
 
     # return a part summary for use on Order and other pages
     def summary(self):
@@ -552,7 +552,7 @@ class QuotePart(models.Model):
         if quotePartAttributes:
 
             for quotePartAttribute in quotePartAttributes:
-                if (attributeDetail != ''):
+                if attributeDetail != '':
                     attributeDetail += ', '
                 else:
                     attributeDetail += '('
@@ -562,8 +562,8 @@ class QuotePart(models.Model):
         return str(self) + attributeDetail
 
     # return a part summary for use on Order and other pages
-    def summaryBikePart(self):
-        if self.notStandard():
+    def get_bike_part_summary(self):
+        if self.is_not_standard_part():
             if self.part:
                 if self.frame_part:
                     return self.summary() + ' (Substitute part)'
@@ -581,26 +581,26 @@ class QuotePart(models.Model):
             return True
         return False
 
-    def notStandard(self):
+    def is_not_standard_part(self):
         if self.is_frame_part():
             quotePartAttributes = self.quotepartattribute_set.all()
             for quotePartAttribute in quotePartAttributes:
-                if (quotePartAttribute.attribute_value != quotePartAttribute.partTypeAttribute.default_value_for_quote):
+                if quotePartAttribute.attribute_value != quotePartAttribute.partTypeAttribute.default_value_for_quote:
                     return True
             return False
-        if (self.part is None):
+        if self.part is None:
             if self.frame_part is None:
                 return False
         return True
 
     def requires_prices(self):
-        if (self.part is None):
+        if self.part is None:
             return False
 
         if (self.frame_part is not None) and (self.part == self.frame_part.part):
             return False
 
-        if (self.sell_price is None):
+        if self.sell_price is None:
             return True
 
         return False
@@ -618,10 +618,10 @@ class QuotePartAttribute(models.Model):
     history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
-        if (self.partTypeAttribute) and (self.attribute_value):
-            return str(self.partTypeAttribute) + ": " + self.attribute_value
+        if self.partTypeAttribute and self.attribute_value:
+            return f"{str(self.partTypeAttribute)}: {self.attribute_value}"
         elif self.partTypeAttribute:
-            return str(self.partTypeAttribute) + ":  NOT SET"
+            return f"{str(self.partTypeAttribute)}:  NOT SET"
         else:
             return str("Hmmm")
 
@@ -636,7 +636,7 @@ class SupplierOrder(models.Model):
     date_placed = models.DateField('Order Date', null=True, blank=True, default=date.today)
 
     def __str__(self):
-        return str(self.supplier) + "Order id" + self.order_identifier
+        return f"{str(self.supplier)}Order id{self.order_identifier}"
 
     class Meta:
         unique_together = (("supplier", "order_identifier"),)
@@ -645,8 +645,8 @@ class SupplierOrder(models.Model):
 # Managers for OrderItem
 class SupplierOrderItemManager(models.Manager):
     # this creates a skinny version to use on a form incomplete cannot be saved
-    def create_supplier_order_item(self, supplierOrder, item_description):
-        supplierOrderItem = self.create(supplierOrder=supplierOrder, item_description=item_description)
+    def create_supplier_order_item(self, supplier_order, item_description):
+        supplierOrderItem = self.create(supplierOrder=supplier_order, item_description=item_description)
         return supplierOrderItem
 
 
@@ -663,8 +663,8 @@ class SupplierOrderItem(models.Model):
 # Managers for OrderFrame
 class OrderFrameManager(models.Manager):
     # this creates a skinny version to use on a form incomplete cannot be saved
-    def create_orderFrame(self, frame, customerOrder, quote):
-        orderFrame = self.create(customerOrder=customerOrder, frame=frame, supplier=frame.brand.supplier, quote=quote)
+    def create_order_frame(self, frame, customer_order, quote):
+        orderFrame = self.create(customerOrder=customer_order, frame=frame, supplier=frame.brand.supplier, quote=quote)
         return orderFrame
 
 
@@ -680,14 +680,14 @@ class OrderFrame(models.Model):
     objects = OrderFrameManager()
 
     # display frame for HTML output in a view
-    def viewOrderFrame(self):
-        orderFrameDetails = []
-        orderFrameDetails.append(str(self.frame))
+    @property
+    def view_order_frame(self):
+        orderFrameDetails = [str(self.frame)]
         bike_quoteParts = QuotePart.objects.filter(quote=self.quote)
         orderFrameParts = []
         for quotePart in bike_quoteParts:
-            if (quotePart.frame_part):
-                orderFrameParts.append(quotePart.summaryBikePart())
+            if quotePart.frame_part:
+                orderFrameParts.append(quotePart.get_bike_part_summary())
         orderFrameDetails.append(orderFrameParts)
         return orderFrameDetails
 
@@ -695,8 +695,8 @@ class OrderFrame(models.Model):
 # Manager for Order payment
 class OrderPaymentManager(models.Manager):
     # create a payment and retrigger balance calculation for orderItem
-    def create_orderPayment(self, customerOrder, amount, user):
-        orderPayment = self.create(customerOrder=customerOrder, amount=amount, created_by=user)
+    def create_order_payment(self, customer_order, amount, user):
+        orderPayment = self.create(customerOrder=customer_order, amount=amount, created_by=user)
         return orderPayment
 
 
@@ -712,9 +712,9 @@ class OrderPayment(models.Model):
 # Managers for OrderItem
 class OrderItemManager(models.Manager):
     # this creates a skinny version to use on a form incomplete cannot be saved
-    def create_orderItem(self, part, customerOrder, quotePart):
+    def create_order_item(self, part, customer_order, quote_part):
         brand = part.brand
-        orderItem = self.create(customerOrder=customerOrder, part=part, quotePart=quotePart, supplier=brand.supplier)
+        orderItem = self.create(customerOrder=customer_order, part=part, quotePart=quote_part, supplier=brand.supplier)
         return orderItem
 
 

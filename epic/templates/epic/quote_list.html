@@ -1,50 +1,53 @@
 {% extends 'epic/base.html' %}
 {% block content %}
-<h2>Quotes</h2>
-<form action="" method="get">
-    <h3>Filter values:</h3>
-    {% with quoteSearchForm as form %}
-      {% include "epic/form_as_table.html" %}
-    {% endwith %}
-    <input type="submit" value="Search" class="button" />
-</form>
-<hr/>
-{% if quote_list %}
-<table>
-    <tr>
-        <th class="listHead">Customer</th>
-        <th class="listHead">Quote Description</th>
-        <th class="listHead">Quote Type</th>
-        <th class="listHead">Bike</th>
-        <th class="listHead">Date Created</th>
-        <th class="listHead">Quote Total (&pound;)</th>
-        <th class="listHead">Owner</th>
-        <th class="listHead"></th>
-        <th class="listHead"></th>
-    </tr>
-    {% for quote in quote_list %}
-    {% cycle 'row1' 'row2' as rowcolors silent %}
-    <tr class="{{ rowcolors }}">
-        <td>{{ quote.customer }}</td>
-        <td>{{ quote }}</td>
-        <td>{{ quote.get_quote_type_display  }}</td>
-        <td>{% if quote.is_bike %}{{ quote.frame }}{% endif %}</td>
-        <td>{{ quote.created_date }}</td>
-        <td>{{ quote.keyed_sell_price }}</td>
-        <td>{{ quote.created_by }}</td>
-        <td>{%if quote.can_be_edited %}
-              <a href="{% url 'quote_edit' pk=quote.pk %}" class="button">Edit</a>
-            {% else %}
-              <a href="{% url 'quote_browse' pk=quote.pk %}" class="button">View</a>
-            {% endif %}</td>
-        <td>{% if quote.is_bike %}<a href="{% url 'copy_quote' pk=quote.pk %}" class="button">Copy</a>{% endif %}</td>
-    </tr>
-    {% endfor %}
-</table>
-  {% include "epic/pagination.html" %}
+    <h2>Quotes</h2>
+    <form action="" method="get">
+        <h3>Filter values:</h3>
+        {% include "epic/form_as_table.html" with form=quoteSearchForm %}
+        <input type="submit" value="Search" class="button"/>
+    </form>
+    <hr/>
+    {% if quote_list %}
+        <table>
+            <tr>
+                <th class="listHead">Customer</th>
+                <th class="listHead">Description</th>
+                <th class="listHead">Type</th>
+                <th class="listHead">Bike</th>
+                <th class="listHead">Date Created</th>
+                <th class="listHead">Total (&pound;)</th>
+                <th class="listHead">Owner</th>
+                <th class="listHead" colspan="3">Actions</th>
+            </tr>
+            {% for quote in quote_list %}
+                {% cycle 'row1' 'row2' as rowcolors silent %}
+                <tr class="{{ rowcolors }}">
+                    <td>{{ quote.customer }}</td>
+                    <td>{{ quote }}</td>
+                    <td>{{ quote.get_quote_type_display }}</td>
+                    <td>{% if quote.is_bike %}{{ quote.frame }}{% endif %}</td>
+                    <td>{{ quote.created_date }}</td>
+                    <td>{{ quote.keyed_sell_price }}</td>
+                    <td>{{ quote.created_by }}</td>
+                    <td>{% if quote.can_be_edited %}
+                        <a href="{% url 'quote_edit' pk=quote.pk %}" class="button">Edit</a>
+                    {% else %}
+                        <a href="{% url 'quote_browse' pk=quote.pk %}" class="button">View</a>
+                    {% endif %}</td>
+                    <td>{% if quote.can_be_issued %}
+                        <a href="{% url 'quote_issue' pk=quote.pk %}" class="button">Issue</a>
+                    {% elif quote.can_be_reissued %}
+                        <a href="{% url 'quote_amend' pk=quote.pk %}" class="button">Amend</a>
+                    {% endif %}</td>
+                    <td>{% if quote.is_bike %}
+                        <a href="{% url 'copy_quote' pk=quote.pk %}" class="button">Copy</a>{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% include "epic/pagination.html" %}
 
-{% else %}
-<p>No quotes to view.</p>
-{% endif %}
-<a href="{% url 'add_quote' %}" class="button">Add a quote</a>
+    {% else %}
+        <p>No quotes to view.</p>
+    {% endif %}
+    <a href="{% url 'add_quote' %}" class="button">Create New Quote</a>
 {% endblock %}

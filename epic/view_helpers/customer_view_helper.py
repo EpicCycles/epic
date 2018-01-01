@@ -46,7 +46,7 @@ def process_customer_add(request):
                 quote = customer_quote_form.save(commit=False)
                 quote.customer = new_customer
                 quote.save()
-                return show_quote_edit(request, quote)
+                return show_quote_edit(quote)
             else:
                 logging.getLogger("error_logger").error(customer_quote_form.errors.as_json())
 
@@ -141,7 +141,7 @@ def process_customer_edit(request, customer):
         if customer_quote_form.has_changed():
             if customer_quote_form.is_valid():
                 quote = customer_quote_form.save()
-                return show_quote_edit(request, quote)
+                return show_quote_edit(quote)
             else:
                 logging.getLogger("error_logger").error(customer_quote_form.errors.as_json())
 

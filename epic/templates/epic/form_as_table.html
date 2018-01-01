@@ -1,13 +1,12 @@
 {% load popup_helper %}
 {{ form.non_field_errors }}
 {{ form.source.errors }}
-  {{ form.source }}
+{{ form.source }}
 <table>
     {% for field in form.visible_fields %}
-        <tr  class="vertical-middle">
+        <tr class="vertical-middle">
             <th>{{ field.label_tag }}</th>
-            <td>{{ field }}{{ field|getBrandLink }}
-            {{ field.errors }}</td>
+            {% include "epic/field_as_td.html"  with field=field %}
         </tr>
     {% endfor %}
 </table>

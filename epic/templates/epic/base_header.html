@@ -1,0 +1,16 @@
+<section>
+    <div style="width:200px;"><h1>Epic Cycles</h1></div>
+    <div style="padding-top: 10px;">
+        {% if messages %}
+            <details open>
+                <summary class="red">Messages</summary>
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </details>
+
+        {% endif %}
+    </div>
+</section>

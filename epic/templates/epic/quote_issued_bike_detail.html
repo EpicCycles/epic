@@ -17,7 +17,7 @@
                 <td>{{ quotePart.partType }}</td>
                 <td>
                     {{ quotePart.part }}
-                    {% if quotePart.notStandard %}<span class="red">**</span>{% endif %}
+                    {% if quotePart.is_not_standard_part %}<span class="red">**</span>{% endif %}
                 </td>
                 <td>
                     <table>
@@ -31,7 +31,7 @@
                 <td class="align_right">{% if quotePart.quantity > 1 %} {{ quotePart.quantity }} @ {% endif %}</td>
                 <td class="align_right">
                     {% if not summary_view %}
-                        {% if quotePart.notStandard %}
+                        {% if quotePart.is_not_standard_part %}
                             {% if quotePart.sell_price %}
                                 &pound;{{ quotePart.sell_price }}&nbsp;
                             {% endif %}

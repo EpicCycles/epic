@@ -11,21 +11,21 @@ from epic.view_helpers.note_view_helper import create_customer_note
 
 
 def create_customer_order_from_quote(quote):
-    customerOrder = CustomerOrder.objects.create_customerOrder(quote)
+    customerOrder = CustomerOrder.objects.create_customer_order(quote)
     customerOrder.save()
     quote.quote_status = ORDERED
     quote.save()
 
     if quote.is_bike():
         # create frame element and part elements and forms for them
-        orderFrame = OrderFrame.objects.create_orderFrame(quote.frame, customerOrder, quote)
+        orderFrame = OrderFrame.objects.create_order_frame(quote.frame, customerOrder, quote)
         orderFrame.save()
 
     # create part elements and forms for them
     quotePartObjects = QuotePart.objects.filter(quote=quote)
     for quotePart in quotePartObjects:
-        if quotePart.part and quotePart.notStandard():
-            orderItem = OrderItem.objects.create_orderItem(quotePart.part, customerOrder, quotePart)
+        if quotePart.part and quotePart.is_not_standard_part():
+            orderItem = OrderItem.objects.create_order_item(quotePart.part, customerOrder, quotePart)
             orderItem.save()
 
     # calculate the order balance
@@ -95,7 +95,7 @@ def process_customer_order_edits(request, customer_order):
         try:
             payment_amount = order_payment_form.cleaned_data['payment_amount']
             if payment_amount:
-                order_payment = OrderPayment.objects.create_orderPayment(customer_order, payment_amount, request.user)
+                order_payment = OrderPayment.objects.create_order_payment(customer_order, payment_amount, request.user)
                 order_payment.save()
                 customer_order.calculate_balance()
                 customer_order.save()
@@ -156,7 +156,7 @@ def build_order_frame_forms(customer_order):
         orderFrameDetails = []
         for orderFrame in orderFrameObjects:
             order_frame_forms.append(OrderFrameForm(instance=orderFrame, prefix="OF" + str(orderFrame.id)))
-            orderFrameDetails.append(orderFrame.viewOrderFrame())
+            orderFrameDetails.append(orderFrame.view_order_frame)
         zipped_values = zip(orderFrameDetails, order_frame_forms)
         return zipped_values
     return None
