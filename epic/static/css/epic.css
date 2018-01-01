@@ -203,7 +203,25 @@ input:disabled {
 .red {
     color: #c82011;
 }
-
+ /*styles for messages*/
+.info {
+    color: #333333;
+}
+.warning {
+    color: #333333;
+    font-style: italic;
+}
+.success {
+    color: #333333;
+    font-weight: bold;
+}
+.error {
+    color: #c82011;
+    font-weight: bold;
+}
+td.error{
+    background-color: #c82011;
+}
 .errorlist {
     color: #c82011;
     font-weight: bold;
@@ -223,6 +241,9 @@ input:disabled {
 
 .align_right {
     text-align: right;
+}
+.align-left {
+    text-align: left;
 }
 
 .align_center {

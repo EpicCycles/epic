@@ -8,7 +8,7 @@
                 <td><h2>Order</h2></td>
                 <td class="page_actions">
                     {% include "epic/form_standard_actions.html" %}
-                     {% if customer_order.can_be_cancelled %}
+                    {% if customer_order.can_be_cancelled %}
                         <a href="{% url 'order_requote' pk=customer_order.pk %}" class="button"
                            title="Remove Order and edit quote to re-issue">Re Quote</a>
                         <a href="{% url 'cancel_order' pk=customer_order.pk %}" class="button"
@@ -26,9 +26,7 @@
                         {% for field in customer_order_form.visible_fields %}
                             <tr>
                                 <th>{{ field.label_tag }}</th>
-                                <td>
-                                    {{ field }}{{ field.errors }}
-                                </td>
+                                {% include "epic/field_as_td.html"  with field=field %}
                             </tr>
                         {% endfor %}
                         <tr>
@@ -46,9 +44,7 @@
                 </td>
                 <td class="align_top">
                     <h3>Payments</h3>
-                    {% with order_payment_form as form %}
-                        {% include "epic/form_as_table.html" %}
-                    {% endwith %}
+                    {% include "epic/form_as_table.html" with form=order_payment_form %}
                     {% if order_payments %}
                         <table>
                             <tr class="listHead">

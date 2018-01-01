@@ -9,7 +9,7 @@
                 <td class="page_actions">
                     {% include "epic/form_standard_actions.html" %}
                     <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %}
-                       class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Issue
+                       class="button" {% else %} class="button disabled" onclick="return false;" {% endif %}>Complete
                         Quote</a>
                 </td>
             </tr>
@@ -23,8 +23,7 @@
                         {% for field in quote_form.visible_fields %}
                             <tr>
                                 <th>{{ field.label_tag }}</th>
-                                <td>{{ field }}</td>
-                                <td>{{ field.errors }}</td>
+                                {% include "epic/field_as_td.html"  with field=field %}
                             </tr>
                         {% endfor %}
                         <tr>
@@ -39,9 +38,7 @@
                 </td>
                 <td class="align_top">
                     <h3>Add Item</h3>
-                    {% with quoteSimpleAddPart as form %}
-                        {% include "epic/form_as_table.html" %}
-                    {% endwith %}
+                        {% include "epic/form_as_table.html" with form=quoteSimpleAddPart %}
                     <input type="button"
                            onclick="popupDetail('{% url 'add_brand' %}','Add New Brand')"
                            class="button" value="Add New Brand"
@@ -78,8 +75,7 @@
                                         {% for quotePartAttributeForm in quote_part_data %}
                                             <tr class="{{ rowcolors }}">
                                                 <td>{{ quotePartAttributeForm.attribute_name.value }}</td>
-                                                <td>
-                                                    {{ quotePartAttributeForm.attribute_value }}{{ quotePartAttributeForm.attribute_value.errors }}
+                                                {% include "epic/field_as_td.html"  with field=quotePartAttributeForm.attribute_value %}
                                             </tr>
                                         {% endfor %}
                                     </table>
@@ -90,9 +86,7 @@
                             {% endif %}
                         {% endfor %}
                         {% for field in form.visible_fields %}
-                            <td>
-                                {{ field }}{{ field.errors }}
-                            </td>
+                            {% include "epic/field_as_td.html"  with field=field %}
                         {% endfor %}
                     </tr>
                 {% endfor %}

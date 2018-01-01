@@ -1,4 +1,3 @@
-{% load popup_helper %}
 {% if forloop.first %}
     <tr>
         {% for field in form.visible_fields %}
@@ -9,8 +8,6 @@
 {% cycle 'row1' 'row2' as rowcolors silent %}
 <tr class="{{ rowcolors }}">
     {% for field in form.visible_fields %}
-        <td>
-            {{ field }}{{ field|getBrandLink }}{{ field.errors }}
-        </td>
+        {% include "epic/field_as_td.html"  with field=field %}
     {% endfor %}
 </tr>

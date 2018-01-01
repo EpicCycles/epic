@@ -1,4 +1,6 @@
-(function () {
+(setColumnWidths)();
+
+function setColumnWidths() {
     var headerRow = document.getElementById("bike_header");
     var detailRow = document.getElementById("bike_row");
     if (detailRow) {
@@ -32,12 +34,5 @@
             detailNodeList[i].style.paddingLeft = '0px';
             detailNodeList[i].style.paddingRight = '0px';
         }
-    }
-})();
-
-// triggered from popup this sets the order to the new customer so they can edit it
-function copyQuoteNewBike() {
-    if (document.getElementById('new_frame_id').value !== '') {
-        document.forms['change_frame_form'].submit();
     }
 }

@@ -60,8 +60,9 @@ class AddressForm(ModelForm):
         self.fields['address2'].widget = forms.TextInput(attrs={'size': '20'})
         self.fields['address3'].widget = forms.TextInput(attrs={'size': '15'})
         self.fields['address4'].widget = forms.TextInput(attrs={'size': '15'})
-        self.fields['postcode'].widget = forms.TextInput(attrs={'size':'9','pattern': postcode_pattern})
+        self.fields['postcode'].widget = forms.TextInput(attrs={'size': '9', 'pattern': postcode_pattern})
         self.fields['customer'].widget = forms.HiddenInput()
+
 
 class AddressFormSimple(AddressForm):
     def __init__(self, *args, **kwargs):
@@ -98,12 +99,14 @@ class PhoneForm(ModelForm):
         self.fields['telephone'].widget = forms.TextInput(attrs={'size': '15'})
         self.fields['customer'].widget = forms.HiddenInput()
 
+
 class PhoneFormSimple(PhoneForm):
     def __init__(self, *args, **kwargs):
         super(PhoneFormSimple, self).__init__(*args, **kwargs)
         self.fields['customer'].widget = HiddenInput()
         self.fields['customer'].required = False
         self.fields['number_type'].required = False
+
 
 # form for full fitting details
 class FittingForm(ModelForm):
@@ -134,7 +137,7 @@ class FittingForm(ModelForm):
 
         # no fieldsare required but if any are present all must be
         if ((fitting_type != '') or (saddle_height != '') or (bar_height != '') or (reach != '')) and not (
-                            fitting_type and saddle_height and bar_height and reach):
+                fitting_type and saddle_height and bar_height and reach):
             raise forms.ValidationError("All measures must be entered to save a fitting.")
 
 
@@ -232,7 +235,6 @@ class QuoteForm(ModelForm):
         self.fields['frame_size'].widget = forms.TextInput(attrs={'size': 4})
 
         if self.instance.quote_type is not BIKE:
-
             self.fields['frame'].widget.attrs['disabled'] = True
             self.fields['frame_sell_price'].widget.attrs['disabled'] = True
             self.fields['colour'].widget.attrs['disabled'] = True
@@ -241,12 +243,17 @@ class QuoteForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(QuoteForm, self).clean()
+        print(cleaned_data)
         quote_desc = cleaned_data.get("quote_desc")
         quote_type = cleaned_data.get("quote_type")
         frame = cleaned_data.get("frame")
 
+        # if only the type is entered then this is valid
+        if quote_type == BIKE and quote_desc == '' and frame is None:
+            pass
+
         # Only do something if both fields are valid so far.
-        if (quote_type != '') or (quote_desc != ''):
+        elif (quote_type != '') or (quote_desc != ''):
             if quote_desc == '':
                 # must have a frame if the quote type is BIKE
                 msg = "Please enter a description for the quote."
@@ -264,14 +271,14 @@ class QuoteForm(ModelForm):
 
 class CustomerQuoteForm(QuoteForm):
     def __init__(self, *args, **kwargs):
-        super(QuoteForm, self).__init__(*args, **kwargs)
+        super(CustomerQuoteForm, self).__init__(*args, **kwargs)
         self.fields['customer'].widget = HiddenInput()
         self.fields['quote_desc'].required = False
 
 
 class NewCustomerQuoteForm(QuoteForm):
     def __init__(self, *args, **kwargs):
-        super(QuoteForm, self).__init__(*args, **kwargs)
+        super(NewCustomerQuoteForm, self).__init__(*args, **kwargs)
         self.fields['customer'].widget = HiddenInput()
         self.fields['quote_desc'].required = False
         self.fields['customer'].required = False
@@ -288,7 +295,8 @@ class QuoteSimpleForm(ModelForm):
     class Meta:
         model = Quote
         fields = ['quote_desc', 'sell_price', 'keyed_sell_price']
-        labels = {'sell_price': _('Total Price £'), 'quote_desc': _('Quote Description'), 'keyed_sell_price': _('Quote Price £')}
+        labels = {'sell_price': _('Total Price £'), 'quote_desc': _('Quote Description'),
+                  'keyed_sell_price': _('Quote Price £')}
 
 
 # simple quote add item
@@ -318,7 +326,7 @@ class QuoteSimpleAddPartForm(forms.Form):
 
         # no fieldsare required but if any are present all must be
         if (new_brand or new_part_type or new_part_name or new_quantity or new_sell_price) and not (
-                            new_brand and new_part_type and new_part_name and new_quantity):
+                new_brand and new_part_type and new_part_name and new_quantity):
             raise forms.ValidationError("All data must be entered to add a new item to a quote.")
 
 
@@ -341,7 +349,8 @@ class QuoteBikeForm(ModelForm):
                   'colour', 'colour_price', 'frame_size']
         labels = {'frame': _('Frameset/Base Bike'), 'quote_desc': _('Quote Description'), 'quote_type': _('Type'),
                   'frame_sell_price': _('Base Sell Price £'), 'colour_price': _('Colour Additional Price £'),
-                  'frame_size': _('Frame Size'), 'sell_price': _('Total Price £'), 'keyed_sell_price': _('Quote Price £')}
+                  'frame_size': _('Frame Size'), 'sell_price': _('Total Price £'),
+                  'keyed_sell_price': _('Quote Price £')}
 
 
 # basic quote kine for adding lines
@@ -575,7 +584,7 @@ class OrderItemDetailForm(forms.Form):
         if stock_item:
             self.fields['receipt_date'].widget.attrs['disabled'] = True
 
-        if (stock_item or supplier_order):
+        if stock_item or supplier_order:
             self.fields['supplier'].widget = HiddenInput()
 
         self.label_suffix = ''

@@ -26,14 +26,14 @@ def create_new_model(request, quote, model):
         for quote_part in old_quoteParts:
             part = quote_part.part
             if part is not None:
-                framePart = FramePart.objects.create_framePart(new_frame, part)
+                framePart = FramePart.objects.create_frame_part(new_frame, part)
                 framePart.save()
 
         old_frame_exclusions = FrameExclusion.objects.get(frame=quote.frame)
         for frame_exclusion in old_frame_exclusions:
             exclude_part_type = frame_exclusion.partType
             if not old_quoteParts.filter(partType=exclude_part_type).exists():
-                frameExclusion = FrameExclusion.objects.create_frameExclusion(new_frame, exclude_part_type)
+                frameExclusion = FrameExclusion.objects.create_frame_exclusion(new_frame, exclude_part_type)
                 frameExclusion.save()
 
     except Exception as e:
@@ -111,7 +111,7 @@ def process_upload(request):
 
                             if len(part_name) > 0:
                                 if eq(part_name.lower(),'n/a'):
-                                    frameExclusion = FrameExclusion.objects.create_frameExclusion(frames[j], partType)
+                                    frameExclusion = FrameExclusion.objects.create_frame_exclusion(frames[j], partType)
                                     frameExclusion.save()
                                 else:
                                     # look for brand for part attributes
@@ -125,7 +125,7 @@ def process_upload(request):
 
                                     # now look to see if Part exists, if not add it
                                     part = find_or_create_part(part_brand,partType,part_name)
-                                    framePart = FramePart.objects.create_framePart(frames[j],part)
+                                    framePart = FramePart.objects.create_frame_part(frames[j], part)
                                     framePart.save()
 
         messages.add_message(request, messages.INFO, 'Bike added:' + bike_name)

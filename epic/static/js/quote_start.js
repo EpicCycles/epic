@@ -6,6 +6,7 @@ function newCustomerSelect(url, title) {
 // triggered from popup this changes the quote customer but does not create the quote
 function changeQuoteCustomer() {
     if (document.getElementById('new_customer_id').value !== '') {
+        document.getElementById('id_customer').value = document.getElementById('new_customer_id').value;
         document.getElementById('form_action').value = 'change_customer';
         document.forms['new_quote_form'].submit();
     }

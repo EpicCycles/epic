@@ -9,16 +9,10 @@
         <h3>Add Customer</h3>
         <section>
             <section class="flex-vertical">
-                {% with customer_form as form %}
-                    {% include "epic/form_as_flex_column.html" %}
-                {% endwith %}
-                {% with phone_form as form %}
-                    {% include "epic/form_as_flex_column.html" %}
-                {% endwith %}
+                {% include "epic/form_as_flex_column.html"  with form=customer_form %}
+                {% include "epic/form_as_flex_column.html" with form=phone_form %}
             </section>
-            {% with address_form as form %}
-                {% include "epic/form_as_flex_column.html" %}
-            {% endwith %}
+            {% include "epic/form_as_flex_column.html" with form=address_form %}
         </section>
         <hr/>
 
