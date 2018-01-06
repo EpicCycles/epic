@@ -290,7 +290,7 @@ class QuoteSimpleForm(ModelForm):
         super(QuoteSimpleForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields["sell_price"].widget = HiddenInput()
-        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 6})
+        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': '6'})
 
     class Meta:
         model = Quote
@@ -374,7 +374,7 @@ class QuoteBikeChangePartForm(forms.Form):
                                         label='Trade In')
     new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
     new_part_name = forms.CharField(max_length=60, required=False, label='Part Name')
-    new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity')
+    new_quantity = forms.IntegerField(max_value=9999, min_value=0, required=False, label='Quantity')
     new_sell_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
                                         label='Sell Price')
 
@@ -388,11 +388,10 @@ class QuoteBikeChangePartForm(forms.Form):
         self.fields['can_be_omitted'].widget = HiddenInput()
         self.fields['new_part_name'].widget = forms.TextInput(attrs={'size': '20'})
         self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': '4'})
-        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': '8'})
+        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': '9'})
         self.fields['trade_in_price'].widget = forms.TextInput(attrs={'size': '8'})
 
         # modify the form to reflect the actual possibilities
-        print(self.base_fields['new_part_name'])
         can_be_substituted = initialValues['can_be_substituted']
         can_be_omitted = initialValues['can_be_omitted']
         if not can_be_substituted:
@@ -417,36 +416,26 @@ class QuoteBikeChangePartForm(forms.Form):
         trade_in_price = cleaned_data.get("trade_in_price")
 
         # no replacement part, and part not set to not required cannot hae trade-in price
-        if trade_in_price and not (not_required or new_part_name):
-            raise forms.ValidationError("Trade in price removed where parts not being omitted or substituted.")
+        if trade_in_price and not (not_required or (new_quantity > 0)):
+            self.add_error('trade_in_price',
+                           "Trade in price should be removed where parts not being omitted or substituted.")
 
-        # no fields are required but if any are present all must be
-        if new_brand or new_part_name or new_quantity or new_sell_price:
-            if not_required:
-                raise forms.ValidationError(
-                    "Cannot have part not required and part details" + "Either set part to not required and remove "
-                                                                       "part details," + " or untick the checkbox and"
-                                                                                         " add part details to "
-                                                                                         "replace the existing "
-                                                                                         "values.")
-            elif not (new_brand and new_part_name and new_quantity):
-                raise forms.ValidationError("All data must be entered to update an item on a quote.")
+        # if quantity is zero this is OK
+        if new_quantity != 0:
+
+            # no fields are required but if any are present all must be
+            if new_brand or new_part_name or new_quantity or new_sell_price:
+                if not_required:
+                    raise forms.ValidationError(
+                        "Cannot have part not required and part details" + "Either set part to not required and remove "
+                                                                           "part details," + " or untick the checkbox and"
+                                                                                             " add part details to "
+                                                                                             "replace the existing "
+                                                                                             "values.")
+                elif not (new_brand and new_part_name and new_quantity):
+                    raise forms.ValidationError("All data must be entered to update an item on a quote.")
 
 
-# fomr for use in inline formeset
-class QuoteBikePartForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(QuoteBikePartForm, self).__init__(*args, **kwargs)
-        self.label_suffix = ''
-        self.fields['partType'].widget = HiddenInput()
-        self.fields['frame_part'].widget = HiddenInput()
-        self.fields['part'].widget = HiddenInput()
-        self.fields['quantity'].widget = forms.TextInput(attrs={'size': '4'})
-        self.fields['sell_price'].widget = forms.TextInput(attrs={'size': '6'})
-
-    class Meta:
-        model = QuotePart
-        fields = ['partType', 'frame_part', 'part', 'quantity', 'sell_price']
 
 
 # form for use n u=inline frameset after
@@ -456,10 +445,24 @@ class QuotePartForm(ModelForm):
         self.label_suffix = ''
         self.fields['partType'].widget = HiddenInput()
         self.fields['part'].widget = HiddenInput()
+        self.fields['quantity'].widget = forms.TextInput(attrs={'size': '4'})
+        self.fields['sell_price'].widget = forms.TextInput(attrs={'size': '9'})
 
     class Meta:
         model = QuotePart
         fields = ['partType', 'part', 'quantity', 'sell_price']
+
+    def clean(self):
+        cleaned_data = super(QuotePartForm, self).clean()
+        quantity = cleaned_data.get("quantity")
+        sell_price = cleaned_data.get("sell_price")
+
+        if quantity is None:
+            self.add_error('quantity', "Quantity must be entered, use a quantity of 0 to remove a part from the quote.")
+
+        if not sell_price:
+            self.add_error('sell_price',
+                           "Sell price should not be removed, use a quantity of 0 to remove a part from the quote.")
 
 
 # attributes for quote parts
