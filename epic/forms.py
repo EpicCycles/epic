@@ -290,7 +290,7 @@ class QuoteSimpleForm(ModelForm):
         super(QuoteSimpleForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields["sell_price"].widget = HiddenInput()
-        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 6})
+        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': '6'})
 
     class Meta:
         model = Quote
@@ -388,7 +388,7 @@ class QuoteBikeChangePartForm(forms.Form):
         self.fields['can_be_omitted'].widget = HiddenInput()
         self.fields['new_part_name'].widget = forms.TextInput(attrs={'size': '20'})
         self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': '4'})
-        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': '8'})
+        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': '9'})
         self.fields['trade_in_price'].widget = forms.TextInput(attrs={'size': '8'})
 
         # modify the form to reflect the actual possibilities
@@ -417,7 +417,8 @@ class QuoteBikeChangePartForm(forms.Form):
 
         # no replacement part, and part not set to not required cannot hae trade-in price
         if trade_in_price and not (not_required or (new_quantity > 0)):
-            self.add_error('trade_in_price',"Trade in price should be removed where parts not being omitted or substituted.")
+            self.add_error('trade_in_price',
+                           "Trade in price should be removed where parts not being omitted or substituted.")
 
         # if quantity is zero this is OK
         if new_quantity != 0:
@@ -435,20 +436,6 @@ class QuoteBikeChangePartForm(forms.Form):
                     raise forms.ValidationError("All data must be entered to update an item on a quote.")
 
 
-# fomr for use in inline formeset
-class QuoteBikePartForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(QuoteBikePartForm, self).__init__(*args, **kwargs)
-        self.label_suffix = ''
-        self.fields['partType'].widget = HiddenInput()
-        self.fields['frame_part'].widget = HiddenInput()
-        self.fields['part'].widget = HiddenInput()
-        self.fields['quantity'].widget = forms.TextInput(attrs={'size': '4'})
-        self.fields['sell_price'].widget = forms.TextInput(attrs={'size': '6'})
-
-    class Meta:
-        model = QuotePart
-        fields = ['partType', 'frame_part', 'part', 'quantity', 'sell_price']
 
 
 # form for use n u=inline frameset after
@@ -458,10 +445,24 @@ class QuotePartForm(ModelForm):
         self.label_suffix = ''
         self.fields['partType'].widget = HiddenInput()
         self.fields['part'].widget = HiddenInput()
+        self.fields['quantity'].widget = forms.TextInput(attrs={'size': '4'})
+        self.fields['sell_price'].widget = forms.TextInput(attrs={'size': '9'})
 
     class Meta:
         model = QuotePart
         fields = ['partType', 'part', 'quantity', 'sell_price']
+
+    def clean(self):
+        cleaned_data = super(QuotePartForm, self).clean()
+        quantity = cleaned_data.get("quantity")
+        sell_price = cleaned_data.get("sell_price")
+
+        if quantity is None:
+            self.add_error('quantity', "Quantity must be entered, use a quantity of 0 to remove a part from the quote.")
+
+        if not sell_price:
+            self.add_error('sell_price',
+                           "Sell price should not be removed, use a quantity of 0 to remove a part from the quote.")
 
 
 # attributes for quote parts

@@ -8,7 +8,7 @@ from django.contrib import messages
 
 import logging
 
-from epic.forms import QuoteForm, QuotePartAttributeForm, QuotePartBasicForm, QuoteBikePartForm, \
+from epic.forms import QuoteForm, QuotePartAttributeForm, QuotePartBasicForm, \
     QuoteBikeChangePartForm, QuoteSimpleAddPartForm, QuoteSimpleForm, QuotePartForm, QuoteFittingForm, QuoteBikeForm
 from epic.model_helpers.part_helper import find_or_create_part, validate_and_create_part
 from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote, \
@@ -272,86 +272,86 @@ def show_bike_quote_edit_new_frame(request, quote, new_frame_id):
     return show_bike_quote_edit(request, quote)
 
 
-def process_simple_quote_changes(request, quote):
-    quote.recalculate_prices()
-    old_sell_price = 0 + quote.sell_price
-    quote_page = 'epic/quote_edit_simple.html'
-    # get back the form from the page to save changes
-    quote_form = QuoteSimpleForm(request.POST, instance=quote)
-
-    # get quote parts as they existed before update
+def updateSimpleQuoteParts(request, quote, new_quote_part):
     quote_parts = QuotePart.objects.filter(quote=quote)
     quote_part_forms = []
+    quote_parts_for_screen = []
 
     # get back all the quote part forms from the page
     for quote_part in quote_parts:
-        quote_part_form = QuotePartForm(request.POST, request.FILES, instance=quote_part,
-                                        prefix="QP" + str(quote_part.id))
-        quote_part_forms.append(quote_part_form)
+        if quote_part == new_quote_part:
+            quote_parts_for_screen.append(build_quote_part_for_screen(quote_part))
+            quote_part_forms.append(QuotePartForm(instance=quote_part, prefix="QP" + str(quote_part.id)))
+        else:
+            # save form
+            quote_part_form = QuotePartForm(request.POST, request.FILES, instance=quote_part,
+                                            prefix="QP" + str(quote_part.id))
+            if quote_part_form.is_valid():
+                quote_part = quote_part_form.save()
+                if quote_part.quantity == 0:
+                    messages.info(request, 'Part removed from quote' + str(quote_part))
+                    quote_part.delete()
+                    quote_part = None
 
-    zipped_values = zip(quote_parts, quote_part_forms)
+            if quote_part:
+                # save any attributes keyed
+                quote_part_details = [quote_part]
+                quote_part_attribute_forms = []
+
+                quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=quote_part)
+                for quote_part_attribute in quote_part_attributes:
+                    quote_part_attribute_forms.append(
+                        save_quote_part_attribute_form(request, quote_part_attribute, quote_part))
+                quote_part_details.append(quote_part_attribute_forms)
+
+                quote_parts_for_screen.append(quote_part_details)
+                quote_part_forms.append(quote_part_form)
+
+    zipped_values = zip(quote_parts_for_screen, quote_part_forms)
+    return zipped_values
+
+
+def process_simple_quote_changes(request, quote):
+    quote_page = 'epic/quote_edit_simple.html'
+    # get back the form from the page to save changes
+    quote_form = QuoteSimpleForm(request.POST, instance=quote)
     quote_simple_add_part = QuoteSimpleAddPartForm(request.POST)
+    details_for_page = {'quote': quote, 'quote_form': quote_form, 'quoteSimpleAddPart': quote_simple_add_part}
+    old_sell_price = quote.sell_price
+
+    # save any notes keyed.
+    create_customer_note(request, quote.customer, quote, None)
+    details_for_page['customer_notes'] = CustomerNote.objects.filter(quote=quote)
+
+    # save any new parts added
+    new_quote_part = None
+    if quote_simple_add_part.is_valid():
+        part = validate_and_create_part(request, quote_simple_add_part)
+        if part is not None:
+            quote_line = QuotePart.objects.filter(quote=quote).count() + 1
+            new_quote_part = create_quote_part(quote_simple_add_part, quote.pk, part.pk, quote_line)
+            messages.info(request, 'Part added to quote ' + str(new_quote_part))
+            details_for_page['quoteSimpleAddPart'] = QuoteSimpleAddPartForm(empty_permitted=True)
+
+    # get quote parts as they existed before update
+    details_for_page['zipped_values'] = updateSimpleQuoteParts(request, quote, new_quote_part)
+
     if quote_form.is_valid():
         quote = quote_form.save()
-        create_customer_note(request, quote.customer, quote, None)
-        customer_notes = CustomerNote.objects.filter(quote=quote)
 
-        for quote_part_form in quote_part_forms:
-            if quote_part_form.is_valid():
-                quote_part_form.save()
-            else:
-                # quote part formset not valid
-                messages.error(request, 'Part failed validation')
-                logging.getLogger("error_logger").error(quote_part_form.errors.as_json())
-                return render(request, quote_page, {'quote_form': QuoteSimpleForm(instance=quote), 'quote': quote,
-                                                    'quote_simple_add_part': quote_simple_add_part,
-                                                    'zipped_values': zipped_values, 'customer_notes': customer_notes})
+    quote.recalculate_prices()
+    # if sell price has changed blank keyed value
+    if quote.keyed_sell_price and old_sell_price != quote.sell_price:
+        quote.keyed_sell_price = None
+        quote.quote_status = INITIAL
+        quote.save()
+        messages.info(request, 'Quote total reset due to changes to prices')
 
-        if quote_simple_add_part.is_valid():
-            part = validate_and_create_part(request, quote_simple_add_part)
-            if part is not None:
-                quote_line = len(quote_parts) + 1
-                create_quote_part(quote_simple_add_part, quote.pk, part.pk, quote_line)
-                messages.info(request, 'Part added to quote' + str(part))
+    # refresh the quote form based on saved values
+    if quote_form.is_valid():
+        details_for_page['quote_form'] = QuoteSimpleForm(instance=quote)
 
-        else:
-            # quote_simple_add_part not valid
-            return render(request, quote_page, {'quote_form': QuoteSimpleForm(instance=quote), 'quote': quote,
-                                                'quote_simple_add_part': quote_simple_add_part,
-                                                'zipped_values': zipped_values, 'customer_notes': customer_notes})
-
-        # save all ok get new simple part and refresh items
-
-        for quote_part in quote_parts:
-            # delete any quote parts no longer required.
-            if quote_part.quantity == 0:
-                messages.info(request, 'Part removed from quote' + str(quote_part))
-                quote_part.delete()
-
-        # get attributes updated for quote
-        save_quote_part_attributes(quote, request)
-
-        quote.recalculate_prices()
-        # if sell price has changed blank keyed value
-        if old_sell_price != quote.sell_price:
-            quote.keyed_sell_price = None
-            quote.quote_status = INITIAL
-            quote.save()
-            messages.info(request, 'Quote total removed due to changes to prices')
-
-        quote_simple_add_part = QuoteSimpleAddPartForm(empty_permitted=True)
-        return render(request, quote_page, {'quote_form': QuoteSimpleForm(instance=quote), 'quote': quote,
-                                            'quote_simple_add_part': quote_simple_add_part,
-                                            'zipped_values': get_quote_parts_and_forms(quote),
-                                            'customer_notes': customer_notes})
-
-    # quote form not valid
-    else:
-        logging.getLogger("error_logger").error(quote_form.errors.as_json())
-        return render(request, quote_page, {'quote_form': QuoteSimpleForm(instance=quote), 'quote': quote,
-                                            'quote_simple_add_part': quote_simple_add_part,
-                                            'zipped_values': zipped_values,
-                                            'customer_notes': CustomerNote.objects.filter(quote=quote)})
+    return render(request, quote_page, details_for_page)
 
 
 def show_simple_quote_edit(request, quote):
@@ -684,27 +684,31 @@ def build_quote_part_form_for_bike_quote(quote_part, part_type):
     return QuoteBikeChangePartForm(initial=initial_QP, prefix="QP" + str(quote_part.id))
 
 
+def build_quote_part_for_screen(quote_part):
+    quote_part_details = [quote_part]
+    quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=quote_part)
+    quote_part_attribute_forms = []
+    for quote_part_attribute in quote_part_attributes:
+        quote_part_attribute_forms.append(QuotePartAttributeForm(
+            initial={'attribute_name': str(quote_part_attribute.partTypeAttribute),
+                     'attribute_value': quote_part_attribute.attribute_value},
+            prefix="QPA" + str(quote_part_attribute.id)))
+    quote_part_details.append(quote_part_attribute_forms)
+    return quote_part_details
+
+
 # build array of quote parts for use on simple quote screen
 def get_quote_parts_and_forms(quote):
-    quoteParts = []
-    quotePartForms = []
-    quotePartObjects = QuotePart.objects.filter(quote=quote)
-    for quotePart in quotePartObjects:
-        quotePartDetails = [quotePart]
-        quotePartAttributes = QuotePartAttribute.objects.filter(quotePart=quotePart)
-        quotePartAttributeForms = []
-        for quotePartAttribute in quotePartAttributes:
-            quotePartAttributeForms.append(QuotePartAttributeForm(
-                initial={'attribute_name': str(quotePartAttribute.partTypeAttribute),
-                         'attribute_value': quotePartAttribute.attribute_value},
-                prefix="QPA" + str(quotePartAttribute.id)))
-        quotePartDetails.append(quotePartAttributeForms)
+    quote_parts_for_screen = []
+    quote_part_forms = []
+    quote_part_objects = QuotePart.objects.filter(quote=quote)
+    for quote_part in quote_part_objects:
         # now put the combined details into the array
-        quoteParts.append(quotePartDetails)
-        quotePartForms.append(QuoteBikePartForm(instance=quotePart, prefix="QP" + str(quotePart.id)))
+        quote_parts_for_screen.append(build_quote_part_for_screen(quote_part))
+        quote_part_forms.append(QuotePartForm(instance=quote_part, prefix="QP" + str(quote_part.id)))
 
     # build a merged array
-    zipped_values = zip(quoteParts, quotePartForms)
+    zipped_values = zip(quote_parts_for_screen, quote_part_forms)
     return zipped_values
 
 
@@ -775,9 +779,7 @@ def save_quote_part_attributes(quote, request):
         quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=quote_part)
         # refresh any quote parts
         for quote_part_attribute in quote_part_attributes:
-            quote_part_attribute_form = QuotePartAttributeForm(request.POST, request.FILES,
-                                                               prefix="QPA" + str(quote_part_attribute.id))
-            save_quote_part_attribute_form(request, quote_part_attribute, quote_part)
+             save_quote_part_attribute_form(request, quote_part_attribute, quote_part)
 
 
 def save_quote_part_attribute_form(request, quote_part_attribute, quote_part):
@@ -788,6 +790,7 @@ def save_quote_part_attribute_form(request, quote_part_attribute, quote_part):
         attribute_value = quote_part_attribute_form.cleaned_data['attribute_value']
         if attribute_value == "":
             attribute_value = None
+
         if quote_part.part is None:
             if attribute_value:
                 quote_part_attribute.attribute_value = None
