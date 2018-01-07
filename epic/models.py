@@ -26,7 +26,9 @@ INITIAL = '1'
 ISSUED = '2'
 ARCHIVED = '3'
 ORDERED = '4'
-QUOTE_STATUS_CHOICES = ((INITIAL, 'New'), (ISSUED, 'Quoted'), (ARCHIVED, 'Archived'), (ORDERED, 'Order Created'),)
+CANCELLED = '5'
+QUOTE_STATUS_CHOICES = ((INITIAL, 'New'), (ISSUED, 'Issued'), (ARCHIVED, 'Archived'), (ORDERED, 'Order Created'),)
+ORDER_STATUS_CHOICES = ((INITIAL, 'New'), (ISSUED, 'Issued'), (ARCHIVED, 'Archived'), (CANCELLED, 'Cancelled'),)
 
 
 class Customer(models.Model):
@@ -303,18 +305,16 @@ class CustomerOrder(models.Model):
             if not (orderPayment.amount is None):
                 self.amount_due -= orderPayment.amount
 
-    def can_be_cancelled(self):
-        print("in can be cancelled")
-        if OrderFrame.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
-            print("order frame with supplier orders")
 
+    def can_be_cancelled(self):
+        if self.cancelled_date:
+            return False
+        elif OrderFrame.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
             return False
         elif OrderItem.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
-            print("order item with supplier orders")
             return False
         else:
             # no orders placed
-            print("no supplier orders")
             return True
 
 
@@ -406,7 +406,7 @@ class Quote(models.Model):
 
     # check if a quote can be turned into an order
     def can_be_ordered(self):
-        if self.quote_status == ISSUED:
+        if self.quote_status == ISSUED or self.can_be_issued():
             for quotePart in self.quotepart_set.all():
                 for quotePartAttribute in quotePart.quotepartattribute_set.all():
                     if quotePartAttribute.partTypeAttribute.mandatory:
@@ -454,27 +454,6 @@ class Quote(models.Model):
     def archive(self):
         self.quote_status = ARCHIVED
         self.save()
-
-    def requote(self):
-        self.quote_status = INITIAL
-        self.customerOrder = None
-        self.save()
-
-    def requote_prices(self):
-        self.sell_price = None
-        self.keyed_sell_price = None
-        self.frame_cost_price = None
-        self.frame_sell_price = None
-
-        quote_parts = self.quotepart_set.all()
-        for quote_part in quote_parts:
-            quote_part.trade_in_price = None
-            if quote_part.quantity is not None:
-                quote_part.sell_price = None
-                quote_part.cost_price = None
-                quote_part.save()
-
-        self.requote()
 
     def recalculate_prices(self):
         if self.frame is None:

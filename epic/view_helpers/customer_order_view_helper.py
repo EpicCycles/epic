@@ -6,33 +6,18 @@ from django.urls import reverse
 from django.contrib import messages
 
 from epic.forms import CustomerOrderForm, OrderPaymentForm, OrderFrameForm, OrderItemForm
-from epic.models import OrderItem, QuotePart, OrderFrame, CustomerOrder, OrderPayment, CustomerNote, ORDERED, Quote
+from epic.helpers.customer_order_helper import cancel_customer_order, record_payment, create_customer_order_for_quote
+from epic.helpers.quote_helper import quote_requote, quote_archive, quote_order
+from epic.models import OrderItem,  OrderFrame,  OrderPayment, CustomerNote,  Quote
 from epic.view_helpers.note_view_helper import create_customer_note
 
 
-def create_customer_order_from_quote(quote):
-    customerOrder = CustomerOrder.objects.create_customer_order(quote)
-    customerOrder.save()
-    quote.quote_status = ORDERED
-    quote.save()
+def create_customer_order_from_quote(request, quote, deposit_taken):
+    customer_order = create_customer_order_for_quote(request, quote, deposit_taken)
+    quote_order(request, quote, customer_order)
 
-    if quote.is_bike():
-        # create frame element and part elements and forms for them
-        orderFrame = OrderFrame.objects.create_order_frame(quote.frame, customerOrder, quote)
-        orderFrame.save()
-
-    # create part elements and forms for them
-    quotePartObjects = QuotePart.objects.filter(quote=quote)
-    for quotePart in quotePartObjects:
-        if quotePart.part and quotePart.is_not_standard_part():
-            orderItem = OrderItem.objects.create_order_item(quotePart.part, customerOrder, quotePart)
-            orderItem.save()
-
-    # calculate the order balance
-    customerOrder.calculate_balance()
-    customerOrder.save()
     # display order page
-    return HttpResponseRedirect(reverse('order_edit', args=(customerOrder.id,)))
+    return HttpResponseRedirect(reverse('order_edit', args=(customer_order.id,)))
 
 
 def edit_customer_order(request, customer_order):
@@ -52,32 +37,30 @@ def cancel_order_and_requote(request, customer_order):
         show_quote = None
         for quote in quotes_for_order:
             show_quote = quote
-            quote.requote()
-        customer_order.delete()
+            quote_requote(request, quote)
+
+        cancel_customer_order(request, customer_order)
         if show_quote:
-            messages.info(request, 'Associated Customer Order has been cancelled ')
             return HttpResponseRedirect(reverse('quote_edit', args=(show_quote.pk,)))
         else:
-            messages.info(request, 'Customer Order has been deleted ')
             return HttpResponseRedirect(reverse('order_list'))
     else:
-        messages.info(request, 'Supplier Orders have been placed these must be cancelled first')
-
-    return HttpResponseRedirect(reverse('order_edit', args=(customer_order.pk,)))
+        messages.warning(request, 'Supplier Orders have been placed these must be cancelled before the Customer Order can be cancelled')
+        return HttpResponseRedirect(reverse('order_edit', args=(customer_order.pk,)))
 
 
 def cancel_order_and_quote(request, customer_order):
     if customer_order.can_be_cancelled():
         quotes_for_order = Quote.objects.filter(customerOrder=customer_order)
         for quote in quotes_for_order:
+            quote_archive(request, quote)
             quote.archive()
-        customer_order.delete()
-        messages.info(request, 'Customer Order has been deleted ')
+
+        cancel_customer_order(request, customer_order)
         return HttpResponseRedirect(reverse('order_list'))
     else:
-        messages.info(request, 'Supplier Orders have been placed these must be cancelled first')
-
-    return HttpResponseRedirect(reverse('order_edit', args=(customer_order.pk,)))
+        messages.warning(request, 'Supplier Orders have been placed these must be cancelled before the Customer Order can be cancelled')
+        return HttpResponseRedirect(reverse('order_edit', args=(customer_order.pk,)))
 
 
 def process_customer_order_edits(request, customer_order):
@@ -95,10 +78,7 @@ def process_customer_order_edits(request, customer_order):
         try:
             payment_amount = order_payment_form.cleaned_data['payment_amount']
             if payment_amount:
-                order_payment = OrderPayment.objects.create_order_payment(customer_order, payment_amount, request.user)
-                order_payment.save()
-                customer_order.calculate_balance()
-                customer_order.save()
+                record_payment(customer_order, payment_amount, request)
                 order_payment_form = OrderPaymentForm(initial={'amount_due': customer_order.amount_due})
 
         except Exception as e:

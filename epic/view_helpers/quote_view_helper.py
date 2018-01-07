@@ -10,9 +10,11 @@ import logging
 from epic.email_helpers.quote import send_quote_email
 from epic.forms import QuoteForm, QuotePartAttributeForm, QuotePartBasicForm, \
     QuoteBikeChangePartForm, QuoteSimpleAddPartForm, QuoteSimpleForm, QuotePartForm, QuoteFittingForm, QuoteBikeForm
+from epic.helpers.quote_helper import quote_requote
 from epic.model_helpers.part_helper import find_or_create_part, validate_and_create_part
 from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote, \
     Customer, FramePart, FrameExclusion, Frame
+from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.note_view_helper import create_customer_note
 
@@ -366,7 +368,7 @@ def show_simple_quote_edit(request, quote):
 
 # requote based on original quote
 def process_quote_requote(request, quote):
-    quote.requote()
+    quote_requote(request, quote)
     if quote.quote_status == INITIAL:
         return show_quote_edit(quote)
     else:
@@ -398,7 +400,25 @@ def show_quote_issue(request, quote):
         messages.error(request, 'Quote cannot be Issued or edited' + str(quote))
         return show_quote_browse(request, quote)
 
+def process_quote_action(request, quote):
+    action_required = request.POST.get('action_required', '')
+    print('action_required' + action_required)
 
+    if action_required == "Issue":
+        return process_quote_issue(request, quote)
+    elif action_required == "Re-Issue":
+        return process_quote_issue(request, quote)
+    elif action_required == "Order":
+        deposit_taken = request.POST.get('deposit_taken', '')
+        if (quote.customerOrder):
+            messages.error(request, "Quote already on order " + str(quote.customerOrder))
+            return show_quote_browse(request, quote)
+
+        return create_customer_order_from_quote(request, quote, deposit_taken)
+
+    # shouldn't be here!
+    messages.info(request, 'Invalid action ')
+    return show_quote_browse(request, quote)
 
 def process_quote_issue(request, quote):
     if quote.quote_status == INITIAL:
