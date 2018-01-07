@@ -444,6 +444,9 @@ def quote_browse(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
 
     if request.method == "POST":
+        if quote.can_be_reissued():
+            return process_quote_issue(request, quote)
+
         # shouldn't be here!
         messages.info(request, 'Invalid action ')
 

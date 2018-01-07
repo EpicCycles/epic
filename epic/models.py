@@ -45,7 +45,7 @@ class Customer(models.Model):
         if self.email:
             display_value += f'({self.email})'
         else:
-            display_value += "(Last Updated:{self.upd_date:%b %d, %Y})"
+            display_value += f'(Last Updated:{self.upd_date:%b %d, %Y})'
         return display_value
 
     class Meta:

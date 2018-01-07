@@ -1,0 +1,51 @@
+<p>Quote details for {{ name }},</p>
+
+<p>Please find below quote details as requested.</p>
+
+<p>Date Issued: {{ quote.date }}<br>
+    Description: {{ quote.id }}</p>
+
+{{#if quote.bike}}
+    <p>Base Bike/Frame: {{ quote.bike }}
+{{/if}}
+{{#if quote.fitting}}
+    <p>Fitting source: {{ quote.fitting.source }}<br>
+        Saddle Height: {{ quote.fitting.saddle_height }}<br>
+        Bar Height: {{ quote.fitting.bar_height }}<br>
+        Reach: {{ quote.fitting.reach }}
+{{/if}}
+
+<p><strong>Quote details:</strong></p>
+
+<table width="100%">
+    <thead>
+    <tr>
+        <th>Item</th>
+        <th width="50">QTY</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each quote.items}}
+        <tr>
+            <td>{{ name }}</td>
+            <td style="text-align: right;">{{ qty }}</td>
+        </tr>
+    {{/each}}
+    </tbody>
+    <tr>
+        <td>&nbsp;</td>
+    </tr>
+    <tfoot>
+
+    <tr>
+        <th style="text-align: right">Total:</th>
+        <td style="text-align: right;">£{{ quote.cost }}</td>
+    </tr>
+    </tfoot>
+</table>
+{{#if quote.notes}}
+    <p><strong>Notes:</strong></p>
+    {{#each quote.notes}}
+        <p>{{ note_text }} ({{ added_by }}, {{ added_on }})</p>
+    {{/each}}
+{{/if}}

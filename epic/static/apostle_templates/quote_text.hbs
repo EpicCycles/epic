@@ -1,0 +1,31 @@
+Quote details for {{name}},
+
+Please find below quote details as requested.
+
+Date Issued: {{quote.date}}
+Description: {{quote.id}}
+
+{{#if quote.bike}}
+    Base Bike/Frame: {{quote.bike}}
+{{/if}}
+{{#if quote.fitting}}
+    Fitting source: {{quote.fitting.source}}
+    Saddle Height: {{quote.fitting.saddle_height}}
+    Bar Height: {{quote.fitting.bar_height}}
+    Reach: {{quote.fitting.reach}}
+{{/if}}
+
+Quote details:
+{{#each quote.items}}
+    {{name}} x {{qty}}
+{{/each}}
+Total: £{{quote.cost}}
+
+{{#if quote.notes}}
+    Notes:
+    {{#each quote.notes}}
+        {{ note_text }}
+        ({{ added_by }}, {{ added_on }})
+
+    {{/each}}
+{{/if}}

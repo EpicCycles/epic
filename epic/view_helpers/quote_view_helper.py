@@ -1,4 +1,3 @@
-import apostle
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from django.http import HttpResponseRedirect
@@ -8,11 +7,12 @@ from django.contrib import messages
 
 import logging
 
+from epic.email_helpers.quote import send_quote_email
 from epic.forms import QuoteForm, QuotePartAttributeForm, QuotePartBasicForm, \
     QuoteBikeChangePartForm, QuoteSimpleAddPartForm, QuoteSimpleForm, QuotePartForm, QuoteFittingForm, QuoteBikeForm
 from epic.model_helpers.part_helper import find_or_create_part, validate_and_create_part
 from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote, \
-    Customer, FramePart, FITTING_TYPE_CHOICES, FrameExclusion, Frame
+    Customer, FramePart, FrameExclusion, Frame
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.note_view_helper import create_customer_note
 
@@ -399,56 +399,19 @@ def show_quote_issue(request, quote):
         return show_quote_browse(request, quote)
 
 
-# post from browse quote page to issue quote
-def build_quote_detail_for_email(quote):
-    # todo additional details formatting
-    quote_for_email = {}
-    if quote.is_bike():
-        quote_for_email['bike'] = str(quote.frame)
-        if quote.fitting:
-            quote_for_email['fitting'] = {'source': dict(FITTING_TYPE_CHOICES).get(quote.fitting.fitting_type),
-                                          'saddle_height': quote.fitting.saddle_height,
-                                          'bar_height': quote.fitting.bar_height, 'reach': quote.fitting.reach}
-
-    partSections = PartSection.objects.all()
-    items = []
-    for partSection in partSections:
-        partTypes = PartType.objects.filter(includeInSection=partSection)
-
-        for partType in partTypes:
-            quotePartObjects = QuotePart.objects.filter(quote=quote, partType=partType)
-            for quotePart in quotePartObjects:
-                include_part = True
-                if not partType.customer_facing:
-                    include_part = False
-                    if quotePart.is_not_standard_part():
-                        include_part = True
-
-                if include_part:
-                    if quote.is_bike():
-                        items.append({'name': quotePart.get_bike_part_summary(), 'qty': str(quotePart.quantity)})
-                    else:
-                        items.append({'name': quotePart.summary(), 'qty': str(quotePart.quantity)})
-    quote_for_email['id'] = str(quote)
-    quote_for_email['cost'] = str(quote.keyed_sell_price)
-    quote_for_email['date'] = f"{quote.issued_date:%b %d, %Y}"
-    quote_for_email['items'] = items
-    return quote_for_email
-
 
 def process_quote_issue(request, quote):
     if quote.quote_status == INITIAL:
         quote.issue()
-        quote_detail = build_quote_detail_for_email(quote)
-        apostle.domain_key = "130b06ec68e5d0805ffd8d57db463f0d99f85627"
-        quote_email = "anna.weaverhr6@gmail.com"
-        mail = apostle.Mail("quote-details", {"name": str(quote.customer), "email": quote_email,
-                                              "from_address": "appdev.epiccycles@gmail.com"})
-        mail.quote = quote_detail
-        queue = apostle.Queue()
-        queue.add(mail)
-        queue.deliver()
-        messages.success(request, 'Quote email sent to ' + quote_email)
+        if quote.customer.email:
+            send_quote_email(request, quote)
+        else:
+            messages.success(request, 'Quote set to issued, no email for customer')
+    else:
+        if quote.customer.email:
+            send_quote_email(request, quote)
+        else:
+            messages.success(request, 'Quote email not sent, no email for customer')
 
     return HttpResponseRedirect(reverse('quote_browse', args=(quote.id,)))
 
