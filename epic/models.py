@@ -40,7 +40,7 @@ class Customer(models.Model):
     history = simple_history.models.HistoricalRecords()
 
     def get_absolute_url(self):
-        return reverse('views.editCustomer', args={self.pk})
+        return reverse('edit_customer', args={self.pk})
 
     def __str__(self):
         display_value = f'{self.first_name} {self.last_name}'
@@ -295,6 +295,17 @@ class CustomerOrder(models.Model):
     history = simple_history.models.HistoricalRecords()
     objects = CustomerOrderManager()
 
+    class Meta:
+        ordering = ('-created_date', 'customer')
+
+    def __str__(self):
+        if self.cancelled_date:
+            return f' Order Number: {self.pk}, cancelled {self.cancelled_date:%b %d, %Y} ({str(self.customer)})'
+        elif self.completed_date:
+            return f' Order Number: {self.pk}, completed {self.completed_date:%b %d, %Y} ({str(self.customer)})'
+
+        return f' Order Number: {self.pk}, created {self.created_date:%b %d, %Y} ({str(self.customer)})'
+
     # calculate the outstanding balance
     def calculate_balance(self):
         # loop through the payments taken
@@ -407,9 +418,9 @@ class Quote(models.Model):
     # check if a quote can be turned into an order
     def can_be_ordered(self):
         if self.quote_status == ISSUED or self.can_be_issued():
-            for quotePart in self.quotepart_set.all():
-                for quotePartAttribute in quotePart.quotepartattribute_set.all():
-                    if quotePartAttribute.partTypeAttribute.mandatory:
+            for quote_part in self.quotepart_set.all():
+                for quotePartAttribute in quote_part.quotepartattribute_set.all():
+                    if quote_part.part and quotePartAttribute.partTypeAttribute.mandatory:
                         if quotePartAttribute.attribute_value is None or quotePartAttribute.attribute_value == '':
                             return False
             return True
@@ -725,6 +736,9 @@ class OrderItem(models.Model):
     stock_item = models.BooleanField(default=False)
     history = simple_history.models.HistoricalRecords()
     objects = OrderItemManager()
+
+    def __str__(self):
+        return str(self.part)
 
 
 class CustomerNote(models.Model):

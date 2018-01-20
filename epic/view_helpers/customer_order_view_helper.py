@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
 
+from epic.email_helpers.customer_order import send_order_email
 from epic.forms import CustomerOrderForm, OrderPaymentForm, OrderFrameForm, OrderItemForm
 from epic.helpers.customer_order_helper import cancel_customer_order, record_payment, create_customer_order_for_quote
 from epic.helpers.quote_helper import quote_requote, quote_archive, quote_order
@@ -15,6 +16,10 @@ from epic.view_helpers.note_view_helper import create_customer_note
 def create_customer_order_from_quote(request, quote, deposit_taken):
     customer_order = create_customer_order_for_quote(request, quote, deposit_taken)
     quote_order(request, quote, customer_order)
+    if quote.customer.email:
+        send_order_email(request, customer_order)
+    else:
+        messages.success(request, 'Order email not sent, no email for customer')
 
     # display order page
     return HttpResponseRedirect(reverse('order_edit', args=(customer_order.id,)))
@@ -32,6 +37,15 @@ def edit_customer_order(request, customer_order):
 
 
 def cancel_order_and_requote(request, customer_order):
+    """
+
+    Args:
+        request : HTTPRequest
+        customer_order : CustomerOrder
+
+    Returns: HTTPResponse
+
+    """
     if customer_order.can_be_cancelled():
         quotes_for_order = Quote.objects.filter(customerOrder=customer_order)
         show_quote = None
@@ -45,7 +59,8 @@ def cancel_order_and_requote(request, customer_order):
         else:
             return HttpResponseRedirect(reverse('order_list'))
     else:
-        messages.warning(request, 'Supplier Orders have been placed these must be cancelled before the Customer Order can be cancelled')
+        messages.warning(request,
+                         "Supplier Orders have been placed these must be cancelled before the Customer Order can be cancelled")
         return HttpResponseRedirect(reverse('order_edit', args=(customer_order.pk,)))
 
 
@@ -59,7 +74,8 @@ def cancel_order_and_quote(request, customer_order):
         cancel_customer_order(request, customer_order)
         return HttpResponseRedirect(reverse('order_list'))
     else:
-        messages.warning(request, 'Supplier Orders have been placed these must be cancelled before the Customer Order can be cancelled')
+        messages.warning(request,
+                         "Supplier Orders have been placed these must be cancelled before the Customer Order can be cancelled")
         return HttpResponseRedirect(reverse('order_edit', args=(customer_order.pk,)))
 
 
@@ -81,7 +97,7 @@ def process_customer_order_edits(request, customer_order):
                 record_payment(customer_order, payment_amount, request)
                 order_payment_form = OrderPaymentForm(initial={'amount_due': customer_order.amount_due})
 
-        except Exception as e:
+        except Exception:
             logging.getLogger("error_logger").exception('Payment could not be saved')
     else:
         logging.getLogger("error_logger").error(order_payment_form.errors.as_json())
@@ -90,24 +106,24 @@ def process_customer_order_edits(request, customer_order):
     create_customer_note(request, customer_order.customer, None, customer_order)
 
     # get back the order frame forms and save
-    orderFrameObjects = OrderFrame.objects.filter(customerOrder=customer_order)
-    for orderFrame in orderFrameObjects:
-        orderFrameForm = OrderFrameForm(request.POST, request.FILES, instance=orderFrame,
-                                        prefix="OF" + str(orderFrame.id))
-        if orderFrameForm.is_valid():
+    order_frame_objects = OrderFrame.objects.filter(customerOrder=customer_order)
+    for order_frame in order_frame_objects:
+        order_frame_form = OrderFrameForm(request.POST, request.FILES, instance=order_frame,
+                                        prefix="OF" + str(order_frame.id))
+        if order_frame_form.is_valid():
             try:
-                orderFrameForm.save()
+                order_frame_form.save()
 
             except Exception as e:
                 logging.getLogger("error_logger").exception('Order Frame updates could not be saved')
         else:
-            logging.getLogger("error_logger").error(orderFrameForm.errors.as_json())
+            logging.getLogger("error_logger").error(order_frame_form.errors.as_json())
 
     # get back the order item forms and save.
-    orderItemObjects = OrderItem.objects.filter(customerOrder=customer_order)
-    for orderItem in orderItemObjects:
-        order_item_form = OrderItemForm(request.POST, request.FILES, instance=orderItem,
-                                        prefix="OI" + str(orderItem.id))
+    order_item_objects = OrderItem.objects.filter(customerOrder=customer_order)
+    for order_item in order_item_objects:
+        order_item_form = OrderItemForm(request.POST, request.FILES, instance=order_item,
+                                        prefix="OI" + str(order_item.id))
         if order_item_form.is_valid():
             try:
                 order_item_form.save()
@@ -130,28 +146,31 @@ def process_customer_order_edits(request, customer_order):
 
 # build array of forms for customer order item details
 def build_order_frame_forms(customer_order):
-    orderFrameObjects = OrderFrame.objects.filter(customerOrder=customer_order)
-    if orderFrameObjects:
+    order_frame_objects = OrderFrame.objects.filter(customerOrder=customer_order)
+    if order_frame_objects:
         order_frame_forms = []
-        orderFrameDetails = []
-        for orderFrame in orderFrameObjects:
-            order_frame_forms.append(OrderFrameForm(instance=orderFrame, prefix="OF" + str(orderFrame.id)))
-            orderFrameDetails.append(orderFrame.view_order_frame)
-        zipped_values = zip(orderFrameDetails, order_frame_forms)
+        order_frame_details = []
+        for order_frame in order_frame_objects:
+            order_frame_forms.append(OrderFrameForm(instance=order_frame, prefix="OF" + str(order_frame.id)))
+            order_frame_details.append(order_frame.view_order_frame)
+        zipped_values = zip(order_frame_details, order_frame_forms)
         return zipped_values
     return None
 
 
 # build array of forms for customer order item details
 def build_order_item_forms(customer_order):
-    orderItemObjects = OrderItem.objects.filter(customerOrder=customer_order)
-    if orderItemObjects:
-        orderItemDetails = []
+    order_item_objects = OrderItem.objects.filter(customerOrder=customer_order)
+    if order_item_objects:
+        order_item_details = []
         order_item_forms = []
-        for orderItem in orderItemObjects:
-            order_item_form = OrderItemForm(instance=orderItem, prefix="OI" + str(orderItem.id))
+        for order_item in order_item_objects:
+            order_item_form = OrderItemForm(instance=order_item, prefix="OI" + str(order_item.id))
             order_item_forms.append(order_item_form)
-            orderItemDetails.append(orderItem.quotePart.summary())
-        zipped_values = zip(orderItemDetails, order_item_forms)
+            if (order_item.quotePart):
+                order_item_details.append(order_item.quotePart.summary())
+            else:
+                order_item_details.append(str(order_item.quotePart))
+        zipped_values = zip(order_item_details, order_item_forms)
         return zipped_values
     return None

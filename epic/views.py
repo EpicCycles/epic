@@ -10,7 +10,7 @@ from django.views.generic.list import ListView
 
 # forms and formsets used in the views
 from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm, FrameSearchForm
-from epic.models import Customer, Supplier, CustomerOrder, Frame
+from epic.models import Customer, Supplier, CustomerOrder, Frame, ARCHIVED, INITIAL
 from epic.view_helpers.frame_view_helper import process_upload, create_new_model
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_order_view_helper import edit_customer_order, process_customer_order_edits, \
@@ -445,6 +445,10 @@ def quote_amend(request, pk):
         # shouldnt be here!
         messages.info(request, 'Invalid action ')
     else:
+        if quote.quote_status == ARCHIVED:
+            messages.info(request, 'Quote status reset ')
+            quote.quote_status = INITIAL
+            quote.save()
         if quote.is_bike():
             # display the bike based quote edit page
             return HttpResponseRedirect(reverse('quote_edit_bike', args=(pk,)))
@@ -457,6 +461,7 @@ def quote_amend(request, pk):
 @login_required
 def quote_edit(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
+
     if request.method == "POST":
         # shouldn't be here!
         messages.info(request, 'Invalid action ')

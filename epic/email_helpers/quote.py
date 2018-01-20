@@ -25,7 +25,7 @@ def build_quote_detail_for_email(quote):
 
     partSections = PartSection.objects.all()
     items = []
-    notes =[]
+    notes = []
     for partSection in partSections:
         partTypes = PartType.objects.filter(includeInSection=partSection)
 

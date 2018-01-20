@@ -380,7 +380,7 @@ class QuoteBikeChangePartForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         # pop out additional arguments added just for this!
-        initialValues = kwargs.get('initial')
+        initial_values = kwargs.get('initial')
 
         super(QuoteBikeChangePartForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
@@ -392,8 +392,8 @@ class QuoteBikeChangePartForm(forms.Form):
         self.fields['trade_in_price'].widget = forms.TextInput(attrs={'size': '8'})
 
         # modify the form to reflect the actual possibilities
-        can_be_substituted = initialValues['can_be_substituted']
-        can_be_omitted = initialValues['can_be_omitted']
+        can_be_substituted = initial_values['can_be_substituted']
+        can_be_omitted = initial_values['can_be_omitted']
         if not can_be_substituted:
             self.fields['new_brand'].widget.attrs['disabled'] = 'disabled'
             self.fields['new_part_name'].widget.attrs['disabled'] = 'disabled'
@@ -427,15 +427,9 @@ class QuoteBikeChangePartForm(forms.Form):
             if new_brand or new_part_name or new_quantity or new_sell_price:
                 if not_required:
                     raise forms.ValidationError(
-                        "Cannot have part not required and part details" + "Either set part to not required and remove "
-                                                                           "part details," + " or untick the checkbox and"
-                                                                                             " add part details to "
-                                                                                             "replace the existing "
-                                                                                             "values.")
+                        "Cannot have part not required and part details. Either set part to not required and remove part details, or untick the checkbox and add part details to replace the existing values.")
                 elif not (new_brand and new_part_name and new_quantity):
                     raise forms.ValidationError("All data must be entered to update an item on a quote.")
-
-
 
 
 # form for use n u=inline frameset after
@@ -547,6 +541,7 @@ class OrderFrameForm(ModelForm):
         labels = {'frame': _('Frameset/Base Bike'), }
 
     def __init__(self, *args, **kwargs):
+
         super(OrderFrameForm, self).__init__(*args, **kwargs)
         self.fields['customerOrder'].widget = HiddenInput()
         self.fields['frame'].widget = HiddenInput()

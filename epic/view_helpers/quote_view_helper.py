@@ -409,6 +409,7 @@ def process_quote_action(request, quote):
     elif action_required == "Re-Issue":
         return process_quote_issue(request, quote)
     elif action_required == "Order":
+        quote.issue()
         deposit_taken = request.POST.get('deposit_taken', '')
         if (quote.customerOrder):
             messages.error(request, "Quote already on order " + str(quote.customerOrder))
@@ -544,7 +545,10 @@ def quote_parts_for_bike_display(quote, for_customer):
 
                 if include_part:
                     quote_parts.append(quote_part)
-                    quote_part_details.append(QuotePartAttribute.objects.filter(quotePart=quote_part))
+                    if quote_part.part:
+                        quote_part_details.append(QuotePartAttribute.objects.filter(quotePart=quote_part))
+                    else:
+                        quote_part_details.append([])
         part_section_details.append(zip(quote_parts, quote_part_details))
     # build a merged array
     zipped_values = zip(part_sections, part_section_details)
