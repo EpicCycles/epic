@@ -43,7 +43,7 @@ class ChangeCustomerForm(ModelForm):
         self.fields['last_name'].widget = forms.TextInput(
             attrs={'size': '30', 'minlength': '1', 'maxlength': '40', 'pattern': name_pattern})
         self.fields['email'].widget = forms.TextInput(
-            attrs={'type': 'email', 'size': '50', 'minlength': '3', 'maxlength': '100'})
+            attrs={'type': 'email', 'size': '30', 'minlength': '3', 'maxlength': '100'})
 
         self.label_suffix = ''
 
@@ -367,6 +367,7 @@ class QuotePartBasicForm(ModelForm):
 # change part on existing line
 # simple quote add item
 class QuoteBikeChangePartForm(forms.Form):
+    forms.CheckboxSelectMultiple
     not_required = forms.BooleanField(required=False, label='None')
     can_be_substituted = forms.BooleanField(required=False, label='Subs')
     can_be_omitted = forms.BooleanField(required=False, label='Omit')

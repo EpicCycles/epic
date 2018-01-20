@@ -97,7 +97,7 @@
                             <tr>
                                 <td>{{ quote }}</td>
                                 <td>{{ quote.keyed_sell_price }}</td>
-                                <td>{% if quote.issuedDate == None %}
+                                <td>{% if quote.can_be_edited %}
                                     {% if quote.quote_type == 'B' %}
                                         <a href="{% url 'quote_edit_bike' pk=quote.pk %}" target="_blank"
                                            class="button">

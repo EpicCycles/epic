@@ -3,6 +3,8 @@
 {% block content %}
     <form action="" method="post">
         {% csrf_token %}
+            <input type="hidden" name="form_action" id="form_action" value="save_changes"/>
+
         <table width="100%">
             <tr>
                 <td><h2>Order</h2></td>
@@ -68,6 +70,39 @@
                 <td class="align_top">
                     {% include "epic/add_notes.html" %}
                 </td>
+             {% if other_quotes %}
+                 <td>
+                    <h3>Existing Quotes</h3>
+                    <table>
+                        <tr>
+                            <th class="listHead">Name</th>
+                            <th class="listHead">Value</th>
+                            <th class="listHead"></th>
+                            <th class="listHead">Add</th>
+                        </tr>
+                        {% for quote in other_quotes %}
+                            <tr>
+                                <td>{{ quote }}</td>
+                                <td>{{ quote.keyed_sell_price }}</td>
+                                <td>{% if quote.can_be_edited %}
+                                    {% if quote.is_bike %}
+                                        <a href="{% url 'quote_edit_bike' pk=quote.pk %}" target="_blank"
+                                           class="button">
+                                    {% else %}
+                                        <a href="{% url 'quote_edit_simple' pk=quote.pk %}" target="_blank"
+                                           class="button">
+                                    {% endif %}
+                                edit</a>{% endif %}</td>
+                                <td>
+                                    {% if quote.can_be_ordered %}
+                                    <input type="checkbox" name="add_quote" value="{{ quote.id }}" />
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </td>
             </tr>
         </table>
 
