@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cd7212f9-6eef-4ce2-90a4-95407cf747e0" name="Default" comment="Admin for SUpplier Orders and removing invalid myenv">
-      <change beforePath="$PROJECT_DIR$/epic/forms.py" afterPath="$PROJECT_DIR$/epic/forms.py" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/epic/templates/epic/customer_edit.html" afterPath="$PROJECT_DIR$/epic/templates/epic/customer_edit.html" />
-      <change beforePath="$PROJECT_DIR$/epic/templates/epic/order_edit.html" afterPath="$PROJECT_DIR$/epic/templates/epic/order_edit.html" />
-      <change beforePath="$PROJECT_DIR$/epic/view_helpers/customer_order_view_helper.py" afterPath="$PROJECT_DIR$/epic/view_helpers/customer_order_view_helper.py" />
+      <change beforePath="$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py" afterPath="$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py" />
     </list>
     <ignored mask=".idea" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -55,7 +54,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="quote_helper.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="quote_helper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/epic/helpers/quote_helper.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="151">
@@ -65,33 +64,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="response.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/django/http/response.py">
+      <file leaf-file-name="customer_view_helper.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7174">
-              <caret line="443" column="6" lean-forward="false" selection-start-line="443" selection-start-column="6" selection-end-line="443" selection-end-column="6" />
+            <state relative-caret-position="255">
+              <caret line="104" column="42" lean-forward="false" selection-start-line="104" selection-start-column="42" selection-end-line="104" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="request.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/myvenv/Lib/site-packages/django/http/request.py">
+      <file leaf-file-name="customer_edit.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/epic/templates/epic/customer_edit.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="406" column="8" lean-forward="false" selection-start-line="406" selection-start-column="8" selection-end-line="406" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/forms.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="73">
-              <caret line="369" column="22" lean-forward="false" selection-start-line="369" selection-start-column="22" selection-end-line="369" selection-end-column="22" />
+            <state relative-caret-position="338">
+              <caret line="119" column="0" lean-forward="false" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -120,18 +107,28 @@
       <file leaf-file-name="quote_view_helper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="402" column="4" lean-forward="false" selection-start-line="402" selection-start-column="4" selection-end-line="402" selection-end-column="4" />
+            <state relative-caret-position="90">
+              <caret line="382" column="48" lean-forward="false" selection-start-line="382" selection-start-column="48" selection-end-line="382" selection-end-column="48" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/views.py">
+      <file leaf-file-name="quote_issued_bike.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_issued_bike.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="435" column="28" lean-forward="false" selection-start-line="435" selection-start-column="28" selection-end-line="435" selection-end-column="28" />
+            <state relative-caret-position="204">
+              <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="quote_issued_simple.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_issued_simple.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="50" lean-forward="false" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -233,7 +230,6 @@
         <option value="$PROJECT_DIR$/epic/templates/epic/customer_add_popup.html" />
         <option value="$PROJECT_DIR$/epic/templates/epic/supplier_order_build.html" />
         <option value="$PROJECT_DIR$/epic/templates/epic/quote_list.html" />
-        <option value="$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py" />
         <option value="$PROJECT_DIR$/epic/templates/epic/quote_start.html" />
         <option value="$PROJECT_DIR$/epic/static/js/quote_start.js" />
         <option value="$PROJECT_DIR$/epic/static/js/quote_copy_action.js" />
@@ -264,11 +260,12 @@
         <option value="$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py" />
         <option value="$PROJECT_DIR$/epic/views.py" />
         <option value="$PROJECT_DIR$/epic/email_helpers/customer_order.py" />
-        <option value="$PROJECT_DIR$/epic/templates/epic/customer_edit.html" />
         <option value="$PROJECT_DIR$/epic/templates/epic/order_edit.html" />
         <option value="$PROJECT_DIR$/epic/forms.py" />
         <option value="$PROJECT_DIR$/epic/helpers/customer_order_helper.py" />
         <option value="$PROJECT_DIR$/epic/view_helpers/customer_order_view_helper.py" />
+        <option value="$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py" />
+        <option value="$PROJECT_DIR$/epic/templates/epic/customer_edit.html" />
       </list>
     </option>
   </component>
@@ -278,7 +275,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="10" />
     <option name="y" value="20" />
     <option name="width" value="1346" />
@@ -562,7 +559,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -733,20 +730,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_issued_bike.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="38" lean-forward="false" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_issued_simple.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="50" lean-forward="false" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/epic/static/css/epic.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
@@ -851,14 +834,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/customer_edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="99" column="61" lean-forward="false" selection-start-line="99" selection-start-column="61" selection-end-line="99" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/epic/templates/epic/form_standard_actions.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -907,14 +882,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-34">
-          <caret line="102" column="44" lean-forward="false" selection-start-line="102" selection-start-column="44" selection-end-line="102" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/epic/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -927,14 +894,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
           <caret line="435" column="28" lean-forward="false" selection-start-line="435" selection-start-column="28" selection-end-line="435" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="402" column="4" lean-forward="false" selection-start-line="402" selection-start-column="4" selection-end-line="402" selection-end-column="4" />
           <folding />
         </state>
       </provider>
@@ -1001,6 +960,46 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="151">
           <caret line="53" column="4" lean-forward="false" selection-start-line="53" selection-start-column="4" selection-end-line="53" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/view_helpers/customer_view_helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="104" column="42" lean-forward="false" selection-start-line="104" selection-start-column="42" selection-end-line="104" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_issued_simple.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="50" lean-forward="false" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/view_helpers/quote_view_helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="382" column="48" lean-forward="false" selection-start-line="382" selection-start-column="48" selection-end-line="382" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/quote_issued_bike.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/customer_edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="119" column="0" lean-forward="false" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
           <folding />
         </state>
       </provider>

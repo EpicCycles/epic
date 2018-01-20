@@ -8,7 +8,7 @@ from django.contrib import messages
 
 from epic.forms import CustomerForm, AddressFormSet, PhoneFormSet, FittingFormSet, CustomerQuoteForm, \
     ChangeCustomerForm, NewCustomerQuoteForm, AddressFormSimple, PhoneFormSimple
-from epic.models import Quote
+from epic.models import Quote, CustomerNote
 from epic.view_helpers.note_view_helper import create_customer_note
 from epic.view_helpers.quote_view_helper import show_quote_edit
 
@@ -100,10 +100,12 @@ def show_customer_edit(request, customer):
     fitting_form_set = FittingFormSet(instance=customer)
     customer_quote_form = CustomerQuoteForm(prefix='new', initial={'customer': customer})
     existing_quotes = Quote.objects.filter(customer=customer)
+    customer_notes = CustomerNote.objects.filter(customer=customer, customer_visible=False)
+
     return render(request, 'epic/customer_edit.html',
                   {'customer': customer, 'customer_form': customer_form, 'address_form_set': address_form_set,
                    'phone_form_set': phone_form_set, 'fitting_form_set': fitting_form_set,
-                   'customer_quote_form': customer_quote_form, 'existing_quotes': existing_quotes})
+                   'customer_quote_form': customer_quote_form, 'existing_quotes': existing_quotes,'customer_notes':customer_notes})
 
 
 def show_add_customer_popup(request):
