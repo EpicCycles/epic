@@ -44,6 +44,7 @@ def add_quote_elements_to_order(customer_order, quote):
             order_item = OrderItem.objects.create_order_item(quote_part.part, customer_order, quote_part)
             order_item.save()
 
+ 
 
 def record_payment(customer_order, deposit_taken, request):
     order_payment = OrderPayment.objects.create_order_payment(customer_order, deposit_taken, request.user)

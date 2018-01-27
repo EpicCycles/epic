@@ -1,6 +1,18 @@
 from django.contrib import admin
 from .models import *
 
+from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse
+
+# Creates a generic link to allow subsets of forms to be edited
+class EditLinkToInlineObject(object):
+    def edit_link(self, instance):
+        url = reverse('admin:%s_%s_change' % (
+            instance._meta.app_label,  instance._meta.model_name),  args=[instance.pk] )
+        if instance.pk:
+            return mark_safe(u'<a href="{u}">edit</a>'.format(u=url))
+        else:
+            return ''
 
 class CustomerPhoneInline(admin.TabularInline):
     model = CustomerPhone
@@ -43,12 +55,20 @@ class PartSectionAdmin(admin.ModelAdmin):
     inlines = [PartTypeInLine]
 
 
-class PartTypeAttributeInLine(admin.TabularInline):
+class PartTypeAttributeInLine(EditLinkToInlineObject, admin.TabularInline):
     model = PartTypeAttribute
+    readonly_fields = ('edit_link',)
+
+
+class AttributeOptionsInLine(admin.TabularInline):
+    model = AttributeOptions
 
 
 class PartTypeAdmin(admin.ModelAdmin):
     inlines = [PartTypeAttributeInLine]
+
+class PartTypeAttributeAdmin(admin.ModelAdmin):
+    inlines = [AttributeOptionsInLine]
 
 
 class SupplierOrderItemInline(admin.TabularInline):
@@ -68,6 +88,7 @@ admin.site.register(Brand)
 admin.site.register(Part)
 admin.site.register(PartSection, PartSectionAdmin)
 admin.site.register(PartType, PartTypeAdmin)
+admin.site.register(PartTypeAttribute, PartTypeAttributeAdmin)
 admin.site.register(Quote)
 admin.site.register(CustomerOrder)
 admin.site.register(Supplier)

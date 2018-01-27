@@ -29,6 +29,15 @@ ORDERED = '4'
 CANCELLED = '5'
 QUOTE_STATUS_CHOICES = ((INITIAL, 'New'), (ISSUED, 'Issued'), (ARCHIVED, 'Archived'), (ORDERED, 'Order Created'),)
 ORDER_STATUS_CHOICES = ((INITIAL, 'New'), (ISSUED, 'Issued'), (ARCHIVED, 'Archived'), (CANCELLED, 'Cancelled'),)
+TEXT = '1'
+NUMBER = '2'
+RADIO = '3'
+SELECT = '4'
+MULTIPLE_C = '5'
+MULTIPLE_S = '6'
+
+DISPLAY_CHOICES = ((TEXT, 'Text'), (NUMBER, 'Numeric'), (RADIO, 'Single - Radio'), (SELECT, 'Single - Dropdown'),
+                   (MULTIPLE_C, 'Multiple - Checkbox'), (MULTIPLE_S, 'Multiple - Dropdown'))
 
 
 class Customer(models.Model):
@@ -131,8 +140,7 @@ class PartType(models.Model):
         ordering = ('includeInSection', 'placing', 'shortName')
 
 
-# trings for attributes for PartTypes
-
+# strings for attributes for PartTypes
 class PartTypeAttribute(models.Model):
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     attribute_name = models.CharField(max_length=30)
@@ -140,6 +148,7 @@ class PartTypeAttribute(models.Model):
     mandatory = models.BooleanField()
     placing = models.PositiveSmallIntegerField()
     default_value_for_quote = models.CharField('Default for Bike Quotes ', max_length=40, null=True, blank=True)
+    attribute_type = models.CharField(max_length=1, choices=DISPLAY_CHOICES, default=TEXT, )
 
     def __str__(self):
         return self.attribute_name
@@ -147,6 +156,17 @@ class PartTypeAttribute(models.Model):
     class Meta:
         unique_together = (("partType", "attribute_name"),)
         ordering = ('placing',)
+
+
+# values for part type attributes
+class AttributeOptions(models.Model):
+    part_type_attribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE)
+    attribute_option = models.CharField(max_length=30)
+
+
+class Meta:
+    unique_together = (("part_type_attribute", "attribute_option"),)
+    ordering = ('attribute_option',)
 
 
 # suppliersfor bikes/parts etc
@@ -315,7 +335,6 @@ class CustomerOrder(models.Model):
         for orderPayment in orderPayments:
             if not (orderPayment.amount is None):
                 self.amount_due -= orderPayment.amount
-
 
     def can_be_cancelled(self):
         if self.cancelled_date:
