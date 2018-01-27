@@ -1,0 +1,60 @@
+<p>Description: {{ order.id }}</p>
+<p>Order Total £{{order.order_total}}, Outstanding balance £ {{order.amount_due}}</p>
+{{#if order.order_payments}}
+    <p>Payment History.</p>
+    {{#each order.order_payments}}
+        <p>{{ amount }} ({{ taken_by }}, {{ taken_on }})</p>
+    {{/each}}
+{{/if}}
+{{#if order.quotes}}
+    <p><strong>Quote details:</strong></p>
+    {{#each order.quotes}}
+        {{#if bike}}
+            <p>Base Bike/Frame: {{ bike }}</p>
+        {{/if}}
+        {{#if fitting}}
+            <p>Fitting source: {{ fitting.source }}<br>
+                Saddle Height: {{ fitting.saddle_height }},
+                Bar Height: {{ fitting.bar_height }},
+                Reach: {{ fitting.reach }}
+        {{/if}}
+        <table width="100%">
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th width="50">QTY</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each items}}
+                <tr>
+                    <td>{{ name }}</td>
+                    <td style="text-align: right;">{{ qty }}</td>
+                </tr>
+            {{/each}}
+            </tbody>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tfoot>
+            <tr>
+                <th style="text-align: right">Total:</th>
+                <td style="text-align: right;">£{{ cost }}</td>
+            </tr>
+            </tfoot>
+        </table>
+        {{#if notes}}
+            <p><strong>Notes:</strong></p>
+            {{#each notes}}
+                <p>{{ note_text }} ({{ added_by }}, {{ added_on }})</p>
+            {{/each}}
+        {{/if}}
+    {{/each}}
+
+{{/if}}
+{{#if order.items}}
+    <p>Additional Items.</p>
+    {{#each order.items}}
+        <p>{{ part }}</p>
+    {{/each}}
+{{/if}}

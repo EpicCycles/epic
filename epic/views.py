@@ -10,19 +10,19 @@ from django.views.generic.list import ListView
 
 # forms and formsets used in the views
 from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm, FrameSearchForm
-from epic.models import Customer, Supplier, CustomerOrder, Frame
+from epic.models import Customer, Supplier, CustomerOrder, Frame, ARCHIVED, INITIAL
 from epic.view_helpers.frame_view_helper import process_upload, create_new_model
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
-from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote, edit_customer_order, \
-    process_customer_order_edits, cancel_order_and_requote, cancel_order_and_quote
+from epic.view_helpers.customer_order_view_helper import edit_customer_order, process_customer_order_edits, \
+    cancel_order_and_requote, cancel_order_and_quote
 from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.menu_view_helper import show_menu
 from epic.view_helpers.note_view_helper import show_notes_popup
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_simple_quote_edit, \
     process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, quote_parts_for_bike_display, \
-    copy_quote_and_display, show_bike_quote_edit_new_customer, process_quote_requote, process_quote_issue, \
-    show_quote_issue, show_quote_browse, show_quote_text, copy_quote_new_bike, show_add_quote_for_customer, \
-    new_quote_change_customer, show_bike_quote_edit_new_frame
+    copy_quote_and_display, show_bike_quote_edit_new_customer, process_quote_requote, show_quote_issue, \
+    show_quote_browse, show_quote_text, copy_quote_new_bike, show_add_quote_for_customer, new_quote_change_customer, \
+    show_bike_quote_edit_new_frame, process_quote_action
 from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
 
 
@@ -280,17 +280,6 @@ def bike_select_popup(request):
                   {'frame_search_form': frame_search_form, 'possible_frames': possible_frames})
 
 
-# create and order from a quote
-@login_required
-def quote_order(request, pk):
-    if request.method == "POST":
-        # shouldn't be here!
-        messages.info(request, 'Invalid action ')
-    else:
-        quote = get_object_or_404(Quote, pk=pk)
-        return create_customer_order_from_quote(quote)
-
-
 # show edit order page
 @login_required
 def order_edit(request, pk):
@@ -426,11 +415,10 @@ def quote_issue(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
 
     if request.method == "POST":
-        return process_quote_issue(request, quote)
+        return process_quote_action(request, quote)
 
     else:
-        return show_quote_issue(request, quote)
-        # get the quote you are basing it on and create a copy_quote
+        return show_quote_issue(request, quote)  # get the quote you are basing it on and create a copy_quote
 
 
 def quote_text(request, pk):
@@ -444,8 +432,8 @@ def quote_browse(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
 
     if request.method == "POST":
-        # shouldn't be here!
-        messages.info(request, 'Invalid action ')
+        # this is the same screen as issue so make it a joint action
+        return process_quote_action(request, quote)
 
     return show_quote_browse(request, quote)
 
@@ -457,6 +445,10 @@ def quote_amend(request, pk):
         # shouldnt be here!
         messages.info(request, 'Invalid action ')
     else:
+        if quote.quote_status == ARCHIVED:
+            messages.info(request, 'Quote status reset ')
+            quote.quote_status = INITIAL
+            quote.save()
         if quote.is_bike():
             # display the bike based quote edit page
             return HttpResponseRedirect(reverse('quote_edit_bike', args=(pk,)))
@@ -469,6 +461,7 @@ def quote_amend(request, pk):
 @login_required
 def quote_edit(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
+
     if request.method == "POST":
         # shouldn't be here!
         messages.info(request, 'Invalid action ')
@@ -535,5 +528,4 @@ def create_model(request):
 
 
 def logout_view(request):
-    logout(request)
-    # Redirect to a success page.
+    logout(request)  # Redirect to a success page.

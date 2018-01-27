@@ -29,7 +29,11 @@
                     <td>{{ order.order_total }}</td>
                     <td>{{ order.amount_due }}</td>
                     <td>{{ order.cancelled_date }}</td>
-                    <td><a href="{% url 'order_edit' pk=order.pk %}" class="button">Edit</a>
+                    <td>
+                        {% if not order.cancelled_date %}
+                            <a href="{% url 'order_edit' pk=order.pk %}" class="button">Edit</a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </table>

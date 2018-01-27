@@ -3,74 +3,106 @@
 {% block content %}
     <form action="" method="post">
         {% csrf_token %}
-        <table width="100%">
-            <tr>
-                <td><h2>Order</h2></td>
-                <td class="page_actions">
-                    {% include "epic/form_standard_actions.html" %}
-                    {% if customer_order.can_be_cancelled %}
-                        <a href="{% url 'order_requote' pk=customer_order.pk %}" class="button"
-                           title="Remove Order and edit quote to re-issue">Re Quote</a>
-                        <a href="{% url 'cancel_order' pk=customer_order.pk %}" class="button"
-                           title="Cancel Order and archive associated quote">Cancel</a>
-                    {% endif %}
-                </td>
-            </tr>
-        </table>
-        <table>
-            <tr>
-                <td class="align_top">
-                    <h3>{{ customer_order.customer }}</h3>
-                    {{ customer_order_form.non_field_errors }}
+        <input type="hidden" name="form_action" id="form_action" value="save_changes"/>
+        <section style="width:100%">
+            <div>
+                <h2>Order</h2>
+            </div>
+            <div  style="width:80%;  text-align:right;">
+                {% include "epic/form_standard_actions.html" %}
+                {% if customer_order.can_be_cancelled %}
+                    <a href="{% url 'order_requote' pk=customer_order.pk %}" class="button"
+                       title="Remove Order and edit quote to re-issue">Re Quote</a>
+                    <a href="{% url 'cancel_order' pk=customer_order.pk %}" class="button"
+                       title="Cancel Order and archive associated quote">Cancel</a>
+                {% endif %}
+            </div>
+        </section>
+        <section>
+            <div>
+                <h3>{{ customer_order.customer }}</h3>
+                {{ customer_order_form.non_field_errors }}
+                <table>
+                    {% for field in customer_order_form.visible_fields %}
+                        <tr>
+                            <th>{{ field.label_tag }}</th>
+                            {% include "epic/field_as_td.html"  with field=field %}
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <th>Total &pound;</th>
+                        <td>{{ customer_order.order_total }}</td>
+                    </tr>
+                    <tr>
+                        <th>Balance Outstanding &pound;</th>
+                        <td>{{ customer_order.amount_due }}</td>
+                    </tr>
+                </table>
+                {% for hidden in customer_order_form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+            </div>
+            <div>
+                <h3>Payments</h3>
+                {% include "epic/form_as_table.html" with form=order_payment_form %}
+                {% if order_payments %}
                     <table>
-                        {% for field in customer_order_form.visible_fields %}
-                            <tr>
-                                <th>{{ field.label_tag }}</th>
-                                {% include "epic/field_as_td.html"  with field=field %}
+                        <tr class="listHead">
+                            <th>Payment Date</th>
+                            <th>Amount</th>
+                            <th>Taken By</th>
+                        </tr>
+                        {% for order_payment in order_payments %}
+                            {% cycle 'row1' 'row2' as rowcolors silent %}
+                            <tr class="{{ rowcolors }}">
+                                <td>{{ order_payment.created_on }}</td>
+                                <td>&pound;{{ order_payment.amount }}</td>
+                                <td>{{ order_payment.created_by }}</td>
                             </tr>
                         {% endfor %}
-                        <tr>
-                            <th>Total &pound;</th>
-                            <td>{{ customer_order.order_total }}</td>
-                        </tr>
-                        <tr>
-                            <th>Balance Outstanding &pound;</th>
-                            <td>{{ customer_order.amount_due }}</td>
-                        </tr>
                     </table>
-                    {% for hidden in customer_order_form.hidden_fields %}
-                        {{ hidden }}
+                {% else %}
+                    <b>Fully Outstanding</b>
+                {% endif %}
+            </div>
+            <div>
+                {% include "epic/add_notes.html" %}
+            </div>
+            {% if other_quotes %}
+                <div>
+                <h3>Existing Quotes</h3>
+                <table>
+                    <tr>
+                        <th class="listHead">Name</th>
+                        <th class="listHead">Value</th>
+                        <th class="listHead"></th>
+                        <th class="listHead">Add</th>
+                    </tr>
+                    {% for quote in other_quotes %}
+                        {% cycle 'row1' 'row2' as rowcolors silent %}
+                        <tr class="{{ rowcolors }}">
+                            <td>{{ quote }}</td>
+                            <td>{{ quote.keyed_sell_price }}</td>
+                            <td>{% if quote.can_be_edited %}
+                                {% if quote.is_bike %}
+                                    <a href="{% url 'quote_edit_bike' pk=quote.pk %}" target="_blank"
+                                       class="button">
+                                {% else %}
+                                    <a href="{% url 'quote_edit_simple' pk=quote.pk %}" target="_blank"
+                                       class="button">
+                                {% endif %}
+                            edit</a>{% endif %}</td>
+                            <td>
+                                {% if quote.can_be_ordered %}
+                                    <input type="checkbox" name="add_quote" value="{{ quote.id }}" title="Tick if quote should be added to this order"/>
+                                {% endif %}
+                            </td>
+                        </tr>
                     {% endfor %}
-                </td>
-                <td class="align_top">
-                    <h3>Payments</h3>
-                    {% include "epic/form_as_table.html" with form=order_payment_form %}
-                    {% if order_payments %}
-                        <table>
-                            <tr class="listHead">
-                                <th>Payment Date</th>
-                                <th>Amount</th>
-                                <th>Taken By</th>
-                            </tr>
-                            {% for order_payment in order_payments %}
-                                {% cycle 'row1' 'row2' as rowcolors silent %}
-                                <tr class="{{ rowcolors }}">
-                                    <td>{{ order_payment.created_on }}</td>
-                                    <td>&pound;{{ order_payment.amount }}</td>
-                                    <td>{{ order_payment.created_by }}</td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    {% else %}
-                        <b>Fully Outstanding</b>
-                    {% endif %}
-                </td>
-                <td class="align_top">
-                    {% include "epic/add_notes.html" %}
-                </td>
-            </tr>
-        </table>
-
+                </table>
+            {% endif %}
+            </div>
+        </section>
         <fieldset>
             {% if order_frame_forms %}
                 <h3>Bike(s)</h3>

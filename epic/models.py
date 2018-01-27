@@ -26,7 +26,18 @@ INITIAL = '1'
 ISSUED = '2'
 ARCHIVED = '3'
 ORDERED = '4'
-QUOTE_STATUS_CHOICES = ((INITIAL, 'New'), (ISSUED, 'Quoted'), (ARCHIVED, 'Archived'), (ORDERED, 'Order Created'),)
+CANCELLED = '5'
+QUOTE_STATUS_CHOICES = ((INITIAL, 'New'), (ISSUED, 'Issued'), (ARCHIVED, 'Archived'), (ORDERED, 'Order Created'),)
+ORDER_STATUS_CHOICES = ((INITIAL, 'New'), (ISSUED, 'Issued'), (ARCHIVED, 'Archived'), (CANCELLED, 'Cancelled'),)
+TEXT = '1'
+NUMBER = '2'
+RADIO = '3'
+SELECT = '4'
+MULTIPLE_C = '5'
+MULTIPLE_S = '6'
+
+DISPLAY_CHOICES = ((TEXT, 'Text'), (NUMBER, 'Numeric'), (RADIO, 'Single - Radio'), (SELECT, 'Single - Dropdown'),
+                   (MULTIPLE_C, 'Multiple - Checkbox'), (MULTIPLE_S, 'Multiple - Dropdown'))
 
 
 class Customer(models.Model):
@@ -38,14 +49,14 @@ class Customer(models.Model):
     history = simple_history.models.HistoricalRecords()
 
     def get_absolute_url(self):
-        return reverse('views.editCustomer', args={self.pk})
+        return reverse('edit_customer', args={self.pk})
 
     def __str__(self):
         display_value = f'{self.first_name} {self.last_name}'
         if self.email:
             display_value += f'({self.email})'
         else:
-            display_value += "(Last Updated:{self.upd_date:%b %d, %Y})"
+            display_value += f'(Last Updated:{self.upd_date:%b %d, %Y})'
         return display_value
 
     class Meta:
@@ -129,8 +140,7 @@ class PartType(models.Model):
         ordering = ('includeInSection', 'placing', 'shortName')
 
 
-# trings for attributes for PartTypes
-
+# strings for attributes for PartTypes
 class PartTypeAttribute(models.Model):
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     attribute_name = models.CharField(max_length=30)
@@ -138,6 +148,7 @@ class PartTypeAttribute(models.Model):
     mandatory = models.BooleanField()
     placing = models.PositiveSmallIntegerField()
     default_value_for_quote = models.CharField('Default for Bike Quotes ', max_length=40, null=True, blank=True)
+    attribute_type = models.CharField(max_length=1, choices=DISPLAY_CHOICES, default=TEXT, )
 
     def __str__(self):
         return self.attribute_name
@@ -145,6 +156,17 @@ class PartTypeAttribute(models.Model):
     class Meta:
         unique_together = (("partType", "attribute_name"),)
         ordering = ('placing',)
+
+
+# values for part type attributes
+class AttributeOptions(models.Model):
+    part_type_attribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE)
+    attribute_option = models.CharField(max_length=30)
+
+
+class Meta:
+    unique_together = (("part_type_attribute", "attribute_option"),)
+    ordering = ('attribute_option',)
 
 
 # suppliersfor bikes/parts etc
@@ -293,6 +315,17 @@ class CustomerOrder(models.Model):
     history = simple_history.models.HistoricalRecords()
     objects = CustomerOrderManager()
 
+    class Meta:
+        ordering = ('-created_date', 'customer')
+
+    def __str__(self):
+        if self.cancelled_date:
+            return f' Order Number: {self.pk}, cancelled {self.cancelled_date:%b %d, %Y} ({str(self.customer)})'
+        elif self.completed_date:
+            return f' Order Number: {self.pk}, completed {self.completed_date:%b %d, %Y} ({str(self.customer)})'
+
+        return f' Order Number: {self.pk}, created {self.created_date:%b %d, %Y} ({str(self.customer)})'
+
     # calculate the outstanding balance
     def calculate_balance(self):
         # loop through the payments taken
@@ -304,17 +337,14 @@ class CustomerOrder(models.Model):
                 self.amount_due -= orderPayment.amount
 
     def can_be_cancelled(self):
-        print("in can be cancelled")
-        if OrderFrame.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
-            print("order frame with supplier orders")
-
+        if self.cancelled_date:
+            return False
+        elif OrderFrame.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
             return False
         elif OrderItem.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
-            print("order item with supplier orders")
             return False
         else:
             # no orders placed
-            print("no supplier orders")
             return True
 
 
@@ -406,10 +436,10 @@ class Quote(models.Model):
 
     # check if a quote can be turned into an order
     def can_be_ordered(self):
-        if self.quote_status == ISSUED:
-            for quotePart in self.quotepart_set.all():
-                for quotePartAttribute in quotePart.quotepartattribute_set.all():
-                    if quotePartAttribute.partTypeAttribute.mandatory:
+        if self.quote_status == ISSUED or self.can_be_issued():
+            for quote_part in self.quotepart_set.all():
+                for quotePartAttribute in quote_part.quotepartattribute_set.all():
+                    if quote_part.part and quotePartAttribute.partTypeAttribute.mandatory:
                         if quotePartAttribute.attribute_value is None or quotePartAttribute.attribute_value == '':
                             return False
             return True
@@ -454,27 +484,6 @@ class Quote(models.Model):
     def archive(self):
         self.quote_status = ARCHIVED
         self.save()
-
-    def requote(self):
-        self.quote_status = INITIAL
-        self.customerOrder = None
-        self.save()
-
-    def requote_prices(self):
-        self.sell_price = None
-        self.keyed_sell_price = None
-        self.frame_cost_price = None
-        self.frame_sell_price = None
-
-        quote_parts = self.quotepart_set.all()
-        for quote_part in quote_parts:
-            quote_part.trade_in_price = None
-            if quote_part.quantity is not None:
-                quote_part.sell_price = None
-                quote_part.cost_price = None
-                quote_part.save()
-
-        self.requote()
 
     def recalculate_prices(self):
         if self.frame is None:
@@ -746,6 +755,9 @@ class OrderItem(models.Model):
     stock_item = models.BooleanField(default=False)
     history = simple_history.models.HistoricalRecords()
     objects = OrderItemManager()
+
+    def __str__(self):
+        return str(self.part)
 
 
 class CustomerNote(models.Model):

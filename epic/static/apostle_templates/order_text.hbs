@@ -1,0 +1,43 @@
+Description: {{ order.id }}
+
+Order Total £{{order.order_total}}, Outstanding balance £ {{order.amount_due}}
+
+{{#if order.order_payments}}
+    Payment History.
+    {{#each order.order_payments}}
+        {{ amount }} ({{ taken_by }}, {{ taken_on }})
+    {{/each}}
+{{/if}}
+{{#if order.quotes}}
+    Quote details:
+    {{#each order.quotes}}
+        {{#if bike}}
+            Base Bike/Frame: {{ bike }}
+        {{/if}}
+        {{#if fitting}}
+            Fitting source: {{ fitting.source }}
+            Saddle Height: {{ fitting.saddle_height }},  Bar Height: {{fitting.bar_height }}, Reach: {{ fitting.reach }}
+        {{/if}}
+        Items
+        {{#each items}}
+            {{ name }} x {{ qty }}
+        {{/each}}
+
+        Total: £{{ cost }}
+
+        {{#if notes}}
+            Notes:
+            {{#each notes}}
+                {{ note_text }} ({{ added_by }}, {{ added_on }})
+            {{/each}}
+        {{/if}}
+    {{/each}}
+
+{{/if}}
+{{#if order.items}}
+
+    Additional Items.
+    {{#each order.items}}
+        {{ part }}
+    {{/each}}
+{{/if}}
