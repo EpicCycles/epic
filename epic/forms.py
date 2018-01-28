@@ -375,6 +375,7 @@ class QuoteBikeChangePartForm(forms.Form):
                                         label='Trade In')
     new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
     new_part_name = forms.CharField(max_length=60, required=False, label='Part Name')
+    new_part_type = forms.CharField(required=False)
     new_quantity = forms.IntegerField(max_value=9999, min_value=0, required=False, label='Quantity')
     new_sell_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
                                         label='Sell Price')
@@ -387,6 +388,7 @@ class QuoteBikeChangePartForm(forms.Form):
         self.label_suffix = ''
         self.fields['can_be_substituted'].widget = HiddenInput()
         self.fields['can_be_omitted'].widget = HiddenInput()
+        self.fields['new_part_type'].widget = HiddenInput()
         self.fields['new_part_name'].widget = forms.TextInput(attrs={'size': '20'})
         self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': '4'})
         self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': '9'})

@@ -1,0 +1,6 @@
+.ui-menu-item-wrapper ul, li {
+    background: #FFFFFF;
+    color: #333333;
+    list-style-type: none;
+    -webkit-padding-start: 5px;
+}

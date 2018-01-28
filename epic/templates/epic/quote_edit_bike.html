@@ -34,7 +34,7 @@
                 <td class="align_top">
                     <h4>Fitting Details</h4>
                     {% if customerFittings %}
-                        <select name='id_fitting' id='id_fitting'>
+                        <select name='id_fitting' id='id_fitting' title="select existing fitting to use">
                             <option value="">No Fitting</option>
                             {% for fitting in customerFittings %}
                                 <option value="{{ fitting.id }}" {% if quote.fitting == fitting %}
