@@ -13,30 +13,32 @@ def show_orders_required_for_supplier(request, supplier):
     # get back frame and quote details for supplier
     bikes = OrderFrame.objects.filter(supplier=supplier, supplierOrderItem=None).select_related('quote__customer')
     for bike in bikes:
-        item_description = str(bike.frame)
-        quote = bike.quote
-        quote_name = str(quote)
-        customer = quote.customer
-        customer_name = str(customer)
-        supplier_order_possible = SupplierOrderPossibleForm(
-            initial={'item_description': item_description, 'quote_name': quote_name, 'customer_name': customer_name,
-                     'item_type': BIKE, 'item_id': bike.id}, prefix='OF' + str(bike.id))
-        possible_items.append(supplier_order_possible)
+        if bike.customerOrder.cancelled_date is None:
+            item_description = str(bike.frame)
+            quote = bike.quote
+            quote_name = str(quote)
+            customer = quote.customer
+            customer_name = str(customer)
+            supplier_order_possible = SupplierOrderPossibleForm(
+                initial={'item_description': item_description, 'quote_name': quote_name, 'customer_name': customer_name,
+                         'item_type': BIKE, 'item_id': bike.id}, prefix='OF' + str(bike.id))
+            possible_items.append(supplier_order_possible)
 
     # get back part  and quote details for supplier
     parts = OrderItem.objects.filter(supplier=supplier, supplierOrderItem=None).select_related(
         'quotePart__quote__customer')
     for part in parts:
-        quotePart = part.quotePart
-        item_description = str(quotePart)
-        quote = quotePart.quote
-        quote_name = str(quote)
-        customer = quote.customer
-        customer_name = str(customer)
-        supplier_order_possible = SupplierOrderPossibleForm(
-            initial={'item_description': item_description, 'quote_name': quote_name, 'customer_name': customer_name,
-                     'item_type': PART, 'item_id': part.id}, prefix='OP' + str(part.id))
-        possible_items.append(supplier_order_possible)
+        if part.customerOrder.cancelled_date is None:
+            quotePart = part.quotePart
+            item_description = str(quotePart)
+            quote = quotePart.quote
+            quote_name = str(quote)
+            customer = quote.customer
+            customer_name = str(customer)
+            supplier_order_possible = SupplierOrderPossibleForm(
+                initial={'item_description': item_description, 'quote_name': quote_name, 'customer_name': customer_name,
+                         'item_type': PART, 'item_id': part.id}, prefix='OP' + str(part.id))
+            possible_items.append(supplier_order_possible)
 
     return render(request, 'epic/supplier_order_build.html',
                   add_standard_session_data(request, {'supplier': supplier, 'supplier_order_form': SupplierOrderForm(
