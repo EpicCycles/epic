@@ -17,3 +17,12 @@ def add_standard_session_data(request, details_for_page):
     details_for_page['suppliers_requiring_orders'] = request.session.get('suppliers_requiring_orders', get_suppliers_requiring_orders())
 
     return details_for_page
+
+
+def add_standard_session_data_to_context(context):
+    # details_for_page['parts_for_js'] = request.session.get('parts_for_js', get_parts_for_js())
+    context['parts_for_js'] = context.get('parts_for_js', get_parts_for_js())
+    context['brands'] = context.get('brands', Brand.objects.filter(link__startswith="http"))
+    context['suppliers_requiring_orders'] = context.get('suppliers_requiring_orders', get_suppliers_requiring_orders())
+
+    return context
