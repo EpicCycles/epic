@@ -4,12 +4,10 @@ const brand = 'brand';
 const part_type = 'part_type';
 const partType = 'partType';
 const partArray = parts;
-console.dir(typeof parts);
 (setUpPartFields)();
 
 function setUpPartFields() {
     //  get back all elements that ae called something like part_name
-    console.log(partArray);
     var part_name_elements = $("input[id$='part_name']");
     const re = /part_name/gi;
 
@@ -61,20 +59,15 @@ function selectPartType() {
 
 function refreshPartList(brandValue, partTypeValue, partNameElement) {
     // get back brand from doc
-    console.log("filtering on branch and part type", brandValue, partTypeValue);
     let relevantParts = partArray.filter(function (part) {
         let include = true;
         if (brandValue) {
-            console.log("brand filter want and have, ", brandValue, part[brand]);
-            if (part[brand] != brandValue) {
-                console.log("excluded on brand");
+            if (part[brand] !== brandValue) {
                 include = false;
             }
         }
         if (partTypeValue) {
-            console.log("partType filter want and have, ", partTypeValue, part[partType]);
-            if (part[partType] != partTypeValue) {
-                console.log("excluded on partType");
+            if (part[partType] !== partTypeValue) {
                 include = false;
             }
         }
@@ -86,7 +79,6 @@ function refreshPartList(brandValue, partTypeValue, partNameElement) {
     });
 
     // now populate the autocomplete for the part name field
-    console.log("filtered parts", relevantParts);
     partNameElement.autocomplete({
         source: relevantPartNames
     });
