@@ -433,6 +433,9 @@ class QuoteBikeChangePartForm(forms.Form):
                         "Cannot have part not required and part details. Either set part to not required and remove part details, or untick the checkbox and add part details to replace the existing values.")
                 elif not (new_brand and new_part_name and new_quantity):
                     raise forms.ValidationError("All data must be entered to update an item on a quote.")
+                if not new_sell_price and new_sell_price != 0:
+                    self.add_error('new_sell_price',
+                                   "Please provide a selling price for the item (may be zero).")
 
 
 # form for use n u=inline frameset after

@@ -9,7 +9,9 @@ def getAttributeForm(object, form_prefix):
     if isinstance(object, QuotePartAttribute):
 
         attribute_name = str(object.partTypeAttribute)
-        attribute_value = str(object.attribute_value)
+        attribute_value = ""
+        if object.attribute_value:
+            attribute_value = str(object.attribute_value)
         if object.partTypeAttribute.attribute_type is TEXT:
             if form_prefix is not "":
                 return TextAttributeForm(initial={'attribute_name': attribute_name, 'attribute_value': attribute_value},
@@ -36,11 +38,11 @@ def getAttributeForm(object, form_prefix):
             if form_prefix is not "":
                 return RadioAttributeForm(
                     initial={'attribute_name': attribute_name, 'attribute_value': attribute_value},
-                    prefix=form_prefix, value_choices=getAttributeChoiceDict(object.partTypeAttribute))
+                    prefix=form_prefix, value_choices=getAttributeRadioDict(object.partTypeAttribute))
             else:
                 return RadioAttributeForm(
                     initial={'attribute_name': attribute_name, 'attribute_value': attribute_value},
-                    value_choices=getAttributeChoiceDict(object.partTypeAttribute))
+                    value_choices=getAttributeRadioDict(object.partTypeAttribute))
 
 
 def getAttributeFormUpdated(request_post, request_files, object, form_prefix):
@@ -65,17 +67,38 @@ def getAttributeFormUpdated(request_post, request_files, object, form_prefix):
         elif object.partTypeAttribute.attribute_type is RADIO:
             if form_prefix is not "":
                 return RadioAttributeForm(request_post, request_files, prefix=form_prefix,
-                                          value_choices=getAttributeChoiceDict(object.partTypeAttribute))
+                                          value_choices=getAttributeRadioDict(object.partTypeAttribute))
             else:
-                return RadioAttributeForm(request_post, request_files, value_choices=getAttributeChoiceDict(object.partTypeAttribute))
+                return RadioAttributeForm(request_post, request_files, value_choices=getAttributeRadioDict(object.partTypeAttribute))
 
 
 def getAttributeChoiceDict(part_tpe_attribute: PartTypeAttribute):
     attribute_options = AttributeOptions.objects.filter(part_type_attribute=part_tpe_attribute)
     value_choices = []
+    value_choices.append(["","------"])
+
     for attribute_value in attribute_options:
         value_choices.append([attribute_value.attribute_option, attribute_value.attribute_option])
+
+    if part_tpe_attribute.default_value_for_quote:
+        value_choices.append([part_tpe_attribute.default_value_for_quote,part_tpe_attribute.default_value_for_quote])
+
     return value_choices
+
+
+
+def getAttributeRadioDict(part_tpe_attribute: PartTypeAttribute):
+    attribute_options = AttributeOptions.objects.filter(part_type_attribute=part_tpe_attribute)
+    value_choices = []
+
+    for attribute_value in attribute_options:
+        value_choices.append([attribute_value.attribute_option, attribute_value.attribute_option])
+
+    if part_tpe_attribute.default_value_for_quote:
+        value_choices.append([part_tpe_attribute.default_value_for_quote,part_tpe_attribute.default_value_for_quote])
+
+    return value_choices
+
 
 
 # attributes for quote parts - choice type
