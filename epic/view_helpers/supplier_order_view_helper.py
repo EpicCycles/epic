@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from epic.forms import SupplierOrderPossibleForm, SupplierOrderForm
 from epic.models import OrderFrame, BIKE, OrderItem, PART, SupplierOrderItem
-from epic.view_helpers.menu_view_helper import show_menu
+from epic.view_helpers.menu_view_helper import show_menu, add_standard_session_data
 
 
 def show_orders_required_for_supplier(request, supplier):
@@ -39,8 +39,9 @@ def show_orders_required_for_supplier(request, supplier):
         possible_items.append(supplier_order_possible)
 
     return render(request, 'epic/supplier_order_build.html',
-                  {'supplier': supplier, 'supplier_order_form': SupplierOrderForm(initial={'supplier': supplier}),
-                   'possible_items': possible_items})
+                  add_standard_session_data(request, {'supplier': supplier, 'supplier_order_form': SupplierOrderForm(
+                      initial={'supplier': supplier}),
+                                                      'possible_items': possible_items}))
 
 
 def save_supplier_order(request, supplier):
@@ -91,18 +92,21 @@ def save_supplier_order(request, supplier):
             supplierOrder.delete()
             messages.info(request, 'Order cannot be created if no items are selected. ')
             return render(request, 'epic/supplier_order_build.html',
-                          {'supplier': supplier, 'supplier_order_form': supplier_order_form,
-                           'possible_items': form_possible_items})
+                          add_standard_session_data(request,
+                                                    {'supplier': supplier, 'supplier_order_form': supplier_order_form,
+                                                     'possible_items': form_possible_items}))
         else:
             if len(new_form_possible_items) > 0:
                 return render(request, 'epic/supplier_order_build.html',
-                              {'supplier': supplier, 'supplier_order_form': supplier_order_form,
-                               'possible_items': new_form_possible_items})
+                              add_standard_session_data(request, {'supplier': supplier,
+                                                                  'supplier_order_form': supplier_order_form,
+                                                                  'possible_items': new_form_possible_items}))
             else:
                 # order created an no items remained return to the menu
                 return show_menu(request)
     else:
         logging.getLogger("error_logger").error(supplier_order_form.errors.as_json())
-        variables = {'supplier': supplier, 'supplier_order_form': supplier_order_form,
-                     'possible_items': form_possible_items}
+        variables = add_standard_session_data(request,
+                                              {'supplier': supplier, 'supplier_order_form': supplier_order_form,
+                                               'possible_items': form_possible_items})
         return render(request, 'epic/supplier_order_build.html', variables)

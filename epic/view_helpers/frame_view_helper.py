@@ -10,6 +10,7 @@ from django.urls import reverse
 from epic.model_helpers.brand_helper import find_brand_for_string, find_brand_for_name
 from epic.model_helpers.part_helper import find_or_create_part
 from epic.models import Brand, PartType, FramePart, Frame, QuotePart, FrameExclusion
+from epic.view_helpers.menu_view_helper import add_standard_session_data
 
 
 def create_new_model(request, quote, model):
@@ -43,7 +44,6 @@ def create_new_model(request, quote, model):
     return HttpResponseRedirect(reverse('add_quote'))
 
 
-
 def process_upload(request):
     data = {}
     try:
@@ -74,7 +74,7 @@ def process_upload(request):
         non_web_brands = Brand.objects.all()
 
         # loop over the lines and save them in db. If error , store as string and then display
-        print("number of lines is "+ str(len(lines)))
+        print("number of lines is " + str(len(lines)))
         for i in range(len(lines)):
             if i == 0:
                 #  first line is the model names
@@ -83,7 +83,7 @@ def process_upload(request):
                     if j == 0:
                         frames.append("not a frame")
                     else:
-                        frame = Frame.objects.create_frame_sparse(bike_brand,bike_name,model_names[j])
+                        frame = Frame.objects.create_frame_sparse(bike_brand, bike_name, model_names[j])
                         frame.save()
                         frames.append(frame)
             else:
@@ -97,7 +97,8 @@ def process_upload(request):
                         partType = PartType.objects.get(shortName=shortName)
                     except MultipleObjectsReturned:
                         messages.error(request,
-                                       'PartType Not unique - use Admin function to enure PartTypes are unique: ' + attributes[
+                                       'PartType Not unique - use Admin function to enure PartTypes are unique: ' +
+                                       attributes[
                                            0])
                         return render(request, "epic/bike_upload.html", data)
                     except ObjectDoesNotExist:
@@ -110,7 +111,7 @@ def process_upload(request):
                             part_name = str(attributes[j])
 
                             if len(part_name) > 0:
-                                if eq(part_name.lower(),'n/a'):
+                                if eq(part_name.lower(), 'n/a'):
                                     frameExclusion = FrameExclusion.objects.create_frame_exclusion(frames[j], partType)
                                     frameExclusion.save()
                                 else:
@@ -124,7 +125,7 @@ def process_upload(request):
                                     part_name = part_name.strip()
 
                                     # now look to see if Part exists, if not add it
-                                    part = find_or_create_part(part_brand,partType,part_name)
+                                    part = find_or_create_part(part_brand, partType, part_name)
                                     framePart = FramePart.objects.create_frame_part(frames[j], part)
                                     framePart.save()
 
@@ -133,6 +134,5 @@ def process_upload(request):
     except Exception as e:
         logging.getLogger("error_logger").error("Unable to upload file. " + repr(e))
         messages.error(request, "Unable to upload file. " + repr(e))
-        return render(request, "epic/bike_upload.html", data)
+        return render(request, "epic/bike_upload.html", add_standard_session_data(request, data))
     return None
-

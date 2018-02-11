@@ -11,6 +11,7 @@ from epic.helpers.customer_order_helper import cancel_customer_order, record_pay
     add_quote_elements_to_order
 from epic.helpers.quote_helper import quote_requote, quote_archive, quote_order
 from epic.models import OrderItem, OrderFrame, OrderPayment, CustomerNote, Quote, ARCHIVED, ORDERED
+from epic.view_helpers.menu_view_helper import add_standard_session_data
 from epic.view_helpers.note_view_helper import create_customer_note
 
 
@@ -126,10 +127,13 @@ def process_customer_order_edits(request, customer_order):
     customer_notes = CustomerNote.objects.filter(customerOrder=customer_order)
 
     return render(request, 'epic/order_edit.html',
-                  {'customer_order': customer_order, 'customer_order_form': CustomerOrderForm(instance=customer_order),
-                   'order_frame_forms': build_order_frame_forms(customer_order),
-                   'order_item_forms': build_order_item_forms(customer_order), 'order_payment_form': order_payment_form,
-                   'order_payments': order_payments, 'customer_notes': customer_notes})
+                  add_standard_session_data(request, {'customer_order': customer_order,
+                                                      'customer_order_form': CustomerOrderForm(instance=customer_order),
+                                                      'order_frame_forms': build_order_frame_forms(customer_order),
+                                                      'order_item_forms': build_order_item_forms(customer_order),
+                                                      'order_payment_form': order_payment_form,
+                                                      'order_payments': order_payments,
+                                                      'customer_notes': customer_notes}))
 
 
 def process_order_frame_changes(request, customer_order, added_quotes):
