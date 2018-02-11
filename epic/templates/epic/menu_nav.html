@@ -8,6 +8,7 @@
             <a href="{% url 'customer_list' %}">Find Customer</a>
             <a href="{% url 'add_customer' %}">New Customer</a>
             {% if user.is_superuser %}
+                <div class="dropdown-section">Admin functions</div>
                 {% with "" as linkClass %}
                     {% include "epic/menu_cust_admin.html" %}
                 {% endwith %}
@@ -27,6 +28,7 @@
             <a href="javascript:void(0)" class="dropbtn">Supplier Orders</a>
             <div class="dropdown-content">
                 {% if suppliers_requiring_orders %}
+                    <div class="dropdown-section">Create Supplier Orders</div>
                     {% for supplier in suppliers_requiring_orders %}
                         <a href="/supplierOrderRequired/{{ supplier.id }}/">{{ supplier.supplier_name }}</a>
                     {% endfor %}
@@ -38,6 +40,7 @@
             <div class="dropdown-content">
                 <a href="{% url 'bike_upload' %}" class="menu-link">Upload Bike Details</a>
                 {% if user.is_superuser %}
+                    <div class="dropdown-section">Admin functions</div>
                     {% with "" as linkClass %}
                         {% include "epic/menu_admin_links.html" %}
                     {% endwith %}
