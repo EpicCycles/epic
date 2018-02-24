@@ -6,11 +6,15 @@
     <title>Epic Cycles Menu</title>
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/epic.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.min.js' %}"></script>
     <script src="{% static 'js/base.js' %}"></script>
+
 </head>
 
-<body onload="addListeners()">
+<body>
 {% include "epic/menu_nav.html" %}
 {% include "epic/base_header.html" %}
 
@@ -21,6 +25,7 @@
 </div>
 <div style="display: none">
     <input type="hidden" id="brandSelectorId">
+    {% include "epic/part_helper.html" with parts_for_js=parts_for_js %}
 </div>
 </body>
 

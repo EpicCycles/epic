@@ -1,0 +1,14 @@
+{% load staticfiles %}
+{% load static %}
+{% if parts_for_js %}
+
+    <script type="text/javascript">
+        //declare ops-variable in here and use it
+        let parts = [];
+        {% for part in parts_for_js %}
+            parts.push({{ part |safe }});
+        {% endfor %}
+    </script>
+    <script src="{% static 'js/part_helper.js' %}"></script>
+
+{% endif %}

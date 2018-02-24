@@ -1,4 +1,9 @@
 var pageChanged = false;
+$( document ).ready(function() {
+
+    addListeners();
+
+});
 
 // add event listeners to all input objects
 function addListeners() {

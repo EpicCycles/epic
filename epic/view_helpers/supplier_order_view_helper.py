@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from epic.forms import SupplierOrderPossibleForm, SupplierOrderForm
 from epic.models import OrderFrame, BIKE, OrderItem, PART, SupplierOrderItem
-from epic.view_helpers.menu_view_helper import show_menu
+from epic.view_helpers.menu_view_helper import show_menu, add_standard_session_data
 
 
 def show_orders_required_for_supplier(request, supplier):
@@ -13,34 +13,37 @@ def show_orders_required_for_supplier(request, supplier):
     # get back frame and quote details for supplier
     bikes = OrderFrame.objects.filter(supplier=supplier, supplierOrderItem=None).select_related('quote__customer')
     for bike in bikes:
-        item_description = str(bike.frame)
-        quote = bike.quote
-        quote_name = str(quote)
-        customer = quote.customer
-        customer_name = str(customer)
-        supplier_order_possible = SupplierOrderPossibleForm(
-            initial={'item_description': item_description, 'quote_name': quote_name, 'customer_name': customer_name,
-                     'item_type': BIKE, 'item_id': bike.id}, prefix='OF' + str(bike.id))
-        possible_items.append(supplier_order_possible)
+        if bike.customerOrder.cancelled_date is None:
+            item_description = str(bike.frame)
+            quote = bike.quote
+            quote_name = str(quote)
+            customer = quote.customer
+            customer_name = str(customer)
+            supplier_order_possible = SupplierOrderPossibleForm(
+                initial={'item_description': item_description, 'quote_name': quote_name, 'customer_name': customer_name,
+                         'item_type': BIKE, 'item_id': bike.id}, prefix='OF' + str(bike.id))
+            possible_items.append(supplier_order_possible)
 
     # get back part  and quote details for supplier
     parts = OrderItem.objects.filter(supplier=supplier, supplierOrderItem=None).select_related(
         'quotePart__quote__customer')
     for part in parts:
-        quotePart = part.quotePart
-        item_description = str(quotePart)
-        quote = quotePart.quote
-        quote_name = str(quote)
-        customer = quote.customer
-        customer_name = str(customer)
-        supplier_order_possible = SupplierOrderPossibleForm(
-            initial={'item_description': item_description, 'quote_name': quote_name, 'customer_name': customer_name,
-                     'item_type': PART, 'item_id': part.id}, prefix='OP' + str(part.id))
-        possible_items.append(supplier_order_possible)
+        if part.customerOrder.cancelled_date is None:
+            quotePart = part.quotePart
+            item_description = str(quotePart)
+            quote = quotePart.quote
+            quote_name = str(quote)
+            customer = quote.customer
+            customer_name = str(customer)
+            supplier_order_possible = SupplierOrderPossibleForm(
+                initial={'item_description': item_description, 'quote_name': quote_name, 'customer_name': customer_name,
+                         'item_type': PART, 'item_id': part.id}, prefix='OP' + str(part.id))
+            possible_items.append(supplier_order_possible)
 
     return render(request, 'epic/supplier_order_build.html',
-                  {'supplier': supplier, 'supplier_order_form': SupplierOrderForm(initial={'supplier': supplier}),
-                   'possible_items': possible_items})
+                  add_standard_session_data(request, {'supplier': supplier, 'supplier_order_form': SupplierOrderForm(
+                      initial={'supplier': supplier}),
+                                                      'possible_items': possible_items}))
 
 
 def save_supplier_order(request, supplier):
@@ -91,18 +94,21 @@ def save_supplier_order(request, supplier):
             supplierOrder.delete()
             messages.info(request, 'Order cannot be created if no items are selected. ')
             return render(request, 'epic/supplier_order_build.html',
-                          {'supplier': supplier, 'supplier_order_form': supplier_order_form,
-                           'possible_items': form_possible_items})
+                          add_standard_session_data(request,
+                                                    {'supplier': supplier, 'supplier_order_form': supplier_order_form,
+                                                     'possible_items': form_possible_items}))
         else:
             if len(new_form_possible_items) > 0:
                 return render(request, 'epic/supplier_order_build.html',
-                              {'supplier': supplier, 'supplier_order_form': supplier_order_form,
-                               'possible_items': new_form_possible_items})
+                              add_standard_session_data(request, {'supplier': supplier,
+                                                                  'supplier_order_form': supplier_order_form,
+                                                                  'possible_items': new_form_possible_items}))
             else:
                 # order created an no items remained return to the menu
                 return show_menu(request)
     else:
         logging.getLogger("error_logger").error(supplier_order_form.errors.as_json())
-        variables = {'supplier': supplier, 'supplier_order_form': supplier_order_form,
-                     'possible_items': form_possible_items}
+        variables = add_standard_session_data(request,
+                                              {'supplier': supplier, 'supplier_order_form': supplier_order_form,
+                                               'possible_items': form_possible_items})
         return render(request, 'epic/supplier_order_build.html', variables)

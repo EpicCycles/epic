@@ -9,6 +9,7 @@ from django.contrib import messages
 from epic.forms import CustomerForm, AddressFormSet, PhoneFormSet, FittingFormSet, CustomerQuoteForm, \
     ChangeCustomerForm, NewCustomerQuoteForm, AddressFormSimple, PhoneFormSimple
 from epic.models import Quote, CustomerNote
+from epic.view_helpers.menu_view_helper import add_standard_session_data
 from epic.view_helpers.note_view_helper import create_customer_note
 from epic.view_helpers.quote_view_helper import show_quote_edit
 
@@ -89,8 +90,9 @@ def save_customer_from_popup(request):
 
     # all details saved no errors
     return render(request, 'epic/customer_add_popup.html',
-                  {'new_customer': new_customer, 'customer_form': customer_form, 'address_form': address_form,
-                   'phone_form': phone_form})
+                  add_standard_session_data(request, {'new_customer': new_customer, 'customer_form': customer_form,
+                                                      'address_form': address_form,
+                                                      'phone_form': phone_form}))
 
 
 def show_customer_edit(request, customer):
@@ -103,9 +105,13 @@ def show_customer_edit(request, customer):
     customer_notes = CustomerNote.objects.filter(customer=customer, customer_visible=False)
 
     return render(request, 'epic/customer_edit.html',
-                  {'customer': customer, 'customer_form': customer_form, 'address_form_set': address_form_set,
-                   'phone_form_set': phone_form_set, 'fitting_form_set': fitting_form_set,
-                   'customer_quote_form': customer_quote_form, 'existing_quotes': existing_quotes,'customer_notes':customer_notes})
+                  add_standard_session_data(request, {'customer': customer, 'customer_form': customer_form,
+                                                      'address_form_set': address_form_set,
+                                                      'phone_form_set': phone_form_set,
+                                                      'fitting_form_set': fitting_form_set,
+                                                      'customer_quote_form': customer_quote_form,
+                                                      'existing_quotes': existing_quotes,
+                                                      'customer_notes': customer_notes}))
 
 
 def show_add_customer_popup(request):
@@ -114,7 +120,8 @@ def show_add_customer_popup(request):
     phone_form = PhoneFormSimple()
 
     return render(request, 'epic/customer_add_popup.html',
-                  {'customer_form': customer_form, 'address_form': address_form, 'phone_form': phone_form})
+                  add_standard_session_data(request, {'customer_form': customer_form, 'address_form': address_form,
+                                                      'phone_form': phone_form}))
 
 
 def process_customer_edit(request, customer):
@@ -150,7 +157,10 @@ def process_customer_edit(request, customer):
     existing_quotes = Quote.objects.filter(customer=customer)
 
     return render(request, 'epic/customer_edit.html',
-                  {'customer': customer, 'customer_form': ChangeCustomerForm(instance=customer),
-                   'address_form_set': address_form_set, 'phone_form_set': phone_form_set,
-                   'fitting_form_set': fitting_form_set, 'customer_quote_form': customer_quote_form,
-                   'existing_quotes': existing_quotes})
+                  add_standard_session_data(request, {'customer': customer,
+                                                      'customer_form': ChangeCustomerForm(instance=customer),
+                                                      'address_form_set': address_form_set,
+                                                      'phone_form_set': phone_form_set,
+                                                      'fitting_form_set': fitting_form_set,
+                                                      'customer_quote_form': customer_quote_form,
+                                                      'existing_quotes': existing_quotes}))

@@ -17,7 +17,9 @@ from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, Cu
 from epic.view_helpers.attribute_view_helper import build_quote_part_attribute_form, save_quote_part_attribute_form
 from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote
 from epic.view_helpers.fitting_view_helper import create_fitting
+from epic.view_helpers.menu_view_helper import add_standard_session_data
 from epic.view_helpers.note_view_helper import create_customer_note
+from epic.view_helpers.part_view_helper import get_parts_for_js
 
 COPIED = "Replace Me"
 
@@ -87,7 +89,7 @@ def show_new_quote_form(request, quote_form, customer):
         details_for_page['note_contents_epic'] = ''
         details_for_page['note_contents_cust'] = ''
 
-    return render(request, "epic/quote_start.html", details_for_page)
+    return render(request, "epic/quote_start.html", add_standard_session_data(request, details_for_page))
 
 
 def create_new_quote(request):
@@ -186,7 +188,7 @@ def process_bike_quote_changes(request, quote):
     if quote_form.is_valid():
         details_for_page['quote_form'] = QuoteBikeForm(instance=quote)
 
-    return render(request, quote_page, details_for_page)
+    return render(request, quote_page, add_standard_session_data(request, details_for_page))
 
 
 def show_bike_quote_edit(request, quote):
@@ -198,10 +200,13 @@ def show_bike_quote_edit(request, quote):
     customer_fittings = Fitting.objects.filter(customer=quote.customer)
     customer_notes = CustomerNote.objects.filter(quote=quote)
     fitting_form = QuoteFittingForm(prefix='fitting')
-    return render(request, quote_page, {'quote_form': QuoteBikeForm(instance=quote), 'quote': quote,
-                                        'quoteSections': get_quote_section_parts_and_forms(quote),
-                                        'fittingForm': fitting_form, 'customerFittings': customer_fittings,
-                                        'quoteSimpleAddPart': quote_simple_add_part, 'customer_notes': customer_notes})
+    return render(request, quote_page,
+                  add_standard_session_data(request, {'quote_form': QuoteBikeForm(instance=quote), 'quote': quote,
+                                                      'quoteSections': get_quote_section_parts_and_forms(quote),
+                                                      'fittingForm': fitting_form,
+                                                      'customerFittings': customer_fittings,
+                                                      'quoteSimpleAddPart': quote_simple_add_part,
+                                                      'customer_notes': customer_notes}))
 
 
 def show_bike_quote_edit_new_customer(request, quote, new_customer_id):
@@ -354,17 +359,20 @@ def process_simple_quote_changes(request, quote):
     if quote_form.is_valid():
         details_for_page['quote_form'] = QuoteSimpleForm(instance=quote)
 
-    return render(request, quote_page, details_for_page)
+    return render(request, quote_page, add_standard_session_data(request, details_for_page))
 
 
 def show_simple_quote_edit(request, quote):
     quote_page = 'epic/quote_edit_simple.html'
     quote_simple_add_part = QuoteSimpleAddPartForm(empty_permitted=True)
     customer_notes = CustomerNote.objects.filter(quote=quote)
-    return render(request, quote_page, {'quote_form': QuoteSimpleForm(instance=quote), 'quote': quote,
-                                        'quoteSimpleAddPart': quote_simple_add_part,
-                                        'zipped_values': get_quote_parts_and_forms(quote),
-                                        'customer_notes': customer_notes})
+    parts_for_js = get_parts_for_js()
+    print(parts_for_js)
+    return render(request, quote_page,
+                  add_standard_session_data(request, {'quote_form': QuoteSimpleForm(instance=quote), 'quote': quote,
+                                                      'quoteSimpleAddPart': quote_simple_add_part,
+                                                      'zipped_values': get_quote_parts_and_forms(quote),
+                                                      'customer_notes': customer_notes}))
 
 
 # requote based on original quote
@@ -382,12 +390,15 @@ def show_quote_browse(request, quote):
 
     if quote.is_bike():
         return render(request, 'epic/quote_issued_bike.html',
-                      {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, False),
-                       'customer_notes': customer_notes})
+                      add_standard_session_data(request,
+                                                {'quote': quote,
+                                                 'quoteSections': quote_parts_for_bike_display(quote, False),
+                                                 'customer_notes': customer_notes}))
     else:
         return render(request, 'epic/quote_issued_simple.html',
-                      {'quote': quote, 'quoteDetails': quote_parts_for_simple_display(quote),
-                       'customer_notes': customer_notes})  # amend a quote  save will reset to INITIAL if required
+                      add_standard_session_data(request,
+                                                {'quote': quote, 'quoteDetails': quote_parts_for_simple_display(quote),
+                                                 'customer_notes': customer_notes}))  # amend a quote  save will reset to INITIAL if required
 
 
 # show the quote ready to issue
@@ -444,12 +455,15 @@ def show_quote_text(request, quote):
     customer_notes = CustomerNote.objects.filter(quote=quote, customer_visible=True)
     if quote.is_bike():
         return render(request, 'epic/quote_text.html',
-                      {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, True),
-                       'customer_notes': customer_notes, 'summary_view': True})
+                      add_standard_session_data(request,
+                                                {'quote': quote,
+                                                 'quoteSections': quote_parts_for_bike_display(quote, True),
+                                                 'customer_notes': customer_notes, 'summary_view': True}))
     else:
         return render(request, 'epic/quote_text.html',
-                      {'quote': quote, 'quoteDetails': quote_parts_for_simple_display(quote),
-                       'customer_notes': customer_notes, 'summary_view': True})
+                      add_standard_session_data(request,
+                                                {'quote': quote, 'quoteDetails': quote_parts_for_simple_display(quote),
+                                                 'customer_notes': customer_notes, 'summary_view': True}))
 
 
 # simple display of sections
@@ -641,6 +655,7 @@ def get_quote_section_parts_and_forms(quote: Quote):
 
 def build_quote_part_form_for_bike_quote(quote_part, part_type):
     initial__q_p = {'can_be_substituted': part_type.can_be_substituted, 'can_be_omitted': part_type.can_be_omitted}
+    initial__q_p['new_part_type'] = quote_part.partType.pk
     if quote_part.part is None:
         if quote_part.frame_part is not None:
             # Bike part exists take defaults
@@ -652,18 +667,14 @@ def build_quote_part_form_for_bike_quote(quote_part, part_type):
             initial__q_p['can_be_omitted'] = False
     else:
         # part is specified
+        initial__q_p['new_brand'] = quote_part.part.brand
+        initial__q_p['new_part_name'] = quote_part.part.part_name
+        initial__q_p['new_quantity'] = quote_part.quantity
+        initial__q_p['new_sell_price'] = quote_part.sell_price
         if quote_part.frame_part is None:
-            initial__q_p['new_brand'] = quote_part.part.brand
-            initial__q_p['new_part_name'] = quote_part.part.part_name
-            initial__q_p['new_quantity'] = quote_part.quantity
-            initial__q_p['new_sell_price'] = quote_part.sell_price
             initial__q_p['can_be_substituted'] = True
         elif quote_part.frame_part.part != quote_part.part:
             # replaces an original frame related part
-            initial__q_p['new_brand'] = quote_part.part.brand
-            initial__q_p['new_part_name'] = quote_part.part.part_name
-            initial__q_p['new_quantity'] = quote_part.quantity
-            initial__q_p['new_sell_price'] = quote_part.sell_price
             initial__q_p['trade_in_price'] = quote_part.trade_in_price
     return QuoteBikeChangePartForm(initial=initial__q_p, prefix="QP" + str(quote_part.id))
 

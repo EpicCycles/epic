@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import json
 from datetime import date
 
 from django.db import models
@@ -215,6 +216,9 @@ class Part(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     part_name = models.CharField(max_length=60)
     objects = PartManager()
+
+    def getJavascriptObject(self):
+        return f'brand:{self.brand.id},partType:{self.partType.id},partName:"{self.part_name}"'
 
     def __str__(self):
         return f'{self.partType.shortName}:{self.brand.brand_name} {self.part_name}'

@@ -1,25 +1,24 @@
-from epic.forms import QuotePartAttributeForm
+from epic.form_helpers.attributes import getAttributeForm, getAttributeFormUpdated
 from epic.models import QuotePartAttribute
 import logging
 from django.contrib import messages
 
 
 def build_quote_part_attribute_form(quote_part_attribute: QuotePartAttribute, with_prefix: bool):
+    form_prefix = ""
     if with_prefix:
-        return QuotePartAttributeForm(initial={'attribute_name': str(quote_part_attribute.partTypeAttribute),
-                                               'attribute_value': quote_part_attribute.attribute_value},
-                                      prefix="QPA" + str(quote_part_attribute.id))
-    else:
-        return QuotePartAttributeForm(initial={'attribute_name': str(quote_part_attribute.partTypeAttribute),
-                                               'attribute_value': quote_part_attribute.attribute_value})
+        form_prefix = "QPA" + str(quote_part_attribute.id)
+
+    return getAttributeForm(quote_part_attribute, form_prefix)
 
 
 # get form from request
 def get_quote_part_attribute_form(request, quote_part_attribute: QuotePartAttribute, with_prefix: bool):
+    form_prefix = ""
     if with_prefix:
-        return QuotePartAttributeForm(request.POST, request.FILES, prefix="QPA" + str(quote_part_attribute.id))
-    else:
-        return QuotePartAttributeForm(request.POST, request.FILES)
+        form_prefix = "QPA" + str(quote_part_attribute.id)
+    return getAttributeFormUpdated(request.POST, request.FILES,quote_part_attribute, form_prefix)
+
 
 
 # save for attributes from the form

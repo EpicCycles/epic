@@ -1,18 +1,22 @@
 from django.contrib import admin
+from django.shortcuts import redirect
+
 from .models import *
 
 from django.utils.safestring import mark_safe
 from django.core.urlresolvers import reverse
 
+
 # Creates a generic link to allow subsets of forms to be edited
 class EditLinkToInlineObject(object):
     def edit_link(self, instance):
         url = reverse('admin:%s_%s_change' % (
-            instance._meta.app_label,  instance._meta.model_name),  args=[instance.pk] )
+            instance._meta.app_label, instance._meta.model_name), args=[instance.pk])
         if instance.pk:
             return mark_safe(u'<a href="{u}">edit</a>'.format(u=url))
         else:
             return ''
+
 
 class CustomerPhoneInline(admin.TabularInline):
     model = CustomerPhone
@@ -36,6 +40,8 @@ class CustomerAdmin(admin.ModelAdmin):
 class FramePartInline(admin.TabularInline):
     model = FramePart
     extra = 3
+
+
 class FrameExclusionInline(admin.TabularInline):
     model = FrameExclusion
     extra = 3
@@ -67,8 +73,14 @@ class AttributeOptionsInLine(admin.TabularInline):
 class PartTypeAdmin(admin.ModelAdmin):
     inlines = [PartTypeAttributeInLine]
 
+
 class PartTypeAttributeAdmin(admin.ModelAdmin):
     inlines = [AttributeOptionsInLine]
+
+    def response_post_save_change(self, request, obj):
+        # need to show part type /admin/epic/parttype/2/change/
+        part_type_id = PartTypeAttribute.objects.get(pk=obj.pk).partType_id
+        return redirect("/admin/epic/parttype/%s/change/" % (part_type_id))
 
 
 class SupplierOrderItemInline(admin.TabularInline):

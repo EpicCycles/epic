@@ -16,7 +16,7 @@ from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_order_view_helper import edit_customer_order, process_customer_order_edits, \
     cancel_order_and_requote, cancel_order_and_quote
 from epic.view_helpers.customer_view_helper import *
-from epic.view_helpers.menu_view_helper import show_menu
+from epic.view_helpers.menu_view_helper import show_menu, add_standard_session_data_to_context
 from epic.view_helpers.note_view_helper import show_notes_popup
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_simple_quote_edit, \
     process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, quote_parts_for_bike_display, \
@@ -55,7 +55,7 @@ class CustomerList(LoginRequiredMixin, ListView):
         # add values fetched from form to context to redisplay
         context['search_first_name'] = self.search_first_name
         context['search_last_name'] = self.search_last_name
-        return context
+        return add_standard_session_data_to_context(context)
 
     def get(self, request, *args, **kwargs):
         # get values for search from form
@@ -96,7 +96,7 @@ class CustomerSelect(LoginRequiredMixin, ListView):
         # add values fetched from form to context to redisplay
         context['search_first_name'] = self.search_first_name
         context['search_last_name'] = self.search_last_name
-        return context
+        return add_standard_session_data_to_context(context)
 
     def get(self, request, *args, **kwargs):
         # get values for search from form
@@ -134,7 +134,7 @@ class QuoteList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(QuoteList, self).get_context_data(**kwargs)
         context['quoteSearchForm'] = self.quoteSearchForm
-        return context
+        return add_standard_session_data_to_context(context)
 
     def get(self, request, *args, **kwargs):
         # get values for search from form
@@ -175,7 +175,8 @@ class MyQuoteList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(MyQuoteList, self).get_context_data(**kwargs)
         context['quoteSearchForm'] = self.quoteSearchForm
-        return context
+        return add_standard_session_data_to_context(context)
+
 
     def get(self, request, *args, **kwargs):
         # get values for search from form
@@ -326,7 +327,8 @@ class OrderList(LoginRequiredMixin, ListView):
         context = super(OrderList, self).get_context_data(**kwargs)
         # add values fetched from form to context to redisplay
         context['orderSearchForm'] = self.orderSearchForm
-        return context
+        return add_standard_session_data_to_context(context)
+
 
     def get(self, request, *args, **kwargs):
         # get values for search from form
