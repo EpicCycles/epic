@@ -175,7 +175,8 @@ class Supplier(models.Model):
 class Brand(models.Model):
     brand_name = models.CharField(max_length=50, unique=True)
     link = models.CharField(max_length=100, blank=True)
-    supplier = models.ForeignKey(Supplier, blank=True, null=True)
+    supplier = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.CASCADE)
+
 
     def __str__(self):
         return self.brand_name
@@ -366,7 +367,7 @@ class Quote(models.Model):
     quote_type = models.CharField(max_length=1, choices=QUOTE_TYPE_CHOICES, default=BIKE, )
     quote_status = models.CharField(max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True, null=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
 
     def save(self, *args, **kwargs):
         # calculate sum before saving.
@@ -725,7 +726,7 @@ class OrderPayment(models.Model):
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
     amount = models.DecimalField('Payment Amount', max_digits=7, decimal_places=2, blank=True, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
     objects = OrderPaymentManager()
 
 
@@ -740,7 +741,7 @@ class OrderItemManager(models.Manager):
 
 class OrderItem(models.Model):
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, blank=True, null=True)
+    supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT, blank=True, null=True)
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True, null=True)
     leadtime = models.IntegerField('Leadtime (weeks)', blank=True, null=True)
     supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True, null=True)
@@ -759,5 +760,5 @@ class CustomerNote(models.Model):
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True, null=True)
     note_text = models.TextField('Notes')
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True,on_delete=models.PROTECT)
     customer_visible = models.BooleanField(default=False)
