@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-import json
 from datetime import date
 
 from django.db import models
@@ -9,7 +8,6 @@ from django.utils import timezone
 
 # added to allow user details on models and history tables
 from django.conf import settings
-import simple_history.models
 
 # Global variables
 HOME = 'H'
@@ -47,7 +45,6 @@ class Customer(models.Model):
     email = models.EmailField(max_length=100, blank=True)
     add_date = models.DateTimeField('Date Added', auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
-    history = simple_history.models.HistoricalRecords()
 
     def get_absolute_url(self):
         return reverse('edit_customer', args={self.pk})
@@ -71,7 +68,6 @@ class CustomerPhone(models.Model):
     number_type = models.CharField(max_length=1, choices=NUMBER_TYPE_CHOICES, default=HOME, )
     telephone = models.CharField(max_length=60, blank=True)
     add_date = models.DateTimeField('date added', auto_now_add=True)
-    history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
         return f'{dict(NUMBER_TYPE_CHOICES).get(self.number_type)} {self.telephone}'
@@ -85,7 +81,6 @@ class CustomerAddress(models.Model):
     address4 = models.CharField(max_length=200, blank=True)
     postcode = models.CharField(max_length=200)
     add_date = models.DateTimeField('date added', auto_now_add=True)
-    history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
         returnAddress = self.address1
@@ -107,7 +102,6 @@ class Fitting(models.Model):
     reach = models.CharField('Reach', max_length=20)
     notes = models.CharField(max_length=200, blank=True)
     add_date = models.DateTimeField('date added', auto_now_add=True)
-    history = simple_history.models.HistoricalRecords()
 
     def __str__(self):
         return f'{dict(FITTING_TYPE_CHOICES).get(self.fitting_type)} - Saddle Height:{self.saddle_height} Bar Height:{self.bar_height} Reach:{self.reach}'
@@ -316,7 +310,6 @@ class CustomerOrder(models.Model):
     amount_due = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     discount_percentage = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     cancelled_date = models.DateTimeField(null=True)
-    history = simple_history.models.HistoricalRecords()
     objects = CustomerOrderManager()
 
     class Meta:
@@ -374,7 +367,6 @@ class Quote(models.Model):
     quote_status = models.CharField(max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True)
-    history = simple_history.models.HistoricalRecords()
 
     def save(self, *args, **kwargs):
         # calculate sum before saving.
@@ -644,7 +636,6 @@ class QuotePartAttribute(models.Model):
     quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE)
     partTypeAttribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE)
     attribute_value = models.CharField('Quote Description', max_length=40, null=True)
-    history = simple_history.models.HistoricalRecords()
     objects = QuotePartAttributeManager()
 
     def __str__(self):
@@ -706,7 +697,6 @@ class OrderFrame(models.Model):
     supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True, null=True)
     receipt_date = models.DateTimeField('Date received', null=True, blank=True)
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE, blank=True, null=True)
-    history = simple_history.models.HistoricalRecords()
     objects = OrderFrameManager()
 
     # display frame for HTML output in a view
@@ -757,7 +747,6 @@ class OrderItem(models.Model):
     receipt_date = models.DateTimeField('Date received', null=True, blank=True)
     quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE, blank=True, null=True)
     stock_item = models.BooleanField(default=False)
-    history = simple_history.models.HistoricalRecords()
     objects = OrderItemManager()
 
     def __str__(self):
