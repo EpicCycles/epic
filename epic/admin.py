@@ -1,10 +1,8 @@
 from django.contrib import admin
 from django.shortcuts import redirect
+from django.utils.safestring import mark_safe
 
 from .models import *
-
-from django.utils.safestring import mark_safe
-from django.core.urlresolvers import reverse
 
 
 # Creates a generic link to allow subsets of forms to be edited
@@ -80,7 +78,7 @@ class PartTypeAttributeAdmin(admin.ModelAdmin):
     def response_post_save_change(self, request, obj):
         # need to show part type /admin/epic/parttype/2/change/
         part_type_id = PartTypeAttribute.objects.get(pk=obj.pk).partType_id
-        return redirect("/admin/epic/parttype/%s/change/" % (part_type_id))
+        return redirect("/admin/epic/parttype/%s/change/" % part_type_id)
 
 
 class SupplierOrderItemInline(admin.TabularInline):
