@@ -11,7 +11,8 @@ from django.views.generic.list import ListView
 # forms and formsets used in the views
 from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm, FrameSearchForm
 from epic.models import Customer, Supplier, CustomerOrder, Frame, ARCHIVED, INITIAL
-from epic.view_helpers.frame_view_helper import process_upload, create_new_model
+from epic.view_helpers.frame_view_helper import process_upload, create_new_model, process_bike_review, show_bike_review, \
+    show_first_bike
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_order_view_helper import edit_customer_order, process_customer_order_edits, \
     cancel_order_and_requote, cancel_order_and_quote
@@ -199,6 +200,23 @@ class MyQuoteList(LoginRequiredMixin, ListView):
         # find objects matching any filter and order them
         return Quote.objects.filter(where_filter)
 
+
+@login_required
+def bike_review(request):
+    if request.method == "GET":
+        return show_bike_review(request)
+    else:
+        try:
+            action_required = request.POST['action_required']
+        except KeyError:
+            action_required = 'startReview'
+
+        if action_required == 'startReview':
+            return show_first_bike(request)
+        elif action_required == "save_and_show_new_selection":
+            return process_bike_review(request, True)
+        else:
+            return process_bike_review(request, False)
 
 @login_required
 def add_customer(request):

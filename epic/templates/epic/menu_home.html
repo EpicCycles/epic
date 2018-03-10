@@ -36,7 +36,8 @@
                     {% endif %}
                     <h3>Maintain core data</h3>
                     <ul>
-                        <li><a href="{% url 'bike_upload' %}" class="menu-link">Upload Bike Details</a></li>
+                        <li><a href="{% url 'bike_upload' %}" class="menu-link">Upload Model Details</a></li>
+                        <li><a href="{% url 'bike_review' %}" class="menu-link">Review Model Details</a></li>
                         {% with "menu-link" as linkClass %}
                         {% include "epic/menu_admin_links.html" %}
                     {% endwith %}

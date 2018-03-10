@@ -4,7 +4,9 @@ const brand = 'brand';
 const part_type = 'part_type';
 const partType = 'partType';
 const partArray = parts;
+
 (setUpPartFields)();
+
 
 function setUpPartFields() {
     //  get back all elements that ae called something like part_name
@@ -58,20 +60,20 @@ function selectPartType() {
 }
 
 function refreshPartList(brandValue, partTypeValue, partNameElement) {
+
     // get back brand from doc
     let relevantParts = partArray.filter(function (part) {
-        let include = true;
         if (brandValue) {
             if (part[brand] !== brandValue) {
-                include = false;
+                return false;
             }
         }
         if (partTypeValue) {
             if (part[partType] !== partTypeValue) {
-                include = false;
+                return false;
             }
         }
-        return include;
+        return true;
     });
 
     let relevantPartNames = relevantParts.map(function (part) {
@@ -80,6 +82,10 @@ function refreshPartList(brandValue, partTypeValue, partNameElement) {
 
     // now populate the autocomplete for the part name field
     partNameElement.autocomplete({
-        source: relevantPartNames
+        source: relevantPartNames,
+        messages: {
+            noResults: '',
+            results: ''
+        }
     });
 }

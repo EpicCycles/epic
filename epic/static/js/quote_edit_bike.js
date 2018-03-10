@@ -6,18 +6,15 @@ function setColumnWidths() {
     if (detailRow) {
 
         if (!detailRow.hasChildNodes()) {
-            console.log("not node with children");
             return;
         }
 
         var headerNodeList = headerRow.cells;
         var detailNodeList = detailRow.cells;
         if (detailNodeList.length < 1) {
-            console.log("No nodes for details row");
             return;
         }
         if (detailNodeList.length !== headerNodeList.length) {
-            console.log("number of header and details columns not the same");
             return;
         }
 
