@@ -150,12 +150,58 @@ class FrameForm(ModelForm):
     class Meta:
         model = Frame
         fields = '__all__'
+        labels = {'frame': _('Frame'), 'brand': _('Brand'), 'model': _('Model Name'),
+                  'description': _('Model Description'), 'colour': _('Colour Options'),
+                  'sell_price': _('Model Price (web) £')}
+
+    def __init__(self, *args, **kwargs):
+        super(FrameForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+        self.fields['brand'].widget = HiddenInput()
+        self.fields['frame_name'].widget = HiddenInput()
+        self.fields['colour'].widget = forms.TextInput(attrs={'size': '40'})
 
 
 class FramePartForm(ModelForm):
     class Meta:
         model = FramePart
         fields = '__all__'
+
+
+class FrameChangePartForm(forms.Form):
+    brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
+    part_name = forms.CharField(max_length=60, required=False, label='Part Name')
+    part_type =  forms.ModelChoiceField(queryset=PartType.objects.all())
+    not_relevant = forms.BooleanField(required=False, label='Not Valid')
+
+    def __init__(self, *args, **kwargs):
+        super(FrameChangePartForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+        self.fields['part_type'].widget = HiddenInput()
+        self.fields['part_name'].widget = forms.TextInput(attrs={'size': '20'})
+
+    def clean(self):
+        cleaned_data = super(FrameChangePartForm, self).clean()
+        brand = cleaned_data.get("brand")
+        part_name = cleaned_data.get("part_name")
+        not_relevant = cleaned_data.get("not_relevant")
+
+        # if only the type is entered then this is valid
+        if not_relevant:
+            if brand or part_name:
+                msg = "Please untick this if a part is present."
+                self.add_error('not_relevant', msg)
+        else:
+            if brand:
+                if part_name:
+                    pass
+                else:
+                    msg = "Please specify a part name, or remove brand."
+                    self.add_error('brand', msg)
+            else:
+                if part_name:
+                    msg = "Please specify a brand, or remove part name."
+                    self.add_error('part_name', msg)
 
 
 class PartForm(ModelForm):
@@ -243,7 +289,6 @@ class QuoteForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(QuoteForm, self).clean()
-        print(cleaned_data)
         quote_desc = cleaned_data.get("quote_desc")
         quote_type = cleaned_data.get("quote_type")
         frame = cleaned_data.get("frame")
@@ -367,7 +412,6 @@ class QuotePartBasicForm(ModelForm):
 # change part on existing line
 # simple quote add item
 class QuoteBikeChangePartForm(forms.Form):
-    forms.CheckboxSelectMultiple
     not_required = forms.BooleanField(required=False, label='None')
     can_be_substituted = forms.BooleanField(required=False, label='Subs')
     can_be_omitted = forms.BooleanField(required=False, label='Omit')

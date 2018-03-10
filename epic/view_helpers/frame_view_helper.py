@@ -7,33 +7,232 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from epic.forms import FrameForm, FrameChangePartForm
 from epic.model_helpers.brand_helper import find_brand_for_string, find_brand_for_name
 from epic.model_helpers.part_helper import find_or_create_part
-from epic.models import Brand, PartType, FramePart, Frame, QuotePart, FrameExclusion
-from epic.view_helpers.menu_view_helper import add_standard_session_data
+from epic.models import Brand, PartType, FramePart, Frame, QuotePart, FrameExclusion, PartSection
+from epic.view_helpers.menu_view_helper import add_standard_session_data, show_menu
 
 
-def create_new_model(request, quote, model):
-    new_frame = quote.frame
+def show_bike_review(request):
+    data = base_data_for_review_bike(request)
+    data['frame_brand'] = ''
+    data['frame_name_selected'] = ''
+    data['model_selected'] = ''
+
+    return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
+
+
+def show_first_bike(request):
+    data = base_data_for_review_bike(request)
+    bike_review_selections = get_selections_from_screen(request)
+    if bike_review_selections['frame_brand']:
+        data.update(bike_review_selections)
+        data.update(build_frame_list_for_review(request, bike_review_selections))
+        data.update(review_details_for_frame(data['frame_ids'][0]))
+        return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
+    else:
+        messages.info(request, 'No selections made. ')
+        return show_bike_review(request)
+
+
+def process_bike_review(request, refresh_list):
+    data = base_data_for_review_bike(request)
+    data.update(get_selections_from_screen(request))
+
+    try:
+        frame_id_str = request.POST['frame_id']
+        frame_id = int(frame_id_str)
+    except KeyError:
+        messages.info(request, 'No selections made. ')
+        return show_first_bike(request)
+
+    frame = Frame.objects.get(id=frame_id)
+    if frame:
+        has_errors = False
+        frame_form = FrameForm(request.POST, instance=frame)
+        if frame_form.is_valid():
+            frame_form.save()
+        else:
+            has_errors = True
+
+        redisplay_frame_parts = process_frame_parts(request, frame, has_errors)
+        if redisplay_frame_parts:
+            data['frame_id'] = frame_id
+            data['frame_form'] = frame_form
+            data['frame_sections'] = redisplay_frame_parts
+            return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
+
+    else:
+        messages.error(request, 'Frame does not exist to update. ')
+
+    # get frame form from session validate and save
+    # get details from session validate and save
+
+    # IF NO ERRORS
+    if refresh_list:
+        return  show_first_bike(request)
+    else:
+        frame_id_array = request.session.get('bike_reviews',[])
+        if frame_id_array[0] == frame_id:
+            frame_id_array.remove(frame_id)
+            request.session['bike_reviews'] = frame_id_array
+
+        data['frame_ids'] = frame_id_array
+
+    # if there are still frames to review
+    if len(data['frame_ids']) > 0:
+        data.update(review_details_for_frame(data['frame_ids'][0]))
+        return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
+    else:
+        messages.info(request, 'No frames left to review. ')
+        return show_menu(request)
+
+
+def process_frame_parts(request, frame, has_errors):
+    part_sections = PartSection.objects.all()
+    part_contents = []
+    for part_section in part_sections:
+        part_types = PartType.objects.filter(includeInSection=part_section)
+        section_forms = []
+        for part_type in part_types:
+            initial_frame_part = {'part_type': part_type}
+            frame_part = FramePart.objects.filter(frame=frame, part__partType=part_type).first()
+            frame_part_exclusion = FrameExclusion.objects.filter(frame=frame, partType=part_type).exists()
+
+            if frame_part_exclusion:
+                initial_frame_part['not_relevant'] = True
+
+            if frame_part:
+                initial_frame_part['brand'] = frame_part.part.brand
+                initial_frame_part['part_name'] = frame_part.part.part_name
+
+            frame_change_part_form = FrameChangePartForm(request.POST, request.FILES, initial=initial_frame_part,
+                                                         prefix="PT" + str(part_type.id))
+            if frame_change_part_form.is_valid():
+                not_relevant = frame_change_part_form.cleaned_data['not_relevant']
+                if not_relevant:
+                    if frame_part:
+                        FramePart.objects.filter(frame=frame, part__partType=part_type).delete()
+                    if not frame_part_exclusion:
+                        frame_part_exclusion = FrameExclusion.objects.create_frame_exclusion(frame, part_type)
+                        frame_part_exclusion.save()
+                else:
+                    brand = frame_change_part_form.cleaned_data['brand']
+                    if brand:
+                        part_name = frame_change_part_form.cleaned_data['part_name']
+                        part = find_or_create_part(brand, part_type, part_name)
+                        if frame_part:
+                            frame_part.part = part
+                            frame_part.save()
+                        else:
+                            frame_part = FramePart.objects.create_frame_part(frame, part)
+                            frame_part.save()
+                    else:
+                        if frame_part:
+                            frame_part.delete()
+
+                    if frame_part_exclusion:
+                        frame_part_exclusion.delete()
+            else:
+                has_errors = True
+            section_forms.append(frame_change_part_form)
+        part_contents.append(zip(part_types,section_forms))
+
+    if has_errors:
+        return zip(part_sections, part_contents)
+    else:
+        return None
+
+
+def base_data_for_review_bike(request):
+    data = {}
+    frame_list = request.session.get('frame_list', Frame.objects.all())
+
+    frames_for_js = []
+    for frame in frame_list:
+        frames_for_js.append('{' + frame.getJavascriptObject() + '}')
+
+    data['frames_for_js'] = frames_for_js
+    return data
+
+
+def get_selections_from_screen(request):
+    selections = {}
+    selections['frame_brand'] = request.POST.get('frame_brand')
+    selections['frame_name_selected'] = request.POST.get('frame_name_selected')
+    selections['model_selected'] = request.POST.get('model_selected')
+    return selections
+
+
+def build_frame_list_for_review(request, bike_review_selections):
+    if bike_review_selections['model_selected'] == "ALL":
+        full_frame_list = Frame.objects.filter(brand=bike_review_selections['frame_brand'],
+                                               frame_name=bike_review_selections['frame_name_selected'])
+    else:
+        full_frame_list = {Frame.objects.get(pk=int(bike_review_selections['model_selected']))}
+    frame_id_array = []
+    for frame in full_frame_list:
+        frame_id_array.append(frame.id)
+
+    request.session['bike_reviews'] = frame_id_array
+    return {'frame_ids': frame_id_array}
+
+
+def build_frame_sections(frame: Frame):
+    part_sections = PartSection.objects.all()
+    part_contents = []
+    for part_section in part_sections:
+        part_types = PartType.objects.filter(includeInSection=part_section)
+        section_forms = []
+        for part_type in part_types:
+            initial_frame_part = {'part_type': part_type}
+            frame_part = FramePart.objects.filter(frame=frame, part__partType=part_type).first()
+            frame_part_exclusion = FrameExclusion.objects.filter(frame=frame, partType=part_type).exists()
+
+            if frame_part_exclusion:
+                initial_frame_part['not_relevant'] = True
+
+            if frame_part:
+                initial_frame_part['brand'] = frame_part.part.brand
+                initial_frame_part['part_name'] = frame_part.part.part_name
+            section_forms.append(FrameChangePartForm(initial=initial_frame_part, prefix="PT" + str(part_type.id)))
+
+        part_contents.append(zip(part_types, section_forms))
+    return zip(part_sections, part_contents)
+
+
+def review_details_for_frame(frame_id):
+    # get details fro frame and build frame form
+    frame = Frame.objects.get(id=int(frame_id))
+    frame_form = FrameForm(instance=frame)
+    frame_edit_elements = {'frame_id': frame.id, 'frame_form': frame_form,
+                           'frame_sections': build_frame_sections(frame)}
+
+    return frame_edit_elements
+
+
+def create_new_model(request, frame, model):
+    new_frame = frame.frame
     new_frame.pk = None
     new_frame.model = model
-    new_frame.sell_price = quote.keyed_sell_price
+    new_frame.sell_price = frame.keyed_sell_price
 
     try:
         new_frame.save()
-        # get parts from quote and copy across to new_quote
-        old_quoteParts = QuotePart.objects.filter(quote=quote)
-        # replicate the changes from the first quote
-        for quote_part in old_quoteParts:
-            part = quote_part.part
+        # get parts from frame and copy across to new_frame
+        old_frameParts = QuotePart.objects.filter(frame=frame)
+        # replicate the changes from the first frame
+        for frame_part in old_frameParts:
+            part = frame_part.part
             if part is not None:
                 framePart = FramePart.objects.create_frame_part(new_frame, part)
                 framePart.save()
 
-        old_frame_exclusions = FrameExclusion.objects.get(frame=quote.frame)
+        old_frame_exclusions = FrameExclusion.objects.get(frame=frame)
         for frame_exclusion in old_frame_exclusions:
             exclude_part_type = frame_exclusion.partType
-            if not old_quoteParts.filter(partType=exclude_part_type).exists():
+            if not old_frameParts.filter(partType=exclude_part_type).exists():
                 frameExclusion = FrameExclusion.objects.create_frame_exclusion(new_frame, exclude_part_type)
                 frameExclusion.save()
 
@@ -41,7 +240,7 @@ def create_new_model(request, quote, model):
         messages.error(request, e)
         logging.getLogger("error_logger").exception('Model could not be saved')
 
-    return HttpResponseRedirect(reverse('add_quote'))
+    return HttpResponseRedirect(reverse('add_frame'))
 
 
 def process_upload(request):
@@ -74,7 +273,6 @@ def process_upload(request):
         non_web_brands = Brand.objects.all()
 
         # loop over the lines and save them in db. If error , store as string and then display
-        print("number of lines is " + str(len(lines)))
         for i in range(len(lines)):
             if i == 0:
                 #  first line is the model names
@@ -108,7 +306,7 @@ def process_upload(request):
                     for j in range(len(attributes)):
                         # ignore the first column - already used
                         if j > 0:
-                            part_name = str(attributes[j])
+                            part_name = str(attributes[j]).strip()
 
                             if len(part_name) > 0:
                                 if eq(part_name.lower(), 'n/a'):

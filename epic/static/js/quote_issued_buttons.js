@@ -12,7 +12,6 @@ function hit() {
 
 function setAction(required_action) {
     document.getElementById('action_required').value = required_action;
-    alert('submit');
     document.forms["quoteForm"].submit();
 }
 

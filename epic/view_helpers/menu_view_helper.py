@@ -7,6 +7,7 @@ from epic.helpers.supplier_helper import get_suppliers_requiring_orders
 
 def show_menu(request):
     # request.session.clear()
+    request.session['bike_reviews'] = []
     return render(request, 'epic/menu_home.html', add_standard_session_data(request, {}))
 
 

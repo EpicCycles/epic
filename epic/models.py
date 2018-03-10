@@ -213,7 +213,7 @@ class Part(models.Model):
     objects = PartManager()
 
     def getJavascriptObject(self):
-        return f'brand:{self.brand.id},partType:{self.partType.id},partName:"{self.part_name}"'
+        return f'brand:"{self.brand.id}",partType:"{self.partType.id}",partName:"{self.part_name}"'
 
     def __str__(self):
         return f'{self.partType.shortName}:{self.brand.brand_name} {self.part_name}'
@@ -234,10 +234,13 @@ class Frame(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     frame_name = models.CharField(max_length=60)
     model = models.CharField(max_length=60, blank=True)
-    description = models.CharField(max_length=100, blank=True)
-    colour = models.CharField(max_length=100, blank=True)
+    description = models.TextField(max_length=400, blank=True)
+    colour = models.CharField(max_length=200, blank=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     objects = FrameManager()
+
+    def getJavascriptObject(self):
+        return f'brand:"{self.brand.id}",frameId:"{self.id}",frameName:"{self.frame_name}",model:"{self.model}"'
 
     def __str__(self):
         if self.model is None:
@@ -636,7 +639,7 @@ class QuotePartAttributeManager(models.Manager):
 class QuotePartAttribute(models.Model):
     quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE)
     partTypeAttribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE)
-    attribute_value = models.CharField('Quote Description', max_length=40, null=True)
+    attribute_value = models.CharField(max_length=40, null=True)
     objects = QuotePartAttributeManager()
 
     def __str__(self):
