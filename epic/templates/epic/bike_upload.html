@@ -1,28 +1,38 @@
 {% extends 'epic/base.html' %}
 
 {% block content %}
-<h2>Upload Bike specs</h2>
-<form action="{% url "bike_upload" %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
-  {% csrf_token %}
-  <table>
-    <tr>
-      <th>Brand </th><td><input type="text" name="brand_name" id="brand_name" maxlength="30"></td>
-    </tr>
-    <tr>
-      <th>Bike/Frame name</th><td><input type="text" name="bike_name" maxlength="30"></td>
-    </tr>
-
-  </table>
-<div class="form-group">
-  <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label">File: </label>
-  <div class="col-md-8">
-      <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
-  </div>
-</div>
-<div class="form-group">
-  <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-       <button class="btn btn-primary">Upload </button>
-  </div>
-</div>
-</form>
+    <h2>Upload Bike specs</h2>
+    <form action="{% url "bike_upload" %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th><label for="brand_name" class="field-label">Brand</label></th>
+                <td>
+                    <select id="brand_name" name="brand_name">
+                        <option></option>
+                        {% for brand in brands %}
+                            <option value="{{ brand.brand_name }}">
+                                {{ brand }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Bike/Frame name</th>
+                <td><input type="text" name="bike_name" maxlength="30"></td>
+            </tr>
+        </table>
+        <div class="form-group">
+            <label for="name" class="field-label">File: </label>
+            <div>
+                <input type="file" name="csv_file" id="csv_file" required="True" class="form-control button">
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <button class="button">Upload</button>
+            </div>
+        </div>
+    </form>
 {% endblock %}

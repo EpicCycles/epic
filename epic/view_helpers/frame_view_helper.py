@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from epic.forms import FrameForm, FrameChangePartForm
+from epic.helpers.validation_helper import numberForString, decimalForString
 from epic.model_helpers.brand_helper import find_brand_for_string, find_brand_for_name
 from epic.model_helpers.part_helper import find_or_create_part
 from epic.models import Brand, PartType, FramePart, Frame, QuotePart, FrameExclusion, PartSection
@@ -71,9 +72,9 @@ def process_bike_review(request, refresh_list):
 
     # IF NO ERRORS
     if refresh_list:
-        return  show_first_bike(request)
+        return show_first_bike(request)
     else:
-        frame_id_array = request.session.get('bike_reviews',[])
+        frame_id_array = request.session.get('bike_reviews', [])
         if frame_id_array[0] == frame_id:
             frame_id_array.remove(frame_id)
             request.session['bike_reviews'] = frame_id_array
@@ -137,7 +138,7 @@ def process_frame_parts(request, frame, has_errors):
             else:
                 has_errors = True
             section_forms.append(frame_change_part_form)
-        part_contents.append(zip(part_types,section_forms))
+        part_contents.append(zip(part_types, section_forms))
 
     if has_errors:
         return zip(part_sections, part_contents)
@@ -206,7 +207,7 @@ def review_details_for_frame(frame_id):
     # get details fro frame and build frame form
     frame = Frame.objects.get(id=int(frame_id))
     frame_form = FrameForm(instance=frame)
-    frame_edit_elements = {'frame_id': frame.id, 'frame_form': frame_form,
+    frame_edit_elements = {'frame': frame, 'frame_form': frame_form,
                            'frame_sections': build_frame_sections(frame)}
 
     return frame_edit_elements
@@ -274,58 +275,99 @@ def process_upload(request):
 
         # loop over the lines and save them in db. If error , store as string and then display
         for i in range(len(lines)):
+            # get rid of line breaks
+            clean_line = lines[i].replace('\n', '').replace('\t', '').replace('\r', '')
             if i == 0:
                 #  first line is the model names
-                model_names = lines[i].split(",")
+                model_names = clean_line.split(",")
                 for j in range(len(model_names)):
                     if j == 0:
                         frames.append("not a frame")
                     else:
+                        model_name = model_names[j].strip
                         frame = Frame.objects.create_frame_sparse(bike_brand, bike_name, model_names[j])
                         frame.save()
                         frames.append(frame)
             else:
                 # attribute line
-                attributes = lines[i].split(",")
+                attributes = clean_line.split(",")
                 # get the partType for the lilne
-                # this is the part name - look it up - fail if not found
-                if len(attributes[0].strip()) > 0:
-                    try:
-                        shortName = str(attributes[0]).strip()
-                        partType = PartType.objects.get(shortName=shortName)
-                    except MultipleObjectsReturned:
-                        messages.error(request,
-                                       'PartType Not unique - use Admin function to enure PartTypes are unique: ' +
-                                       attributes[
-                                           0])
-                        return render(request, "epic/bike_upload.html", data)
-                    except ObjectDoesNotExist:
-                        messages.error(request, 'PartType Not found for ' + attributes[0])
-                        return render(request, "epic/bike_upload.html", data)
+                attribute_name = attributes[0].strip()
 
+                # if this is a colour
+                if attribute_name == 'Colour':
                     for j in range(len(attributes)):
                         # ignore the first column - already used
                         if j > 0:
-                            part_name = str(attributes[j]).strip()
+                            frame_colour = str(attributes[j]).strip()
 
-                            if len(part_name) > 0:
-                                if eq(part_name.lower(), 'n/a'):
-                                    frameExclusion = FrameExclusion.objects.create_frame_exclusion(frames[j], partType)
-                                    frameExclusion.save()
-                                else:
-                                    # look for brand for part attributes
-                                    part_brand = find_brand_for_string(part_name, non_web_brands, bike_brand, request)
+                            if len(frame_colour) > 0:
+                                frames[j].colour = frame_colour
+                                frames[j].save()
+                # if this is a colour
+                elif attribute_name == 'Description':
+                    for j in range(len(attributes)):
+                        # ignore the first column - already used
+                        if j > 0:
+                            frame_description = str(attributes[j]).strip()
 
-                                    # take the brand name out of the part name
-                                    if (part_name.lower().startswith(part_brand.brand_name.lower())):
-                                        brand_name_length = len(part_brand.brand_name)
-                                        part_name = part_name[brand_name_length:]
-                                    part_name = part_name.strip()
+                            if len(frame_description) > 0:
+                                frames[j].description = frame_description
+                                frames[j].save()
+               # if this is a price
+                elif attribute_name == 'Price':
+                    for j in range(len(attributes)):
+                        # ignore the first column - already used
+                        if j > 0:
 
-                                    # now look to see if Part exists, if not add it
-                                    part = find_or_create_part(part_brand, partType, part_name)
-                                    framePart = FramePart.objects.create_frame_part(frames[j], part)
-                                    framePart.save()
+                            frame_price = decimalForString(attributes[j].strip())
+
+                            if frame_price:
+                                frames[j].sell_price = frame_price
+                                frames[j].save()
+                            else:
+                                messages.error(request, 'price not valid for  ' + frames[j])
+
+
+                # this is a part name - look it up - fail if not found
+                elif len(attribute_name) > 0:
+                    try:
+                        shortName = str(attributes[0]).strip()
+                        partType = PartType.objects.get(shortName=shortName)
+                        for j in range(len(attributes)):
+                            # ignore the first column - already used
+                            if j > 0:
+                                part_name = str(attributes[j]).strip()
+
+                                if len(part_name) > 0:
+                                    if eq(part_name.lower(), 'n/a'):
+                                        frameExclusion = FrameExclusion.objects.create_frame_exclusion(frames[j],
+                                                                                                       partType)
+                                        frameExclusion.save()
+                                    else:
+                                        # look for brand for part attributes
+                                        part_brand = find_brand_for_string(part_name, non_web_brands, bike_brand,
+                                                                           request)
+
+                                        # take the brand name out of the part name
+                                        if (part_name.lower().startswith(part_brand.brand_name.lower())):
+                                            brand_name_length = len(part_brand.brand_name)
+                                            part_name = part_name[brand_name_length:]
+                                        part_name = part_name.strip()
+
+                                        # now look to see if Part exists, if not add it
+                                        part = find_or_create_part(part_brand, partType, part_name)
+                                        framePart = FramePart.objects.create_frame_part(frames[j], part)
+                                        framePart.save()
+
+                    except MultipleObjectsReturned:
+                        messages.error(request,
+                                       'PartType Not unique - use Admin function to ensure PartTypes are unique: ' +
+                                       attributes[
+                                           0])
+                    except ObjectDoesNotExist:
+                        messages.error(request, 'PartType Not found for ' + attributes[0])
+
 
         messages.add_message(request, messages.INFO, 'Bike added:' + bike_name)
 

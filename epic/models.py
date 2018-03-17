@@ -282,10 +282,10 @@ class FrameExclusion(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
 
-    objects = FramePartManager()
+    objects = FrameExclusionManager()
 
     def __str__(self):
-        return self.partType
+        return f'{str(self.partType)} n/a'
 
     class Meta:
         unique_together = (("frame", "partType"),)

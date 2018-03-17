@@ -521,7 +521,7 @@ def bike_upload(request):
     # create a dummy data field (could pass data here)
     data = {}
     if "GET" == request.method:
-        return render(request, "epic/bike_upload.html", data)
+        return render(request, "epic/bike_upload.html", add_standard_session_data(request, data))
 
     # if not GET, then proceed
     next_screen = process_upload(request)
