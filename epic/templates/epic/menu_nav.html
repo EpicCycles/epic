@@ -42,6 +42,8 @@
             <a href="javascript:void(0)" class="dropbtn">Core Data</a>
             <div class="dropdown-content">
                 <a href="{% url 'bike_upload' %}" class="menu-link">Upload Bike Details</a>
+                <a href="{% url 'bike_review' %}" class="menu-link">Review Model Details</a>
+
                 {% if user.is_superuser %}
                     <div class="dropdown-section">Admin functions</div>
                     {% with "" as linkClass %}

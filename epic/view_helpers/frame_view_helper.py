@@ -62,6 +62,7 @@ def process_bike_review(request, refresh_list):
             data['frame_id'] = frame_id
             data['frame_form'] = frame_form
             data['frame_sections'] = redisplay_frame_parts
+            data['frame_parts'] = FramePart.objects.filter(frame=frame)
             return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
 
     else:
@@ -208,7 +209,8 @@ def review_details_for_frame(frame_id):
     frame = Frame.objects.get(id=int(frame_id))
     frame_form = FrameForm(instance=frame)
     frame_edit_elements = {'frame': frame, 'frame_form': frame_form,
-                           'frame_sections': build_frame_sections(frame)}
+                           'frame_sections': build_frame_sections(frame),
+                           'frame_parts': FramePart.objects.filter(frame=frame)}
 
     return frame_edit_elements
 

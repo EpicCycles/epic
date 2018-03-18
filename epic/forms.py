@@ -152,7 +152,7 @@ class FrameForm(ModelForm):
         fields = '__all__'
         labels = {'frame': _('Frame'), 'brand': _('Brand'), 'model': _('Model Name'),
                   'description': _('Model Description'), 'colour': _('Colour Options'),
-                  'sell_price': _('Model Price (web) £')}
+                  'sell_price': _('Model Price (web) £'), 'sizes': _('Available Sizes')}
 
     def __init__(self, *args, **kwargs):
         super(FrameForm, self).__init__(*args, **kwargs)
@@ -160,6 +160,7 @@ class FrameForm(ModelForm):
         self.fields['brand'].widget = HiddenInput()
         self.fields['frame_name'].widget = HiddenInput()
         self.fields['colour'].widget = forms.TextInput(attrs={'size': '40'})
+        self.fields['sizes'].widget = forms.TextInput(attrs={'size': '40'})
 
 
 class FramePartForm(ModelForm):

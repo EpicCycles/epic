@@ -69,6 +69,12 @@
                     <div>
                         <h4>{{ frame }}</h4>
                         {% include "epic/form_as_table.html" with form=frame_form %}
+                        <div>
+                            <h4>Current Part list:</h4>
+                            {% for frame_part in frame_parts %}
+                                {{ frame_part }}<br />
+                            {% endfor %}
+                        </div>
                     </div>
                     <div>
                         <table>

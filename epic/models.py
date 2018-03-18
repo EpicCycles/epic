@@ -216,7 +216,7 @@ class Part(models.Model):
         return f'brand:"{self.brand.id}",partType:"{self.partType.id}",partName:"{self.part_name}"'
 
     def __str__(self):
-        return f'{self.partType.shortName}:{self.brand.brand_name} {self.part_name}'
+        return f'{self.partType.shortName}: {self.brand.brand_name} {self.part_name}'
 
     class Meta:
         unique_together = (("partType", "brand", "part_name"),)
@@ -237,6 +237,8 @@ class Frame(models.Model):
     description = models.TextField(max_length=400, blank=True)
     colour = models.CharField(max_length=200, blank=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    sizes = models.CharField(max_length=100, blank=True)
+
     objects = FrameManager()
 
     def getJavascriptObject(self):
@@ -270,6 +272,7 @@ class FramePart(models.Model):
 
     class Meta:
         unique_together = (("frame", "part"),)
+        ordering = ('pk', )
 
 
 # Manager for PramePart
