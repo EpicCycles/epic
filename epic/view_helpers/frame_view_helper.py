@@ -326,7 +326,7 @@ def process_upload(request):
                                 frames[j].sell_price = frame_price
                                 frames[j].save()
                             else:
-                                messages.error(request, 'price not valid for  ' + frames[j])
+                                messages.error(request, 'price not valid for  ' + str(frames[j]))
 
 
                 # this is a part name - look it up - fail if not found
@@ -367,7 +367,6 @@ def process_upload(request):
                                            0])
                     except ObjectDoesNotExist:
                         messages.error(request, 'PartType Not found for ' + attributes[0])
-
 
         messages.add_message(request, messages.INFO, 'Bike added:' + bike_name)
 
