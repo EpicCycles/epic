@@ -59,7 +59,7 @@ def process_bike_review(request, refresh_list):
 
         redisplay_frame_parts = process_frame_parts(request, frame, has_errors)
         if redisplay_frame_parts:
-            data['frame_id'] = frame_id
+            data['frame'] = frame
             data['frame_form'] = frame_form
             data['frame_sections'] = redisplay_frame_parts
             data['frame_parts'] = FramePart.objects.filter(frame=frame)

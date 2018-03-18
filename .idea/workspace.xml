@@ -6,11 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="cd7212f9-6eef-4ce2-90a4-95407cf747e0" name="Default" comment="Admin for SUpplier Orders and removing invalid myenv">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/epic/forms.py" afterPath="$PROJECT_DIR$/epic/forms.py" />
-      <change beforePath="$PROJECT_DIR$/epic/models.py" afterPath="$PROJECT_DIR$/epic/models.py" />
-      <change beforePath="$PROJECT_DIR$/epic/templates/epic/frame_review.html" afterPath="$PROJECT_DIR$/epic/templates/epic/frame_review.html" />
-      <change beforePath="$PROJECT_DIR$/epic/templates/epic/menu_admin_links.html" afterPath="$PROJECT_DIR$/epic/templates/epic/menu_admin_links.html" />
-      <change beforePath="$PROJECT_DIR$/epic/templates/epic/menu_nav.html" afterPath="$PROJECT_DIR$/epic/templates/epic/menu_nav.html" />
       <change beforePath="$PROJECT_DIR$/epic/view_helpers/frame_view_helper.py" afterPath="$PROJECT_DIR$/epic/view_helpers/frame_view_helper.py" />
     </list>
     <ignored mask=".idea" />
@@ -38,6 +33,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="frame_review.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/epic/templates/epic/frame_review.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-425">
+              <caret line="74" column="54" lean-forward="false" selection-start-line="74" selection-start-column="54" selection-end-line="74" selection-end-column="54" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="menu_admin_links.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/epic/templates/epic/menu_admin_links.html">
           <provider selected="true" editor-type-id="text-editor">
@@ -68,11 +73,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/epic/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
+            <state relative-caret-position="372">
               <caret line="274" column="26" lean-forward="false" selection-start-line="274" selection-start-column="26" selection-end-line="274" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="frame_view_helper.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/epic/view_helpers/frame_view_helper.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="210" column="34" lean-forward="false" selection-start-line="210" selection-start-column="27" selection-end-line="210" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -92,8 +107,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>simpl</find>
-      <find>ForeignKey</find>
       <find>reverse</find>
       <find>quote</find>
       <find>id=</find>
@@ -122,6 +135,8 @@
       <find>exc</find>
       <find>messages</find>
       <find>frame_sections</find>
+      <find>'frame_id'</find>
+      <find>'frame'</find>
     </findStrings>
     <replaceStrings>
       <replace>fitting_form</replace>
@@ -208,11 +223,11 @@
         <option value="$PROJECT_DIR$/epic/templates/epic/bike_upload.html" />
         <option value="$PROJECT_DIR$/epic/helpers/validation_helper.py" />
         <option value="$PROJECT_DIR$/epic/templates/epic/frame_review.html" />
-        <option value="$PROJECT_DIR$/epic/view_helpers/frame_view_helper.py" />
         <option value="$PROJECT_DIR$/epic/forms.py" />
         <option value="$PROJECT_DIR$/epic/templates/epic/menu_nav.html" />
         <option value="$PROJECT_DIR$/epic/templates/epic/menu_admin_links.html" />
         <option value="$PROJECT_DIR$/epic/models.py" />
+        <option value="$PROJECT_DIR$/epic/view_helpers/frame_view_helper.py" />
       </list>
     </option>
   </component>
@@ -890,22 +905,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/frame_review.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="74" column="54" lean-forward="false" selection-start-line="74" selection-start-column="54" selection-end-line="74" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/view_helpers/frame_view_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="209" column="23" lean-forward="false" selection-start-line="209" selection-start-column="23" selection-end-line="209" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/epic/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="568">
@@ -940,8 +939,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/epic/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
+        <state relative-caret-position="372">
           <caret line="274" column="26" lean-forward="false" selection-start-line="274" selection-start-column="26" selection-end-line="274" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/templates/epic/frame_review.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-425">
+          <caret line="74" column="54" lean-forward="false" selection-start-line="74" selection-start-column="54" selection-end-line="74" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic/view_helpers/frame_view_helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="210" column="34" lean-forward="false" selection-start-line="210" selection-start-column="27" selection-end-line="210" selection-end-column="34" />
           <folding />
         </state>
       </provider>
