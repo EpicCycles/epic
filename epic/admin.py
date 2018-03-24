@@ -34,6 +34,10 @@ class CustomerAdmin(admin.ModelAdmin):
     list_filter = ['first_name', 'last_name']
     search_fields = ['first_name', 'last_name']
 
+class PartAdmin(admin.ModelAdmin):
+    list_display = ('partType', 'brand', 'part_name')
+    list_filter = ['partType', 'brand']
+    search_fields = ['partType', 'brand', 'part_name']
 
 class FramePartInline(admin.TabularInline):
     model = FramePart
@@ -95,7 +99,7 @@ class SupplierOrderAdmin(admin.ModelAdmin):
 admin.site.register(Frame, FrameAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Brand)
-admin.site.register(Part)
+admin.site.register(Part, PartAdmin)
 admin.site.register(PartSection, PartSectionAdmin)
 admin.site.register(PartType, PartTypeAdmin)
 admin.site.register(PartTypeAttribute, PartTypeAttributeAdmin)
