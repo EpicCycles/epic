@@ -37,7 +37,7 @@ class CustomerAdmin(admin.ModelAdmin):
 class PartAdmin(admin.ModelAdmin):
     list_display = ('partType', 'brand', 'part_name')
     list_filter = ['partType', 'brand']
-    search_fields = ['partType', 'brand', 'part_name']
+    search_fields = ['part_name']
 
 class FramePartInline(admin.TabularInline):
     model = FramePart
