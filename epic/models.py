@@ -268,7 +268,7 @@ class FramePart(models.Model):
     objects = FramePartManager()
 
     def __str__(self):
-        return f'{self.part.partType.shortName}:{self.part.part_name}'
+        return f'{self.part.partType.shortName}:{str(self.part.brand)} {self.part.part_name}'
 
     class Meta:
         unique_together = (("frame", "part"),)
