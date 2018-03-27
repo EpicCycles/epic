@@ -246,9 +246,9 @@ class Frame(models.Model):
 
     def __str__(self):
         if self.model is None:
-            return f'{self.brand.brand_name}:{self.frame_name}'
+            return f'{self.brand.brand_name}: {self.frame_name}'
         else:
-            return f'{self.brand.brand_name}:{self.frame_name}:{self.model}'
+            return f'{self.brand.brand_name}: {self.frame_name} {self.model}'
 
     class Meta:
         unique_together = (("brand", "frame_name", "model"),)
@@ -268,7 +268,7 @@ class FramePart(models.Model):
     objects = FramePartManager()
 
     def __str__(self):
-        return f'{self.part.partType.shortName}:{str(self.part.brand)} {self.part.part_name}'
+        return f'{self.part.partType.shortName}: {str(self.part.brand)} {self.part.part_name}'
 
     class Meta:
         unique_together = (("frame", "part"),)
@@ -376,32 +376,33 @@ class Quote(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
 
     def save(self, *args, **kwargs):
-        # calculate sum before saving.
-        self.recalculate_prices()
         # is_new = self._state.adding
         is_new = (self.pk is None)
+
+        # calculate sum before saving.
+        self.recalculate_prices()
         super(Quote, self).save(*args, **kwargs)
 
         if is_new and self.is_bike():
             # create quote frame link
-            if not self.frame_sell_price:
+            if not self.frame_sell_price or  self.frame_sell_price is 0:
                 self.frame_sell_price = self.frame.sell_price
 
             # create lines for quote
             quote_line = 0
-            partSections = PartSection.objects.all()
-            frameParts = FramePart.objects.filter(frame=self.frame)
+            part_sections = PartSection.objects.all()
+            frame_parts = FramePart.objects.filter(frame=self.frame)
 
-            for partSection in partSections:
-                partTypes = PartType.objects.filter(includeInSection=partSection)
-                for partType in partTypes:
+            for partSection in part_sections:
+                part_types = PartType.objects.filter(includeInSection=partSection)
+                for partType in part_types:
                     if not FrameExclusion.objects.filter(frame=self.frame, partType=partType).exists():
                         # add the part type to the list
                         quote_line += 1
                         quotePart = QuotePart(quote=self, line=quote_line, partType=partType, quantity=0)
 
                         # add any parts specified
-                        for framePart in frameParts:
+                        for framePart in frame_parts:
                             if framePart.part.partType == partType:
                                 quotePart.part = framePart.part
                                 quotePart.frame_part = framePart
@@ -528,9 +529,9 @@ class QuotePart(models.Model):
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
         super(QuotePart, self).save(*args, **kwargs)
-        partTypeAttributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
+        part_type_attributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
 
-        for part_type_attribute in partTypeAttributes:
+        for part_type_attribute in part_type_attributes:
             quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=self,
                                                                       partTypeAttribute=part_type_attribute)
             if quote_part_attributes.count() > 0:
@@ -604,10 +605,10 @@ class QuotePart(models.Model):
                 if quotePartAttribute.attribute_value != quotePartAttribute.partTypeAttribute.default_value_for_quote:
                     return True
             return False
-        if self.part is None:
-            if self.frame_part is None:
-                return False
-        return True
+        if self.quantity and self.quantity > 0:
+            return True
+        # not a frame part that has changes and no qty
+        return False
 
     def requires_prices(self):
         if self.part is None:

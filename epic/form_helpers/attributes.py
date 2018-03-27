@@ -41,36 +41,38 @@ def getAttributeForm(object: QuotePartAttribute, form_prefix):
                 value_choices=getAttributeChoiceDict(object.partTypeAttribute))
 
 
-def getAttributeFormUpdated(request_post, request_files, object, form_prefix):
-
-    if isinstance(object, QuotePartAttribute):
-        if object.partTypeAttribute.attribute_type is TEXT:
-            if form_prefix is not "":
-                return TextAttributeForm(request_post, request_files, prefix=form_prefix)
-            else:
-                return TextAttributeForm(request_post, request_files)
-        elif object.partTypeAttribute.attribute_type is NUMBER:
-            if form_prefix is not "":
-                return NumberAttributeForm(request_post, request_files, prefix=form_prefix)
-            else:
-                return NumberAttributeForm(request_post, request_files)
-        elif object.partTypeAttribute.attribute_type is SELECT:
-            if form_prefix is not "":
-                return ChoiceAttributeForm(request_post, request_files, prefix=form_prefix,
-                                           value_choices=getAttributeChoiceDict(object.partTypeAttribute))
-            else:
-                return ChoiceAttributeForm(request_post, request_files, value_choices=getAttributeChoiceDict(object.partTypeAttribute))
-        elif object.partTypeAttribute.attribute_type is RADIO:
-            if form_prefix is not "":
-                return RadioAttributeForm(request_post, request_files, prefix=form_prefix,
-                                          value_choices=getAttributeChoiceDict(object.partTypeAttribute))
-            else:
-                return RadioAttributeForm(request_post, request_files, value_choices=getAttributeChoiceDict(object.partTypeAttribute))
+def getAttributeFormUpdated(request_post, request_files, object: QuotePartAttribute, form_prefix):
+    if object.partTypeAttribute.attribute_type is TEXT:
+        if form_prefix is not "":
+            return TextAttributeForm(request_post, request_files, prefix=form_prefix)
+        else:
+            return TextAttributeForm(request_post, request_files)
+    elif object.partTypeAttribute.attribute_type is NUMBER:
+        if form_prefix is not "":
+            return NumberAttributeForm(request_post, request_files, prefix=form_prefix)
+        else:
+            return NumberAttributeForm(request_post, request_files)
+    elif object.partTypeAttribute.attribute_type is SELECT:
+        if form_prefix is not "":
+            return ChoiceAttributeForm(request_post, request_files, prefix=form_prefix,
+                                       value_choices=getAttributeChoiceDict(object.partTypeAttribute))
+        else:
+            return ChoiceAttributeForm(request_post, request_files,
+                                       value_choices=getAttributeChoiceDict(object.partTypeAttribute))
+    elif object.partTypeAttribute.attribute_type is RADIO:
+        if form_prefix is not "":
+            return RadioAttributeForm(request_post, request_files, prefix=form_prefix,
+                                      value_choices=getAttributeChoiceDict(object.partTypeAttribute))
+        else:
+            return RadioAttributeForm(request_post, request_files,
+                                      value_choices=getAttributeChoiceDict(object.partTypeAttribute))
 
 
 def getAttributeChoiceDict(part_tpe_attribute: PartTypeAttribute):
     attribute_options = AttributeOptions.objects.filter(part_type_attribute=part_tpe_attribute)
-    value_choices = [["",""]]
+    value_choices = []
+    if part_tpe_attribute.default_value_for_quote:
+        value_choices.append([part_tpe_attribute.default_value_for_quote, part_tpe_attribute.default_value_for_quote])
     for attribute_value in attribute_options:
         value_choices.append([attribute_value.attribute_option, attribute_value.attribute_option])
     return value_choices

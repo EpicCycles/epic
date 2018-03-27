@@ -32,10 +32,11 @@ def build_quote_detail_for_email(quote):
         for partType in partTypes:
             quotePartObjects = QuotePart.objects.filter(quote=quote, partType=partType)
             for quotePart in quotePartObjects:
-                include_part = True
-                if not partType.customer_facing:
-                    include_part = False
-                    if quotePart.is_not_standard_part():
+                include_part = False
+                if quotePart.is_not_standard_part():
+                    include_part = True
+                else:
+                    if partType.customer_facing and quotePart.part is not None:
                         include_part = True
 
                 if include_part:

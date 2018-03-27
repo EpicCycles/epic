@@ -11,22 +11,29 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+# main_with_json.py
+import json
+
+with open('config.json', 'r') as f:
+    config = json.load(f)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# environment running int
+ENV = config['ENV_RUNNING']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ii-hi&7@w*vgxp=06ovn^c$+q2)yl=-f=28j8@6wzwtuq%t$1^'
+#SECRET_KEY = 'ii-hi&7@w*vgxp=06ovn^c$+q2)yl=-f=28j8@6wzwtuq%t$1^'
+SECRET_KEY = config['DEFAULT']['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config[ENV]['DEBUG']
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = config[ENV]['ALLOWED_HOSTS']
 
 # Application definition
 
@@ -106,9 +113,9 @@ LOGIN_REDIRECT_URL = '/'
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-gb'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'GB'
 
 USE_I18N = True
 
@@ -116,6 +123,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Apostle settings
+APOSTLE_DOMAIN_KEY = config[ENV]['APOSTLE_DOMAIN_KEY']
+APOSTLE_TEST = config[ENV]['APOSTLE_TEST']
+TO_EMAIL =  config[ENV]['TO_EMAIL']
+FROM_EMAIL = config[ENV]['FROM_EMAIL']
+
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 STATIC_URL = '/static/'
+if config[ENV]['STATIC_ROOT']:
+    STATIC_ROOT = config[ENV]['STATIC_ROOT']
