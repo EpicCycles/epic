@@ -14,11 +14,10 @@ import os
 # main_with_json.py
 import json
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+with open(os.path.join(BASE_DIR,'config.json'), 'r') as f:
+    config = json.load(f)
 
 # environment running int
 ENV = config['ENV_RUNNING']
