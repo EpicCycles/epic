@@ -34,14 +34,17 @@ class CustomerAdmin(admin.ModelAdmin):
     list_filter = ['first_name', 'last_name']
     search_fields = ['first_name', 'last_name']
 
-class PartAdmin(admin.ModelAdmin):
-    list_display = ('partType', 'brand', 'part_name')
-    list_filter = ['partType', 'brand']
-    search_fields = ['part_name']
 
 class FramePartInline(admin.TabularInline):
     model = FramePart
     extra = 3
+
+
+class PartAdmin(admin.ModelAdmin):
+    inlines = [FramePartInline]
+    list_display = ('partType', 'brand', 'part_name')
+    list_filter = ['partType', 'brand']
+    search_fields = ['part_name']
 
 
 class FrameExclusionInline(admin.TabularInline):
@@ -76,6 +79,17 @@ class PartTypeAdmin(admin.ModelAdmin):
     inlines = [PartTypeAttributeInLine]
 
 
+class PartInLine(admin.TabularInline):
+    model = Part
+
+
+class BrandAdmin(admin.ModelAdmin):
+    inlines = [PartInLine]
+    list_display = ('brand_name', 'link', 'supplier')
+    list_filter = ['supplier']
+    search_fields = ['brand_name']
+
+
 class PartTypeAttributeAdmin(admin.ModelAdmin):
     inlines = [AttributeOptionsInLine]
 
@@ -98,7 +112,7 @@ class SupplierOrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Frame, FrameAdmin)
 admin.site.register(Customer, CustomerAdmin)
-admin.site.register(Brand)
+admin.site.register(Brand, BrandAdmin)
 admin.site.register(Part, PartAdmin)
 admin.site.register(PartSection, PartSectionAdmin)
 admin.site.register(PartType, PartTypeAdmin)
