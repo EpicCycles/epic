@@ -2,9 +2,9 @@
 
 
 function setUpFrameOptions() {
-    var brand_id = document.getElementById("brand_selected_init").value;
-    var frame_name_selected_init = document.getElementById("frame_name_selected_init").value;
-    var model_selected_init = document.getElementById("model_selected_init").value;
+    let brand_id = document.getElementById("brand_selected_init").value;
+    let frame_name_selected_init = document.getElementById("frame_name_selected_init").value;
+    let model_selected_init = document.getElementById("model_selected_init").value;
     document.getElementById("frameDiv").style.visibility = "hidden";
     document.getElementById("modelDiv").style.visibility = "hidden";
     document.getElementById("reviewButton").setAttribute("disabled", "disabled");
@@ -19,6 +19,7 @@ function setUpFrameOptions() {
     }
     if (model_selected_init) {
         $('#model_name').val(model_selected_init);
+        document.getElementById("model_selected").value = model_selected_init;
     }
     // now set column widths
     setColumnWidths();
@@ -26,6 +27,7 @@ function setUpFrameOptions() {
 
 function setReviewAction(required_action) {
     document.getElementById('action_required').value = required_action;
+    const frameBrandSelector = $('#frame_brand');
 
     if (required_action !== "startReview") {
         if (required_action === "save_changes") {
@@ -34,12 +36,12 @@ function setReviewAction(required_action) {
         }
 
         // get back current selections and if they have changed alart
-        brand_selected_init = document.getElementById("brand_selected_init").value;
-        frame_brand = $('#frame_brand').val();
-        frame_name_selected = document.getElementById("frame_name_selected").value;
-        frame_name_selected_init = document.getElementById("frame_name_selected_init").value;
-        model_selected = document.getElementById("model_selected").value;
-        model_selected_init = document.getElementById("model_selected_init").value;
+        let brand_selected_init = document.getElementById("brand_selected_init").value;
+        let frame_brand = frameBrandSelector.val();
+        let frame_name_selected = document.getElementById("frame_name_selected").value;
+        let frame_name_selected_init = document.getElementById("frame_name_selected_init").value;
+        let model_selected = document.getElementById("model_selected").value;
+        let model_selected_init = document.getElementById("model_selected_init").value;
         if ((frame_brand !== brand_selected_init)
             || (frame_name_selected !== frame_name_selected_init)
             || (model_selected !== model_selected_init)) {
@@ -52,8 +54,7 @@ function setReviewAction(required_action) {
                 }
             } else {
                 pageChanged = false;
-
-                $('#frame_brand').val(brand_selected_init);
+                frameBrandSelector.val(brand_selected_init);
                 document.getElementById("frame_name_selected").value = frame_name_selected_init;
                 document.getElementById("model_selected").value = model_selected_init;
             }
@@ -64,24 +65,23 @@ function setReviewAction(required_action) {
 
 
 function processSelectedBrand() {
-    var frameElement = document.getElementById("frame_name");
-    var brandSelectElement = document.getElementById("frame_brand");
-    var brand_id = brandSelectElement.options[brandSelectElement.selectedIndex].value;
-    var frameNameSelected = document.getElementById("frame_name_selected");
+    let frameElement = document.getElementById("frame_name");
+    let brandSelectElement = document.getElementById("frame_brand");
+    let brand_id = brandSelectElement.options[brandSelectElement.selectedIndex].value;
+    let frameNameSelected = document.getElementById("frame_name_selected");
     document.getElementById("frameDiv").style.visibility = "hidden";
 
     frameElement.innerHTML = "";
-    var usedFrames = [];
-    var selectedFrameOption = 0;
+    let usedFrames = [];
+    let selectedFrameOption = 0;
     if (brand_id) {
-        for (var i = 0; i < frames.length; i++) {
+        for (let i = 0; i < frames.length; i++) {
             if (brand_id === frames[i].brand) {
-                var thisFrameName = frames[i].frameName;
+                let thisFrameName = frames[i].frameName;
                 if (usedFrames.indexOf(thisFrameName) < 0) {
-                    frameDivDisplay = "";
                     usedFrames.push(thisFrameName);
 
-                    var nameOpt = document.createElement("option");
+                    let nameOpt = document.createElement("option");
                     nameOpt.value = thisFrameName;
                     nameOpt.text = thisFrameName;
                     frameElement.add(nameOpt, null);
@@ -92,7 +92,7 @@ function processSelectedBrand() {
             }
         }
         if (usedFrames.length > 0) {
-            var allOpt = document.createElement("option");
+            let allOpt = document.createElement("option");
             allOpt.value = "None";
             allOpt.text = "--- Select Frame ---";
             frameElement.add(allOpt, 0);
@@ -108,24 +108,24 @@ function processSelectedFrame() {
     document.getElementById("reviewButton").setAttribute("disabled", "disabled");
     document.getElementById("modelDiv").style.visibility = "hidden";
 
-    var frameSelectElement = document.getElementById("frame_name");
-    var frame_name = frameSelectElement.options[frameSelectElement.selectedIndex].value;
-    var modelElement = document.getElementById("model_name");
+    let frameSelectElement = document.getElementById("frame_name");
+    let frame_name = frameSelectElement.options[frameSelectElement.selectedIndex].value;
+    let modelElement = document.getElementById("model_name");
     document.getElementById("frame_name_selected").value = frame_name;
-    var modelSelected = document.getElementById("model_selected");
+    let modelSelected = document.getElementById("model_selected").value;
 
     modelElement.innerHTML = "";
-    var modelOptionSelected = 0;
-    var usedModels = [];
+    let modelOptionSelected = 0;
+    let usedModels = [];
     if (frame_name && (frame_name !== "None")) {
-        for (var i = 0; i < frames.length; i++) {
+        for (let i = 0; i < frames.length; i++) {
             if (frame_name === frames[i].frameName) {
-                var thisModel = frames[i].frameId;
+                let thisModel = frames[i].frameId;
                 if (usedModels.indexOf(thisModel) < 0) {
 
                     usedModels.push(thisModel);
 
-                    var nameOpt = document.createElement("option");
+                    let nameOpt = document.createElement("option");
                     nameOpt.value = thisModel;
                     nameOpt.text = frames[i].model;
                     modelElement.add(nameOpt, null);
@@ -137,7 +137,7 @@ function processSelectedFrame() {
             }
         }
         if (usedModels.length > 0) {
-            var allOpt = document.createElement("option");
+            let allOpt = document.createElement("option");
             allOpt.value = "ALL";
             allOpt.text = "Review all";
             modelElement.add(allOpt, 0);
@@ -150,21 +150,21 @@ function processSelectedFrame() {
 
 function processSelectedModel() {
     document.getElementById("reviewButton").removeAttribute("disabled");
-    var modelElement = document.getElementById("model_name");
+    let modelElement = document.getElementById("model_name");
     document.getElementById("model_selected").value = modelElement.options[modelElement.selectedIndex].value;
 }
 
 function setColumnWidths() {
-    var headerRow = document.getElementById("bike_header");
-    var detailRow = document.getElementById("bike_row");
+    let headerRow = document.getElementById("bike_header");
+    let detailRow = document.getElementById("bike_row");
     if (detailRow) {
 
         if (!detailRow.hasChildNodes()) {
             return;
         }
 
-        var headerNodeList = headerRow.cells;
-        var detailNodeList = detailRow.cells;
+        let headerNodeList = headerRow.cells;
+        let detailNodeList = detailRow.cells;
         if (detailNodeList.length < 1) {
             return;
         }
@@ -172,8 +172,8 @@ function setColumnWidths() {
             return;
         }
 
-        for (var i = 0; i < detailNodeList.length; i++) {
-            var applyWidth = detailNodeList[i].offsetWidth;
+        for (let i = 0; i < detailNodeList.length; i++) {
+            let applyWidth = detailNodeList[i].offsetWidth;
             if (applyWidth < headerNodeList[i].offsetWidth) {
                 applyWidth = headerNodeList[i].offsetWidth;
             }
