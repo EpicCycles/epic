@@ -5,6 +5,9 @@ function setUpFrameOptions() {
     var brand_id = document.getElementById("brand_selected_init").value;
     var frame_name_selected_init = document.getElementById("frame_name_selected_init").value;
     var model_selected_init = document.getElementById("model_selected_init").value;
+    document.getElementById("frameDiv").style.visibility = "hidden";
+    document.getElementById("modelDiv").style.visibility = "hidden";
+    document.getElementById("reviewButton").setAttribute("disabled", "disabled");
 
     if (brand_id) {
         $('#frame_brand').val(brand_id);
@@ -42,7 +45,6 @@ function setReviewAction(required_action) {
             || (model_selected !== model_selected_init)) {
             if (confirm("You have changed the selections, saving will display bikes matching new selections, do you want to rest the selections now?")) {
                 if (required_action === "save_changes") {
-
                     document.getElementById('action_required').value = "save_and_show_new_selection";
                 } else {
                     document.getElementById('action_required').value = "startReview";
@@ -66,7 +68,7 @@ function processSelectedBrand() {
     var brandSelectElement = document.getElementById("frame_brand");
     var brand_id = brandSelectElement.options[brandSelectElement.selectedIndex].value;
     var frameNameSelected = document.getElementById("frame_name_selected");
-    var frameDivDisplay = "hidden";
+    document.getElementById("frameDiv").style.visibility = "hidden";
 
     frameElement.innerHTML = "";
     var usedFrames = [];
@@ -91,39 +93,41 @@ function processSelectedBrand() {
         }
         if (usedFrames.length > 0) {
             var allOpt = document.createElement("option");
-            allOpt.value = "ALL";
-            allOpt.text = "Review all";
+            allOpt.value = "None";
+            allOpt.text = "--- Select Frame ---";
             frameElement.add(allOpt, 0);
             frameElement.selectedIndex = selectedFrameOption;
+            document.getElementById("frameDiv").style.visibility = "visible";
             processSelectedFrame();
         }
     }
-    document.getElementById("frameDiv").style.display = frameDivDisplay;
 }
 
 function processSelectedFrame() {
+
+    document.getElementById("reviewButton").setAttribute("disabled", "disabled");
+    document.getElementById("modelDiv").style.visibility = "hidden";
 
     var frameSelectElement = document.getElementById("frame_name");
     var frame_name = frameSelectElement.options[frameSelectElement.selectedIndex].value;
     var modelElement = document.getElementById("model_name");
     document.getElementById("frame_name_selected").value = frame_name;
-    var modelDivDisplay = "hidden";
     var modelSelected = document.getElementById("model_selected");
 
     modelElement.innerHTML = "";
-    modelOptionSelected = 0;
+    var modelOptionSelected = 0;
     var usedModels = [];
-    if (frame_name) {
+    if (frame_name && (frame_name !== "None")) {
         for (var i = 0; i < frames.length; i++) {
             if (frame_name === frames[i].frameName) {
-                var thisModel = frames[i].model;
+                var thisModel = frames[i].frameId;
                 if (usedModels.indexOf(thisModel) < 0) {
-                    modelDivDisplay = "";
+
                     usedModels.push(thisModel);
 
                     var nameOpt = document.createElement("option");
                     nameOpt.value = thisModel;
-                    nameOpt.text = thisModel;
+                    nameOpt.text = frames[i].model;
                     modelElement.add(nameOpt, null);
                     if (modelSelected === thisModel) {
                         // selected index increment by 1 because will add All at the top
@@ -139,14 +143,15 @@ function processSelectedFrame() {
             modelElement.add(allOpt, 0);
             modelElement.selectedIndex = modelOptionSelected;
             processSelectedModel();
+            document.getElementById("modelDiv").style.visibility = "visible";
         }
     }
-    document.getElementById("modelDiv").style.display = modelDivDisplay;
 }
 
 function processSelectedModel() {
-    var modelSelectElement = document.getElementById("model_name");
-    document.getElementById("model_selected").value = modelSelectElement.options[modelSelectElement.selectedIndex].value;
+    document.getElementById("reviewButton").removeAttribute("disabled");
+    var modelElement = document.getElementById("model_name");
+    document.getElementById("model_selected").value = modelElement.options[modelElement.selectedIndex].value;
 }
 
 function setColumnWidths() {

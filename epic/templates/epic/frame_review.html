@@ -13,26 +13,28 @@
         <input type="hidden" id="brand_selected_init" name="brand_selected_init" value="{{ frame_brand }}"/>
         <input type="hidden" id="action_required" name="action_required" value="start_review_default"/>
         <section style="width:100%">
-            <div class="field-label">
-                <label for="frame_brand" class="field-label">Brand</label>
-                <select id="frame_brand" name="frame_brand" onchange="processSelectedBrand()">
-                    <option></option>
-                    {% for brand in brands %}
-                        <option value="{{ brand.id }}">
-                            {{ brand }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div style="display: none;" id="frameDiv" class="field-label">
-                <label for="frame_name" class="field-label">Frame</label>
-                <select id="frame_name" onchange="processSelectedFrame()">
-                </select>
-            </div>
-            <div style="display: none;" id="modelDiv" class="field-label">
-                <label for="model_name" class="field-label" onchange="processSelectedModel()">Model</label>
-                <select id="model_name">
-                </select>
+            <div class="three-quarters row">
+                <div class="field-label">
+                    <label for="frame_brand" class="field-label">Brand</label>
+                    <select id="frame_brand" name="frame_brand" onchange="processSelectedBrand()">
+                        <option></option>
+                        {% for brand in brands %}
+                            <option value="{{ brand.id }}">
+                                {{ brand }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div id="frameDiv" class="field-label">
+                    <label for="frame_name" class="field-label">Frame</label>
+                    <select id="frame_name" onchange="processSelectedFrame()">
+                    </select>
+                </div>
+                <div id="modelDiv" class="field-label">
+                    <label for="model_name" class="field-label">Model</label>
+                    <select id="model_name" onchange="processSelectedModel()">
+                    </select>
+                </div>
             </div>
             <div>
                 <input type="button"
@@ -72,7 +74,7 @@
                         <div>
                             <h4>Current Part list:</h4>
                             {% for frame_part in frame_parts %}
-                                {{ frame_part }}<br />
+                                {{ frame_part }}<br/>
                             {% endfor %}
                         </div>
                     </div>

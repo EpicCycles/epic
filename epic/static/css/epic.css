@@ -58,7 +58,7 @@ td {
 
     color: black;
     text-align: inherit;
-    padding: 0px;
+    padding: 0;
 
 }
 
@@ -119,6 +119,10 @@ section {
     display: flex;
     flex-direction: row;
 }
+.row {
+    display: flex;
+    flex-direction: row;
+}
 
 section.flex-vertical {
     display: flex;
@@ -131,6 +135,12 @@ div.field-label {
 div.field-input {
     font-weight: bold;
     padding-left: 25px;
+}
+.half {
+    width: 50%;
+}
+.three-quarters {
+    width: 75%;
 }
 
 .date {
@@ -281,6 +291,10 @@ a.button, input.button {
     min-width: 50px;
 }
 
+.button:disabled {
+    text-decoration: none;
+    background-color: grey;
+}
 .button:hover, .button:focus {
     text-decoration: underline;
     color: white;

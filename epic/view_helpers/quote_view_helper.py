@@ -111,7 +111,6 @@ def create_new_quote(request):
 
     else:
         logging.getLogger("error_logger").error(quote_form.errors.as_json())
-        print(quote_form.cleaned_data)
         return show_new_quote_form(request, quote_form, quote_form.cleaned_data['customer'])
 
 
@@ -367,7 +366,6 @@ def show_simple_quote_edit(request, quote):
     quote_simple_add_part = QuoteSimpleAddPartForm(empty_permitted=True)
     customer_notes = CustomerNote.objects.filter(quote=quote)
     parts_for_js = get_parts_for_js()
-    print(parts_for_js)
     return render(request, quote_page,
                   add_standard_session_data(request, {'quote_form': QuoteSimpleForm(instance=quote), 'quote': quote,
                                                       'quoteSimpleAddPart': quote_simple_add_part,
@@ -415,7 +413,6 @@ def show_quote_issue(request, quote):
 
 def process_quote_action(request, quote):
     action_required = request.POST.get('action_required', '')
-    print('action_required' + action_required)
 
     if action_required == "Issue":
         return process_quote_issue(request, quote)
