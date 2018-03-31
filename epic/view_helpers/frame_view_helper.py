@@ -135,7 +135,7 @@ def process_frame_parts(request, frame, has_errors):
                             frame_part.delete()
 
                     if frame_part_exclusion:
-                        frame_part_exclusion.delete()
+                        FrameExclusion.objects.filter(frame=frame, partType=part_type).delete()
             else:
                 has_errors = True
             section_forms.append(frame_change_part_form)
@@ -275,22 +275,22 @@ def process_upload(request):
         non_web_brands = Brand.objects.all()
         
         # variables for looping.
-        line_count = len(lines)
-        column_count = 0
+        line_loop_max = len(lines)
+        column_loop_max = 0
 
         # loop over the lines and save them in db. If error , store as string and then display
-        for i in line_count:
+        for i in range(0, line_loop_max):
             # get rid of line breaks
             clean_line = lines[i].replace('\n', '').replace('\t', '').replace('\r', '')
             if i == 0:
                 #  first line is the model names
                 model_names = clean_line.split(",")
-                column_count = len(model_names)
-                for j in column_count:
+                column_loop_max = len(model_names)
+                for j in range(0, column_loop_max):
                     if j == 0:
                         frames.append("not a frame")
                     else:
-                        model_name = model_names[j].strip
+                        model_name = model_names[j].strip()
                         frame = Frame.objects.create_frame_sparse(bike_brand, bike_name, model_name)
                         frame.save()
                         frames.append(frame)
@@ -302,7 +302,7 @@ def process_upload(request):
 
                 # if this is a colour
                 if attribute_name == 'Colour':
-                    for j in column_count:
+                    for j in range(0, column_loop_max):
                         # ignore the first column - already used
                         if j > 0:
                             frame_colour = str(attributes[j]).strip()
@@ -312,7 +312,7 @@ def process_upload(request):
                                 frames[j].save()
                 # if this is a colour
                 elif attribute_name == 'Description':
-                    for j in column_count:
+                    for j in range(0, column_loop_max):
                         # ignore the first column - already used
                         if j > 0:
                             frame_description = str(attributes[j]).strip()
@@ -322,7 +322,7 @@ def process_upload(request):
                                 frames[j].save()
                # if this is a price
                 elif attribute_name == 'Price':
-                    for j in column_count:
+                    for j in range(0, column_loop_max):
                         # ignore the first column - already used
                         if j > 0:
 
@@ -340,7 +340,7 @@ def process_upload(request):
                     try:
                         shortName = str(attributes[0]).strip()
                         partType = PartType.objects.get(shortName=shortName)
-                        for j in column_count:
+                        for j in range(0, column_loop_max):
                             # ignore the first column - already used
                             if j > 0:
                                 part_name = str(attributes[j]).strip()

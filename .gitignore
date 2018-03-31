@@ -6,6 +6,7 @@ db.sqlite3
 /static
 .DS_Store
 .idea/
+/.idea
 config.json
 
 # Byte-compiled / optimized / DLL files
