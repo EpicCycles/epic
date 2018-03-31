@@ -203,13 +203,26 @@ def build_frame_sections(frame: Frame):
     return zip(part_sections, part_contents)
 
 
+def build_frame_parts(frame):
+    part_sections = PartSection.objects.all()
+    part_contents = []
+    for part_section in part_sections:
+        part_types = PartType.objects.filter(includeInSection=part_section)
+        for part_type in part_types:
+            frame_part = FramePart.objects.filter(frame=frame, part__partType=part_type).first()
+            if frame_part:
+                part_contents.append(frame_part)
+
+    return part_contents
+
+
 def review_details_for_frame(frame_id):
     # get details fro frame and build frame form
     frame = Frame.objects.get(id=int(frame_id))
     frame_form = FrameForm(instance=frame)
     frame_edit_elements = {'frame': frame, 'frame_form': frame_form,
                            'frame_sections': build_frame_sections(frame),
-                           'frame_parts': FramePart.objects.filter(frame=frame)}
+                           'frame_parts':  build_frame_parts(frame)}
 
     return frame_edit_elements
 
