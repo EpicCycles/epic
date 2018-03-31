@@ -209,7 +209,7 @@ class PartManager(models.Manager):
 class Part(models.Model):
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-    part_name = models.CharField(max_length=60)
+    part_name = models.CharField(max_length=200)
     objects = PartManager()
 
     def getJavascriptObject(self):
