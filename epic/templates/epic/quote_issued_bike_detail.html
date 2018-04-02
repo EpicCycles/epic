@@ -9,15 +9,24 @@
         <th>Bike Price</th>
         <td colspan=5>{{ quote.frame_sell_price }}</td>
     </tr>
-    {% for section, sectionContents in quoteSections %}
+    {% for section, sectionContents, sectionCount in quoteSections %}
         {% for quotePart, quotePartAttributes in sectionContents %}
             {% cycle 'row1' 'row2' as rowcolors silent %}
             <tr class="{{ rowcolors }}">
-                <td class="section_part">{% if forloop.counter == 1 %}{{ section.name }}{% endif %}</td>
+            {% if forloop.counter == 1 %}
+                <td class="section_part" rowspan="{{ sectionCount }}">{{ section.name }}</td>
+            {% endif %}
                 <td>{{ quotePart.partType }}</td>
                 <td>
-                    {{ quotePart.part }}
-                    {% if quotePart.is_not_standard_part %}<span class="red">**</span>{% endif %}
+                    {% if quotePart.is_not_standard_part %}
+                        <span class="red">{{ quotePart.part }}**</span>
+                    {% else %}
+                        {% if quotePart.part %}
+                            {{ quotePart.part }}
+                        {% else %}
+                            None specified
+                        {% endif %}
+                    {% endif %}
                 </td>
                 <td>
                     <table>

@@ -1,6 +1,8 @@
 {% extends 'epic/base.html' %}
 {% load staticfiles %}
 {% load static %}
+{% block title %}Epic Cycles Sales - Quote Issue{% endblock %}
+
 {% block content %}
     <form action="" method="post" name="quoteForm">
         {% csrf_token %}

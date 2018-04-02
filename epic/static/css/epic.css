@@ -168,18 +168,14 @@ input[type=text],
 input[type=email],
 input[type=number],
 textarea,
+select,
 fieldset {
-    /* required to properly style form
-       elements on WebKit based browsers */
-    -webkit-appearance: none;
-
     border: 1px solid #333;
-    margin: 0;
+    margin: 2px;
 
     font-family: inherit;
     font-size: 90%;
 
-    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -303,4 +299,23 @@ a.button, input.button {
 /* override defaults */
 fieldset {
     border: hidden;
+}
+
+/* class to remove tr's from display*/
+.no-show {
+    height: 0px;
+    overflow: hidden;
+}
+.attributes ul {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 0;
+    background-color: inherit;
+}
+.attributes li {
+    background-color: inherit;
 }

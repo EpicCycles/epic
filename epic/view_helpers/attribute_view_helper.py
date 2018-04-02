@@ -31,7 +31,7 @@ def save_quote_part_attribute_form(request, quote_part_attribute, quote_part):
                 attribute_value = None
 
             if quote_part.part is None:
-                if attribute_value:
+                if attribute_value and attribute_value != quote_part_attribute.partTypeAttribute.default_value_for_quote:
                     quote_part_attribute.attribute_value = None
                     quote_part_attribute.save()
                     messages.warning(request,

@@ -1,0 +1,11 @@
+{% load popup_helper %}
+<div class=" {{ divClass }} {% if field.errors %}error{% endif %}"
+        {% if field.errors %}
+     title="Error Details:
+            {% for error in field.errors %}
+                {{ error }}
+            {% endfor %}"
+        {% endif %}
+>
+    {{ field }}{{ field|getBrandLink }}
+</div>

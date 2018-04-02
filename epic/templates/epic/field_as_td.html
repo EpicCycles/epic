@@ -5,8 +5,8 @@
 {% for error in field.errors %}
 {{ error }}
 {% endfor %}"
-    class="error"
 {% endif %}
+    class="{% if field.errors %}error {% endif %}{% if 'brand' in field.name %} brand-cell{% elif 'required' in field.name %} not-reqd-cell{% elif 'trade' in field.name %} trade-cell{% elif 'part' in field.name %} part-cell{% elif 'quantity' in field.name %}quantity-cell{% elif 'price' in field.name %}quantity-cell{% endif %}"
 >
     {{ field }}{{ field|getBrandLink }}
 </td>

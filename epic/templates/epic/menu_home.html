@@ -1,5 +1,7 @@
 {% extends 'epic/base.html' %}
+{% block title %}Epic Cycles Sales - Menu{% endblock %}
 {% block content %}
+
     <table width="100%" class="menu">
         <tr>
             <td>
@@ -39,8 +41,8 @@
                         <li><a href="{% url 'bike_upload' %}" class="menu-link">Upload Model Details</a></li>
                         <li><a href="{% url 'bike_review' %}" class="menu-link">Review Model Details</a></li>
                         {% with "menu-link" as linkClass %}
-                        {% include "epic/menu_admin_links.html" %}
-                    {% endwith %}
+                            {% include "epic/menu_admin_links.html" %}
+                        {% endwith %}
                     </ul>
                     <h3>Customer Data Maintenance</h3>
                     <ul>{% with "menu-link" as linkClass %}

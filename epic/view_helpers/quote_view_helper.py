@@ -542,6 +542,7 @@ def copy_quote_detail(old_quote, request, frame):
 def quote_parts_for_bike_display(quote, for_customer):
     part_sections = PartSection.objects.all()
     part_section_details = []
+    part_section_counts = []
 
     for part_section in part_sections:
         quote_parts = []
@@ -563,17 +564,25 @@ def quote_parts_for_bike_display(quote, for_customer):
                         quote_part_details.append(QuotePartAttribute.objects.filter(quotePart=quote_part))
                     else:
                         quote_part_details.append([])
-        part_section_details.append(zip(quote_parts, quote_part_details))
+
+        part_section_detail = zip(quote_parts, quote_part_details)
+        part_section_details.append(part_section_detail)
+        part_section_counts.append(len(quote_parts))
     # build a merged array
-    zipped_values = zip(part_sections, part_section_details)
+    zipped_values = zip(part_sections, part_section_details, part_section_counts)
     return zipped_values
 
 
 def update_quote_section_parts_and_forms(request, quote, new_quote_part):
     part_sections = PartSection.objects.all()
     part_contents = []
+    part_section_visibility = []
+
     for part_section in part_sections:
         part_types = PartType.objects.filter(includeInSection=part_section)
+        section_visible_tag = f'sectionVisible{part_section.id}'
+        part_section_visible = request.POST[section_visible_tag]
+        part_section_visibility.append(part_section_visible)
         section_parts = []
         section_forms = []
         for part_type in part_types:
@@ -620,15 +629,18 @@ def update_quote_section_parts_and_forms(request, quote, new_quote_part):
 
         zipped_parts = zip(section_parts, section_forms)
         part_contents.append(zipped_parts)
-    return zip(part_sections, part_contents)
+    return zip(part_sections, part_contents, part_section_visibility)
 
 
 # build arrays for bike quote
 def get_quote_section_parts_and_forms(quote: Quote):
     part_sections = PartSection.objects.all()
     part_contents = []
+    part_section_visibility = []
+
     for part_section in part_sections:
         part_types = PartType.objects.filter(includeInSection=part_section)
+        part_section_visible = '0'
         section_parts = []
         section_forms = []
         for part_type in part_types:
@@ -636,6 +648,8 @@ def get_quote_section_parts_and_forms(quote: Quote):
 
             for quote_part in quote_part_objects:
                 quote_part_details = [quote_part]
+                if quote_part.is_not_standard_part():
+                    part_section_visible = '1'
                 quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=quote_part)
                 quote_part_attribute_forms = []
                 for quote_part_attribute in quote_part_attributes:
@@ -647,7 +661,8 @@ def get_quote_section_parts_and_forms(quote: Quote):
 
         zipped_parts = zip(section_parts, section_forms)
         part_contents.append(zipped_parts)
-    return zip(part_sections, part_contents)
+        part_section_visibility.append(part_section_visible)
+    return zip(part_sections, part_contents, part_section_visibility)
 
 
 def build_quote_part_form_for_bike_quote(quote_part, part_type):
@@ -664,15 +679,16 @@ def build_quote_part_form_for_bike_quote(quote_part, part_type):
             initial__q_p['can_be_omitted'] = False
     else:
         # part is specified
-        initial__q_p['new_brand'] = quote_part.part.brand
-        initial__q_p['new_part_name'] = quote_part.part.part_name
-        initial__q_p['new_quantity'] = quote_part.quantity
-        initial__q_p['new_sell_price'] = quote_part.sell_price
         if quote_part.frame_part is None:
             initial__q_p['can_be_substituted'] = True
+
         elif quote_part.frame_part.part != quote_part.part:
             # replaces an original frame related part
             initial__q_p['trade_in_price'] = quote_part.trade_in_price
+            initial__q_p['new_brand'] = quote_part.part.brand
+            initial__q_p['new_part_name'] = quote_part.part.part_name
+            initial__q_p['new_quantity'] = quote_part.quantity
+            initial__q_p['new_sell_price'] = quote_part.sell_price
     return QuoteBikeChangePartForm(initial=initial__q_p, prefix="QP" + str(quote_part.id))
 
 
