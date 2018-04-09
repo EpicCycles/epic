@@ -7,15 +7,15 @@ def get_suppliers_requiring_orders():
     Returns: list of suppliers with items outstanding on customer orders
 
     """
-    suppliers = Supplier.objects.all()
+    order_frames = OrderFrame.objects.filter(supplierOrderItem=None).select_related('supplier')
+    order_items = OrderItem.objects.filter(supplierOrderItem=None).select_related('supplier')
     suppliers_requiring_orders = []
-    for supplier in suppliers:
-        order_frames = OrderFrame.objects.filter(supplier=supplier, supplierOrderItem=None)
-        if order_frames:
-            suppliers_requiring_orders.append(supplier)
-        else:
-            order_items = OrderItem.objects.filter(supplier=supplier, supplierOrderItem=None)
-            if order_items:
-                suppliers_requiring_orders.append(supplier)
+    for order_frame in order_frames:
+        if order_frame.supplier not in suppliers_requiring_orders:
+            suppliers_requiring_orders.append(order_frame.supplier)
+
+    for order_item in order_items:
+        if order_item.supplier not in suppliers_requiring_orders:
+            suppliers_requiring_orders.append(order_item.supplier)
 
     return suppliers_requiring_orders

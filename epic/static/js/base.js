@@ -59,8 +59,10 @@ function checkForChanges() {
             if (event.preventDefault) {
                 event.preventDefault();
             }
+            return false;
         }
     }
+    return true;
 }
 
 // basic popup with url and title passed in

@@ -365,7 +365,6 @@ class Quote(models.Model):
 
     # frame will be null for a quote for items only
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True, null=True)
-    frame_cost_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     frame_sell_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     colour = models.CharField(max_length=40, blank=True, null=True)
     colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
@@ -387,8 +386,7 @@ class Quote(models.Model):
 
         if is_new and self.is_bike():
             # create quote frame link
-            if not self.frame_sell_price or self.frame_sell_price is 0:
-                self.frame_sell_price = self.frame.sell_price
+            self.frame_sell_price = self.frame.sell_price
 
             # create lines for quote
             quote_line = 0

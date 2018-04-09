@@ -27,7 +27,7 @@ function setReviewAction(required_action) {
 
     if (required_action !== "startReview") {
         if (required_action === "save_changes") {
-            // reset page changed flag as this isok.
+            // reset page changed flag as this is ok.
             pageChanged = false;
         }
 
@@ -41,21 +41,24 @@ function setReviewAction(required_action) {
         if ((frame_brand !== brand_selected_init)
             || (frame_name_selected !== frame_name_selected_init)
             || (model_selected !== model_selected_init)) {
-            if (confirm("You have changed the selections, saving will display bikes matching new selections, do you want to rest the selections now?")) {
+            if (confirm("You have changed the selections, continuing will display bikes matching new selections, do you want to save other changes?")) {
                 if (required_action === "save_changes") {
                     document.getElementById("action_required").value = "save_and_show_new_selection";
                 } else {
+                    pageChanged = false;
                     document.getElementById("action_required").value = "startReview";
                 }
             } else {
-                pageChanged = false;
                 frameBrandSelector.val(brand_selected_init);
                 document.getElementById("frame_name_selected").value = frame_name_selected_init;
                 document.getElementById("model_selected").value = model_selected_init;
             }
         }
     }
-    document.forms["reviewBikes"].submit();
+    if (checkForChanges()) {
+        pageChanged = false;
+        document.forms["reviewBikes"].submit();
+    }
 }
 
 

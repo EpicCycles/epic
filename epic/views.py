@@ -12,7 +12,7 @@ from django.views.generic.list import ListView
 from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm, FrameSearchForm
 from epic.models import Customer, Supplier, CustomerOrder, Frame, ARCHIVED, INITIAL
 from epic.view_helpers.frame_view_helper import process_upload, create_new_model, process_bike_review, show_bike_review, \
-    show_first_bike
+    show_first_bike, show_next_bike
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_order_view_helper import edit_customer_order, process_customer_order_edits, \
     cancel_order_and_requote, cancel_order_and_quote
@@ -213,6 +213,8 @@ def bike_review(request):
 
         if action_required == 'startReview':
             return show_first_bike(request)
+        elif action_required == "show_next":
+            return show_next_bike(request)
         elif action_required == "save_and_show_new_selection":
             return process_bike_review(request, True)
         else:
