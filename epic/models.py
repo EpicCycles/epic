@@ -552,10 +552,14 @@ class QuotePart(models.Model):
         else:
             return str(self.part)
 
+    # get all attributes for this quote part
+    def getAttributes(self):
+        return self.quotepartattribute_set.all()
+
     # return a part summary for use on Order and other pages
     def summary(self):
         attribute_detail = ''
-        quote_part_attributes = self.quotepartattribute_set.all()
+        quote_part_attributes = self.getAtributes()
         if quote_part_attributes:
 
             for quotePartAttribute in quote_part_attributes:
