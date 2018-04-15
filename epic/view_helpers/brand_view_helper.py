@@ -3,6 +3,7 @@ import logging
 
 from django.shortcuts import render
 
+from epic.form_helpers.choices import set_brand_list_in_cache, get_brand_list_from_cache
 from epic.forms import BrandForm
 
 
@@ -11,6 +12,10 @@ def save_brand(request):
     if brand_form.is_valid():
         try:
             saved_brand = brand_form.save()
+            set_brand_list_in_cache()
+
+            print('brand saved, form brand list is now', get_brand_list_from_cache())
+
             return render(request, 'epic/brand_add_popup.html', {'brand_form': BrandForm(),'saved_brand':saved_brand})
 
         except Exception as e:

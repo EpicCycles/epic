@@ -40,7 +40,7 @@ def add_quote_elements_to_order(customer_order, quote):
     # create part elements and forms for them
     quote_part_objects = QuotePart.objects.filter(quote=quote)
     for quote_part in quote_part_objects:
-        if quote_part.part and quote_part.is_not_standard_part():
+        if quote_part.part and quote_part.is_not_standard_part:
             order_item = OrderItem.objects.create_order_item(quote_part.part, customer_order, quote_part)
             order_item.save()
 

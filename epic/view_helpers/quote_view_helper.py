@@ -8,18 +8,19 @@ from django.contrib import messages
 import logging
 
 from epic.email_helpers.quote import send_quote_email
+from epic.form_helpers.choices import get_part_type_list_from_cache, get_part_section_list_from_cache, \
+    get_part_types_for_section_from_cache
 from epic.forms import QuoteForm, QuotePartBasicForm, \
     QuoteBikeChangePartForm, QuoteSimpleAddPartForm, QuoteSimpleForm, QuotePartForm, QuoteFittingForm, QuoteBikeForm
 from epic.helpers.quote_helper import quote_requote
 from epic.model_helpers.part_helper import find_or_create_part, validate_and_create_part
-from epic.models import QuotePart, QuotePartAttribute, PartType, PartSection, CustomerNote, INITIAL, Fitting, Quote, \
-    Customer, FramePart, FrameExclusion, Frame
+from epic.models import QuotePart, QuotePartAttribute, CustomerNote, INITIAL, Fitting, Quote, \
+    Customer, FramePart, FrameExclusion, Frame, Brand
 from epic.view_helpers.attribute_view_helper import build_quote_part_attribute_form, save_quote_part_attribute_form
 from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.menu_view_helper import add_standard_session_data
 from epic.view_helpers.note_view_helper import create_customer_note
-from epic.view_helpers.part_view_helper import get_parts_for_js
 
 COPIED = "Replace Me"
 
@@ -238,7 +239,7 @@ def show_bike_quote_edit_new_frame(request, quote, new_frame_id):
     # go through quote parts and find equivalents for new frame
     quote_parts = quote.quotepart_set.all()
     quote_part_count = quote_parts.count()
-    for partType in PartType.objects.all():
+    for partType in get_part_type_list_from_cache():
         new_frame_part = FramePart.objects.filter(frame=frame, part__partType=partType).first()
         if FrameExclusion.objects.filter(frame=frame, partType=partType).exists():
             # delete all quote parts with frame parts for part type
@@ -365,7 +366,6 @@ def show_simple_quote_edit(request, quote):
     quote_page = 'epic/quote_edit_simple.html'
     quote_simple_add_part = QuoteSimpleAddPartForm(empty_permitted=True)
     customer_notes = CustomerNote.objects.filter(quote=quote)
-    parts_for_js = get_parts_for_js()
     return render(request, quote_page,
                   add_standard_session_data(request, {'quote_form': QuoteSimpleForm(instance=quote), 'quote': quote,
                                                       'quoteSimpleAddPart': quote_simple_add_part,
@@ -401,7 +401,7 @@ def show_quote_browse(request, quote):
 
 # show the quote ready to issue
 def show_quote_issue(request, quote):
-    if quote.can_be_issued():
+    if quote.can_be_issued:
         return show_quote_browse(request, quote)
     elif quote.quote_status == INITIAL:
         messages.error(request, 'Quote needs prices before it can be issued')
@@ -497,7 +497,7 @@ def copy_quote_detail(old_quote, request, frame):
     if new_quote.is_bike():
         # replicate the changes from the first quote
         for old_quote_part in old_quote_parts:
-            if old_quote_part.is_not_standard_part():
+            if old_quote_part.is_not_standard_part:
                 try:
                     new_quote_part = QuotePart.objects.get(quote=new_quote, partType=old_quote_part.partType)
                     # already have a part of this type update it to reflect this one
@@ -505,7 +505,7 @@ def copy_quote_detail(old_quote, request, frame):
                     new_quote_part.quantity = old_quote_part.quantity
                     new_quote_part.sell_price = old_quote_part.sell_price
                     new_quote_part.save()
-                    old_quote_part_attributes = old_quote_part.getAttributes()
+                    old_quote_part_attributes = old_quote_part.get_attributes()
                     for attribute in old_quote_part_attributes:
                         try:
                             new_quote_part_attribute = QuotePartAttribute.objects.get(quotePart=new_quote_part,
@@ -541,14 +541,14 @@ def copy_quote_detail(old_quote, request, frame):
 
 # simple display of sections
 def quote_parts_for_bike_display(quote, for_customer):
-    part_sections = PartSection.objects.all()
+    part_sections = get_part_section_list_from_cache()
     part_section_details = []
     part_section_counts = []
 
     for part_section in part_sections:
         quote_parts = []
         quote_part_details = []
-        part_types = PartType.objects.filter(includeInSection=part_section)
+        part_types = get_part_types_for_section_from_cache(part_section)
 
         for part_type in part_types:
             quote_part_objects = QuotePart.objects.filter(quote=quote, partType=part_type) \
@@ -561,13 +561,13 @@ def quote_parts_for_bike_display(quote, for_customer):
                 include_part = True
                 if for_customer and not part_type.customer_facing:
                     include_part = False
-                    if quote_part.is_not_standard_part():
+                    if quote_part.is_not_standard_part:
                         include_part = True
 
                 if include_part:
                     quote_parts.append(quote_part)
                     if quote_part.part:
-                        quote_part_details.append(quote_part.getAttributes())
+                        quote_part_details.append(quote_part.get_attributes())
                     else:
                         quote_part_details.append([])
 
@@ -580,31 +580,34 @@ def quote_parts_for_bike_display(quote, for_customer):
 
 
 def update_quote_section_parts_and_forms(request, quote, new_quote_part):
-    part_sections = PartSection.objects.all()
+    part_sections = get_part_section_list_from_cache()
     part_contents = []
     part_section_visibility = []
 
     for part_section in part_sections:
-        part_types = PartType.objects.filter(includeInSection=part_section) \
-            .prefetch_related('part',
-                              'part__brand',
-                              'quotepartattribute_set',
-                              'frame_part',
-                              'frame_part__part__brand')
+        part_types = get_part_types_for_section_from_cache(part_section)
         section_visible_tag = f'sectionVisible{part_section.id}'
         part_section_visible = request.POST[section_visible_tag]
         part_section_visibility.append(part_section_visible)
-        section_parts = []
+        section_part_types = []
+        section_frame_parts = []
+        section_frame_attributes = []
         section_forms = []
         for part_type in part_types:
             quote_part_objects = QuotePart.objects.filter(quote=quote, partType=part_type) \
                 .prefetch_related('part',
                                   'part__brand',
-                                  'quotepartattribute_set',
                                   'frame_part',
-                                  'frame_part__part__brand')
+                                  'frame_part__part__brand',
+                                  'quotepartattribute_set',
+                                  'quotepartattribute_set__partTypeAttribute')
             for quote_part in quote_part_objects:
-                quote_part_details = [quote_part]
+                section_part_types.append(str(part_type))
+                if quote_part.frame_part:
+                    section_frame_parts.append(f"{quote_part.frame_part.part.brand} {quote_part.frame_part.part.part_name}")
+                else:
+                    section_frame_parts.append("")
+
                 quote_part_attribute_forms = []
 
                 if quote_part == new_quote_part:
@@ -627,10 +630,10 @@ def update_quote_section_parts_and_forms(request, quote, new_quote_part):
                                                                           initial=initial__q_p,
                                                                           prefix="QP" + str(quote_part.id))
                     if quote_bike_change_part_form.is_valid():
-                        update_quote_part_from_form(quote_part, quote_bike_change_part_form)
+                        update_quote_part_from_form(quote_part, quote_bike_change_part_form, part_type)
                         quote_bike_change_part_form = build_quote_part_form_for_bike_quote(quote_part, part_type)
 
-                quote_part_attributes = quote_part.getAttributes()
+                quote_part_attributes = quote_part.get_attributes()
                 for quote_part_attribute in quote_part_attributes:
                     if quote_part != new_quote_part:
                         quote_part_attribute_forms.append(
@@ -639,47 +642,56 @@ def update_quote_section_parts_and_forms(request, quote, new_quote_part):
                         # this is a new line add the attribute forms required
                         quote_part_attribute_forms.append(build_quote_part_attribute_form(quote_part_attribute, True))
 
-                quote_part_details.append(quote_part_attribute_forms)
-                section_parts.append(quote_part_details)
+                section_frame_attributes.append(quote_part_attribute_forms)
                 section_forms.append(quote_bike_change_part_form)
 
-        zipped_parts = zip(section_parts, section_forms)
+        zipped_parts = zip(section_part_types, section_frame_parts, section_frame_attributes, section_forms)
         part_contents.append(zipped_parts)
     return zip(part_sections, part_contents, part_section_visibility)
 
 
 # build arrays for bike quote
 def get_quote_section_parts_and_forms(quote: Quote):
-    part_sections = PartSection.objects.all()
+    part_sections = get_part_section_list_from_cache()
     part_contents = []
     part_section_visibility = []
 
     for part_section in part_sections:
-        part_types = PartType.objects.filter(includeInSection=part_section)
+        part_types = get_part_types_for_section_from_cache(part_section)
         part_section_visible = '0'
-        section_parts = []
+        section_part_types = []
+        section_frame_parts = []
+        section_frame_attributes = []
         section_forms = []
         for part_type in part_types:
             quote_part_objects = QuotePart.objects.filter(quote=quote, partType=part_type) \
                 .prefetch_related('part',
                                   'part__brand',
                                   'frame_part',
-                                  'frame_part__frame__brand')
+                                  'frame_part__part__brand',
+                                  'quotepartattribute_set',
+                                  'quotepartattribute_set__partTypeAttribute')
 
             for quote_part in quote_part_objects:
-                quote_part_details = [quote_part]
-                if quote_part.is_not_standard_part():
+                section_part_types.append(str(part_type))
+                if quote_part.frame_part:
+                    section_frame_parts.append(f"{quote_part.frame_part.part.brand} {quote_part.frame_part.part.part_name}")
+                else:
+                    section_frame_parts.append("")
+
+                if quote_part.is_not_standard_part:
                     part_section_visible = '1'
-                quote_part_attributes = quote_part.getAttributes()
+
+                quote_part_attributes = quote_part.get_attributes()
                 quote_part_attribute_forms = []
                 for quote_part_attribute in quote_part_attributes:
                     quote_part_attribute_forms.append(build_quote_part_attribute_form(quote_part_attribute, True))
 
-                quote_part_details.append(quote_part_attribute_forms)
-                section_parts.append(quote_part_details)
+                section_frame_attributes.append(quote_part_attribute_forms)
+
                 section_forms.append(build_quote_part_form_for_bike_quote(quote_part, part_type))
 
-        zipped_parts = zip(section_parts, section_forms)
+        zipped_parts = zip(section_part_types, section_frame_parts, section_frame_attributes, section_forms)
         part_contents.append(zipped_parts)
         part_section_visibility.append(part_section_visible)
     return zip(part_sections, part_contents, part_section_visibility)
@@ -687,7 +699,7 @@ def get_quote_section_parts_and_forms(quote: Quote):
 
 def build_quote_part_form_for_bike_quote(quote_part, part_type):
     initial__q_p = {'can_be_substituted': part_type.can_be_substituted, 'can_be_omitted': part_type.can_be_omitted}
-    initial__q_p['new_part_type'] = quote_part.partType.pk
+    initial__q_p['new_part_type'] = part_type.pk
     if quote_part.part is None:
         if quote_part.frame_part is not None:
             # Bike part exists take defaults
@@ -702,10 +714,10 @@ def build_quote_part_form_for_bike_quote(quote_part, part_type):
         if quote_part.frame_part is None:
             initial__q_p['can_be_substituted'] = True
 
-        elif quote_part.frame_part.part != quote_part.part:
+        elif quote_part.frame_part and quote_part.frame_part.part != quote_part.part:
             # replaces an original frame related part
             initial__q_p['trade_in_price'] = quote_part.trade_in_price
-            initial__q_p['new_brand'] = quote_part.part.brand
+            initial__q_p['new_brand'] = quote_part.part.brand.id
             initial__q_p['new_part_name'] = quote_part.part.part_name
             initial__q_p['new_quantity'] = quote_part.quantity
             initial__q_p['new_sell_price'] = quote_part.sell_price
@@ -714,7 +726,7 @@ def build_quote_part_form_for_bike_quote(quote_part, part_type):
 
 def build_quote_part_for_screen(quote_part):
     quote_part_details = [quote_part]
-    quote_part_attributes = quote_part.getAttributes()
+    quote_part_attributes = quote_part.get_attributes()
     quote_part_attribute_forms = []
     for quote_part_attribute in quote_part_attributes:
         quote_part_attribute_forms.append(build_quote_part_attribute_form(quote_part_attribute, True))
@@ -756,12 +768,12 @@ def create_quote_part(form, quote_pk, part_pk, quote_line):
 
 
 # update an existing quote part based on keyed values
-def update_quote_part_from_form(quote_part, form):
+def update_quote_part_from_form(quote_part, form, part_type):
     not_required = form.cleaned_data['not_required']
     trade_in_price = form.cleaned_data['trade_in_price']
     if not_required:
         if (quote_part.frame_part is None) and (
-                QuotePart.objects.filter(quote=quote_part.quote, partType=quote_part.partType).count() > 1):
+                QuotePart.objects.filter(quote=quote_part.quote, partType=part_type).count() > 1):
             quote_part.delete()
         else:
             quote_part.part = None
@@ -770,11 +782,13 @@ def update_quote_part_from_form(quote_part, form):
             quote_part.trade_in_price = trade_in_price
             quote_part.save()
     else:
-        brand = form.cleaned_data['new_brand']
+        brand = None
+        if form.cleaned_data['new_brand']:
+            brand = Brand.objects.get(id=form.cleaned_data['new_brand'])
         quantity = form.cleaned_data['new_quantity']
         if quantity and quantity > 0:
             # values have changed
-            part_type = quote_part.partType
+            part_type = part_type
             part_name = form.cleaned_data['new_part_name']
             part = find_or_create_part(brand, part_type, part_name)
             if part is not None:
@@ -787,26 +801,27 @@ def update_quote_part_from_form(quote_part, form):
         else:
             # values have been removed reset row
             quote_part.trade_in_price = None
-            if quote_part.frame_part is None:
-                if QuotePart.objects.filter(quote=quote_part.quote, partType=quote_part.partType).count() > 1:
+            if quote_part.frame_part:
+                quote_part.part = quote_part.frame_part.part
+                quote_part.quantity = 1
+                quote_part.sell_price = None
+                quote_part.save()
+            else:
+                if QuotePart.objects.filter(quote=quote_part.quote, partType=part_type).count() > 1:
                     quote_part.delete()
                 else:
                     quote_part.part = None
                     quote_part.quantity = 0
                     quote_part.sell_price = None
                     quote_part.save()
-            else:
-                quote_part.part = quote_part.frame_part.part
-                quote_part.quantity = 1
-                quote_part.sell_price = None
-                quote_part.save()
+
 
 
 def save_quote_part_attributes(quote, request):
     quote_part_objects = QuotePart.objects.filter(quote=quote)
     for quote_part in quote_part_objects:
         # get the attributes as they were at the start
-        quote_part_attributes = quote_part.getAttributes()
+        quote_part_attributes = quote_part.get_attributes()
         # refresh any quote parts
         for quote_part_attribute in quote_part_attributes:
             save_quote_part_attribute_form(request, quote_part_attribute, quote_part)

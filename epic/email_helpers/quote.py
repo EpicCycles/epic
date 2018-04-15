@@ -1,7 +1,8 @@
 from django.contrib import messages
 
 from epic.email_helpers.apostle_email import create_apostle_email, send_apostle_email
-from epic.models import FITTING_TYPE_CHOICES, PartSection, PartType, QuotePart, CustomerNote
+from epic.form_helpers.choices import get_part_section_list_from_cache, get_part_types_for_section_from_cache
+from epic.models import FITTING_TYPE_CHOICES, QuotePart, CustomerNote
 
 
 def send_quote_email(request, quote):
@@ -23,17 +24,17 @@ def build_quote_detail_for_email(quote):
                                           'saddle_height': quote.fitting.saddle_height,
                                           'bar_height': quote.fitting.bar_height, 'reach': quote.fitting.reach}
 
-    partSections = PartSection.objects.all()
+    part_sections = get_part_section_list_from_cache()
     items = []
     notes = []
-    for partSection in partSections:
-        partTypes = PartType.objects.filter(includeInSection=partSection)
+    for part_section in part_sections:
+        partTypes = get_part_types_for_section_from_cache(part_section)
 
         for partType in partTypes:
             quotePartObjects = QuotePart.objects.filter(quote=quote, partType=partType)
             for quotePart in quotePartObjects:
                 include_part = False
-                if quotePart.is_not_standard_part():
+                if quotePart.is_not_standard_part:
                     include_part = True
                 else:
                     if partType.customer_facing and quotePart.part is not None:

@@ -114,7 +114,7 @@ def process_customer_order_edits(request, customer_order):
     added_quotes = []
     for quote_id in add_quotes:
         quote = Quote.objects.get(id=quote_id)
-        if (quote and quote.can_be_ordered()):
+        if (quote and quote.can_be_ordered):
             add_quote_elements_to_order(customer_order, quote)
             quote_order(request, quote, customer_order)
             added_quotes.append(quote)

@@ -33,6 +33,11 @@ SECRET_KEY = config['DEFAULT']['SECRET_KEY']
 DEBUG = config[ENV]['DEBUG']
 
 ALLOWED_HOSTS = config[ENV]['ALLOWED_HOSTS']
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
 
 # Application definition
 if ENV == 'TEST':

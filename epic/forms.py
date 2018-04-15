@@ -7,6 +7,7 @@ from django.forms.models import inlineformset_factory
 from django.forms.widgets import HiddenInput
 from django.forms.widgets import SelectDateWidget
 
+from epic.form_helpers.choices import get_brand_list_from_cache, get_part_type_list_from_cache
 from .models import *
 
 # useful documentation here - https://docs.djangoproject.com/en/1.10/topics/forms/
@@ -17,6 +18,7 @@ FORM_NUMBER_TYPE_CHOICES = list(NUMBER_TYPE_CHOICES)
 FORM_NUMBER_TYPE_CHOICES.insert(0, (None, '----'))
 FORM_QUOTE_TYPE_CHOICES = list(QUOTE_TYPE_CHOICES)
 FORM_QUOTE_TYPE_CHOICES.insert(0, (None, '-----'))
+BLANK_CHOICE = [(None, '---------')]
 name_pattern = '[A-Za-z -]+'
 postcode_pattern = '[A-Za-z]{1,2}[0-9]{1,2}[ ][0-9]{1,2}[A-Za-z]{1,2}'
 
@@ -170,9 +172,9 @@ class FramePartForm(ModelForm):
 
 
 class FrameChangePartForm(forms.Form):
-    brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
+    brand = forms.ChoiceField(choices=[], required=False, label='Brand')
     part_name = forms.CharField(max_length=60, required=False, label='Part Name')
-    part_type =  forms.ModelChoiceField(queryset=PartType.objects.all())
+    part_type = forms.ModelChoiceField(queryset=get_part_type_list_from_cache())
     not_relevant = forms.BooleanField(required=False, label='Not Valid')
 
     def __init__(self, *args, **kwargs):
@@ -180,6 +182,7 @@ class FrameChangePartForm(forms.Form):
         self.label_suffix = ''
         self.fields['part_type'].widget = HiddenInput()
         self.fields['part_name'].widget = forms.TextInput(attrs={'size': '20'})
+        self.fields['brand'].choices = BLANK_CHOICE + get_brand_list_from_cache()
 
     def clean(self):
         cleaned_data = super(FrameChangePartForm, self).clean()
@@ -232,12 +235,13 @@ class QuoteSearchForm(forms.Form):
 
 # form for searching for quotes
 class FrameSearchForm(forms.Form):
-    search_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
+    search_brand = forms.ChoiceField(choices=[], required=False, label='Brand')
     search_name = forms.CharField(max_length='30', required=False, label='Name Like')
 
     def __init__(self, *args, **kwargs):
         super(FrameSearchForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
+        self.fields['brand'].choices = BLANK_CHOICE + get_brand_list_from_cache()
 
 
 class BrandForm(ModelForm):
@@ -347,8 +351,8 @@ class QuoteSimpleForm(ModelForm):
 
 # simple quote add item
 class QuoteSimpleAddPartForm(forms.Form):
-    new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
-    new_part_type = forms.ModelChoiceField(queryset=PartType.objects.all().order_by('shortName'), required=False,
+    new_brand = forms.ChoiceField(choices=[], required=False, label='Brand')
+    new_part_type = forms.ModelChoiceField(queryset=get_part_type_list_from_cache().order_by('shortName'), required=False,
                                            label='Part Type')
     new_part_name = forms.CharField(max_length=60, required=False, label='Part Name')
     new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity')
@@ -360,6 +364,7 @@ class QuoteSimpleAddPartForm(forms.Form):
         self.label_suffix = ''
         self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': '4', 'title': 'Qty'})
         self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': '6', 'title': 'Sell Price'})
+        self.fields['new_brand'].choices = BLANK_CHOICE + get_brand_list_from_cache()
 
     def clean(self):
         cleaned_data = super(QuoteSimpleAddPartForm, self).clean()
@@ -418,7 +423,7 @@ class QuoteBikeChangePartForm(forms.Form):
     can_be_omitted = forms.BooleanField(required=False, label='Omit')
     trade_in_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
                                         label='Trade In')
-    new_brand = forms.ModelChoiceField(queryset=Brand.objects.all(), required=False, label='Brand')
+    new_brand = forms.ChoiceField(choices=[], required=False, label='Brand')
     new_part_name = forms.CharField(max_length=60, required=False, label='Part Name')
     new_part_type = forms.CharField(required=False)
     new_quantity = forms.IntegerField(max_value=9999, min_value=0, required=False, label='Quantity')
@@ -438,6 +443,7 @@ class QuoteBikeChangePartForm(forms.Form):
         self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': '4'})
         self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': '9'})
         self.fields['trade_in_price'].widget = forms.TextInput(attrs={'size': '8'})
+        self.fields['new_brand'].choices = BLANK_CHOICE + get_brand_list_from_cache()
 
         # modify the form to reflect the actual possibilities
         can_be_substituted = initial_values['can_be_substituted']
@@ -589,7 +595,6 @@ class OrderFrameForm(ModelForm):
         labels = {'frame': _('Frameset/Base Bike'), }
 
     def __init__(self, *args, **kwargs):
-
         super(OrderFrameForm, self).__init__(*args, **kwargs)
         self.fields['customerOrder'].widget = HiddenInput()
         self.fields['frame'].widget = HiddenInput()

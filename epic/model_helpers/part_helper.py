@@ -1,7 +1,5 @@
-import logging
-
 from epic.model_helpers.brand_helper import find_brand_for_name
-from epic.models import Part
+from epic.models import Part, Brand
 
 
 # given values try and create a part
@@ -18,7 +16,7 @@ def find_or_create_part(brand, part_type, part_name):
 # another try at creating the part
 def validate_and_create_part(request, add_part_form):
     if add_part_form.cleaned_data['new_part_type'] is not None:
-        brand = add_part_form.cleaned_data['new_brand']
+        brand = Brand.objects.get(id=add_part_form.cleaned_data['new_brand'])
         if brand is None:
             # look for a brand matching what has been entered for new_brand_add
             brand_name = add_part_form.cleaned_data['new_brand_add']

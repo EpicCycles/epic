@@ -12,9 +12,11 @@ from django.urls import reverse
 from epic.forms import FrameForm, FrameChangePartForm
 from epic.helpers.validation_helper import decimalForString
 from epic.model_helpers.brand_helper import find_brand_for_string, find_brand_for_name
+from epic.model_helpers.frame_helper import get_frames_for_js
 from epic.model_helpers.part_helper import find_or_create_part
-from epic.models import Brand, PartType, FramePart, Frame, QuotePart, FrameExclusion, PartSection
-from epic.view_helpers.menu_view_helper import add_standard_session_data, show_menu
+from epic.models import Brand, PartType, FramePart, Frame, QuotePart, FrameExclusion
+from epic.view_helpers.menu_view_helper import add_standard_session_data
+from epic.form_helpers.choices import get_part_section_list_from_cache, get_part_types_for_section_from_cache
 
 
 def show_bike_review(request):
@@ -29,7 +31,7 @@ def show_bike_review(request):
 def show_first_bike(request):
     data = base_data_for_review_bike(request)
 
-    bike_review_selections = get_selections_from_screen(request)
+    bike_review_selections = get_frame_selections_from_screen(request)
     if bike_review_selections['frame_brand']:
         data.update(bike_review_selections)
         data.update(build_frame_list_for_review(request, bike_review_selections))
@@ -44,7 +46,7 @@ def show_next_bike(request):
     print('{timestamp} -- show next started'.format(timestamp=datetime.utcnow().isoformat()))
 
     data = base_data_for_review_bike(request)
-    data.update(get_selections_from_screen(request))
+    data.update(get_frame_selections_from_screen(request))
 
     try:
         frame_id_str = request.POST['frame_id']
@@ -78,7 +80,7 @@ def process_bike_review(request, refresh_list):
     print('{timestamp} -- save and show another started'.format(timestamp=datetime.utcnow().isoformat()))
 
     data = base_data_for_review_bike(request)
-    data.update(get_selections_from_screen(request))
+    data.update(get_frame_selections_from_screen(request))
 
     try:
         frame_id_str = request.POST['frame_id']
@@ -100,8 +102,8 @@ def process_bike_review(request, refresh_list):
         if redisplay_frame_parts:
             data['frame'] = frame
             data['frame_form'] = frame_form
-            data['frame_sections'] = redisplay_frame_parts
-            data['frame_parts'] = FramePart.objects.filter(frame=frame)
+            data['frame_sections'] = redisplay_frame_parts['frame_sections']
+            data['frame_parts'] = redisplay_frame_parts['frame_parts']
             return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
 
     else:
@@ -123,15 +125,17 @@ def process_bike_review(request, refresh_list):
 
 
 def process_frame_parts(request, frame, has_errors):
-    part_sections = PartSection.objects.all()
+    part_sections = get_part_section_list_from_cache()
     part_contents = []
+    part_list = []
+
     all_parts_for_frame = FramePart.objects.filter(frame=frame)
     for part_section in part_sections:
-        part_types = PartType.objects.filter(includeInSection=part_section)
+        part_types = get_part_types_for_section_from_cache(part_section)
         section_forms = []
         for part_type in part_types:
             initial_frame_part = {'part_type': part_type}
-            frame_part = all_parts_for_frame.filter(part__partType=part_type)\
+            frame_part = all_parts_for_frame.filter(part__partType=part_type) \
                 .prefetch_related('part', 'part__brand').first()
             frame_part_exclusion = FrameExclusion.objects.filter(frame=frame, partType=part_type).exists()
 
@@ -139,7 +143,7 @@ def process_frame_parts(request, frame, has_errors):
                 initial_frame_part['not_relevant'] = True
 
             if frame_part:
-                initial_frame_part['brand'] = frame_part.part.brand
+                initial_frame_part['brand'] = frame_part.part.brand.id
                 initial_frame_part['part_name'] = frame_part.part.part_name
 
             frame_change_part_form = FrameChangePartForm(request.POST, request.FILES, initial=initial_frame_part,
@@ -153,8 +157,9 @@ def process_frame_parts(request, frame, has_errors):
                         frame_part_exclusion = FrameExclusion.objects.create_frame_exclusion(frame, part_type)
                         frame_part_exclusion.save()
                 else:
-                    brand = frame_change_part_form.cleaned_data['brand']
-                    if brand:
+                    brand_id = frame_change_part_form.cleaned_data['brand']
+                    if brand_id:
+                        brand = Brand.objects.get(id=brand_id)
                         part_name = frame_change_part_form.cleaned_data['part_name']
                         part = find_or_create_part(brand, part_type, part_name)
                         if frame_part:
@@ -163,6 +168,7 @@ def process_frame_parts(request, frame, has_errors):
                         else:
                             frame_part = FramePart.objects.create_frame_part(frame, part)
                             frame_part.save()
+                        part_list.append(str(frame_part))
                     else:
                         if frame_part:
                             frame_part.delete()
@@ -175,28 +181,17 @@ def process_frame_parts(request, frame, has_errors):
         part_contents.append(zip(part_types, section_forms))
 
     if has_errors:
-        return zip(part_sections, part_contents)
+        return {'frame_sections': zip(part_sections, part_contents), 'part_list': part_list}
     else:
         return None
 
 
 def base_data_for_review_bike(request):
-    data = {}
-    frames_for_js = request.session.get('frames_for_js')
-    if not frames_for_js:
-        print('{timestamp} -- building frames for js started'.format(timestamp=datetime.utcnow().isoformat()))
-
-        frames_for_js = []
-        for frame in Frame.objects.all().prefetch_related('brand'):
-            frames_for_js.append('{' + frame.getJavascriptObject() + '}')
-        request.session['frames_for_js'] = frames_for_js
-        print('{timestamp} -- building frames for js finished'.format(timestamp=datetime.utcnow().isoformat()))
-
-    data['frames_for_js'] = frames_for_js
+    data = {'frames_for_js': get_frames_for_js(request.session)}
     return data
 
 
-def get_selections_from_screen(request):
+def get_frame_selections_from_screen(request):
     selections = {'frame_brand': request.POST.get('frame_brand'),
                   'frame_name_selected': request.POST.get('frame_name_selected'),
                   'model_selected': request.POST.get('model_selected')}
@@ -217,16 +212,17 @@ def build_frame_list_for_review(request, bike_review_selections):
     return {'frame_ids': frame_id_array}
 
 
-def build_frame_sections(frame: Frame):
-    part_sections = PartSection.objects.all()
+def build_frame_elements(frame: Frame):
+    part_sections = get_part_section_list_from_cache()
     part_contents = []
     all_parts_for_frame = FramePart.objects.filter(frame=frame)
+    part_list = []
     for part_section in part_sections:
-        part_types = PartType.objects.filter(includeInSection=part_section)
+        part_types = get_part_types_for_section_from_cache(part_section)
         section_forms = []
         for part_type in part_types:
             initial_frame_part = {'part_type': part_type}
-            frame_parts = all_parts_for_frame.filter(part__partType=part_type)\
+            frame_parts = all_parts_for_frame.filter(part__partType=part_type) \
                 .prefetch_related('part', 'part__brand', 'part__partType')
             frame_part_exclusion = FrameExclusion.objects.filter(frame=frame, partType=part_type).exists()
 
@@ -234,34 +230,23 @@ def build_frame_sections(frame: Frame):
                 initial_frame_part['not_relevant'] = True
 
             if frame_parts:
-                initial_frame_part['brand'] = frame_parts[0].part.brand
+                part_list.append(str(frame_parts[0]))
+                initial_frame_part['brand'] = frame_parts[0].part.brand.id
                 initial_frame_part['part_name'] = frame_parts[0].part.part_name
             section_forms.append(FrameChangePartForm(initial=initial_frame_part, prefix="PT" + str(part_type.id)))
 
         part_contents.append(zip(part_types, section_forms))
-    return zip(part_sections, part_contents)
-
-
-def build_frame_parts(frame):
-    part_sections = PartSection.objects.all()
-    part_contents = []
-
-    for part_section in part_sections:
-        frame_parts_for_section = FramePart.objects.filter(frame=frame, part__partType__includeInSection=part_section) \
-            .prefetch_related('part', 'part__brand', 'part__partType').order_by('part__partType__placing')
-        for frame_part in frame_parts_for_section:
-            part_contents.append(frame_part)
-
-    return part_contents
+    return {'frame_sections': zip(part_sections, part_contents), 'part_list': part_list}
 
 
 def review_details_for_frame(frame_id):
     # get details fro frame and build frame form
     frame = Frame.objects.get(id=int(frame_id))
     frame_form = FrameForm(instance=frame)
+    frame_page_elements = build_frame_elements(frame)
     frame_edit_elements = {'frame': frame, 'frame_form': frame_form,
-                           'frame_sections': build_frame_sections(frame),
-                           'frame_parts': build_frame_parts(frame)}
+                           'frame_sections': frame_page_elements['frame_sections'],
+                           'frame_parts': frame_page_elements['part_list']}
 
     return frame_edit_elements
 

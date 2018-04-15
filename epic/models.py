@@ -9,7 +9,8 @@ from django.utils import timezone
 # added to allow user details on models and history tables
 from django.conf import settings
 
-# Global variables
+from epic.form_helpers.choices import get_part_section_list_from_cache, get_part_types_for_section_from_cache
+
 HOME = 'H'
 WORK = 'W'
 MOBILE = 'M'
@@ -337,8 +338,8 @@ class CustomerOrder(models.Model):
         # loop through the payments taken
         self.amount_due = self.order_total
 
-        orderPayments = OrderPayment.objects.filter(customerOrder=self)
-        for orderPayment in orderPayments:
+        order_payments = OrderPayment.objects.filter(customerOrder=self)
+        for orderPayment in order_payments:
             if not (orderPayment.amount is None):
                 self.amount_due -= orderPayment.amount
 
@@ -375,6 +376,8 @@ class Quote(models.Model):
     quote_status = models.CharField(max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
     customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
+    can_be_issued = models.BooleanField(default=True)
+    can_be_ordered = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         # is_new = self._state.adding
@@ -382,6 +385,13 @@ class Quote(models.Model):
 
         # calculate sum before saving.
         self.recalculate_prices()
+        if is_new:
+            self.can_be_ordered = True
+            self.can_be_issued = True
+        else:
+            self.can_be_issued = self.check_if_can_be_issued()
+            self.can_be_ordered = self.check_if_can_be_ordered()
+
         super(Quote, self).save(*args, **kwargs)
 
         if is_new and self.is_bike():
@@ -390,11 +400,11 @@ class Quote(models.Model):
 
             # create lines for quote
             quote_line = 0
-            part_sections = PartSection.objects.all()
-            frame_parts = FramePart.objects.filter(frame=self.frame)
+            part_sections = get_part_section_list_from_cache()
+            frame_parts = FramePart.objects.filter(frame=self.frame).prefetch_related('part', 'part__partType')
 
-            for partSection in part_sections:
-                part_types = PartType.objects.filter(includeInSection=partSection)
+            for part_section in part_sections:
+                part_types = get_part_types_for_section_from_cache(part_section)
                 for partType in part_types:
                     if not FrameExclusion.objects.filter(frame=self.frame, partType=partType).exists():
                         # add the part type to the list
@@ -422,7 +432,7 @@ class Quote(models.Model):
     # set issuedDate whe quote is issued to a customer
     def issue(self):
         # check all prices complete and quantities set before issuing
-        if self.can_be_issued():
+        if self.can_be_issued:
             self.issued_date = timezone.now()
             self.quote_status = ISSUED
             self.save()
@@ -439,8 +449,8 @@ class Quote(models.Model):
         return False
 
     # check if a quote can be turned into an order
-    def can_be_ordered(self):
-        if self.quote_status == ISSUED or self.can_be_issued():
+    def check_if_can_be_ordered(self):
+        if self.quote_status == ISSUED or self.can_be_issued:
             for quote_part in self.quotepart_set.all():
                 for quotePartAttribute in quote_part.quotepartattribute_set.all():
                     if quote_part.part and quotePartAttribute.partTypeAttribute.mandatory:
@@ -450,7 +460,7 @@ class Quote(models.Model):
         return False
 
     # check if a quote can be issued
-    def can_be_issued(self):
+    def check_if_can_be_issued(self):
         if self.quote_status != INITIAL:
             return False
 
@@ -467,7 +477,7 @@ class Quote(models.Model):
 
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
-            if quote_part.is_incomplete():
+            if quote_part.is_incomplete:
                 return False
 
         return True
@@ -525,15 +535,15 @@ class QuotePart(models.Model):
     cost_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    is_not_standard_part = models.BooleanField(default=False)
+    is_incomplete = models.BooleanField(default=False)
 
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
-        super(QuotePart, self).save(*args, **kwargs)
         part_type_attributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
 
         for part_type_attribute in part_type_attributes:
-            quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=self,
-                                                                      partTypeAttribute=part_type_attribute)
+            quote_part_attributes = self.get_attributes()
             if quote_part_attributes.count() > 0:
                 # reset the value if the value was the default and this is not the frame patt
                 if not self.is_frame_part():
@@ -545,6 +555,10 @@ class QuotePart(models.Model):
             else:
                 # create a new QuotePartAttribute
                 QuotePartAttribute.objects.create_quote_part_attribute(self, part_type_attribute)
+        self.is_not_standard_part = self.check_for_standard_part()
+        self.is_incomplete = self.check_for_standard_part()
+        super(QuotePart, self).save(*args, **kwargs)
+
 
     def __str__(self):
         if self.part is None or self.part.part_name is None:
@@ -553,13 +567,13 @@ class QuotePart(models.Model):
             return str(self.part)
 
     # get all attributes for this quote part
-    def getAttributes(self):
+    def get_attributes(self):
         return self.quotepartattribute_set.all()
 
     # return a part summary for use on Order and other pages
     def summary(self):
         attribute_detail = ''
-        quote_part_attributes = self.getAtributes()
+        quote_part_attributes = self.get_attributes()
         if quote_part_attributes:
 
             for quotePartAttribute in quote_part_attributes:
@@ -574,7 +588,7 @@ class QuotePart(models.Model):
 
     # return a part summary for use on Order and other pages
     def get_bike_part_summary(self):
-        if self.is_not_standard_part():
+        if self.is_not_standard_part:
             if self.part:
                 if self.frame_part:
                     return self.summary() + ' (Substitute part)'
@@ -592,7 +606,7 @@ class QuotePart(models.Model):
             return True
         return False
 
-    def is_incomplete(self):
+    def check_incomplete(self):
 
         if self.is_frame_part():
             quote_part_attributes = self.quotepartattribute_set.all()
@@ -609,7 +623,7 @@ class QuotePart(models.Model):
                     return True
         return False
 
-    def is_not_standard_part(self):
+    def check_for_standard_part(self):
         if self.is_frame_part():
             quote_part_attributes = self.quotepartattribute_set.all()
             for quote_part_attribute in quote_part_attributes:

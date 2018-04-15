@@ -79,49 +79,48 @@
                     {% for section, sectionContents, sectionVisibility in quoteSections %}
                         <tr>
                             <td colspan='9' class="section_part">
-                            <span id="expand_{{ section.id }}" {% if sectionVisibility == '1' %} class="no-show"{% endif%}>
+                            <span id="expand_{{ section.id }}" {% if sectionVisibility == '1' %}
+                                  class="no-show"{% endif %}>
                                 <i class="material-icons red " onclick="expandOrContract('{{ section.id }}','1')">expand_more</i>
                             </span>
-                                <span id="contract_{{ section.id }}"  {% if sectionVisibility == '0' %} class="no-show"{% endif%}>
+                                <span id="contract_{{ section.id }}"  {% if sectionVisibility == '0' %}
+                                      class="no-show"{% endif %}>
                                 <i class="material-icons red"
                                    onclick="expandOrContract('{{ section.id }}','0')">expand_less</i>
                             </span>
                                 {{ section.name }}
-                            <input type="hidden" name="sectionVisible{{ section.id }}" id="sectionVisible{{ section.id }}" value="{{ sectionVisibility }}">
+                                <input type="hidden" name="sectionVisible{{ section.id }}"
+                                       id="sectionVisible{{ section.id }}" value="{{ sectionVisibility }}">
                             </td>
                         </tr>
-                        {% for quotePartDetails, form in sectionContents %}
+                        {% for part_type, frame_part, part_attributes, form in sectionContents %}
                             {% cycle 'row1' 'row2' as rowcolors silent %}
-                            <tr class="{{ rowcolors }}  {% if sectionVisibility == '0' %} no-show{% endif%} bike_row_{{ section.id }}">
-                                {% for quote_part_data in quotePartDetails %}
-                                    {% if forloop.counter == 1 %}
-                                        <td class="part-type-cell">{{ quote_part_data.partType }}</td>
-                                        <td class="bike-part-cell">
-                                            {{ quote_part_data.frame_part.part }}
-                                            {% for hidden in form.hidden_fields %}
-                                                {{ hidden }}
-                                            {% endfor %}
-                                        </td>
-                                    {% endif %}
-                                    {% if forloop.counter == 2 %}
-                                        <td class="details-cell">
-                                            <table>
-                                                {% for quotePartAttributeForm in quote_part_data %}
-                                                    <section class="{{ rowcolors }}">
-                                                        <div>
-                                                            {{ quotePartAttributeForm.attribute_name.value }} :&nbsp;
-                                                            {% for hidden in quotePartAttributeForm.hidden_fields %}
-                                                                {{ hidden }}
-                                                            {% endfor %}
-                                                        </div>
-                                                        {% include "epic/field_as_div.html"  with field=quotePartAttributeForm.attribute_value divClass="attributes" %}
-                                                    </section>
-                                                {% endfor %}
-                                            </table>
+                            <tr class="{{ rowcolors }}  {% if sectionVisibility == '0' %} no-show{% endif %} bike_row_{{ section.id }}">
 
-                                        </td>
-                                    {% endif %}
-                                {% endfor %}
+                                <td class="part-type-cell">{{ part_type }}</td>
+                                <td class="bike-part-cell">
+                                    {{ frame_part }}
+                                    {% for hidden in form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                </td>
+
+                                <td class="details-cell">
+                                    <table>
+                                        {% for quotePartAttributeForm in part_attributes %}
+                                            <section class="{{ rowcolors }}">
+                                                <div>
+                                                    {{ quotePartAttributeForm.attribute_name.value }} :&nbsp;
+                                                    {% for hidden in quotePartAttributeForm.hidden_fields %}
+                                                        {{ hidden }}
+                                                    {% endfor %}
+                                                </div>
+                                                {% include "epic/field_as_div.html"  with field=quotePartAttributeForm.attribute_value divClass="attributes" %}
+                                            </section>
+                                        {% endfor %}
+                                    </table>
+
+                                </td>
                                 {% for field in form.visible_fields %}
                                     {% include "epic/field_as_td.html"  with field=field %}
                                 {% endfor %}
