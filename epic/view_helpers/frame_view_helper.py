@@ -12,7 +12,7 @@ from django.urls import reverse
 from epic.forms import FrameForm, FrameChangePartForm
 from epic.helpers.validation_helper import decimalForString
 from epic.model_helpers.brand_helper import find_brand_for_string, find_brand_for_name
-from epic.model_helpers.frame_helper import get_frames_for_js
+from epic.model_helpers.frame_helper import get_frames_for_js, set_frames_for_js
 from epic.model_helpers.part_helper import find_or_create_part
 from epic.models import Brand, PartType, FramePart, Frame, QuotePart, FrameExclusion
 from epic.view_helpers.menu_view_helper import add_standard_session_data
@@ -187,7 +187,7 @@ def process_frame_parts(request, frame, has_errors):
 
 
 def base_data_for_review_bike(request):
-    data = {'frames_for_js': get_frames_for_js(request.session)}
+    data = {'frames_for_js': get_frames_for_js()}
     return data
 
 
@@ -412,6 +412,7 @@ def process_upload(request):
                         messages.error(request, 'PartType Not found for ' + attributes[0])
 
         messages.add_message(request, messages.INFO, 'Bike added:' + bike_name)
+        set_frames_for_js()
 
     except Exception as e:
         logging.getLogger("error_logger").error("Unable to upload file. " + repr(e))
