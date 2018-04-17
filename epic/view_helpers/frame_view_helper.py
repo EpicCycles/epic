@@ -103,7 +103,7 @@ def process_bike_review(request, refresh_list):
             data['frame'] = frame
             data['frame_form'] = frame_form
             data['frame_sections'] = redisplay_frame_parts['frame_sections']
-            data['frame_parts'] = redisplay_frame_parts['frame_parts']
+            data['frame_parts'] = redisplay_frame_parts['part_list']
             return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
 
     else:
