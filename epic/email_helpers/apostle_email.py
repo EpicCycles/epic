@@ -27,5 +27,6 @@ def send_apostle_email(apostle_mail):
     apostle.domain_key = APOSTLE_DOMAIN_KEY
 
     queue = apostle.Queue()
+
     queue.add(apostle_mail)
     queue.deliver()

@@ -1,9 +1,10 @@
 import unittest
-from unittest.mock import MagicMock
+from unittest import mock
+from unittest.mock import MagicMock, call
 
 import apostle
 
-from epic.email_helpers.apostle_email import create_apostle_email
+from epic.email_helpers.apostle_email import create_apostle_email, send_apostle_email
 
 
 class TestApostleEmail(unittest.TestCase):
@@ -30,3 +31,20 @@ class TestApostleEmail(unittest.TestCase):
     def test_create_apostle_email_invalid(self):
         with self.assertRaises(ValueError):
             create_apostle_email('Template', 'Recipient', 'abcde.com')
+
+    # @patch('epic.email_helpers.apostle_email.apostle.Queue.add')
+    # @patch('epic.email_helpers.apostle_email.apostle.Queue.deliver')
+    @mock.patch('epic.email_helpers.apostle_email.apostle.Queue')
+    def test_send_apostle_email(self, mock_queue):
+        apostle_mail = 'dummy object'
+        # check set up ok
+        # assert apostle.Queue().add is mock_add
+        # assert apostle.Queue().deliver is mock_deliver
+
+        # test call
+        send_apostle_email(apostle_mail)
+
+        # Assert that lower_1 was called before lower_2
+        calls = [call(), call().add('dummy object'), call().deliver()]
+
+        mock_queue.assert_has_calls(calls)
