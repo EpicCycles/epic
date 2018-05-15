@@ -1,8 +1,7 @@
 from django import forms
 from django.forms import HiddenInput, RadioSelect
 
-from epic.models import QuotePartAttribute, TEXT, NUMBER, RADIO, SELECT, MULTIPLE_C, MULTIPLE_S, AttributeOptions, \
-    PartTypeAttribute
+from epic.models import QuotePartAttribute, TEXT, NUMBER, RADIO, SELECT, AttributeOptions, PartTypeAttribute
 
 
 def getAttributeForm(object: QuotePartAttribute, form_prefix):
@@ -130,6 +129,6 @@ class NumberAttributeForm(forms.Form):
     attribute_value = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False)
 
     def __init__(self, *args, **kwargs):
-        super(TextAttributeForm, self).__init__(*args, **kwargs)
+        super(NumberAttributeForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields['attribute_value'].widget = forms.TextInput(attrs={'size': '10'})
