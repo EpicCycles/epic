@@ -42,6 +42,16 @@ class ChangeCustomerFormTestCase(TestCase):
             'last_name': ['This field is required.'],
         })
 
+    def test_no_first_name(self):
+        form = ChangeCustomerForm({''
+                                   'first_name': "",
+                                   'last_name': "Leela",
+                                   }, instance=self.customer)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, {
+            'first_name': ['This field is required.'],
+        })
+
     def test_blank_first_name(self):
         form = ChangeCustomerForm({'last_name': "Leela", }, instance=self.customer)
         self.assertFalse(form.is_valid())
@@ -49,8 +59,15 @@ class ChangeCustomerFormTestCase(TestCase):
             'first_name': ['This field is required.'],
         })
 
-    def test_blank_last_name(self):
+    def test_no_last_name(self):
         form = ChangeCustomerForm({'first_name': "Turanga"}, instance=self.customer)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, {
+            'last_name': ['This field is required.'],
+        })
+
+    def test_blank_last_name(self):
+        form = ChangeCustomerForm({'first_name': "Turanga", 'last_name': ""}, instance=self.customer)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {
             'last_name': ['This field is required.'],

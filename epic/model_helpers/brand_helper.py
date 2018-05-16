@@ -14,8 +14,11 @@ def find_brand_for_string(search_string, brand_list, default_brand, request):
 
 # common find brand
 def find_brand_for_name(brand_name, request):
+    if not brand_name:
+        raise ValueError('Missing brand name')
+
     try:
-        brand = Brand.objects.get(brand_name=str(brand_name).strip())
+        brand = Brand.objects.get(brand_name__upper=str(brand_name).strip())
         return brand
     except MultipleObjectsReturned:
         messages.error(request, "Brand Not unique - use Admin function to ensure Brands are unique: " + brand_name)
