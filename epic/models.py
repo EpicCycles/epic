@@ -124,7 +124,6 @@ class CustomerAddress(models.Model):
     add_date = models.DateTimeField('date added', auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
 
-
     def __str__(self):
         returnAddress = self.address1
         if self.address2:
@@ -160,9 +159,20 @@ class Fitting(models.Model):
     reach = models.CharField('Reach', max_length=20)
     notes = models.CharField(max_length=200, blank=True)
     add_date = models.DateTimeField('date added', auto_now_add=True)
+    upd_date = models.DateTimeField('Date Updated', auto_now=True)
 
     def __str__(self):
         return f'{dict(FITTING_TYPE_CHOICES).get(self.fitting_type)} - Saddle Height:{self.saddle_height} Bar Height:{self.bar_height} Reach:{self.reach}'
+
+    def save(self, *args, **kwargs):
+        if self.saddle_height is None or self.saddle_height == '':
+            raise ValueError('Missing saddle height')
+        if self.bar_height is None or self.bar_height == '':
+            raise ValueError('Missing bar height')
+        if self.reach is None or self.reach == '':
+            raise ValueError('Missing reach')
+
+        super(Fitting, self).save(*args, **kwargs)
 
 
 class PartSection(models.Model):
@@ -172,13 +182,24 @@ class PartSection(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if self.name is None or self.name == '':
+            raise ValueError('Missing name')
+        if self.placing is None:
+            raise ValueError('Missing placing')
+        elif self.placing < 1:
+            raise ValueError('Invalid placing')
+
+        super(PartSection, self).save(*args, **kwargs)
+
+
     class Meta:
         ordering = ['placing', 'name']
 
 
 class PartType(models.Model):
     shortName = models.CharField(max_length=60, unique=True)
-    description = models.CharField(max_length=100, blank=True)
+    description = models.CharField(max_length=100, blank=True, null=True)
     includeInSection = models.ForeignKey(PartSection, on_delete=models.CASCADE)
     placing = models.PositiveSmallIntegerField()
     can_be_substituted = models.BooleanField('Can be substituted', default=False)
@@ -187,6 +208,16 @@ class PartType(models.Model):
 
     def __str__(self):
         return self.shortName
+
+    def save(self, *args, **kwargs):
+        if self.shortName is None or self.shortName == '':
+            raise ValueError('Missing short name')
+        if self.placing is None:
+            raise ValueError('Missing placing')
+        elif self.placing < 1:
+            raise ValueError('Invalid placing')
+
+        super(PartType, self).save(*args, **kwargs)
 
     class Meta:
         unique_together = (("includeInSection", "shortName"),)
