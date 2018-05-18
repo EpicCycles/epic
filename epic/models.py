@@ -2,7 +2,9 @@ from __future__ import unicode_literals
 
 from datetime import date
 
+import re
 from django.db import models
+from django.db.models import CharField, TextField
 from django.urls import reverse
 from django.utils import timezone
 
@@ -10,6 +12,8 @@ from django.utils import timezone
 from django.conf import settings
 
 from epic.form_helpers.choices import get_part_section_list_from_cache, get_part_types_for_section_from_cache
+from epic.form_helpers.regular_expressions import EMAIL_REGEX, POSTCODE_PATTERN
+from epic.model_helpers.lookup_helpers import UpperCase
 
 HOME = 'H'
 WORK = 'W'
@@ -39,13 +43,33 @@ MULTIPLE_S = '6'
 DISPLAY_CHOICES = ((TEXT, 'Text'), (NUMBER, 'Numeric'), (RADIO, 'Single - Radio'), (SELECT, 'Single - Dropdown'),
                    (MULTIPLE_C, 'Multiple - Checkbox'), (MULTIPLE_S, 'Multiple - Dropdown'))
 
+CharField.register_lookup(UpperCase)
+TextField.register_lookup(UpperCase)
+
 
 class Customer(models.Model):
-    first_name = models.CharField(max_length=60)
-    last_name = models.CharField(max_length=60)
+    first_name = models.CharField(max_length=60, blank=False, null=False)
+    last_name = models.CharField(max_length=60, blank=False, null=False)
     email = models.EmailField(max_length=100, blank=True)
     add_date = models.DateTimeField('Date Added', auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # validate data.
+        if self.first_name is None or self.first_name == '':
+            raise ValueError('Missing first name')
+        if self.last_name is None or self.last_name == '':
+            raise ValueError('Missing last name')
+        if self.email:
+            match = re.match(EMAIL_REGEX, self.email)
+            if match is None or self.email == '':
+                raise ValueError('Invalid email', self.email)
+
+        if Customer.objects.filter(first_name=self.first_name,
+                                   last_name=self.last_name, email=self.email).exclude(id=self.id).exists():
+            raise ValueError('Customer with these values already exists')
+
+        super(Customer, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('edit_customer', args={self.pk})
@@ -59,7 +83,7 @@ class Customer(models.Model):
         return display_value
 
     class Meta:
-        unique_together = (("first_name", "last_name", "email"),)
+        indexes = [models.Index(fields=["first_name", "last_name", "email"]), ]
         ordering = ['last_name', 'first_name', '-add_date']
 
 
@@ -69,9 +93,25 @@ class CustomerPhone(models.Model):
     number_type = models.CharField(max_length=1, choices=NUMBER_TYPE_CHOICES, default=HOME, )
     telephone = models.CharField(max_length=60, blank=True)
     add_date = models.DateTimeField('date added', auto_now_add=True)
+    upd_date = models.DateTimeField('Date Updated', auto_now=True)
 
     def __str__(self):
         return f'{dict(NUMBER_TYPE_CHOICES).get(self.number_type)} {self.telephone}'
+
+    def save(self, *args, **kwargs):
+        if self.number_type is None or self.number_type == '':
+            raise ValueError('Missing number type')
+        if self.telephone is None or self.telephone == '':
+            raise ValueError('Missing last name')
+
+        if self.number_type not in [HOME, WORK, MOBILE]:
+            raise ValueError('Number type must be Home, Work or Mobile')
+
+        if CustomerPhone.objects.filter(customer=self.customer,
+                                        telephone=self.telephone).exclude(id=self.id).exists():
+            raise ValueError('Customer with these values already exists')
+
+        super(CustomerPhone, self).save(*args, **kwargs)
 
 
 class CustomerAddress(models.Model):
@@ -82,6 +122,8 @@ class CustomerAddress(models.Model):
     address4 = models.CharField(max_length=200, blank=True)
     postcode = models.CharField(max_length=200)
     add_date = models.DateTimeField('date added', auto_now_add=True)
+    upd_date = models.DateTimeField('Date Updated', auto_now=True)
+
 
     def __str__(self):
         returnAddress = self.address1
@@ -93,6 +135,21 @@ class CustomerAddress(models.Model):
             returnAddress += f', {self.address4}'
         returnAddress += f', {self.postcode}'
         return returnAddress
+
+    def save(self, *args, **kwargs):
+        if self.address1 is None or self.address1 == '':
+            raise ValueError('Missing address1')
+        if self.postcode is None or self.postcode == '':
+            raise ValueError('Missing postcode')
+        match = re.match(POSTCODE_PATTERN, self.postcode)
+        if match is None:
+            raise ValueError('Invalid postcode', self.postcode)
+
+        if CustomerAddress.objects.filter(customer=self.customer,
+                                          address1=self.address1, postcode=self.postcode).exclude(id=self.id).exists():
+            raise ValueError('Customer with these values already exists')
+
+        super(CustomerAddress, self).save(*args, **kwargs)
 
 
 class Fitting(models.Model):
@@ -540,10 +597,13 @@ class QuotePart(models.Model):
 
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
+        super(QuotePart, self).save(*args, **kwargs)
+
         part_type_attributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
 
         for part_type_attribute in part_type_attributes:
-            quote_part_attributes = self.get_attributes()
+            quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=self,
+                                                                      partTypeAttribute=part_type_attribute)
             if quote_part_attributes.count() > 0:
                 # reset the value if the value was the default and this is not the frame patt
                 if not self.is_frame_part():
@@ -557,8 +617,6 @@ class QuotePart(models.Model):
                 QuotePartAttribute.objects.create_quote_part_attribute(self, part_type_attribute)
         self.is_not_standard_part = self.check_for_standard_part()
         self.is_incomplete = self.check_for_standard_part()
-        super(QuotePart, self).save(*args, **kwargs)
-
 
     def __str__(self):
         if self.part is None or self.part.part_name is None:

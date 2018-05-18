@@ -8,10 +8,12 @@ from django.forms.widgets import HiddenInput
 from django.forms.widgets import SelectDateWidget
 
 from epic.form_helpers.choices import get_brand_list_from_cache, get_part_type_list_from_cache
-from .models import *
+from epic.form_helpers.regular_expressions import NAME_PATTERN, POSTCODE_PATTERN
 
 # useful documentation here - https://docs.djangoproject.com/en/1.10/topics/forms/
 # global variables for forms
+from epic.models import *
+
 FORM_FITTING_TYPE_CHOICES = list(FITTING_TYPE_CHOICES)
 FORM_FITTING_TYPE_CHOICES.insert(0, (None, '---------'))
 FORM_NUMBER_TYPE_CHOICES = list(NUMBER_TYPE_CHOICES)
@@ -19,8 +21,6 @@ FORM_NUMBER_TYPE_CHOICES.insert(0, (None, '----'))
 FORM_QUOTE_TYPE_CHOICES = list(QUOTE_TYPE_CHOICES)
 FORM_QUOTE_TYPE_CHOICES.insert(0, (None, '-----'))
 BLANK_CHOICE = [(None, '---------')]
-name_pattern = '[A-Za-z -]+'
-postcode_pattern = '[A-Za-z]{1,2}[0-9]{1,2}[ ][0-9]{1,2}[A-Za-z]{1,2}'
 
 
 class CustomerForm(ModelForm):
@@ -41,9 +41,9 @@ class ChangeCustomerForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(ChangeCustomerForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].widget = forms.TextInput(
-            attrs={'size': '20', 'minlength': '1', 'maxlength': '40', 'pattern': name_pattern})
+            attrs={'size': '20', 'minlength': '1', 'maxlength': '40', 'pattern': NAME_PATTERN})
         self.fields['last_name'].widget = forms.TextInput(
-            attrs={'size': '30', 'minlength': '1', 'maxlength': '40', 'pattern': name_pattern})
+            attrs={'size': '30', 'minlength': '1', 'maxlength': '40', 'pattern': NAME_PATTERN})
         self.fields['email'].widget = forms.TextInput(
             attrs={'type': 'email', 'size': '30', 'minlength': '3', 'maxlength': '100'})
 
@@ -62,7 +62,7 @@ class AddressForm(ModelForm):
         self.fields['address2'].widget = forms.TextInput(attrs={'size': '20'})
         self.fields['address3'].widget = forms.TextInput(attrs={'size': '15'})
         self.fields['address4'].widget = forms.TextInput(attrs={'size': '15'})
-        self.fields['postcode'].widget = forms.TextInput(attrs={'size': '9', 'pattern': postcode_pattern})
+        self.fields['postcode'].widget = forms.TextInput(attrs={'size': '9', 'pattern': POSTCODE_PATTERN})
         self.fields['customer'].widget = forms.HiddenInput()
 
 
@@ -352,7 +352,8 @@ class QuoteSimpleForm(ModelForm):
 # simple quote add item
 class QuoteSimpleAddPartForm(forms.Form):
     new_brand = forms.ChoiceField(choices=[], required=False, label='Brand')
-    new_part_type = forms.ModelChoiceField(queryset=get_part_type_list_from_cache().order_by('shortName'), required=False,
+    new_part_type = forms.ModelChoiceField(queryset=get_part_type_list_from_cache().order_by('shortName'),
+                                           required=False,
                                            label='Part Type')
     new_part_name = forms.CharField(max_length=60, required=False, label='Part Name')
     new_quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity')
