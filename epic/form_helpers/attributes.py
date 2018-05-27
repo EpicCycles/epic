@@ -70,8 +70,6 @@ def getAttributeFormUpdated(request_post, request_files, object: QuotePartAttrib
 def getAttributeChoiceDict(part_tpe_attribute: PartTypeAttribute):
     attribute_options = AttributeOptions.objects.filter(part_type_attribute=part_tpe_attribute)
     value_choices = []
-    if part_tpe_attribute.default_value_for_quote:
-        value_choices.append([part_tpe_attribute.default_value_for_quote, part_tpe_attribute.default_value_for_quote])
     for attribute_value in attribute_options:
         value_choices.append([attribute_value.attribute_option, attribute_value.attribute_option])
     return value_choices

@@ -19,8 +19,7 @@ class AttributesTestCase(TestCase):
         self.att_no_default = PartTypeAttribute.objects.create(partType=part_type, attribute_name='Att 2', in_use=True,
                                                                mandatory=True, placing=2, attribute_type=RADIO)
         self.att_default = PartTypeAttribute.objects.create(partType=part_type, attribute_name='Att 3', in_use=True,
-                                                            mandatory=True, placing=3, attribute_type=SELECT,
-                                                            default_value_for_quote='As Specified')
+                                                            mandatory=True, placing=3, attribute_type=SELECT)
         AttributeOptions.objects.create(part_type_attribute=self.att_no_default, attribute_option='firstOption')
         AttributeOptions.objects.create(part_type_attribute=self.att_default, attribute_option='option 1')
         AttributeOptions.objects.create(part_type_attribute=self.att_default, attribute_option='option 2')
@@ -42,7 +41,7 @@ class AttributesTestCase(TestCase):
 
     def test_getAttributeChoiceDict_multiple_choices(self):
         self.assertEqual(getAttributeChoiceDict(self.att_default),
-                         [['As Specified', 'As Specified'], ['option 1', 'option 1'], ['option 2', 'option 2']])
+                         [['option 1', 'option 1'], ['option 2', 'option 2']])
 
     def test_getAttributeForm_missing_values(self):
         quote_part_attribute = QuotePartAttribute.objects.filter(partTypeAttribute=self.att_no_choices).first()

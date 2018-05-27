@@ -11,7 +11,6 @@ from django.utils import timezone
 # added to allow user details on models and history tables
 from django.conf import settings
 
-from epic.form_helpers.choices import get_part_section_list_from_cache, get_part_types_for_section_from_cache
 from epic.form_helpers.regular_expressions import EMAIL_REGEX, POSTCODE_PATTERN
 from epic.model_helpers.lookup_helpers import UpperCase
 
@@ -630,10 +629,18 @@ class QuotePart(models.Model):
 
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
+        new_object = True
         if self.pk is not None:
+            new_object = False
             QuotePartAttribute.objects.save_quote_part_attributes(self)
             self.is_incomplete = self.check_incomplete()
+        elif PartTypeAttribute.objects.filter(partType=self.partType, in_use=True).exists():
+            self.is_incomplete = True
+
         super(QuotePart, self).save(*args, **kwargs)
+
+        if new_object:
+            QuotePartAttribute.objects.save_quote_part_attributes(self)
 
     def __str__(self):
         if self.replacement_part:

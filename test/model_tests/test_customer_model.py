@@ -1,3 +1,5 @@
+import time
+
 from django.test import TestCase
 
 from epic.models import Customer, CustomerPhone, HOME, MOBILE, WORK, CustomerAddress, Fitting, CUST
@@ -227,6 +229,7 @@ class CustomerModelTestCase(TestCase):
         old_postcode = self.c_n_m_address1.postcode
         old_add_date = self.c_n_m_address1.add_date
         old_upd_date = self.c_n_m_address1.upd_date
+        time.sleep(1)
         self.c_n_m_address1.address1 = 'blah 1'
         self.c_n_m_address1.address2 = 'blah 2'
         self.c_n_m_address1.address3 = 'blah 3'
@@ -251,6 +254,7 @@ class CustomerModelTestCase(TestCase):
         fitting_notes = self.c_n_m_fitting.notes
         fitting_add = self.c_n_m_fitting.add_date
         fitting_upd = self.c_n_m_fitting.upd_date
+        time.sleep(1)
 
         self.c_n_m_fitting.saddle_height = '34 cm'
         self.c_n_m_fitting.bar_height = '36 cm'
