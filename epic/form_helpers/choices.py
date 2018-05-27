@@ -39,7 +39,7 @@ def get_part_type_list_from_cache():
 def set_part_type_list_in_cache():
     print('{timestamp} -- set_part_type_list_in_cache started'.format(timestamp=datetime.utcnow().isoformat()))
     from epic.models import PartType
-    cache.set('part_type_list', PartType.objects.all())
+    cache.set('part_type_list', PartType.objects.all().order_by('shortName'))
     print('{timestamp} -- set_part_type_list_in_cache ended'.format(timestamp=datetime.utcnow().isoformat()))
 
 

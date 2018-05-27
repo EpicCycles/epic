@@ -19,11 +19,10 @@ from epic.view_helpers.customer_order_view_helper import edit_customer_order, pr
 from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.menu_view_helper import show_menu, add_standard_session_data_to_context
 from epic.view_helpers.note_view_helper import show_notes_popup
-from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_simple_quote_edit, \
-    process_simple_quote_changes, process_bike_quote_changes, show_bike_quote_edit, quote_parts_for_bike_display, \
-    copy_quote_and_display, show_bike_quote_edit_new_customer, process_quote_requote, show_quote_issue, \
-    show_quote_browse, show_quote_text, copy_quote_new_bike, show_add_quote_for_customer, new_quote_change_customer, \
-    show_bike_quote_edit_new_frame, process_quote_action
+from epic.view_helpers.quote_part_view_helper import save_quote_part, show_quote_part_popup
+from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_quote_edit, \
+    copy_quote_and_display, process_quote_requote, show_quote_issue, show_quote_browse, show_quote_text, \
+    show_add_quote_for_customer, process_quote_action, process_quote_changes
 from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
 
 
@@ -178,7 +177,6 @@ class MyQuoteList(LoginRequiredMixin, ListView):
         context['quoteSearchForm'] = self.quoteSearchForm
         return add_standard_session_data_to_context(context)
 
-
     def get(self, request, *args, **kwargs):
         # get values for search from form
         self.quoteSearchForm = MyQuoteSearchForm(request.GET)
@@ -220,6 +218,7 @@ def bike_review(request):
         else:
             return process_bike_review(request, False)
 
+
 @login_required
 def add_customer(request):
     if request.method == "POST":
@@ -254,10 +253,7 @@ def view_customer_notes(request, pk):
 def add_quote(request):
     if request.method == "POST":
         form_action = request.POST.get('form_action', '')
-        if form_action == 'change_customer':
-            return new_quote_change_customer(request)
-        else:
-            return create_new_quote(request)
+        return create_new_quote(request)
     else:
         return show_add_quote(request)
 
@@ -349,7 +345,6 @@ class OrderList(LoginRequiredMixin, ListView):
         context['orderSearchForm'] = self.orderSearchForm
         return add_standard_session_data_to_context(context)
 
-
     def get(self, request, *args, **kwargs):
         # get values for search from form
         self.orderSearchForm = OrderSearchForm(request.GET)
@@ -390,32 +385,29 @@ def copy_quote(request, pk):
         # shouldn't be here!
         messages.info(request, 'Invalid action ')
     else:
-        return copy_quote_and_display(request, pk)
+        return copy_quote_and_display(request, pk, None, None)
 
 
 def quote_change_frame(request):
     if request.method == "POST":
         new_frame_id = request.POST.get('new_frame_id', '')
         copy_quote_id = request.POST.get('copy_quote_id', '')
-        quote = get_object_or_404(Quote, pk=copy_quote_id)
-        frame = get_object_or_404(Frame, pk=new_frame_id)
 
         if (new_frame_id != '') and (copy_quote_id != ''):
-            return copy_quote_new_bike(request, quote, frame)
+            return copy_quote_and_display(request, copy_quote_id, new_frame_id, None)
 
 
 def quote_copy_bike(request, pk):
-    quote = get_object_or_404(Quote, pk=pk)
     if request.method == "POST":
-        new_customer_id = request.POST.get('new_customer_id', '')
-        new_frame_id = request.POST.get('new_frame_id', '')
-        if new_customer_id != '':
-            return show_bike_quote_edit_new_customer(request, quote, new_customer_id)
-        if new_frame_id != '':
-            return show_bike_quote_edit_new_frame(request, quote, new_frame_id)
+        new_customer_id = request.POST.get('new_customer_id')
+        if new_customer_id and new_customer_id == '':
+            new_customer_id = None
 
-    return render(request, 'epic/quote_copy_bike.html',
-                  {'quote': quote, 'quoteSections': quote_parts_for_bike_display(quote, False)})
+        new_frame_id = request.POST.get('new_frame_id')
+        if new_frame_id and new_frame_id == '':
+            new_frame_id = None
+
+        return copy_quote_and_display(request, pk, new_frame_id, new_customer_id)
 
 
 # re-open and issued quote
@@ -471,12 +463,8 @@ def quote_amend(request, pk):
             messages.info(request, 'Quote status reset ')
             quote.quote_status = INITIAL
             quote.save()
-        if quote.is_bike():
-            # display the bike based quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_bike', args=(pk,)))
-        else:
-            # display the simple quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_simple', args=(pk,)))
+
+        return HttpResponseRedirect(reverse('quote_edi', args=(pk,)))
 
 
 # edit a quote
@@ -485,36 +473,18 @@ def quote_edit(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
 
     if request.method == "POST":
-        # shouldn't be here!
-        messages.info(request, 'Invalid action ')
+        return process_quote_changes(request, quote)
     else:
-        if quote.is_bike():
-            # display the bike based quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_bike', args=(pk,)))
-        else:
-            # display the simple quote edit page
-            return HttpResponseRedirect(reverse('quote_edit_simple', args=(pk,)))
+        return show_quote_edit(request, quote)
 
 
-# edit a quote based on a specific frame
-@login_required
-def quote_edit_bike(request, pk):
-    quote = get_object_or_404(Quote, pk=pk)
-    if request.method == "POST":
-        return process_bike_quote_changes(request, quote)
-    else:
-        return show_bike_quote_edit(request, quote)
-
-
-# edit a quote based on a specific frame
-@login_required
-def quote_edit_simple(request, pk):
+def add_quote_part(request, pk):
     quote = get_object_or_404(Quote, pk=pk)
 
     if request.method == "POST":
-        return process_simple_quote_changes(request, quote)
+        return save_quote_part(request, quote)
     else:
-        return show_simple_quote_edit(request, quote)
+        return show_quote_part_popup(request, quote)
 
 
 # based on code in http://thepythondjango.com/upload-process-csv-file-django/

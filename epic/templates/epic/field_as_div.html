@@ -1,5 +1,5 @@
 {% load popup_helper %}
-<div class=" {{ divClass }} {% if field.errors %}error{% endif %}"
+<div class="{% if field.errors %}error{% endif %} {{ divClass }}"
         {% if field.errors %}
      title="Error Details:
             {% for error in field.errors %}

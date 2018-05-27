@@ -269,9 +269,10 @@ class MyQuoteSearchForm(forms.Form):
 class QuoteForm(ModelForm):
     class Meta:
         model = Quote
-        fields = ['customer', 'quote_desc', 'quote_type', 'frame', 'frame_sell_price', 'colour', 'colour_price',
+        fields = ['customer', 'quote_desc', 'quote_type', 'keyed_sell_price', 'frame', 'frame_sell_price', 'colour',
+                  'colour_price',
                   'frame_size']
-        labels = {'frame': _('Frameset/Base Bike'), 'quote_desc': _('Quote Description'), 'quote_type': _('Type'),
+        labels = {'quote_desc': _('Quote Description'), 'quote_type': _('Type'), 'keyed_sell_price': _('Quote Total £'),
                   'frame_sell_price': _('Base Sell Price £'), 'colour_price': _('Colour Additional Price £'),
                   'frame_size': _('Frame Size')}
 
@@ -279,24 +280,32 @@ class QuoteForm(ModelForm):
         super(QuoteForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields['customer'].widget = HiddenInput()
-        self.fields['quote_type'].widget = forms.Select(attrs={'onchange': "changeQuoteType(this);"})
-        self.fields['quote_type'].choices = FORM_QUOTE_TYPE_CHOICES
+        self.fields['frame'].widget = HiddenInput()
+        self.fields['keyed_sell_price'].widget = forms.TextInput(attrs={'size': 6})
         self.fields['frame_sell_price'].widget = forms.TextInput(attrs={'size': 6})
         self.fields['colour_price'].widget = forms.TextInput(attrs={'size': 6})
         self.fields['frame_size'].widget = forms.TextInput(attrs={'size': 4})
-
-        if self.instance.quote_type is not BIKE:
-            self.fields['frame'].widget.attrs['disabled'] = True
-            self.fields['frame_sell_price'].widget.attrs['disabled'] = True
-            self.fields['colour'].widget.attrs['disabled'] = True
-            self.fields['colour_price'].widget.attrs['disabled'] = True
-            self.fields['frame_size'].widget.attrs['disabled'] = True
+        if self.instance.pk:
+            self.fields['quote_type'].widget = HiddenInput()
+            if self.instance.quote_type is PART:
+                self.fields['frame'].widget = HiddenInput()
+                self.fields['frame_sell_price'].widget = HiddenInput()
+                self.fields['colour'].widget = HiddenInput()
+                self.fields['colour_price'].widget = HiddenInput()
+                self.fields['frame_size'].widget = HiddenInput()
+        else:
+            self.fields['quote_type'].widget = forms.Select(attrs={'onchange': "changeQuoteType(this);"})
+            self.fields['quote_type'].choices = FORM_QUOTE_TYPE_CHOICES
 
     def clean(self):
         cleaned_data = super(QuoteForm, self).clean()
         quote_desc = cleaned_data.get("quote_desc")
         quote_type = cleaned_data.get("quote_type")
+        customer = cleaned_data.get("customer")
         frame = cleaned_data.get("frame")
+
+        if customer is None:
+            raise forms.ValidationError("A Customer must be present to create a quote.")
 
         # if only the type is entered then this is valid
         if quote_type == BIKE and quote_desc == '' and frame is None:
@@ -315,8 +324,7 @@ class QuoteForm(ModelForm):
             if quote_type == BIKE:
                 if frame is None:
                     # must have a frame if the quote type is BIKE
-                    msg = "Please select a frame or change the quote type."
-                    self.add_error('frame', msg)
+                    raise forms.ValidationError("Please select a frame or change the quote type.")
 
 
 class CustomerQuoteForm(QuoteForm):
@@ -406,6 +414,63 @@ class QuoteBikeForm(ModelForm):
 
 
 # basic quote kine for adding lines
+class QuotePartForm(forms.Form):
+    part_type = forms.ModelChoiceField(queryset=get_part_type_list_from_cache(),
+                                       label='Part Type', required=False)
+    brand = forms.ChoiceField(choices=[], required=False, label='Brand')
+    part_name = forms.CharField(max_length=60, required=False, label='Part Name')
+    quantity = forms.IntegerField(max_value=9999, min_value=1, required=False, label='Quantity')
+    sell_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0, required=False,
+                                    label='Sell Price')
+    is_bike = forms.BooleanField(required=False, label='Should not show')
+    replacement_part = forms.BooleanField(required=False, label='Alt')
+    trade_in_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0, required=False,
+                                        label='Trade In')
+
+    def __init__(self, *args, **kwargs):
+
+        super(QuotePartForm, self).__init__(*args, **kwargs)
+        self.label_suffix = ''
+        self.fields['is_bike'].widget = HiddenInput()
+        self.fields['brand'].choices = BLANK_CHOICE + get_brand_list_from_cache()
+        self.fields['quantity'].widget = forms.TextInput(attrs={'size': '9'})
+        self.fields['sell_price'].widget = forms.TextInput(attrs={'size': '9'})
+        self.fields['trade_in_price'].widget = forms.TextInput(attrs={'size': '9'})
+
+
+        if not self.initial['is_bike']:
+            self.fields['replacement_part'].widget = HiddenInput()
+            self.fields['trade_in_price'].widget = HiddenInput()
+
+    def clean(self):
+        cleaned_data = super(QuotePartForm, self).clean()
+        part_type = cleaned_data.get('part_type')
+        brand = cleaned_data.get('brand')
+        part_name = cleaned_data.get('part_name')
+        quantity = cleaned_data.get("quantity")
+        replacement_part = cleaned_data.get('replacement_part')
+        trade_in_price_empty = cleaned_data.get('trade_in_price') is None
+        sell_price_not_empty = cleaned_data.get('sell_price') is not None
+
+        # no fields are required but if any are present all must be
+        if brand or part_name or quantity or sell_price_not_empty:
+            if not (brand and part_type and part_name and quantity and sell_price_not_empty):
+                raise forms.ValidationError("All data must be entered to add a new item to a quote.")
+
+        if replacement_part:
+            if trade_in_price_empty:
+                self.add_error('trade_in_price',
+                           'Trade in price required, can be zero, when part is substituted or omitted.')
+            if not part_type:
+                self.add_error('part_type',
+                               'A part type must be specified, when part is substituted or omitted.')
+
+        if not (trade_in_price_empty or replacement_part):
+            self.add_error('trade_in_price',
+                           'Trade in price should be blank when part is not substituted or omitted.')
+
+
+# basic quote kine for adding lines
 class QuotePartBasicForm(ModelForm):
     class Meta:
         model = QuotePart
@@ -414,104 +479,6 @@ class QuotePartBasicForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(QuotePartBasicForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-
-
-# change part on existing line
-# simple quote add item
-class QuoteBikeChangePartForm(forms.Form):
-    not_required = forms.BooleanField(required=False, label='None')
-    can_be_substituted = forms.BooleanField(required=False, label='Subs')
-    can_be_omitted = forms.BooleanField(required=False, label='Omit')
-    trade_in_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
-                                        label='Trade In')
-    new_brand = forms.ChoiceField(choices=[], required=False, label='Brand')
-    new_part_name = forms.CharField(max_length=60, required=False, label='Part Name')
-    new_part_type = forms.CharField(required=False)
-    new_quantity = forms.IntegerField(max_value=9999, min_value=0, required=False, label='Quantity')
-    new_sell_price = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False,
-                                        label='Sell Price')
-
-    def __init__(self, *args, **kwargs):
-        # pop out additional arguments added just for this!
-        initial_values = kwargs.get('initial')
-
-        super(QuoteBikeChangePartForm, self).__init__(*args, **kwargs)
-        self.label_suffix = ''
-        self.fields['can_be_substituted'].widget = HiddenInput()
-        self.fields['can_be_omitted'].widget = HiddenInput()
-        self.fields['new_part_type'].widget = HiddenInput()
-        self.fields['new_part_name'].widget = forms.TextInput(attrs={'size': '20'})
-        self.fields['new_quantity'].widget = forms.TextInput(attrs={'size': '4'})
-        self.fields['new_sell_price'].widget = forms.TextInput(attrs={'size': '9'})
-        self.fields['trade_in_price'].widget = forms.TextInput(attrs={'size': '8'})
-        self.fields['new_brand'].choices = BLANK_CHOICE + get_brand_list_from_cache()
-
-        # modify the form to reflect the actual possibilities
-        can_be_substituted = initial_values['can_be_substituted']
-        can_be_omitted = initial_values['can_be_omitted']
-        if not can_be_substituted:
-            self.fields['new_brand'].widget.attrs['disabled'] = 'disabled'
-            self.fields['new_part_name'].widget.attrs['disabled'] = 'disabled'
-            self.fields['new_quantity'].widget.attrs['disabled'] = 'disabled'
-            self.fields['new_sell_price'].widget.attrs['disabled'] = 'disabled'
-
-        if not can_be_omitted:
-            self.fields['not_required'].widget.attrs['disabled'] = 'disabled'
-
-        if not (can_be_substituted or can_be_omitted):
-            self.fields['trade_in_price'].widget.attrs['disabled'] = 'disabled'
-
-    def clean(self):
-        cleaned_data = super(QuoteBikeChangePartForm, self).clean()
-        not_required = cleaned_data.get("not_required")
-        new_brand = cleaned_data.get("new_brand")
-        new_part_name = cleaned_data.get("new_part_name")
-        new_quantity = cleaned_data.get("new_quantity")
-        new_sell_price = cleaned_data.get("new_sell_price")
-        trade_in_price = cleaned_data.get("trade_in_price")
-
-        # no replacement part, and part not set to not required cannot hae trade-in price
-        if trade_in_price and not (not_required or (new_quantity > 0)):
-            self.add_error('trade_in_price',
-                           "Trade in price should be removed where parts not being omitted or substituted.")
-
-        # if quantity is zero this is OK
-        if new_quantity != 0:
-
-            # no fields are required but if any are present all must be
-            if new_brand or new_part_name or new_quantity or new_sell_price:
-                if not_required:
-                    raise forms.ValidationError(
-                        "Cannot have part not required and part details. Either set part to not required and remove part details, or untick the checkbox and add part details to replace the existing values.")
-                elif not (new_brand and new_part_name and new_quantity):
-                    raise forms.ValidationError("All data must be entered to update an item on a quote.")
-
-
-# form for use n u=inline frameset after
-class QuotePartForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(QuotePartForm, self).__init__(*args, **kwargs)
-        self.label_suffix = ''
-        self.fields['partType'].widget = HiddenInput()
-        self.fields['part'].widget = HiddenInput()
-        self.fields['quantity'].widget = forms.TextInput(attrs={'size': '4'})
-        self.fields['sell_price'].widget = forms.TextInput(attrs={'size': '9'})
-
-    class Meta:
-        model = QuotePart
-        fields = ['partType', 'part', 'quantity', 'sell_price']
-
-    def clean(self):
-        cleaned_data = super(QuotePartForm, self).clean()
-        quantity = cleaned_data.get("quantity")
-        sell_price = cleaned_data.get("sell_price")
-
-        if quantity is None:
-            self.add_error('quantity', "Quantity must be entered, use a quantity of 0 to remove a part from the quote.")
-
-        if not sell_price:
-            self.add_error('sell_price',
-                           "Sell price should not be removed, use a quantity of 0 to remove a part from the quote.")
 
 
 # attributes for quote parts

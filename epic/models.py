@@ -231,7 +231,6 @@ class PartTypeAttribute(models.Model):
     in_use = models.BooleanField()
     mandatory = models.BooleanField()
     placing = models.PositiveSmallIntegerField()
-    default_value_for_quote = models.CharField('Default for Bike Quotes ', max_length=40, null=True, blank=True)
     attribute_type = models.CharField(max_length=1, choices=DISPLAY_CHOICES, default=TEXT, )
 
     def __str__(self):
@@ -333,7 +332,7 @@ class Frame(models.Model):
     objects = FrameManager()
 
     def getJavascriptObject(self):
-        return f'brand:"{self.brand.id}",frameId:"{self.id}",frameName:"{self.frame_name}",model:"{self.model}"'
+        return f'brand:"{self.brand.id}",frameId:"{self.id}",frameName:"{self.frame_name}",model:"{self.model}",sellPrice:"{self.sell_price}"'
 
     def __str__(self):
         if self.model is None:
@@ -470,52 +469,23 @@ class Quote(models.Model):
     def save(self, *args, **kwargs):
         # is_new = self._state.adding
         is_new = (self.pk is None)
-
-        # calculate sum before saving.
-        self.recalculate_prices()
+        self.can_be_ordered = True
+        self.can_be_issued = True
         if is_new:
+            if self.is_bike():
+                self.frame_sell_price = self.frame.sell_price
             self.can_be_ordered = True
             self.can_be_issued = True
         else:
             self.can_be_issued = self.check_if_can_be_issued()
             self.can_be_ordered = self.check_if_can_be_ordered()
 
+            # calculate sum before saving.
+        self.recalculate_prices()
         super(Quote, self).save(*args, **kwargs)
-
-        if is_new and self.is_bike():
-            # create quote frame link
-            self.frame_sell_price = self.frame.sell_price
-
-            # create lines for quote
-            quote_line = 0
-            part_sections = get_part_section_list_from_cache()
-            frame_parts = FramePart.objects.filter(frame=self.frame).prefetch_related('part', 'part__partType')
-
-            for part_section in part_sections:
-                part_types = get_part_types_for_section_from_cache(part_section)
-                for partType in part_types:
-                    if not FrameExclusion.objects.filter(frame=self.frame, partType=partType).exists():
-                        # add the part type to the list
-                        quote_line += 1
-                        quotePart = QuotePart(quote=self, line=quote_line, partType=partType, quantity=0)
-
-                        # add any parts specified
-                        for framePart in frame_parts:
-                            if framePart.part.partType == partType:
-                                quotePart.part = framePart.part
-                                quotePart.frame_part = framePart
-                                quotePart.quantity = 1
-                                quotePart.cost_price = 0
-                                quotePart.sell_price = 0
-
-                        quotePart.save()
 
     def __str__(self):
         return f'{self.quote_desc} ({str(self.version)})'
-
-    # display for the choice of type of quote
-    # def get_quote_type_display(self):
-    #    return dict(QUOTE_TYPE_CHOICES).get(self.quote_type)
 
     # set issuedDate whe quote is issued to a customer
     def issue(self):
@@ -560,7 +530,7 @@ class Quote(models.Model):
             if self.frame_sell_price is None:
                 return False
 
-        if self.quotepart_set.count() == 0:
+        if self.quotepart_set.count() == 0 and self.quote_type == PART:
             return False
 
         quote_parts = self.quotepart_set.all()
@@ -611,47 +581,66 @@ class Quote(models.Model):
         ordering = ('-created_date', 'quote_desc')
 
 
+# Managers for QuotePartAttribute
+class QuotePartManager(models.Manager):
+    # this creates a skinny version to use on a form incomplete cannot be saved
+    def create_quote_part(self, quote, quote_part_form):
+        # find the part
+        brand_id = quote_part_form.cleaned_data['brand']
+        trade_in_price = quote_part_form.cleaned_data['trade_in_price']
+        part_type = quote_part_form.cleaned_data['part_type']
+
+        quote_part = None
+        if brand_id:
+            brand = Brand.objects.get(id=brand_id)
+            part_name = quote_part_form.cleaned_data['part_name']
+            from epic.model_helpers.part_helper import find_or_create_part
+            part = find_or_create_part(brand, part_type, part_name)
+            if part:
+                quote_part = self.create(quote=quote, partType=part_type, part=part,
+                                         quantity=quote_part_form.cleaned_data['quantity'],
+                                         sell_price=quote_part_form.cleaned_data['sell_price'],
+                                         trade_in_price=quote_part_form.cleaned_data['trade_in_price'],
+                                         replacement_part=quote_part_form.cleaned_data['replacement_part'])
+
+        elif trade_in_price is not None:
+            quote_part = self.create(quote=quote, partType=part_type, sell_price=None, part=None,
+                                     trade_in_price=quote_part_form.cleaned_data['trade_in_price'],
+                                     replacement_part=True)
+
+        if quote_part:
+            QuotePartAttribute.objects.save_quote_part_attributes(quote_part)
+            quote_part.is_incomplete = quote_part.check_incomplete()
+            quote_part.save()
+
+        return quote_part
+
+
 class QuotePart(models.Model):
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
-    line = models.PositiveSmallIntegerField(default=1)
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     # part can be None if the part has not been selected
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True, null=True)
-    # framePart will be null when this a standalone quote
-    frame_part = models.ForeignKey(FramePart, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=1, blank=True)
-    cost_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    is_not_standard_part = models.BooleanField(default=False)
+    replacement_part = models.BooleanField(default=False)
     is_incomplete = models.BooleanField(default=False)
+    objects = QuotePartManager()
 
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
+        if self.pk is not None:
+            QuotePartAttribute.objects.save_quote_part_attributes(self)
+            self.is_incomplete = self.check_incomplete()
         super(QuotePart, self).save(*args, **kwargs)
 
-        part_type_attributes = PartTypeAttribute.objects.filter(partType=self.partType, in_use=True)
-
-        for part_type_attribute in part_type_attributes:
-            quote_part_attributes = QuotePartAttribute.objects.filter(quotePart=self,
-                                                                      partTypeAttribute=part_type_attribute)
-            if quote_part_attributes.count() > 0:
-                # reset the value if the value was the default and this is not the frame patt
-                if not self.is_frame_part():
-                    for quote_part_attribute in quote_part_attributes:
-                        if quote_part_attribute.is_default():
-                            quote_part_attribute.attribute_value = None
-                            quote_part_attribute.save()
-
-            else:
-                # create a new QuotePartAttribute
-                QuotePartAttribute.objects.create_quote_part_attribute(self, part_type_attribute)
-        self.is_not_standard_part = self.check_for_standard_part()
-        self.is_incomplete = self.check_for_standard_part()
-
     def __str__(self):
-        if self.part is None or self.part.part_name is None:
-            return f"{self.partType.shortName} Not specified"
+        if self.replacement_part:
+            if self.part is None or self.part.part_name is None:
+                return f"{self.partType.shortName} No part ***"
+            else:
+                return f"{str(self.part)} ***"
         else:
             return str(self.part)
 
@@ -675,72 +664,15 @@ class QuotePart(models.Model):
 
         return str(self) + attribute_detail
 
-    # return a part summary for use on Order and other pages
-    def get_bike_part_summary(self):
-        if self.is_not_standard_part:
-            if self.part:
-                if self.frame_part:
-                    return self.summary() + ' (Substitute part)'
-                else:
-                    return self.summary()
-            else:
-                return str(self) + ' NOT REQUIRED'
-        else:
-            return self.summary()
-
-    def is_frame_part(self):
-        if self.frame_part is None:
-            return False
-        if self.frame_part.part == self.part:
-            return True
-        return False
-
     def check_incomplete(self):
-
-        if self.is_frame_part():
-            quote_part_attributes = self.quotepartattribute_set.all()
-            for quote_part_attribute in quote_part_attributes:
-                if quote_part_attribute.is_missing():
-                    return True
-        elif self.part:
-            if self.sell_price is None:
-                return True
-
-            quote_part_attributes = self.quotepartattribute_set.all()
-            for quote_part_attribute in quote_part_attributes:
-                if quote_part_attribute.is_missing() or quote_part_attribute.is_default():
-                    return True
-        return False
-
-    def check_for_standard_part(self):
-        if self.is_frame_part():
-            quote_part_attributes = self.quotepartattribute_set.all()
-            for quote_part_attribute in quote_part_attributes:
-                if not quote_part_attribute.is_default():
-                    return True
-            return False
-        if self.quantity and self.quantity > 0:
-            return True
-        elif self.frame_part:
-            return True
-        # not a frame part that has changes and no qty
-        return False
-
-    def requires_prices(self):
-        if self.part is None:
-            return False
-
-        if (self.frame_part is not None) and (self.part == self.frame_part.part):
-            return False
 
         if self.sell_price is None:
             return True
 
+        for quote_part_attribute in self.get_attributes():
+            if quote_part_attribute.is_missing():
+                return True
         return False
-
-    class Meta:
-        # unique_together = (("quote", "partType"),)
-        ordering = ('line', '-quote')
 
 
 # Managers for QuotePartAttribute
@@ -748,11 +680,30 @@ class QuotePartAttributeManager(models.Manager):
     # this creates a skinny version to use on a form incomplete cannot be saved
     def create_quote_part_attribute(self, quote_part, part_type_attribute):
         attribute_value = None
-        if quote_part.is_frame_part():
-            attribute_value = part_type_attribute.default_value_for_quote
         quote_part_attribute = self.create(quotePart=quote_part, partTypeAttribute=part_type_attribute,
                                            attribute_value=attribute_value)
         return quote_part_attribute
+
+    def save_quote_part_attributes(self, quote_part):
+
+        if quote_part.part:
+            part_type_attributes = PartTypeAttribute.objects.filter(partType=quote_part.partType, in_use=True)
+
+            quote_part_attributes = quote_part.get_attributes()
+            for quote_part_attribute in quote_part_attributes:
+                if quote_part_attribute.quotePart.partType != quote_part_attribute.partTypeAttribute.partType:
+                    quote_part_attribute.delete()
+
+            for part_type_attribute in part_type_attributes:
+                if quote_part.part and not quote_part_attributes.filter(partTypeAttribute=part_type_attribute).exists():
+                    # create a new QuotePartAttribute
+                    self.create_quote_part_attribute(quote_part, part_type_attribute)
+
+        else:
+            # delete any attributes set up for part
+            quote_part.get_attributes().delete()
+
+
 
 
 # PartTypeAttribute linked to quote parts
@@ -772,9 +723,6 @@ class QuotePartAttribute(models.Model):
 
     def is_missing(self):
         return self.partTypeAttribute.needs_completing() and self.attribute_value is None
-
-    def is_default(self):
-        return self.partTypeAttribute.default_value_for_quote == self.attribute_value
 
     class Meta:
         unique_together = (("quotePart", "partTypeAttribute"),)

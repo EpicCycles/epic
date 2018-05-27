@@ -206,6 +206,10 @@ input:disabled {
     background-color: #f2f2f2;
 }
 
+.new_row {
+    background-color: #c2f285;
+}
+
 .red {
     color: #c82011;
 }
@@ -224,6 +228,9 @@ input:disabled {
 .error {
     color: #c82011;
     font-weight: bold;
+}
+div.error {
+    background-color: #c82011;
 }
 td.error{
     background-color: #c82011;

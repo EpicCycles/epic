@@ -31,8 +31,7 @@ function setUpPartFields() {
             brandElement.change(selectBrand);
             partTypeElement.change(selectPartType);
         }
-    })
-
+    });
 }
 
 function selectBrand() {

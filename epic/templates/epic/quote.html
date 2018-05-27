@@ -1,0 +1,198 @@
+{% extends 'epic/base.html' %}
+{% load staticfiles %}
+{% load static %}
+{% block content %}
+    <h2>Quote</h2>
+    <form action="" method="post" id="quote_form">
+        {% csrf_token %}
+
+        <input type="hidden" name="form_action" id="form_action" value="create_quote"/>
+        <section class="flex-vertical">
+            <div id="core-data">
+                <section class="row">
+                    <div>
+                        {% if quote %}
+                            <p><strong>{{ quote.customer }}</strong></p>
+                        {% else %}
+                            <h3>Customer</h3>
+                            {% if customer %}
+                                {{ customer }}
+                                {% for address in customer_addresses %}
+                                    <br/>
+                                    {{ address }}
+                                {% endfor %}
+                                {% for phone in customer_phones %}
+                                    <br/>
+                                    {{ phone }}
+                                {% endfor %}
+                                <br/>
+                                <input type="button"
+                                       onclick="popupDetail('{% url 'select_customer' %}','Change Customer')"
+                                       class="button" value="Change Customer"/>
+                            {% else %}
+                                <input type="button"
+                                       onclick="popupDetail('{% url 'select_customer' %}','Select Customer')"
+                                       class="button" value="Select Customer"/>
+                            {% endif %}
+
+                            <a href="{% url 'add_customer' %}" class="button">Create New Customer</a>
+                            <input type="hidden" name="new_customer_id" id="new_customer_id" value=""/>
+                        {% endif %}
+
+                        {% if quote %}
+                            <p><strong>Total Price (pre discount): £</strong>{{ quote.sell_price }}</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {% include "epic/form_as_table.html" with form=quote_form %}
+                        {% if not quote %}
+                            <section class="flex-vertical">
+                                <div class="field-label" id="bikeBrand">
+                                    <label for="frame_brand" class="field-label">Brand</label>
+                                    <select id="frame_brand" name="frame_brand" onchange="processSelectedBrand()">
+                                        <option></option>
+                                        {% for brand in brands %}
+                                            <option value="{{ brand.id }}">
+                                                {{ brand }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div id="frameDiv" class="field-label">
+                                    <label for="frame_name" class="field-label">Frame</label>
+                                    <select id="frame_name" onchange="processSelectedFrame()">
+                                    </select>
+                                </div>
+                                <div id="modelDiv" class="field-label">
+                                    <label for="model_name" class="field-label">Model</label>
+                                    <select id="model_name" onchange="processSelectedModel()">
+                                    </select>
+                                </div>
+                            </section>
+                        {% endif %}
+                    </div>
+
+                    {% if quote and quote.is_bike %}
+                        <div>
+                            <h4>Fitting Details</h4>
+                            {% if customerFittings %}
+                                <select name='id_fitting' id='id_fitting' title="select existing fitting to use">
+                                    <option value="">No Fitting</option>
+                                    {% for fitting in customerFittings %}
+                                        <option value="{{ fitting.id }}" {% if quote.fitting == fitting %}
+                                                selected {% endif %}>{{ fitting }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <strong>Self Sized</strong>
+                            {% endif %}
+                            <h4>New Fitting</h4>
+                            {% include "epic/form_as_table.html" with form=fittingForm %}
+                        </div>
+                    {% endif %}
+                     <div>
+                        {% include "epic/add_notes.html" %}
+                    </div>
+                </section>
+            </div>
+            <section class="row">
+
+                {% if bike_summary %}
+                    <div id="bike_summary">
+                        <h3>Bike Summary</h3>
+                        <p><strong>{{ quote.frame }}</strong></p>
+                        {% for line in bike_summary %}
+                            <span id="bike_{{ forloop.counter }}" class="red">{{ line }}</span><br/>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if quote %}
+                    <div class="flex-vertical">
+                        <div>
+                            <input type="button"
+                                   onclick="popupDetail('{% url 'add_quote_part' pk=quote.pk %}','Add part to quote')"
+                                   class="button" value="Add part to quote"/>
+                        </div>
+                        <div id="quote_parts">
+
+                            <table id="quote_part_table">
+                                <tr>
+                                    <th class="listHead">Part Type</th>
+                                    <th class="listHead">Brand</th>
+                                    <th class="listHead">Part Name</th>
+                                    <th class="listHead">Quantity</th>
+                                    <th class="listHead">Price (£)</th>
+                                    {% if quote.is_bike %}
+                                        <th class="listHead">Spec Change</th>
+                                        <th class="listHead">Trade In (£)</th>{% endif %}
+                                    <th class="listHead">Other Info</th>
+                                    <th class="listHead">Action</th>
+                                </tr>
+                                {% for part_form, part_attributes in quote_parts %}
+                                    {% cycle 'row1' 'row2' as rowcolors silent %}
+                                    <tr id="row_{{ forloop.counter }}" class="{{ rowcolors }}">
+                                        {% for field in part_form.visible_fields %}
+                                            {% include "epic/field_as_td.html"  with field=field %}
+                                        {% endfor %}
+                                        <td>
+                                            <table>
+                                                {% for quotePartAttributeForm in part_attributes %}
+                                                    <section class="{{ rowcolors }}">
+                                                        <div>
+                                                            {{ quotePartAttributeForm.attribute_name.value }} :&nbsp;
+                                                            {% for hidden in quotePartAttributeForm.hidden_fields %}
+                                                                {{ hidden }}
+                                                            {% endfor %}
+                                                        </div>
+                                                        {% include "epic/field_as_div.html"  with field=quotePartAttributeForm.attribute_value divClass="attributes" %}
+                                                    </section>
+                                                {% endfor %}
+                                            </table>
+
+                                        </td>
+                                        <td>
+                                            <i class="material-icons red "
+                                               onclick="removeRow('row_{{ forloop.counter }}')">delete_forever</i>
+                                            {% for hidden in part_form.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+
+                    </div>
+                {% endif %}
+            </section>
+        </section>
+        {% include "epic/form_standard_actions.html" %}
+        {% if quote %}
+            <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button"{% else %}
+               class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
+            <a href="{% url 'copy_quote' pk=quote.pk %}" class="button" title="Create a new quote based on this one.">Copy
+                to New
+                Quote</a>
+            {% if quote.frame %}
+                <input type="button" onclick="popupDetail('{% url 'bike_select_popup' %}','Select Bike')" class="button"
+                       value="Copy with Alternate Bike"
+                       title="Select new bike from popup and create quote with that bike instead of current bike."/>
+            {% endif %}
+
+        {% else %}
+            {% if frames_for_js %}
+                <script type="text/javascript">
+                    //declare ops-variable in here and use it
+                    let frames = [];
+                    {% for frame in frames_for_js %}
+                        frames.push({{ frame |safe }});
+                    {% endfor %}
+                </script>
+            {% endif %}
+        {% endif %}
+    </form>
+    <!-- pop up specific script -->
+    <script src="{% static 'js/quote.js' %}"></script>
+
+
+{% endblock %}
