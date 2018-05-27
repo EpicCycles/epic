@@ -90,7 +90,7 @@
                             {% include "epic/form_as_table.html" with form=fittingForm %}
                         </div>
                     {% endif %}
-                     <div>
+                    <div>
                         {% include "epic/add_notes.html" %}
                     </div>
                 </section>
@@ -150,7 +150,7 @@
                                             </table>
 
                                         </td>
-                                        <td>
+                                        <td class="align_center">
                                             <i class="material-icons red "
                                                onclick="removeRow('row_{{ forloop.counter }}')">delete_forever</i>
                                             {% for hidden in part_form.hidden_fields %}
@@ -191,6 +191,8 @@
             {% endif %}
         {% endif %}
     </form>
+    {% include "epic/notes_display.html" %}
+
     <!-- pop up specific script -->
     <script src="{% static 'js/quote.js' %}"></script>
 

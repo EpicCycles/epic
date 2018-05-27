@@ -466,6 +466,7 @@ class Quote(models.Model):
     can_be_ordered = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
+        print('saving quote')
         # is_new = self._state.adding
         is_new = (self.pk is None)
         self.can_be_ordered = True
@@ -519,14 +520,17 @@ class Quote(models.Model):
     # check if a quote can be issued
     def check_if_can_be_issued(self):
         if self.quote_status != INITIAL:
+            print('because quote status not initial')
             return False
 
         # check all prices complete and quantities set before issuing
         if self.keyed_sell_price is None:
+            print('because no keyed sell price')
             return False
 
         if self.frame is not None:
             if self.frame_sell_price is None:
+                print('because no frame price')
                 return False
 
         if self.quotepart_set.count() == 0 and self.quote_type == PART:
@@ -535,6 +539,7 @@ class Quote(models.Model):
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
             if quote_part.is_incomplete:
+                print('because quote part not complete', str(quote_part))
                 return False
 
         return True
@@ -620,7 +625,7 @@ class QuotePart(models.Model):
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     # part can be None if the part has not been selected
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True, null=True)
-    quantity = models.IntegerField(default=1, blank=True)
+    quantity = models.IntegerField(default=1, blank=True, null=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     replacement_part = models.BooleanField(default=False)
@@ -631,6 +636,7 @@ class QuotePart(models.Model):
     def save(self, *args, **kwargs):
         new_object = True
         if self.pk is not None:
+            print('saving part')
             new_object = False
             QuotePartAttribute.objects.save_quote_part_attributes(self)
             self.is_incomplete = self.check_incomplete()
@@ -673,12 +679,22 @@ class QuotePart(models.Model):
 
     def check_incomplete(self):
 
-        if self.sell_price is None:
+        if self.part:
+            if self.sell_price is None:
+                print('not complete because no sell price')
+                return True
+
+            for quote_part_attribute in self.get_attributes():
+                if quote_part_attribute.is_missing():
+                    print('not complete because attribute not set', str(quote_part_attribute))
+                    return True
+        else:
+            if self.replacement_part is False:
+                return True
+
+        if self.replacement_part and self.trade_in_price is None:
             return True
 
-        for quote_part_attribute in self.get_attributes():
-            if quote_part_attribute.is_missing():
-                return True
         return False
 
 

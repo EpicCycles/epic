@@ -155,7 +155,7 @@ def process_quote_changes(request, quote):
     if is_bike:
         fitting_form = QuoteFittingForm(request.POST, prefix='fitting')
         details_for_page['fittingForm'] = fitting_form
-        details_for_page['bike_summary'] =  frame_display(quote.frame)
+        details_for_page['bike_summary'] = frame_display(quote.frame)
         if fitting_form.has_changed():
             if fitting_form.is_valid():
                 fitting = create_fitting(quote.customer, fitting_form)
@@ -183,6 +183,7 @@ def process_quote_changes(request, quote):
     details_for_page['quote_parts'] = update_quote_parts_and_forms(request, quote)
 
     if quote_form.is_valid():
+        print('was in form and was valid should save')
         quote = quote_form.save()
 
     quote.recalculate_prices()
@@ -328,7 +329,8 @@ def update_quote_parts_and_forms(request, quote):
         part_saved = False
         initial__q_p = {'is_bike': is_bike, 'part_type': quote_part.partType}
 
-        quote_part_form = QuotePartForm(request.POST, request.FILES, prefix="QP" + str(quote_part.id), initial=initial__q_p)
+        quote_part_form = QuotePartForm(request.POST, request.FILES, prefix="QP" + str(quote_part.id),
+                                        initial=initial__q_p)
         if quote_part_form.is_valid():
             quote_part_updated = update_quote_part_from_form(quote_part, quote_part_form)
             if quote_part_updated:
@@ -359,7 +361,7 @@ def update_quote_parts_and_forms(request, quote):
 def update_quote_part_from_form(quote_part: QuotePart, quote_part_form: QuotePartForm):
     save_me = False
     if quote_part_form.cleaned_data['brand']:
-        brand = Brand.objects.get(id= quote_part_form.cleaned_data['brand'])
+        brand = Brand.objects.get(id=quote_part_form.cleaned_data['brand'])
         part = find_or_create_part(brand, quote_part_form.cleaned_data['part_type'],
                                    quote_part_form.cleaned_data['part_name'])
         quote_part.part = part
