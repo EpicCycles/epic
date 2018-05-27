@@ -1,7 +1,7 @@
 from django.contrib import messages
 
 from epic.helpers.note_helper import create_note_for_requote, create_note_for_quote_archive, create_note_for_quote_order
-from epic.models import INITIAL, ARCHIVED, ORDERED
+from epic.models import INITIAL, ARCHIVED, ORDERED, Quote, QuotePart
 
 
 def quote_requote(request, quote):
@@ -58,3 +58,34 @@ def quote_order(request, quote, customer_order):
 
     create_note_for_quote_order(quote, request.user)
     messages.info(request, f'Quote added to order - {str(quote)}')
+
+
+# create a new quote based on an existing quote
+def copy_quote_with_changes(old_quote, request, frame, customer):
+    # get the quote you are basing it on and create a copy_quote
+    quote_same_name = Quote.objects.filter(customer=old_quote.customer, quote_desc=old_quote.quote_desc).count()
+    # copy quote details
+    new_quote = Quote.objects.get(pk=old_quote.pk)
+    new_quote.pk = None
+    if customer:
+        new_quote.customer = customer
+    new_quote.version = quote_same_name + 1
+    new_quote.quote_status = INITIAL
+    new_quote.created_by = request.user
+    if frame:
+        new_quote.frame = frame
+        new_quote.keyed_sell_price = None
+        new_quote.frame_sell_price = frame.sell_price
+        new_quote.colour = None
+        new_quote.colour_price = None
+        new_quote.frame_size = None
+    # save creates all the parts required for a bike
+    new_quote.save()
+
+    # get parts from old quote and copy across to new_quote
+    old_quote_parts = QuotePart.objects.filter(quote=old_quote)
+    for old_quote_part in old_quote_parts:
+        QuotePart.objects.copy_quote_part_to_new_quote(new_quote, old_quote_part)
+
+    return new_quote
+

@@ -191,7 +191,6 @@ class PartSection(models.Model):
 
         super(PartSection, self).save(*args, **kwargs)
 
-
     class Meta:
         ordering = ['placing', 'name']
 
@@ -466,7 +465,6 @@ class Quote(models.Model):
     can_be_ordered = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
-        print('saving quote')
         # is_new = self._state.adding
         is_new = (self.pk is None)
         self.can_be_ordered = True
@@ -520,17 +518,14 @@ class Quote(models.Model):
     # check if a quote can be issued
     def check_if_can_be_issued(self):
         if self.quote_status != INITIAL:
-            print('because quote status not initial')
             return False
 
         # check all prices complete and quantities set before issuing
         if self.keyed_sell_price is None:
-            print('because no keyed sell price')
             return False
 
         if self.frame is not None:
             if self.frame_sell_price is None:
-                print('because no frame price')
                 return False
 
         if self.quotepart_set.count() == 0 and self.quote_type == PART:
@@ -539,7 +534,6 @@ class Quote(models.Model):
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
             if quote_part.is_incomplete:
-                print('because quote part not complete', str(quote_part))
                 return False
 
         return True
@@ -587,6 +581,23 @@ class Quote(models.Model):
 
 # Managers for QuotePartAttribute
 class QuotePartManager(models.Manager):
+    # this copies an existing quote part and it's attributes
+    def copy_quote_part_to_new_quote(self, quote, old_quote_part):
+        quote_part = self.create(quote=quote, partType=old_quote_part.partType, part=old_quote_part.part,
+                                 quantity=old_quote_part.quantity,
+                                 sell_price=old_quote_part.sell_price,
+                                 trade_in_price=old_quote_part.trade_in_price,
+                                 replacement_part=old_quote_part.replacement_part)
+
+        if old_quote_part.part is not None:
+            quote_part.get_attributes().delete()
+            for old_quote_part_attribute in old_quote_part.get_attributes():
+                QuotePartAttribute.objects.copy_quote_part_attribute(quote_part, old_quote_part_attribute)
+
+        if quote_part:
+            quote_part.is_incomplete = quote_part.check_incomplete()
+            quote_part.save()
+
     # this creates a skinny version to use on a form incomplete cannot be saved
     def create_quote_part(self, quote, quote_part_form):
         # find the part
@@ -636,7 +647,6 @@ class QuotePart(models.Model):
     def save(self, *args, **kwargs):
         new_object = True
         if self.pk is not None:
-            print('saving part')
             new_object = False
             QuotePartAttribute.objects.save_quote_part_attributes(self)
             self.is_incomplete = self.check_incomplete()
@@ -681,12 +691,10 @@ class QuotePart(models.Model):
 
         if self.part:
             if self.sell_price is None:
-                print('not complete because no sell price')
                 return True
 
             for quote_part_attribute in self.get_attributes():
                 if quote_part_attribute.is_missing():
-                    print('not complete because attribute not set', str(quote_part_attribute))
                     return True
         else:
             if self.replacement_part is False:
@@ -707,6 +715,13 @@ class QuotePartAttributeManager(models.Manager):
                                            attribute_value=attribute_value)
         return quote_part_attribute
 
+    # this copies an existing attribute
+    def copy_quote_part_attribute(self, quote_part, attribute_to_copy):
+        print('copying attribute', str(attribute_to_copy))
+        quote_part_attribute = self.create(quotePart=quote_part, partTypeAttribute=attribute_to_copy.partTypeAttribute,
+                                           attribute_value=attribute_to_copy.attribute_value)
+        return quote_part_attribute
+
     def save_quote_part_attributes(self, quote_part):
 
         if quote_part.part:
@@ -725,8 +740,6 @@ class QuotePartAttributeManager(models.Manager):
         else:
             # delete any attributes set up for part
             quote_part.get_attributes().delete()
-
-
 
 
 # PartTypeAttribute linked to quote parts

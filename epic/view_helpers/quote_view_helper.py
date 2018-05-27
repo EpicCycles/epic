@@ -7,7 +7,7 @@ import logging
 
 from epic.email_helpers.quote import send_quote_email
 from epic.forms import QuoteForm, QuotePartForm, QuoteFittingForm
-from epic.helpers.quote_helper import quote_requote
+from epic.helpers.quote_helper import quote_requote, copy_quote_with_changes
 from epic.model_helpers.frame_helper import get_frames_for_js, frame_display
 from epic.model_helpers.part_helper import find_or_create_part
 from epic.model_helpers.quote_helper import quote_display
@@ -45,7 +45,7 @@ def copy_quote_and_display(request, pk, frame_id, customer_id):
     new_quote.quote_desc = COPIED
     new_quote.save()
     messages.success(request, 'Quote created as copy of ' + str(old_quote))
-    return show_quote_edit(request, new_quote)
+    return HttpResponseRedirect(reverse('quote_edit', args=(new_quote.id,)))
 
 
 def show_new_quote_form(request, quote_form, customer):
@@ -121,9 +121,8 @@ def build_quote_parts(quote):
                           'quotepartattribute_set__partTypeAttribute')
     for quote_part in quote_parts:
         quote_part_forms.append(build_quote_part_form(quote_part, is_bike))
-        quote_part_attributes = quote_part.get_attributes()
         quote_part_attribute_forms = []
-        for quote_part_attribute in quote_part_attributes:
+        for quote_part_attribute in quote_part.get_attributes():
             quote_part_attribute_forms.append(build_quote_part_attribute_form(quote_part_attribute, True))
         quote_part_attribute_sets.append(quote_part_attribute_forms)
 
@@ -183,7 +182,6 @@ def process_quote_changes(request, quote):
     details_for_page['quote_parts'] = update_quote_parts_and_forms(request, quote)
 
     if quote_form.is_valid():
-        print('was in form and was valid should save')
         quote = quote_form.save()
 
     quote.recalculate_prices()
@@ -275,40 +273,6 @@ def show_quote_text(request, quote):
                   add_standard_session_data(request,
                                             {'quote': quote, 'quoteDetails': quote_display(quote),
                                              'customer_notes': customer_notes, 'summary_view': True}))
-
-
-# create a new quote based on an existing quote
-def copy_quote_with_changes(old_quote, request, frame, customer):
-    # get the quote you are basing it on and create a copy_quote
-    quote_same_name = Quote.objects.filter(customer=old_quote.customer, quote_desc=old_quote.quote_desc).count()
-    # copy quote details
-    new_quote = Quote.objects.get(pk=old_quote.pk)
-    new_quote.pk = None
-    if customer:
-        new_quote.customer = customer
-    new_quote.version = quote_same_name + 1
-    new_quote.quote_status = INITIAL
-    new_quote.created_by = request.user
-    if frame:
-        new_quote.frame = frame
-        new_quote.keyed_sell_price = None
-        new_quote.frame_sell_price = frame.sell_price
-        new_quote.colour = None
-        new_quote.colour_price = None
-        new_quote.frame_size = None
-    # save creates all the parts required for a bike
-    new_quote.save()
-
-    # get parts from old quote and copy across to new_quote
-    old_quote_parts = QuotePart.objects.filter(quote=old_quote)
-    for old_quote_part in old_quote_parts:
-        new_quote_part = old_quote_part
-        new_quote_part.pk = None
-        new_quote_part.quote = new_quote
-        new_quote_part.save()
-
-    new_quote.keyed_sell_price = None
-    return new_quote
 
 
 def update_quote_parts_and_forms(request, quote):
