@@ -9,8 +9,9 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 
 # forms and formsets used in the views
-from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm, FrameSearchForm
-from epic.models import Customer, Supplier, CustomerOrder, Frame, ARCHIVED, INITIAL
+from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm
+from epic.model_helpers.frame_helper import get_frames_for_js
+from epic.models import Customer, Supplier, CustomerOrder, ARCHIVED, INITIAL
 from epic.view_helpers.frame_view_helper import process_upload, create_new_model, process_bike_review, show_bike_review, \
     show_first_bike, show_next_bike
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
@@ -252,7 +253,6 @@ def view_customer_notes(request, pk):
 @login_required
 def add_quote(request):
     if request.method == "POST":
-        form_action = request.POST.get('form_action', '')
         return create_new_quote(request)
     else:
         return show_add_quote(request)
@@ -277,35 +277,20 @@ def add_customer_simple(request):
 
 # get frame details for pop-up
 def bike_select_popup(request):
-    # define an empty search pattern
-    where_filter = Q()
+    details_for_page = {'frames_for_js': get_frames_for_js()}
 
-    if request.method == "POST":
-        frame_search_form = FrameSearchForm(request.POST)
-        if frame_search_form.is_valid():
-            search_brand = frame_search_form.cleaned_data['search_brand']
-            search_name = frame_search_form.cleaned_data['search_name']
-            if search_brand:
-                where_filter &= Q(brand__exact=search_brand)
-            if search_name:
-                where_filter &= Q(frame_name__icontains=search_name)
-    else:
-        frame_search_form = FrameSearchForm()
-
-    possible_frames = Frame.objects.filter(where_filter)
-    return render(request, 'epic/frame_select_popup.html',
-                  {'frame_search_form': frame_search_form, 'possible_frames': possible_frames})
+    return render(request, 'epic/frame_select_popup.html', add_standard_session_data(request, details_for_page))
 
 
 # show edit order page
 @login_required
 def order_edit(request, pk):
-    customerOrder = get_object_or_404(CustomerOrder, pk=pk)
+    customer_order = get_object_or_404(CustomerOrder, pk=pk)
     if request.method == "POST":
-        return process_customer_order_edits(request, customerOrder)
+        return process_customer_order_edits(request, customer_order)
 
     else:
-        return edit_customer_order(request, customerOrder)
+        return edit_customer_order(request, customer_order)
 
 
 # create and order from a quote

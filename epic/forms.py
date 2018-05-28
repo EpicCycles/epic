@@ -233,16 +233,6 @@ class QuoteSearchForm(forms.Form):
         self.label_suffix = ''
 
 
-# form for searching for quotes
-class FrameSearchForm(forms.Form):
-    search_brand = forms.ChoiceField(choices=[], required=False, label='Brand')
-    search_name = forms.CharField(max_length='30', required=False, label='Name Like')
-
-    def __init__(self, *args, **kwargs):
-        super(FrameSearchForm, self).__init__(*args, **kwargs)
-        self.label_suffix = ''
-        self.fields['brand'].choices = BLANK_CHOICE + get_brand_list_from_cache()
-
 
 class BrandForm(ModelForm):
     class Meta:

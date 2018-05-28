@@ -37,14 +37,18 @@ def copy_quote_and_display(request, pk, frame_id, customer_id):
     new_frame = None
     new_customer = None
     if frame_id:
-        new_frame = get_object_or_404(Frame, frame_id)
+        new_frame = get_object_or_404(Frame, id=frame_id)
     if customer_id:
-        new_customer = get_object_or_404(Customer, customer_id)
+        new_customer = get_object_or_404(Customer, id=customer_id)
 
     new_quote = copy_quote_with_changes(old_quote, request, new_frame, new_customer)
     new_quote.quote_desc = COPIED
     new_quote.save()
-    messages.success(request, 'Quote created as copy of ' + str(old_quote))
+    message_text = 'Quote created as copy of ' + str(old_quote)
+    customer_note = CustomerNote(customer=new_quote.customer, quote=new_quote, note_text=message_text,
+                                 created_by=request.user, customer_visible=False)
+    customer_note.save()
+    messages.success(request, message_text)
     return HttpResponseRedirect(reverse('quote_edit', args=(new_quote.id,)))
 
 

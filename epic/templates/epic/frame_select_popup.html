@@ -1,50 +1,54 @@
 {% extends 'epic/base_popup.html' %}
 {% load staticfiles %}
 {% load static %}
-
+<!-- pop up specific script -->
 {% block content %}
+
+
     <!-- select a frame - used as a popup -->
     <form action="" method="post">
         {% csrf_token %}
-        <section style="padding:5px;">
-            <div><b>Filter values:</b></div>
-            <div>
-                <table>
-                    {% for field in frame_search_form.visible_fields %}
-                        <tr>
-                            <td>
-                                {{ field.label_tag }}
-                            </td>
-                            <td>
-                                {{ field }}
-                            </td>
-                        </tr>
+        <section class="flex-vertical">
+            <div class="field-label" id="bikeBrand">
+                <label for="frame_brand" class="field-label">Brand</label>
+                <select id="frame_brand" name="frame_brand" onchange="processSelectedBrand()">
+                    <option></option>
+                    {% for brand in brands %}
+                        <option value="{{ brand.id }}">
+                            {{ brand }}
+                        </option>
                     {% endfor %}
-                </table>
+                </select>
             </div>
-            <div><input type="submit" value="Search" class="button"/></div>
-        </section>
-    </form>
-    <hr/>
-    {% if possible_frames %}
-        <section>
-            <div style='padding-left: 10px; overflow: auto;'>
-                {% for frame in possible_frames %}
-                    <label>
-                        <input type="radio" name="frame" id="frame" value="{{ frame.pk }}"
-                               onclick="handleClick(this)"/>
-                        &nbsp;
-                        {{ frame }}</label>
-                    <br/>
-                {% endfor %}
+            <div id="frameDiv" class="field-label">
+                <label for="frame_name" class="field-label">Frame</label>
+                <select id="frame_name" onchange="processSelectedFrame()">
+                </select>
             </div>
-            <div style="padding-left: 20px;">
-                <input type='button' class="button" value='Select Frame' onclick='selectAndClose()'/>
+            <div id="modelDiv" class="field-label">
+                <label for="model_name" class="field-label">Model</label>
+                <select id="model_name" onchange="processSelectedModel()">
+                </select>
             </div>
         </section>
-    {% else %}
-        <p>No frames match search criteria.</p>
+    <hr>
+        <input type="button" class="button"
+               id="selectAndClose"
+               value="OK"
+               disabled="disabled"
+               title="Use selected bike."/>
+
+    {% if frames_for_js %}
+        <script type="text/javascript">
+            //declare ops-variable in here and use it
+            let frames = [];
+            {% for frame in frames_for_js %}
+                frames.push({{ frame |safe }});
+            {% endfor %}
+        </script>
     {% endif %}
-    <!-- pop up specific script -->
     <script src="{% static 'js/frame_select_popup.js' %}"></script>
+
+    </form>
+
 {% endblock %}
