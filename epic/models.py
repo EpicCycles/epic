@@ -1,17 +1,16 @@
 from __future__ import unicode_literals
 
+import re
 from datetime import date
 
-import re
-from django.db import models
+# added to allow user details on models and history tables
+from django.conf import settings
+from django.db import models, IntegrityError
 from django.db.models import CharField, TextField
 from django.urls import reverse
 from django.utils import timezone
 
-# added to allow user details on models and history tables
-from django.conf import settings
-
-from epic.form_helpers.regular_expressions import EMAIL_REGEX, POSTCODE_PATTERN
+from epic.form_helpers.regular_expressions import EMAIL_REGEX, POSTCODE_PATTERN, URL_PATTERN
 from epic.model_helpers.lookup_helpers import UpperCase
 
 HOME = 'H'
@@ -107,7 +106,7 @@ class CustomerPhone(models.Model):
             raise ValueError('Number type must be Home, Work or Mobile')
 
         if CustomerPhone.objects.filter(customer=self.customer,
-                                        telephone=self.telephone).exclude(id=self.id).exists():
+                                        telephone__upper=self.telephone).exclude(id=self.id).exists():
             raise ValueError('Customer with these values already exists')
 
         super(CustomerPhone, self).save(*args, **kwargs)
@@ -218,7 +217,7 @@ class PartType(models.Model):
         super(PartType, self).save(*args, **kwargs)
 
     class Meta:
-        unique_together = (("includeInSection", "shortName"),)
+        indexes = [models.Index(fields=["includeInSection", "shortName"]), ]
         ordering = ('includeInSection', 'placing', 'shortName')
 
 
@@ -226,19 +225,36 @@ class PartType(models.Model):
 class PartTypeAttribute(models.Model):
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     attribute_name = models.CharField(max_length=30)
-    in_use = models.BooleanField()
-    mandatory = models.BooleanField()
+    in_use = models.BooleanField(default=True)
+    mandatory = models.BooleanField(default=True)
     placing = models.PositiveSmallIntegerField()
     attribute_type = models.CharField(max_length=1, choices=DISPLAY_CHOICES, default=TEXT, )
 
     def __str__(self):
         return self.attribute_name
 
+    def save(self, *args, **kwargs):
+        if self.attribute_name is None or self.attribute_name == '':
+            raise ValueError('Missing attribute name')
+        if self.placing is None:
+            raise ValueError('Missing placing')
+        elif self.placing < 1:
+            raise ValueError('Invalid placing')
+
+        if self.attribute_type not in [TEXT, RADIO, SELECT, NUMBER, MULTIPLE_C, MULTIPLE_S]:
+            raise ValueError('Invalid attribute type')
+
+        if PartTypeAttribute.objects.filter(partType=self.partType,
+                                            attribute_name=self.attribute_name).exclude(id=self.id).exists():
+            raise IntegrityError('Part Type Attribute with these values already exists')
+
+        super(PartTypeAttribute, self).save(*args, **kwargs)
+
     def needs_completing(self):
         return self.in_use and self.mandatory
 
     class Meta:
-        unique_together = (("partType", "attribute_name"),)
+        indexes = [models.Index(fields=["partType", "attribute_name"]), ]
         ordering = ('placing',)
 
 
@@ -247,27 +263,61 @@ class AttributeOptions(models.Model):
     part_type_attribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE)
     attribute_option = models.CharField(max_length=30)
 
+    def save(self, *args, **kwargs):
+        if self.attribute_option is None or self.attribute_option == '':
+            raise ValueError('Missing attribute option')
+        if AttributeOptions.objects.filter(part_type_attribute=self.part_type_attribute,
+                                           attribute_option=self.attribute_option).exclude(id=self.id).exists():
+            raise IntegrityError('Part Type Attribute option with this value already exists')
 
-class Meta:
-    unique_together = (("part_type_attribute", "attribute_option"),)
-    ordering = ('attribute_option',)
+        super(AttributeOptions, self).save(*args, **kwargs)
+
+    class Meta:
+        indexes = [models.Index(fields=["part_type_attribute", "attribute_option"]), ]
+        ordering = ('attribute_option',)
 
 
-# suppliersfor bikes/parts etc
+# suppliers  for bikes/parts etc
 class Supplier(models.Model):
     supplier_name = models.CharField('Supplier', max_length=100, unique=True)
 
     def __str__(self):
         return self.supplier_name
 
+    def save(self, *args, **kwargs):
+        if self.supplier_name is None or self.supplier_name == '':
+            raise ValueError('Missing supplier name')
+
+        if Supplier.objects.filter(supplier_name__upper=self.supplier_name).exclude(id=self.id).exists():
+            raise IntegrityError('Supplier exists with name ' + self.supplier_name)
+
+        super(Supplier, self).save(*args, **kwargs)
+
 
 class Brand(models.Model):
     brand_name = models.CharField(max_length=50, unique=True)
-    link = models.CharField(max_length=100, blank=True)
+    link = models.CharField(max_length=100, blank=True, null=True)
     supplier = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.brand_name
+
+    def save(self, *args, **kwargs):
+        if self.brand_name is None or self.brand_name == '':
+            raise ValueError('Missing brand name')
+
+        if self.link is not None:
+            if self.link == '':
+                raise ValueError('Link cannot be blank')
+
+            match = re.match(URL_PATTERN, self.link)
+            if match is None:
+                raise ValueError('Invalid link', self.link)
+
+        if Brand.objects.filter(brand_name__upper=self.brand_name).exclude(id=self.id).exists():
+            raise IntegrityError('Brand already exists with name' + self.brand_name)
+
+        super(Brand, self).save(*args, **kwargs)
 
     # check whether a web kink ispresent
     def has_link(self):
@@ -280,6 +330,7 @@ class Brand(models.Model):
 
     class Meta:
         ordering = ('brand_name',)
+        indexes = [models.Index(fields=["brand_name"]), ]
 
 
 class PartManager(models.Manager):
@@ -306,8 +357,18 @@ class Part(models.Model):
     def __str__(self):
         return f'{self.partType.shortName}: {self.brand.brand_name} {self.part_name}'
 
+    def save(self, *args, **kwargs):
+        if self.part_name is None or self.part_name == '':
+            raise ValueError('Missing brand name')
+
+        if Part.objects.filter(part_name__upper=self.part_name, brand=self.brand, partType=self.partType).exclude(
+                id=self.id).exists():
+            raise IntegrityError('Part already exists with name for brand and type' + self.part_name)
+
+        super(Part, self).save(*args, **kwargs)
+
     class Meta:
-        unique_together = (("partType", "brand", "part_name"),)
+        indexes = [models.Index(fields=["partType", "brand", 'part_name']), ]
 
 
 class FrameManager(models.Manager):
@@ -339,11 +400,11 @@ class Frame(models.Model):
             return f'{self.brand.brand_name}: {self.frame_name} {self.model}'
 
     class Meta:
-        unique_together = (("brand", "frame_name", "model"),)
+        indexes = [models.Index(fields=["brand", "frame_name", 'model']), ]
         ordering = ('brand', 'frame_name', 'model')
 
 
-# Manager for PramePart
+# Manager for FramePart
 class FramePartManager(models.Manager):
     def create_frame_part(self, frame, part):
         return self.create(frame=frame, part=part)
@@ -359,7 +420,7 @@ class FramePart(models.Model):
         return f'{self.part.partType.shortName}: {str(self.part.brand)} {self.part.part_name}'
 
     class Meta:
-        unique_together = (("frame", "part"),)
+        indexes = [models.Index(fields=["frame", "part"]), ]
         ordering = ('pk',)
 
 
@@ -379,7 +440,7 @@ class FrameExclusion(models.Model):
         return f'{str(self.partType)} n/a'
 
     class Meta:
-        unique_together = (("frame", "partType"),)
+        indexes = [models.Index(fields=["frame", "partType"]), ]
 
 
 # # Managers for CustomerOrder
@@ -761,7 +822,7 @@ class QuotePartAttribute(models.Model):
         return self.partTypeAttribute.needs_completing() and self.attribute_value is None
 
     class Meta:
-        unique_together = (("quotePart", "partTypeAttribute"),)
+        indexes = [models.Index(fields=["quotePart", "partTypeAttribute"]), ]
 
 
 # Supplier Order details
@@ -774,7 +835,7 @@ class SupplierOrder(models.Model):
         return f"{str(self.supplier)}Order id{self.order_identifier}"
 
     class Meta:
-        unique_together = (("supplier", "order_identifier"),)
+        indexes = [models.Index(fields=["supplier", "order_identifier"]), ]
 
 
 # Managers for OrderItem
