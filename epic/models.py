@@ -87,7 +87,7 @@ class CustomerPhone(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
     number_type = models.CharField(max_length=1, choices=NUMBER_TYPE_CHOICES, default=HOME, )
-    telephone = models.CharField(max_length=60, blank=True)
+    telephone = models.CharField(max_length=60)
     add_date = models.DateTimeField('date added', auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
 

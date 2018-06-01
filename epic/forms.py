@@ -1,17 +1,17 @@
 # forms.py
-from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 from django.forms.widgets import HiddenInput
 from django.forms.widgets import SelectDateWidget
+from django.utils.translation import ugettext_lazy as _
 
 from epic.form_helpers.choices import get_brand_list_from_cache, get_part_type_list_from_cache
 from epic.form_helpers.regular_expressions import NAME_PATTERN, POSTCODE_PATTERN
-
 # useful documentation here - https://docs.djangoproject.com/en/1.10/topics/forms/
 # global variables for forms
+from epic.helpers.validation_helper import is_valid_name, is_valid_telephone
 from epic.models import *
 
 FORM_FITTING_TYPE_CHOICES = list(FITTING_TYPE_CHOICES)
@@ -32,6 +32,18 @@ class CustomerForm(ModelForm):
         super(CustomerForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
 
+    # validate the data input
+    def clean(self):
+        cleaned_data = super(CustomerForm, self).clean()
+        first_name = cleaned_data.get("first_name")
+        last_name = cleaned_data.get("last_name")
+        if first_name:
+            if not is_valid_name(first_name):
+                self.add_error('first_name', 'Enter a valid first name.')
+        if last_name:
+            if not is_valid_name(last_name):
+                self.add_error('last_name', 'Enter a valid last name.')
+
 
 class ChangeCustomerForm(ModelForm):
     class Meta(CustomerForm.Meta):
@@ -49,6 +61,18 @@ class ChangeCustomerForm(ModelForm):
 
         self.label_suffix = ''
 
+    # validate the data input
+    def clean(self):
+        cleaned_data = super(ChangeCustomerForm, self).clean()
+        first_name = cleaned_data.get("first_name")
+        last_name = cleaned_data.get("last_name")
+        if first_name:
+            if not is_valid_name(first_name):
+                self.add_error('first_name', 'Enter a valid first name.')
+        if last_name:
+            if not is_valid_name(last_name):
+                self.add_error('last_name', 'Enter a valid last name.')
+
 
 class AddressForm(ModelForm):
     class Meta:
@@ -65,6 +89,25 @@ class AddressForm(ModelForm):
         self.fields['postcode'].widget = forms.TextInput(attrs={'size': '9', 'pattern': POSTCODE_PATTERN})
         self.fields['customer'].widget = forms.HiddenInput()
 
+    # validate the data input
+    def clean(self, is_simple_form=False):
+        cleaned_data = super(AddressForm, self).clean()
+        postcode = cleaned_data.get("postcode")
+
+        if is_simple_form:
+            address1 = cleaned_data.get("address1")
+            if (address1 or postcode) and not (address1 and postcode):
+                # Must have both if have either (simple form only
+                msg = "Both first line of address and a postcode must be entered."
+                if address1:
+                    self.add_error('postcode', msg)
+                if postcode:
+                    self.add_error('address1', msg)
+
+        if postcode:
+            if not is_valid_post_code(postcode):
+                self.add_error('postcode', 'Enter a valid postcode.')
+
 
 class AddressFormSimple(AddressForm):
     def __init__(self, *args, **kwargs):
@@ -76,17 +119,7 @@ class AddressFormSimple(AddressForm):
 
     # validate the data input
     def clean(self):
-        cleaned_data = super(AddressFormSimple, self).clean()
-        address1 = cleaned_data.get("address1")
-        postcode = cleaned_data.get("postcode")
-
-        if (address1 or postcode) and not (address1 and postcode):
-            # cannot over pay
-            msg = "Both first line of address and a postcode must be entered."
-            if address1:
-                self.add_error('postcode', msg)
-            if postcode:
-                self.add_error('address1', msg)
+        return super(AddressFormSimple, self).clean(is_simple_form=True)
 
 
 # Form for phone details
@@ -101,13 +134,35 @@ class PhoneForm(ModelForm):
         self.fields['telephone'].widget = forms.TextInput(attrs={'size': '15'})
         self.fields['customer'].widget = forms.HiddenInput()
 
+    # validate the data input
+    def clean(self, is_simple_form=False):
+        cleaned_data = super(PhoneForm, self).clean()
+        telephone = cleaned_data.get("telephone")
+        if is_simple_form:
+            number_type = cleaned_data.get("number_type")
+            if (number_type or telephone) and not (number_type and telephone):
+                # Must have both if have either (simple form only
+                msg = "Both number and number type must be entered."
+                if number_type:
+                    self.add_error('telephone', msg)
+                if telephone:
+                    self.add_error('number_type', msg)
+        if telephone:
+            if not is_valid_telephone(telephone):
+                self.add_error('telephone', 'Enter a valid telephone number.')
+
 
 class PhoneFormSimple(PhoneForm):
     def __init__(self, *args, **kwargs):
         super(PhoneFormSimple, self).__init__(*args, **kwargs)
         self.fields['customer'].widget = HiddenInput()
         self.fields['customer'].required = False
+        self.fields['telephone'].required = False
         self.fields['number_type'].required = False
+
+    # validate the data input
+    def clean(self):
+        return super(PhoneFormSimple, self).clean(is_simple_form=True)
 
 
 # form for full fitting details
@@ -231,7 +286,6 @@ class QuoteSearchForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(QuoteSearchForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
-
 
 
 class BrandForm(ModelForm):
@@ -427,7 +481,6 @@ class QuotePartForm(forms.Form):
         self.fields['sell_price'].widget = forms.TextInput(attrs={'size': '9'})
         self.fields['trade_in_price'].widget = forms.TextInput(attrs={'size': '9'})
 
-
         if not self.initial['is_bike']:
             self.fields['replacement_part'].widget = HiddenInput()
             self.fields['trade_in_price'].widget = HiddenInput()
@@ -450,7 +503,7 @@ class QuotePartForm(forms.Form):
         if replacement_part:
             if trade_in_price_empty:
                 self.add_error('trade_in_price',
-                           'Trade in price required, can be zero, when part is substituted or omitted.')
+                               'Trade in price required, can be zero, when part is substituted or omitted.')
             if not part_type:
                 self.add_error('part_type',
                                'A part type must be specified, when part is substituted or omitted.')

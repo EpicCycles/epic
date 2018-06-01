@@ -4,7 +4,7 @@ from decimal import Decimal, ROUND_HALF_DOWN, DecimalException
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator, EmailValidator
 
-from epic.form_helpers.regular_expressions import POSTCODE_PATTERN
+from epic.form_helpers.regular_expressions import POSTCODE_PATTERN, NAME_PATTERN, TELEPHONE_PATTERN
 
 
 def decimal_for_string(value):
@@ -31,6 +31,28 @@ def is_valid_post_code(postcode):
         return False
 
     match = re.match(POSTCODE_PATTERN, postcode)
+    if match is None:
+        return False
+
+    return True
+
+
+def is_valid_name(input_name):
+    if input_name is '':
+        return False
+
+    match = re.match(NAME_PATTERN, input_name)
+    if match is None:
+        return False
+
+    return True
+
+
+def is_valid_telephone(input_telephone):
+    if input_telephone is '':
+        return False
+
+    match = re.match(TELEPHONE_PATTERN, input_telephone)
     if match is None:
         return False
 

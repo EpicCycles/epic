@@ -55,3 +55,24 @@ class CustomerFormTestCase(TestCase):
         self.assertEqual(form.errors, {
             'last_name': ['This field is required.'],
         })
+
+    def test_invalid_first_name(self):
+        form = CustomerForm({'first_name': "Turanga!", 'last_name': "Leela"}, instance=self.customer)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, {
+            'first_name': ['Enter a valid first name.'],
+        })
+
+    def test_invalid_last_name(self):
+        form = CustomerForm({'first_name': "Turanga", 'last_name': "Leela23"}, instance=self.customer)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, {
+            'last_name': ['Enter a valid last name.'],
+        })
+
+    def test_invalid_email(self):
+        form = CustomerForm({'first_name': "Turanga", 'last_name': "Leela", 'email':'invalid'}, instance=self.customer)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors, {
+            'email': ['Enter a valid email address.'],
+        })
