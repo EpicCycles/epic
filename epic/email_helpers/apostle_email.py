@@ -1,7 +1,6 @@
 import apostle
-import re
 
-from epic.form_helpers.regular_expressions import EMAIL_REGEX
+from epic.helpers.validation_helper import is_valid_email
 from mysite.settings import DEBUG, APOSTLE_DOMAIN_KEY, TO_EMAIL, FROM_EMAIL
 
 
@@ -13,8 +12,7 @@ def create_apostle_email(template_name, recipient_name, recipient_email):
     if recipient_email == '':
         raise ValueError('Missing Template name')
 
-    match = re.match(EMAIL_REGEX, recipient_email)
-    if match is None:
+    if not is_valid_email(recipient_email):
         raise ValueError('Invalid recipient email', recipient_email)
 
     from_address = FROM_EMAIL

@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-import re
 from datetime import date
 
 # added to allow user details on models and history tables
@@ -10,7 +9,7 @@ from django.db.models import CharField, TextField
 from django.urls import reverse
 from django.utils import timezone
 
-from epic.form_helpers.regular_expressions import EMAIL_REGEX, POSTCODE_PATTERN, URL_PATTERN
+from epic.helpers.validation_helper import is_valid_email, is_valid_post_code, is_valid_url
 from epic.model_helpers.lookup_helpers import UpperCase
 
 HOME = 'H'
@@ -58,9 +57,8 @@ class Customer(models.Model):
             raise ValueError('Missing first name')
         if self.last_name is None or self.last_name == '':
             raise ValueError('Missing last name')
-        if self.email:
-            match = re.match(EMAIL_REGEX, self.email)
-            if match is None or self.email == '':
+        if self.email and not self.email == '':
+            if not is_valid_email(self.email):
                 raise ValueError('Invalid email', self.email)
 
         if Customer.objects.filter(first_name=self.first_name,
@@ -138,8 +136,7 @@ class CustomerAddress(models.Model):
             raise ValueError('Missing address1')
         if self.postcode is None or self.postcode == '':
             raise ValueError('Missing postcode')
-        match = re.match(POSTCODE_PATTERN, self.postcode)
-        if match is None:
+        if not is_valid_post_code(self.postcode):
             raise ValueError('Invalid postcode', self.postcode)
 
         if CustomerAddress.objects.filter(customer=self.customer,
@@ -310,8 +307,7 @@ class Brand(models.Model):
             if self.link == '':
                 raise ValueError('Link cannot be blank')
 
-            match = re.match(URL_PATTERN, self.link)
-            if match is None:
+            if not is_valid_url(self.link):
                 raise ValueError('Invalid link', self.link)
 
         if Brand.objects.filter(brand_name__upper=self.brand_name).exclude(id=self.id).exists():

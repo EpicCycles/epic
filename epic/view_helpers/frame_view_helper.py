@@ -10,7 +10,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from epic.forms import FrameForm, FrameChangePartForm
-from epic.helpers.validation_helper import decimalForString
+from epic.helpers.validation_helper import decimal_for_string
 from epic.model_helpers.brand_helper import find_brand_for_string, find_brand_for_name
 from epic.model_helpers.frame_helper import get_frames_for_js, set_frames_for_js
 from epic.model_helpers.part_helper import find_or_create_part
@@ -363,7 +363,7 @@ def process_upload(request):
                         # ignore the first column - already used
                         if j > 0:
 
-                            frame_price = decimalForString(attributes[j].strip())
+                            frame_price = decimal_for_string(attributes[j].strip())
 
                             if frame_price:
                                 frames[j].sell_price = frame_price
