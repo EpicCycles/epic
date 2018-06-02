@@ -1,0 +1,50 @@
+{% extends 'epic/base.html' %}
+
+{% block content %}
+
+    <form action="" method="post" name="quoteForm">
+        {% csrf_token %}
+        <section class="flex-vertical">
+            <section style="width:100%">
+                <div><h2>Quote</h2></div>
+                <div style="width:80%;  text-align:right;">
+                    {% include "epic/quote_issued_buttons.html" %}
+                </div>
+            </section>
+            <div>{{ quote.customer }}</div>
+            {% if quote.is_bike %}
+                <div>
+                    <h4>Bike details</h4>
+                    <p>
+                        <strong>Bike: </strong>{{ quote.frame }}<br>
+                        <strong>Colour: </strong>{{ quote.colour }}<br>
+                        <strong>Size: </strong>{{ quote.frame_size }}
+                    </p>
+                    {% if quote.fitting %}
+                        <p><strong>Fitting: </strong>
+                            {{ quote.fitting }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <section class="row">
+                <div>
+                    <h4>Quote Detail</h4>
+                    <table>
+                        {% for quote_detail in quote_details %}
+                            {% cycle 'row1' 'row2' as rowcolors silent %}
+                            <tr class="{{ rowcolors }}">
+                                <td>{{ quote_detail }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <strong>Quote total £ {{ quote.keyed_sell_price }}</strong>
+                </div>
+                <div>
+                    {% include "epic/notes_display.html" %}
+                </div>
+            </section>
+        </section>
+    </form>
+
+{% endblock %}

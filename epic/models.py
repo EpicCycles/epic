@@ -584,6 +584,10 @@ class Quote(models.Model):
         if self.frame is not None:
             if self.frame_sell_price is None:
                 return False
+            if self.colour is None or self.colour_price is None:
+                return False
+            if self.frame_size is None:
+                return False
 
         if self.quotepart_set.count() == 0 and self.quote_type == PART:
             return False

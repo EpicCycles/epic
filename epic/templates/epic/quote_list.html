@@ -29,18 +29,7 @@
                     <td>{{ quote.created_date }}</td>
                     <td>{{ quote.keyed_sell_price }}</td>
                     <td>{{ quote.created_by }}</td>
-                    <td>{% if quote.can_be_edited %}
-                        <a href="{% url 'quote_edit' pk=quote.pk %}" class="button">Edit</a>
-                    {% else %}
-                        <a href="{% url 'quote_browse' pk=quote.pk %}" class="button">View</a>
-                    {% endif %}</td>
-                    <td>{% if quote.can_be_issued %}
-                        <a href="{% url 'quote_issue' pk=quote.pk %}" class="button">Issue</a>
-                    {% elif quote.can_be_reissued %}
-                        <a href="{% url 'quote_amend' pk=quote.pk %}" class="button">Amend</a>
-                    {% endif %}</td>
-                    <td>{% if quote.is_bike %}
-                        <a href="{% url 'copy_quote' pk=quote.pk %}" class="button">Copy</a>{% endif %}</td>
+                    {% include "epic/quote_list_buttons.html" %}
                 </tr>
             {% endfor %}
         </table>

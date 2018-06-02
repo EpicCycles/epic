@@ -214,9 +214,9 @@ def process_quote_requote(request, quote):
 
 
 def show_quote_browse(request, quote):
-    return render(request, 'epic/quote_issued_simple.html',
+    return render(request, 'epic/quote_issued.html',
                   add_standard_session_data(request,
-                                            {'quote': quote, 'quoteDetails': quote_display(quote),
+                                            {'quote': quote, 'quote_details': quote_display(quote),
                                              'customer_notes': CustomerNote.objects.filter(quote=quote,
                                                                                            customer_visible=True)}))
 
