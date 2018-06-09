@@ -1,0 +1,19 @@
+{% extends 'epic/base.html' %}
+
+{% block content %}
+
+    <form action="" method="post" name="quoteForm">
+        {% csrf_token %}
+        <section class="flex-vertical">
+            <section style="width:100%">
+                <div><h2>Quote</h2></div>
+                <div style="width:80%;  text-align:right;">
+                    {% include "epic/quotes/quote_issued_buttons.html" %}
+                </div>
+            </section>
+            {% include "epic/quotes/quote_view.html" with view_class='row' %}
+
+        </section>
+    </form>
+
+{% endblock %}

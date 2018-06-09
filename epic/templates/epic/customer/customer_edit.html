@@ -1,0 +1,130 @@
+{% extends 'epic/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div>
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <section class="row">
+                <section class="flex-vertical">
+                    <section style="width:100%">
+                        <div><h2>Customer Details</h2></div>
+                        <div style="width:80%;  text-align:right;">
+                            {% include "epic/common/form_standard_actions.html" %}
+                        </div>
+                    </section>
+                    <section class="row">
+                        <div>
+                            <h3>Customer</h3>
+                            {% include "epic/common/form_as_table.html"  with form=customer_form %}
+                        </div>
+
+                        {% if customer %}
+                            <div>
+                                {% include "epic/notes/add_notes.html" %}
+                                <br/>
+                                <input type="button"
+                                       onclick="popupDetail('{% url 'view_customer_notes' pk=customer.pk %}','Customer Notes')"
+                                       class="button" value="View Notes"
+                                />
+                            </div>
+                        {% endif %}
+                    </section>
+                    <fieldset>
+                        <h3>Customer Address</h3>
+                        {{ address_form_set.management_form }}
+                        {{ address_form_set.non_form_errors }}
+                        <table>
+                            {% for form in address_form_set %}
+                                {% include "epic/common/formset_display.html" %}
+                            {% endfor %}
+                        </table>
+                        {% for form in address_form_set %}
+                            {{ form.non_field_errors }}
+                            {% for hidden in form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                        {% endfor %}
+                    </fieldset>
+                    <table>
+                        <tr>
+                            <td class="align_top">
+                                <fieldset>
+                                    <h3>Customer Phone</h3>
+                                    {{ phone_form_set.management_form }}
+                                    {{ phone_form_set.non_form_errors }}
+                                    <table>
+                                        {% for form in phone_form_set %}
+                                            {% include "epic/common/formset_display.html" %}
+                                        {% endfor %}
+                                    </table>
+                                    {% for phoneForm in phone_form_set %}
+                                        {{ phoneForm.non_field_errors }}
+                                        {% for hidden in phoneForm.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </fieldset>
+                            </td>
+                            <td class="align_top">
+                                <fieldset>
+                                    <h3>Customer Fittings</h3>
+                                    {{ fitting_form_set.management_form }}
+                                    {{ fitting_form_set.non_form_errors }}
+                                    <table>
+                                        {% for form in fitting_form_set %}
+                                            {% include "epic/common/formset_display.html" %}
+                                        {% endfor %}
+                                    </table>
+                                    {% for fitting_form in fitting_form_set %}
+                                        {{ fitting_form.non_field_errors }}
+                                        {% for hidden in fitting_form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </fieldset>
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        {% include "epic/notes/notes_display.html" %}
+                    </div>
+                </section>
+
+                <section class="flex-vertical">
+                    <div>
+                        <h3>New Quote</h3>
+                        {% include "epic/common/form_as_table.html"  with form=customer_quote_form %}
+                        {% with "flex-vertical" as section_class %}
+                            {% include "epic/frames/frame_select.html" %}
+                        {% endwith %}
+                    </div>
+                    <div>
+                        {% if existing_quotes %}
+                            <h3>Existing Quotes</h3>
+                            <table>
+                                <tr>
+                                    <th class="listHead">Name</th>
+                                    <th class="listHead">Value</th>
+                                    <th class="listHead" colspan="3">Actions</th>
+                                </tr>
+                                {% for quote in existing_quotes %}
+                                    <tr>
+                                        <td>{{ quote }}</td>
+                                        <td>{{ quote.keyed_sell_price }}</td>
+                                        {% include "epic/quotes/quote_list_buttons.html" %}
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% endif %}
+                    </div>
+
+                </section>
+            </section>
+        </form>
+        <script src="{% static 'js/customer/customer_edit.js' %}"></script>
+        <script src="{% static 'js/quotes/quote_initial.js' %}"></script>
+    </div>
+
+{% endblock %}

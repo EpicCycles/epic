@@ -1,0 +1,26 @@
+{% extends 'epic/base_popup.html' %}
+{% load staticfiles %}
+{% load static %}
+<!-- pop up specific script -->
+{% block content %}
+
+
+    <!-- select a frame - used as a popup -->
+    <form action="" method="post">
+        {% csrf_token %}
+        {% with "flex-vertical" as section_class %}
+            {% include "epic/frames/frame_select.html" %}
+        {% endwith %}
+
+        <hr>
+        <input type="button" class="button"
+               id="selectAndClose"
+               value="OK"
+               disabled="disabled"
+               title="Use selected bike."/>
+
+        <script src="{% static 'js/frames/frame_select_popup.js' %}"></script>
+
+    </form>
+
+{% endblock %}

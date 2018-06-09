@@ -30,11 +30,11 @@ def save_quote_part(request, quote):
             details_for_page['saved_part_attributes'] = quote_part_attribute_forms
             details_for_page['quote_part_form'] =  QuotePartForm(initial=initial__q_p)
 
-    return render(request, 'epic/quote_part_add_popup.html', details_for_page)
+    return render(request, 'epic/part/quote_part_add_popup.html', details_for_page)
 
 
 
 def show_quote_part_popup(request, quote):
     initial__q_p = {'is_bike': quote.is_bike(), 'part_type': None}
     details_for_page = add_standard_session_data(request, {'quote_part_form': QuotePartForm(initial=initial__q_p)})
-    return render(request, 'epic/quote_part_add_popup.html', details_for_page)
+    return render(request, 'epic/part/quote_part_add_popup.html', details_for_page)

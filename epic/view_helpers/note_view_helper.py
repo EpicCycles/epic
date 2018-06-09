@@ -4,7 +4,7 @@ from django.shortcuts import render
 from epic.models import CustomerNote
 
 
-def create_customer_note(request, customer, quote, customer_order):
+def create_customer_note(request, customer, quote):
     note_contents_epic = request.POST.get('note_contents_epic', '')
     note_contents_cust = request.POST.get('note_contents_cust', '')
 
@@ -13,7 +13,7 @@ def create_customer_note(request, customer, quote, customer_order):
         created_by = request.user
         customer_visible = False
 
-        customerNote = CustomerNote(customer=customer, quote=quote, customerOrder=customer_order, note_text=note_text,
+        customerNote = CustomerNote(customer=customer, quote=quote, note_text=note_text,
                                     created_by=created_by, customer_visible=customer_visible)
         customerNote.save()
     if note_contents_cust != '':
@@ -21,10 +21,11 @@ def create_customer_note(request, customer, quote, customer_order):
         created_by = request.user
         customer_visible = True
 
-        customerNote = CustomerNote(customer=customer, quote=quote, customerOrder=customer_order, note_text=note_text,
+        customerNote = CustomerNote(customer=customer, quote=quote, note_text=note_text,
                                     created_by=created_by, customer_visible=customer_visible)
         customerNote.save()
 
+
 def show_notes_popup(request, customer):
     customer_notes = CustomerNote.objects.filter(customer=customer)
-    return render(request, 'epic/view_notes.html', {'customer': customer, 'customer_notes': customer_notes})
+    return render(request, 'epic/notes/view_notes.html', {'customer': customer, 'customer_notes': customer_notes})

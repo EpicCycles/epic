@@ -8,22 +8,22 @@ from django.contrib import messages
 
 from epic.forms import CustomerForm, AddressFormSet, PhoneFormSet, FittingFormSet, CustomerQuoteForm, \
     ChangeCustomerForm, NewCustomerQuoteForm, AddressFormSimple, PhoneFormSimple
+from epic.model_helpers.frame_helper import get_frames_for_js
 from epic.models import Quote, CustomerNote
 from epic.view_helpers.menu_view_helper import add_standard_session_data
 from epic.view_helpers.note_view_helper import create_customer_note
-from epic.view_helpers.quote_view_helper import show_quote_edit
 
 
 def add_customer_view(request):
     address_form_set = AddressFormSet()
     phone_form_set = PhoneFormSet()
     fitting_form_set = FittingFormSet()
-    customer_quote_form = NewCustomerQuoteForm(prefix='new')
+    customer_quote_form = NewCustomerQuoteForm()
 
     variables = {'customer_form': CustomerForm(), 'address_form_set': address_form_set,
                  'phone_form_set': phone_form_set, 'fitting_form_set': fitting_form_set,
-                 'customer_quote_form': customer_quote_form}
-    return render(request, 'epic/customer_edit.html', variables)
+                 'customer_quote_form': customer_quote_form, 'frames_for_js': get_frames_for_js()}
+    return render(request, 'epic/customer/customer_edit.html', variables)
 
 
 def process_customer_add(request):
@@ -34,7 +34,7 @@ def process_customer_add(request):
         address_form_set = AddressFormSet(request.POST, request.FILES, new_customer)
         phone_form_set = PhoneFormSet(request.POST, request.FILES, new_customer)
         fitting_form_set = FittingFormSet(request.POST, request.FILES, new_customer)
-        customer_quote_form = NewCustomerQuoteForm(request.POST, prefix='new')
+        customer_quote_form = NewCustomerQuoteForm(request.POST)
 
         if address_form_set.is_valid():
             address_form_set.save()
@@ -47,7 +47,7 @@ def process_customer_add(request):
                 quote = customer_quote_form.save(commit=False)
                 quote.customer = new_customer
                 quote.save()
-                return show_quote_edit(quote)
+                return HttpResponseRedirect(reverse('quote_edit', args=(quote.id,)))
             else:
                 logging.getLogger("error_logger").error(customer_quote_form.errors.as_json())
 
@@ -58,25 +58,24 @@ def save_customer_from_popup(request):
     customer_form = CustomerForm(request.POST)
     address_form = AddressFormSimple(request.POST)
     phone_form = PhoneFormSimple(request.POST)
-    new_customer = None
 
     if not (customer_form.is_valid() and address_form.is_valid() and phone_form.is_valid()):
         messages.error(request, 'Customer details not saved')
-        return render(request, 'epic/customer_add_popup.html',
+        return render(request, 'epic/customer/customer_add_popup.html',
                       {'customer_form': customer_form, 'address_form': address_form, 'phone_form': phone_form})
 
     try:
         new_customer = customer_form.save()
         messages.info(request, "Customer saved")
 
-        if len(address_form.cleaned_data) > 0:
+        if len(address_form.cleaned_data['address1']) > 0:
             customer_address = address_form.save(commit=False)
             if customer_address:
                 customer_address.customer = new_customer
                 customer_address.save()
                 messages.info(request, "Address saved")
 
-        if len(phone_form.cleaned_data) > 0:
+        if len(phone_form.cleaned_data['telephone']) > 0:
             customer_phone = phone_form.save(commit=False)
             if customer_phone:
                 customer_phone.customer = new_customer
@@ -84,12 +83,12 @@ def save_customer_from_popup(request):
                 messages.info(request, "Phone number saved")
 
     except Exception as e:
-        messages.error(request, 'Error on save')
-        return render(request, 'epic/customer_add_popup.html',
+        messages.error(request, 'Error on save' + str(e))
+        return render(request, 'epic/customer/customer_add_popup.html',
                       {'customer_form': customer_form, 'address_form': address_form, 'phone_form': phone_form})
 
     # all details saved no errors
-    return render(request, 'epic/customer_add_popup.html',
+    return render(request, 'epic/customer/customer_add_popup.html',
                   add_standard_session_data(request, {'new_customer': new_customer, 'customer_form': customer_form,
                                                       'address_form': address_form,
                                                       'phone_form': phone_form}))
@@ -100,18 +99,19 @@ def show_customer_edit(request, customer):
     address_form_set = AddressFormSet(instance=customer)
     phone_form_set = PhoneFormSet(instance=customer)
     fitting_form_set = FittingFormSet(instance=customer)
-    customer_quote_form = CustomerQuoteForm(prefix='new', initial={'customer': customer})
+    customer_quote_form = CustomerQuoteForm(initial={'customer': customer})
     existing_quotes = Quote.objects.filter(customer=customer)
     customer_notes = CustomerNote.objects.filter(customer=customer, customer_visible=False)
 
-    return render(request, 'epic/customer_edit.html',
+    return render(request, 'epic/customer/customer_edit.html',
                   add_standard_session_data(request, {'customer': customer, 'customer_form': customer_form,
                                                       'address_form_set': address_form_set,
                                                       'phone_form_set': phone_form_set,
                                                       'fitting_form_set': fitting_form_set,
                                                       'customer_quote_form': customer_quote_form,
                                                       'existing_quotes': existing_quotes,
-                                                      'customer_notes': customer_notes}))
+                                                      'customer_notes': customer_notes,
+                                                      'frames_for_js': get_frames_for_js()}))
 
 
 def show_add_customer_popup(request):
@@ -119,7 +119,7 @@ def show_add_customer_popup(request):
     address_form = AddressFormSimple()
     phone_form = PhoneFormSimple()
 
-    return render(request, 'epic/customer_add_popup.html',
+    return render(request, 'epic/customer/customer_add_popup.html',
                   add_standard_session_data(request, {'customer_form': customer_form, 'address_form': address_form,
                                                       'phone_form': phone_form}))
 
@@ -129,12 +129,12 @@ def process_customer_edit(request, customer):
     address_form_set = AddressFormSet(request.POST, request.FILES, instance=customer)
     phone_form_set = PhoneFormSet(request.POST, request.FILES, instance=customer)
     fitting_form_set = FittingFormSet(request.POST, request.FILES, instance=customer)
-    customer_quote_form = CustomerQuoteForm(request.POST, prefix='new')
+    customer_quote_form = CustomerQuoteForm(request.POST)
 
     if customer_form.is_valid():
 
         customer_form.save()
-        create_customer_note(request, customer, None, None)
+        create_customer_note(request, customer, None)
         if address_form_set.is_valid():
             address_form_set.save()
             address_form_set = AddressFormSet(instance=customer)
@@ -148,19 +148,21 @@ def process_customer_edit(request, customer):
             fitting_form_set = FittingFormSet(instance=customer)
 
         if customer_quote_form.has_changed():
-            if customer_quote_form.is_valid():
+            if customer_quote_form.is_valid() and len(customer_quote_form.cleaned_data['quote_desc']) > 0:
                 quote = customer_quote_form.save()
-                return show_quote_edit(quote)
+                return HttpResponseRedirect(reverse('quote_edit', args=(quote.id,)))
             else:
                 logging.getLogger("error_logger").error(customer_quote_form.errors.as_json())
 
     existing_quotes = Quote.objects.filter(customer=customer)
 
-    return render(request, 'epic/customer_edit.html',
+    return render(request, 'epic/customer/customer_edit.html',
                   add_standard_session_data(request, {'customer': customer,
                                                       'customer_form': ChangeCustomerForm(instance=customer),
                                                       'address_form_set': address_form_set,
                                                       'phone_form_set': phone_form_set,
                                                       'fitting_form_set': fitting_form_set,
                                                       'customer_quote_form': customer_quote_form,
-                                                      'existing_quotes': existing_quotes}))
+                                                      'existing_quotes': existing_quotes,
+                                                      'frames_for_js': get_frames_for_js()
+                                                      }))

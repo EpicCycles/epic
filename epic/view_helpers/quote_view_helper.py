@@ -1,11 +1,10 @@
+import logging
+
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from django.contrib import messages
 
-import logging
-
-from epic.email_helpers.quote import send_quote_email
 from epic.forms import QuoteForm, QuotePartForm, QuoteFittingForm
 from epic.helpers.quote_helper import quote_requote, copy_quote_with_changes
 from epic.model_helpers.frame_helper import get_frames_for_js, frame_display
@@ -13,7 +12,6 @@ from epic.model_helpers.part_helper import find_or_create_part
 from epic.model_helpers.quote_helper import quote_display
 from epic.models import QuotePart, CustomerNote, INITIAL, Fitting, Quote, Customer, Frame, Brand
 from epic.view_helpers.attribute_view_helper import build_quote_part_attribute_form, save_quote_part_attribute_form
-from epic.view_helpers.customer_order_view_helper import create_customer_order_from_quote
 from epic.view_helpers.fitting_view_helper import create_fitting
 from epic.view_helpers.menu_view_helper import add_standard_session_data
 from epic.view_helpers.note_view_helper import create_customer_note
@@ -66,7 +64,7 @@ def show_new_quote_form(request, quote_form, customer):
         details_for_page['note_contents_epic'] = ''
         details_for_page['note_contents_cust'] = ''
 
-    return render(request, "epic/quote.html", add_standard_session_data(request, details_for_page))
+    return render(request, "epic/quotes/quote.html", add_standard_session_data(request, details_for_page))
 
 
 def create_new_quote(request):
@@ -79,7 +77,7 @@ def create_new_quote(request):
             new_quote.save()
             messages.success(request, 'Quote started')
 
-            create_customer_note(request, new_quote.customer, new_quote, None)
+            create_customer_note(request, new_quote.customer, new_quote)
         except Exception:
             logging.getLogger("error_logger").exception('Quote could not be saved')
             return show_new_quote_form(request, quote_form, quote_form.cleaned_data['customer'])
@@ -109,7 +107,7 @@ def show_quote_edit(request, quote):
         details_for_page['fittingForm'] = QuoteFittingForm(prefix='fitting')
         details_for_page['bike_summary'] = frame_display(quote.frame)
 
-    return render(request, "epic/quote.html", add_standard_session_data(request, details_for_page))
+    return render(request, "epic/quotes/quote.html", add_standard_session_data(request, details_for_page))
 
 
 def build_quote_parts(quote):
@@ -149,9 +147,10 @@ def build_quote_part_form(quote_part, is_bike):
 
 def process_quote_changes(request, quote):
     # get back the form from the page to save changes
-    quote_page = 'epic/quote.html'
+    quote_page = 'epic/quotes/quote.html'
     is_bike = quote.is_bike()
     old_sell_price = quote.sell_price
+    old_keyed_price = quote.keyed_sell_price
 
     quote_form = QuoteForm(request.POST, instance=quote)
     details_for_page = {'quote': quote, 'quote_form': quote_form}
@@ -181,7 +180,7 @@ def process_quote_changes(request, quote):
                 quote.save()
         details_for_page['customerFittings'] = Fitting.objects.filter(customer=quote.customer)
 
-    create_customer_note(request, quote.customer, quote, None)
+    create_customer_note(request, quote.customer, quote)
     details_for_page['customer_notes'] = CustomerNote.objects.filter(quote=quote)
     details_for_page['quote_parts'] = update_quote_parts_and_forms(request, quote)
 
@@ -190,10 +189,11 @@ def process_quote_changes(request, quote):
 
     quote.recalculate_prices()
     # if sell price has changed blank keyed value and reset quote status
-    if quote.keyed_sell_price and old_sell_price != quote.sell_price:
-        quote.keyed_sell_price = None
-        quote.quote_status = INITIAL
-        messages.info(request, 'Quote total reset due to price changes ')
+    if old_sell_price != quote.sell_price:
+        if quote.keyed_sell_price and quote.keyed_sell_price == old_keyed_price:
+            quote.keyed_sell_price = None
+            quote.quote_status = INITIAL
+            messages.info(request, 'Quote total reset due to price changes ')
         quote.save()
 
     # refresh the quote form based on saved values
@@ -207,16 +207,16 @@ def process_quote_changes(request, quote):
 def process_quote_requote(request, quote):
     quote_requote(request, quote)
     if quote.quote_status == INITIAL:
-        return show_quote_edit(quote)
+        return HttpResponseRedirect(reverse('quote_edit', args=(quote.id,)))
     else:
         messages.error(request, 'Quote cannot be edited' + str(quote))
         return HttpResponseRedirect(reverse('quotes'))
 
 
 def show_quote_browse(request, quote):
-    return render(request, 'epic/quote_issued.html',
+    return render(request, 'epic/quotes/quote_issued.html',
                   add_standard_session_data(request,
-                                            {'quote': quote, 'quote_details': quote_display(quote),
+                                            {'quote': quote, 'quote_details': quote_display(quote, False),
                                              'customer_notes': CustomerNote.objects.filter(quote=quote,
                                                                                            customer_visible=True)}))
 
@@ -240,14 +240,6 @@ def process_quote_action(request, quote):
         return process_quote_issue(request, quote)
     elif action_required == "Re-Issue":
         return process_quote_issue(request, quote)
-    elif action_required == "Order":
-        quote.issue()
-        deposit_taken = request.POST.get('deposit_taken', '')
-        if quote.customerOrder:
-            messages.error(request, "Quote already on order " + str(quote.customerOrder))
-            return show_quote_browse(request, quote)
-
-        return create_customer_order_from_quote(request, quote, deposit_taken)
 
     # shouldn't be here!
     messages.info(request, 'Invalid action ')
@@ -257,26 +249,17 @@ def process_quote_action(request, quote):
 def process_quote_issue(request, quote):
     if quote.quote_status == INITIAL:
         quote.issue()
-        if quote.customer.email:
-            send_quote_email(request, quote)
-        else:
-            messages.success(request, 'Quote set to issued, no email for customer')
+        messages.success(request, 'Quote set to issued')
     else:
-        if quote.customer.email:
-            send_quote_email(request, quote)
-        else:
-            messages.success(request, 'Quote email not sent, no email for customer')
+        messages.success(request, 'Quote already issued.')
 
     return HttpResponseRedirect(reverse('quote_browse', args=(quote.id,)))
 
 
 def show_quote_text(request, quote):
     customer_notes = CustomerNote.objects.filter(quote=quote, customer_visible=True)
-
-    return render(request, 'epic/quote_text.html',
-                  add_standard_session_data(request,
-                                            {'quote': quote, 'quoteDetails': quote_display(quote),
-                                             'customer_notes': customer_notes, 'summary_view': True}))
+    details_for_page = {'quote': quote, 'customer_notes': customer_notes, 'quote_details': quote_display(quote, True)}
+    return render(request, 'epic/quotes/quote_text.html', details_for_page)
 
 
 def update_quote_parts_and_forms(request, quote):

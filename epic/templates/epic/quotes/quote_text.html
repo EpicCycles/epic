@@ -1,0 +1,5 @@
+{% extends 'epic/base_popup.html' %}
+{% block content %}
+    <!-- Customer facing quote summary - used as a popup -->
+    {% include "epic/quotes/quote_view.html"  with view_class='flex-vertical' %}
+{% endblock %}

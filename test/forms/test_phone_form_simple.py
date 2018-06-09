@@ -27,16 +27,6 @@ class PhoneFormSimpleTestCase(TestCase):
         }, instance=self.phone)
         self.assertTrue(form.is_valid())
 
-    def test_blank_telephone(self):
-        form = PhoneFormSimple({
-            'customer': self.customer.id,
-            'number_type': HOME,
-        }, instance=self.phone)
-        self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors, {
-            'telephone': ['Both number and number type must be entered.'],
-        })
-
     def test_blank_customer(self):
         form = PhoneFormSimple({
             'telephone': "LinneyFields",

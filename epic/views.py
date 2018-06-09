@@ -3,28 +3,23 @@ from django.contrib.auth import logout
 # security bits
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 
 # forms and formsets used in the views
-from epic.forms import QuoteSearchForm, MyQuoteSearchForm, OrderSearchForm
-from epic.model_helpers.frame_helper import get_frames_for_js
-from epic.models import Customer, Supplier, CustomerOrder, ARCHIVED, INITIAL
+from epic.forms import QuoteSearchForm, MyQuoteSearchForm
+from epic.models import Customer, ARCHIVED, INITIAL
+from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
+from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.frame_view_helper import process_upload, create_new_model, process_bike_review, show_bike_review, \
     show_first_bike, show_next_bike
-from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
-from epic.view_helpers.customer_order_view_helper import edit_customer_order, process_customer_order_edits, \
-    cancel_order_and_requote, cancel_order_and_quote
-from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.menu_view_helper import show_menu, add_standard_session_data_to_context
 from epic.view_helpers.note_view_helper import show_notes_popup
 from epic.view_helpers.quote_part_view_helper import save_quote_part, show_quote_part_popup
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_quote_edit, \
     copy_quote_and_display, process_quote_requote, show_quote_issue, show_quote_browse, show_quote_text, \
     show_add_quote_for_customer, process_quote_action, process_quote_changes
-from epic.view_helpers.supplier_order_view_helper import show_orders_required_for_supplier, save_supplier_order
 
 
 @login_required
@@ -32,18 +27,9 @@ def menu_home(request):
     return show_menu(request)
 
 
-@login_required
-def supplier_order_reqd(request, pk):
-    supplier = get_object_or_404(Supplier, pk=pk)
-    if request.method == "POST":
-        return save_supplier_order(request, supplier)
-    else:
-        return show_orders_required_for_supplier(request, supplier)
-
-
 # this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
 class CustomerList(LoginRequiredMixin, ListView):
-    template_name = "customer_list.html"
+    template_name = "epic/customer/customer_list.html"
     context_object_name = 'customer_list'
     # attributes for search form
     search_first_name = ''
@@ -84,7 +70,7 @@ class CustomerList(LoginRequiredMixin, ListView):
 # get customers for popup
 # this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
 class CustomerSelect(LoginRequiredMixin, ListView):
-    template_name = 'epic/customer_select_popup.html'
+    template_name = 'epic/customer/customer_select_popup.html'
     context_object_name = 'customer_list'
     # attributes for search form
     search_first_name = ''
@@ -125,7 +111,7 @@ class CustomerSelect(LoginRequiredMixin, ListView):
 # Get Quotes matching a search
 # this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
 class QuoteList(LoginRequiredMixin, ListView):
-    template_name = "quote_list.html"
+    template_name = "epic/quotes/quote_list.html"
     context_object_name = 'quote_list'
     # attributes for search form
     quoteSearchForm = QuoteSearchForm()
@@ -135,6 +121,7 @@ class QuoteList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(QuoteList, self).get_context_data(**kwargs)
         context['quoteSearchForm'] = self.quoteSearchForm
+        context['frames_for_js'] = get_frames_for_js()
         return add_standard_session_data_to_context(context)
 
     def get(self, request, *args, **kwargs):
@@ -148,16 +135,22 @@ class QuoteList(LoginRequiredMixin, ListView):
 
         # if filter added on quote_desc add it to query set
         if self.quoteSearchForm.is_valid():
+            search_brand = self.quoteSearchForm.cleaned_data['search_brand']
             search_frame = self.quoteSearchForm.cleaned_data['search_frame']
+            search_model = self.quoteSearchForm.cleaned_data['search_model']
             search_quote_desc = self.quoteSearchForm.cleaned_data['search_quote_desc']
             search_user = self.quoteSearchForm.cleaned_data['search_user']
-            if search_frame:
-                where_filter &= Q(frame__exact=search_frame)
+            if search_model:
+                where_filter &= Q(frame__id=search_model)
+            elif search_brand:
+                where_filter &= Q(frame__brand__id=search_brand)
+                if search_frame:
+                    where_filter &= Q(frame__frame_name=search_frame)
+
             if search_quote_desc:
                 where_filter &= Q(quote_desc__icontains=search_quote_desc)
             if search_user:
                 where_filter &= Q(created_by__exact=search_user)
-
         # find objects matching any filter and order them
         objects = Quote.objects.filter(where_filter)
         return objects
@@ -166,7 +159,7 @@ class QuoteList(LoginRequiredMixin, ListView):
 # Get Quotes matching a search
 # this extends the mix in for login required rather than the @ method as that doesn'twork for ListViews
 class MyQuoteList(LoginRequiredMixin, ListView):
-    template_name = "quote_list.html"
+    template_name = "epic/quotes/quote_list.html"
     context_object_name = 'quote_list'
     # attributes for search form
     quoteSearchForm = MyQuoteSearchForm()
@@ -176,6 +169,8 @@ class MyQuoteList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(MyQuoteList, self).get_context_data(**kwargs)
         context['quoteSearchForm'] = self.quoteSearchForm
+        context['frames_for_js'] = get_frames_for_js()
+
         return add_standard_session_data_to_context(context)
 
     def get(self, request, *args, **kwargs):
@@ -239,8 +234,11 @@ def edit_customer(request, pk):
 
 @login_required
 def quote_for_customer(request, pk):
-    customer = get_object_or_404(Customer, pk=pk)
-    return show_add_quote_for_customer(request, customer)
+    if request.method == "POST":
+        return create_new_quote(request)
+    else:
+        customer = get_object_or_404(Customer, pk=pk)
+        return show_add_quote_for_customer(request, customer)
 
 
 # popup with all notes relating to a customer
@@ -279,88 +277,7 @@ def add_customer_simple(request):
 def bike_select_popup(request):
     details_for_page = {'frames_for_js': get_frames_for_js()}
 
-    return render(request, 'epic/frame_select_popup.html', add_standard_session_data(request, details_for_page))
-
-
-# show edit order page
-@login_required
-def order_edit(request, pk):
-    customer_order = get_object_or_404(CustomerOrder, pk=pk)
-    if request.method == "POST":
-        return process_customer_order_edits(request, customer_order)
-
-    else:
-        return edit_customer_order(request, customer_order)
-
-
-# create and order from a quote
-@login_required
-def order_requote(request, pk):
-    if request.method == "POST":
-        # shouldn't be here!
-        messages.info(request, 'Invalid action ')
-    else:
-        customer_order = get_object_or_404(CustomerOrder, pk=pk)
-        return cancel_order_and_requote(request, customer_order)
-
-
-@login_required
-def cancel_order(request, pk):
-    if request.method == "POST":
-        # shouldn't be here!
-        messages.info(request, 'Invalid action ')
-    else:
-        customer_order = get_object_or_404(CustomerOrder, pk=pk)
-        return cancel_order_and_quote(request, customer_order)
-
-
-# Get Orders matching a search
-# this extends the mix in for login required rather than the @ method as that doesn't work for ListViews
-class OrderList(LoginRequiredMixin, ListView):
-    template_name = "customerorder_list.html"
-    context_object_name = 'order_list'
-    # attributes for search form
-    orderSearchForm = OrderSearchForm()
-
-    paginate_by = 10
-
-    def get_context_data(self, **kwargs):
-        context = super(OrderList, self).get_context_data(**kwargs)
-        # add values fetched from form to context to redisplay
-        context['orderSearchForm'] = self.orderSearchForm
-        return add_standard_session_data_to_context(context)
-
-    def get(self, request, *args, **kwargs):
-        # get values for search from form
-        self.orderSearchForm = OrderSearchForm(request.GET)
-        return super(OrderList, self).get(request, *args, **kwargs)
-
-    def get_queryset(self):
-        # define an empty search pattern
-        where_filter = Q()
-
-        # if filter added on quote_desc add it to query set
-        if self.orderSearchForm.is_valid():
-            completeOrder = self.orderSearchForm.cleaned_data["complete_order"]
-            if completeOrder:
-                where_filter &= Q(completed_date__isnull=False)
-            else:
-                where_filter &= Q(completed_date__isnull=True)
-            balance_outstanding = self.orderSearchForm.cleaned_data["balance_outstanding"]
-            if balance_outstanding:
-                where_filter &= Q(amount_due__gt=0)
-            cancelled_order = self.orderSearchForm.cleaned_data["cancelled_order"]
-            if cancelled_order:
-                where_filter &= Q(cancelled_date__isnull=False)
-            else:
-                where_filter &= Q(cancelled_date__isnull=True)
-            lower_limit = self.orderSearchForm.cleaned_data['lower_limit']
-            if lower_limit:
-                where_filter &= Q(order_total__gt=lower_limit)
-
-        # find objects matching any filter and order them
-        objects = CustomerOrder.objects.filter(where_filter)
-        return objects
+    return render(request, 'epic/frames/frame_select_popup.html', add_standard_session_data(request, details_for_page))
 
 
 # create a new quote based on an existing quote
@@ -449,7 +366,7 @@ def quote_amend(request, pk):
             quote.quote_status = INITIAL
             quote.save()
 
-        return HttpResponseRedirect(reverse('quote_edi', args=(pk,)))
+        return HttpResponseRedirect(reverse('quote_edit', args=(pk,)))
 
 
 # edit a quote
@@ -478,7 +395,7 @@ def bike_upload(request):
     # create a dummy data field (could pass data here)
     data = {}
     if "GET" == request.method:
-        return render(request, "epic/bike_upload.html", add_standard_session_data(request, data))
+        return render(request, "epic/frames/bike_upload.html", add_standard_session_data(request, data))
 
     # if not GET, then proceed
     next_screen = process_upload(request)

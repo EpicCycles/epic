@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 from django.forms.widgets import HiddenInput
-from django.forms.widgets import SelectDateWidget
 from django.utils.translation import ugettext_lazy as _
 
 from epic.form_helpers.choices import get_brand_list_from_cache, get_part_type_list_from_cache
@@ -140,7 +139,7 @@ class PhoneForm(ModelForm):
         telephone = cleaned_data.get("telephone")
         if is_simple_form:
             number_type = cleaned_data.get("number_type")
-            if (number_type or telephone) and not (number_type and telephone):
+            if telephone and not (number_type and telephone):
                 # Must have both if have either (simple form only
                 msg = "Both number and number type must be entered."
                 if number_type:
@@ -277,14 +276,19 @@ class PartTypeForm(ModelForm):
 
 # form for searching for quotes
 class QuoteSearchForm(forms.Form):
-    search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Frameset/Base Bike',
-                                          label_suffix='')
+    search_brand = forms.CharField(required=False)
+    search_frame = forms.CharField(required=False)
+    search_model = forms.CharField(required=False)
     search_quote_desc = forms.CharField(max_length='30', required=False, label='Description Like')
     search_user = forms.ModelChoiceField(queryset=User.objects.all(), required=False, label='Created By',
                                          label_suffix='')
 
     def __init__(self, *args, **kwargs):
         super(QuoteSearchForm, self).__init__(*args, **kwargs)
+        self.fields['search_brand'].widget = HiddenInput()
+        self.fields['search_frame'].widget = HiddenInput()
+        self.fields['search_model'].widget = HiddenInput()
+
         self.label_suffix = ''
 
 
@@ -300,12 +304,17 @@ class BrandForm(ModelForm):
 
 # Get back quotes for the current user
 class MyQuoteSearchForm(forms.Form):
-    search_frame = forms.ModelChoiceField(queryset=Frame.objects.all(), required=False, label='Frameset/Base Bike',
-                                          label_suffix='')
+    search_brand = forms.CharField(required=False)
+    search_frame = forms.CharField(required=False)
+    search_model = forms.CharField(required=False)
     search_quote_desc = forms.CharField(max_length='30', required=False, label='Description Like')
 
     def __init__(self, *args, **kwargs):
         super(MyQuoteSearchForm, self).__init__(*args, **kwargs)
+        self.fields['search_brand'].widget = HiddenInput()
+        self.fields['search_frame'].widget = HiddenInput()
+        self.fields['search_model'].widget = HiddenInput()
+
         self.label_suffix = ''
 
 
@@ -565,143 +574,3 @@ class QuoteFittingForm(forms.Form):
         if fitting_type or saddle_height or bar_height or reach:
             if not (fitting_type and saddle_height and bar_height and reach):
                 raise forms.ValidationError("All measures must be entered to save a fitting.")
-
-
-# Customer Order related forms
-# form for searching for orders
-class OrderSearchForm(forms.Form):
-    complete_order = forms.BooleanField(required=False, label='Complete Orders')
-    balance_outstanding = forms.BooleanField(required=False, label='Has outstanding balance')
-    cancelled_order = forms.BooleanField(required=False, label='Cancelled Orders')
-    lower_limit = forms.DecimalField(required=False, label='Total greater than')
-
-    def __init__(self, *args, **kwargs):
-        super(OrderSearchForm, self).__init__(*args, **kwargs)
-        self.label_suffix = ''
-
-
-# edit order details
-class CustomerOrderForm(ModelForm):
-    class Meta:
-        model = CustomerOrder
-        fields = ['customer_required_date', 'final_date', 'order_total', 'amount_due']
-        labels = {'customer_required_date': _('Customer Date'), 'final_date': _('Handover Date'),
-                  'order_total': _('Order Total'), 'amount_due': _('Balance Outstanding'), }
-
-    def __init__(self, *args, **kwargs):
-        super(CustomerOrderForm, self).__init__(*args, **kwargs)
-        self.fields['order_total'].widget = HiddenInput()
-        self.fields['amount_due'].widget = HiddenInput()
-        self.fields['customer_required_date'].widget = SelectDateWidget()
-        self.fields['final_date'].widget = SelectDateWidget()
-
-        self.label_suffix = ''
-
-
-# Form for details of frames being ordered.
-class OrderFrameForm(ModelForm):
-    class Meta:
-        model = OrderFrame
-        fields = '__all__'
-        labels = {'frame': _('Frameset/Base Bike'), }
-
-    def __init__(self, *args, **kwargs):
-        super(OrderFrameForm, self).__init__(*args, **kwargs)
-        self.fields['customerOrder'].widget = HiddenInput()
-        self.fields['frame'].widget = HiddenInput()
-        self.fields['supplierOrderItem'].widget = HiddenInput()
-        self.fields['quote'].widget = HiddenInput()
-        self.label_suffix = ''
-
-
-# Form for details of parts being ordered.
-class OrderItemForm(ModelForm):
-    class Meta:
-        model = OrderItem
-        fields = ['customerOrder', 'part', 'supplier', 'leadtime', 'receipt_date']
-
-    def __init__(self, *args, **kwargs):
-        super(OrderItemForm, self).__init__(*args, **kwargs)
-        self.fields['customerOrder'].widget = HiddenInput()
-        self.fields['part'].widget = HiddenInput()
-        self.fields['receipt_date'].widget = SelectDateWidget()
-        self.label_suffix = ''
-
-
-# Form for details of parts being ordered.
-class OrderItemDetailForm(forms.Form):
-    part = forms.HiddenInput()
-    stock_item = forms.BooleanField(label='Stock Item')
-    supplier = forms.ModelChoiceField(Supplier.objects)
-    receipt_date = forms.DateField(label='Receipt Date')
-    leadtime = forms.IntegerField(label='Leadtime (weeks)')
-    cancel_item = forms.BooleanField(label='Cancel Item')
-    supplier_order = forms.HiddenInput()
-    order_date = forms.HiddenInput()
-
-    def __init__(self, *args, **kwargs):
-        super(OrderItemDetailForm, self).__init__(*args, **kwargs)
-        stock_item = self.instance.stock_item
-        supplier_order = self.instance.supplier_order
-        if stock_item:
-            self.fields['receipt_date'].widget.attrs['disabled'] = True
-
-        if stock_item or supplier_order:
-            self.fields['supplier'].widget = HiddenInput()
-
-        self.label_suffix = ''
-
-
-# Form for a new payment
-class OrderPaymentForm(forms.Form):
-    payment_amount = forms.DecimalField(max_digits=6, decimal_places=2, min_value=0.00, required=False, label='Amount')
-    amount_due = forms.DecimalField(required=False)
-
-    def __init__(self, *args, **kwargs):
-        super(OrderPaymentForm, self).__init__(*args, **kwargs)
-        self.label_suffix = ''
-        self.fields['payment_amount'].widget = forms.TextInput(attrs={'size': 6})
-        self.fields['amount_due'].widget = HiddenInput()
-
-    # validate the data input
-    def clean(self):
-        cleaned_data = super(OrderPaymentForm, self).clean()
-        payment_amount = cleaned_data.get("payment_amount")
-        amount_due = cleaned_data.get("amount_due")
-
-        if payment_amount and (payment_amount > amount_due):
-            # cannot over pay
-            msg = "Amount is greater than the outstanding balance."
-            self.add_error('payment_amount', msg)
-
-
-# Form for Supplier order
-class SupplierOrderForm(ModelForm):
-    class Meta:
-        model = SupplierOrder
-        fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        super(SupplierOrderForm, self).__init__(*args, **kwargs)
-        self.fields['supplier'].widget = HiddenInput()
-        self.fields['date_placed'].widget = SelectDateWidget()
-        self.label_suffix = ''
-
-
-# Form for possible items for a supplier orderSearchForm
-class SupplierOrderPossibleForm(forms.Form):
-    item_description = forms.CharField(required=False)
-    quote_name = forms.CharField(required=False)
-    customer_name = forms.CharField(required=False)
-    add_to_order = forms.BooleanField(required=False, label='Ordered')
-    item_type = forms.ChoiceField(label='Type', choices=FORM_QUOTE_TYPE_CHOICES, required=False)
-    item_id = forms.IntegerField(required=False)
-
-    def __init__(self, *args, **kwargs):
-        super(SupplierOrderPossibleForm, self).__init__(*args, **kwargs)
-        self.label_suffix = ''
-        self.fields['item_description'].widget = HiddenInput()
-        self.fields['quote_name'].widget = HiddenInput()
-        self.fields['customer_name'].widget = HiddenInput()
-        self.fields['item_type'].widget = HiddenInput()
-        self.fields['item_id'].widget = HiddenInput()

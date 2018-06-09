@@ -1,0 +1,74 @@
+{% extends 'epic/base_popup.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block content %}
+    <!-- add quote part - used as a popup -->
+    <form action="" method="post">
+        {% csrf_token %}
+        <div id="new_part_form"><h3>Attributes</h3>
+            <h3>Part Details</h3>
+            {% include "epic/common/form_as_table.html"  with form=quote_part_form %}
+        </div>
+        {% if part_attributes %}
+            <div id="new_part_attributes"><h3>Attributes</h3>
+                {% for quotePartAttributeForm in part_attributes %}
+                    <section>
+                        <div>
+                            {{ quotePartAttributeForm.attribute_name.value }} :&nbsp;
+                            {% for hidden in quotePartAttributeForm.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                        </div>
+                        {% include "epic/common/field_as_div.html"  with field=quotePartAttributeForm.attribute_value divClass="attributes" %}
+                    </section>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <input type='submit' value='Add Part' class="button"/>
+        <hr/>
+        <input type='button' value='Close' onclick='closeAddPart();' class="button"/>
+    </form>
+    <div style="display: none">
+        <input type="hidden" id="brandSelectorId">
+        {% include "epic/part/part_helper.html" with parts_for_js=parts_for_js %}
+        <script src="{% static 'js/part/quote_part_add_popup.js' %}"></script>
+        {% if saved_part %}
+            <table id="copy_table">
+                <tr id="row_{{ saved_part.id }}" class="new_row">
+                    {% for field in saved_part.visible_fields %}
+                        {% include "epic/common/field_as_td.html"  with field=field %}
+                    {% endfor %}
+                    <td>
+                        <table>
+                            {% for quotePartAttributeForm in saved_part_attributes %}
+                                <section class="new_row">
+                                    <div>
+                                        {{ quotePartAttributeForm.attribute_name.value }} :&nbsp;
+                                        {% for hidden in quotePartAttributeForm.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                    </div>
+                                    {% include "epic/common/field_as_div.html"  with field=quotePartAttributeForm.attribute_value divClass="attributes" %}
+                                </section>
+                            {% endfor %}
+                        </table>
+
+                    </td>
+                    <td>
+                        <i class="material-icons red "
+                           onclick="removeRow('{{ saved_part.id }}')">delete_forever</i>
+                        {% for hidden in saved_part.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+
+            <script>
+                addPartToQuote("row_{{ saved_part.id }}");
+            </script>
+        {% endif %}
+    </div>
+
+{% endblock %}

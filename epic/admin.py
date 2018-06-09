@@ -99,17 +99,6 @@ class PartTypeAttributeAdmin(admin.ModelAdmin):
         return redirect("/admin/epic/parttype/%s/change/" % part_type_id)
 
 
-class SupplierOrderItemInline(admin.TabularInline):
-    model = SupplierOrderItem
-    extra = 0
-
-
-class SupplierOrderAdmin(admin.ModelAdmin):
-    inlines = [SupplierOrderItemInline]
-    list_filter = ['supplier']
-    list_per_page = 15
-
-
 admin.site.register(Frame, FrameAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Brand, BrandAdmin)
@@ -118,6 +107,4 @@ admin.site.register(PartSection, PartSectionAdmin)
 admin.site.register(PartType, PartTypeAdmin)
 admin.site.register(PartTypeAttribute, PartTypeAttributeAdmin)
 admin.site.register(Quote)
-admin.site.register(CustomerOrder)
 admin.site.register(Supplier)
-admin.site.register(SupplierOrder, SupplierOrderAdmin)

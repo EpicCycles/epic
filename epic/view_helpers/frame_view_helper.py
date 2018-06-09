@@ -25,7 +25,7 @@ def show_bike_review(request):
     data['frame_name_selected'] = ''
     data['model_selected'] = ''
 
-    return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
+    return render(request, "epic/frames/frame_review.html", add_standard_session_data(request, data))
 
 
 def show_first_bike(request):
@@ -36,7 +36,7 @@ def show_first_bike(request):
         data.update(bike_review_selections)
         data.update(build_frame_list_for_review(request, bike_review_selections))
         data.update(review_details_for_frame(data['frame_ids'][0]))
-        return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
+        return render(request, "epic/frames/frame_review.html", add_standard_session_data(request, data))
     else:
         messages.info(request, 'No selections made. ')
         return show_bike_review(request)
@@ -62,7 +62,7 @@ def show_next_bike(request):
         data.update(review_details_for_frame(data['frame_ids'][0]))
         print('{timestamp} -- show next with bike ended'.format(timestamp=datetime.utcnow().isoformat()))
 
-        return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
+        return render(request, "epic/frames/frame_review.html", add_standard_session_data(request, data))
     else:
         messages.info(request, 'No frames left to review. ')
         return show_bike_review(request)
@@ -104,7 +104,7 @@ def process_bike_review(request, refresh_list):
             data['frame_form'] = frame_form
             data['frame_sections'] = redisplay_frame_parts['frame_sections']
             data['frame_parts'] = redisplay_frame_parts['part_list']
-            return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
+            return render(request, "epic/frames/frame_review.html", add_standard_session_data(request, data))
 
     else:
         messages.error(request, 'Frame does not exist to update. ')
@@ -118,7 +118,7 @@ def process_bike_review(request, refresh_list):
     # if there are still frames to review
     if len(data['frame_ids']) > 0:
         data.update(review_details_for_frame(data['frame_ids'][0]))
-        return render(request, "epic/frame_review.html", add_standard_session_data(request, data))
+        return render(request, "epic/frames/frame_review.html", add_standard_session_data(request, data))
     else:
         messages.info(request, 'No frames left to review. ')
         return show_bike_review(request)
@@ -289,18 +289,18 @@ def process_upload(request):
         brand_name = request.POST.get('brand_name', '')
         bike_brand = find_brand_for_name(brand_name, request)
         if bike_brand is None:
-            return render(request, "epic/bike_upload.html", data)
+            return render(request, "epic/frames/bike_upload.html", data)
 
         bike_name = request.POST.get('bike_name', '')
         csv_file = request.FILES["csv_file"]
         if not csv_file.name.endswith('.csv'):
             messages.error(request, 'File is not CSV type')
-            return render(request, "epic/bike_upload.html", data)
+            return render(request, "epic/frames/bike_upload.html", data)
 
         # if file is too large, return
         if csv_file.multiple_chunks():
             messages.error(request, "Uploaded file is too big (%.2f MB)." % (csv_file.size / (1000 * 1000),))
-            return render(request, "epic/bike_upload.html", data)
+            return render(request, "epic/frames/bike_upload.html", data)
 
         file_data = csv_file.read().decode("utf-8")
 
@@ -417,5 +417,5 @@ def process_upload(request):
     except Exception as e:
         logging.getLogger("error_logger").error("Unable to upload file. " + repr(e))
         messages.error(request, "Unable to upload file. " + repr(e))
-        return render(request, "epic/bike_upload.html", add_standard_session_data(request, data))
+        return render(request, "epic/frames/bike_upload.html", add_standard_session_data(request, data))
     return None

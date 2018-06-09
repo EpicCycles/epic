@@ -1,0 +1,49 @@
+{% extends 'epic/base.html' %}
+{% load static %}
+
+{% block content %}
+    <h2>Quotes</h2>
+    <form action="" method="get" onsubmit="copyFrameSelections()">
+        <h3>Filter values:</h3>
+        {% include "epic/common/form_as_table.html" with form=quoteSearchForm %}
+        {% with "row" as section_class %}
+            {% include "epic/frames/frame_select.html" %}
+        {% endwith %}
+        <input type="submit" value="Search" class="button"/>
+    </form>
+    <hr/>
+    {% if quote_list %}
+        <table>
+            <tr>
+                <th class="listHead">Customer</th>
+                <th class="listHead">Description</th>
+                <th class="listHead">Type</th>
+                <th class="listHead">Bike</th>
+                <th class="listHead">Date Created</th>
+                <th class="listHead">Total (&pound;)</th>
+                <th class="listHead">Owner</th>
+                <th class="listHead" colspan="3">Actions</th>
+            </tr>
+            {% for quote in quote_list %}
+                {% cycle 'row1' 'row2' as rowcolors silent %}
+                <tr class="{{ rowcolors }}">
+                    <td>{{ quote.customer }}</td>
+                    <td>{{ quote }}</td>
+                    <td>{{ quote.get_quote_type_display }}</td>
+                    <td>{% if quote.is_bike %}{{ quote.frame }}{% endif %}</td>
+                    <td>{{ quote.created_date }}</td>
+                    <td>{{ quote.keyed_sell_price }}</td>
+                    <td>{{ quote.created_by }}</td>
+                    {% include "epic/quotes/quote_list_buttons.html" %}
+                </tr>
+            {% endfor %}
+        </table>
+        {% include "epic/common/pagination.html" %}
+
+    {% else %}
+        <p>No quotes to view.</p>
+    {% endif %}
+    <a href="{% url 'add_quote' %}" class="button">Create New Quote</a>
+    <script src="{% static 'js/quotes/quote_list.js' %}"></script>
+
+{% endblock %}

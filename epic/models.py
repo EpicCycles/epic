@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-from datetime import date
-
 # added to allow user details on models and history tables
 from django.conf import settings
 from django.db import models, IntegrityError
@@ -439,64 +437,6 @@ class FrameExclusion(models.Model):
         indexes = [models.Index(fields=["frame", "partType"]), ]
 
 
-# # Managers for CustomerOrder
-class CustomerOrderManager(models.Manager):
-    # create a new CustomerOrder for a quote
-    def create_customer_order(self, quote):
-        customer = quote.customer
-        order_total = quote.keyed_sell_price
-        amount_due = quote.keyed_sell_price
-        customerOrder = self.create(customer=customer, order_total=order_total, amount_due=amount_due)
-        # do something with the customerOrder
-        return customerOrder
-
-
-# Order Header
-class CustomerOrder(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    created_date = models.DateTimeField(auto_now_add=True)
-    completed_date = models.DateTimeField(null=True, blank=True)
-    customer_required_date = models.DateField(null=True, blank=True)
-    final_date = models.DateField(null=True, blank=True)
-    order_total = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    amount_due = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    discount_percentage = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
-    cancelled_date = models.DateTimeField(null=True)
-    objects = CustomerOrderManager()
-
-    class Meta:
-        ordering = ('-created_date', 'customer')
-
-    def __str__(self):
-        if self.cancelled_date:
-            return f' Order Number: {self.pk}, cancelled {self.cancelled_date:%b %d, %Y} ({str(self.customer)})'
-        elif self.completed_date:
-            return f' Order Number: {self.pk}, completed {self.completed_date:%b %d, %Y} ({str(self.customer)})'
-
-        return f' Order Number: {self.pk}, created {self.created_date:%b %d, %Y} ({str(self.customer)})'
-
-    # calculate the outstanding balance
-    def calculate_balance(self):
-        # loop through the payments taken
-        self.amount_due = self.order_total
-
-        order_payments = OrderPayment.objects.filter(customerOrder=self)
-        for orderPayment in order_payments:
-            if not (orderPayment.amount is None):
-                self.amount_due -= orderPayment.amount
-
-    def can_be_cancelled(self):
-        if self.cancelled_date:
-            return False
-        elif OrderFrame.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
-            return False
-        elif OrderItem.objects.filter(customerOrder=self, supplierOrderItem__isnull=False).exists():
-            return False
-        else:
-            # no orders placed
-            return True
-
-
 class Quote(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     quote_desc = models.CharField(max_length=60)
@@ -516,24 +456,19 @@ class Quote(models.Model):
     keyed_sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     quote_type = models.CharField(max_length=1, choices=QUOTE_TYPE_CHOICES, default=BIKE, )
     quote_status = models.CharField(max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
-    customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True, null=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
     can_be_issued = models.BooleanField(default=True)
-    can_be_ordered = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         # is_new = self._state.adding
         is_new = (self.pk is None)
-        self.can_be_ordered = True
         self.can_be_issued = True
         if is_new:
             if self.is_bike():
                 self.frame_sell_price = self.frame.sell_price
-            self.can_be_ordered = True
             self.can_be_issued = True
         else:
             self.can_be_issued = self.check_if_can_be_issued()
-            self.can_be_ordered = self.check_if_can_be_ordered()
 
             # calculate sum before saving.
         self.recalculate_prices()
@@ -559,17 +494,6 @@ class Quote(models.Model):
         if self.quote_status == INITIAL:
             return True
 
-        return False
-
-    # check if a quote can be turned into an order
-    def check_if_can_be_ordered(self):
-        if self.quote_status == ISSUED or self.can_be_issued:
-            for quote_part in self.quotepart_set.all():
-                for quotePartAttribute in quote_part.quotepartattribute_set.all():
-                    if quote_part.part and quotePartAttribute.partTypeAttribute.mandatory:
-                        if quotePartAttribute.attribute_value is None or quotePartAttribute.attribute_value == '':
-                            return False
-            return True
         return False
 
     # check if a quote can be issued
@@ -606,11 +530,6 @@ class Quote(models.Model):
             return True
         elif self.quote_status == ARCHIVED:
             return True
-
-        if not self.customerOrder:
-            return True
-        else:
-            return self.customerOrder.can_be_cancelled()
 
     def archive(self):
         self.quote_status = ARCHIVED
@@ -746,7 +665,7 @@ class QuotePart(models.Model):
                 attribute_detail += str(quotePartAttribute)
             attribute_detail += ')'
 
-        return str(self) + attribute_detail
+        return f"{str(self)}{attribute_detail}"
 
     def check_incomplete(self):
 
@@ -778,7 +697,6 @@ class QuotePartAttributeManager(models.Manager):
 
     # this copies an existing attribute
     def copy_quote_part_attribute(self, quote_part, attribute_to_copy):
-        print('copying attribute', str(attribute_to_copy))
         quote_part_attribute = self.create(quotePart=quote_part, partTypeAttribute=attribute_to_copy.partTypeAttribute,
                                            attribute_value=attribute_to_copy.attribute_value)
         return quote_part_attribute
@@ -825,113 +743,9 @@ class QuotePartAttribute(models.Model):
         indexes = [models.Index(fields=["quotePart", "partTypeAttribute"]), ]
 
 
-# Supplier Order details
-class SupplierOrder(models.Model):
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    order_identifier = models.CharField('Order', max_length=20)
-    date_placed = models.DateField('Order Date', null=True, blank=True, default=date.today)
-
-    def __str__(self):
-        return f"{str(self.supplier)}Order id{self.order_identifier}"
-
-    class Meta:
-        indexes = [models.Index(fields=["supplier", "order_identifier"]), ]
-
-
-# Managers for OrderItem
-class SupplierOrderItemManager(models.Manager):
-    # this creates a skinny version to use on a form incomplete cannot be saved
-    def create_supplier_order_item(self, supplier_order, item_description):
-        supplierOrderItem = self.create(supplierOrder=supplier_order, item_description=item_description)
-        return supplierOrderItem
-
-
-# Supplier Order details
-class SupplierOrderItem(models.Model):
-    supplierOrder = models.ForeignKey(SupplierOrder, on_delete=models.CASCADE)
-    item_description = models.TextField('Detail')
-    objects = SupplierOrderItemManager()
-
-    def __str__(self):
-        return self.item_description
-
-
-# Managers for OrderFrame
-class OrderFrameManager(models.Manager):
-    # this creates a skinny version to use on a form incomplete cannot be saved
-    def create_order_frame(self, frame, customer_order, quote):
-        orderFrame = self.create(customerOrder=customer_order, frame=frame, supplier=frame.brand.supplier, quote=quote)
-        return orderFrame
-
-
-class OrderFrame(models.Model):
-    customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, blank=True, null=True)
-    frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True, null=True)
-    leadtime = models.IntegerField('Leadtime (weeks)', blank=True, null=True)
-    supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True, null=True)
-    receipt_date = models.DateTimeField('Date received', null=True, blank=True)
-    quote = models.ForeignKey(Quote, on_delete=models.CASCADE, blank=True, null=True)
-    objects = OrderFrameManager()
-
-    # display frame for HTML output in a view
-    @property
-    def view_order_frame(self):
-        orderFrameDetails = [str(self.frame)]
-        bike_quoteParts = QuotePart.objects.filter(quote=self.quote)
-        orderFrameParts = []
-        for quotePart in bike_quoteParts:
-            if quotePart.frame_part:
-                orderFrameParts.append(quotePart.get_bike_part_summary())
-        orderFrameDetails.append(orderFrameParts)
-        return orderFrameDetails
-
-
-# Manager for Order payment
-class OrderPaymentManager(models.Manager):
-    # create a payment and retrigger balance calculation for orderItem
-    def create_order_payment(self, customer_order, amount, user):
-        orderPayment = self.create(customerOrder=customer_order, amount=amount, created_by=user)
-        return orderPayment
-
-
-# model for a single payment
-class OrderPayment(models.Model):
-    customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
-    amount = models.DecimalField('Payment Amount', max_digits=7, decimal_places=2, blank=True, null=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
-    objects = OrderPaymentManager()
-
-
-# Managers for OrderItem
-class OrderItemManager(models.Manager):
-    # this creates a skinny version to use on a form incomplete cannot be saved
-    def create_order_item(self, part, customer_order, quote_part):
-        brand = part.brand
-        orderItem = self.create(customerOrder=customer_order, part=part, quotePart=quote_part, supplier=brand.supplier)
-        return orderItem
-
-
-class OrderItem(models.Model):
-    customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE)
-    supplier = models.ForeignKey(Supplier, on_delete=models.PROTECT, blank=True, null=True)
-    part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True, null=True)
-    leadtime = models.IntegerField('Leadtime (weeks)', blank=True, null=True)
-    supplierOrderItem = models.ForeignKey(SupplierOrderItem, on_delete=models.CASCADE, blank=True, null=True)
-    receipt_date = models.DateTimeField('Date received', null=True, blank=True)
-    quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE, blank=True, null=True)
-    stock_item = models.BooleanField(default=False)
-    objects = OrderItemManager()
-
-    def __str__(self):
-        return str(self.part)
-
-
 class CustomerNote(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE, blank=True, null=True)
-    customerOrder = models.ForeignKey(CustomerOrder, on_delete=models.CASCADE, blank=True, null=True)
     note_text = models.TextField('Notes')
     created_on = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)

@@ -1,0 +1,13 @@
+{% if forloop.first %}
+    <tr>
+        {% for field in form.visible_fields %}
+            <th class="listHead">{{ field.label_tag }}</th>
+        {% endfor %}
+    </tr>
+{% endif %}
+{% cycle 'row1' 'row2' as rowcolors silent %}
+<tr class="{{ rowcolors }}">
+    {% for field in form.visible_fields %}
+        {% include "epic/common/field_as_td.html"  with field=field %}
+    {% endfor %}
+</tr>

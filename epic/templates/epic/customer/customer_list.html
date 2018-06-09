@@ -1,0 +1,46 @@
+{% extends 'epic/base.html' %}
+{% block content %}
+    <table width="500px">
+        <tr>
+            <td><h2>Customers</h2></td>
+            <td class="align_right">
+                <a href="{% url 'add_customer' %}" class="button">Add New Customer</a>
+            </td>
+        </tr>
+    </table>
+    <form action="" method="get">
+        <table>
+            <tr>
+                <td>
+                    {% include "epic/customer/customer_search_params.html" %}
+                    {{ form.as_table }}
+                </td>
+                <td>
+                    <input type="submit" value="Search" class="button"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <hr/>
+    {% if customer_list %}
+        <table>
+            <tr>
+                <th class="listHead" colspan="3">Customer</th>
+            </tr>
+            {% for customer in customer_list %}
+                {% cycle 'row1' 'row2' as rowcolors silent %}
+                <tr class="{{ rowcolors }}">
+                    <td>{{ customer }}</td>
+                    <td><a href="{% url 'edit_customer' pk=customer.pk %}" class="button">Edit</a></td>
+                    <td><a href="{% url 'quote_for_customer' pk=customer.pk %}" class="button">Quote</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+       <table>
+        <tr>
+            <td> {% include "epic/common/pagination.html" %}</td><td><a href="{% url 'add_customer' %}" class="button">Add New Customer</a></td></tr></table>
+    {% else %}
+        <p>No customers to view.</p>
+        <a href="{% url 'add_customer' %}" class="button">Add New Customer</a>
+    {% endif %}
+{% endblock %}
