@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 # added to allow user details on models and history tables
+from decimal import Decimal
 from django.conf import settings
 from django.db import models, IntegrityError
 from django.db.models import CharField, TextField
@@ -458,15 +459,16 @@ class Quote(models.Model):
     quote_status = models.CharField(max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
     can_be_issued = models.BooleanField(default=True)
+    upd_date = models.DateTimeField('Date Updated', auto_now=True)
+
 
     def save(self, *args, **kwargs):
         # is_new = self._state.adding
         is_new = (self.pk is None)
         self.can_be_issued = True
         if is_new:
-            if self.is_bike():
+            if self.is_bike() and not self.frame_sell_price:
                 self.frame_sell_price = self.frame.sell_price
-            self.can_be_issued = True
         else:
             self.can_be_issued = self.check_if_can_be_issued()
 
@@ -536,23 +538,24 @@ class Quote(models.Model):
         self.save()
 
     def recalculate_prices(self):
+        self.sell_price = Decimal(0)
+
         if self.frame is None:
-            self.sell_price = 0
-        elif self.frame_sell_price is None:
-            self.sell_price = 0
-        else:
-            self.sell_price = self.frame_sell_price
-            if self.colour_price is not None:
+            pass
+        elif self.frame_sell_price:
+            self.sell_price += self.frame_sell_price
+            if self.colour_price:
                 self.sell_price += self.colour_price
 
         # loop through the parts for the quote
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
 
-            if not ((quote_part.quantity is None) or (quote_part.sell_price is None)):
+            if quote_part.quantity and quote_part.sell_price:
                 self.sell_price += quote_part.sell_price * quote_part.quantity
-            if quote_part.trade_in_price is not None:
-                self.sell_price -= quote_part.trade_in_price
+
+            if quote_part.trade_in_price:
+                self.sell_price += quote_part.trade_in_price
 
     class Meta:
         # order most recent first
