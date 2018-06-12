@@ -444,7 +444,6 @@ class Quote(models.Model):
     version = models.PositiveSmallIntegerField(default=1, editable=False)
     created_date = models.DateTimeField(auto_now_add=True)
     issued_date = models.DateTimeField(null=True)
-    cost_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
 
     # frame will be null for a quote for items only
