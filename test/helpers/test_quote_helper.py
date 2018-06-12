@@ -9,7 +9,7 @@ from epic.models import PartSection, PartType, PartTypeAttribute, AttributeOptio
     Customer, SELECT, ARCHIVED, INITIAL, TEXT, RADIO, NUMBER, PART, Frame, BIKE, QuotePart, ORDERED, Fitting
 
 
-class QueueHelperTestCase(TestCase):
+class QuoteHelperTestCase(TestCase):
     def setUp(self):
         self.part_section1 = PartSection.objects.create(name='Section1', placing=1)
         self.part_section2 = PartSection.objects.create(name='Section2', placing=2)
