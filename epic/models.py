@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 # added to allow user details on models and history tables
 from decimal import Decimal
+
 from django.conf import settings
 from django.db import models, IntegrityError
 from django.db.models import CharField, TextField
@@ -368,20 +369,37 @@ class Part(models.Model):
 
 class FrameManager(models.Manager):
     def create_frame_sparse(self, brand, frame_name, model):
-        return self.create(brand=brand, frame_name=frame_name, model=model)
+        # if not brand:
+        #     raise ValueError('Brand object expected')
+        # if not frame_name:
+        #     raise ValueError('Frame Name expected')
+        # if not model:
+        #     raise ValueError('Model expected')
+        # if type(brand) != Brand:
+        #     raise TypeError('Brand object expected')
+        # return self.create(brand=brand, frame_name=frame_name, model=model)
+        return self.create_frame(brand, frame_name, model, None)
 
     def create_frame(self, brand, frame_name, model, description):
+        if not brand:
+            raise ValueError('Brand object expected')
+        if not frame_name:
+            raise ValueError('Frame Name expected')
+        if not model:
+            raise ValueError('Model expected')
+        if type(brand) != Brand:
+            raise TypeError('Brand object expected')
         return self.create(brand=brand, frame_name=frame_name, model=model, description=description)
 
 
 class Frame(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     frame_name = models.CharField(max_length=60)
-    model = models.CharField(max_length=60, blank=True)
-    description = models.TextField(max_length=400, blank=True)
-    colour = models.CharField(max_length=200, blank=True)
+    model = models.CharField(max_length=60)
+    description = models.TextField(max_length=400, blank=True, null=True)
+    colour = models.CharField(max_length=200, blank=True, null=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    sizes = models.CharField(max_length=100, blank=True)
+    sizes = models.CharField(max_length=100, blank=True, null=True)
 
     objects = FrameManager()
 
@@ -389,10 +407,19 @@ class Frame(models.Model):
         return f'brand:"{self.brand.id}",frameId:"{self.id}",frameName:"{self.frame_name}",model:"{self.model}",sellPrice:"{self.sell_price}"'
 
     def __str__(self):
-        if self.model is None:
-            return f'{self.brand.brand_name}: {self.frame_name}'
-        else:
-            return f'{self.brand.brand_name}: {self.frame_name} {self.model}'
+        return f'{self.brand.brand_name}: {self.frame_name} {self.model}'
+
+    def save(self, *args, **kwargs):
+        if self.frame_name is None or self.frame_name == '':
+            raise ValueError('Missing frame_name')
+        if self.model is None or self.model == '':
+            raise ValueError('Missing model')
+
+        if Frame.objects.filter(frame_name__upper=self.frame_name,
+                                brand=self.brand, model__upper=self.model).exclude(id=self.id).exists():
+            raise IntegrityError('Frame with these values already exists')
+
+        super(Frame, self).save(*args, **kwargs)
 
     class Meta:
         indexes = [models.Index(fields=["brand", "frame_name", 'model']), ]
@@ -402,6 +429,15 @@ class Frame(models.Model):
 # Manager for FramePart
 class FramePartManager(models.Manager):
     def create_frame_part(self, frame, part):
+        if not frame:
+            raise ValueError('Frame must be provided')
+        if not part:
+            raise ValueError('Part must be provided')
+        if type(frame) != Frame:
+            raise TypeError('Frame object expected')
+        if type(part) != Part:
+            raise TypeError('Part object expected')
+
         return self.create(frame=frame, part=part)
 
 
@@ -414,14 +450,28 @@ class FramePart(models.Model):
     def __str__(self):
         return f'{self.part.partType.shortName}: {str(self.part.brand)} {self.part.part_name}'
 
+    def save(self, *args, **kwargs):
+        if FramePart.objects.filter(frame=self.frame, part=self.part).exclude(id=self.id).exists():
+            raise IntegrityError('Frame Part with these values already exists')
+
+        super(FramePart, self).save(*args, **kwargs)
+
     class Meta:
         indexes = [models.Index(fields=["frame", "part"]), ]
         ordering = ('pk',)
 
 
-# Manager for PramePart
+# Manager for FrameExclusion
 class FrameExclusionManager(models.Manager):
     def create_frame_exclusion(self, frame, part_type):
+        if not frame:
+            raise ValueError('Frame must be provided')
+        if not part_type:
+            raise ValueError('Part typemust be provided')
+        if type(frame) != Frame:
+            raise TypeError('Frame object expected')
+        if type(part_type) != PartType:
+            raise TypeError('PartType object expected')
         return self.create(frame=frame, partType=part_type)
 
 
@@ -433,6 +483,12 @@ class FrameExclusion(models.Model):
 
     def __str__(self):
         return f'{str(self.partType)} n/a'
+
+    def save(self, *args, **kwargs):
+        if FrameExclusion.objects.filter(frame=self.frame, partType=self.partType).exclude(id=self.id).exists():
+            raise IntegrityError('Frame Exclusion with these values already exists')
+
+        super(FrameExclusion, self).save(*args, **kwargs)
 
     class Meta:
         indexes = [models.Index(fields=["frame", "partType"]), ]
@@ -459,7 +515,6 @@ class Quote(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
     can_be_issued = models.BooleanField(default=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
-
 
     def save(self, *args, **kwargs):
         # is_new = self._state.adding
