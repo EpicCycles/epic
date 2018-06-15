@@ -301,7 +301,7 @@ def update_quote_parts_and_forms(request, quote):
                     save_quote_part_attribute_form(request, quote_part_attribute, quote_part))
 
             if part_saved:
-                quote_part.is_incomplete = quote_part_updated.check_incomplete()
+                quote_part.is_incomplete = quote_part_updated.check_incomplete(False)
                 quote_part.save()
 
             quote_part_attribute_sets.append(quote_part_attribute_forms)

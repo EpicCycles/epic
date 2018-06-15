@@ -517,17 +517,29 @@ class Quote(models.Model):
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
 
     def save(self, *args, **kwargs):
+        # validate that all mandatory fields are present
+        if not self.quote_desc or self.quote_desc == '':
+            raise ValueError('Description must be provided')
+        if self.quote_type not in [BIKE, PART]:
+            raise ValueError('Quote Type is invalid')
+        if self.quote_status not in [INITIAL, ISSUED, ARCHIVED, ORDERED]:
+            raise ValueError('Quote Status is invalid')
+
+        if self.quote_type == BIKE and not self.frame:
+            raise ValueError('Frame must be provided')
+        if self.quote_type == PART and self.frame:
+            raise ValueError('Frame not must be provided')
+
+
         # is_new = self._state.adding
         is_new = (self.pk is None)
-        self.can_be_issued = True
         if is_new:
             if self.is_bike() and not self.frame_sell_price:
                 self.frame_sell_price = self.frame.sell_price
-        else:
-            self.can_be_issued = self.check_if_can_be_issued()
 
-            # calculate sum before saving.
+        # calculate sum before saving.
         self.recalculate_prices()
+        self.can_be_issued = self.check_if_can_be_issued()
         super(Quote, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -576,7 +588,6 @@ class Quote(models.Model):
         for quote_part in quote_parts:
             if quote_part.is_incomplete:
                 return False
-
         return True
 
     def can_be_reissued(self):
@@ -609,7 +620,8 @@ class Quote(models.Model):
                 self.sell_price += quote_part.sell_price * quote_part.quantity
 
             if quote_part.trade_in_price:
-                self.sell_price += quote_part.trade_in_price
+                self.sell_price -= quote_part.trade_in_price
+        return self.sell_price
 
     class Meta:
         # order most recent first
@@ -632,8 +644,9 @@ class QuotePartManager(models.Manager):
                 QuotePartAttribute.objects.copy_quote_part_attribute(quote_part, old_quote_part_attribute)
 
         if quote_part:
-            quote_part.is_incomplete = quote_part.check_incomplete()
+            quote_part.is_incomplete = quote_part.check_incomplete(False)
             quote_part.save()
+        return quote_part
 
     # this creates a skinny version to use on a form incomplete cannot be saved
     def create_quote_part(self, quote, quote_part_form):
@@ -662,7 +675,7 @@ class QuotePartManager(models.Manager):
 
         if quote_part:
             QuotePartAttribute.objects.save_quote_part_attributes(quote_part)
-            quote_part.is_incomplete = quote_part.check_incomplete()
+            quote_part.is_incomplete = quote_part.check_incomplete(False)
             quote_part.save()
 
         return quote_part
@@ -682,13 +695,32 @@ class QuotePart(models.Model):
 
     # make sure attributes reflected when you save
     def save(self, *args, **kwargs):
+        if self.quote.is_bike():
+            if self.trade_in_price and not self.replacement_part:
+                raise ValueError('Trade in price only valid when this is a replacement part')
+            if self.replacement_part:
+                if QuotePart.objects.filter(quote=self.quote, partType=self.partType, replacement_part=True).exclude(id=self.id).exists():
+                    raise ValueError('Replacement part exists for part type ')
+                if not self.partType.can_be_substituted:
+                    raise ValueError('Part type cannot be substituted')
+        else:
+            if self.replacement_part or self.trade_in_price:
+                raise ValueError('Replacement parts only valid for Bike quotes')
+
+        if self.part:
+            if self.partType != self.part.partType:
+                raise ValueError('Part is not the right type')
+        else:
+            if not self.replacement_part:
+                raise ValueError('Part must be specified')
+            if not self.partType.can_be_omitted:
+                raise ValueError('Part cannot be omitted')
+
         new_object = True
         if self.pk is not None:
             new_object = False
             QuotePartAttribute.objects.save_quote_part_attributes(self)
-            self.is_incomplete = self.check_incomplete()
-        elif PartTypeAttribute.objects.filter(partType=self.partType, in_use=True).exists():
-            self.is_incomplete = True
+        self.is_incomplete = self.check_incomplete(new_object)
 
         super(QuotePart, self).save(*args, **kwargs)
 
@@ -724,15 +756,18 @@ class QuotePart(models.Model):
 
         return f"{str(self)}{attribute_detail}"
 
-    def check_incomplete(self):
+    def check_incomplete(self, is_new):
 
         if self.part:
             if self.sell_price is None:
                 return True
-
-            for quote_part_attribute in self.get_attributes():
-                if quote_part_attribute.is_missing():
+            if is_new:
+                if PartTypeAttribute.objects.filter(partType=self.partType, in_use=True, mandatory=True):
                     return True
+            else:
+                for quote_part_attribute in self.get_attributes():
+                    if quote_part_attribute.is_missing():
+                        return True
         else:
             if self.replacement_part is False:
                 return True

@@ -516,21 +516,17 @@ class QuotePartForm(forms.Form):
             if not part_type:
                 self.add_error('part_type',
                                'A part type must be specified, when part is substituted or omitted.')
+            if part_type.can_be_substituted:
+                if not part_type.can_be_omitted and not part_name:
+                    self.add_error('part_type',
+                                   'This part cannot be omitted.')
+            else:
+                self.add_error('part_type',
+                               'This part cannot be substituted or omitted.')
 
         if not (trade_in_price_empty or replacement_part):
             self.add_error('trade_in_price',
                            'Trade in price should be blank when part is not substituted or omitted.')
-
-
-# basic quote kine for adding lines
-class QuotePartBasicForm(ModelForm):
-    class Meta:
-        model = QuotePart
-        fields = '__all__'
-
-    def __init__(self, *args, **kwargs):
-        super(QuotePartBasicForm, self).__init__(*args, **kwargs)
-        self.label_suffix = ''
 
 
 # attributes for quote parts

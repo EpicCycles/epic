@@ -41,7 +41,7 @@ class QuoteHelperTestCase(TestCase):
         self.brand1 = Brand.objects.create(supplier=self.supplier1, brand_name='Brand 1', link='orbea.co.uk')
         self.brand2 = Brand.objects.create(brand_name='Brand 2')
         self.part1 = Part.objects.create_part(self.part_type1, self.brand1, 'Part 1')
-        self.part2 = Part.objects.create_part(self.part_type1, self.brand1, 'Part 2')
+        self.part2 = Part.objects.create_part(self.part_type2, self.brand1, 'Part 2')
         self.customer = Customer.objects.create(first_name='A', last_name='Customer')
         self.customer2 = Customer.objects.create(first_name='Anew', last_name='Shop-Customer')
         self.fitting = Fitting.objects.create(customer=self.customer, saddle_height='22', bar_height='23',
@@ -67,9 +67,9 @@ class QuoteHelperTestCase(TestCase):
         self.quote1_part1 = QuotePart.objects.create(quote=self.quote2, partType=self.part_type1, part=self.part1,
                                                      quantity=1, sell_price=234.5)
         self.quote1_part2 = QuotePart.objects.create(quote=self.quote2, partType=self.part_type1, part=self.part1,
-                                                     quantity=1, sell_price=26.99, trade_in_price=23.99)
-        self.quote1_part3 = QuotePart.objects.create(quote=self.quote2, partType=self.part_type2, part=self.part1,
-                                                     quantity=None, trade_in_price=99.99)
+                                                     quantity=1, sell_price=26.99, replacement_part=True, trade_in_price=23.99)
+        self.quote1_part3 = QuotePart.objects.create(quote=self.quote2, partType=self.part_type2,
+                                                     quantity=None, replacement_part=True, trade_in_price=99.99)
 
         self.requestFactory = RequestFactory()
         self.request = self.requestFactory.get('/epic/quote')
