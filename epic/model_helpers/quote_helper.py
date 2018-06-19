@@ -32,9 +32,10 @@ def quote_display(quote, customer_view):
             return part_list
 
     if quote.frame:
-        frame_parts = FramePart.objects.filter(frame=quote.frame).prefetch_related('part', 'part__partType', 'part__brand')
+        frame_parts = FramePart.objects.filter(frame=quote.frame).prefetch_related('part', 'part__partType',
+                                                                                   'part__brand')
         for frame_part in frame_parts:
-            part_type =  frame_part.part.partType
+            part_type = frame_part.part.partType
             if part_type in frame_part_list:
                 frame_part_list[part_type].append(frame_part)
             else:

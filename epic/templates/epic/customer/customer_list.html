@@ -36,9 +36,12 @@
                 </tr>
             {% endfor %}
         </table>
-       <table>
-        <tr>
-            <td> {% include "epic/common/pagination.html" %}</td><td><a href="{% url 'add_customer' %}" class="button">Add New Customer</a></td></tr></table>
+        <table>
+            <tr>
+                <td> {% include "epic/common/pagination.html" %}</td>
+                <td><a href="{% url 'add_customer' %}" class="button">Add New Customer</a></td>
+            </tr>
+        </table>
     {% else %}
         <p>No customers to view.</p>
         <a href="{% url 'add_customer' %}" class="button">Add New Customer</a>

@@ -5,4 +5,3 @@ class UpperCase(Transform):
     lookup_name = 'upper'
     function = 'UPPER'
     bilateral = True
-

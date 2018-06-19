@@ -11,7 +11,7 @@ function startUp() {
 
 //  get all bike parts and check each substitite table row and hilight those that have changes
 function hilightChangesForBike() {
-    let part_type_elements = $( "select[name~='part_type']" );
+    let part_type_elements = $("select[name~='part_type']");
     const re = /part_type/gi;
 
     $('[id*="bike_"]').removeClass("red");
@@ -28,9 +28,11 @@ function hilightChangesForBike() {
         console.log("part type selected:", partTypeSelected, " and replacement element id: ", replacementPartId)
 
         // if fields found add the options valid to the parts field
-        if ( $("#" + replacementPartId).is( ":checked" ) ) {
+        if ($("#" + replacementPartId).is(":checked")) {
             console.log("checked ");
-            $('[id*="bike_"]').filter(function() { return ($(this).text().startsWith(partTypeSelected)) }).addClass("red");
+            $('[id*="bike_"]').filter(function () {
+                return ($(this).text().startsWith(partTypeSelected))
+            }).addClass("red");
         }
     });
 }

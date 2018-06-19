@@ -15,7 +15,7 @@ function addBrandToOpener(brand_id, brand_name) {
             brandOpt.value = brand_id;
             brandOpt.text = brand_name;
             select_elements[i].add(brandOpt, 0);
-            if ((select_elements[i].id === triggerSelect) && (! select_elements[i].disabled)){
+            if ((select_elements[i].id === triggerSelect) && (!select_elements[i].disabled)) {
                 select_elements[i].selectedIndex = 0;
             }
         }

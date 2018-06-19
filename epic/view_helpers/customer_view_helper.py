@@ -1,10 +1,10 @@
 # general processing for Customer forms
 import logging
 
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.contrib import messages
 
 from epic.forms import CustomerForm, AddressFormSet, PhoneFormSet, FittingFormSet, CustomerQuoteForm, \
     ChangeCustomerForm, NewCustomerQuoteForm, AddressFormSimple, PhoneFormSimple

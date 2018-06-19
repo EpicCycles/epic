@@ -28,4 +28,3 @@ def find_brand_for_name(brand_name, request):
         brand = Brand(brand_name=brand_name)
         brand.save()
         return brand
-

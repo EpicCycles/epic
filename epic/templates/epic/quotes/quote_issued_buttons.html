@@ -1,7 +1,7 @@
 {% load staticfiles %}
 {% load static %}
 {% if quote.can_be_issued %}
-    <input type="button" value="Issue Quote"  onclick="setAction('Issue')" class="button"/>
+    <input type="button" value="Issue Quote" onclick="setAction('Issue')" class="button"/>
     <a href="{% url 'quote_amend' pk=quote.pk %}" class="button"
        title="Continue editing
 Do not issue quote as is.">Continue Editing</a>
@@ -15,11 +15,12 @@ This will create a new version based on the issued quote">Edit Quote</a>
 This will create a new version based on the issued quote">Edit Quote</a>
     {% endif %}
 {% endif %}
-<input type="button" onclick="popupDetail('{% url  'quote_text' pk=quote.pk  %}','Customer quote summary')" class="button"
-                       value="View Summary"
-                       title="See summary to copy for Zoho."/>
+<input type="button" onclick="popupDetail('{% url  'quote_text' pk=quote.pk %}','Customer quote summary')"
+       class="button"
+       value="View Summary"
+       title="See summary to copy for Zoho."/>
 
-<input type="hidden" name="action_required" id="action_required" value="Dummy" />
+<input type="hidden" name="action_required" id="action_required" value="Dummy"/>
 <script src="{% static 'js/quotes/quote_issued_buttons.js' %}"></script>
 
 

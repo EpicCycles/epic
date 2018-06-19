@@ -1,12 +1,13 @@
 from decimal import Decimal
 
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.test import TestCase, RequestFactory
 
 from epic.forms import QuotePartForm
 from epic.models import PartSection, PartType, PartTypeAttribute, TEXT, RADIO, NUMBER, SELECT, AttributeOptions, \
     Supplier, Brand, Part, Frame, FramePart, FrameExclusion, Quote, Fitting, Customer, QuotePart, BIKE, \
-    PART, ISSUED, ARCHIVED
+    PART, ISSUED, ARCHIVED, QuotePartAttribute
 
 
 class QuoteModeltestCase(TestCase):
@@ -81,7 +82,10 @@ class QuoteModeltestCase(TestCase):
                                                      trade_in_price=23.99)
         self.quote2_part3 = QuotePart.objects.create(quote=self.quote2, partType=self.part_type2, replacement_part=True,
                                                      quantity=None, trade_in_price=99.99)
-
+        self.quote3 = Quote.objects.create(customer=self.customer, quote_desc='Test attributes', quote_type=PART,
+                                           created_by=self.user2)
+        self.quote3_part = QuotePart.objects.create(quote=self.quote3, partType=self.part_type2,
+                                                    part=self.part_with_mandatory_attributes, quantity=1, sell_price=23)
         self.requestFactory = RequestFactory()
         self.request = self.requestFactory.get('/epic/quote')
         self.request.user = self.user2
@@ -121,6 +125,20 @@ class QuoteModeltestCase(TestCase):
             QuotePart.objects.create(quote=self.quote2, partType=self.part_type3, replacement_part=True)
         with self.assertRaises(ValueError):
             QuotePart.objects.create(quote=self.quote2, partType=self.part_type4, replacement_part=True)
+
+    def test_quote_part_attribute_insert_errors(self):
+        with self.assertRaises(Exception):
+            QuotePartAttribute.objects.create()
+        with self.assertRaises(Exception):
+            QuotePartAttribute.objects.create(quotePart=self.quote1_part1)
+        with self.assertRaises(Exception):
+            QuotePartAttribute.objects.create(partTypeAttribute=self.part_type_attribute1)
+        with self.assertRaises(ValueError):
+            QuotePartAttribute.objects.create(quotePart=self.quote1_part1, partTypeAttribute=self.part_type_attribute3)
+        with self.assertRaises(ValueError):
+            QuotePartAttribute.objects.create(quotePart=self.quote2_part3, partTypeAttribute=self.part_type_attribute3)
+        with self.assertRaises(IntegrityError):
+            QuotePartAttribute.objects.create(quotePart=self.quote3_part, partTypeAttribute=self.part_type_attribute1)
 
     def test_quote_update_errors1(self):
         check_id = self.quote1.id
@@ -186,11 +204,25 @@ class QuoteModeltestCase(TestCase):
             test_part.partType = self.part_type4
             test_part.save()
 
+    def test_quote_part_attribute_update_errors(self):
+        check_id = QuotePartAttribute.objects.filter(quotePart=self.quote3_part,
+                                                     partTypeAttribute=self.part_type_attribute1).first().id
+        with self.assertRaises(ValueError):
+            test_object = QuotePartAttribute.objects.get(id=check_id)
+            test_object.quotePart = self.quote2_part3
+            test_object.save()
+        with self.assertRaises(ValueError):
+            test_object = QuotePartAttribute.objects.get(id=check_id)
+            test_object.partTypeAttribute = self.part_type_attribute4
+            test_object.save()
+        with self.assertRaises(IntegrityError):
+            test_object = QuotePartAttribute.objects.get(id=check_id)
+            test_object.partTypeAttribute = self.part_type_attribute2
+            test_object.save()
 
     def test_quote_string(self):
         expected = f'{self.quote1.quote_desc} ({str(self.quote1.version)})'
         self.assertEqual(expected, str(self.quote1))
-
 
     def test_quote_part_string(self):
         self.assertTrue(str(self.quote2_part3).endswith('No part ***'))
@@ -198,6 +230,13 @@ class QuoteModeltestCase(TestCase):
         self.assertTrue(str(self.quote2_part2).endswith('***'))
         self.assertEqual(str(self.quote1_part1.part), str(self.quote1_part1))
         self.assertEqual(str(self.quote2_part1.part), str(self.quote2_part1))
+
+    def test_quote_part_attribute_string(self):
+        attribute = QuotePartAttribute.objects.filter(quotePart=self.quote3_part).first()
+        self.assertTrue(str(attribute).endswith(': NOT SET'))
+        attribute.attribute_value = 'Bingo'
+        attribute.save()
+        self.assertTrue(str(attribute).endswith(': Bingo'))
 
     def test_quote_is_bike(self):
         self.assertEqual(False, self.quote1.is_bike())
@@ -220,7 +259,8 @@ class QuoteModeltestCase(TestCase):
         self.assertEqual(False, self.quote1.can_be_reissued())
 
         # add a quote part that requires attributes
-        temp_quote_part = QuotePart.objects.create(quote=self.quote1, partType=self.part_with_mandatory_attributes.partType,
+        temp_quote_part = QuotePart.objects.create(quote=self.quote1,
+                                                   partType=self.part_with_mandatory_attributes.partType,
                                                    part=self.part_with_mandatory_attributes, quantity=1)
         self.quote1.save()
         self.assertEqual(False, self.quote1.can_be_issued)
@@ -249,7 +289,6 @@ class QuoteModeltestCase(TestCase):
         self.assertEqual(False, self.quote1.can_be_issued)
         self.assertEqual(False, self.quote1.can_be_edited())
         self.assertEqual(True, self.quote1.can_be_reissued())
-
 
     def test_quote_lifecycle_tests_bike(self):
         self.assertEqual(False, self.quote2.can_be_issued)
@@ -293,7 +332,8 @@ class QuoteModeltestCase(TestCase):
         self.assertEqual(True, self.quote2.can_be_issued)
 
         # add a quote part that requires attributes
-        temp_quote_part = QuotePart.objects.create(quote=self.quote2, partType=self.part_with_mandatory_attributes.partType,
+        temp_quote_part = QuotePart.objects.create(quote=self.quote2,
+                                                   partType=self.part_with_mandatory_attributes.partType,
                                                    part=self.part_with_mandatory_attributes, quantity=1)
         self.quote2.save()
         self.assertEqual(False, self.quote2.can_be_issued)
@@ -308,7 +348,6 @@ class QuoteModeltestCase(TestCase):
                                  quantity=1, sell_price=234.5)
         self.quote2.save()
         self.assertEqual(True, self.quote2.can_be_issued)
-
 
     def test_quote_recalculate_prices(self):
         # test simple quote no lines - price is 0
@@ -347,7 +386,8 @@ class QuoteModeltestCase(TestCase):
         expected_price -= Decimal('50')
         self.assertEqual(expected_price, new_quote.recalculate_prices())
 
-        QuotePart.objects.create(quote=new_quote, partType=self.part_type1, part=self.part2, sell_price=Decimal('99.99'),
+        QuotePart.objects.create(quote=new_quote, partType=self.part_type1, part=self.part2,
+                                 sell_price=Decimal('99.99'),
                                  replacement_part=True, trade_in_price=Decimal('50'))
         expected_price += Decimal('49.99')
         self.assertEqual(expected_price, new_quote.recalculate_prices())
@@ -419,3 +459,21 @@ class QuoteModeltestCase(TestCase):
         self.assertEqual(Decimal('23.99'), new_part.trade_in_price)
         self.assertEqual(True, new_part.replacement_part)
 
+    def test_get_attributes_for_quote_part(self):
+        expected_attributes = QuotePartAttribute.objects.filter(quotePart=self.quote1_part1)
+        self.assertEqual(expected_attributes.count(), self.quote1_part1.get_attributes().count())
+
+    def test_quote_part_attributes_is_missing(self):
+        mandatory_attribute = QuotePartAttribute.objects.get(quotePart=self.quote3_part,
+                                                             partTypeAttribute=self.part_type_attribute1)
+        self.assertTrue(mandatory_attribute.is_missing())
+        mandatory_attribute.attribute_value = 'has value'
+        mandatory_attribute.save()
+        self.assertFalse(mandatory_attribute.is_missing())
+
+        optional_attribute = QuotePartAttribute.objects.get(quotePart=self.quote3_part,
+                                                            partTypeAttribute=self.part_type_attribute2)
+        self.assertFalse(mandatory_attribute.is_missing())
+        optional_attribute.attribute_value = 'value set'
+        optional_attribute.save()
+        self.assertFalse(mandatory_attribute.is_missing())

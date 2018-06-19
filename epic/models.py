@@ -530,7 +530,6 @@ class Quote(models.Model):
         if self.quote_type == PART and self.frame:
             raise ValueError('Frame not must be provided')
 
-
         # is_new = self._state.adding
         is_new = (self.pk is None)
         if is_new:
@@ -699,7 +698,8 @@ class QuotePart(models.Model):
             if self.trade_in_price and not self.replacement_part:
                 raise ValueError('Trade in price only valid when this is a replacement part')
             if self.replacement_part:
-                if QuotePart.objects.filter(quote=self.quote, partType=self.partType, replacement_part=True).exclude(id=self.id).exists():
+                if QuotePart.objects.filter(quote=self.quote, partType=self.partType, replacement_part=True).exclude(
+                        id=self.id).exists():
                     raise ValueError('Replacement part exists for part type ')
                 if not self.partType.can_be_substituted:
                     raise ValueError('Part type cannot be substituted')
@@ -820,13 +820,24 @@ class QuotePartAttribute(models.Model):
     attribute_value = models.CharField(max_length=40, null=True)
     objects = QuotePartAttributeManager()
 
+    def save(self, *args, **kwargs):
+        if self.quotePart.partType != self.partTypeAttribute.partType:
+            raise ValueError('Attribute not valid for quote part type')
+
+        if not self.quotePart.part:
+            raise ValueError('attribute should not be set when no part')
+
+        if QuotePartAttribute.objects.filter(quotePart=self.quotePart,
+                                             partTypeAttribute=self.partTypeAttribute).exclude(id=self.id).exists():
+            raise IntegrityError('Duplicate row')
+
+        super(QuotePartAttribute, self).save(*args, **kwargs)
+
     def __str__(self):
-        if self.partTypeAttribute and self.attribute_value:
+        if self.attribute_value:
             return f"{str(self.partTypeAttribute)}: {self.attribute_value}"
-        elif self.partTypeAttribute:
-            return f"{str(self.partTypeAttribute)}:  NOT SET"
         else:
-            return str("Hmmm")
+            return f"{str(self.partTypeAttribute)}: NOT SET"
 
     def is_missing(self):
         return self.partTypeAttribute.needs_completing() and self.attribute_value is None

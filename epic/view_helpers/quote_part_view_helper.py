@@ -28,10 +28,9 @@ def save_quote_part(request, quote):
 
             details_for_page['saved_part'] = quote_format_part_form
             details_for_page['saved_part_attributes'] = quote_part_attribute_forms
-            details_for_page['quote_part_form'] =  QuotePartForm(initial=initial__q_p)
+            details_for_page['quote_part_form'] = QuotePartForm(initial=initial__q_p)
 
     return render(request, 'epic/part/quote_part_add_popup.html', details_for_page)
-
 
 
 def show_quote_part_popup(request, quote):

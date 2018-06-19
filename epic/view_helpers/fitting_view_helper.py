@@ -1,6 +1,3 @@
-
-
-
 # create a new fitting object from form details
 from epic.models import Fitting
 

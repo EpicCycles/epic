@@ -1,5 +1,6 @@
-from epic.models import Part
 from datetime import datetime
+
+from epic.models import Part
 
 
 def get_parts_for_js():

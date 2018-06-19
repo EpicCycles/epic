@@ -1,9 +1,10 @@
+from datetime import datetime
+
+from django.core.cache import cache
 from django.shortcuts import render
 
 from epic.models import Brand
 from epic.view_helpers.part_view_helper import get_parts_for_js
-from datetime import datetime
-from django.core.cache import cache
 
 
 def show_menu(request):
@@ -14,7 +15,7 @@ def show_menu(request):
 
 def set_parts_for_js_in_cache():
     print('{timestamp} -- set_parts_for_js_in_cache started'.format(timestamp=datetime.utcnow().isoformat()))
-    cache.set('parts_for_js',  get_parts_for_js())
+    cache.set('parts_for_js', get_parts_for_js())
     print('{timestamp} -- set_parts_for_js_in_cache ended'.format(timestamp=datetime.utcnow().isoformat()))
 
 

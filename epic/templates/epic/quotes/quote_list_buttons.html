@@ -2,11 +2,11 @@
     {% if quote.can_be_edited %}
         <a href="{% url 'quote_edit' pk=quote.pk %}" title="edit quote">
             <i class="material-icons red ">edit</i>
-                                                        </a>
+        </a>
     {% else %}
         <a href="{% url 'quote_browse' pk=quote.pk %}" title="browse quote">
             <i class="material-icons red ">open_in_browser</i>
-                                                        </a>
+        </a>
     {% endif %}
 </td>
 <td>

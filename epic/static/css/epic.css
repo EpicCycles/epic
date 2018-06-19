@@ -62,13 +62,13 @@ td {
 
 }
 
- a.internal_link:hover, a.internal_link:focus {
+a.internal_link:hover, a.internal_link:focus {
     text-decoration: underline;
     background-color: white;
     color: black;
 }
 
- a.internal_link,  a.internal_link:visited,  a.internal_link:active {
+a.internal_link, a.internal_link:visited, a.internal_link:active {
     text-decoration: none;
     background-color: white;
     color: black;
@@ -119,6 +119,7 @@ section {
     display: flex;
     flex-direction: row;
 }
+
 .row {
     display: flex;
     flex-direction: row;
@@ -128,17 +129,21 @@ section.flex-vertical {
     display: flex;
     flex-direction: column;
 }
+
 div.field-label {
     font-weight: bold;
     padding-left: 5px;
 }
+
 div.field-input {
     font-weight: bold;
     padding-left: 25px;
 }
+
 .half {
     width: 50%;
 }
+
 .three-quarters {
     width: 75%;
 }
@@ -217,28 +222,35 @@ input:disabled {
 .red {
     color: #c82011;
 }
- /*styles for messages*/
+
+/*styles for messages*/
 .info {
     color: #333333;
 }
+
 .warning {
     color: #333333;
     font-style: italic;
 }
+
 .success {
     color: #333333;
     font-weight: bold;
 }
+
 .error {
     color: #c82011;
     font-weight: bold;
 }
+
 div.error {
     background-color: #c82011;
 }
-td.error{
+
+td.error {
     background-color: #c82011;
 }
+
 .errorlist {
     color: #c82011;
     font-weight: bold;
@@ -259,6 +271,7 @@ td.error{
 .align_right {
     text-align: right;
 }
+
 .align-left {
     text-align: left;
 }
@@ -302,6 +315,7 @@ a.button, input.button {
     text-decoration: none;
     background-color: grey;
 }
+
 .button:hover, .button:focus {
     text-decoration: underline;
     color: white;
@@ -317,6 +331,7 @@ fieldset {
     height: 0px;
     overflow: hidden;
 }
+
 .attributes ul {
     display: block;
     list-style-type: disc;
@@ -327,6 +342,7 @@ fieldset {
     -webkit-padding-start: 0;
     background-color: inherit;
 }
+
 .attributes li {
     background-color: inherit;
 }

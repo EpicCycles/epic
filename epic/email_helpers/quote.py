@@ -46,7 +46,8 @@ def build_quote_detail_for_email(quote):
                     else:
                         items.append({'name': quotePart.summary(), 'qty': str(quotePart.quantity)})
     for customer_note in CustomerNote.objects.filter(quote=quote, customer_visible=True):
-        notes.append({'note_text':customer_note.note_text, 'added_on': f"{customer_note.created_on:%b %d, %Y}", 'added_by': str(customer_note.created_by)})
+        notes.append({'note_text': customer_note.note_text, 'added_on': f"{customer_note.created_on:%b %d, %Y}",
+                      'added_by': str(customer_note.created_by)})
 
     quote_for_email['id'] = str(quote)
     quote_for_email['cost'] = str(quote.keyed_sell_price)

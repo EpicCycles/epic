@@ -17,7 +17,7 @@ function setUpFrameOptions() {
         $("#frame_name").val(frame_name_selected_init);
         processSelectedFrame();
     }
-     // now set column widths
+    // now set column widths
     setColumnWidths();
 }
 

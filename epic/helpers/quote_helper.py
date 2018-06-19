@@ -19,7 +19,6 @@ def quote_requote(request, quote: Quote):
 
 
 def quote_requote_reset_prices(request, quote):
-
     quote_parts = quote.quotepart_set.all()
     for quote_part in quote_parts:
         quote_part.trade_in_price = None
@@ -94,4 +93,3 @@ def copy_quote_with_changes(old_quote, request, frame, customer):
         QuotePart.objects.copy_quote_part_to_new_quote(new_quote, old_quote_part)
 
     return new_quote
-

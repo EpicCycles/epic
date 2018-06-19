@@ -1,6 +1,5 @@
-from datetime import datetime
-
 import logging
+from datetime import datetime
 from operator import eq
 
 from django.contrib import messages
@@ -9,6 +8,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
+from epic.form_helpers.choices import get_part_section_list_from_cache, get_part_types_for_section_from_cache
 from epic.forms import FrameForm, FrameChangePartForm
 from epic.helpers.validation_helper import decimal_for_string
 from epic.model_helpers.brand_helper import find_brand_for_string, find_brand_for_name
@@ -16,7 +16,6 @@ from epic.model_helpers.frame_helper import get_frames_for_js, set_frames_for_js
 from epic.model_helpers.part_helper import find_or_create_part
 from epic.models import Brand, PartType, FramePart, Frame, QuotePart, FrameExclusion
 from epic.view_helpers.menu_view_helper import add_standard_session_data
-from epic.form_helpers.choices import get_part_section_list_from_cache, get_part_types_for_section_from_cache
 
 
 def show_bike_review(request):

@@ -71,7 +71,7 @@ class CustomerFormTestCase(TestCase):
         })
 
     def test_invalid_email(self):
-        form = CustomerForm({'first_name': "Turanga", 'last_name': "Leela", 'email':'invalid'}, instance=self.customer)
+        form = CustomerForm({'first_name': "Turanga", 'last_name': "Leela", 'email': 'invalid'}, instance=self.customer)
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors, {
             'email': ['Enter a valid email address.'],

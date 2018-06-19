@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from django.core.cache import cache
 
 
@@ -60,6 +61,7 @@ def set_part_section_list_in_cache():
     cache.set('part_section_list', PartSection.objects.all())
     print('{timestamp} -- set_part_section_list_in_cache ended'.format(timestamp=datetime.utcnow().isoformat()))
 
+
 def get_part_types_for_section_from_cache(part_section):
     cache_id = f"part_types_for_{part_section.id}"
     part_type_list = cache.get(cache_id)
@@ -71,8 +73,10 @@ def get_part_types_for_section_from_cache(part_section):
         set_part_types_for_section_in_cache(part_section)
         return cache.get(cache_id)
 
+
 def set_part_types_for_section_in_cache(part_section):
-    print('{timestamp} -- set_part_types_for_section_in_cache started for section {part_section_string}'.format(timestamp=datetime.utcnow().isoformat(), part_section_string=str(part_section)))
+    print('{timestamp} -- set_part_types_for_section_in_cache started for section {part_section_string}'.format(
+        timestamp=datetime.utcnow().isoformat(), part_section_string=str(part_section)))
     cache_id = f"part_types_for_{part_section.id}"
     from epic.models import PartType
     cache.set(cache_id, PartType.objects.filter(includeInSection=part_section))

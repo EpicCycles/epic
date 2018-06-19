@@ -67,7 +67,8 @@ class QuoteHelperTestCase(TestCase):
         self.quote1_part1 = QuotePart.objects.create(quote=self.quote2, partType=self.part_type1, part=self.part1,
                                                      quantity=1, sell_price=234.5)
         self.quote1_part2 = QuotePart.objects.create(quote=self.quote2, partType=self.part_type1, part=self.part1,
-                                                     quantity=1, sell_price=26.99, replacement_part=True, trade_in_price=23.99)
+                                                     quantity=1, sell_price=26.99, replacement_part=True,
+                                                     trade_in_price=23.99)
         self.quote1_part3 = QuotePart.objects.create(quote=self.quote2, partType=self.part_type2,
                                                      quantity=None, replacement_part=True, trade_in_price=99.99)
 

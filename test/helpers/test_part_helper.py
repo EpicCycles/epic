@@ -37,4 +37,3 @@ class PartHelperTestCase(TestCase):
         self.assertNotEqual(self.part2, created_part)
         self.assertNotEqual(self.part3, created_part)
         self.assertEqual(expected_count, final_count)
-

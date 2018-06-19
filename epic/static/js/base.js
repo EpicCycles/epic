@@ -1,5 +1,5 @@
 var pageChanged = false;
-$( document ).ready(function() {
+$(document).ready(function () {
     addListeners();
 });
 
