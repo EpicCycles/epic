@@ -227,7 +227,7 @@ class FramePartForm(ModelForm):
 
 class FrameChangePartForm(forms.Form):
     brand = forms.ChoiceField(choices=[], required=False, label='Brand')
-    part_name = forms.CharField(max_length=60, required=False, label='Part Name')
+    part_name = forms.CharField(required=False, label='Part Name')
     part_type = forms.ModelChoiceField(queryset=get_part_type_list_from_cache())
     not_relevant = forms.BooleanField(required=False, label='Not Valid')
 
@@ -235,7 +235,7 @@ class FrameChangePartForm(forms.Form):
         super(FrameChangePartForm, self).__init__(*args, **kwargs)
         self.label_suffix = ''
         self.fields['part_type'].widget = HiddenInput()
-        self.fields['part_name'].widget = forms.TextInput(attrs={'size': '20'})
+        self.fields['part_name'].widget = forms.TextInput(attrs={'size': '40'})
         self.fields['brand'].choices = BLANK_CHOICE + get_brand_list_from_cache()
 
     def clean(self):
