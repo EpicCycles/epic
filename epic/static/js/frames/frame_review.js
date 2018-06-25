@@ -1,155 +1,106 @@
-(setUpFrameOptions)();
+(initialFrameOptions)();
 
 
-function setUpFrameOptions() {
-    var brand_id = document.getElementById("brand_selected_init").value;
-    var frame_name_selected_init = document.getElementById("frame_name_selected_init").value;
-    var model_selected_init = document.getElementById("model_selected_init").value;
-    document.getElementById("frameDiv").style.visibility = "hidden";
-    document.getElementById("modelDiv").style.visibility = "hidden";
-    document.getElementById("reviewButton").setAttribute("disabled", "disabled");
-
-    if (brand_id) {
-        $("#frame_brand").val(brand_id);
+function initialFrameOptions() {
+    setUpFrameOptions();
+    var currentBrand = document.getElementById("brand_selected_init").value;
+    var currentFrame = document.getElementById("frame_name_selected_init").value;
+    var currentModel = document.getElementById("model_selected_init").value;
+    if (currentBrand) {
+        const frameBrandSelector = $("#frame_brand");
+        frameBrandSelector.val(currentBrand);
         processSelectedBrand();
-    }
-    if (frame_name_selected_init) {
-        $("#frame_name").val(frame_name_selected_init);
-        processSelectedFrame();
+
+        if (currentFrame) {
+            const frameSelector = $("#frame_name");
+            frameSelector.val(currentFrame);
+            processSelectedFrame();
+
+            if (currentModel) {
+                const modelSelector = $("#model_name");
+                modelSelector.val(currentModel);
+                processSelectedModel();
+            }
+        }
     }
     // now set column widths
     setColumnWidths();
+}
+
+function checkAndStartReview() {
+    if ($("#frame_brand").val() && $("#frame_name").val()) {
+        setReviewAction('startReview');
+    } else {
+        alert("Select a Brand and Frame to review.")
+    }
 }
 
 function setReviewAction(required_action) {
     document.getElementById("action_required").value = required_action;
     const frameBrandSelector = $("#frame_brand");
 
-    if (required_action !== "startReview") {
-        if (required_action === "save_changes") {
+    if (required_action === "startReview") {
+        performActionRequested();
+    } else if (required_action === "listModels") {
+        performActionRequested();
+    } else {
+        if ((required_action === "save_changes") || (required_action === "process_actions")) {
             // reset page changed flag as this is ok.
             pageChanged = false;
         }
 
         // get back current selections and if they have changed alart
-        var brand_selected_init = document.getElementById("brand_selected_init").value;
+        var brand_selected_init = $("#brand_selected_init").val();
         var frame_brand = frameBrandSelector.val();
-        var frame_name_selected = document.getElementById("frame_name_selected").value;
-        var frame_name_selected_init = document.getElementById("frame_name_selected_init").value;
-        var model_selected = document.getElementById("model_selected").value;
-        var model_selected_init = document.getElementById("model_selected_init").value;
+        var frame_name_selected = $("#frame_name").val();
+        var frame_name_selected_init = $("#frame_name_selected_init").val();
+        var model_selected = $("#model_name").val();
+        var model_selected_init = $("#model_selected_init").val();
+
+        if (! frame_name_selected) {
+            frame_name_selected = ""
+        }
+        if (! model_selected) {
+            model_selected = ""
+        }
+
         if ((frame_brand !== brand_selected_init)
             || (frame_name_selected !== frame_name_selected_init)
             || (model_selected !== model_selected_init)) {
-            if (confirm("You have changed the selections, continuing will display bikes matching new selections, do you want to save other changes?")) {
-                if (required_action === "save_changes") {
+            if (confirm("You have changed the selections, continuing will display bikes for review matching new selections, do you want to save other changes?")) {
+                if (required_action === "process_actions") {
+                    document.getElementById("action_required").value = "process_actions_and_show_new_selection";
+                } else if (required_action === "save_changes") {
                     document.getElementById("action_required").value = "save_and_show_new_selection";
                 } else {
+                    // should only be here is next bike was the option
                     pageChanged = false;
                     document.getElementById("action_required").value = "startReview";
                 }
             } else {
                 frameBrandSelector.val(brand_selected_init);
-                document.getElementById("frame_name_selected").value = frame_name_selected_init;
-                document.getElementById("model_selected").value = model_selected_init;
+                $("#frame_name").val(frame_name_selected_init);
+                $("#model_name").val(model_selected_init);
             }
         }
+        performActionRequested();
     }
+
+}
+
+function performActionRequested() {
     if (checkForChanges()) {
+        // save the current selections
+        document.getElementById('frame_name_selected').value = $("#frame_name").val();
+        document.getElementById('model_selected').value = $("#model_name").val();
         pageChanged = false;
+
         document.forms["reviewBikes"].submit();
     }
 }
 
 
-function processSelectedBrand() {
-    var frameElement = document.getElementById("frame_name");
-    var brandSelectElement = document.getElementById("frame_brand");
-    var brand_id = brandSelectElement.options[brandSelectElement.selectedIndex].value;
-    var frameNameSelected = document.getElementById("frame_name_selected");
-    document.getElementById("frameDiv").style.visibility = "hidden";
-
-    frameElement.innerHTML = "";
-    var usedFrames = [];
-    var selectedFrameOption = 0;
-    if (brand_id) {
-        for (var i = 0; i < frames.length; i++) {
-            if (brand_id === frames[i].brand) {
-                var thisFrameName = frames[i].frameName;
-                if (usedFrames.indexOf(thisFrameName) < 0) {
-                    usedFrames.push(thisFrameName);
-
-                    var nameOpt = document.createElement("option");
-                    nameOpt.value = thisFrameName;
-                    nameOpt.text = thisFrameName;
-                    frameElement.add(nameOpt, null);
-                    if (frameNameSelected === thisFrameName) {
-                        selectedFrameOption = usedFrames.length;
-                    }
-                }
-            }
-        }
-        if (usedFrames.length > 0) {
-            var allOpt = document.createElement("option");
-            allOpt.value = "None";
-            allOpt.text = "--- Select Frame ---";
-            frameElement.add(allOpt, 0);
-            frameElement.selectedIndex = selectedFrameOption;
-            document.getElementById("frameDiv").style.visibility = "visible";
-            processSelectedFrame();
-        }
-    }
-}
-
-function processSelectedFrame() {
-
-    document.getElementById("reviewButton").setAttribute("disabled", "disabled");
-    document.getElementById("modelDiv").style.visibility = "hidden";
-
-    var frameSelectElement = document.getElementById("frame_name");
-    var frame_name = frameSelectElement.options[frameSelectElement.selectedIndex].value;
-    var modelElement = document.getElementById("model_name");
-    document.getElementById("frame_name_selected").value = frame_name;
-    var modelSelected = document.getElementById("model_selected").value;
-
-    modelElement.innerHTML = "";
-    var modelOptionSelected = 0;
-    var usedModels = [];
-    if (frame_name && (frame_name !== "None")) {
-        for (var i = 0; i < frames.length; i++) {
-            if (frame_name === frames[i].frameName) {
-                var thisModel = frames[i].frameId;
-                if (usedModels.indexOf(thisModel) < 0) {
-
-                    usedModels.push(thisModel);
-
-                    var nameOpt = document.createElement("option");
-                    nameOpt.value = thisModel;
-                    nameOpt.text = frames[i].model;
-                    modelElement.add(nameOpt, null);
-                    if (modelSelected === thisModel) {
-                        // selected index increment by 1 because will add All at the top
-                        modelOptionSelected = usedModels.length;
-                    }
-                }
-            }
-        }
-        if (usedModels.length > 0) {
-            var allOpt = document.createElement("option");
-            allOpt.value = "ALL";
-            allOpt.text = "Review all";
-            modelElement.add(allOpt, 0);
-            modelElement.selectedIndex = modelOptionSelected;
-            processSelectedModel();
-            document.getElementById("modelDiv").style.visibility = "visible";
-        }
-    }
-}
-
 function processSelectedModel() {
-    document.getElementById("reviewButton").removeAttribute("disabled");
-    var modelElement = document.getElementById("model_name");
-    document.getElementById("model_selected").value = modelElement.options[modelElement.selectedIndex].value;
 }
 
 function setColumnWidths() {
@@ -184,4 +135,44 @@ function setColumnWidths() {
             detailNodeList[i].style.paddingRight = "0px";
         }
     }
+}
+
+function clickArchive(quoteId) {
+    $("#setArchive" + quoteId).css("display", "none");
+    $("#resetArchive" + quoteId).css("display", "block");
+    $("#setEdit" + quoteId).css("display", "none");
+    $("#resetEdit" + quoteId).css("display", "none");
+
+    $("#archive" + quoteId).val("Y");
+    $("#edit" + quoteId).val("");
+}
+
+function clickArchiveOff(quoteId) {
+    $("#setArchive" + quoteId).css("display", "block");
+    $("#resetArchive" + quoteId).css("display", "none");
+    $("#setEdit" + quoteId).css("display", "block");
+    $("#resetEdit" + quoteId).css("display", "none");
+
+    $("#archive" + quoteId).val("");
+    $("#edit" + quoteId).val("");
+}
+
+function clickEdit(quoteId) {
+    $("#setArchive" + quoteId).css("display", "none");
+    $("#resetArchive" + quoteId).css("display", "none");
+    $("#setEdit" + quoteId).css("display", "none");
+    $("#resetEdit" + quoteId).css("display", "block");
+
+    $("#archive" + quoteId).val("");
+    $("#edit" + quoteId).val("Y");
+}
+
+function clickEditOff(quoteId) {
+    $("#setArchive" + quoteId).css("display", "block");
+    $("#resetArchive" + quoteId).css("display", "none");
+    $("#setEdit" + quoteId).css("display", "block");
+    $("#resetEdit" + quoteId).css("display", "none");
+
+    $("#archive" + quoteId).val("");
+    $("#edit" + quoteId).val("");
 }

@@ -13,7 +13,7 @@ from epic.models import Customer, ARCHIVED, INITIAL
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.frame_view_helper import process_upload, create_new_model, process_bike_review, show_bike_review, \
-    show_first_bike, show_next_bike
+    show_first_bike, show_next_bike, list_selected_bikes, process_bike_actions
 from epic.view_helpers.menu_view_helper import show_menu, add_standard_session_data_to_context
 from epic.view_helpers.note_view_helper import show_notes_popup
 from epic.view_helpers.quote_part_view_helper import save_quote_part, show_quote_part_popup
@@ -207,12 +207,22 @@ def bike_review(request):
 
         if action_required == 'startReview':
             return show_first_bike(request)
+        elif action_required == 'listModels':
+            return list_selected_bikes(request)
         elif action_required == "show_next":
             return show_next_bike(request)
         elif action_required == "save_and_show_new_selection":
             return process_bike_review(request, True)
-        else:
+        elif action_required == "save_changes":
             return process_bike_review(request, False)
+        elif action_required == "process_actions":
+            return process_bike_actions(request, False)
+        elif action_required == "process_actions_and_show_new_selection":
+            return process_bike_actions(request, True)
+
+        else:
+            messages.error(request, 'No action chosen. ')
+            return show_bike_review(request)
 
 
 @login_required

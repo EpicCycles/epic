@@ -13,37 +13,35 @@
         <input type="hidden" id="brand_selected_init" name="brand_selected_init" value="{{ frame_brand }}"/>
         <input type="hidden" id="action_required" name="action_required" value="start_review_default"/>
         <section style="width:100%">
-            <div class="three-quarters row">
-                <div class="field-label">
-                    <label for="frame_brand" class="field-label">Brand</label>
-                    <select id="frame_brand" name="frame_brand" onchange="processSelectedBrand()">
-                        <option></option>
-                        {% for brand in brands %}
-                            <option value="{{ brand.id }}">
-                                {{ brand }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div id="frameDiv" class="field-label">
-                    <label for="frame_name" class="field-label">Frame</label>
-                    <select id="frame_name" onchange="processSelectedFrame()">
-                    </select>
-                </div>
-                <div id="modelDiv" class="field-label">
-                    <label for="model_name" class="field-label">Model</label>
-                    <select id="model_name" onchange="processSelectedModel()">
-                    </select>
-                </div>
-            </div>
+            {% with "three-quarters row" as section_class %}
+                {% include "epic/frames/frame_select.html" %}
+            {% endwith %}
             <div>
                 <input type="button"
                        id="reviewButton"
                        value="Review Selected"
-                       onclick="setReviewAction('startReview')"
+                       onclick="checkAndStartReview()"
                        title="Review bikes selected"
                        class="button"/>
             </div>
+            <div>
+                <input type="button"
+                       id="listButton"
+                       value="List Selected"
+                       onclick="setReviewAction('listModels')"
+                       title="List bikes matching selection"
+                       class="button"/>
+            </div>
+            {% if frame_list %}
+                <div>
+                    <input type="button"
+                           id="listActionButton"
+                           value="Process list actions"
+                           onclick="setReviewAction('process_actions')"
+                           title="Process actions on listed bikes"
+                           class="button"/>
+                </div>
+            {% endif %}
         </section>
         {% if frame_sections %}
             <section class="flex-vertical">
@@ -119,24 +117,66 @@
                 </section>
             </section>
             <input type="hidden" id="frame_id" name="frame_id" value="{{ frame.id }}"/>
+        {% elif frame_list %}
+            <div>
+                <table>
+                    <tr id="bike_header">
+                        <th class="listHead">Brand</th>
+                        <th class="listHead">Frame</th>
+                        <th class="listHead">Model</th>
+                        <th class="listHead">Price £</th>
+                        <th class="listHead">Size(s)</th>
+                        <th class="listHead">Colour(s)</th>
+                        <th class="listHead">Actions</th>
+                    </tr>
+                </table>
+                <div style="height: 60%; width:auto; overflow: scroll;">
+                    <table>
+                        {% for frame in frame_list %}
+                            {% cycle 'row1' 'row2' as rowcolors silent %}
+                            <tr class="{{ rowcolors }}"
+                                    {% if forloop.first %}
+                                id="bike_row"
+                                    {% endif %}>
+                                <td>{{ frame.brand }}</td>
+                                <td>{{ frame.frame_name }}</td>
+                                <td>{{ frame.model }}</td>
+                                <td>{{ frame.sell_price }}</td>
+                                <td>{{ frame.sizes }}</td>
+                                <td>{{ frame.colour }}</td>
+                                <td>
+                                    <section class="row">
+                                        <div style="display: block" id="setArchive{{ frame.id }}"
+                                             onclick="clickArchive({{ frame.id }})"
+                                             title="Add frame to list to be archived"><i
+                                                class="material-icons red ">archive</i></div>
+                                        <div style="display: none" id="resetArchive{{ frame.id }}"
+                                             onclick="clickArchiveOff({{ frame.id }})"
+                                             title="Remove frame from list to be archived"><i
+                                                class="material-icons red ">unarchive</i>
+                                        </div>
+                                        <div style="display: block" id="setEdit{{ frame.id }}"
+                                             onclick="clickEdit({{ frame.id }})"
+                                             title="Add frame to list of frames to review"><i
+                                                class="material-icons red ">edit</i></div>
+                                        <div style="display: none" id="resetEdit{{ frame.id }}"
+                                             onclick="clickEditOff({{ frame.id }})"
+                                             title="Remove frame from list of frames to review"><i
+                                                class="material-icons red ">remove_circle_outline</i>
+                                        </div>
+                                        <input type="hidden" name="archive{{ frame.id }}" id="archive{{ frame.id }}"
+                                               value="">
+                                        <input type="hidden" name="edit{{ frame.id }}" id="edit{{ frame.id }}" value="">
+                                    </section>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+
         {% endif %}
-
-
     </form>
-    {% if frames_for_js %}
-
-        <script type="text/javascript">
-            //declare ops-variable in here and use it
-            let frames = [];
-            {% for frame in frames_for_js %}
-                frames.push({{ frame |safe }});
-            {% endfor %}
-
-            // copy these bits into static below once tested.
-
-        </script>
-
-    {% endif %}
     <script src="{% static 'js/frames/frame_review.js' %}"></script>
 
 {% endblock %}

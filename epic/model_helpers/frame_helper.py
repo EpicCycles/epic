@@ -10,7 +10,7 @@ def set_frames_for_js():
     print('{timestamp} -- building frames for js started'.format(timestamp=datetime.utcnow().isoformat()))
 
     frames_for_js = []
-    for frame in Frame.objects.all().prefetch_related('brand'):
+    for frame in Frame.objects.filter(archived=False).prefetch_related('brand'):
         frames_for_js.append('{' + frame.getJavascriptObject() + '}')
     cache.set('frames_for_js', frames_for_js)
     print('{timestamp} -- building frames for js finished'.format(timestamp=datetime.utcnow().isoformat()))

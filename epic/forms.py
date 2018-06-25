@@ -205,7 +205,7 @@ FittingFormSet = inlineformset_factory(Customer, Fitting, form=FittingForm, extr
 class FrameForm(ModelForm):
     class Meta:
         model = Frame
-        fields = '__all__'
+        fields = ('brand', 'frame_name', 'model', 'description', 'colour', 'sell_price', 'sizes', 'archived')
         labels = {'frame': _('Frame'), 'brand': _('Brand'), 'model': _('Model Name'),
                   'description': _('Model Description'), 'colour': _('Colour Options'),
                   'sell_price': _('Model Price (web) £'), 'sizes': _('Available Sizes')}

@@ -28,9 +28,7 @@ function startUp() {
 function copyFrameSelections() {
     document.getElementById('id_search_brand').value = $("#frame_brand").val();
     document.getElementById('id_search_frame').value = $("#frame_name").val();
-    ;
     document.getElementById('id_search_model').value = $("#model_name").val();
-    ;
 }
 
 function processSelectedModel() {

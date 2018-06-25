@@ -27,13 +27,21 @@ def show_bike_review(request):
     return render(request, "epic/frames/frame_review.html", add_standard_session_data(request, data))
 
 
+def list_selected_bikes(request):
+    data = base_data_for_review_bike(request)
+    bike_review_selections = get_frame_selections_from_screen(request)
+    data.update(bike_review_selections)
+    data.update(build_frame_list_for_review(request, bike_review_selections, True))
+    return render(request, "epic/frames/frame_review.html", add_standard_session_data(request, data))
+
+
 def show_first_bike(request):
     data = base_data_for_review_bike(request)
 
     bike_review_selections = get_frame_selections_from_screen(request)
     if bike_review_selections['frame_brand']:
         data.update(bike_review_selections)
-        data.update(build_frame_list_for_review(request, bike_review_selections))
+        data.update(build_frame_list_for_review(request, bike_review_selections, False))
         data.update(review_details_for_frame(data['frame_ids'][0]))
         return render(request, "epic/frames/frame_review.html", add_standard_session_data(request, data))
     else:
@@ -71,8 +79,38 @@ def update_frame_list_in_session(request, frame_id):
     frame_id_array = request.session.get('bike_reviews', [])
     if frame_id_array[0] == frame_id:
         frame_id_array.remove(frame_id)
-
+    request.session['bike_reviews'] = frame_id_array
     return frame_id_array
+
+
+def process_bike_actions(request, refresh_list):
+    data = base_data_for_review_bike(request)
+    data.update(get_frame_selections_from_screen(request))
+
+    frame_id_array = request.session.get('bike_reviews', [])
+    frame_id_array_review = []
+    refresh_frame_list = False
+
+    for frame_id in frame_id_array:
+        frame_id_archive = request.POST.get('archive' + str(frame_id), None)
+        frame_id_review = request.POST.get('edit' + str(frame_id), None)
+        if frame_id_archive:
+            Frame.objects.get(id=frame_id).archive()
+            refresh_frame_list = True
+        if frame_id_review:
+            frame_id_array_review.append(frame_id)
+    if refresh_frame_list:
+        set_frames_for_js()
+
+    if refresh_list:
+        return list_selected_bikes(request)
+    elif len(frame_id_array_review) > 0:
+        data['frame_ids'] = frame_id_array_review
+        request.session['bike_reviews'] = frame_id_array_review
+        data.update(review_details_for_frame(data['frame_ids'][0]))
+        return render(request, "epic/frames/frame_review.html", add_standard_session_data(request, data))
+    else:
+        return show_bike_review(request)
 
 
 def process_bike_review(request, refresh_list):
@@ -197,18 +235,27 @@ def get_frame_selections_from_screen(request):
     return selections
 
 
-def build_frame_list_for_review(request, bike_review_selections):
-    if bike_review_selections['model_selected'] == "ALL":
-        full_frame_list = Frame.objects.filter(brand=bike_review_selections['frame_brand'],
-                                               frame_name=bike_review_selections['frame_name_selected'])
+def build_frame_list_for_review(request, bike_review_selections, list_view):
+    if bike_review_selections['model_selected'] == "":
+        if bike_review_selections['frame_brand'] == "":
+            full_frame_list = Frame.objects.filter(archived=False)
+        elif bike_review_selections['frame_name_selected'] == "":
+            full_frame_list = Frame.objects.filter(brand=bike_review_selections['frame_brand'], archived=False)
+        else:
+            full_frame_list = Frame.objects.filter(brand=bike_review_selections['frame_brand'],
+                                                   frame_name=bike_review_selections['frame_name_selected'], archived=False)
     else:
         full_frame_list = {Frame.objects.get(pk=int(bike_review_selections['model_selected']))}
+
     frame_id_array = []
     for frame in full_frame_list:
         frame_id_array.append(frame.id)
 
     request.session['bike_reviews'] = frame_id_array
-    return {'frame_ids': frame_id_array}
+    if list_view:
+        return {'frame_ids': frame_id_array, 'frame_list': full_frame_list}
+    else:
+        return {'frame_ids': frame_id_array}
 
 
 def build_frame_elements(frame: Frame):

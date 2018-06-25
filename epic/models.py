@@ -400,14 +400,24 @@ class Frame(models.Model):
     colour = models.CharField(max_length=200, blank=True, null=True)
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     sizes = models.CharField(max_length=100, blank=True, null=True)
-
+    archived = models.BooleanField(default=False)
+    archived_date = models.DateTimeField(null=True, blank=True)
     objects = FrameManager()
 
     def getJavascriptObject(self):
         return f'brand:"{self.brand.id}",frameId:"{self.id}",frameName:"{self.frame_name}",model:"{self.model}",sellPrice:"{self.sell_price}"'
 
+    def archive(self):
+        self.archived = True
+        self.archived_date = timezone.now()
+
+        self.save()
+
     def __str__(self):
-        return f'{self.brand.brand_name}: {self.frame_name} {self.model}'
+        if self.archived:
+            return f'{self.brand.brand_name}: {self.frame_name} {self.model} (Archived {str(self.archived_date)})'
+        else:
+            return f'{self.brand.brand_name}: {self.frame_name} {self.model}'
 
     def save(self, *args, **kwargs):
         if self.frame_name is None or self.frame_name == '':
