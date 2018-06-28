@@ -44,6 +44,8 @@ class FrameModeltestCase(TestCase):
                                            sell_price=Decimal('2345.99'))
         self.frame2 = Frame.objects.create(brand=self.brand2, frame_name='Frame 2', model='Model 2',
                                            sell_price=Decimal('3345.99'))
+        self.frame3 = Frame.objects.create(brand=self.brand2, frame_name='Frame 2', model='Model 3',
+                                           sell_price=Decimal('3345.99'), archived=True)
         self.frame_part1 = FramePart.objects.create(frame=self.frame1, part=self.part1)
         self.frame_part2 = FramePart.objects.create(frame=self.frame1, part=self.part2)
         self.frame_exclusion1 = FrameExclusion.objects.create(frame=self.frame1, partType=self.part_type1)
@@ -291,8 +293,9 @@ class FrameModeltestCase(TestCase):
         self.assertEqual(test_frame.colour, 'New colous')
         self.assertEqual(test_frame.sell_price, Decimal('1234.56'))
         self.assertEqual(test_frame.sizes, 'Range of sizes')
+        self.assertEqual(test_frame.archived, False)
 
-    def test_frame_update_values1(self):
+    def test_frame_update_values_no_change(self):
         check_id = self.frame1.id
         old_brand = self.frame1.brand
         old_frame_name = self.frame1.frame_name
@@ -301,6 +304,8 @@ class FrameModeltestCase(TestCase):
         old_colour = self.frame1.colour
         old_sell_price = self.frame1.sell_price
         old_sizes = self.frame1.sizes
+        old_archived = self.frame1.archived
+        old_archived_date = self.frame1.archived_date
 
         test_frame = Frame.objects.get(id=check_id)
         test_frame.save()
@@ -312,8 +317,10 @@ class FrameModeltestCase(TestCase):
         self.assertEqual(old_colour, test_updated_frame.colour)
         self.assertEqual(old_sell_price, test_updated_frame.sell_price)
         self.assertEqual(old_sizes, test_updated_frame.sizes)
+        self.assertEqual(old_archived, test_updated_frame.archived)
+        self.assertEqual(old_archived_date, test_updated_frame.archived_date)
 
-    def test_frame_update_values2(self):
+    def test_frame_update_values_change_brand(self):
         check_id = self.frame1.id
         old_brand = self.frame1.brand
         old_frame_name = self.frame1.frame_name
@@ -336,7 +343,7 @@ class FrameModeltestCase(TestCase):
         self.assertEqual(old_sell_price, test_updated_frame.sell_price)
         self.assertEqual(old_sizes, test_updated_frame.sizes)
 
-    def test_frame_update_values3(self):
+    def test_frame_update_values_frame_name(self):
         check_id = self.frame1.id
         old_brand = self.frame1.brand
         old_frame_name = self.frame1.frame_name
@@ -359,7 +366,7 @@ class FrameModeltestCase(TestCase):
         self.assertEqual(old_sell_price, test_updated_frame.sell_price)
         self.assertEqual(old_sizes, test_updated_frame.sizes)
 
-    def test_frame_update_values4(self):
+    def test_frame_update_values_model(self):
         check_id = self.frame1.id
         old_brand = self.frame1.brand
         old_frame_name = self.frame1.frame_name
@@ -382,7 +389,7 @@ class FrameModeltestCase(TestCase):
         self.assertEqual(old_sell_price, test_updated_frame.sell_price)
         self.assertEqual(old_sizes, test_updated_frame.sizes)
 
-    def test_frame_update_values5(self):
+    def test_frame_update_values_description(self):
         check_id = self.frame1.id
         old_brand = self.frame1.brand
         old_frame_name = self.frame1.frame_name
@@ -405,7 +412,7 @@ class FrameModeltestCase(TestCase):
         self.assertEqual(old_sell_price, test_updated_frame.sell_price)
         self.assertEqual(old_sizes, test_updated_frame.sizes)
 
-    def test_frame_update_values6(self):
+    def test_frame_update_values_colour(self):
         check_id = self.frame1.id
         old_brand = self.frame1.brand
         old_frame_name = self.frame1.frame_name
@@ -428,7 +435,7 @@ class FrameModeltestCase(TestCase):
         self.assertEqual(old_sell_price, test_updated_frame.sell_price)
         self.assertEqual(old_sizes, test_updated_frame.sizes)
 
-    def test_frame_update_values7(self):
+    def test_frame_update_values_sell_price(self):
         check_id = self.frame1.id
         old_brand = self.frame1.brand
         old_frame_name = self.frame1.frame_name
@@ -451,7 +458,7 @@ class FrameModeltestCase(TestCase):
         self.assertEqual(Decimal('999.99'), test_updated_frame.sell_price)
         self.assertEqual(old_sizes, test_updated_frame.sizes)
 
-    def test_frame_update_values8(self):
+    def test_frame_update_values_sizes(self):
         check_id = self.frame1.id
         old_brand = self.frame1.brand
         old_frame_name = self.frame1.frame_name
@@ -473,10 +480,94 @@ class FrameModeltestCase(TestCase):
         self.assertEqual(old_sell_price, test_updated_frame.sell_price)
         self.assertNotEqual(old_sizes, test_updated_frame.sizes)
         self.assertEqual('New Size Values', test_updated_frame.sizes)
+    def test_frame_update_values_set_archived(self):
+        check_id = self.frame1.id
+        old_brand = self.frame1.brand
+        old_frame_name = self.frame1.frame_name
+        old_model = self.frame1.model
+        old_description = self.frame1.description
+        old_colour = self.frame1.colour
+        old_sell_price = self.frame1.sell_price
+        old_sizes = self.frame1.sizes
+        old_archived = self.frame1.archived
+        old_archived_date = self.frame1.archived_date
+
+        test_frame = Frame.objects.get(id=check_id)
+        test_frame.archived = True
+        test_frame.save()
+        test_updated_frame = Frame.objects.get(id=check_id)
+        self.assertEqual(old_brand, test_updated_frame.brand)
+        self.assertEqual(old_frame_name, test_updated_frame.frame_name)
+        self.assertEqual(old_model, test_updated_frame.model)
+        self.assertEqual(old_description, test_updated_frame.description)
+        self.assertEqual(old_colour, test_updated_frame.colour)
+        self.assertEqual(old_sell_price, test_updated_frame.sell_price)
+        self.assertEqual(old_sizes, test_updated_frame.sizes)
+        self.assertNotEqual(old_archived, test_updated_frame.archived)
+        self.assertEqual(True, test_updated_frame.archived)
+        self.assertNotEqual(old_archived_date, test_updated_frame.archived_date)
+        self.assertNotEqual(None, test_updated_frame.archived_date)
+    def test_frame_update_values_set_archived_already(self):
+        check_id = self.frame3.id
+        old_brand = self.frame3.brand
+        old_frame_name = self.frame3.frame_name
+        old_model = self.frame3.model
+        old_description = self.frame3.description
+        old_colour = self.frame3.colour
+        old_sell_price = self.frame3.sell_price
+        old_sizes = self.frame3.sizes
+        old_archived = self.frame3.archived
+        old_archived_date = self.frame3.archived_date
+
+        test_frame = Frame.objects.get(id=check_id)
+        test_frame.archived = True
+        test_frame.save()
+        test_updated_frame = Frame.objects.get(id=check_id)
+        self.assertEqual(old_brand, test_updated_frame.brand)
+        self.assertEqual(old_frame_name, test_updated_frame.frame_name)
+        self.assertEqual(old_model, test_updated_frame.model)
+        self.assertEqual(old_description, test_updated_frame.description)
+        self.assertEqual(old_colour, test_updated_frame.colour)
+        self.assertEqual(old_sell_price, test_updated_frame.sell_price)
+        self.assertEqual(old_sizes, test_updated_frame.sizes)
+        self.assertEqual(old_archived, test_updated_frame.archived)
+        self.assertEqual(True, test_updated_frame.archived)
+        self.assertEqual(old_archived_date, test_updated_frame.archived_date)
+        self.assertNotEqual(None, test_updated_frame.archived_date)
+    def test_frame_update_values_set_archived_off(self):
+        check_id = self.frame3.id
+        old_brand = self.frame3.brand
+        old_frame_name = self.frame3.frame_name
+        old_model = self.frame3.model
+        old_description = self.frame3.description
+        old_colour = self.frame3.colour
+        old_sell_price = self.frame3.sell_price
+        old_sizes = self.frame3.sizes
+        old_archived = self.frame3.archived
+        old_archived_date = self.frame3.archived_date
+
+        test_frame = Frame.objects.get(id=check_id)
+        test_frame.archived = False
+        test_frame.save()
+        test_updated_frame = Frame.objects.get(id=check_id)
+        self.assertEqual(old_brand, test_updated_frame.brand)
+        self.assertEqual(old_frame_name, test_updated_frame.frame_name)
+        self.assertEqual(old_model, test_updated_frame.model)
+        self.assertEqual(old_description, test_updated_frame.description)
+        self.assertEqual(old_colour, test_updated_frame.colour)
+        self.assertEqual(old_sell_price, test_updated_frame.sell_price)
+        self.assertEqual(old_sizes, test_updated_frame.sizes)
+        self.assertNotEqual(old_archived, test_updated_frame.archived)
+        self.assertEqual(False, test_updated_frame.archived)
+        self.assertNotEqual(old_archived_date, test_updated_frame.archived_date)
+        self.assertEqual(None, test_updated_frame.archived_date)
+
 
     def test_frame_string(self):
         expected = f'{self.frame1.brand.brand_name}: {self.frame1.frame_name} {self.frame1.model}'
         self.assertEqual(expected, str(self.frame1))
+        self.assertTrue(str(self.frame3).find('Archived'))
+        self.assertTrue(str(self.frame3).find(str(self.frame3.archived_date)))
 
     def test_frame_part_string(self):
         expected = f'{self.frame_part1.part.partType.shortName}: {str(self.frame_part1.part.brand)} {self.frame_part1.part.part_name}'

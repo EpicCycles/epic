@@ -192,9 +192,9 @@ class FittingForm(ModelForm):
         reach = cleaned_data.get("reach")
 
         # no fieldsare required but if any are present all must be
-        if ((fitting_type != '') or (saddle_height != '') or (bar_height != '') or (reach != '')) and not (
-                fitting_type and saddle_height and bar_height and reach):
-            raise forms.ValidationError("All measures must be entered to save a fitting.")
+        if ((fitting_type != '') or (saddle_height != '') or (bar_height != '') or (reach != '')):
+            if not (fitting_type and saddle_height and bar_height and reach):
+                raise forms.ValidationError("All measures must be entered to save a fitting.")
 
 
 AddressFormSet = inlineformset_factory(Customer, CustomerAddress, form=AddressForm, extra=1)

@@ -30,6 +30,8 @@ class FrameFormTestCase(TestCase):
                                            sell_price=Decimal('2345.99'))
         self.frame2 = Frame.objects.create(brand=self.brand2, frame_name='Frame 2', model='Model 2',
                                            sell_price=Decimal('3345.99'))
+        self.frame3 = Frame.objects.create(brand=self.brand2, frame_name='Frame 2', model='Model 3',
+                                           sell_price=Decimal('3345.99'), archived=True)
         self.frame_part1 = FramePart.objects.create(frame=self.frame1, part=self.part1)
         self.frame_part2 = FramePart.objects.create(frame=self.frame1, part=self.part2)
         self.frame_part3 = FramePart.objects.create(frame=self.frame1, part=self.part3)
@@ -66,7 +68,8 @@ class FrameFormTestCase(TestCase):
             'model': 'new model name',
             'description': 'new description',
             'colour': 'red',
-            'sizes': '53, 56'
+            'sizes': '53, 56',
+            'archived': ''
         }, instance=self.frame1)
         self.assertTrue(form.is_valid())
         self.assertEqual(form.errors, {})
@@ -77,3 +80,49 @@ class FrameFormTestCase(TestCase):
         self.assertEqual(new_frame.description, 'new description')
         self.assertEqual(new_frame.colour, 'red')
         self.assertEqual(new_frame.sizes, '53, 56')
+        self.assertEqual(new_frame.archived, False)
+        self.assertEqual(new_frame.archived_date, None)
+
+    def test_frame_form_set_archived(self):
+        form = FrameForm({
+            'frame_name': self.frame1.frame_name,
+            'brand': self.frame1.brand.id,
+            'model': self.frame1.model,
+            'description': self.frame1.description,
+            'colour': self.frame1.colour,
+            'sizes': self.frame1.sizes,
+            'archived': True
+        }, instance=self.frame1)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.errors, {})
+        new_frame = form.save()
+        self.assertEqual(new_frame.frame_name, self.frame1.frame_name)
+        self.assertEqual(new_frame.brand, self.frame1.brand)
+        self.assertEqual(new_frame.model, self.frame1.model)
+        self.assertEqual(new_frame.description, self.frame1.description)
+        self.assertEqual(new_frame.colour, self.frame1.colour)
+        self.assertEqual(new_frame.sizes, self.frame1.sizes )
+        self.assertEqual(new_frame.archived, True)
+        self.assertNotEqual(new_frame.archived_date, None)
+
+    def test_frame_form_set_archived(self):
+        form = FrameForm({
+            'frame_name': self.frame3.frame_name,
+            'brand': self.frame3.brand.id,
+            'model': self.frame3.model,
+            'description': self.frame3.description,
+            'colour': self.frame3.colour,
+            'sizes': self.frame3.sizes,
+            'archived': ''
+        }, instance=self.frame3)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.errors, {})
+        new_frame = form.save()
+        self.assertEqual(new_frame.frame_name, self.frame3.frame_name)
+        self.assertEqual(new_frame.brand, self.frame3.brand)
+        self.assertEqual(new_frame.model, self.frame3.model)
+        self.assertEqual(new_frame.description, self.frame3.description)
+        self.assertEqual(new_frame.colour, self.frame3.colour)
+        self.assertEqual(new_frame.sizes, self.frame3.sizes )
+        self.assertEqual(new_frame.archived, False)
+        self.assertEqual(new_frame.archived_date, None)
