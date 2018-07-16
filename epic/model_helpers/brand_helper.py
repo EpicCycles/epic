@@ -5,10 +5,19 @@ from epic.models import Brand
 
 
 def find_brand_for_string(search_string, brand_list, default_brand, request):
+    found_brand = None
     for brand in brand_list:
         check_prefix = str(brand.brand_name).lower()
         if search_string.lower().startswith(check_prefix):
-            return brand
+            if found_brand:
+                if len(search_string) > len(found_brand.brand_name):
+                    found_brand = brand
+            else:
+                found_brand = brand
+
+    if found_brand:
+        return found_brand
+
     return default_brand
 
 

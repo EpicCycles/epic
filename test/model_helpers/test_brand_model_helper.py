@@ -8,6 +8,7 @@ class AttributesTestCase(TestCase):
 
     def setUp(self):
         self.brand_one_word = Brand.objects.create(brand_name='Piglet')
+        self.brand_starts_same = Brand.objects.create(brand_name='Piglet bland')
         self.brand_multiple_word = Brand.objects.create(brand_name='Hen and Chicks')
         self.requestFactory = RequestFactory()
 
@@ -32,6 +33,12 @@ class AttributesTestCase(TestCase):
         self.assertEqual(find_brand_for_string('Piglet part detail', brand_list, None, None), self.brand_one_word)
         self.assertEqual(find_brand_for_string('PIGLET part detail', brand_list, None, None), self.brand_one_word)
         self.assertEqual(find_brand_for_string('piglet part detail', brand_list, None, None), self.brand_one_word)
+
+    def test_find_brand_for_string_found_starts_same(self):
+        brand_list = Brand.objects.all()
+        self.assertEqual(find_brand_for_string('Piglet bland detail', brand_list, None, None), self.brand_starts_same)
+        self.assertEqual(find_brand_for_string('PIGLET Bland detail', brand_list, None, None), self.brand_starts_same)
+        self.assertEqual(find_brand_for_string('piglet BLAND detail', brand_list, None, None), self.brand_starts_same)
 
     def test_find_brand_for_string_found_multiple_words(self):
         brand_list = Brand.objects.all()
