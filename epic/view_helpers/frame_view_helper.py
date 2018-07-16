@@ -393,7 +393,7 @@ def process_upload(request):
                             if len(frame_colour) > 0:
                                 frames[j].colour = frame_colour
                                 frames[j].save()
-                # if this is a colour
+                # if this is a description
                 elif attribute_name == 'Description':
                     for j in range(0, column_loop_max):
                         # ignore the first column - already used
@@ -402,6 +402,16 @@ def process_upload(request):
 
                             if len(frame_description) > 0:
                                 frames[j].description = frame_description
+                                frames[j].save()
+                # if this is a size
+                elif attribute_name == 'Sizes':
+                    for j in range(0, column_loop_max):
+                        # ignore the first column - already used
+                        if j > 0:
+                            frame_sizes = str(attributes[j]).strip()
+
+                            if len(frame_sizes) > 0:
+                                frames[j].sizes = frame_sizes
                                 frames[j].save()
                 # if this is a price
                 elif attribute_name == 'Price':
@@ -443,6 +453,8 @@ def process_upload(request):
                                             brand_name_length = len(part_brand.brand_name)
                                             part_name = part_name[brand_name_length:]
                                         part_name = part_name.strip()
+                                        if len(part_name) == 0:
+                                            part_name = partType.shortName
 
                                         # now look to see if Part exists, if not add it
                                         part = find_or_create_part(part_brand, partType, part_name)
