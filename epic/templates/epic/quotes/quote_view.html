@@ -1,6 +1,6 @@
-<div>{{ quote.customer }}</div>
+<div class="one-quarter">{{ quote.customer }}</div>
 {% if quote.is_bike %}
-    <div>
+    <div class="one-quarter">
         <h4>Bike details</h4>
         <p>
             <strong>Bike: </strong>{{ quote.frame }}<br>
@@ -14,7 +14,7 @@
         {% endif %}
     </div>
 {% endif %}
-<section class="{{ view_class }}">
+<section class="{{ view_class }} one-half">
     <div>
         <h4>Quote Detail</h4>
         <table>

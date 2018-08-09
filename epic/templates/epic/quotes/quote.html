@@ -13,6 +13,21 @@
                     <div>
                         {% if quote %}
                             <p><strong>{{ quote.customer }}</strong></p>
+                            {% if quote.is_bike %}
+                                <p><strong>{{ quote.frame }}</strong></p>
+                                {% if quote.frame.description %}
+                                    <p>{{ quote.frame.description }}</p>
+                                {% endif %}
+                                {% if quote.frame.colour %}
+                                    <p><strong>Available Colours: </strong>{{ quote.frame.colour }}</p>
+                                {% endif %}
+                                {% if quote.frame.sizes %}
+                                    <p><strong>Available Sizes: </strong>{{ quote.frame.sizes }}</p>
+                                {% endif %}
+                                {% if quote.frame.archived %}
+                                    <p class="red"><strong>Archived: </strong>{{ quote.frame.archived_date }}</p>
+                                {% endif %}
+                            {% endif %}
                         {% else %}
                             <h3>Customer</h3>
                             {% if customer %}
@@ -53,7 +68,7 @@
                     </div>
 
                     {% if quote and quote.is_bike %}
-                        <div>
+                        <div >
                             <h4>Fitting Details</h4>
                             {% if customerFittings %}
                                 <select name='id_fitting' id='id_fitting' title="select existing fitting to use">
@@ -80,7 +95,6 @@
                 {% if bike_summary %}
                     <div id="bike_summary">
                         <h3>Bike Summary</h3>
-                        <p><strong>{{ quote.frame }}</strong></p>
                         {% for line in bike_summary %}
                             <span id="bike_{{ forloop.counter }}" class="red">{{ line }}</span><br/>
                         {% endfor %}
@@ -148,27 +162,30 @@
         </section>
         {% include "epic/common/form_standard_actions.html" %}
         {% if quote %}
-            <a href="{% url 'quote_issue' pk=quote.pk %}"  {% if quote.can_be_issued %} class="button"{% else %}
-               class="button disabled" onclick="return false;" {% endif %}>Issue Quote</a>
-            <a href="{% url 'copy_quote' pk=quote.pk %}" class="button" title="Create a new quote based on this one.">Copy
-                to New
-                Quote</a>
-            {% if quote.frame %}
-                <input type="button" onclick="popupDetail('{% url 'bike_select_popup' %}','Select Bike')" class="button"
-                       value="Copy with Alternate Bike"
-                       title="Select new bike from popup and create quote with that bike instead of current bike."/>
+            {% if quote.can_be_issued %}
+                <a href="{% url 'quote_issue' pk=quote.pk %}" title="View summary and Issue quote">
+                    <i class="material-icons red ">publish</i></a>
             {% endif %}
-
+            <a href="{% url 'copy_quote' pk=quote.pk %}" title="copy to new quote for same customer">
+                <i class="material-icons red ">file_copy</i></a>
+            {% if quote.is_bike %}
+                <a onclick="copyWithNewBikeOrCustomer('{% url 'bike_select_popup' %}',{{ quote.pk }})"
+                     title="Select new bike from popup and create quote with that bike instead of current bike.">
+                    <i class="material-icons red ">directions_bike</i></a>
+                <a onclick="copyWithNewBikeOrCustomer('{% url 'select_customer' %}',{{ quote.pk }})"
+                     title="Select new customer from popup and create quote for that customer with this quote as start.">
+                    <i class="material-icons red ">account_box</i></a>
+            {% endif %}
         {% else %}
             <script src="{% static 'js/quotes/quote_initial.js' %}"></script>
         {% endif %}
     </form>
     {% include "epic/notes/notes_display.html" %}
-    {% include "epic/quotes/quote_copy_new_bike.html" %}
-    <script src="{% static 'js/quotes/quote_copy_action.js' %}"></script>
 
-    <!-- pop up specific script -->
+    <!-- hidden form for creating a new quote -->
+    {% include "epic/quotes/quote_copy_with_changes.html" %}
+
+    <!-- quote javascript plus quote button actions for copy with new customer or bike -->
     <script src="{% static 'js/quotes/quote.js' %}"></script>
-
-
+    <script src="{% static 'js/quotes/quote_buttons.js' %}"></script>
 {% endblock %}

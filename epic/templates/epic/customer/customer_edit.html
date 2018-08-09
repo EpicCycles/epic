@@ -107,13 +107,13 @@
                                 <tr>
                                     <th class="listHead">Name</th>
                                     <th class="listHead">Value</th>
-                                    <th class="listHead" colspan="3">Actions</th>
+                                    <th class="listHead" colspan="5">Actions</th>
                                 </tr>
                                 {% for quote in existing_quotes %}
                                     <tr>
                                         <td>{{ quote }}</td>
                                         <td>{{ quote.keyed_sell_price }}</td>
-                                        {% include "epic/quotes/quote_list_buttons.html" %}
+                                        {% include "epic/quotes/quote_buttons.html" %}
                                     </tr>
                                 {% endfor %}
                             </table>
@@ -125,6 +125,8 @@
         </form>
         <script src="{% static 'js/customer/customer_edit.js' %}"></script>
         <script src="{% static 'js/quotes/quote_initial.js' %}"></script>
+        <script src="{% static 'js/quotes/quote_buttons.js' %}"></script>
+        {% include "epic/quotes/quote_copy_with_changes.html" %}
     </div>
 
 {% endblock %}

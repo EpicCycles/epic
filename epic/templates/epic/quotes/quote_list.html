@@ -22,7 +22,7 @@
                 <th class="listHead">Date Created</th>
                 <th class="listHead">Total (&pound;)</th>
                 <th class="listHead">Owner</th>
-                <th class="listHead" colspan="3">Actions</th>
+                <th class="listHead" colspan="5">Actions</th>
             </tr>
             {% for quote in quote_list %}
                 {% cycle 'row1' 'row2' as rowcolors silent %}
@@ -34,7 +34,7 @@
                     <td>{{ quote.created_date }}</td>
                     <td>{{ quote.keyed_sell_price }}</td>
                     <td>{{ quote.created_by }}</td>
-                    {% include "epic/quotes/quote_list_buttons.html" %}
+                    {% include "epic/quotes/quote_buttons.html" %}
                 </tr>
             {% endfor %}
         </table>
@@ -45,5 +45,7 @@
     {% endif %}
     <a href="{% url 'add_quote' %}" class="button">Create New Quote</a>
     <script src="{% static 'js/quotes/quote_list.js' %}"></script>
+    <script src="{% static 'js/quotes/quote_buttons.js' %}"></script>
+    {% include "epic/quotes/quote_copy_with_changes.html" %}
 
 {% endblock %}

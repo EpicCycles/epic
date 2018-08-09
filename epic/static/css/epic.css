@@ -92,6 +92,19 @@ a.internal_link, a.internal_link:visited, a.internal_link:active {
     margin-left: 10px;
 }
 
+.one-fifth {
+    width: 20%;
+}
+.one-quarter {
+    width: 25%;
+}
+.one-third {
+    width: 33%;
+}
+.one-half {
+    width: 50%;
+}
+
 h1, h2, h3, h4 {
     color: #c82011;
     font-family: Lato, Arial, Helvetica, sans-serif;
@@ -128,6 +141,22 @@ section {
 section.flex-vertical {
     display: flex;
     flex-direction: column;
+}
+
+div:nth-last-child(5):first-child ~ div{
+	max-width: 20%
+}
+
+div:nth-last-child(4):first-child ~ div{
+	max-width: 25%
+}
+
+div:nth-last-child(3):first-child ~ div{
+	max-width: 33%
+}
+
+div:nth-last-child(2):first-child ~ div{
+	max-width: 50%
 }
 
 div.field-label {

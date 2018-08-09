@@ -300,17 +300,11 @@ def copy_quote(request, pk):
         return copy_quote_and_display(request, pk, None, None)
 
 
-def quote_change_frame(request):
+
+def quote_copy_with_changes(request):
     if request.method == "POST":
-        new_frame_id = request.POST.get('new_frame_id', '')
         copy_quote_id = request.POST.get('copy_quote_id', '')
 
-        if (new_frame_id != '') and (copy_quote_id != ''):
-            return copy_quote_and_display(request, copy_quote_id, new_frame_id, None)
-
-
-def quote_copy_bike(request, pk):
-    if request.method == "POST":
         new_customer_id = request.POST.get('new_customer_id')
         if new_customer_id and new_customer_id == '':
             new_customer_id = None
@@ -319,7 +313,7 @@ def quote_copy_bike(request, pk):
         if new_frame_id and new_frame_id == '':
             new_frame_id = None
 
-        return copy_quote_and_display(request, pk, new_frame_id, new_customer_id)
+        return copy_quote_and_display(request, copy_quote_id, new_frame_id, new_customer_id)
 
 
 # re-open and issued quote
