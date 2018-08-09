@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^accounts/login/$', views.login, name='login'),
     url(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
     url(r'', include('epic.urls')),
+    url(r'', include('epic-client.urls')),
 ]
 if settings.DEBUG:
     urlpatterns = debugUrls.get_debug_urls() + urlpatterns

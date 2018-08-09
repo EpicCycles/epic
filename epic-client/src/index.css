@@ -1,10 +1,19 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
     font-family: Lato, Arial, Helvetica, sans-serif;
     font-size: 10pt;
     letter-spacing: 0;
 }
+
+tr:nth-child(even) {background: #CCC}
+tr:nth-child(odd) {background: #FFF}
 
 th {
     padding: 5px;
@@ -92,19 +101,6 @@ a.internal_link, a.internal_link:visited, a.internal_link:active {
     margin-left: 10px;
 }
 
-.one-fifth {
-    width: 20%;
-}
-.one-quarter {
-    width: 25%;
-}
-.one-third {
-    width: 33%;
-}
-.one-half {
-    width: 50%;
-}
-
 h1, h2, h3, h4 {
     color: #c82011;
     font-family: Lato, Arial, Helvetica, sans-serif;
@@ -141,22 +137,6 @@ section {
 section.flex-vertical {
     display: flex;
     flex-direction: column;
-}
-
-div:nth-last-child(5):first-child ~ div{
-	max-width: 20%
-}
-
-div:nth-last-child(4):first-child ~ div{
-	max-width: 25%
-}
-
-div:nth-last-child(3):first-child ~ div{
-	max-width: 33%
-}
-
-div:nth-last-child(2):first-child ~ div{
-	max-width: 50%
 }
 
 div.field-label {
@@ -209,6 +189,7 @@ fieldset {
 
     font-family: inherit;
     font-size: 90%;
+    color: black;
 
     box-sizing: border-box;
 }
@@ -273,11 +254,11 @@ input:disabled {
 }
 
 div.error {
-    background-color: #c82011;
+    background-color: rgba(200, 32, 17, 0.15);
 }
 
 td.error {
-    background-color: #c82011;
+    background-color: rgba(200, 32, 17, 0.15);
 }
 
 .errorlist {
@@ -376,7 +357,7 @@ fieldset {
     background-color: inherit;
 }
 
-/* drop down navigation */
+/* menu navigation */
 .nav, .dropbtn, .dropdown, a.dropbtn:hover, a.dropbtn:visited, a.dropbtn:focus, a.dropbtn:active {
     background-color: #c82011;
 }

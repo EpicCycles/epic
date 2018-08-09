@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoteCreate tests renders the form text correctly with no note 1`] = `
+<div>
+  <div
+    className="ui toggle checkbox"
+  >
+    <input
+      checked={false}
+      name="customer_visible"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label>
+      Visible to Customer
+    </label>
+  </div>
+  <div
+    className="row"
+  >
+    <FormTextAreaInput
+      className="column full"
+      id="note_text"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="Add Note here"
+      value=""
+    />
+  </div>
+</div>
+`;
+
+exports[`NoteCreate tests renders the form text correctly with note 1`] = `
+<div>
+  <div
+    className="ui toggle checkbox"
+  >
+    <input
+      checked={true}
+      name="customer_visible"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label>
+      Visible to Customer
+    </label>
+  </div>
+  <div
+    className="row"
+  >
+    <FormTextAreaInput
+      className="column full"
+      id="note_text"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="Add Note here"
+      value="note text here"
+    />
+  </div>
+  <div
+    className="row align_right"
+  >
+    <Icon
+      as="i"
+      id="reset-note"
+      name="undo"
+      onClick={[Function]}
+      title="Reset Note details"
+    />
+    <Icon
+      as="i"
+      id="accept-note"
+      name="check"
+      onClick={[Function]}
+      title="Confirm Note Change"
+    />
+    <Icon
+      as="i"
+      id="delete-note"
+      name="delete"
+      onClick={[Function]}
+      title="Delete Note"
+    />
+  </div>
+</div>
+`;
+
+exports[`NoteCreate tests renders the form text correctly with note and error 1`] = `
+<div>
+  <ErrorDismissibleBlock
+    error="Error with note"
+  />
+  <div
+    className="ui toggle checkbox"
+  >
+    <input
+      checked={true}
+      name="customer_visible"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label>
+      Visible to Customer
+    </label>
+  </div>
+  <div
+    className="row"
+  >
+    <FormTextAreaInput
+      className="column full"
+      id="note_text"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="Add Note here"
+      value="note text here"
+    />
+  </div>
+  <div
+    className="row align_right"
+  >
+    <Icon
+      as="i"
+      id="reset-note"
+      name="undo"
+      onClick={[Function]}
+      title="Reset Note details"
+    />
+    <Icon
+      as="i"
+      id="accept-note"
+      name="check"
+      onClick={[Function]}
+      title="Confirm Note Change"
+    />
+    <Icon
+      as="i"
+      id="delete-note"
+      name="delete"
+      onClick={[Function]}
+      title="Delete Note"
+    />
+  </div>
+</div>
+`;

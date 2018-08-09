@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomerList.index tests renders the CustomerList correctly 1`] = `
+<div
+  id="customer-list"
+>
+  <form
+    onSubmit={[Function]}
+  >
+    <h1>
+      Find Customer
+    </h1>
+    <label
+      className="search-heading"
+      htmlFor="search-input"
+      id="search-input-label"
+    >
+      Please enter your search criteria.
+    </label>
+    <div
+      className="row"
+    >
+      <FormTextInput
+        className="column full"
+        id="first-name-input"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="First Name"
+        value=""
+      />
+    </div>
+    <div
+      className="row"
+    >
+      <FormTextInput
+        className="column full"
+        id="last-name-input"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="Last Name"
+        value=""
+      />
+    </div>
+    <p>
+      <Button
+        as="button"
+        disabled={false}
+        role="button"
+        type="submit"
+      >
+        Get Customers
+      </Button>
+    </p>
+  </form>
+  <p>
+    Set criteria and search.
+  </p>
+</div>
+`;

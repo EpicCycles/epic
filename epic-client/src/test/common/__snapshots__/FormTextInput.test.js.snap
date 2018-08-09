@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormTextInput tests renders an error when present 1`] = `
+<div
+  className="undefined error"
+  id="5678"
+>
+  <label>
+    Test
+  </label>
+  <input
+    autoComplete="off"
+    onChange={[Function]}
+    placeholder="Please enter your loyalty number"
+    type="text"
+    value=""
+  />
+  <div
+    className="error-message error"
+    id="error-message"
+  >
+    Incorrect loyalty number
+  </div>
+</div>
+`;
+
+exports[`FormTextInput tests renders the form text input correctly 1`] = `
+<div
+  className="undefined"
+  id="1234"
+>
+  <label>
+    Test
+  </label>
+  <input
+    autoComplete="off"
+    onChange={[Function]}
+    placeholder="Please enter your loyalty number"
+    type="text"
+    value=""
+  />
+</div>
+`;

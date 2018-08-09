@@ -1,9 +1,11 @@
 from django.conf.urls import url
+from django.urls import path
+from epic.views import LoginAPI
 
 from . import views
 
 # good explanation of patterns here https://tutorial.djangogirls.org/en/extend_your_application/
-urlpatterns = [url(r'^$', views.menu_home, name='menu_home'),
+urlpatterns = [url(r'^menu', views.menu_home, name='menu_home'),
                url(r'^customers/$', views.CustomerList.as_view(), name='customer_list'),  # html name in view
                url(r'^addCustomer/$', views.add_customer, name='add_customer'),
                url(r'^editCustomer/(?P<pk>\d+)/$', views.edit_customer, name='edit_customer'),
@@ -28,4 +30,11 @@ urlpatterns = [url(r'^$', views.menu_home, name='menu_home'),
                url(r'^add_brand/$', views.add_brand, name='add_brand'),
                url(r'^add_customer_simple/$', views.add_customer_simple, name='add_customer_simple'),
                url(r'^create_model/$', views.create_model, name='create_model'),
-               url(r'^bike_select_popup/$', views.bike_select_popup, name='bike_select_popup'), ]
+               url(r'^bike_select_popup/$', views.bike_select_popup, name='bike_select_popup'),
+               path('api/login/', LoginAPI.as_view()),
+               path('api/part/', views.PartListCreate.as_view() ),
+               path('api/customer/', views.CustomerListCreate.as_view() ),
+               path('api/customernote/', views.CustomerNoteListCreate.as_view() ),
+               path('api/customer/<int:pk>', views.CustomerEdit ),
+               path('api/customernote/<int:pk>', views.CustomerNoteEdit ),
+               ]

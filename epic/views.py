@@ -1,4 +1,8 @@
 # import the logging library and the messages
+from rest_framework import generics, status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from django.contrib.auth import logout
 # security bits
 from django.contrib.auth.decorators import login_required
@@ -6,10 +10,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
-
 # forms and formsets used in the views
 from epic.forms import QuoteSearchForm, MyQuoteSearchForm
-from epic.models import Customer, ARCHIVED, INITIAL
+from epic.models import Customer, ARCHIVED, INITIAL, Part
+from epic.serializers import PartSerializer, CustomerSerializer, CustomerEditSerializer, CustomerNoteSerializer, \
+    CustomerNoteEditSerializer, LoginUserSerializer
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.frame_view_helper import process_upload, create_new_model, process_bike_review, show_bike_review, \
@@ -20,6 +25,116 @@ from epic.view_helpers.quote_part_view_helper import save_quote_part, show_quote
 from epic.view_helpers.quote_view_helper import create_new_quote, show_add_quote, show_quote_edit, \
     copy_quote_and_display, process_quote_requote, show_quote_issue, show_quote_browse, show_quote_text, \
     show_add_quote_for_customer, process_quote_action, process_quote_changes
+
+
+class PartListCreate(generics.ListCreateAPIView):
+    queryset = Part.objects.all()
+    serializer_class = PartSerializer
+
+
+class LoginAPI(generics.GenericAPIView):
+    serializer_class = LoginUserSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        return Response(user)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def CustomerEdit(request, pk):
+    try:
+        customer = Customer.objects.get(pk=pk)
+    except Customer.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = CustomerEditSerializer(customer)
+        return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = CustomerEditSerializer(customer, data=request.data)
+        if serializer.is_valid():
+            new_customer = serializer.save()
+            return Response(CustomerEditSerializer(new_customer).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        customer.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'POST', 'DELETE'])
+def CustomerNoteEdit(request, pk):
+    try:
+        customerNote = CustomerNote.objects.get(pk=pk)
+    except CustomerNote.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = CustomerNoteEditSerializer(customerNote)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = CustomerNoteEditSerializer(customerNote, data=request.data)
+        if serializer.is_valid():
+            new_note = serializer.save()
+            return Response(CustomerNoteEditSerializer(new_note).data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        customerNote.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CustomerListCreate(generics.ListCreateAPIView):
+    serializer_class = CustomerSerializer
+
+    def get_queryset(self):
+        search_first_name = self.request.query_params.get('firstName', None)
+        search_last_name = self.request.query_params.get('lastName', None)
+        # define an empty search pattern
+        where_filter = Q()
+
+        # if filter added on first name add it to query set
+        if search_first_name:
+            where_filter &= Q(first_name__icontains=search_first_name)
+
+        # if filter added on last name add it to query set
+        if search_last_name:
+            where_filter &= Q(last_name__icontains=search_last_name)
+
+        # find objects matching any filter and order them
+        objects = Customer.objects.filter(where_filter).order_by('last_name')
+        return objects
+
+
+class CustomerNoteListCreate(generics.ListCreateAPIView):
+    serializer_class = CustomerNoteSerializer
+
+    def get_queryset(self):
+        search_customer = self.request.query_params.get('customerId', None)
+        search_quote = self.request.query_params.get('quoteId', None)
+        customer_visible = self.request.query_params.get('customerVisible', False)
+        # define an empty search pattern
+        where_filter = Q()
+
+        # if filter added on first name add it to query set
+        if search_customer:
+            where_filter &= Q(customer__id=search_customer)
+
+        # if filter added on last name add it to query set
+        if search_quote:
+            where_filter &= Q(quote__id=search_quote)
+
+        # if filter added for just customer visible add it to query set
+        if search_quote:
+            where_filter &= Q(customer_visible=customer_visible)
+
+        # find objects matching any filter and order them
+        objects = CustomerNote.objects.filter(where_filter).order_by('created_on')
+        return objects
 
 
 @login_required

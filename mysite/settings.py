@@ -44,6 +44,8 @@ if ENV == 'TEST':
     # settings for debug panels not in live
     INSTALLED_APPS = [
         'epic',
+        'rest_framework', # enable rest framework
+        'epic-client', # enable react client
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
@@ -82,6 +84,8 @@ if ENV == 'TEST':
 else:
     INSTALLED_APPS = [
         'epic',
+        'rest_framework', # enable rest framework
+        'epic-client', # enable react client
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',

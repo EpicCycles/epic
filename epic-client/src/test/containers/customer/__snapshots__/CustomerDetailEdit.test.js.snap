@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomerDetailEdit tests renders the form text correctly with customer 1`] = `
+<div
+  id="customer-detail"
+>
+  <div
+    className="row"
+  >
+    <FormTextInput
+      className="column full"
+      error=""
+      id="first-name-input"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="First Name"
+      value="Anna"
+    />
+  </div>
+  <div
+    className="row"
+  >
+    <FormTextInput
+      className="column full"
+      error=""
+      id="last-name-input"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="Last Name"
+      value="Weaver"
+    />
+  </div>
+  <div
+    className="row"
+  >
+    <FormTextInput
+      className="column full"
+      error=""
+      id="email-input"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="email"
+      value="anna.weaver@johnlewis.co.uk"
+    />
+  </div>
+  <div
+    className="row"
+  >
+    Added on 
+    2018-07-04
+    , last updated on 
+    2018-07-04
+  </div>
+</div>
+`;
+
+exports[`CustomerDetailEdit tests renders the form text correctly with no customer 1`] = `
+<div
+  id="customer-detail"
+>
+  <div
+    className="row"
+  >
+    <FormTextInput
+      className="column full"
+      error=""
+      id="first-name-input"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="First Name"
+      value=""
+    />
+  </div>
+  <div
+    className="row"
+  >
+    <FormTextInput
+      className="column full"
+      error=""
+      id="last-name-input"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="Last Name"
+      value=""
+    />
+  </div>
+  <div
+    className="row"
+  >
+    <FormTextInput
+      className="column full"
+      error=""
+      id="email-input"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="email"
+      value=""
+    />
+  </div>
+</div>
+`;
