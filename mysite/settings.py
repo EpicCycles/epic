@@ -45,6 +45,7 @@ if ENV == 'TEST':
     INSTALLED_APPS = [
         'epic',
         'rest_framework', # enable rest framework
+        'rest_framework.authtoken',
         'epic-client', # enable react client
         'django.contrib.admin',
         'django.contrib.auth',
@@ -53,6 +54,7 @@ if ENV == 'TEST':
         'django.contrib.messages',
         'django.contrib.staticfiles',
         'debug_toolbar',
+        'rest_auth'
     ]
     INTERNAL_IPS = [
         '127.0.0.1',
@@ -154,7 +156,11 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 # redirect after login to HOME page
 LOGIN_REDIRECT_URL = '/'
 

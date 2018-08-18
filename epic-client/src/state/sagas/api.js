@@ -6,6 +6,10 @@ const instance = axios.create({
     headers: { 'Content-Type': 'application/json' }
 });
 
+const loginUser = async (payload) => {
+    const api = `/rest-auth/login/ `;
+    return await instance.post(api, payload);
+};
 const getCustomerList = async (payload) => {
     const api = `/api/customer?firstName=${payload.firstName}&lastName=${payload.lastName}`;
     return await instance.get(api);
@@ -40,4 +44,4 @@ const deleteNote = async (payload) => {
 };
 
 
-export default {getCustomerList, getCustomer, saveCustomer, getNoteList, createNote, saveNote, deleteNote};
+export default {loginUser, getCustomerList, getCustomer, saveCustomer, getNoteList, createNote, saveNote, deleteNote};

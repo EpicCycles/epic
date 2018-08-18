@@ -1,58 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App.index tests renders the App correctly 1`] = `
+exports[`App.index tests renders the App correctly when the user is logged in 1`] = `
 <div>
-  <ul
-    className="nav"
-  >
-    <li
-      className="dropdown"
-    >
-      <Link
-        className="dropbtn"
-        replace={false}
-        to="/"
-      >
-        Home
-      </Link>
-    </li>
-    <li
-      className="dropdown"
-    >
-      <Link
-        className="dropbtn"
-        replace={false}
-        to="/about-us"
-      >
-        About
-      </Link>
-    </li>
-    <li
-      className="dropdown"
-    >
-      <p
-        className="dropbtn"
-      >
-        Customer
-      </p>
-      <div
-        className="dropdown-content"
-      >
-        <div
-          className="dropdown-section"
-        >
-          Customer
-        </div>
-        <Link
-          className="dropbtn"
-          replace={false}
-          to="/customer-search"
-        >
-          Find Customer
-        </Link>
-      </div>
-    </li>
-  </ul>
+  <Connect(Header) />
   <main>
     <Route
       component={[Function]}
@@ -63,6 +13,49 @@ exports[`App.index tests renders the App correctly 1`] = `
       component={[Function]}
       exact={true}
       path="/404"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/login"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/about-us"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/customer"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/customer-search"
+    />
+  </main>
+</div>
+`;
+
+exports[`App.index tests renders the App correctly when the user is not logged in 1`] = `
+<div>
+  <Connect(Header) />
+  <main>
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/404"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/login"
     />
     <Route
       component={[Function]}

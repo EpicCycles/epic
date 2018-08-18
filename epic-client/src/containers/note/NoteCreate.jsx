@@ -19,26 +19,36 @@ class NoteCreate extends React.Component {
     };
 
     onNoteChanged = (input) => {
-        this.setState({note_text: input});
+        const initial_note_text = this.props.note ? this.props.note.note_text : '';
+        const initialVisibility =  this.props.note ? this.props.note.customer_visible : false;
+        const isChanged = ((this.state.customer_visible !== initialVisibility) || (input !== initial_note_text));
+        this.setState({note_text: input, isChanged: isChanged});
     };
     onClearNote = () => {
-        const note_text = this.props.note ? this.props.note.note_text : '';
-        this.setState({note_text: note_text});
+        const initial_note_text = this.props.note ? this.props.note.note_text : '';
+        const initialVisibility =  this.props.note ? this.props.note.customer_visible : false;
+        const isChanged = this.state.customer_visible !== initialVisibility;
+        this.setState({note_text: initial_note_text, isChanged: isChanged});
     };
     changeVisibility = () => {
-        const old_visibility = this.state.customer_visible;
-        this.setState({customer_visible: !old_visibility});
+        const new_visibility = ! this.state.customer_visible;
+        const initial_note_text = this.props.note ? this.props.note.note_text : '';
+        const initialVisibility =  this.props.note ? this.props.note.customer_visible : false;
+        const isChanged = ((new_visibility !== initialVisibility) || (this.state.note_text !== initial_note_text));
+        this.setState({customer_visible: new_visibility, isChanged: isChanged});
     };
     onClickReset = () => {
         if (this.props.note) {
             this.setState({
                 note_text: this.props.note.note_text,
-                customer_visible: this.props.note.customer_visible
+                customer_visible: this.props.note.customer_visible,
+                isChanged: false
             });
         } else {
             this.setState({
                 note_text: '',
-                customer_visible: false
+                customer_visible: false,
+                isChanged: false
             });
         }
     };
@@ -54,7 +64,7 @@ class NoteCreate extends React.Component {
     };
 
     render() {
-        const {note_text, customer_visible} = this.state;
+        const {note_text, customer_visible, isChanged} = this.state;
         const {note, saveNote, noteError, removeNoteError} = this.props;
 
         return <div>
@@ -79,13 +89,13 @@ class NoteCreate extends React.Component {
             </div>
             {(note_text || note) &&
             <div className="row align_right">
-                {note_text &&
+                {isChanged &&
                 <Icon id={`reset-note`} name="undo"
                       onClick={this.onClickReset}
                       title="Reset Note details"
                 />
                 }
-                {note_text &&
+                {(note_text || isChanged) &&
                 <Icon id={`accept-note`} name="check"
                       onClick={() => saveNote(note_text, customer_visible)}
                       title="Confirm Note Change"/>

@@ -34,10 +34,12 @@ describe("NoteCreate tests", () => {
     it('shows the buttons when no note and changes are present', () => {
         const saveNote = jest.fn();
 
-        const input = shallow(
+        let input = shallow(
             <NoteCreate saveNote={saveNote}/>
         );
-        input.setState({note_text: "big note text"});
+        input.setState({note_text: "big note text", isChanged:true});
+        expect(input).toMatchSnapshot();
+
         expect(input.find(Icon).length).toBe(2);
 
         input.find("#accept-note").at(0).simulate("click");
@@ -49,14 +51,14 @@ describe("NoteCreate tests", () => {
         const removeNote = jest.fn();
         const updateNoteKey = jest.fn();
 
-        const input = shallow(
+        let input = shallow(
             <NoteCreate saveNote={saveNote} note={note} deleteNote={deleteNote}
                         removeNote={removeNote} updateNoteKey={updateNoteKey}/>
         );
-        expect(input.find(Icon).length).toBe(3);
+        expect(input.find(Icon).length).toBe(2);
 
-        input.setState({note_text: ""});
-        expect(input.find(Icon).length).toBe(1);
+        input.setState({note_text: "", isChanged:true});
+        expect(input.find(Icon).length).toBe(3);
 
         input.find("#delete-note").at(0).simulate("click");
         expect(deleteNote.mock.calls.length).toBe(1);
@@ -68,14 +70,14 @@ describe("NoteCreate tests", () => {
         const removeNote = jest.fn();
         const updateNoteKey = jest.fn();
 
-        const input = shallow(
+        let input = shallow(
             <NoteCreate saveNote={saveNote} note={noteNoId} deleteNote={deleteNote}
                         removeNote={removeNote} updateNoteKey={updateNoteKey}/>
         );
-        expect(input.find(Icon).length).toBe(3);
+        expect(input.find(Icon).length).toBe(2);
 
-        input.setState({note_text: ""});
-        expect(input.find(Icon).length).toBe(1);
+        input.setState({note_text: "", isChanged:true});
+        expect(input.find(Icon).length).toBe(3);
 
         input.find("#delete-note").at(0).simulate("click");
         expect(deleteNote.mock.calls.length).toBe(0);
@@ -85,12 +87,12 @@ describe("NoteCreate tests", () => {
     it('clears data when no note and reset is clicked', () => {
         const saveNote = jest.fn();
 
-        const input = shallow(
+        let input = shallow(
             <NoteCreate saveNote={saveNote}/>
         );
         expect(input.find(Icon).length).toBe(0);
 
-        input.setState({note_text: "big note text", customer_visible: true});
+        input.setState({note_text: "big note text", isChanged:true, customer_visible: true});
         expect(input.find(Icon).length).toBe(2);
 
         input.find("#reset-note").at(0).simulate("click");

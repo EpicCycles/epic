@@ -1,9 +1,10 @@
 # import the logging library and the messages
+from django.contrib.auth.models import User
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
 # security bits
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -14,7 +15,7 @@ from django.views.generic.list import ListView
 from epic.forms import QuoteSearchForm, MyQuoteSearchForm
 from epic.models import Customer, ARCHIVED, INITIAL, Part
 from epic.serializers import PartSerializer, CustomerSerializer, CustomerEditSerializer, CustomerNoteSerializer, \
-    CustomerNoteEditSerializer, LoginUserSerializer
+    CustomerNoteEditSerializer, UserSerializer
 from epic.view_helpers.brand_view_helper import show_brand_popup, save_brand
 from epic.view_helpers.customer_view_helper import *
 from epic.view_helpers.frame_view_helper import process_upload, create_new_model, process_bike_review, show_bike_review, \
@@ -32,14 +33,31 @@ class PartListCreate(generics.ListCreateAPIView):
     serializer_class = PartSerializer
 
 
-class LoginAPI(generics.GenericAPIView):
-    serializer_class = LoginUserSerializer
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data
-        return Response(user)
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+@api_view(['POST'])
+def LoginAPI(request):
+    print('got to login api', request.data)
+    if request.method == 'POST':
+        username = request.data.get('username', None)
+        password = request.data.get('password', None)
+        # user = authenticate(request, username=username, password=password)
+        # if user is not None:
+        #     login(request, user)
+        #     print('login ok', user)
+        #     serializer = LoginUserSerializer(user)
+        #     return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -413,7 +431,6 @@ def copy_quote(request, pk):
         messages.info(request, 'Invalid action ')
     else:
         return copy_quote_and_display(request, pk, None, None)
-
 
 
 def quote_copy_with_changes(request):

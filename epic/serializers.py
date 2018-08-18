@@ -1,19 +1,27 @@
-from rest_framework import serializers
+from django.contrib.auth.models import User
+from rest_framework import serializers, viewsets, routers
 from rest_framework.compat import authenticate
 
 from epic.models import *
 
 
-class LoginUserSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField()
 
-    def validate(self, data):
-        user = authenticate(**data)
-        if user and user.is_active:
-            return user
-        raise serializers.ValidationError("Unable to log in with provided credentials.")
+# Serializers define the API representation.
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'is_staff', 'is_active', 'is_superuser')
 
+#http://127.0.0.1:8000/api-auth/login/?next=/users/
+
+# ViewSets define the view behavior.
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+# Routers provide a way of automatically determining the URL conf.
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:

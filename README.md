@@ -5,6 +5,7 @@
   - django
   - debug toolbar
   - apostle
+  `pip install -r requirements.pip`
 - set up config file at top level directory (`config.json`)
 - follow instructions for setting up web app
   - `cd client`

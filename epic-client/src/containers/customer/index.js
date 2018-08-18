@@ -1,4 +1,3 @@
-import React from 'react'
 import {connect} from 'react-redux'
 import CustomerList from "./CustomerList";
 import {getCustomer, getCustomerList, getCustomerListPage, removeCustomerError} from "../../state/actions/customer";
