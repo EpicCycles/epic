@@ -21,9 +21,9 @@ class CustomerPhoneEdit extends React.Component {
         isChanged: false,
         isValid: true,
         options: [
-            {value:'H', text: 'Home'},
-            {value:'M', text: 'Mobile'},
-            {value:'W', text: 'Work'}
+            {value: 'H', text: 'Home'},
+            {value: 'M', text: 'Mobile'},
+            {value: 'W', text: 'Work'}
         ]
     };
 
@@ -70,14 +70,16 @@ class CustomerPhoneEdit extends React.Component {
     onNumberTypeChanged = input => {
         this.validateCustomerData(input, this.number_type);
     };
-
-    onTelephoneChanged = input => {
-        this.validateCustomerData(this.state.telephone, input);
+    handleInputChange = (fieldName, input) => {
+        if (fieldName === 'telephone') {
+            this.validateCustomerData(this.state.number_type, input);
+        }
     };
-
-    onClearTelephone = () => {
-        const telephone = this.props.customerPhone ? this.props.customerPhone.telephone : '';
-        this.validateCustomerData(telephone, this.state.number_type);
+    handleInputClear = (fieldName) => {
+        if (fieldName === 'removetelephone') {
+            const telephone = this.props.customerPhone ? this.props.customerPhone.telephone : '';
+            this.validateCustomerData(this.state.number_type, telephone);
+        }
     };
 
     onClickReset = () => {
@@ -97,17 +99,18 @@ class CustomerPhoneEdit extends React.Component {
         return <div id="phone-detail">
             <div className="row">
                 <Dropdown defaultValue={number_type}
-                                      fluid selection
-                                      options={this.state.options} />
+                          fluid selection
+                          options={this.state.options}/>
             </div>
             <div className="row">
                 <FormTextInput
                     placeholder="Phone Number"
                     id="telephone-input"
                     className="column full"
-                    onChange={this.onTelephoneChanged}
                     value={telephone}
-                    onClick={this.onClearTelephone}
+                    fieldName="telephone"
+                    onChange={this.handleInputChange}
+                    onClick={this.handleInputClear}
                     error={last_nameError}
                 />
             </div>
@@ -122,7 +125,8 @@ class CustomerPhoneEdit extends React.Component {
                       onClick={this.onClickReset} title="Reset Phone details"
                 />
                 <Icon id={`accept-phone`} name="check" disabled={!isValid}
-                      onClick={() => acceptCustomerChanges(first_name, last_name, email)} title="Confirm Customer changes"/>
+                      onClick={() => acceptCustomerChanges(first_name, last_name, email)}
+                      title="Confirm Customer changes"/>
             </div>
             }
 

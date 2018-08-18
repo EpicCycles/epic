@@ -15,6 +15,7 @@ const initialState = {
     customers: [],
     searchFirstName: "",
     searchLastName: "",
+    searchEmail: "",
     page: 1,
     perPage: 20
 };

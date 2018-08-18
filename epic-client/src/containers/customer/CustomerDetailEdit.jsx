@@ -85,40 +85,38 @@ class CustomerDetailEdit extends React.Component {
         }
         return false;
     };
-
-    onFirstNameChanged = input => {
-        const isChanged = this.isFormChanged(input, this.state.last_name, this.state.email);
-        this.setState({ first_name: input,
-        first_nameError: '', isChanged: isChanged});
+    handleInputChange = (fieldName, input) => {
+        if (fieldName === 'first_name') {
+            const isChanged = this.isFormChanged(input, this.state.last_name, this.state.email);
+            this.setState({
+                first_name: input,
+                first_nameError: '', isChanged: isChanged
+            });
+        } else if (fieldName === 'last_name') {
+            const isChanged = this.isFormChanged(this.state.first_name, input, this.state.email);
+            this.setState({last_name: input, last_nameError: '', isChanged: isChanged});
+        } else if (fieldName === 'email') {
+            const isChanged = this.isFormChanged(this.state.first_name, this.state.last_name, input);
+            this.setState({email: input, emailError: '', isChanged: isChanged});
+        }
     };
-
-    onLastNameChanged = input => {
-        const isChanged = this.isFormChanged(this.state.first_name, input, this.state.email);
-        this.setState({ last_name: input, last_nameError: '', isChanged: isChanged });
-    };
-
-    onEmailChanged = input => {
-        const isChanged = this.isFormChanged(this.state.first_name, this.state.last_name, input);
-        this.setState({ email: input, emailError: '', isChanged: isChanged });
-    };
-
-    onClearFirstName = () => {
-        const first_name = this.props.customer ? this.props.customer.first_name : '';
-        const isChanged = this.isFormChanged(first_name, this.state.last_name, this.state.email);
-        this.setState({ first_name: first_name,
-            first_nameError: '', isChanged: isChanged});
-    };
-
-    onClearLastName = () => {
-        const last_name = this.props.customer ? this.props.customer.last_name : '';
-        const isChanged = this.isFormChanged(this.state.first_name, last_name, this.state.email);
-        this.setState({ last_name: last_name, last_nameError: '', isChanged: isChanged });
-    };
-
-    onClearEmail = () => {
-        const email = this.props.customer ? this.props.customer.email : '';
-        const isChanged = this.isFormChanged(this.state.first_name, this.state.last_name, email);
-        this.setState({ email: email, emailError: '', isChanged: isChanged });
+    handleInputClear = (fieldName) => {
+        if (fieldName === 'removefirst_name') {
+            const first_name = this.props.customer ? this.props.customer.first_name : '';
+            const isChanged = this.isFormChanged(first_name, this.state.last_name, this.state.email);
+            this.setState({
+                first_name: first_name,
+                first_nameError: '', isChanged: isChanged
+            });
+        } else if (fieldName === 'removelast_name') {
+            const last_name = this.props.customer ? this.props.customer.last_name : '';
+            const isChanged = this.isFormChanged(this.state.first_name, last_name, this.state.email);
+            this.setState({last_name: last_name, last_nameError: '', isChanged: isChanged});
+        } else if (fieldName === 'removeemail') {
+            const email = this.props.customer ? this.props.customer.email : '';
+            const isChanged = this.isFormChanged(this.state.first_name, this.state.last_name, email);
+            this.setState({email: email, emailError: '', isChanged: isChanged});
+        }
     };
 
     onClickReset = () => {
@@ -143,20 +141,21 @@ class CustomerDetailEdit extends React.Component {
                     placeholder="First Name"
                     id="first-name-input"
                     className="column full"
-                    onChange={this.onFirstNameChanged}
                     value={first_name}
-                    onClick={this.onClearFirstName}
+                    fieldName="first_name"
                     error={first_nameError}
-                />
+                    onChange={this.handleInputChange}
+                    onClick={this.handleInputClear}/>
             </div>
             <div className="row">
                 <FormTextInput
                     placeholder="Last Name"
                     id="last-name-input"
                     className="column full"
-                    onChange={this.onLastNameChanged}
                     value={last_name}
-                    onClick={this.onClearLastName}
+                    fieldName="last_name"
+                    onChange={this.handleInputChange}
+                    onClick={this.handleInputClear}
                     error={last_nameError}
                 />
             </div>
@@ -165,9 +164,10 @@ class CustomerDetailEdit extends React.Component {
                     placeholder="email"
                     id="email-input"
                     className="column full"
-                    onChange={this.onEmailChanged}
                     value={email}
-                    onClick={this.onClearEmail}
+                    fieldName="email"
+                    onChange={this.handleInputChange}
+                    onClick={this.handleInputClear}
                     error={emailError}
                 />
             </div>

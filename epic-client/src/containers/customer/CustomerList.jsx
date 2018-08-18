@@ -9,74 +9,90 @@ class CustomerList extends React.Component {
     state = {
         firstName: '',
         lastName: '',
+        email: '',
     };
 
     componentWillMount() {
         if (this.props.searchLastName || this.props.searchFirstName) {
             this.setState({
-                lastName: this.props.searchFirstName,
-                firstName: this.props.searchLastName
+                firstName: this.props.searchFirstName,
+                lastName: this.props.searchLastName,
+                email: this.props.searchEmail
             });
+        } else if (this.props.customers.length === 0) {
+            this.props.getCustomerList("", "", "");
         }
-    }
-
-    onFirstNameChanged = input => {
-        this.setState({ firstName: input });
     };
 
-    onLastNameChanged = input => {
-        this.setState({ lastName: input });
+    handleInputChange = (fieldName, input) => {
+        if (fieldName === 'firstName') {
+             this.setState({firstName: input});
+        } else  if (fieldName === 'lastName') {
+             this.setState({lastName: input});
+        } else  if (fieldName === 'email') {
+             this.setState({email: input});
+        }
+    };
+    handleInputClear = (fieldName) => {
+        if (fieldName === 'removefirstName') {
+             this.setState({firstName: ""});
+        } else  if (fieldName === 'removelastName') {
+             this.setState({lastName: ""});
+        } else  if (fieldName === 'removeemail') {
+             this.setState({email: ""});
+        }
     };
 
-    onClearFirstName = () => {
-        this.setState({ firstName: '' });
-    };
-
-    onClearLastName = () => {
-        this.setState({ lastName: '' });
-    };
-
-    onSubmit= (event) => {
+    onSubmit = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        const {firstName, lastName} = this.state;
-        this.props.getCustomerList(firstName, lastName);
+        const {firstName, lastName, email} = this.state;
+        this.props.getCustomerList(firstName, lastName, email);
     };
 
     render() {
-        const { firstName, lastName } = this.state;
-        const {getCustomerListPage, getCustomer,removeCustomerError, isLoading, customers, count, page, totalPages, error} = this.props;
+        const {firstName, lastName, email} = this.state;
+        const {getCustomerListPage, getCustomer, removeCustomerError, isLoading, customers, count, page, totalPages, error} = this.props;
 
         return (
             <div id="customer-list">
                 <form onSubmit={this.onSubmit}>
-                <h1>Find Customer</h1>
-                <label htmlFor="search-input" className="search-heading" id="search-input-label">
-                    Please enter your search criteria.
-                </label>
-                <div className="row">
-                    <FormTextInput
-                        placeholder="First Name"
-                        id="first-name-input"
-                        className="column full"
-                        onChange={this.onFirstNameChanged}
-                        value={firstName}
-                        onClick={this.onClearFirstName}
-                    />
-                </div>
-                <div className="row">
-                    <FormTextInput
-                        placeholder="Last Name"
-                        id="last-name-input"
-                        className="column full"
-                        onChange={this.onLastNameChanged}
-                        value={lastName}
-                        onClick={this.onClearLastName}
-                    />
-                </div>
-                <p>
-                    <Button type="submit" disabled={isLoading}>Get Customers</Button>
-                </p>
+                    <h2>Find Customer</h2>
+                    <div className="row vertical-middle">
+                        <div>First name like:</div>
+                        <FormTextInput
+                            placeholder="First Name"
+                            id="first-name-input"
+                            className="column "
+                            fieldName="firstName"
+                            value={firstName}
+                            onChange={this.handleInputChange}
+                            onClick={this.handleInputClear}
+                        />
+                        <div> Last name like:</div>
+                        <FormTextInput
+                            placeholder="Last Name"
+                            id="last-name-input"
+                            className="column "
+                            fieldName="lastName"
+                            onChange={this.handleInputChange}
+                            onClick={this.handleInputClear}
+                            value={lastName}
+                        />
+                        <div> email like:</div>
+                        <FormTextInput
+                            placeholder="bod@gmail.com"
+                            id="email-input"
+                            className="column "
+                            fieldName="email"
+                            onChange={this.handleInputChange}
+                            onClick={this.handleInputClear}
+                            value={email}
+                        />
+                        <div>
+                            <Button type="submit" disabled={isLoading}>Find Customers</Button>
+                        </div>
+                    </div>
                 </form>
                 {count > 0 ?
                     <div style={{width: '100%', height: '400px'}}>
@@ -109,7 +125,7 @@ class CustomerList extends React.Component {
                     </p>
                 }
                 {error &&
-                <ErrorDismissibleBlock error={error} removeError={removeCustomerError} />
+                <ErrorDismissibleBlock error={error} removeError={removeCustomerError}/>
                 }
 
                 {isLoading &&

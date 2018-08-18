@@ -8,6 +8,7 @@ export default connect(({customer}) => ({
     isLoading: customer.isLoading,
     searchFirstName: customer.searchFirstName,
     searchLastName: customer.searchLastName,
+    searchEmail: customer.searchEmail,
     page: customer.page,
     totalPages: customer.totalPages,
     error: customer.error

@@ -20,9 +20,9 @@ export const getCustomerListPage = requestedPage => ({
     payload: requestedPage
 });
 
-export const getCustomerList =  (firstName, lastName)  => ({
+export const getCustomerList =  (firstName, lastName, email)  => ({
     type: CUSTOMER_LIST_REQUESTED,
-    payload: {firstName, lastName}
+    payload: {firstName, lastName, email}
 });
 
 export const getCustomerListSuccess = customers => ({
