@@ -112,6 +112,7 @@ class CustomerListCreate(generics.ListCreateAPIView):
     def get_queryset(self):
         search_first_name = self.request.query_params.get('firstName', None)
         search_last_name = self.request.query_params.get('lastName', None)
+        search_email = self.request.query_params.get('email', None)
         # define an empty search pattern
         where_filter = Q()
 
@@ -122,6 +123,9 @@ class CustomerListCreate(generics.ListCreateAPIView):
         # if filter added on last name add it to query set
         if search_last_name:
             where_filter &= Q(last_name__icontains=search_last_name)
+        # if filter added on email add it to query set
+        if search_email and (search_email is not '@'):
+            where_filter &= Q(email__icontains=search_email)
 
         # find objects matching any filter and order them
         objects = Customer.objects.filter(where_filter).order_by('last_name')

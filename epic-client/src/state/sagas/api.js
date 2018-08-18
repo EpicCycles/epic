@@ -11,7 +11,8 @@ const loginUser = async (payload) => {
     return await instance.post(api, payload);
 };
 const getCustomerList = async (payload) => {
-    const api = `/api/customer?firstName=${payload.firstName}&lastName=${payload.lastName}`;
+    console.log(payload)
+    const api = `/api/customer?firstName=${payload.firstName}&lastName=${payload.lastName}&email=${payload.email}`;
     return await instance.get(api);
 };
 

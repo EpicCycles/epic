@@ -15,9 +15,9 @@ class CustomerList extends React.Component {
     componentWillMount() {
         if (this.props.searchLastName || this.props.searchFirstName) {
             this.setState({
-                firstName: this.props.searchFirstName,
-                lastName: this.props.searchLastName,
-                email: this.props.searchEmail
+                firstName: this.props.searchParams.firstName,
+                lastName: this.props.searchParams.lastName,
+                email: this.props.searchParams.email
             });
         } else if (this.props.customers.length === 0) {
             this.props.getCustomerList("", "", "");

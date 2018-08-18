@@ -6,9 +6,7 @@ export default connect(({customer}) => ({
     count: customer.customers.length,
     customers: customer.customers.slice(((customer.page - 1) * customer.perPage), (customer.page * customer.perPage)),
     isLoading: customer.isLoading,
-    searchFirstName: customer.searchFirstName,
-    searchLastName: customer.searchLastName,
-    searchEmail: customer.searchEmail,
+    searchParams: customer.searchParams,
     page: customer.page,
     totalPages: customer.totalPages,
     error: customer.error

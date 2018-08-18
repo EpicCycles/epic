@@ -13,9 +13,9 @@ const initialState = {
     count: 0,
     isLoading: false,
     customers: [],
-    searchFirstName: "",
-    searchLastName: "",
-    searchEmail: "",
+    searchParams: {firstName: "",
+    lastName: "",
+    email: ""},
     page: 1,
     perPage: 20
 };
@@ -38,6 +38,7 @@ const customer = (state = initialState, action) => {
             return {
                 ...state,
                 error: "",
+                searchParams: action.payload,
                 isLoading: true,
                 customers: [],
                 totalPages: 0
