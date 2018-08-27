@@ -1,21 +1,34 @@
 import {
     CUSTOMER,
+    CUSTOMER_CREATE,
+    CUSTOMER_CREATE_ERROR,
+    CUSTOMER_CREATE_REQUESTED,
+    CUSTOMER_DELETE,
+    CUSTOMER_DELETE_ERROR,
+    CUSTOMER_DELETE_REQUESTED,
+    CUSTOMER_ERROR,
     CUSTOMER_LIST,
     CUSTOMER_LIST_ERROR,
     CUSTOMER_LIST_REQUESTED,
-    CUSTOMER_ERROR,
-    CUSTOMER_REQUESTED, CUSTOMER_REMOVE_ERROR, CUSTOMER_ACCEPT_CHANGES
+    CUSTOMER_REMOVE,
+    CUSTOMER_REQUESTED,
+    CUSTOMER_SAVE,
+    CUSTOMER_SAVE_ERROR,
+    CUSTOMER_SAVE_REQUESTED
 } from "../actions/customer";
 import {updateCustomerBasic} from "../../helpers/customer";
+import {USER_NOT_VALIDATED} from "../actions/user";
 
 
 const initialState = {
     count: 0,
     isLoading: false,
     customers: [],
-    searchParams: {firstName: "",
-    lastName: "",
-    email: ""},
+    searchParams: {
+        firstName: "",
+        lastName: "",
+        email: ""
+    },
     page: 1,
     perPage: 20
 };
@@ -23,30 +36,44 @@ const initialState = {
 // this seemd to be the bit that is in reducers in loyalty code
 const customer = (state = initialState, action) => {
     switch (action.type) {
-        case CUSTOMER_ACCEPT_CHANGES:
+        case USER_NOT_VALIDATED:
             return {
                 ...state,
-                error: "",
-                customer: updateCustomerBasic(state.customer, action.payload)
+                isLoading: false
             };
-        case CUSTOMER_REMOVE_ERROR:
+        case CUSTOMER_REMOVE:
             return {
                 ...state,
-                error: ""
+                customer: {}
             };
         case CUSTOMER_LIST_REQUESTED:
             return {
                 ...state,
-                error: "",
                 searchParams: action.payload,
                 isLoading: true,
                 customers: [],
                 totalPages: 0
             };
+        case CUSTOMER_CREATE_REQUESTED:
+            return {
+                ...state,
+                customer: updateCustomerBasic(state.customer, action.payload.customer),
+                isLoading: true,
+            };
+        case CUSTOMER_SAVE_REQUESTED:
+            return {
+                ...state,
+                customer: updateCustomerBasic(state.customer, action.payload.customer),
+                isLoading: true,
+            };
+        case CUSTOMER_DELETE_REQUESTED:
+            return {
+                ...state,
+                isLoading: true,
+            };
         case CUSTOMER_REQUESTED:
             return {
                 ...state,
-                error: "",
                 customer: {},
                 isLoading: true,
             };
@@ -68,11 +95,28 @@ const customer = (state = initialState, action) => {
                 customer: {},
                 totalPages: 0
             };
+        case CUSTOMER_SAVE_ERROR:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+            };
+
+        case CUSTOMER_CREATE_ERROR:
+            return {
+                ...state,
+                error: action.payload,
+                isLoading: false
+            };
+        case CUSTOMER_DELETE_ERROR:
+            return {
+                ...state,
+                isLoading: false
+            };
         case CUSTOMER_LIST:
             return {
                 ...state,
                 customers: action.payload,
-                error: "",
                 isLoading: !state.isLoading,
                 page: 1,
                 totalPages: Math.floor(action.payload.length / state.perPage) + 1
@@ -80,11 +124,27 @@ const customer = (state = initialState, action) => {
         case CUSTOMER:
             return {
                 ...state,
-                error: "",
                 isLoading: !state.isLoading,
                 customer: action.payload
             };
-
+        case CUSTOMER_CREATE:
+            return {
+                ...state,
+                isLoading: !state.isLoading,
+                customer: action.payload
+            };
+        case CUSTOMER_SAVE:
+            return {
+                ...state,
+                isLoading: false,
+                customer: action.payload
+            };
+        case CUSTOMER_DELETE:
+            return {
+                ...state,
+                isLoading: false,
+                customer: {}
+            };
         default:
             return state;
     }

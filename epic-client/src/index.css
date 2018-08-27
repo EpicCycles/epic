@@ -1,19 +1,22 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
-}
-
-body {
-    margin: 0;
-    padding: 0;
     font-family: Lato, Arial, Helvetica, sans-serif;
     font-size: 10pt;
     letter-spacing: 0;
 }
 
-tr:nth-child(even) {background: #CCC}
-tr:nth-child(odd) {background: #FFF}
+tr:nth-child(even) {
+    background: #CCC
+}
+
+tr:nth-child(odd) {
+    background: #FFF
+}
+
+.full {
+    width: 100%;
+}
 
 th {
     padding: 5px;
@@ -360,6 +363,21 @@ fieldset {
 /* menu navigation */
 .nav, .dropbtn, .dropdown, a.dropbtn:hover, a.dropbtn:visited, a.dropbtn:focus, a.dropbtn:active {
     background-color: #c82011;
+    color: #ffffff;
+}
+
+div.nav {
+    display: inline-flex;
+    align-items: center;
+}
+
+#user {
+    height: 100%;
+    vertical-align: center;
+}
+
+p.dropbtn {
+    margin: 0;
 }
 
 ul.nav {
@@ -375,11 +393,11 @@ li.nav {
     display: inline-block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 10px 12px;
     text-decoration: none;
 }
 
-li.dropdown a, .dropbtn {
+div.dropdown, a.dropdown, li.dropdown a, .dropbtn {
     display: inline-block;
     color: white;
     text-align: center;
@@ -395,12 +413,13 @@ li.dropdown {
     display: inline-block;
 }
 
-div.dropdown-content {
+div.dropdown-content, div.dropdown-content a {
     display: none;
     position: absolute;
     min-width: 160px;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
     z-index: 1;
+    color: #ffffff;
 }
 
 .dropdown-section {
@@ -411,7 +430,7 @@ div.dropdown-content {
 }
 
 div.dropdown-content a {
-    color: black;
+    color: white;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -419,7 +438,7 @@ div.dropdown-content a {
 }
 
 .dropdown-content a:hover {
-    background-color: #f1f1f1
+    text-decoration: underline;
 }
 
 .dropdown:hover .dropdown-content {

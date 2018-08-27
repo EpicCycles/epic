@@ -4,7 +4,6 @@ export const NOTE_LIST = 'note/NOTE_LIST';
 export const NOTE_CREATE_REQUESTED = 'note/NOTE_CREATE_REQUESTED';
 export const NOTE_CREATE_ERROR = 'note/NOTE_CREATE_ERROR';
 export const NOTE_CREATE = 'note/NOTE_CREATE';
-export const NOTE_REMOVE_ERROR = 'note/NOTE_REMOVE_ERROR';
 export const NOTE_SAVE_REQUESTED = 'note/NOTE_SAVE_REQUESTED';
 export const NOTE_SAVE_ERROR = 'note/NOTE_SAVE_ERROR';
 export const NOTE_SAVE = 'note/NOTE_SAVE';
@@ -13,15 +12,12 @@ export const NOTE_DELETE_REQUESTED = 'note/NOTE_DELETE_REQUESTED';
 export const NOTE_DELETE_ERROR = 'note/NOTE_DELETE_ERROR';
 export const NOTE_DELETE = 'note/NOTE_DELETE';
 
-export const removeNoteError = () => ({
-    type: NOTE_REMOVE_ERROR
-});
 export const removeNote = () => ({
     type: NOTE_REMOVE
 });
-export const getNoteList =  (customerId, customerVisible, quoteId)  => ({
+export const getNoteList = (customerId, customerVisible, quoteId) => ({
     type: NOTE_LIST_REQUESTED,
-    payload: {customerId, customerVisible, quoteId}
+    payload: { customerId, customerVisible, quoteId }
 });
 
 export const getNoteListSuccess = notes => ({
@@ -34,9 +30,9 @@ export const getNoteListFailure = error => ({
     payload: error
 });
 
-export const createNote =  note  => ({
+export const createNote = note => ({
     type: NOTE_CREATE_REQUESTED,
-    payload: note
+    payload: { note }
 });
 
 export const createNoteSuccess = notes => ({
@@ -49,9 +45,9 @@ export const createNoteFailure = error => ({
     payload: error
 });
 
-export const saveNote =  note  => ({
+export const saveNote = note => ({
     type: NOTE_SAVE_REQUESTED,
-    payload: note
+    payload: { note }
 });
 
 export const saveNoteSuccess = note => ({
@@ -64,9 +60,9 @@ export const saveNoteFailure = error => ({
     payload: error
 });
 
-export const deleteNote =  note  => ({
+export const deleteNote = note => ({
     type: NOTE_DELETE_REQUESTED,
-    payload: note.id
+    payload: { noteId: note.id }
 });
 
 export const deleteNoteSuccess = () => ({

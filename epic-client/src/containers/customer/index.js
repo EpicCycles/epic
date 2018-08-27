@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import CustomerList from "./CustomerList";
-import {getCustomer, getCustomerList, getCustomerListPage, removeCustomerError} from "../../state/actions/customer";
+import {getCustomer, getCustomerList, getCustomerListPage} from "../../state/actions/customer";
 
 export default connect(({customer}) => ({
     count: customer.customers.length,
@@ -8,12 +8,10 @@ export default connect(({customer}) => ({
     isLoading: customer.isLoading,
     searchParams: customer.searchParams,
     page: customer.page,
-    totalPages: customer.totalPages,
-    error: customer.error
+    totalPages: customer.totalPages
 }), {
     getCustomerList,
     getCustomerListPage,
     getCustomer,
-    removeCustomerError
 })(CustomerList)
 

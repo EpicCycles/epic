@@ -1,6 +1,5 @@
 import React from 'react'
 import {Dimmer, Loader} from 'semantic-ui-react'
-import ErrorDismissibleBlock from "../../common/ErrorDismissibleBlock";
 import CustomerDetailEdit from "./CustomerDetailEdit";
 import NoteCreate from "../note/NoteCreate";
 
@@ -26,37 +25,45 @@ class CustomerEdit extends React.Component {
             };
             this.props.createNote(newNote);
         }
-        this.updateNoteKey()
     };
 
-    updateNoteKey = () => {
-        if (this.props.note && this.props.note.id) {
-            this.setState({note_key: this.props.note.id});
+    saveOrCreateCustomer = (first_name, last_name, email) => {
+        if (this.props.customer && this.props.customer.id) {
+            let customerToSave = this.props.customer;
+            customerToSave.first_name = first_name;
+            customerToSave.last_name = last_name;
+            customerToSave.email = email;
+            this.props.saveCustomer(customerToSave);
         }
         else {
-            this.setState({note_key: 0});
+            const newCustomer = {
+                first_name: first_name,
+                last_name: last_name,
+                email: email
+            };
+            this.props.createCustomer(newCustomer);
         }
     };
 
     render() {
-        const {removeCustomerError, removeNoteError, acceptCustomerChanges, isLoading, customer, error, note, noteError, removeNote, deleteNote} = this.props;
-        const {note_key} = this.state;
+        const {deleteCustomer, removeCustomer,
+            isLoading, customer,
+            note, removeNote, deleteNote} = this.props;
+        const note_key = (note && note.id) ? note.id : 0;
         const customer_key = (customer && customer.id) ? customer.id : 0;
         return (
             <div id="customer-edit">
-                <h1>Edit Customer</h1>
-                {error &&
-                <ErrorDismissibleBlock error={error} removeError={removeCustomerError}/>
-                }
-
-                <CustomerDetailEdit customer={customer ? customer : {}}
-                                    acceptCustomerChanges={acceptCustomerChanges}
+                <h2>Customer</h2>
+                 <CustomerDetailEdit customer={customer ? customer : {}}
+                                    acceptCustomerChanges={this.saveOrCreateCustomer}
+                                    removeCustomer={removeCustomer}
+                                    deleteCustomer={deleteCustomer}
                                     key={`detail${customer_key}`}
                 />
                 {(customer && customer.id) &&
-                <NoteCreate saveNote={this.saveOrCreateCustomerNote} removeNoteError={removeNoteError} note={note}
+                <NoteCreate saveNote={this.saveOrCreateCustomerNote} note={note}
                             key={`detail${note_key}`}
-                            noteError={noteError} removeNote={removeNote} deleteNote={deleteNote}
+                            removeNote={removeNote} deleteNote={deleteNote}
                             updateNoteKey={this.updateNoteKey}
                 />}
 

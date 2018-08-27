@@ -60,7 +60,6 @@ class NoteCreate extends React.Component {
         else {
             removeNote();
         }
-        this.props.updateNoteKey();
     };
 
     render() {

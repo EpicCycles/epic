@@ -1,20 +1,18 @@
-import {acceptCustomerChanges, removeCustomerError} from "../../state/actions/customer";
+import {
+    createCustomer,
+    saveCustomer,
+    deleteCustomer,
+    removeCustomer
+} from "../../state/actions/customer";
 import {connect} from "react-redux";
 import CustomerEdit from "./CustomerEdit";
-import {createNote, deleteNote, removeNote, removeNoteError, saveNote} from "../../state/actions/note";
+import {createNote, deleteNote, removeNote, saveNote} from "../../state/actions/note";
 
-export default connect(({ customer, note }) => ({
+export default connect(({customer, note}) => ({
     customer: customer.customer,
     note: note.note,
-    isLoading: customer.isLoading || note.isLoading,
-    error: customer.error,
-    noteError: note.error
+    isLoading: customer.isLoading || note.isLoading
 }), {
-    removeCustomerError,
-    acceptCustomerChanges,
-    createNote,
-    saveNote,
-    removeNote,
-    deleteNote,
-    removeNoteError
+    createCustomer, saveCustomer, deleteCustomer, removeCustomer,
+    createNote, saveNote, removeNote, deleteNote
 })(CustomerEdit)

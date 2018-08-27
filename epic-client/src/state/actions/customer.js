@@ -5,15 +5,19 @@ export const CUSTOMER_PAGE = 'customer/CUSTOMER_PAGE';
 export const CUSTOMER_REQUESTED = 'customer/CUSTOMER_REQUESTED';
 export const CUSTOMER_ERROR = 'customer/CUSTOMER_ERROR';
 export const CUSTOMER = 'customer/CUSTOMER';
-export const CUSTOMER_REMOVE_ERROR = 'customer/CUSTOMER_REMOVE_ERROR';
-export const CUSTOMER_ACCEPT_CHANGES = 'customer/CUSTOMER_ACCEPT_CHANGES'
+export const CUSTOMER_CREATE_REQUESTED = 'customer/CUSTOMER_CREATE_REQUESTED';
+export const CUSTOMER_CREATE_ERROR = 'customer/CUSTOMER_CREATE_ERROR';
+export const CUSTOMER_CREATE = 'customer/CUSTOMER_CREATE';
+export const CUSTOMER_SAVE_REQUESTED = 'customer/CUSTOMER_SAVE_REQUESTED';
+export const CUSTOMER_SAVE_ERROR = 'customer/CUSTOMER_SAVE_ERROR';
+export const CUSTOMER_SAVE = 'customer/CUSTOMER_SAVE';
+export const CUSTOMER_REMOVE = 'customer/CUSTOMER_REMOVE';
+export const CUSTOMER_DELETE_REQUESTED = 'customer/CUSTOMER_DELETE_REQUESTED';
+export const CUSTOMER_DELETE_ERROR = 'customer/CUSTOMER_DELETE_ERROR';
+export const CUSTOMER_DELETE = 'customer/CUSTOMER_DELETE';
 
-export const acceptCustomerChanges = (first_name, last_name, email) => ({
-    type: CUSTOMER_ACCEPT_CHANGES,
-    payload: {first_name, last_name, email}
-});
-export const removeCustomerError = () => ({
-    type: CUSTOMER_REMOVE_ERROR
+export const removeCustomer = () => ({
+    type: CUSTOMER_REMOVE
 });
 export const getCustomerListPage = requestedPage => ({
     type: CUSTOMER_PAGE,
@@ -22,7 +26,7 @@ export const getCustomerListPage = requestedPage => ({
 
 export const getCustomerList =  (firstName, lastName, email)  => ({
     type: CUSTOMER_LIST_REQUESTED,
-    payload: {firstName, lastName, email}
+    payload: { firstName, lastName, email }
 });
 
 export const getCustomerListSuccess = customers => ({
@@ -37,7 +41,7 @@ export const getCustomerListFailure = error => ({
 
 export const getCustomer =  customerId  => ({
     type: CUSTOMER_REQUESTED,
-    payload: customerId
+    payload: { customerId }
 });
 
 export const getCustomerSuccess = customer => ({
@@ -47,5 +51,48 @@ export const getCustomerSuccess = customer => ({
 
 export const getCustomerFailure = error => ({
     type: CUSTOMER_ERROR,
+    payload: error
+});
+export const createCustomer =  customer  => ({
+    type: CUSTOMER_CREATE_REQUESTED,
+    payload: { customer }
+});
+
+export const createCustomerSuccess = customers => ({
+    type: CUSTOMER_CREATE,
+    payload: customers
+});
+
+export const createCustomerFailure = error => ({
+    type: CUSTOMER_CREATE_ERROR,
+    payload: error
+});
+
+export const saveCustomer =  customer  => ({
+    type: CUSTOMER_SAVE_REQUESTED,
+    payload: { customer }
+});
+
+export const saveCustomerSuccess = customer => ({
+    type: CUSTOMER_SAVE,
+    payload: customer
+});
+
+export const saveCustomerFailure = error => ({
+    type: CUSTOMER_SAVE_ERROR,
+    payload: error
+});
+
+export const deleteCustomer =  customer  => ({
+    type: CUSTOMER_DELETE_REQUESTED,
+    payload: {customerId: customer.id}
+});
+
+export const deleteCustomerSuccess = () => ({
+    type: CUSTOMER_DELETE
+});
+
+export const deleteCustomerFailure = error => ({
+    type: CUSTOMER_DELETE_ERROR,
     payload: error
 });

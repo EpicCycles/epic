@@ -3,15 +3,14 @@ import {Message} from 'semantic-ui-react'
 
 class ErrorDismissibleBlock extends Component {
     render() {
-        const {removeError, error} = this.props;
+        const { application, removeMessage } = this.props;
+        const messageColor = (application.messageType && (application.messageType === 'E')) ? 'red' : 'green';
 
-        return <Message
-            negative
-            visible
-            onDismiss={removeError}
+        return <Message color={messageColor}
+                        visible
+                        onDismiss={removeMessage}
         >
-            <Message.Header>An Error has occurred</Message.Header>
-            <p>{error}</p>
+            {application.message}
         </Message>
     };
 }

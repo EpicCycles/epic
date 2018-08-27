@@ -132,8 +132,19 @@ class CustomerDetailEdit extends React.Component {
         });
     };
 
+    onClickDelete = () => {
+        const {customer, deleteCustomer, removeCustomer} = this.props;
+        if (customer && customer.id) {
+            deleteCustomer(customer);
+         } else {
+            removeCustomer();
+        }
+    };
+
     render() {
         const {first_name, last_name, email, add_date, upd_date, isChanged, isValid, first_nameError, last_nameError, emailError} = this.state;
+        const {customer} = this.props;
+        const customerInState = (customer && (customer.first_name || customer.last_name || customer.email));
 
         return <div id="customer-detail">
             <div className="row">
@@ -176,16 +187,22 @@ class CustomerDetailEdit extends React.Component {
                 Added on {add_date.substring(0, 10)}, last updated on {upd_date.substring(0, 10)}
             </div>
             }
-            {isChanged &&
-            <div className="align_right">
+            <div className="row align_right">
+                {isChanged &&
                 <Icon id={`reset-cust`} name="undo"
                       onClick={this.onClickReset} title="Reset Customer details"
                 />
+                }
+                {(customerInState || isChanged) &&
                 <Icon id={`accept-cust`} name="check" disabled={!isValid}
                       onClick={this.validateCustomerDataAndSave} title="Confirm Customer changes"/>
+                }
+                {customerInState &&
+                <Icon id={`delete-customer`} name="delete"
+                      onClick={this.onClickDelete}
+                      title="Delete Customer"/>
+                }
             </div>
-            }
-
         </div>;
     }
 }

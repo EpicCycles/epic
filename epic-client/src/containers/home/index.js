@@ -8,10 +8,10 @@ const Home = props => (
         <h1>Epic Cycles</h1>
         <ul>
             <li>
-                <p className="">Customer</p>
+                <h2>Customer</h2>
                 <div className="">
-                    <div className="">Customer</div>
-                    <Link className="" to="/customer-search">Find Customer</Link>
+                    <Link className="internal_link" to="/customer">Add Customer</Link>
+                    <Link className="internal_link" to="/customer-search">Find Customer</Link>
                 </div>
             </li>
         </ul>

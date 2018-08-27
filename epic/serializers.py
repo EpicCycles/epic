@@ -5,23 +5,24 @@ from rest_framework.compat import authenticate
 from epic.models import *
 
 
-
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', 'is_staff', 'is_active', 'is_superuser')
+        fields = ('username', 'email', 'is_staff', 'is_active', 'is_superuser', 'first_name', 'last_name')
 
-#http://127.0.0.1:8000/api-auth/login/?next=/users/
+# http://127.0.0.1:8000/api-auth/login/?next=/users/
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+
 # Routers provide a way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
+
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,17 +48,7 @@ class FittingSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CustomerEditSerializer(serializers.ModelSerializer):
-    customeraddress_set = CustomerAddressSerializer(many=True)
-    customerphone_set = CustomerPhoneSerializer(many=True)
-    fitting_set = FittingSerializer(many=True)
-
-    class Meta:
-        model = Customer
-        fields = '__all__'
-
-
-class CustomerNoteEditSerializer(serializers.ModelSerializer):
+class CustomerNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerNote
         fields = '__all__'

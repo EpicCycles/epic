@@ -4,6 +4,8 @@ import Pagination from "../../common/pagination";
 import FormTextInput from "../../common/FormTextInput";
 import CustomerRow from "./CustomerRow";
 import ErrorDismissibleBlock from "../../common/ErrorDismissibleBlock";
+import Link from "react-router-dom/es/Link";
+import Icon from "semantic-ui-react/dist/es/elements/Icon/Icon";
 
 class CustomerList extends React.Component {
     state = {
@@ -113,11 +115,15 @@ class CustomerList extends React.Component {
                             )}
                             </tbody>
                         </table>
+                       <div className="row align-left">
                         <Pagination
                             id="customer-pagination"
                             page={page}
                             totalPages={totalPages}
                             getPage={getCustomerListPage}/>
+                                               <Link className="" to="/customer" title="Add a new customer"><Icon name='add' className="red"/> </Link>
+
+                    </div>
                     </div>
                     :
                     <p>

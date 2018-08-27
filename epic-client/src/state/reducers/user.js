@@ -1,10 +1,10 @@
-import {USER_LOGIN, USER_LOGIN_ERROR, USER_LOGIN_REQUESTED, USER_REMOVE_ERROR} from "../actions/user";
+import {USER_LOGIN, USER_LOGIN_ERROR, USER_LOGIN_REQUESTED} from "../actions/user";
 
 const initialState = {
-    user: {},
+    username: "",
+    token: "",
     isLoading: false,
-    isAuthenticated: false,
-    error: ""
+    isAuthenticated: false
 };
 
 const user = (state = initialState, action) => {
@@ -12,32 +12,26 @@ const user = (state = initialState, action) => {
         case USER_LOGIN_REQUESTED:
             return {
                 ...state,
-                error: "",
-                user: {},
+                username: action.payload.username,
+                token: "",
                 isLoading: true,
                 isAuthenticated: false,
             };
         case USER_LOGIN_ERROR:
             return {
                 ...state,
-                error: action.payload,
-                user: {},
                 isLoading: false,
                 isAuthenticated: false,
             };
         case USER_LOGIN:
             return {
                 ...state,
-                error: "",
-                user: action.payload,
+                token: action.payload.token,
+                user: action.payload.user,
                 isLoading: false,
                 isAuthenticated: true,
             };
-        case USER_REMOVE_ERROR:
-            return {
-                ...state,
-                error: ""
-            };
+
         default:
             return state;
     }

@@ -1,4 +1,4 @@
-import {call, put, takeLatest} from 'redux-saga/effects';
+import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {
     createNoteFailure,
     createNoteSuccess,
@@ -15,11 +15,19 @@ import {
 } from "../actions/note";
 
 import api from './api';
+import * as selectors from "../selectors/user";
+import history from "../../history";
 
 export function* getNoteList(action) {
     try {
-        const response = yield call(api.getNoteList, action.payload);
-        yield put(getNoteListSuccess(response.data));
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            const response = yield call(api.getNoteList, completePayload);
+            yield put(getNoteListSuccess(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
     } catch (error) {
         yield put(getNoteListFailure(error));
     }
@@ -31,8 +39,14 @@ export function* watchForGetNoteList() {
 
 export function* createNote(action) {
     try {
-        const response = yield call(api.createNote, action.payload);
-        yield put(createNoteSuccess(response.data));
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            const response = yield call(api.createNote, completePayload);
+            yield put(createNoteSuccess(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
 
     } catch (error) {
         yield put(createNoteFailure("Create Note failed"));
@@ -46,8 +60,14 @@ export function* watchForCreateNote() {
 
 export function* saveNote(action) {
     try {
-        const response = yield call(api.saveNote, action.payload);
-        yield put(saveNoteSuccess(response.data));
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            const response = yield call(api.saveNote, completePayload);
+            yield put(saveNoteSuccess(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
 
     } catch (error) {
         yield put(saveNoteFailure("Note save failed"));
@@ -60,9 +80,14 @@ export function* watchForSaveNote() {
 
 export function* deleteNote(action) {
     try {
-        const response = yield call(api.deleteNote, action.payload);
-        yield put(deleteNoteSuccess(response.data));
-
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            const response = yield call(api.deleteNote, completePayload);
+            yield put(deleteNoteSuccess(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
     } catch (error) {
         yield put(deleteNoteFailure("Note delete failed"));
     }
