@@ -14,6 +14,7 @@ import {
     NOTE_SAVE_REQUESTED
 } from "../actions/note";
 import {USER_NOT_VALIDATED} from "../actions/user";
+import {CLEAR_ALL_STATE} from "../actions/application";
 
 const initialState = {
     count: 0,
@@ -30,7 +31,9 @@ const initialState = {
 // this seemd to be the bit that is in reducers in loyalty code
 const note = (state = initialState, action) => {
     switch (action.type) {
-        case USER_NOT_VALIDATED:
+         case CLEAR_ALL_STATE:
+             return initialState;
+       case USER_NOT_VALIDATED:
             return {
                 ...state,
                 isLoading: false

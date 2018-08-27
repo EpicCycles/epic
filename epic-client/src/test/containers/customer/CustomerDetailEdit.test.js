@@ -30,7 +30,7 @@ describe("CustomerDetailEdit tests", () => {
         );
         input.setState({isChanged: true, isValid:true});
         expect(input.find("#accept-cust").prop("disabled")).toEqual(false);
-        expect(input.find(Icon).length).toBe(2);
+        expect(input.find(Icon).length).toBe(3);
 
         input.find("#accept-cust").at(0).simulate("click");
         expect(acceptChanges.mock.calls.length).toBe(1);

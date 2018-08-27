@@ -22,11 +22,6 @@ exports[`App.index tests renders the App correctly when the user is logged in 1`
     <Route
       component={[Function]}
       exact={true}
-      path="/about-us"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
       path="/customer"
     />
     <Route
@@ -56,11 +51,6 @@ exports[`App.index tests renders the App correctly when the user is not logged i
       component={[Function]}
       exact={true}
       path="/login"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
-      path="/about-us"
     />
     <Route
       component={[Function]}

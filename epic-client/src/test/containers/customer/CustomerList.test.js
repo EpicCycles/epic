@@ -7,6 +7,7 @@ describe("CustomerList.index tests", () => {
     // our mock login function to replace the one provided by mapDispatchToProps
     const mockGetCustomerListAsyncfn = jest.fn();
     const mockGetCustomerListPagefn = jest.fn();
+    const mockGetCustomerListfn = jest.fn();
     const initialState = {customer:{count: 0,
         isLoading: false,
         customers: [],
@@ -16,8 +17,8 @@ describe("CustomerList.index tests", () => {
 
     it('renders the CustomerList correctly', () => {
         let initialList = shallow(<CustomerList
-            getCustomerListAsync={mockGetCustomerListAsyncfn}
             getCustomerListPage={mockGetCustomerListPagefn}
+            getCustomerList={mockGetCustomerListfn}
             count={0}
             customers={[]}
             isLoading={false}
@@ -25,5 +26,6 @@ describe("CustomerList.index tests", () => {
             totalPages={0}
         />);
         expect(initialList).toMatchSnapshot();
+        expect(mockGetCustomerListfn.mock.calls.length).toBe(1);
     });
 });

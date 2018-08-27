@@ -15,9 +15,13 @@ export const CUSTOMER_REMOVE = 'customer/CUSTOMER_REMOVE';
 export const CUSTOMER_DELETE_REQUESTED = 'customer/CUSTOMER_DELETE_REQUESTED';
 export const CUSTOMER_DELETE_ERROR = 'customer/CUSTOMER_DELETE_ERROR';
 export const CUSTOMER_DELETE = 'customer/CUSTOMER_DELETE';
+export const CUSTOMER_CLEAR_STATE = 'customer/CUSTOMER_CLEAR_STATE';
 
 export const removeCustomer = () => ({
     type: CUSTOMER_REMOVE
+});
+export const clearCustomerState = () => ({
+    type: CUSTOMER_CLEAR_STATE
 });
 export const getCustomerListPage = requestedPage => ({
     type: CUSTOMER_PAGE,

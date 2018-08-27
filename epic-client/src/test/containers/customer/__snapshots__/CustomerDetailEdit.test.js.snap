@@ -10,6 +10,7 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
     <FormTextInput
       className="column full"
       error=""
+      fieldName="first_name"
       id="first-name-input"
       onChange={[Function]}
       onClick={[Function]}
@@ -23,6 +24,7 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
     <FormTextInput
       className="column full"
       error=""
+      fieldName="last_name"
       id="last-name-input"
       onChange={[Function]}
       onClick={[Function]}
@@ -36,6 +38,7 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
     <FormTextInput
       className="column full"
       error=""
+      fieldName="email"
       id="email-input"
       onChange={[Function]}
       onClick={[Function]}
@@ -51,6 +54,25 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
     , last updated on 
     2018-07-04
   </div>
+  <div
+    className="row align_right"
+  >
+    <Icon
+      as="i"
+      disabled={false}
+      id="accept-cust"
+      name="check"
+      onClick={[Function]}
+      title="Confirm Customer changes"
+    />
+    <Icon
+      as="i"
+      id="delete-customer"
+      name="delete"
+      onClick={[Function]}
+      title="Delete Customer"
+    />
+  </div>
 </div>
 `;
 
@@ -64,6 +86,7 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
     <FormTextInput
       className="column full"
       error=""
+      fieldName="first_name"
       id="first-name-input"
       onChange={[Function]}
       onClick={[Function]}
@@ -77,6 +100,7 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
     <FormTextInput
       className="column full"
       error=""
+      fieldName="last_name"
       id="last-name-input"
       onChange={[Function]}
       onClick={[Function]}
@@ -90,6 +114,7 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
     <FormTextInput
       className="column full"
       error=""
+      fieldName="email"
       id="email-input"
       onChange={[Function]}
       onClick={[Function]}
@@ -97,5 +122,8 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
       value=""
     />
   </div>
+  <div
+    className="row align_right"
+  />
 </div>
 `;

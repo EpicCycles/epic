@@ -4,8 +4,9 @@ import ErrorDismissibleBlock from "../../common/ErrorDismissibleBlock";
 
 describe("ErrorDismissibleBlock tests", () => {
     it('renders the errorDismissableBlock correctly', () => {
+        const application = {message: 'show me the error', messageType:'E'};
         const errorDismissibleBlock = shallow(
-            <ErrorDismissibleBlock error={'Show me the error'} removeError={() => {
+            <ErrorDismissibleBlock application={application} removeMessage={() => {
             }}/>
         );
         expect(errorDismissibleBlock).toMatchSnapshot();

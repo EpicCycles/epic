@@ -1,4 +1,4 @@
-import {ADD_MESSAGE, REMOVE_MESSAGE} from "../actions/application";
+import {ADD_MESSAGE, CLEAR_ALL_STATE, REMOVE_MESSAGE} from "../actions/application";
 import {
     CUSTOMER_CREATE_ERROR, CUSTOMER_CREATE_REQUESTED, CUSTOMER_DELETE,
     CUSTOMER_DELETE_ERROR, CUSTOMER_DELETE_REQUESTED,
@@ -43,6 +43,7 @@ const application = (state = initialState, action) => {
         case NOTE_LIST_REQUESTED:
         case NOTE_REMOVE:
         case REMOVE_MESSAGE:
+        case CLEAR_ALL_STATE:
             return initialState;
         case CUSTOMER_LIST_ERROR:
         case CUSTOMER_CREATE_ERROR:

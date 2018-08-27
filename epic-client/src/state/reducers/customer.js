@@ -14,10 +14,12 @@ import {
     CUSTOMER_REQUESTED,
     CUSTOMER_SAVE,
     CUSTOMER_SAVE_ERROR,
-    CUSTOMER_SAVE_REQUESTED
+    CUSTOMER_SAVE_REQUESTED,
+    CUSTOMER_CLEAR_STATE
 } from "../actions/customer";
 import {updateCustomerBasic} from "../../helpers/customer";
 import {USER_NOT_VALIDATED} from "../actions/user";
+import {CLEAR_ALL_STATE} from "../actions/application";
 
 
 const initialState = {
@@ -36,6 +38,9 @@ const initialState = {
 // this seemd to be the bit that is in reducers in loyalty code
 const customer = (state = initialState, action) => {
     switch (action.type) {
+         case CLEAR_ALL_STATE:
+       case CUSTOMER_CLEAR_STATE:
+            return initialState;
         case USER_NOT_VALIDATED:
             return {
                 ...state,

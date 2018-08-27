@@ -1,11 +1,11 @@
 import React from 'react'
-import {Button, Dimmer, Loader} from 'semantic-ui-react'
+import {Button, Dimmer, Icon, Loader} from 'semantic-ui-react'
 import Pagination from "../../common/pagination";
 import FormTextInput from "../../common/FormTextInput";
 import CustomerRow from "./CustomerRow";
 import ErrorDismissibleBlock from "../../common/ErrorDismissibleBlock";
-import Link from "react-router-dom/es/Link";
-import Icon from "semantic-ui-react/dist/es/elements/Icon/Icon";
+import {Link} from "react-router-dom";
+
 
 class CustomerList extends React.Component {
     state = {
@@ -15,7 +15,8 @@ class CustomerList extends React.Component {
     };
 
     componentWillMount() {
-        if (this.props.searchLastName || this.props.searchFirstName) {
+        if (this.props.searchParams &&
+            (this.props.searchParams.firstName || this.props.searchParams.lastName || this.props.searchParams.email)) {
             this.setState({
                 firstName: this.props.searchParams.firstName,
                 lastName: this.props.searchParams.lastName,
@@ -28,33 +29,33 @@ class CustomerList extends React.Component {
 
     handleInputChange = (fieldName, input) => {
         if (fieldName === 'firstName') {
-             this.setState({firstName: input});
-        } else  if (fieldName === 'lastName') {
-             this.setState({lastName: input});
-        } else  if (fieldName === 'email') {
-             this.setState({email: input});
+            this.setState({ firstName: input });
+        } else if (fieldName === 'lastName') {
+            this.setState({ lastName: input });
+        } else if (fieldName === 'email') {
+            this.setState({ email: input });
         }
     };
     handleInputClear = (fieldName) => {
         if (fieldName === 'removefirstName') {
-             this.setState({firstName: ""});
-        } else  if (fieldName === 'removelastName') {
-             this.setState({lastName: ""});
-        } else  if (fieldName === 'removeemail') {
-             this.setState({email: ""});
+            this.setState({ firstName: "" });
+        } else if (fieldName === 'removelastName') {
+            this.setState({ lastName: "" });
+        } else if (fieldName === 'removeemail') {
+            this.setState({ email: "" });
         }
     };
 
     onSubmit = (event) => {
         event.preventDefault();
         event.stopPropagation();
-        const {firstName, lastName, email} = this.state;
+        const { firstName, lastName, email } = this.state;
         this.props.getCustomerList(firstName, lastName, email);
     };
 
     render() {
-        const {firstName, lastName, email} = this.state;
-        const {getCustomerListPage, getCustomer, removeCustomerError, isLoading, customers, count, page, totalPages, error} = this.props;
+        const { firstName, lastName, email } = this.state;
+        const { getCustomerListPage, getCustomer, removeCustomerError, clearCustomerState, isLoading, customers, count, page, totalPages, error } = this.props;
 
         return (
             <div id="customer-list">
@@ -97,7 +98,7 @@ class CustomerList extends React.Component {
                     </div>
                 </form>
                 {count > 0 ?
-                    <div style={{width: '100%', height: '400px'}}>
+                    <div style={{ width: '100%', height: '400px' }}>
                         <table className="fixed_headers">
                             <thead>
                             <tr>
@@ -115,15 +116,16 @@ class CustomerList extends React.Component {
                             )}
                             </tbody>
                         </table>
-                       <div className="row align-left">
-                        <Pagination
-                            id="customer-pagination"
-                            page={page}
-                            totalPages={totalPages}
-                            getPage={getCustomerListPage}/>
-                                               <Link className="" to="/customer" title="Add a new customer"><Icon name='add' className="red"/> </Link>
+                        <div className="row align-left">
+                            <Pagination
+                                id="customer-pagination"
+                                page={page}
+                                totalPages={totalPages}
+                                getPage={getCustomerListPage}/>
+                            <Link className="" to="/customer" title="Add a new customer"
+                                  onClick={() => clearCustomerState()}><Icon name='add' className="red"/> </Link>
 
-                    </div>
+                        </div>
                     </div>
                     :
                     <p>
