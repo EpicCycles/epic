@@ -5,7 +5,7 @@ import {
     createCustomerSuccess,
     CUSTOMER_CREATE_REQUESTED,
     CUSTOMER_DELETE_REQUESTED,
-    CUSTOMER_LIST_REQUESTED,
+    CUSTOMER_LIST_REQUESTED, CUSTOMER_PAGE,
     CUSTOMER_REQUESTED,
     CUSTOMER_SAVE_REQUESTED,
     deleteCustomerFailure,
@@ -20,12 +20,13 @@ import {
 
 import api from './api';
 import * as selectors from '../selectors/user.js';
+import * as customerSelectors from '../selectors/customer.js';
 
 export function* getCustomerList(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = Object.assign(action.payload, { token, page:1 });
             const response = yield call(api.getCustomerList, completePayload);
             yield put(getCustomerListSuccess(response.data));
         } else {
@@ -38,6 +39,27 @@ export function* getCustomerList(action) {
 
 export function* watchForGetCustomerList() {
     yield takeLatest(CUSTOMER_LIST_REQUESTED, getCustomerList);
+}
+
+export function* getCustomerListPage(action) {
+    try {
+        const token = yield select(selectors.token);
+        const searchParams = yield select(customerSelectors.searchParams);
+        console.log(searchParams)
+        if (token) {
+            const completePayload2 = Object.assign(action.payload, { token }, searchParams);
+            const response = yield call(api.getCustomerList, completePayload2);
+            yield put(getCustomerListSuccess(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(getCustomerListFailure("Get Customer List Page failed"));
+    }
+}
+
+export function* watchForGetCustomerListPage() {
+    yield takeLatest(CUSTOMER_PAGE, getCustomerListPage);
 }
 
 export function* getCustomer(action) {

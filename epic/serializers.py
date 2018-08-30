@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
-from rest_framework import serializers, viewsets, routers
-from rest_framework.compat import authenticate
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from rest_framework import serializers, viewsets, routers, pagination
 
 from epic.models import *
 
@@ -23,12 +23,28 @@ class UserViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 
-
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = '__all__'
 
+class PaginatedCustomerSerializer():
+    def __init__(self, customers, request, num):
+        paginator = Paginator(customers, num)
+        page = request.query_params.get('page')
+        try:
+            customers = paginator.page(page)
+        except PageNotAnInteger:
+            customers = paginator.page(1)
+        except EmptyPage:
+            customers = paginator.page(paginator.num_pages)
+        count = paginator.count
+
+        previous = '' if not customers.has_previous() else customers.previous_page_number()
+        next = '' if not customers.has_next() else customers.next_page_number()
+        serializer = CustomerSerializer(customers, many=True)
+        self.data = {'count':count,'previous':previous,
+                 'next':next,'customers':serializer.data}
 
 class CustomerPhoneSerializer(serializers.ModelSerializer):
     class Meta:

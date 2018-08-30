@@ -55,7 +55,7 @@ class CustomerList extends React.Component {
 
     render() {
         const { firstName, lastName, email } = this.state;
-        const { getCustomerListPage, getCustomer, removeCustomerError, clearCustomerState, isLoading, customers, count, page, totalPages, error } = this.props;
+        const { getCustomerListPage, getCustomer, removeCustomerError, clearCustomerState, isLoading, customers, count, next, previous, error } = this.props;
 
         return (
             <div id="customer-list">
@@ -119,8 +119,9 @@ class CustomerList extends React.Component {
                         <div className="row align-left">
                             <Pagination
                                 id="customer-pagination"
-                                page={page}
-                                totalPages={totalPages}
+                                previous={previous}
+                                next={next}
+                                count={count}
                                 getPage={getCustomerListPage}/>
                             <Link className="" to="/customer" title="Add a new customer"
                                   onClick={() => clearCustomerState()}><Icon name='add' className="red"/> </Link>

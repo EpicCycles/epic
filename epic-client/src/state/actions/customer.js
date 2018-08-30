@@ -23,9 +23,9 @@ export const removeCustomer = () => ({
 export const clearCustomerState = () => ({
     type: CUSTOMER_CLEAR_STATE
 });
-export const getCustomerListPage = requestedPage => ({
+export const getCustomerListPage = page => ({
     type: CUSTOMER_PAGE,
-    payload: requestedPage
+    payload: { page }
 });
 
 export const getCustomerList =  (firstName, lastName, email)  => ({

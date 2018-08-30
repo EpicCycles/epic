@@ -15,7 +15,7 @@ import {
     CUSTOMER_SAVE,
     CUSTOMER_SAVE_ERROR,
     CUSTOMER_SAVE_REQUESTED,
-    CUSTOMER_CLEAR_STATE
+    CUSTOMER_CLEAR_STATE, CUSTOMER_PAGE
 } from "../actions/customer";
 import {updateCustomerBasic} from "../../helpers/customer";
 import {USER_NOT_VALIDATED} from "../actions/user";
@@ -23,23 +23,23 @@ import {CLEAR_ALL_STATE} from "../actions/application";
 
 
 const initialState = {
-    count: 0,
     isLoading: false,
     customers: [],
+    count: 0,
+    previous: '',
+    next: '',
     searchParams: {
         firstName: "",
         lastName: "",
         email: ""
     },
-    page: 1,
-    perPage: 20
 };
 
 // this seemd to be the bit that is in reducers in loyalty code
 const customer = (state = initialState, action) => {
     switch (action.type) {
-         case CLEAR_ALL_STATE:
-       case CUSTOMER_CLEAR_STATE:
+        case CLEAR_ALL_STATE:
+        case CUSTOMER_CLEAR_STATE:
             return initialState;
         case USER_NOT_VALIDATED:
             return {
@@ -51,13 +51,24 @@ const customer = (state = initialState, action) => {
                 ...state,
                 customer: {}
             };
+        case CUSTOMER_PAGE:
+            return {
+                ...state,
+                isLoading: true,
+            };
         case CUSTOMER_LIST_REQUESTED:
             return {
                 ...state,
-                searchParams: action.payload,
+                searchParams: {
+                    firstName: action.payload.firstName,
+                    lastName: action.payload.lastName,
+                    email: action.payload.email
+                },
                 isLoading: true,
                 customers: [],
-                totalPages: 0
+                count: 0,
+                previous: '',
+                next: '',
             };
         case CUSTOMER_CREATE_REQUESTED:
             return {
@@ -89,7 +100,9 @@ const customer = (state = initialState, action) => {
                 error: action.payload,
                 isLoading: false,
                 customers: [],
-                totalPages: 0
+                count: 0,
+                previous: '',
+                next: '',
             };
 
         case CUSTOMER_ERROR:
@@ -121,10 +134,11 @@ const customer = (state = initialState, action) => {
         case CUSTOMER_LIST:
             return {
                 ...state,
-                customers: action.payload,
+                customers: action.payload.customers,
+                count: action.payload.count,
+                previous: action.payload.previous,
+                next: action.payload.next,
                 isLoading: !state.isLoading,
-                page: 1,
-                totalPages: Math.floor(action.payload.length / state.perPage) + 1
             };
         case CUSTOMER:
             return {

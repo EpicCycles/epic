@@ -7,50 +7,59 @@ exports[`CustomerList.index tests renders the CustomerList correctly 1`] = `
   <form
     onSubmit={[Function]}
   >
-    <h1>
+    <h2>
       Find Customer
-    </h1>
-    <label
-      className="search-heading"
-      htmlFor="search-input"
-      id="search-input-label"
-    >
-      Please enter your search criteria.
-    </label>
+    </h2>
     <div
-      className="row"
+      className="row vertical-middle"
     >
+      <div>
+        First name like:
+      </div>
       <FormTextInput
-        className="column full"
+        className="column "
+        fieldName="firstName"
         id="first-name-input"
         onChange={[Function]}
         onClick={[Function]}
         placeholder="First Name"
         value=""
       />
-    </div>
-    <div
-      className="row"
-    >
+      <div>
+         Last name like:
+      </div>
       <FormTextInput
-        className="column full"
+        className="column "
+        fieldName="lastName"
         id="last-name-input"
         onChange={[Function]}
         onClick={[Function]}
         placeholder="Last Name"
         value=""
       />
+      <div>
+         email like:
+      </div>
+      <FormTextInput
+        className="column "
+        fieldName="email"
+        id="email-input"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="bod@gmail.com"
+        value=""
+      />
+      <div>
+        <Button
+          as="button"
+          disabled={false}
+          role="button"
+          type="submit"
+        >
+          Find Customers
+        </Button>
+      </div>
     </div>
-    <p>
-      <Button
-        as="button"
-        disabled={false}
-        role="button"
-        type="submit"
-      >
-        Get Customers
-      </Button>
-    </p>
   </form>
   <p>
     Set criteria and search.

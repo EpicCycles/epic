@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const instance = axios.create({
     baseURL: '',
     timeout: 5000,
@@ -9,22 +8,19 @@ const instance = axios.create({
 
 const loginUser = async (payload) => {
     const api = `/rest-auth/login/ `;
-    const response = await instance.post(api, payload);
-    return response;
+    return await instance.post(api, payload);
 };
 const getUser = async (payload) => {
     instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
-    const api = `/api/user/${payload.username} `;
-    const response = await instance.get(api);
-    return response;
+    const api = `/api/user/${payload.username}`;
+    return await instance.get(api);
 };
 
 // "Authorization: Token 5e2effff34c85c11a8720a597b96d73a4634c9ad"
 const getCustomerList = async (payload) => {
     instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
-    const api = `/api/customers?firstName=${payload.firstName}&lastName=${payload.lastName}&email=${payload.email}`;
-    const response = await instance.get(api);
-    return response;
+    const api = `/api/customers?firstName=${payload.firstName}&lastName=${payload.lastName}&email=${payload.email}&page=${payload.page}`;
+    return await instance.get(api);
 };
 
 const getNoteList = async (payload) => {
@@ -72,7 +68,6 @@ const deleteNote = async (payload) => {
     const api = `/api/customernote/${noteId}`;
     return await instance.delete(api);
 };
-
 
 export default {
     loginUser,
