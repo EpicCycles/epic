@@ -82,7 +82,7 @@ class Customer(models.Model):
 
 
 class CustomerPhone(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, related_name='phones', on_delete=models.CASCADE)
 
     number_type = models.CharField(max_length=1, choices=NUMBER_TYPE_CHOICES, default=HOME, )
     telephone = models.CharField(max_length=60)
@@ -109,7 +109,7 @@ class CustomerPhone(models.Model):
 
 
 class CustomerAddress(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, related_name='addresses', on_delete=models.CASCADE)
     address1 = models.CharField(max_length=200)
     address2 = models.CharField(max_length=200, blank=True)
     address3 = models.CharField(max_length=200, blank=True)
@@ -145,7 +145,7 @@ class CustomerAddress(models.Model):
 
 
 class Fitting(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, related_name='fittings', on_delete=models.CASCADE)
     fitting_type = models.CharField('Type', max_length=1, choices=FITTING_TYPE_CHOICES, default=EPIC, )
     saddle_height = models.CharField('Saddle Height', max_length=20)
     bar_height = models.CharField('Bar Height', max_length=20)
@@ -506,7 +506,7 @@ class FrameExclusion(models.Model):
 
 
 class Quote(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, related_name='quotes', on_delete=models.CASCADE)
     quote_desc = models.CharField(max_length=60)
     version = models.PositiveSmallIntegerField(default=1, editable=False)
     created_date = models.DateTimeField(auto_now_add=True)
@@ -858,9 +858,9 @@ class QuotePartAttribute(models.Model):
 
 
 class CustomerNote(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    quote = models.ForeignKey(Quote, on_delete=models.CASCADE, blank=True, null=True)
+    customer = models.ForeignKey(Customer, related_name='notes', on_delete=models.CASCADE)
+    quote = models.ForeignKey(Quote, related_name='quote', on_delete=models.CASCADE, blank=True, null=True)
     note_text = models.TextField('Notes')
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', blank=True, null=True, on_delete=models.PROTECT)
     customer_visible = models.BooleanField(default=False)

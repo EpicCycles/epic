@@ -8,7 +8,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from epic.models import Customer
-from epic.serializers import CustomerSerializer, PaginatedCustomerSerializer
+from epic.serializers import CustomerSerializer, PaginatedCustomerSerializer, CustomerEditSerializer
 
 
 class CustomerList(generics.ListCreateAPIView):
@@ -58,7 +58,7 @@ class CustomerList(generics.ListCreateAPIView):
 class CustomerMaintain(generics.GenericAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    serializer_class = CustomerSerializer
+    # serializer_class = CustomerSerializer
 
     def get_object(self, pk):
         try:
@@ -68,7 +68,8 @@ class CustomerMaintain(generics.GenericAPIView):
 
     def get(self, request, pk, format=None):
         customer = self.get_object(pk)
-        serializer = CustomerSerializer(customer)
+        serializer = CustomerEditSerializer(customer)
+        print(serializer.data)
         return Response(serializer.data)
 
     def post(self, request, pk, format=None):
