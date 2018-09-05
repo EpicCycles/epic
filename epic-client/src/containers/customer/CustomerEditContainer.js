@@ -2,7 +2,7 @@ import {
     createCustomer,
     saveCustomer,
     deleteCustomer,
-    removeCustomer
+    removeCustomer, saveCustomerPhone, deleteCustomerPhone
 } from "../../state/actions/customer";
 import {connect} from "react-redux";
 import CustomerEdit from "./CustomerEdit";
@@ -14,5 +14,6 @@ export default connect(({customer, note}) => ({
     isLoading: customer.isLoading || note.isLoading
 }), {
     createCustomer, saveCustomer, deleteCustomer, removeCustomer,
-    createNote, saveNote, removeNote, deleteNote
+    createNote, saveNote, removeNote, deleteNote,
+    saveCustomerPhone, deleteCustomerPhone
 })(CustomerEdit)

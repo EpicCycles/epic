@@ -13,8 +13,8 @@ import {
     NOTE_SAVE_ERROR,
     NOTE_SAVE_REQUESTED
 } from "../actions/note";
-import {USER_NOT_VALIDATED} from "../actions/user";
 import {CLEAR_ALL_STATE} from "../actions/application";
+import {USER_NOT_VALIDATED} from "../actions/user";
 
 const initialState = {
     count: 0,
@@ -31,13 +31,8 @@ const initialState = {
 // this seemd to be the bit that is in reducers in loyalty code
 const note = (state = initialState, action) => {
     switch (action.type) {
-         case CLEAR_ALL_STATE:
-             return initialState;
-       case USER_NOT_VALIDATED:
-            return {
-                ...state,
-                isLoading: false
-            };
+        case CLEAR_ALL_STATE:
+            return initialState;
         case NOTE_REMOVE:
             return {
                 ...state,
@@ -51,21 +46,10 @@ const note = (state = initialState, action) => {
                 totalPages: 0
             };
         case NOTE_CREATE_REQUESTED:
-            return {
-                ...state,
-                note: action.payload.note,
-                isLoading: true,
-            };
         case NOTE_SAVE_REQUESTED:
-            return {
-                ...state,
-                note: action.payload.note,
-                isLoading: true,
-            };
         case NOTE_DELETE_REQUESTED:
             return {
                 ...state,
-                note: action.payload.note,
                 isLoading: true,
             };
 
@@ -77,16 +61,8 @@ const note = (state = initialState, action) => {
                 totalPages: 0
             };
         case NOTE_SAVE_ERROR:
-            return {
-                ...state,
-                isLoading: false
-            };
-
+        case USER_NOT_VALIDATED:
         case NOTE_CREATE_ERROR:
-            return {
-                ...state,
-                isLoading: false
-            };
         case NOTE_DELETE_ERROR:
             return {
                 ...state,
@@ -101,13 +77,6 @@ const note = (state = initialState, action) => {
                 totalPages: Math.floor(action.payload.length / state.perPage) + 1
             };
         case NOTE_CREATE:
-            return {
-                ...state,
-                isLoading: !state.isLoading,
-                note: action.payload,
-                page: 1,
-                totalPages: Math.floor(action.payload.length / state.perPage) + 1
-            };
         case NOTE_SAVE:
             return {
                 ...state,

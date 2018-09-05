@@ -1,0 +1,310 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders a multiple select array if one is passed 1`] = `
+<div
+  className="undefined"
+  id="containermyField"
+  key="containermyField"
+>
+  <select
+    id="myField"
+    key="myField"
+    multiple={true}
+    name="myField"
+    onChange={[Function]}
+  >
+    <option
+      id="myField_"
+      key="myField_"
+      selected={true}
+      value=""
+    >
+      None
+    </option>
+    <option
+      id="myField_H"
+      key="myField_H"
+      value="H"
+    >
+      Home
+    </option>
+    <option
+      id="myField_A"
+      key="myField_A"
+      value="A"
+    >
+      Away
+    </option>
+    <option
+      id="myField_O"
+      key="myField_O"
+      value="O"
+    >
+      Other
+    </option>
+  </select>
+</div>
+`;
+
+exports[`it renders a multiple select array if one is passed with correct size 1`] = `
+<div
+  className="undefined"
+  id="containermyField"
+  key="containermyField"
+>
+  <select
+    id="myField"
+    key="myField"
+    multiple={true}
+    name="myField"
+    onChange={[Function]}
+    size={2}
+  >
+    <option
+      id="myField_H"
+      key="myField_H"
+      value="H"
+    >
+      Home
+    </option>
+    <option
+      id="myField_A"
+      key="myField_A"
+      value="A"
+    >
+      Away
+    </option>
+    <option
+      id="myField_O"
+      key="myField_O"
+      value="O"
+    >
+      Other
+    </option>
+  </select>
+</div>
+`;
+
+exports[`it renders an empty option if one is allowed 1`] = `
+<div
+  className="undefined"
+  id="containermyField"
+  key="containermyField"
+>
+  <select
+    id="myField"
+    key="myField"
+    name="myField"
+    onChange={[Function]}
+  >
+    <option
+      id="myField_"
+      key="myField_"
+      selected={true}
+      value=""
+    >
+      None
+    </option>
+    <option
+      id="myField_H"
+      key="myField_H"
+      value="H"
+    >
+      Home
+    </option>
+  </select>
+</div>
+`;
+
+exports[`it renders an error, title and a passed class 1`] = `
+<div
+  className="pink error"
+  id="containermyField"
+  key="containermyField"
+  title="show an error"
+>
+  <select
+    id="myField"
+    key="myField"
+    multiple={false}
+    name="myField"
+    onChange={[Function]}
+    title="show a title"
+  >
+    <option
+      id="myField_H"
+      key="myField_H"
+      value="H"
+    >
+      Home
+    </option>
+    <option
+      id="myField_A"
+      key="myField_A"
+      selected={true}
+      value="A"
+    >
+      Away
+    </option>
+    <option
+      id="myField_O"
+      key="myField_O"
+      value="O"
+    >
+      Other
+    </option>
+  </select>
+</div>
+`;
+
+exports[`it renders the default value as selected if no value is passed 1`] = `
+<div
+  className="undefined"
+  id="containermyField"
+  key="containermyField"
+>
+  <select
+    id="myField"
+    key="myField"
+    multiple={false}
+    name="myField"
+    onChange={[Function]}
+  >
+    <option
+      id="myField_H"
+      key="myField_H"
+      value="H"
+    >
+      Home
+    </option>
+    <option
+      id="myField_A"
+      key="myField_A"
+      selected={true}
+      value="A"
+    >
+      Away
+    </option>
+    <option
+      id="myField_O"
+      key="myField_O"
+      value="O"
+    >
+      Other
+    </option>
+  </select>
+</div>
+`;
+
+exports[`it renders with minimum data 1`] = `
+<div
+  className="undefined"
+  id="containermyField"
+  key="containermyField"
+>
+  <select
+    id="myField"
+    key="myField"
+    name="myField"
+    onChange={[Function]}
+  >
+    <option
+      id="myField_H"
+      key="myField_H"
+      value="H"
+    >
+      Home
+    </option>
+  </select>
+</div>
+`;
+
+exports[`it sets a value to selected if it is in the array of selected values - multiple select 1`] = `
+<div
+  className="undefined"
+  id="containermyField"
+  key="containermyField"
+>
+  <select
+    id="myField"
+    key="myField"
+    multiple={true}
+    name="myField"
+    onChange={[Function]}
+  >
+    <option
+      id="myField_H"
+      key="myField_H"
+      selected={false}
+      value="H"
+    >
+      Home
+    </option>
+    <option
+      id="myField_A"
+      key="myField_A"
+      selected={true}
+      value="A"
+    >
+      Away
+    </option>
+    <option
+      id="myField_O"
+      key="myField_O"
+      selected={true}
+      value="O"
+    >
+      Other
+    </option>
+  </select>
+</div>
+`;
+
+exports[`it sets a value to selected if it is in the array of selected values - single select 1`] = `
+<div
+  className="undefined"
+  id="containermyField"
+  key="containermyField"
+>
+  <select
+    id="myField"
+    key="myField"
+    multiple={true}
+    name="myField"
+    onChange={[Function]}
+  >
+    <option
+      id="myField_"
+      key="myField_"
+      selected={false}
+      value=""
+    >
+      None
+    </option>
+    <option
+      id="myField_H"
+      key="myField_H"
+      selected={false}
+      value="H"
+    >
+      Home
+    </option>
+    <option
+      id="myField_A"
+      key="myField_A"
+      selected={true}
+      value="A"
+    >
+      Away
+    </option>
+    <option
+      id="myField_O"
+      key="myField_O"
+      selected={false}
+      value="O"
+    >
+      Other
+    </option>
+  </select>
+</div>
+`;

@@ -69,7 +69,6 @@ class CustomerMaintain(generics.GenericAPIView):
     def get(self, request, pk, format=None):
         customer = self.get_object(pk)
         serializer = CustomerEditSerializer(customer)
-        print(serializer.data)
         return Response(serializer.data)
 
     def post(self, request, pk, format=None):
@@ -84,3 +83,4 @@ class CustomerMaintain(generics.GenericAPIView):
         customer = self.get_object(pk)
         customer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+

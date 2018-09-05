@@ -5,7 +5,7 @@ import {shallow} from "enzyme";
 describe("Pagination tests", () => {
     it('renders the pagination correctly', () => {
         const pagination = shallow(
-            <Pagination page={1} totalPages={1} getPage={()=>{}} />
+            <Pagination next=""  previous="" count={1} getPage={()=>{}} />
         );
         expect(pagination).toMatchSnapshot();
         const icons = pagination.find('Icon');
@@ -19,7 +19,7 @@ describe("Pagination tests", () => {
         const onPress = jest.fn();
 
         const pagination = shallow(
-            <Pagination page={3} totalPages={3} getPage={onPress}/>
+            <Pagination previous={2} count={3}  next="" getPage={onPress}/>
         );
         expect(pagination.find('#firstPage').length).toBe(1);
         pagination.find('#firstPage').simulate("click");
@@ -32,7 +32,7 @@ describe("Pagination tests", () => {
         const onPress = jest.fn();
 
         const pagination = shallow(
-            <Pagination page={3} totalPages={3} getPage={onPress}/>
+            <Pagination previous={2} count={3}  next="" getPage={onPress}/>
         );
         expect(pagination.find('#prevPage').length).toBe(1);
         pagination.find('#prevPage').simulate("click");
@@ -46,7 +46,7 @@ describe("Pagination tests", () => {
         const onPress = jest.fn();
 
         const pagination = shallow(
-            <Pagination page={2} totalPages={4} getPage={onPress}/>
+            <Pagination previous={1} count={5}  next={3} getPage={onPress}/>
         );
         expect(pagination.find('#nextPage').length).toBe(1);
         pagination.find('#nextPage').simulate("click");
@@ -60,11 +60,11 @@ describe("Pagination tests", () => {
         const onPress = jest.fn();
 
         const pagination = shallow(
-            <Pagination page={1} totalPages={4} getPage={onPress}/>
+            <Pagination previous="" count={5}  next={3} getPage={onPress}/>
         );
         expect(pagination.find('#lastPage').length).toBe(1);
         pagination.find('#lastPage').simulate("click");
-        expect(onPress).toBeCalledWith(4);
+        expect(onPress).toBeCalledWith(99999);
         expect(pagination.find('#firstPage').prop('disabled')).toBe(true);
         expect(pagination.find('#prevPage').prop('disabled')).toBe(true);
         expect(pagination.find('#nextPage').prop('disabled')).toBe(false);

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FormTextInput tests renders an error when present 1`] = `
+exports[`renders an error when present 1`] = `
 <div
   className="undefined error"
   id="5678"
@@ -24,7 +24,7 @@ exports[`FormTextInput tests renders an error when present 1`] = `
 </div>
 `;
 
-exports[`FormTextInput tests renders the form text input correctly 1`] = `
+exports[`renders the form text input correctly 1`] = `
 <div
   className="undefined"
   id="1234"
@@ -39,5 +39,60 @@ exports[`FormTextInput tests renders the form text input correctly 1`] = `
     type="text"
     value=""
   />
+</div>
+`;
+
+exports[`should call onChange when an input is entered 1`] = `
+<div
+  className="undefined"
+>
+  <input
+    autoComplete="off"
+    name="email"
+    onChange={[Function]}
+    type="text"
+    value="test@johnlewis.co.uk"
+  />
+  <span
+    className="clearInput"
+  >
+    <Icon
+      as="i"
+      circular={true}
+      id="removeemail"
+      link={true}
+      name="remove"
+      onClick={[Function]}
+      size="small"
+    />
+  </span>
+</div>
+`;
+
+exports[`should call onClearEmail when the button is clicked 1`] = `
+<div
+  className="undefined"
+>
+  <label />
+  <input
+    autoComplete="off"
+    name="email"
+    onChange={[Function]}
+    type="text"
+    value="test@johnlewis.co.uk"
+  />
+  <span
+    className="clearInput"
+  >
+    <Icon
+      as="i"
+      circular={true}
+      id="removeemail"
+      link={true}
+      name="remove"
+      onClick={[Function]}
+      size="small"
+    />
+  </span>
 </div>
 `;

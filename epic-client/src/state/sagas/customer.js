@@ -15,7 +15,11 @@ import {
     getCustomerListSuccess,
     getCustomerSuccess,
     saveCustomerFailure,
-    saveCustomerSuccess
+    saveCustomerSuccess,
+    saveCustomerPhoneSuccess,
+    saveCustomerPhoneFailure,
+    deleteCustomerPhoneSuccess,
+    deleteCustomerPhoneFailure, CUSTOMER_PHONE_SAVE_REQUEST, CUSTOMER_PHONE_DELETE_REQUEST,
 } from "../actions/customer";
 
 import api from './api';
@@ -26,7 +30,7 @@ export function* getCustomerList(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token, page:1 });
+            const completePayload = Object.assign(action.payload, { token, page: 1 });
             const response = yield call(api.getCustomerList, completePayload);
             yield put(getCustomerListSuccess(response.data));
         } else {
@@ -45,7 +49,6 @@ export function* getCustomerListPage(action) {
     try {
         const token = yield select(selectors.token);
         const searchParams = yield select(customerSelectors.searchParams);
-        console.log(searchParams)
         if (token) {
             const completePayload2 = Object.assign(action.payload, { token }, searchParams);
             const response = yield call(api.getCustomerList, completePayload2);
@@ -88,7 +91,6 @@ export function* createCustomer(action) {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = Object.assign(action.payload, { token });
-            console.log(completePayload)
             const response = yield call(api.createCustomer, completePayload);
             yield put(createCustomerSuccess(response.data));
         } else {
@@ -143,3 +145,49 @@ export function* deleteCustomer(action) {
 export function* watchForDeleteCustomer() {
     yield takeLatest(CUSTOMER_DELETE_REQUESTED, deleteCustomer);
 }
+
+export function* deleteCustomerPhone(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            const response = yield call(api.deleteCustomerPhone, completePayload);
+            yield put(deleteCustomerPhoneSuccess(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(deleteCustomerPhoneFailure("Customer Phone delete failed"));
+    }
+}
+
+export function* watchForDeleteCustomerPhone() {
+    yield takeLatest(CUSTOMER_PHONE_DELETE_REQUEST, deleteCustomerPhone);
+}
+
+export function* saveCustomerPhone(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            let response;
+            if (action.payload.customerPhone.id) {
+                response = yield call(api.saveCustomerPhone, completePayload);
+            } else {
+                response = yield call(api.createCustomerPhone, completePayload);
+            }
+            yield put(saveCustomerPhoneSuccess(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(saveCustomerPhoneFailure("Customer Phone save failed"));
+    }
+}
+
+export function* watchForSaveCustomerPhone() {
+    yield takeLatest(CUSTOMER_PHONE_SAVE_REQUEST, saveCustomerPhone);
+}
+
+
+

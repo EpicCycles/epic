@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.urls import path
 
 from epic.api_views.customer_api import CustomerList, Customer, CustomerMaintain
+from epic.api_views.customer_phone_api import CustomerPhoneList, CustomerPhoneMaintain
 from epic.api_views.note_api import CustomerNoteList, CustomerNoteMaintain
 from epic.api_views.user_api import UserMaintain
 from . import views
@@ -39,5 +40,7 @@ urlpatterns = [url(r'^menu', views.menu_home, name='menu_home'),
                path('api/customernotes/', CustomerNoteList.as_view()),
                path('api/customernote/', CustomerNoteList.as_view()),
                path('api/customernote/<int:pk>', CustomerNoteMaintain.as_view()),
+               path('api/customerphone/', CustomerPhoneList.as_view()),
+               path('api/customerphone/<int:pk>', CustomerPhoneMaintain.as_view()),
                path('api/user/<str:username>', UserMaintain.as_view()),
                ]

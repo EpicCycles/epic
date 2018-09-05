@@ -16,6 +16,12 @@ export const CUSTOMER_DELETE_REQUESTED = 'customer/CUSTOMER_DELETE_REQUESTED';
 export const CUSTOMER_DELETE_ERROR = 'customer/CUSTOMER_DELETE_ERROR';
 export const CUSTOMER_DELETE = 'customer/CUSTOMER_DELETE';
 export const CUSTOMER_CLEAR_STATE = 'customer/CUSTOMER_CLEAR_STATE';
+export const CUSTOMER_PHONE_SAVE_REQUEST = 'customer/CUSTOMER_PHONE_SAVE_REQUEST';
+export const CUSTOMER_PHONE_SAVE = 'customer/CUSTOMER_PHONE_SAVE';
+export const CUSTOMER_PHONE_SAVE_ERROR = 'customer/CUSTOMER_PHONE_SAVE_ERROR';
+export const CUSTOMER_PHONE_DELETE_REQUEST = 'customer/CUSTOMER_PHONE_DELETE_REQUEST';
+export const CUSTOMER_PHONE_DELETE = 'customer/CUSTOMER_PHONE_DELETE';
+export const CUSTOMER_PHONE_DELETE_ERROR = 'customer/CUSTOMER_PHONE_DELETE_ERROR';
 
 export const removeCustomer = () => ({
     type: CUSTOMER_REMOVE
@@ -98,5 +104,30 @@ export const deleteCustomerSuccess = () => ({
 
 export const deleteCustomerFailure = error => ({
     type: CUSTOMER_DELETE_ERROR,
+    payload: error
+});
+
+export const saveCustomerPhone = customerPhone => ({
+    type: CUSTOMER_PHONE_SAVE_REQUEST,
+    payload: {customerPhone}
+});
+export const saveCustomerPhoneSuccess = customerPhoneList => ({
+    type: CUSTOMER_PHONE_SAVE,
+    payload: customerPhoneList
+});
+export const saveCustomerPhoneFailure = error => ({
+    type: CUSTOMER_PHONE_SAVE_ERROR,
+    payload: error
+});
+export const deleteCustomerPhone = customerPhoneId => ({
+    type: CUSTOMER_PHONE_DELETE_REQUEST,
+    payload: {customerPhoneId}
+});
+export const deleteCustomerPhoneSuccess = customerPhoneList => ({
+    type: CUSTOMER_PHONE_DELETE,
+    payload: customerPhoneList
+});
+export const deleteCustomerPhoneFailure = error => ({
+    type: CUSTOMER_PHONE_DELETE_ERROR,
     payload: error
 });

@@ -15,12 +15,15 @@ import {
     CUSTOMER_SAVE,
     CUSTOMER_SAVE_ERROR,
     CUSTOMER_SAVE_REQUESTED,
-    CUSTOMER_CLEAR_STATE, CUSTOMER_PAGE
+    CUSTOMER_CLEAR_STATE,
+    CUSTOMER_PAGE,
+    CUSTOMER_PHONE_DELETE_REQUEST,
+    CUSTOMER_PHONE_SAVE_REQUEST,
+    CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE, CUSTOMER_PHONE_SAVE_ERROR, CUSTOMER_PHONE_DELETE_ERROR
 } from "../actions/customer";
-import {updateCustomerBasic} from "../../helpers/customer";
-import {USER_NOT_VALIDATED} from "../actions/user";
+import {updateCustomerBasic, updateCustomerPhoneList} from "../../helpers/customer";
 import {CLEAR_ALL_STATE} from "../actions/application";
-
+import {USER_NOT_VALIDATED} from "../actions/user";
 
 const initialState = {
     isLoading: false,
@@ -41,17 +44,15 @@ const customer = (state = initialState, action) => {
         case CLEAR_ALL_STATE:
         case CUSTOMER_CLEAR_STATE:
             return initialState;
-        case USER_NOT_VALIDATED:
-            return {
-                ...state,
-                isLoading: false
-            };
         case CUSTOMER_REMOVE:
             return {
                 ...state,
                 customer: {}
             };
         case CUSTOMER_PAGE:
+        case CUSTOMER_DELETE_REQUESTED:
+        case CUSTOMER_PHONE_DELETE_REQUEST:
+        case CUSTOMER_PHONE_SAVE_REQUEST:
             return {
                 ...state,
                 isLoading: true,
@@ -82,11 +83,6 @@ const customer = (state = initialState, action) => {
                 customer: updateCustomerBasic(state.customer, action.payload.customer),
                 isLoading: true,
             };
-        case CUSTOMER_DELETE_REQUESTED:
-            return {
-                ...state,
-                isLoading: true,
-            };
         case CUSTOMER_REQUESTED:
             return {
                 ...state,
@@ -97,7 +93,6 @@ const customer = (state = initialState, action) => {
         case CUSTOMER_LIST_ERROR:
             return {
                 ...state,
-                error: action.payload,
                 isLoading: false,
                 customers: [],
                 count: 0,
@@ -108,25 +103,16 @@ const customer = (state = initialState, action) => {
         case CUSTOMER_ERROR:
             return {
                 ...state,
-                error: action.payload,
                 isLoading: false,
                 customer: {},
                 totalPages: 0
             };
         case CUSTOMER_SAVE_ERROR:
-            return {
-                ...state,
-                error: action.payload,
-                isLoading: false
-            };
-
         case CUSTOMER_CREATE_ERROR:
-            return {
-                ...state,
-                error: action.payload,
-                isLoading: false
-            };
         case CUSTOMER_DELETE_ERROR:
+        case CUSTOMER_PHONE_DELETE_ERROR:
+        case CUSTOMER_PHONE_SAVE_ERROR:
+        case USER_NOT_VALIDATED:
             return {
                 ...state,
                 isLoading: false
@@ -141,17 +127,7 @@ const customer = (state = initialState, action) => {
                 isLoading: !state.isLoading,
             };
         case CUSTOMER:
-            return {
-                ...state,
-                isLoading: !state.isLoading,
-                customer: action.payload
-            };
         case CUSTOMER_CREATE:
-            return {
-                ...state,
-                isLoading: !state.isLoading,
-                customer: action.payload
-            };
         case CUSTOMER_SAVE:
             return {
                 ...state,
@@ -163,6 +139,13 @@ const customer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 customer: {}
+            };
+        case CUSTOMER_PHONE_DELETE:
+        case CUSTOMER_PHONE_SAVE:
+            return {
+                ...state,
+                isLoading: false,
+                customer: updateCustomerPhoneList(state.customer, action.payload)
             };
         default:
             return state;

@@ -6,7 +6,7 @@ import {
     watchForCreateCustomer,
     watchForDeleteCustomer,
     watchForSaveCustomer,
-    watchForGetCustomerListPage
+    watchForGetCustomerListPage, watchForSaveCustomerPhone, watchForDeleteCustomerPhone
 } from "./customer";
 import {watchForCreateNote, watchForDeleteNote, watchForGetNoteList, watchForSaveNote} from "./note";
 
@@ -19,6 +19,8 @@ export default function* rootSaga() {
         watchForCreateCustomer(),
         watchForDeleteCustomer(),
         watchForSaveCustomer(),
+        watchForDeleteCustomerPhone(),
+        watchForSaveCustomerPhone(),
         watchForCreateNote(),
         watchForDeleteNote(),
         watchForSaveNote(),
