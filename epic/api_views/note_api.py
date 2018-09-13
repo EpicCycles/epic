@@ -38,8 +38,8 @@ class CustomerNoteList(generics.ListCreateAPIView):
         return objects
 
     def post(self, request, format=None):
-        user = request.user;
-        serializer = CustomerNoteSerializer(None, data=request.data)
+        user = request.user
+        serializer = CustomerNoteSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save(created_by=user)

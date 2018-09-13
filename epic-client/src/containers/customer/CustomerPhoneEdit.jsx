@@ -104,10 +104,7 @@ class CustomerPhoneEdit extends React.Component {
     onClickDelete = () => {
         if (this.props.customerPhone) {
             let phoneToSave = this.props.customerPhone;
-            phoneToSave.telephone = this.state.telephone;
-            phoneToSave.number_type = this.state.number_type;
             this.props.deleteCustomerPhone(phoneToSave.id);
-            console.log('save ' + phoneToSave)
         } else {
             this.setState({
                 telephone: '',
@@ -137,7 +134,7 @@ class CustomerPhoneEdit extends React.Component {
             <td>
                 <FormTextInput
                     placeholder="Phone Number"
-                    id="telephone-input"
+                    id={`telephone-input_${componentContext}`}
                     className="column full"
                     value={telephone}
                     fieldName={`telephone_${componentContext}`}

@@ -10,3 +10,9 @@ export const updateCustomerPhoneList = (customer, phones) => {
     updatedCustomer.phones = phones;
     return updatedCustomer;
 };
+
+export const updateCustomerAddressList = (customer, addresses) => {
+    let updatedCustomer = customer ? Object.assign({}, customer) : {};
+    updatedCustomer.addresses = addresses;
+    return updatedCustomer;
+};

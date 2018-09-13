@@ -19,9 +19,12 @@ import {
     CUSTOMER_PAGE,
     CUSTOMER_PHONE_DELETE_REQUEST,
     CUSTOMER_PHONE_SAVE_REQUEST,
-    CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE, CUSTOMER_PHONE_SAVE_ERROR, CUSTOMER_PHONE_DELETE_ERROR
+    CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE, CUSTOMER_PHONE_SAVE_ERROR, CUSTOMER_PHONE_DELETE_ERROR,
+    CUSTOMER_ADDRESS_DELETE_REQUEST,
+    CUSTOMER_ADDRESS_SAVE_REQUEST,
+    CUSTOMER_ADDRESS_DELETE, CUSTOMER_ADDRESS_SAVE, CUSTOMER_ADDRESS_SAVE_ERROR, CUSTOMER_ADDRESS_DELETE_ERROR
 } from "../actions/customer";
-import {updateCustomerBasic, updateCustomerPhoneList} from "../../helpers/customer";
+import {updateCustomerBasic, updateCustomerPhoneList, updateCustomerAddressList} from "../../helpers/customer";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_NOT_VALIDATED} from "../actions/user";
 
@@ -51,6 +54,8 @@ const customer = (state = initialState, action) => {
             };
         case CUSTOMER_PAGE:
         case CUSTOMER_DELETE_REQUESTED:
+        case CUSTOMER_ADDRESS_DELETE_REQUEST:
+        case CUSTOMER_ADDRESS_SAVE_REQUEST:
         case CUSTOMER_PHONE_DELETE_REQUEST:
         case CUSTOMER_PHONE_SAVE_REQUEST:
             return {
@@ -112,6 +117,8 @@ const customer = (state = initialState, action) => {
         case CUSTOMER_DELETE_ERROR:
         case CUSTOMER_PHONE_DELETE_ERROR:
         case CUSTOMER_PHONE_SAVE_ERROR:
+       case CUSTOMER_ADDRESS_DELETE_ERROR:
+        case CUSTOMER_ADDRESS_SAVE_ERROR:
         case USER_NOT_VALIDATED:
             return {
                 ...state,
@@ -146,6 +153,13 @@ const customer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 customer: updateCustomerPhoneList(state.customer, action.payload)
+            };
+        case CUSTOMER_ADDRESS_DELETE:
+        case CUSTOMER_ADDRESS_SAVE:
+            return {
+                ...state,
+                isLoading: false,
+                customer: updateCustomerAddressList(state.customer, action.payload)
             };
         default:
             return state;

@@ -65,4 +65,4 @@ class CustomerPhoneMaintain(generics.GenericAPIView):
         customerPhone = self.get_object(pk)
         customerId = customerPhone.customer
         customerPhone.delete()
-        return Response(customerPhoneData(customerId), status=status.HTTP_204_NO_CONTENT)
+        return Response(customerPhoneData(customerId))

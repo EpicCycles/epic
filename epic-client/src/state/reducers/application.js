@@ -1,14 +1,21 @@
 import {ADD_MESSAGE, CLEAR_ALL_STATE, REMOVE_MESSAGE} from "../actions/application";
 import {
+    CUSTOMER_ADDRESS_DELETE,
+    CUSTOMER_ADDRESS_DELETE_ERROR,
+    CUSTOMER_ADDRESS_DELETE_REQUEST, CUSTOMER_ADDRESS_SAVE_ERROR,
+    CUSTOMER_ADDRESS_SAVE_REQUEST,
     CUSTOMER_CREATE_ERROR,
     CUSTOMER_CREATE_REQUESTED,
     CUSTOMER_DELETE,
     CUSTOMER_DELETE_ERROR,
     CUSTOMER_DELETE_REQUESTED,
     CUSTOMER_LIST_ERROR,
-    CUSTOMER_LIST_REQUESTED, CUSTOMER_PHONE_DELETE,
-    CUSTOMER_PHONE_DELETE_ERROR, CUSTOMER_PHONE_DELETE_REQUEST,
-    CUSTOMER_PHONE_SAVE_ERROR, CUSTOMER_PHONE_SAVE_REQUEST,
+    CUSTOMER_LIST_REQUESTED,
+    CUSTOMER_PHONE_DELETE,
+    CUSTOMER_PHONE_DELETE_ERROR,
+    CUSTOMER_PHONE_DELETE_REQUEST,
+    CUSTOMER_PHONE_SAVE_ERROR,
+    CUSTOMER_PHONE_SAVE_REQUEST,
     CUSTOMER_REQUESTED,
     CUSTOMER_SAVE_ERROR,
     CUSTOMER_SAVE_REQUESTED
@@ -40,6 +47,12 @@ const application = (state = initialState, action) => {
                 message: "Customer Phone deleted",
                 messageType: "I"
             };
+        case CUSTOMER_ADDRESS_DELETE:
+            return {
+                ...state,
+                message: "Customer Address deleted",
+                messageType: "I"
+            };
         case ADD_MESSAGE:
             return {
                 ...state,
@@ -53,6 +66,8 @@ const application = (state = initialState, action) => {
         case CUSTOMER_SAVE_REQUESTED:
         case CUSTOMER_PHONE_DELETE_REQUEST:
         case CUSTOMER_PHONE_SAVE_REQUEST:
+        case CUSTOMER_ADDRESS_DELETE_REQUEST:
+        case CUSTOMER_ADDRESS_SAVE_REQUEST:
         case NOTE_CREATE_REQUESTED:
         case NOTE_SAVE_REQUESTED:
         case NOTE_DELETE_REQUESTED:
@@ -67,6 +82,8 @@ const application = (state = initialState, action) => {
         case CUSTOMER_SAVE_ERROR:
         case CUSTOMER_PHONE_DELETE_ERROR:
         case CUSTOMER_PHONE_SAVE_ERROR:
+        case CUSTOMER_ADDRESS_DELETE_ERROR:
+        case CUSTOMER_ADDRESS_SAVE_ERROR:
         case NOTE_LIST_ERROR:
         case NOTE_SAVE_ERROR:
         case NOTE_CREATE_ERROR:

@@ -3,6 +3,7 @@ import {Dimmer, Loader} from 'semantic-ui-react'
 import CustomerDetailEdit from "./CustomerDetailEdit";
 import NoteCreate from "../note/NoteCreate";
 import CustomerPhoneEdit from "./CustomerPhoneEdit";
+import CustomerAddressEdit from "./CustomerAddressEdit";
 
 class CustomerEdit extends React.Component {
     // add a key to state for each block to force reload on change
@@ -51,7 +52,8 @@ class CustomerEdit extends React.Component {
             deleteCustomer, removeCustomer,
             isLoading, customer,
             note, removeNote, deleteNote,
-            deleteCustomerPhone, saveCustomerPhone
+            deleteCustomerPhone, saveCustomerPhone,
+            saveCustomerAddress, deleteCustomerAddress
         } = this.props;
         const note_key = (note && note.id) ? note.id : 0;
         const customer_key = (customer && customer.id) ? customer.id : 0;
@@ -68,6 +70,24 @@ class CustomerEdit extends React.Component {
                         />
                         {(customer && customer.id) &&
                         <Fragment>
+                            <h3>Customer Addresses</h3>
+                            <table>
+                                <tbody>
+                                <CustomerAddressEdit
+                                    customerId={customer.id}
+                                    saveCustomerAddress={saveCustomerAddress}
+                                    deleteCustomerAddress={deleteCustomerAddress}
+                                />
+                                {customer.addresses && customer.addresses.map((address) => {
+                                    return <CustomerAddressEdit
+                                        customerId={customer.id}
+                                        saveCustomerAddress={saveCustomerAddress}
+                                        deleteCustomerAddress={deleteCustomerAddress}
+                                        customerAddress={address}
+                                    />
+                                })}
+                                </tbody>
+                            </table>
                             <h3>Customer Phone</h3>
                             <table>
                                 <tbody>

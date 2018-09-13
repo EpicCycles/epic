@@ -30,10 +30,6 @@ def is_valid_post_code(postcode):
     if postcode is '':
         return False
 
-    match = re.match(POSTCODE_PATTERN, postcode)
-    if match is None:
-        return False
-
     return True
 
 

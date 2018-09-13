@@ -69,6 +69,26 @@ const deleteCustomerPhone = async payload => {
     const customerPhoneId = payload.customerPhoneId;
     return await instance.delete(`/api/customerphone/${customerPhoneId}`);
 };
+const getCustomerAddressList = async (payload) => {
+    instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
+    const api = `/api/customeraddress?customerId=${payload.customerId}`;
+    return await instance.get(api);
+};
+const createCustomerAddress = async payload => {
+    instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
+    const customerAddress = payload.customerAddress;
+    return await instance.post(`/api/customeraddress/`, customerAddress);
+};
+const saveCustomerAddress = async payload => {
+    instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
+    const customeraddress = payload.customerAddress;
+    return await instance.post(`/api/customeraddress/${customeraddress.id}`, customeraddress);
+};
+const deleteCustomerAddress = async payload => {
+    instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
+    const customerAddressId = payload.customerAddressId;
+    return await instance.delete(`/api/customeraddress/${customerAddressId}`);
+};
 
 const createNote = async (payload) => {
     instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
@@ -101,6 +121,10 @@ export default {
     createCustomerPhone,
     saveCustomerPhone,
     deleteCustomerPhone,
+    getCustomerAddressList,
+    createCustomerAddress,
+    saveCustomerAddress,
+    deleteCustomerAddress,
     getNoteList,
     createNote,
     saveNote,

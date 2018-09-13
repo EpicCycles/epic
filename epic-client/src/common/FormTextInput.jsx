@@ -5,10 +5,11 @@ const FormTextInput = props => (
     <div id={props.id} className={props.className + (props.error ? " error" : "")}>
         {props.label&&<label>{props.label}</label>}
         <input
+             className={(props.error ? " error" : "")}
             type="text"
             autoComplete="off"
             placeholder={props.placeholder}
-            title={props.title}
+            title={`${props.title || ''} ${props.error}`}
             name={props.fieldName}
             onChange={event => props.onChange(event.target.name, event.target.value)}
             value={props.value ? props.value : ''}
@@ -24,8 +25,6 @@ const FormTextInput = props => (
                 onClick={event => props.onClick(event.target.id)}
             />
         </span>}
-        {props.error &&
-        <div id="error-message" className="error-message error">{props.error}</div>}
     </div>
 );
 

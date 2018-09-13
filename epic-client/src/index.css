@@ -197,6 +197,10 @@ fieldset {
     box-sizing: border-box;
 }
 
+.postcode {
+    width: 30px;
+}
+
 select {
     vertical-align: top;
 }
@@ -251,9 +255,10 @@ input:disabled {
     font-weight: bold;
 }
 
-.error {
+.error, input.error {
     color: #c82011;
     font-weight: bold;
+    background-color: rgba(200, 32, 17, 0.15);
 }
 
 div.error {

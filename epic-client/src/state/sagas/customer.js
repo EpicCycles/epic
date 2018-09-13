@@ -20,6 +20,10 @@ import {
     saveCustomerPhoneFailure,
     deleteCustomerPhoneSuccess,
     deleteCustomerPhoneFailure, CUSTOMER_PHONE_SAVE_REQUEST, CUSTOMER_PHONE_DELETE_REQUEST,
+    saveCustomerAddressSuccess,
+    saveCustomerAddressFailure,
+    deleteCustomerAddressSuccess,
+    deleteCustomerAddressFailure, CUSTOMER_ADDRESS_SAVE_REQUEST, CUSTOMER_ADDRESS_DELETE_REQUEST,
 } from "../actions/customer";
 
 import api from './api';
@@ -187,6 +191,50 @@ export function* saveCustomerPhone(action) {
 
 export function* watchForSaveCustomerPhone() {
     yield takeLatest(CUSTOMER_PHONE_SAVE_REQUEST, saveCustomerPhone);
+}
+
+
+export function* deleteCustomerAddress(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            const response = yield call(api.deleteCustomerAddress, completePayload);
+            yield put(deleteCustomerAddressSuccess(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(deleteCustomerAddressFailure("Customer Address delete failed"));
+    }
+}
+
+export function* watchForDeleteCustomerAddress() {
+    yield takeLatest(CUSTOMER_ADDRESS_DELETE_REQUEST, deleteCustomerAddress);
+}
+
+export function* saveCustomerAddress(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            let response;
+            if (action.payload.customerAddress.id) {
+                response = yield call(api.saveCustomerAddress, completePayload);
+            } else {
+                response = yield call(api.createCustomerAddress, completePayload);
+            }
+            yield put(saveCustomerAddressSuccess(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(saveCustomerAddressFailure("Customer Address save failed"));
+    }
+}
+
+export function* watchForSaveCustomerAddress() {
+    yield takeLatest(CUSTOMER_ADDRESS_SAVE_REQUEST, saveCustomerAddress);
 }
 
 
