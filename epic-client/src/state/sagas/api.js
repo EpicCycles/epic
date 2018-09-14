@@ -128,5 +128,6 @@ export default {
     getNoteList,
     createNote,
     saveNote,
-    deleteNote
+    deleteNote,
+    instance
 };

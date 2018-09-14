@@ -10,17 +10,13 @@ exports[`renders an error when present 1`] = `
   </label>
   <input
     autoComplete="off"
+    className=" error"
     onChange={[Function]}
     placeholder="Please enter your loyalty number"
+    title=" Incorrect loyalty number"
     type="text"
     value=""
   />
-  <div
-    className="error-message error"
-    id="error-message"
-  >
-    Incorrect loyalty number
-  </div>
 </div>
 `;
 
@@ -34,8 +30,10 @@ exports[`renders the form text input correctly 1`] = `
   </label>
   <input
     autoComplete="off"
+    className=""
     onChange={[Function]}
     placeholder="Please enter your loyalty number"
+    title=" undefined"
     type="text"
     value=""
   />
@@ -48,8 +46,10 @@ exports[`should call onChange when an input is entered 1`] = `
 >
   <input
     autoComplete="off"
+    className=""
     name="email"
     onChange={[Function]}
+    title=" undefined"
     type="text"
     value="test@johnlewis.co.uk"
   />

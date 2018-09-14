@@ -1,6 +1,6 @@
 import React from 'react';
 
-import validateEmailFormat from "../../helpers/utils";
+import { validateEmailFormat } from "../../helpers/utils";
 
 describe("validateEmailFormat tests", () => {
     it('tests correctly for valid email address', () => {

@@ -192,7 +192,7 @@ class PartSection(models.Model):
 class PartType(models.Model):
     shortName = models.CharField(max_length=60, unique=True)
     description = models.CharField(max_length=100, blank=True, null=True)
-    includeInSection = models.ForeignKey(PartSection, on_delete=models.CASCADE)
+    includeInSection = models.ForeignKey(PartSection, related_name='partTypes', on_delete=models.CASCADE)
     placing = models.PositiveSmallIntegerField()
     can_be_substituted = models.BooleanField('Can be substituted', default=False)
     can_be_omitted = models.BooleanField('Can be omitted', default=False)
@@ -218,7 +218,7 @@ class PartType(models.Model):
 
 # strings for attributes for PartTypes
 class PartTypeAttribute(models.Model):
-    partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
+    partType = models.ForeignKey(PartType, related_name='attributes', on_delete=models.CASCADE)
     attribute_name = models.CharField(max_length=30)
     in_use = models.BooleanField(default=True)
     mandatory = models.BooleanField(default=True)

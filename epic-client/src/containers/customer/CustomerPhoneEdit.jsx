@@ -24,7 +24,7 @@ class CustomerPhoneEdit extends React.Component {
             });
         }
     };
-
+    // TODO use componentDidUpdate(prevProps, prevState) to pick up change
 
     validateCustomerPhoneData = (number_type, telephone) => {
         let isChanged = false;

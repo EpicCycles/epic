@@ -11,10 +11,15 @@ import {
     watchForSaveCustomerAddress, watchForDeleteCustomerAddress
 } from "./customer";
 import {watchForCreateNote, watchForDeleteNote, watchForGetNoteList, watchForSaveNote} from "./note";
-
+import {
+    watchForGetFramework,
+    watchForSaveFramework
+} from "./framework";
 export default function* rootSaga() {
     yield all([
         watchForLoginUser(),
+        watchForGetFramework(),
+        watchForSaveFramework(),
         watchForGetCustomerList(),
         watchForGetCustomerListPage(),
         watchForGetCustomer(),

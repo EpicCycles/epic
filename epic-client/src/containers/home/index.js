@@ -6,15 +6,21 @@ import {Link} from "react-router-dom";
 const Home = props => (
     <div>
         <h1>Epic Cycles</h1>
-        <ul>
-            <li>
+        <section className='row'>
+            <div className='column'>
                 <h2>Customer</h2>
                 <div className="">
                     <Link className="internal_link" to="/customer">Add Customer</Link>
                     <Link className="internal_link" to="/customer-search">Find Customer</Link>
                 </div>
-            </li>
-        </ul>
+            </div>
+           <div className='column'>
+                <h2>Core Data</h2>
+                <div className="">
+                    <Link className="internal_link" to="/framework">QUote Sections and Part Types</Link>
+                </div>
+            </div>
+        </section>
     </div>
 )
 
