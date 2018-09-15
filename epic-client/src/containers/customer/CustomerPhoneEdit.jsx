@@ -25,10 +25,6 @@ class CustomerPhoneEdit extends React.Component {
         }
     };
 
-    componentDidUpdate(prevProps) {
-        if (this.props.customerPhone === {}) this.setState(initialState);
-    }
-
     validateCustomerPhoneData = (number_type, telephone) => {
         let isChanged = false;
         let isValid = true;
@@ -75,7 +71,7 @@ class CustomerPhoneEdit extends React.Component {
     };
 
     saveOrCreateCustomerPhone = () => {
-        if (this.props.customerPhone) {
+        if (this.props.customerPhone &&this.props.customerPhone.id) {
             let phoneToSave = this.props.customerPhone;
             phoneToSave.telephone = this.state.telephone;
             phoneToSave.number_type = this.state.number_type;
@@ -89,10 +85,11 @@ class CustomerPhoneEdit extends React.Component {
             };
             this.props.saveCustomerPhone(newPhone);
         }
+        this.setState({saveInProgress:true})
     };
 
     onClickDelete = () => {
-        if (this.props.customerPhone) {
+        if (this.props.customerPhone &&this.props.customerPhone.id) {
             let phoneToSave = this.props.customerPhone;
             this.props.deleteCustomerPhone(phoneToSave.id);
         } else {

@@ -57,6 +57,8 @@ class CustomerEdit extends React.Component {
         } = this.props;
         const note_key = (note && note.id) ? note.id : 0;
         const customer_key = (customer && customer.id) ? customer.id : 0;
+        const newAddressKey = (customer && customer.newAddress && customer.newAddress.resetTime) ?  customer.newAddress.resetTime : "new";
+        const newPhoneKey = (customer && customer.newPhone && customer.newPhone.resetTime) ?  customer.newPhone.resetTime : "new";
         return <div id="customer-edit">
             <h2>Customer</h2>
             <section className="row">
@@ -73,14 +75,15 @@ class CustomerEdit extends React.Component {
                         <table>
                             <tbody>
                             <CustomerAddressEdit
-                                id={`editNewAddress`}
+                                key={`editNewAddress${newAddressKey}`}
+                                customerAddress={customer.newAddress}
                                 customerId={customer.id}
                                 saveCustomerAddress={saveCustomerAddress}
                                 deleteCustomerAddress={deleteCustomerAddress}
                             />
                             {customer.addresses && customer.addresses.map((address) => {
                                 return <CustomerAddressEdit
-                                    id={`editAddress${address.id}`}
+                                    key={`editAddress${address.id}`}
                                     customerId={customer.id}
                                     saveCustomerAddress={saveCustomerAddress}
                                     deleteCustomerAddress={deleteCustomerAddress}
@@ -93,14 +96,15 @@ class CustomerEdit extends React.Component {
                         <table>
                             <tbody>
                             <CustomerPhoneEdit
-                                id={`editNewPhone`}
+                                key={`editNewPhone${newPhoneKey}`}
                                 customerId={customer.id}
                                 saveCustomerPhone={saveCustomerPhone}
                                 deleteCustomerPhone={deleteCustomerPhone}
+                                customerPhone={customer.newPhone}
                             />
                             {customer.phones && customer.phones.map((phone) => {
                                 return <CustomerPhoneEdit
-                                    id={`editPhone${phone.id}`}
+                                    key={`editPhone${phone.id}`}
                                     customerId={customer.id}
                                     saveCustomerPhone={saveCustomerPhone}
                                     deleteCustomerPhone={deleteCustomerPhone}

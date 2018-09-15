@@ -1,7 +1,6 @@
 import React from "react";
 import {Icon} from "semantic-ui-react";
 import FormTextInput from "../../common/FormTextInput";
-import {validatePostcodeFormat} from "../../helpers/utils";
 
 const initialState = {
     address1: '',
@@ -29,9 +28,6 @@ class CustomerAddressEdit extends React.Component {
             });
         }
     };
-    componentDidUpdate(prevProps) {
-        if (this.props.customerAddress === {}) this.setState(initialState);
-    }
 
     validateCustomerAddressData = (address1, address2, address3, address4, postcode) => {
         let isChanged = false;
@@ -96,7 +92,7 @@ class CustomerAddressEdit extends React.Component {
         //     return false;
         // }
 
-        if (this.props.customerAddress) {
+        if (this.props.customerAddress && this.props.customerAddress.id) {
             let addressToSave = this.props.customerAddress;
             addressToSave.address1 = this.state.address1;
             addressToSave.address2 = this.state.address2;
@@ -116,10 +112,12 @@ class CustomerAddressEdit extends React.Component {
             };
             this.props.saveCustomerAddress(newAddress);
         }
+                this.setState({saveInProgress:true})
+
     };
 
     onClickDelete = () => {
-        if (this.props.customerAddress) {
+        if (this.props.customerAddress && this.props.customerAddress.id) {
             let addressToSave = this.props.customerAddress;
             this.props.deleteCustomerAddress(addressToSave.id);
         } else {
@@ -166,7 +164,7 @@ class CustomerAddressEdit extends React.Component {
                     size="30"
                 />
             </td>
-            <td  id={`address4_td_${componentContext}`}>
+            <td id={`address4_td_${componentContext}`}>
                 <FormTextInput
                     placeholder="Address line 4"
                     id={`address4-input_${componentContext}`}

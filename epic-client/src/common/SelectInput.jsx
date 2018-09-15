@@ -22,7 +22,7 @@ import React, {Component} from "react";
 class SelectInput extends Component {
     buildOptions = (options, isEmptyAllowed, value) => {
         let displayOptions = [];
-        let selectedValues = value? value : [];
+        let selectedValues = value ? value : [];
         isEmptyAllowed && displayOptions.push({ value: "", name: "None", selected: (!value) });
         options.forEach((option) => {
             const displayName = option.name ? option.name : option.value;
@@ -32,17 +32,37 @@ class SelectInput extends Component {
         return displayOptions;
     };
 
+    findSelectedOptions = (options, value, isMultiple) => {
+        if (value.length > 0) {
+            if (isMultiple) {
+                return value
+            } else {
+                return value[0];
+            }
+        }
+        let defaultValue = [];
+        options.forEach((option) => {
+            if (option.isDefault) defaultValue.push(option.value);
+        });
+        if (isMultiple) {
+            return defaultValue;
+        } else {
+            return defaultValue[0];
+        }
+    };
+
     render() {
         const { className, fieldName, error, title, label, onChange, isMultiple, multipleSize, value, isEmptyAllowed, options } = this.props;
         const displayOptions = this.buildOptions(options, isEmptyAllowed, value);
-         return <div
+        const selectedValue = this.findSelectedOptions(options, value, isMultiple);
+
+        return <div
             id={"container" + fieldName}
             key={"container" + fieldName}
             className={className + (error ? " error" : "")}
             title={error}
         >
             {label && <label>{label}</label>}
-
             <select
                 name={fieldName}
                 id={fieldName}
@@ -51,13 +71,13 @@ class SelectInput extends Component {
                 multiple={isMultiple}
                 size={multipleSize}
                 onChange={event => onChange(event.target.name, event.target.value)}
+                value={selectedValue}
             >
                 {displayOptions.map((option) => {
                     return <option
                         id={`${fieldName}_${option.value}`}
                         key={`${fieldName}_${option.value}`}
                         value={option.value}
-                        selected={option.selected}
                     >
                         {option.name}
                     </option>
@@ -66,4 +86,5 @@ class SelectInput extends Component {
         </div>;
     };
 }
+
 export default SelectInput;

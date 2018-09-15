@@ -12,4 +12,6 @@ export const findObjectWithId = (arrayOfObjects, objectId) => {
 export const findIndexOfObjectWithId = (arrayOfObjects, objectId) => {
     return arrayOfObjects.indexOf(findObjectWithId(arrayOfObjects, objectId));
 };
-
+export const generateRandomCode = () => {
+    return Math.random().toString(36).replace('0.', '');
+};

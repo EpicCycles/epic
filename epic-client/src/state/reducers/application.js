@@ -81,7 +81,7 @@ const application = (state = initialState, action) => {
         case CUSTOMER_DELETE_ERROR:
         case CUSTOMER_SAVE_ERROR:
         case CUSTOMER_PHONE_DELETE_ERROR:
-        case CUSTOMER_ADDRESS_SAVE_ERROR:
+        case CUSTOMER_ADDRESS_DELETE_ERROR:
         case NOTE_LIST_ERROR:
         case NOTE_SAVE_ERROR:
         case NOTE_CREATE_ERROR:
@@ -92,7 +92,7 @@ const application = (state = initialState, action) => {
                 message: action.payload,
                 messageType: "E"
             };
-        case CUSTOMER_ADDRESS_DELETE_ERROR:
+        case CUSTOMER_ADDRESS_SAVE_ERROR:
         case CUSTOMER_PHONE_SAVE_ERROR:
             return {
                 ...state,
