@@ -13,8 +13,9 @@ const FormTextInput = props => (
             name={props.fieldName}
             onChange={event => props.onChange(event.target.name, event.target.value)}
             value={props.value ? props.value : ''}
+            size={props.size || 30}
         />
-        {props.value &&
+        {(props.value && props.onClick) &&
         <span className="clearInput">
             <Icon
                 name="remove"

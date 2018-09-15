@@ -4,8 +4,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from epic.model_serializers.customer_serializer import CustomerAddressSerializer
 from epic.models import CustomerAddress
-from epic.serializers import CustomerAddressSerializer
 
 
 class CustomerAddressList(generics.ListCreateAPIView):

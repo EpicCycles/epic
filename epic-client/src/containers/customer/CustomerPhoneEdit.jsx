@@ -2,9 +2,7 @@ import React from "react";
 import {Icon} from "semantic-ui-react";
 import FormTextInput from "../../common/FormTextInput";
 import SelectInput from "../../common/SelectInput";
-
-class CustomerPhoneEdit extends React.Component {
-    state = {
+const initialState = {
         number_type: 'H',
         telephone: '',
         isChanged: false,
@@ -15,6 +13,8 @@ class CustomerPhoneEdit extends React.Component {
             { value: 'W', text: 'Work' }
         ]
     };
+class CustomerPhoneEdit extends React.Component {
+    state = initialState;
 
     componentWillMount() {
         if (this.props.customerPhone) {
@@ -24,7 +24,10 @@ class CustomerPhoneEdit extends React.Component {
             });
         }
     };
-    // TODO use componentDidUpdate(prevProps, prevState) to pick up change
+
+    componentDidUpdate(prevProps) {
+        if (this.props.customerPhone === {}) this.setState(initialState);
+    }
 
     validateCustomerPhoneData = (number_type, telephone) => {
         let isChanged = false;
@@ -60,12 +63,6 @@ class CustomerPhoneEdit extends React.Component {
             this.validateCustomerPhoneData(input, this.state.telephone);
         }
     };
-    handleInputClear = (fieldName) => {
-        if (fieldName.startsWith('removetelephone')) {
-            const telephone = this.props.customerPhone ? this.props.customerPhone.telephone : '';
-            this.validateCustomerPhoneData(this.state.number_type, telephone);
-        }
-    };
 
     onClickReset = () => {
         this.setState({
@@ -91,13 +88,6 @@ class CustomerPhoneEdit extends React.Component {
                 number_type: this.state.number_type
             };
             this.props.saveCustomerPhone(newPhone);
-            this.setState({
-                telephone: '',
-                telephoneError: '',
-                number_type: 'H',
-                isChanged: false,
-                isValid: true
-            });
         }
     };
 
@@ -122,8 +112,9 @@ class CustomerPhoneEdit extends React.Component {
         const keyValue = (customerPhone && customerPhone.id) ? customerPhone.id : "new";
         const componentContext = customerPhone ? customerPhone.id : 'newPhone';
         const type_value = [number_type];
-        return <tr id={componentContext}>
-            <td>
+        const rowClass = (customerPhone && customerPhone.error) ? "error" : "";
+        return <tr id={componentContext} className={rowClass}>
+            <td id={`td1_${componentContext}`}>
                 <SelectInput
                     fieldName={`number_type_${componentContext}`}
                     options={options}
@@ -131,7 +122,7 @@ class CustomerPhoneEdit extends React.Component {
                     value={type_value}
                 />
             </td>
-            <td>
+            <td id={`td2_${componentContext}`}>
                 <FormTextInput
                     placeholder="Phone Number"
                     id={`telephone-input_${componentContext}`}
@@ -139,17 +130,16 @@ class CustomerPhoneEdit extends React.Component {
                     value={telephone}
                     fieldName={`telephone_${componentContext}`}
                     onChange={this.handleInputChange}
-                    onClick={this.handleInputClear}
                     error={telephoneError}
                 />
             </td>
-            <td>
+            <td id={`td3_${componentContext}`}>
                 {(customerPhone && customerPhone.add_date) ?
-                    <span>Added on {customerPhone.add_date.substring(0, 10)}, last updated on {customerPhone.upd_date.substring(0, 10)}</span>
-                    : <span>Add a new number</span>
+                    <span id={`spancomment_${componentContext}`}>Added on {customerPhone.add_date.substring(0, 10)}, last updated on {customerPhone.upd_date.substring(0, 10)}</span>
+                    : <span id={`spancomment_${componentContext}`}>Add a new number</span>
                 }
             </td>
-            <td>
+            <td id={`td4_${componentContext}`}>
                   <span id={`actions${keyValue}`}>
                       {isChanged &&
                       <Icon id={`reset-phone${keyValue}`} name="undo"

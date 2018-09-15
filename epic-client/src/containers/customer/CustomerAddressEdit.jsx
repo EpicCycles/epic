@@ -29,6 +29,9 @@ class CustomerAddressEdit extends React.Component {
             });
         }
     };
+    componentDidUpdate(prevProps) {
+        if (this.props.customerAddress === {}) this.setState(initialState);
+    }
 
     validateCustomerAddressData = (address1, address2, address3, address4, postcode) => {
         let isChanged = false;
@@ -83,30 +86,15 @@ class CustomerAddressEdit extends React.Component {
         this.validateCustomerAddressData(address1, address2, address3, address4, postcode);
     };
 
-    handleInputClear = (fieldName) => {
-        let address1 = this.state.address1;
-        let address2 = this.state.address2;
-        let address3 = this.state.address3;
-        let address4 = this.state.address4;
-        let postcode = this.state.postcode;
-        if (fieldName.startsWith('removeaddress1')) address1 = this.props.customerAddress ? this.props.customerAddress.address1 : '';
-        if (fieldName.startsWith('removeaddress2')) address2 = this.props.customerAddress ? this.props.customerAddress.address2 : '';
-        if (fieldName.startsWith('removeaddress3')) address3 = this.props.customerAddress ? this.props.customerAddress.address3 : '';
-        if (fieldName.startsWith('removeaddress4')) address4 = this.props.customerAddress ? this.props.customerAddress.address4 : '';
-        if (fieldName.startsWith('removepostcode')) postcode = this.props.customerAddress ? this.props.customerAddress.postcode : '';
-
-        this.validateCustomerAddressData(address1, address2, address3, address4, postcode);
-    };
-
     onClickReset = () => {
         this.setState(initialState);
     };
 
     saveOrCreateCustomerAddress = () => {
-        if (this.state.postcode && !validatePostcodeFormat(this.state.postcode)) {
-           this.setState({ postcodeError: "Invalid Postcode", isValid: false});
-           return false;
-        }
+        // if (this.state.postcode && !validatePostcodeFormat(this.state.postcode)) {
+        //     this.setState({ postcodeError: "Invalid Postcode", isValid: false });
+        //     return false;
+        // }
 
         if (this.props.customerAddress) {
             let addressToSave = this.props.customerAddress;
@@ -127,7 +115,6 @@ class CustomerAddressEdit extends React.Component {
                 postcode: this.state.postcode
             };
             this.props.saveCustomerAddress(newAddress);
-            this.setState(initialState);
         }
     };
 
@@ -145,8 +132,9 @@ class CustomerAddressEdit extends React.Component {
         const { customerAddress } = this.props;
         const keyValue = (customerAddress && customerAddress.id) ? customerAddress.id : "new";
         const componentContext = customerAddress ? customerAddress.id : 'newAddress';
-        return <tr id={componentContext}>
-            <td>
+        const rowClass = (customerAddress && customerAddress.error) ? "error" : "";
+        return <tr id={`row${componentContext}`} className={rowClass}>
+            <td id={`address1-td_${componentContext}`}>
                 <FormTextInput
                     placeholder="Address line 1"
                     id={`address1-input_${componentContext}`}
@@ -154,11 +142,10 @@ class CustomerAddressEdit extends React.Component {
                     value={address1}
                     fieldName={`address1_${componentContext}`}
                     onChange={this.handleInputChange}
-                    onClick={this.handleInputClear}
                     error={address1Error}
                 />
             </td>
-            <td>
+            <td id={`address2_td_${componentContext}`}>
                 <FormTextInput
                     placeholder="Address line 2"
                     id={`address2-input_${componentContext}`}
@@ -166,10 +153,9 @@ class CustomerAddressEdit extends React.Component {
                     value={address2}
                     fieldName={`address2_${componentContext}`}
                     onChange={this.handleInputChange}
-                    onClick={this.handleInputClear}
                 />
             </td>
-            <td>
+            <td id={`address3_td_${componentContext}`}>
                 <FormTextInput
                     placeholder="Address line 3"
                     id={`address3-input_${componentContext}`}
@@ -177,10 +163,10 @@ class CustomerAddressEdit extends React.Component {
                     value={address3}
                     fieldName={`address3_${componentContext}`}
                     onChange={this.handleInputChange}
-                    onClick={this.handleInputClear}
+                    size="30"
                 />
             </td>
-            <td>
+            <td  id={`address4_td_${componentContext}`}>
                 <FormTextInput
                     placeholder="Address line 4"
                     id={`address4-input_${componentContext}`}
@@ -188,10 +174,10 @@ class CustomerAddressEdit extends React.Component {
                     value={address4}
                     fieldName={`address4_${componentContext}`}
                     onChange={this.handleInputChange}
-                    onClick={this.handleInputClear}
+                    size="30"
                 />
             </td>
-            <td>
+            <td id={`postcode_td_${componentContext}`}>
                 <FormTextInput
                     placeholder="Postcode"
                     id={`postcode-input_${componentContext}`}
@@ -199,17 +185,17 @@ class CustomerAddressEdit extends React.Component {
                     value={postcode}
                     fieldName={`postcode_${componentContext}`}
                     onChange={this.handleInputChange}
-                    onClick={this.handleInputClear}
                     error={postcodeError}
+                    size="10"
                 />
             </td>
-            <td>
+            <td id={`detail_td_${componentContext}`}>
                 {(customerAddress && customerAddress.add_date) ?
-                    <span>Added on {customerAddress.add_date.substring(0, 10)}, last updated on {customerAddress.upd_date.substring(0, 10)}</span>
-                    : <span>Add a new address</span>
+                    <span id={`comment_td_${componentContext}`}>Added on {customerAddress.add_date.substring(0, 10)}, last updated on {customerAddress.upd_date.substring(0, 10)}</span>
+                    : <span id={`comment_td_${componentContext}`}>Add a new address</span>
                 }
             </td>
-            <td>
+            <td id={`actions_td_${componentContext}`}>
                   <span id={`actions${keyValue}`}>
                       {isChanged &&
                       <Icon id={`reset-address${keyValue}`} name="undo"

@@ -1,14 +1,13 @@
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.http import Http404
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from epic.model_serializers.customer_serializer import CustomerSerializer, PaginatedCustomerSerializer, \
+    CustomerEditSerializer
 from epic.models import Customer
-from epic.serializers import CustomerSerializer, PaginatedCustomerSerializer, CustomerEditSerializer
 
 
 class CustomerList(generics.ListCreateAPIView):

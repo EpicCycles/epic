@@ -185,7 +185,7 @@ export function* saveCustomerPhone(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
-        yield put(saveCustomerPhoneFailure("Customer Phone save failed"));
+        yield put(saveCustomerPhoneFailure({customerPhone: action.payload.customerPhone, error:"Customer Phone save failed"}));
     }
 }
 
@@ -229,7 +229,7 @@ export function* saveCustomerAddress(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
-        yield put(saveCustomerAddressFailure("Customer Address save failed"));
+        yield put(saveCustomerAddressFailure({customerAddress: action.payload.customerAddress, error:"Customer Address save failed"}));
     }
 }
 

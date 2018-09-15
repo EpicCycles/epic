@@ -24,7 +24,12 @@ import {
     CUSTOMER_ADDRESS_SAVE_REQUEST,
     CUSTOMER_ADDRESS_DELETE, CUSTOMER_ADDRESS_SAVE, CUSTOMER_ADDRESS_SAVE_ERROR, CUSTOMER_ADDRESS_DELETE_ERROR
 } from "../actions/customer";
-import {updateCustomerBasic, updateCustomerPhoneList, updateCustomerAddressList} from "../../helpers/customer";
+import {
+    updateCustomerBasic,
+    updateCustomerPhoneList,
+    updateCustomerAddressList,
+    customerAddErrorForPhone, customerAddErrorForAddress
+} from "../../helpers/customer";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_NOT_VALIDATED} from "../actions/user";
 
@@ -55,9 +60,9 @@ const customer = (state = initialState, action) => {
         case CUSTOMER_PAGE:
         case CUSTOMER_DELETE_REQUESTED:
         case CUSTOMER_ADDRESS_DELETE_REQUEST:
-        case CUSTOMER_ADDRESS_SAVE_REQUEST:
         case CUSTOMER_PHONE_DELETE_REQUEST:
         case CUSTOMER_PHONE_SAVE_REQUEST:
+        case CUSTOMER_ADDRESS_SAVE_REQUEST:
             return {
                 ...state,
                 isLoading: true,
@@ -116,13 +121,23 @@ const customer = (state = initialState, action) => {
         case CUSTOMER_CREATE_ERROR:
         case CUSTOMER_DELETE_ERROR:
         case CUSTOMER_PHONE_DELETE_ERROR:
-        case CUSTOMER_PHONE_SAVE_ERROR:
-       case CUSTOMER_ADDRESS_DELETE_ERROR:
-        case CUSTOMER_ADDRESS_SAVE_ERROR:
+        case CUSTOMER_ADDRESS_DELETE_ERROR:
         case USER_NOT_VALIDATED:
             return {
                 ...state,
                 isLoading: false
+            };
+        case CUSTOMER_ADDRESS_SAVE_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                customer: customerAddErrorForAddress(state.customer, action.payload.customerAddress)
+            };
+        case CUSTOMER_PHONE_SAVE_ERROR:
+            return {
+                ...state,
+                isLoading: false,
+                customer: customerAddErrorForPhone(state.customer, action.payload.customerPhone)
             };
         case CUSTOMER_LIST:
             return {

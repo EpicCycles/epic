@@ -1,6 +1,13 @@
 from rest_framework import serializers
 
-from epic.models import PartSection, PartType, PartTypeAttribute
+from epic.models import PartSection, PartType, PartTypeAttribute, AttributeOptions
+
+
+class AttributeOptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AttributeOptions
+        fields = '__all__'
+
 
 
 class PartTypeAttributeSerializer(serializers.ModelSerializer):

@@ -5,8 +5,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from epic.model_serializers.note_serializer import CustomerNoteSerializer
 from epic.models import CustomerNote
-from epic.serializers import CustomerNoteSerializer
 
 
 class CustomerNoteList(generics.ListCreateAPIView):

@@ -7,7 +7,7 @@ from django.db import models, IntegrityError
 from django.db.models import CharField, TextField
 from django.urls import reverse
 from django.utils import timezone
-from epic.helpers.validation_helper import is_valid_email, is_valid_post_code, is_valid_url
+from epic.helpers.validation_helper import is_valid_email, is_valid_post_code, is_valid_url, is_valid_telephone
 from epic.model_helpers.lookup_helpers import UpperCase
 
 HOME = 'H'
@@ -96,8 +96,9 @@ class CustomerPhone(models.Model):
         if self.number_type is None or self.number_type == '':
             raise ValueError('Missing number type')
         if self.telephone is None or self.telephone == '':
-            raise ValueError('Missing last name')
-
+            raise ValueError('Missing telephone')
+        if not is_valid_telephone(self.telephone):
+            raise ValueError('Invalid telephone')
         if self.number_type not in [HOME, WORK, MOBILE]:
             raise ValueError('Number type must be Home, Work or Mobile')
 

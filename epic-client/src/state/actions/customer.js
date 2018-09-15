@@ -121,9 +121,9 @@ export const saveCustomerPhoneSuccess = customerPhoneList => ({
     type: CUSTOMER_PHONE_SAVE,
     payload: customerPhoneList
 });
-export const saveCustomerPhoneFailure = error => ({
+export const saveCustomerPhoneFailure = payload => ({
     type: CUSTOMER_PHONE_SAVE_ERROR,
-    payload: error
+    payload
 });
 export const deleteCustomerPhone = customerPhoneId => ({
     type: CUSTOMER_PHONE_DELETE_REQUEST,

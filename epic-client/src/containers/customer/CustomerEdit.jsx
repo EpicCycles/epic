@@ -57,74 +57,76 @@ class CustomerEdit extends React.Component {
         } = this.props;
         const note_key = (note && note.id) ? note.id : 0;
         const customer_key = (customer && customer.id) ? customer.id : 0;
-        return (
-            <div id="customer-edit">
-                <h2>Customer</h2>
-                <section className="row">
-                    <div>
-                        <CustomerDetailEdit customer={customer ? customer : {}}
-                                            acceptCustomerChanges={this.saveOrCreateCustomer}
-                                            removeCustomer={removeCustomer}
-                                            deleteCustomer={deleteCustomer}
-                                            key={`detail${customer_key}`}
-                        />
-                        {(customer && customer.id) &&
-                        <Fragment>
-                            <h3>Customer Addresses</h3>
-                            <table>
-                                <tbody>
-                                <CustomerAddressEdit
+        return <div id="customer-edit">
+            <h2>Customer</h2>
+            <section className="row">
+                <div>
+                    <CustomerDetailEdit customer={customer ? customer : {}}
+                                        acceptCustomerChanges={this.saveOrCreateCustomer}
+                                        removeCustomer={removeCustomer}
+                                        deleteCustomer={deleteCustomer}
+                                        key={`detail${customer_key}`}
+                    />
+                    {(customer && customer.id) &&
+                    <Fragment>
+                        <h3>Customer Addresses</h3>
+                        <table>
+                            <tbody>
+                            <CustomerAddressEdit
+                                id={`editNewAddress`}
+                                customerId={customer.id}
+                                saveCustomerAddress={saveCustomerAddress}
+                                deleteCustomerAddress={deleteCustomerAddress}
+                            />
+                            {customer.addresses && customer.addresses.map((address) => {
+                                return <CustomerAddressEdit
+                                    id={`editAddress${address.id}`}
                                     customerId={customer.id}
                                     saveCustomerAddress={saveCustomerAddress}
                                     deleteCustomerAddress={deleteCustomerAddress}
+                                    customerAddress={address}
                                 />
-                                {customer.addresses && customer.addresses.map((address) => {
-                                    return <CustomerAddressEdit
-                                        customerId={customer.id}
-                                        saveCustomerAddress={saveCustomerAddress}
-                                        deleteCustomerAddress={deleteCustomerAddress}
-                                        customerAddress={address}
-                                    />
-                                })}
-                                </tbody>
-                            </table>
-                            <h3>Customer Phone</h3>
-                            <table>
-                                <tbody>
-                                <CustomerPhoneEdit
+                            })}
+                            </tbody>
+                        </table>
+                        <h3>Customer Phone</h3>
+                        <table>
+                            <tbody>
+                            <CustomerPhoneEdit
+                                id={`editNewPhone`}
+                                customerId={customer.id}
+                                saveCustomerPhone={saveCustomerPhone}
+                                deleteCustomerPhone={deleteCustomerPhone}
+                            />
+                            {customer.phones && customer.phones.map((phone) => {
+                                return <CustomerPhoneEdit
+                                    id={`editPhone${phone.id}`}
                                     customerId={customer.id}
                                     saveCustomerPhone={saveCustomerPhone}
                                     deleteCustomerPhone={deleteCustomerPhone}
+                                    customerPhone={phone}
                                 />
-                                {customer.phones && customer.phones.map((phone) => {
-                                    return <CustomerPhoneEdit
-                                        customerId={customer.id}
-                                        saveCustomerPhone={saveCustomerPhone}
-                                        deleteCustomerPhone={deleteCustomerPhone}
-                                        customerPhone={phone}
-                                    />
-                                })}
-                                </tbody>
-                            </table>
-                        </Fragment>}
-                    </div>
-                    <div>
-                        {(customer && customer.id) &&
-                        <NoteCreate saveNote={this.saveOrCreateCustomerNote} note={note}
-                                    key={`detail${note_key}`}
-                                    removeNote={removeNote} deleteNote={deleteNote}
-                                    updateNoteKey={this.updateNoteKey}
-                        />}
-                    </div>
-                </section>
+                            })}
+                            </tbody>
+                        </table>
+                    </Fragment>}
+                </div>
+                <div>
+                    {(customer && customer.id) &&
+                    <NoteCreate saveNote={this.saveOrCreateCustomerNote} note={note}
+                                key={`detail${note_key}`}
+                                removeNote={removeNote} deleteNote={deleteNote}
+                                updateNoteKey={this.updateNoteKey}
+                    />}
+                </div>
+            </section>
 
-                {isLoading &&
-                <Dimmer active inverted>
-                    <Loader content='Loading'/>
-                </Dimmer>
-                }
-            </div>
-        )
+            {isLoading &&
+            <Dimmer active inverted>
+                <Loader content='Loading'/>
+            </Dimmer>
+            }
+        </div>
     }
 }
 

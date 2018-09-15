@@ -1,14 +1,14 @@
-from django.contrib.admin.utils import lookup_field
 from django.contrib.auth.models import User
-from django.http import Http404
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from epic.serializers import UserSerializer
 
 # get the user related to the current session
+from epic.model_serializers.user_serializer import UserSerializer
+
+
 class UserMaintain(generics.GenericAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
