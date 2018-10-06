@@ -2,9 +2,14 @@ from django.conf.urls import url
 from django.urls import path
 
 from epic.api_views.customer_address_api import CustomerAddressList, CustomerAddressMaintain
-from epic.api_views.customer_api import CustomerList, Customer, CustomerMaintain
+from epic.api_views.customer_api import CustomerList, CustomerMaintain
 from epic.api_views.customer_phone_api import CustomerPhoneList, CustomerPhoneMaintain
 from epic.api_views.framework_api import Framework
+from epic.api_views.section_api import PartSection
+from epic.api_views.part_type_api import PartType
+from epic.api_views.part_type_attribute_api import PartTypeAttribute
+from epic.api_views.attribute_option_api import AttributeOptions
+
 from epic.api_views.note_api import CustomerNoteList, CustomerNoteMaintain
 from epic.api_views.user_api import UserMaintain
 from . import views
@@ -37,6 +42,14 @@ urlpatterns = [url(r'^menu', views.menu_home, name='menu_home'),
                url(r'^create_model/$', views.create_model, name='create_model'),
                url(r'^bike_select_popup/$', views.bike_select_popup, name='bike_select_popup'),
                path('api/framework/', Framework.as_view()),
+               path('api/partsection/', PartSection.as_view()),
+               path('api/partsection/<int:pk>', PartSection.as_view()),
+               path('api/parttype/', PartType.as_view()),
+               path('api/parttype/<int:pk>', PartType.as_view()),
+               path('api/parttypeattribute/', PartTypeAttribute.as_view()),
+               path('api/parttypeattribute/<int:pk>', PartTypeAttribute.as_view()),
+               path('api/attributeoptions/', AttributeOptions.as_view()),
+               path('api/attributeoptions/<int:pk>', AttributeOptions.as_view()),
                path('api/customers/', CustomerList.as_view()),
                path('api/customer/', CustomerList.as_view()),
                path('api/customer/<int:pk>', CustomerMaintain.as_view()),

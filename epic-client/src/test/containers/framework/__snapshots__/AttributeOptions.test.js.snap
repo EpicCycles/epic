@@ -1,0 +1,688 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AttributeOptions tests option update with dummy key calls parent method with right parameters 1`] = `
+<AttributeOptions
+  attributeKey={234}
+  handleAttributeChange={[Function]}
+  options={
+    Array [
+      Object {
+        "attribute_option": "braze",
+        "id": 123,
+        "part_type_attribute": 101,
+      },
+      Object {
+        "attribute_option": "band",
+        "delete": false,
+        "id": 323,
+        "part_type_attribute": 101,
+      },
+      Object {
+        "attribute_option": "boggle",
+        "dummyKey": "hjgfkuyg34",
+        "part_type_attribute": 1,
+      },
+    ]
+  }
+>
+  <ul>
+    <li
+      key="option_123"
+    >
+      <FormTextInput
+        fieldName="optionValue_123"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value="braze"
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_123"
+            name="optionValue_123"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value="braze"
+          />
+          <span
+            className="clearInput"
+          >
+            <Icon
+              as="i"
+              circular={true}
+              id="removeoptionValue_123"
+              link={true}
+              name="remove"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="remove small circular link icon"
+                id="removeoptionValue_123"
+                onClick={[Function]}
+              />
+            </Icon>
+          </span>
+        </div>
+      </FormTextInput>
+    </li>
+    <li
+      key="option_323"
+    >
+      <FormTextInput
+        fieldName="optionValue_323"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value="band"
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_323"
+            name="optionValue_323"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value="band"
+          />
+          <span
+            className="clearInput"
+          >
+            <Icon
+              as="i"
+              circular={true}
+              id="removeoptionValue_323"
+              link={true}
+              name="remove"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="remove small circular link icon"
+                id="removeoptionValue_323"
+                onClick={[Function]}
+              />
+            </Icon>
+          </span>
+        </div>
+      </FormTextInput>
+    </li>
+    <li
+      key="option_hjgfkuyg34"
+    >
+      <FormTextInput
+        fieldName="optionValue_hjgfkuyg34"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value="boggle"
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_hjgfkuyg34"
+            name="optionValue_hjgfkuyg34"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value="boggle"
+          />
+          <span
+            className="clearInput"
+          >
+            <Icon
+              as="i"
+              circular={true}
+              id="removeoptionValue_hjgfkuyg34"
+              link={true}
+              name="remove"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="remove small circular link icon"
+                id="removeoptionValue_hjgfkuyg34"
+                onClick={[Function]}
+              />
+            </Icon>
+          </span>
+        </div>
+      </FormTextInput>
+    </li>
+    <li
+      key="newOption234"
+    >
+      <FormTextInput
+        fieldName="optionValue_new"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value=""
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_new"
+            name="optionValue_new"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value=""
+          />
+        </div>
+      </FormTextInput>
+    </li>
+  </ul>
+</AttributeOptions>
+`;
+
+exports[`AttributeOptions tests option update with dummy key calls parent method with right parameters 2`] = `
+<AttributeOptions
+  attributeKey={234}
+  handleAttributeChange={[Function]}
+  options={
+    Array [
+      Object {
+        "attribute_option": "braze",
+        "id": 123,
+        "part_type_attribute": 101,
+      },
+      Object {
+        "attribute_option": "band",
+        "delete": false,
+        "id": 323,
+        "part_type_attribute": 101,
+      },
+      Object {
+        "attribute_option": "boggle",
+        "dummyKey": "hjgfkuyg34",
+        "part_type_attribute": 1,
+      },
+    ]
+  }
+>
+  <ul>
+    <li
+      key="option_123"
+    >
+      <FormTextInput
+        fieldName="optionValue_123"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value="braze"
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_123"
+            name="optionValue_123"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value="braze"
+          />
+          <span
+            className="clearInput"
+          >
+            <Icon
+              as="i"
+              circular={true}
+              id="removeoptionValue_123"
+              link={true}
+              name="remove"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="remove small circular link icon"
+                id="removeoptionValue_123"
+                onClick={[Function]}
+              />
+            </Icon>
+          </span>
+        </div>
+      </FormTextInput>
+    </li>
+    <li
+      key="option_323"
+    >
+      <FormTextInput
+        fieldName="optionValue_323"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value="band"
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_323"
+            name="optionValue_323"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value="band"
+          />
+          <span
+            className="clearInput"
+          >
+            <Icon
+              as="i"
+              circular={true}
+              id="removeoptionValue_323"
+              link={true}
+              name="remove"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="remove small circular link icon"
+                id="removeoptionValue_323"
+                onClick={[Function]}
+              />
+            </Icon>
+          </span>
+        </div>
+      </FormTextInput>
+    </li>
+    <li
+      key="option_hjgfkuyg34"
+    >
+      <FormTextInput
+        fieldName="optionValue_hjgfkuyg34"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value="boggle"
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_hjgfkuyg34"
+            name="optionValue_hjgfkuyg34"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value="boggle"
+          />
+          <span
+            className="clearInput"
+          >
+            <Icon
+              as="i"
+              circular={true}
+              id="removeoptionValue_hjgfkuyg34"
+              link={true}
+              name="remove"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="remove small circular link icon"
+                id="removeoptionValue_hjgfkuyg34"
+                onClick={[Function]}
+              />
+            </Icon>
+          </span>
+        </div>
+      </FormTextInput>
+    </li>
+    <li
+      key="newOption234"
+    >
+      <FormTextInput
+        fieldName="optionValue_new"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value=""
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_new"
+            name="optionValue_new"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value=""
+          />
+        </div>
+      </FormTextInput>
+    </li>
+  </ul>
+</AttributeOptions>
+`;
+
+exports[`AttributeOptions tests option update with id calls parent method with right parameters 1`] = `
+<AttributeOptions
+  attributeKey={234}
+  handleAttributeChange={[Function]}
+  options={
+    Array [
+      Object {
+        "attribute_option": "braze",
+        "id": 123,
+        "part_type_attribute": 101,
+      },
+      Object {
+        "attribute_option": "band",
+        "delete": false,
+        "id": 323,
+        "part_type_attribute": 101,
+      },
+      Object {
+        "attribute_option": "boggle",
+        "dummyKey": "hjgfkuyg34",
+        "part_type_attribute": 1,
+      },
+    ]
+  }
+>
+  <ul>
+    <li
+      key="option_123"
+    >
+      <FormTextInput
+        fieldName="optionValue_123"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value="braze"
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_123"
+            name="optionValue_123"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value="braze"
+          />
+          <span
+            className="clearInput"
+          >
+            <Icon
+              as="i"
+              circular={true}
+              id="removeoptionValue_123"
+              link={true}
+              name="remove"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="remove small circular link icon"
+                id="removeoptionValue_123"
+                onClick={[Function]}
+              />
+            </Icon>
+          </span>
+        </div>
+      </FormTextInput>
+    </li>
+    <li
+      key="option_323"
+    >
+      <FormTextInput
+        fieldName="optionValue_323"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value="band"
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_323"
+            name="optionValue_323"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value="band"
+          />
+          <span
+            className="clearInput"
+          >
+            <Icon
+              as="i"
+              circular={true}
+              id="removeoptionValue_323"
+              link={true}
+              name="remove"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="remove small circular link icon"
+                id="removeoptionValue_323"
+                onClick={[Function]}
+              />
+            </Icon>
+          </span>
+        </div>
+      </FormTextInput>
+    </li>
+    <li
+      key="option_hjgfkuyg34"
+    >
+      <FormTextInput
+        fieldName="optionValue_hjgfkuyg34"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value="boggle"
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_hjgfkuyg34"
+            name="optionValue_hjgfkuyg34"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value="boggle"
+          />
+          <span
+            className="clearInput"
+          >
+            <Icon
+              as="i"
+              circular={true}
+              id="removeoptionValue_hjgfkuyg34"
+              link={true}
+              name="remove"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="remove small circular link icon"
+                id="removeoptionValue_hjgfkuyg34"
+                onClick={[Function]}
+              />
+            </Icon>
+          </span>
+        </div>
+      </FormTextInput>
+    </li>
+    <li
+      key="newOption234"
+    >
+      <FormTextInput
+        fieldName="optionValue_new"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+        value=""
+      >
+        <div
+          className="undefined"
+        >
+          <input
+            autoComplete="off"
+            className=""
+            id="optionValue_new"
+            name="optionValue_new"
+            onChange={[Function]}
+            placeholder="add new"
+            size={30}
+            title=" undefined"
+            type="text"
+            value=""
+          />
+        </div>
+      </FormTextInput>
+    </li>
+  </ul>
+</AttributeOptions>
+`;
+
+exports[`AttributeOptions tests renders the form correctly when all options deleted 1`] = `
+<ul>
+  <li
+    key="newOptionundefined"
+  >
+    <FormTextInput
+      fieldName="optionValue_new"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+      value=""
+    />
+  </li>
+</ul>
+`;
+
+exports[`AttributeOptions tests renders the form correctly with no options 1`] = `
+<ul>
+  <li
+    key="newOptionundefined"
+  >
+    <FormTextInput
+      fieldName="optionValue_new"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+      value=""
+    />
+  </li>
+</ul>
+`;
+
+exports[`AttributeOptions tests renders the form correctly with options 1`] = `
+<ul>
+  <li
+    key="option_123"
+  >
+    <FormTextInput
+      fieldName="optionValue_123"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+      value="braze"
+    />
+  </li>
+  <li
+    key="option_323"
+  >
+    <FormTextInput
+      fieldName="optionValue_323"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+      value="band"
+    />
+  </li>
+  <li
+    key="option_hjgfkuyg34"
+  >
+    <FormTextInput
+      fieldName="optionValue_hjgfkuyg34"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+      value="boggle"
+    />
+  </li>
+  <li
+    key="newOptionundefined"
+  >
+    <FormTextInput
+      fieldName="optionValue_new"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+      value=""
+    />
+  </li>
+</ul>
+`;

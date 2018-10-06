@@ -74,14 +74,14 @@ class AddressFormTestCase(TestCase):
         self.assertEqual(form.errors, {
             'customer': ['This field is required.'],
         })
-
-    def test_postcode_not_valid(self):
-        form = AddressForm({
-            'customer': self.customer.id,
-            'address1': "LinneyFields",
-            'postcode': "SY8 1E",
-        }, instance=self.address)
-        self.assertFalse(form.is_valid())
-        self.assertEqual(form.errors, {
-            'postcode': ['Enter a valid postcode.'],
-        })
+    #
+    # def test_postcode_not_valid(self):
+    #     form = AddressForm({
+    #         'customer': self.customer.id,
+    #         'address1': "LinneyFields",
+    #         'postcode': "SY8 1E",
+    #     }, instance=self.address)
+    #     self.assertFalse(form.is_valid())
+    #     self.assertEqual(form.errors, {
+    #         'postcode': ['Enter a valid postcode.'],
+    #     })

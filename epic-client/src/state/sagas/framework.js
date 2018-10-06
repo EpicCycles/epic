@@ -13,7 +13,6 @@ export function* getFramework(action) {
         if (token) {
             const completePayload = Object.assign(action.payload, { token });
             const response = yield call(framework.getFramework, completePayload);
-            console.log(response.data)
             yield put(getFrameworkSuccess(response.data));
         } else {
             yield call(history.push, "/login");

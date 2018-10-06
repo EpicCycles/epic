@@ -1,4 +1,14 @@
 import React, {Fragment} from "react";
+import {
+    moveObjectDownOnePlace,
+    moveObjectToBottom,
+    moveObjectToTop,
+    moveObjectUpOnePlace
+} from "../../helpers/framework";
+import SectionEdit from "./SectionEdit";
+import FrameworkMoves from "./FrameworkMoves";
+import {findIndexOfObjectWithKey} from "../../helpers/utils";
+import {Dimmer, Loader} from "semantic-ui-react";
 
 class Framework extends React.Component {
     componentWillMount() {
@@ -7,41 +17,83 @@ class Framework extends React.Component {
         }
     };
 
-    // build an initial display -
-    // put a new sequence in place going up by 10 each time,
-    // have move up and move down functions adding or subtracting 11 each time
-    // have move to top and move to bottom setting to 0 or 99999
-    // at each level have an add new element - section or part type
+    handleSectionChange = (sectionKey, updatedSection) => {
+        const sectionsWithUpdates = this.props.sections.slice();
+        const sectionToUpdateIndex = findIndexOfObjectWithKey(sectionsWithUpdates, sectionKey);
+        if (sectionToUpdateIndex > -1) {
+            sectionsWithUpdates[sectionToUpdateIndex] = updatedSection;
+        } else {
+            sectionsWithUpdates.push(updatedSection);
+        }
+        this.props.updateFramework(sectionsWithUpdates);
+    };
+    moveUp = (fieldName) => {
+        const fields = fieldName.split('_');
+        const sectionKey = fields[1];
+        this.props.updateFramework(moveObjectUpOnePlace(this.props.sections, sectionKey));
+    };
+    moveDown = (fieldName) => {
+        const fields = fieldName.split('_');
+        const sectionKey = fields[1];
+        this.props.updateFramework(moveObjectDownOnePlace(this.props.sections, sectionKey));
+    };
+    moveToTop = (fieldName) => {
+        const fields = fieldName.split('_');
+        const sectionKey = fields[1];
+        this.props.updateFramework(moveObjectToTop(this.props.sections, sectionKey));
+    };
+    moveToBottom = (fieldName) => {
+        const fields = fieldName.split('_');
+        const sectionKey = fields[1];
+        this.props.updateFramework(moveObjectToBottom(this.props.sections, sectionKey));
+    };
+
     render() {
         const {
             sections,
+            isLoading,
             saveFramework
         } = this.props;
-        return (
-            <div id='framework'>
-                <h2>Sections</h2>
-                <ul id='sections'>
-                    <li id='newSection'>
-                        put new sections here
-                    </li>
-                    {sections && sections.map((section) => {
-                        return <li id={`section${section.id}`}>
-                            {section.name}
-                            <ul id={`partTypes${section.id}`}>
-                                <li id='newPartType'>
-                                    put new part type here
-                                </li>
-                                {section.partTypes && section.partTypes.map((partType) => {
-                                    return <li id={`partType${partType.id}`}>
-                                        {partType.shortName}
-                                    </li>
-                                })}
-                            </ul>
-                        </li>
-                    })}
-                </ul>
-            </div>
-        );
+        const sectionsToUse = sections ? sections.filter(section => !section.delete) : [];
+        return <Fragment>
+            <ul key={`sections`}>
+                {sectionsToUse.map((section) => {
+                    const componentKey = section.id ? section.id : section.dummyKey;
+                    return (
+                        <Fragment>
+                            <SectionEdit
+                                key={`sectionEdit${componentKey}`}
+                                section={section}
+                                componentKey={componentKey}
+                                handleSectionChange={this.handleSectionChange}
+                            />
+                            {sectionsToUse.length > 1 &&
+                            <FrameworkMoves
+                                componentKey={"new"}
+                                moveToTop={this.moveToTop}
+                                moveUp={this.moveUp}
+                                moveDown={this.moveDown}
+                                moveToBottom={this.moveToBottom}
+                            />
+                            }
+                        </Fragment>
+                    );
+                })}
+                <SectionEdit
+                    key="sectionEditNew"
+                    section={{}}
+                    componentKey={"new"}
+                    updateSection={this.handleSectionChange}
+                />
+            </ul>
+            {isLoading &&
+            <Dimmer active inverted>
+                <Loader content='Loading'/>
+            </Dimmer>
+            }
+
+        </Fragment>;
     }
 }
+
 export default Framework;

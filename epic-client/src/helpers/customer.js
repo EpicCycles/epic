@@ -10,14 +10,14 @@ export const updateCustomerBasic = (customer, updatedValues) => {
 export const updateCustomerPhoneList = (customer, phones) => {
     let updatedCustomer = customer ? Object.assign({}, customer) : {};
     updatedCustomer.phones = phones;
-    if (customer.phones.length < phones.length) updatedCustomer.newPhone = {"resetTime": generateRandomCode()};
+    if (customer.phones.length < phones.length) updatedCustomer.newPhone = {"dummyKey": generateRandomCode()};
     return updatedCustomer;
 };
 
 export const updateCustomerAddressList = (customer, addresses) => {
     let updatedCustomer = customer ? Object.assign({}, customer) : {};
     updatedCustomer.addresses = addresses;
-    if (customer.addresses && (customer.addresses.length < addresses.length)) updatedCustomer.newAddress = {"resetTime": generateRandomCode()};
+    if (customer.addresses && (customer.addresses.length < addresses.length)) updatedCustomer.newAddress = {"dummyKey": generateRandomCode()};
     return updatedCustomer;
 };
 

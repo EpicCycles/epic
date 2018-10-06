@@ -89,7 +89,7 @@ class CustomerPhoneEdit extends React.Component {
     };
 
     onClickDelete = () => {
-        if (this.props.customerPhone &&this.props.customerPhone.id) {
+        if (this.props.customerPhone && this.props.customerPhone.id) {
             let phoneToSave = this.props.customerPhone;
             this.props.deleteCustomerPhone(phoneToSave.id);
         } else {

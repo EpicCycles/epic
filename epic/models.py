@@ -256,7 +256,7 @@ class PartTypeAttribute(models.Model):
 
 # values for part type attributes
 class AttributeOptions(models.Model):
-    part_type_attribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE)
+    part_type_attribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE, related_name='options')
     attribute_option = models.CharField(max_length=30)
 
     def save(self, *args, **kwargs):
@@ -425,7 +425,7 @@ class Frame(models.Model):
         if Frame.objects.filter(frame_name__upper=self.frame_name,
                                 brand=self.brand, model__upper=self.model).exclude(id=self.id).exists():
             raise IntegrityError('Frame with these values already exists')
-        if self.archived :
+        if self.archived:
             if not self.archived_date:
                 self.archived_date = timezone.now()
         else:
@@ -863,5 +863,6 @@ class CustomerNote(models.Model):
     quote = models.ForeignKey(Quote, related_name='quote', on_delete=models.CASCADE, blank=True, null=True)
     note_text = models.TextField('Notes')
     created_on = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', blank=True, null=True, on_delete=models.PROTECT)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', blank=True, null=True,
+                                   on_delete=models.PROTECT)
     customer_visible = models.BooleanField(default=False)

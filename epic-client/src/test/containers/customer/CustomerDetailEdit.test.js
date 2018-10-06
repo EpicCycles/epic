@@ -3,7 +3,7 @@ import CustomerDetailEdit from "../../../containers/customer/CustomerDetailEdit"
 import {Icon} from "semantic-ui-react";
 
 describe("CustomerDetailEdit tests", () => {
-    const custpmer = {
+    const customer = {
         first_name: 'Anna',
         last_name: 'Weaver',
         email: 'anna.weaver@johnlewis.co.uk',
@@ -12,7 +12,7 @@ describe("CustomerDetailEdit tests", () => {
     };
     it('renders the form text correctly with customer', () => {
         const input = shallow(
-            <CustomerDetailEdit customer={custpmer} />
+            <CustomerDetailEdit customer={customer} />
         );
         expect(input).toMatchSnapshot();
     });
@@ -26,7 +26,7 @@ describe("CustomerDetailEdit tests", () => {
         const acceptChanges = jest.fn();
 
         const input = shallow(
-            <CustomerDetailEdit customer={custpmer} acceptCustomerChanges={acceptChanges}/>
+            <CustomerDetailEdit customer={customer} acceptCustomerChanges={acceptChanges}/>
         );
         input.setState({isChanged: true, isValid:true});
         expect(input.find("#accept-cust").prop("disabled")).toEqual(false);

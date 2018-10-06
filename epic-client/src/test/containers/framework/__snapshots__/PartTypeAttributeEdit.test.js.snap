@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PartTypeAttributeEdit tests renders the component correctly with a new partType 1`] = `
+<li
+  key="attribute_new"
+>
+  <FormTextInput
+    fieldName="attribute_name_new"
+    onChange={[Function]}
+    placeholder="add new"
+  />
+  <label
+    htmlFor="in_use_new"
+  >
+    In Use?
+  </label>
+  <input
+    checked={true}
+    id="in_use_new"
+    name="in_use_new"
+    onChange={[Function]}
+    type="checkbox"
+  />
+  <label
+    htmlFor="in_use_new"
+  >
+    In Use?
+  </label>
+  <input
+    checked={true}
+    id="in_use_new"
+    name="in_use_new"
+    onChange={[Function]}
+    type="checkbox"
+  />
+  <SelectInput
+    fieldName="attribute_type_new"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "isDefault": true,
+          "text": "Text",
+          "value": "1",
+        },
+        Object {
+          "text": "Numeric",
+          "value": "2",
+        },
+        Object {
+          "text": "Single - Radio",
+          "value": "3",
+        },
+        Object {
+          "text": "Single - Dropdown",
+          "value": "4",
+        },
+        Object {
+          "text": "Multiple - Radio",
+          "value": "5",
+        },
+        Object {
+          "text": "Multiple - Dropdown",
+          "value": "6",
+        },
+      ]
+    }
+  />
+  <AttributeOptions
+    attributeKey="new"
+    handleAttributeChange={[Function]}
+    options={Array []}
+  />
+</li>
+`;
+
+exports[`PartTypeAttributeEdit tests renders the component correctly with an partType 1`] = `
+<li
+  key="attribute_new"
+>
+  <FormTextInput
+    fieldName="attribute_name_new"
+    onChange={[Function]}
+    placeholder="add new"
+  />
+  <label
+    htmlFor="in_use_new"
+  >
+    In Use?
+  </label>
+  <input
+    checked={true}
+    id="in_use_new"
+    name="in_use_new"
+    onChange={[Function]}
+    type="checkbox"
+  />
+  <label
+    htmlFor="in_use_new"
+  >
+    In Use?
+  </label>
+  <input
+    checked={true}
+    id="in_use_new"
+    name="in_use_new"
+    onChange={[Function]}
+    type="checkbox"
+  />
+  <SelectInput
+    fieldName="attribute_type_new"
+    onChange={[Function]}
+    options={
+      Array [
+        Object {
+          "isDefault": true,
+          "text": "Text",
+          "value": "1",
+        },
+        Object {
+          "text": "Numeric",
+          "value": "2",
+        },
+        Object {
+          "text": "Single - Radio",
+          "value": "3",
+        },
+        Object {
+          "text": "Single - Dropdown",
+          "value": "4",
+        },
+        Object {
+          "text": "Multiple - Radio",
+          "value": "5",
+        },
+        Object {
+          "text": "Multiple - Dropdown",
+          "value": "6",
+        },
+      ]
+    }
+  />
+  <AttributeOptions
+    attributeKey="new"
+    handleAttributeChange={[Function]}
+    options={Array []}
+  />
+</li>
+`;

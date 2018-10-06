@@ -57,8 +57,8 @@ class CustomerEdit extends React.Component {
         } = this.props;
         const note_key = (note && note.id) ? note.id : 0;
         const customer_key = (customer && customer.id) ? customer.id : 0;
-        const newAddressKey = (customer && customer.newAddress && customer.newAddress.resetTime) ?  customer.newAddress.resetTime : "new";
-        const newPhoneKey = (customer && customer.newPhone && customer.newPhone.resetTime) ?  customer.newPhone.resetTime : "new";
+        const newAddressKey = (customer && customer.newAddress && customer.newAddress.dummyKey) ?  customer.newAddress.dummyKey : "new";
+        const newPhoneKey = (customer && customer.newPhone && customer.newPhone.dummyKey) ?  customer.newPhone.dummyKey : "new";
         return <div id="customer-edit">
             <h2>Customer</h2>
             <section className="row">

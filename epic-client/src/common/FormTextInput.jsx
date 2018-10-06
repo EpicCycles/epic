@@ -2,7 +2,7 @@ import React from "react";
 import {Icon} from "semantic-ui-react";
 
 const FormTextInput = props => (
-    <div id={props.id} className={props.className + (props.error ? " error" : "")}>
+    <div id={props.id} className={(props.className && props.className) + (props.error ? " error" : "")}>
         {props.label&&<label>{props.label}</label>}
         <input
              className={(props.error ? " error" : "")}
@@ -11,7 +11,8 @@ const FormTextInput = props => (
             placeholder={props.placeholder}
             title={`${props.title || ''} ${props.error}`}
             name={props.fieldName}
-            onChange={event => props.onChange(event.target.name, event.target.value)}
+            id={props.fieldName}
+            onChange={event => props.onChange(event.target.id, event.target.value)}
             value={props.value ? props.value : ''}
             size={props.size || 30}
         />

@@ -13,4 +13,5 @@ const saveFramework = async (payload) => {
 
 export default {
     getFramework,
+    saveFramework,
 }

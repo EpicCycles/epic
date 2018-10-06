@@ -12,9 +12,9 @@ class CustomerModelTestCase(TestCase):
         self.customer_with_email2 = Customer.objects.create(first_name="Fred", last_name='not-Bloggs',
                                                             email='f.b@c.com')
         self.c_n_m_home_phone = CustomerPhone.objects.create(customer=self.customer_no_email, number_type=HOME,
-                                                             telephone='01568 770451')
+                                                             telephone='01568770451')
         self.c_n_m_home_phone2 = CustomerPhone.objects.create(customer=self.customer_no_email, number_type=HOME,
-                                                              telephone='01584 875686')
+                                                              telephone='01584875686')
 
         self.c_n_m_address1 = CustomerAddress.objects.create(customer=self.customer_no_email, address1='1 New Street',
                                                              postcode='TR1 1FF')
@@ -48,8 +48,6 @@ class CustomerModelTestCase(TestCase):
             CustomerAddress.objects.create(customer=self.customer_no_email)
         with self.assertRaises(ValueError):
             CustomerAddress.objects.create(customer=self.customer_no_email, address1='2 Teme Road')
-        with self.assertRaises(ValueError):
-            CustomerAddress.objects.create(customer=self.customer_no_email, address1='2 Teme Road', postcode='invalid')
 
     def test_missing_data_fitting_create(self):
         with self.assertRaises(ValueError):

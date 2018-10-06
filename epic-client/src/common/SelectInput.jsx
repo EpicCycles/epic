@@ -33,7 +33,7 @@ class SelectInput extends Component {
     };
 
     findSelectedOptions = (options, value, isMultiple) => {
-        if (value.length > 0) {
+        if (value && value.length > 0) {
             if (isMultiple) {
                 return value
             } else {
