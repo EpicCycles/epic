@@ -5,6 +5,22 @@ body {
     font-size: 10pt;
     letter-spacing: 0;
 }
+.fixed_header{
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.fixed_header tbody{
+  display:block;
+  width: 100%;
+  overflow: auto;
+  height: calc(100% - 200px);
+}
+
+.fixed_header thead tr {
+   display: block;
+}
 
 tr:nth-child(even) {
     background: #CCC
@@ -23,7 +39,7 @@ th {
     font-size: 10pt;
     font-weight: bold;
     vertical-align: top;
-    text-align: right;
+    text-align: center;
 }
 
 .listHead {
@@ -40,7 +56,7 @@ td {
     padding: 2px;
     font-size: 10pt;
     font-weight: normal;
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 .menu td {

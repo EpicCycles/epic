@@ -1,5 +1,40 @@
-import {findIndexOfObjectWithId, findObjectWithId} from "./utils";
+import {findObjectWithId} from "./utils";
+export const NEW_FRAMEWORK_ID = "new";
 
+export const attributeSummary = (attribute) => {
+    // var a2 = a1.map(function(item) { return item.toUpperCase(); });  array1.toString()
+    let attributeDetail = [attribute.attribute_name];
+    if (attribute.in_use) attributeDetail.push(" in use");
+    if (attribute.mandatory) attributeDetail.push(" must be entered");
+    if (attribute.options && attribute.options.length > 0) {
+        attributeDetail.push(` allowed options: ${attribute.options.map((option) => {
+            return option.attribute_option;
+        }).toString()}`);
+    }
+    return attributeDetail.toString();
+
+    /*
+     "id": 4,
+                        "options": [
+                            {
+                                "id": 2,
+                                "attribute_option": "Band",
+                                "part_type_attribute": 4
+                            },
+                            {
+                                "id": 1,
+                                "attribute_option": "Braze",
+                                "part_type_attribute": 4
+                            }
+                        ],
+                        "attribute_name": "Braze/Band",
+                        "in_use": true,
+                        "mandatory": true,
+                        "placing": 1,
+                        "attribute_type": "3",
+                        "partType": 9
+     */
+};
 export const moveObjectUpOnePlace = (arrayOfObjects, objectId) => {
     const objectToMove = findObjectWithId(arrayOfObjects, objectId);
     const currentIndex = arrayOfObjects.indexOf(objectToMove);

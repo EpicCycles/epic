@@ -1,9 +1,10 @@
-import React from "react";
+import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import AttributeOptions from "./AttributeOptions";
 import SelectInput from "../../common/SelectInput";
 import {attributeOptionTypes} from "../../helpers/constants";
 import {generateRandomCode} from "../../helpers/utils";
+import {NEW_FRAMEWORK_ID} from "../../helpers/framework";
 
 class PartTypeAttributeEdit extends React.Component {
     handleInputChange = (fieldName, input) => {
@@ -21,7 +22,7 @@ class PartTypeAttributeEdit extends React.Component {
         if (fieldName.startsWith('options')) updatedAttribute.options = input;
         const fieldNameParts = fieldName.split('_');
         const componentKey = fieldNameParts[1];
-        if (updatedAttribute.id || updatedAttribute.dummyKey || updatedAttribute.attribute_name){
+        if (updatedAttribute.id || updatedAttribute.dummyKey || updatedAttribute.attribute_name) {
             if (!(updatedAttribute.id || updatedAttribute.dummyKey)) {
                 updatedAttribute.dummyKey = generateRandomCode();
                 updatedAttribute.partType = this.props.partType;
@@ -41,40 +42,44 @@ class PartTypeAttributeEdit extends React.Component {
         const inUseId = `in_use_${componentKey}`;
         const mandatoryId = `in_use_${componentKey}`;
         const attributeOptions = attribute.options || [];
-        return <li key={`attribute_${componentKey}`}>
-            <FormTextInput
+        return <Fragment>
+            <td><FormTextInput
                 placeholder="add new"
                 fieldName={`attribute_name_${componentKey}`}
                 value={attribute.attribute_name}
                 onChange={this.handleInputChange}
                 onClick={this.handleInputClear}
-            />
-            <label htmlFor={inUseId}>In Use?</label>
-            <input type="checkbox"
-                   name={inUseId}
-                   id={inUseId}
-                   onChange={event => this.handleInputChange(event.target.name, event.target.value)}
-                   checked={attribute.in_use ? attribute.in_use : true}
-            />
-            <label htmlFor={mandatoryId}>In Use?</label>
-            <input type="checkbox"
-                   name={mandatoryId}
-                   id={mandatoryId}
-                   onChange={event => this.handleInputChange(event.target.name, event.target.value)}
-                   checked={attribute.mandatory ? attribute.in_use : true}
-            />
-            <SelectInput
+            /></td>
+            <td>
+                <input type="checkbox"
+                       name={inUseId}
+                       id={inUseId}
+                       onChange={event => this.handleInputChange(event.target.name, event.target.value)}
+                       checked={attribute.in_use ? attribute.in_use : true}
+                /></td>
+            <td>
+                <input type="checkbox"
+                       name={mandatoryId}
+                       id={mandatoryId}
+                       onChange={event => this.handleInputChange(event.target.name, event.target.value)}
+                       checked={attribute.mandatory ? attribute.in_use : true}
+                /></td>
+            <td><SelectInput
                 fieldName={`attribute_type_${componentKey}`}
                 options={attributeOptionTypes}
                 onChange={event => this.handleInputChange(event.target.name, event.target.value)}
                 value={attribute.attribute_type}
-            />
-            <AttributeOptions
-                attributeKey={componentKey}
-                options={attributeOptions}
-                handleAttributeChange={this.handleInputChange}
-            />
-        </li>;
+            /></td>
+            <td>
+                {componentKey !== NEW_FRAMEWORK_ID &&
+                <AttributeOptions
+                    attributeKey={componentKey}
+                    options={attributeOptions}
+                    handleAttributeChange={this.handleInputChange}
+                />
+                }
+            </td>
+        </Fragment>;
     }
 }
 

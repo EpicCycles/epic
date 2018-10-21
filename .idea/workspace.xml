@@ -7,34 +7,23 @@
     <bookmark url="file://$PROJECT_DIR$/epic/view_helpers/quote_part_view_helper.py" line="18" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cd7212f9-6eef-4ce2-90a4-95407cf747e0" name="Default" comment="Refactor to extract elements">
-      <change afterPath="$PROJECT_DIR$/epic/model_serializers/customer_serializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/epic/model_serializers/frame_serializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/epic/model_serializers/note_serializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/epic/model_serializers/part_serializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/epic/model_serializers/quote_serializer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/epic/model_serializers/user_serializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/djangogirls.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/djangogirls.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+    <list default="true" id="cd7212f9-6eef-4ce2-90a4-95407cf747e0" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/epic-client/src/test/helpers/framework.attributeSummary.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic-client/src/common/FormTextInput.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/common/FormTextInput.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerAddressEdit.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerAddressEdit.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerEdit.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerEdit.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerPhoneEdit.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerPhoneEdit.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic-client/src/helpers/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/helpers/customer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic-client/src/state/actions/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/state/actions/customer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic-client/src/state/reducers/application.js" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/state/reducers/application.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic-client/src/state/reducers/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/state/reducers/customer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic-client/src/state/sagas/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/state/sagas/customer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic/api_views/customer_address_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/epic/api_views/customer_address_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic/api_views/customer_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/epic/api_views/customer_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic/api_views/customer_phone_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/epic/api_views/customer_phone_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic/api_views/note_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/epic/api_views/note_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic/api_views/user_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/epic/api_views/user_api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic/model_serializers/framework_serializer.py" beforeDir="false" afterPath="$PROJECT_DIR$/epic/model_serializers/framework_serializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/epic/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/epic/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/epic/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/containers/framework/AttributeOptions.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/containers/framework/AttributeOptions.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/containers/framework/Framework.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/containers/framework/Framework.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeAttributeEdit.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeAttributeEdit.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeAttributes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeAttributes.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeEdit.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeEdit.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypes.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypes.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/containers/framework/SectionEdit.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/containers/framework/SectionEdit.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/helpers/constants.js" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/helpers/constants.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/helpers/framework.js" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/helpers/framework.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/test/containers/framework/__snapshots__/AttributeOptions.test.js.snap" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/test/containers/framework/__snapshots__/AttributeOptions.test.js.snap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/test/containers/framework/__snapshots__/PartTypeAttributeEdit.test.js.snap" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/test/containers/framework/__snapshots__/PartTypeAttributeEdit.test.js.snap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/test/containers/framework/__snapshots__/PartTypeAttributes.test.js.snap" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/test/containers/framework/__snapshots__/PartTypeAttributes.test.js.snap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/epic-client/src/test/helpers/utils.findObjectWithKey.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/epic-client/src/test/helpers/utils.findObjectWithKey.test.js" afterDir="false" />
     </list>
     <ignored mask=".idea" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -51,6 +40,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/epic$Test__test.coverage" NAME="Test: test Coverage Results" MODIFIED="1533837946612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/epic$Test__test_serializer_tests_test_framework_serializer.coverage" NAME="Test: test.serializer_tests.test_framework_serializer Coverage Results" MODIFIED="1537613146378" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/epic$Test__test_model_helpers_test_brand_model_helper.coverage" NAME="Test: test.model_helpers.test_brand_model_helper Coverage Results" MODIFIED="1531852854980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/epic$Test__test_model_tests_test_customer_model_CustomerModelTestCase_test_update_address.coverage" NAME="Test: test.model_tests.test_customer_model.CustomerModelTestCase.test_update_address Coverage Results" MODIFIED="1527422175331" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/epic$Test__test_form_helpers_test_attributes_AttributesTestCase.coverage" NAME="Test: test.form_helpers.test_attributes.AttributesTestCase Coverage Results" MODIFIED="1527423666554" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
@@ -73,185 +63,193 @@
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="137" column="27" selection-start-line="137" selection-start-column="27" selection-end-line="137" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/forms.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="193" column="52" selection-start-line="193" selection-start-column="52" selection-end-line="193" selection-end-column="52" />
-              <folding>
-                <element signature="e#11#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="note_serializer.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/model_serializers/note_serializer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="54" lean-forward="true" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
-              <folding>
-                <element signature="e#0#43#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="49" column="55" selection-start-line="49" selection-start-column="55" selection-end-line="49" selection-end-column="55" />
-              <folding>
-                <element signature="e#0#32#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user_api.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/epic/api_views/user_api.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="54" lean-forward="true" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="part_serializer.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/model_serializers/part_serializer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#38#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="quote_serializer.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/model_serializers/quote_serializer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="19" column="34" lean-forward="true" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#38#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user_serializer.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/model_serializers/user_serializer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-              <folding>
-                <element signature="e#0#43#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="validation_helper.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/epic/helpers/validation_helper.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="231">
-              <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="Framework.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/Framework.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="17">
+                  <caret line="65" column="21" selection-start-line="65" selection-start-column="21" selection-end-line="65" selection-end-column="21" />
+                  <folding>
+                    <element signature="e#0#38#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="index.css" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/epic-client/src/index.css">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="102">
+                  <caret line="9" selection-start-line="9" selection-end-line="9" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="SectionEdit.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/SectionEdit.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="404">
+                  <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+                  <folding>
+                    <element signature="e#0#38#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="PartTypes.jsx" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/PartTypes.jsx">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="68">
+                  <caret line="46" column="54" lean-forward="true" selection-start-line="46" selection-start-column="54" selection-end-line="46" selection-end-column="54" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="framework.attributeSummary.test.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/epic-client/src/test/helpers/framework.attributeSummary.test.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="557">
+                  <caret line="40" column="74" selection-start-line="40" selection-start-column="74" selection-end-line="40" selection-end-column="74" />
+                  <folding>
+                    <element signature="e#0#26#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="utils.findIndexOfObjectWithKey.test.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/epic-client/src/test/helpers/utils.findIndexOfObjectWithKey.test.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="357">
+                  <caret line="22" column="40" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="utils.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/epic-client/src/helpers/utils.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="153">
+                  <caret line="9" column="30" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="30" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="utils.findObjectWithKey.test.js" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/epic-client/src/test/helpers/utils.findObjectWithKey.test.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="17">
+                  <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="framework.moveObjectToTop.test.js" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/epic-client/src/test/helpers/framework.moveObjectToTop.test.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state>
+                  <caret selection-end-column="26" />
+                  <folding>
+                    <element signature="e#0#26#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="framework.js" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/epic-client/src/helpers/framework.js">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="136">
+                  <caret line="8" column="57" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
         <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>err</find>
-      <find>_ERROR</find>
-      <find>dropdown-content</find>
-      <find>100</find>
-      <find>#user</find>
-      <find>Button</find>
-      <find>Dimmer</find>
-      <find>Notek</find>
-      <find>Snippet</find>
-      <find>customers</find>
-      <find>CustomerNoteSerializer</find>
-      <find>models.ForeignKey(Customer,</find>
-      <find>quotes</find>
-      <find>QUoteseri</find>
-      <find>CUSTOMER_PAGE</find>
-      <find>totalPages</find>
-      <find>Fra</find>
-      <find>isChanged</find>
-      <find>Customer</find>
-      <find>deleteCustomerPhone</find>
-      <find>customerPhoneData</find>
-      <find>telephoneError</find>
-      <find>conso</find>
-      <find>print</find>
-      <find>teleaddress</find>
-      <find>phone</find>
-      <find>validateEmailFormat</find>
-      <find>input</find>
-      <find>customernote</find>
-      <find>CUSTOMER_PHONE_SAVE_ERROR</find>
+      <find>DISPLAY_CHOICES</find>
+      <find>resetTime</find>
+      <find>handleInputChange</find>
+      <find>remove</find>
+      <find>Changed</find>
+      <find>removeop</find>
+      <find>ico</find>
+      <find>options =</find>
+      <find>AttributeOptions</find>
+      <find>optionKey</find>
+      <find>validateAndPersistOption</find>
+      <find>validateAndPersistAttribute</find>
+      <find>validateAndPersistPartType</find>
+      <find>attribute</find>
+      <find>attributeOptionTypes</find>
+      <find>generateRandomCode</find>
+      <find>options</find>
+      <find>shortName</find>
+      <find>attribute_</find>
+      <find>partTypeId</find>
+      <find>PartType</find>
+      <find>fieldkey</find>
+      <find>inus</find>
+      <find>attributes</find>
+      <find>sectionId</find>
+      <find>sectionK</find>
+      <find>url-p</find>
+      <find>react-test-re</find>
+      <find>react-te</find>
+      <find>&quot;new&quot;</find>
     </findStrings>
     <replaceStrings>
-      <replace>TextAttributeForm</replace>
-      <replace>frame</replace>
-      <replace>frame_sections</replace>
-      <replace>line_count</replace>
-      <replace>column_count</replace>
-      <replace>let</replace>
-      <replace>column_loop_max</replace>
-      <replace>var</replace>
-      <replace>bigTable</replace>
-      <replace>div</replace>
-      <replace>get_frame_selections_from_screen</replace>
-      <replace>quote_search_parameters</replace>
-      <replace>model_selected</replace>
-      <replace>request.GET</replace>
-      <replace>set_brand_list()</replace>
-      <replace>get_brand_list_from_cache()</replace>
-      <replace>display = &quot;none&quot;</replace>
-      <replace>quote_form</replace>
-      <replace>frame.</replace>
-      <replace>loginUser</replace>
-      <replace>customer</replace>
-      <replace>CUSTOMER</replace>
-      <replace>last_name</replace>
-      <replace>first_name</replace>
-      <replace>CustomerSerializer</replace>
-      <replace>Customer</replace>
-      <replace>count</replace>
       <replace>CustomerPhone</replace>
       <replace>address</replace>
       <replace />
+      <replace>optionu</replace>
+      <replace>True</replace>
+      <replace>.id</replace>
+      <replace>id=</replace>
+      <replace>'</replace>
+      <replace>AttributeOptions</replace>
+      <replace>PartSection</replace>
+      <replace>attributeoptions</replace>
+      <replace>option</replace>
+      <replace>PartType</replace>
+      <replace>parttype</replace>
+      <replace>is_valid</replace>
+      <replace>'_delete'</replace>
+      <replace>delete</replace>
+      <replace>PartTypeAttribute</replace>
+      <replace>Attribute</replace>
+      <replace>attributeKey</replace>
+      <replace>partType</replace>
+      <replace>sectionId</replace>
+      <replace>attributes</replace>
+      <replace>name</replace>
+      <replace>partTypeKey</replace>
+      <replace>componentKey</replace>
+      <replace>partType_</replace>
+      <replace>partTypes</replace>
+      <replace>sectionKey</replace>
+      <replace>Section</replace>
     </replaceStrings>
     <dirStrings>
       <dir>C:\Users\pc\PycharmProjects\epic\epic\model_serializers</dir>
@@ -268,57 +266,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/epic-client/.gitignore" />
-        <option value="$PROJECT_DIR$/epic-client/src/state/actions/application.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/containers/home/index.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/test/common/ErrorDismissableBlock.test.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/test/containers/customer/CustomerDetailEdit.test.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/test/containers/note/NoteCreate.test.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/test/containers/customer/CustomerList.test.js" />
-        <option value="$PROJECT_DIR$/epic/mixins/rest_framework_mixins.py" />
-        <option value="$PROJECT_DIR$/epic-client/src/containers/customer/index.js" />
-        <option value="$PROJECT_DIR$/mysite/settings.py" />
-        <option value="$PROJECT_DIR$/epic-client/src/state/selectors/customer.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerList.jsx" />
-        <option value="$PROJECT_DIR$/epic-client/src/common/pagination.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/test/common/Pagination.test.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/test/common/FormTextInput.test.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/test/common/SelectInput.test.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/common/SelectInput.jsx" />
-        <option value="$PROJECT_DIR$/epic-client/src/state/actions/user.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/state/reducers/note.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/state/sagas/api.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/state/sagas/index.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerEditContainer.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/helpers/utils.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerDetailEdit.jsx" />
-        <option value="$PROJECT_DIR$/epic-client/src/index.css" />
-        <option value="$PROJECT_DIR$/epic/helpers/validation_helper.py" />
-        <option value="$PROJECT_DIR$/epic/urls.py" />
-        <option value="$PROJECT_DIR$/epic/views.py" />
-        <option value="$PROJECT_DIR$/epic-client/src/common/FormTextInput.jsx" />
-        <option value="$PROJECT_DIR$/epic-client/src/state/reducers/customer.js" />
-        <option value="$PROJECT_DIR$/epic/models.py" />
         <option value="$PROJECT_DIR$/epic-client/src/state/reducers/application.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/state/actions/customer.js" />
         <option value="$PROJECT_DIR$/epic-client/src/helpers/customer.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerPhoneEdit.jsx" />
         <option value="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerAddressEdit.jsx" />
-        <option value="$PROJECT_DIR$/epic-client/src/state/sagas/customer.js" />
-        <option value="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerEdit.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/test/containers/customer/CustomerDetailEdit.test.js" />
+        <option value="$PROJECT_DIR$/epic/api_views/section_api.py" />
+        <option value="$PROJECT_DIR$/epic/models.py" />
+        <option value="$PROJECT_DIR$/test/helpers/test_validation_helper.py" />
+        <option value="$PROJECT_DIR$/test/forms/test_address_form.py" />
+        <option value="$PROJECT_DIR$/test/forms/test_address_form_simple.py" />
+        <option value="$PROJECT_DIR$/test/model_tests/test_customer_model.py" />
+        <option value="$PROJECT_DIR$/test/serializer_tests/test_framework_serializer.py" />
+        <option value="$PROJECT_DIR$/epic/api_views/part_type_api.py" />
+        <option value="$PROJECT_DIR$/epic/api_views/part_type_attribute_api.py" />
+        <option value="$PROJECT_DIR$/epic/api_views/attribute_option_api.py" />
+        <option value="$PROJECT_DIR$/epic-client/src/state/sagas/apis/section.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/state/sagas/apis/partType.js" />
+        <option value="$PROJECT_DIR$/epic/urls.py" />
+        <option value="$PROJECT_DIR$/epic-client/src/state/sagas/apis/partTypeAttribute.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/state/sagas/apis/attributeOptions.js" />
         <option value="$PROJECT_DIR$/epic/model_serializers/framework_serializer.py" />
-        <option value="$PROJECT_DIR$/epic/model_serializers/user_serializer.py" />
-        <option value="$PROJECT_DIR$/epic/serializers.py" />
-        <option value="$PROJECT_DIR$/epic/api_views/user_api.py" />
-        <option value="$PROJECT_DIR$/epic/api_views/note_api.py" />
-        <option value="$PROJECT_DIR$/epic/api_views/customer_phone_api.py" />
-        <option value="$PROJECT_DIR$/epic/api_views/customer_api.py" />
-        <option value="$PROJECT_DIR$/epic/api_views/customer_address_api.py" />
-        <option value="$PROJECT_DIR$/epic/model_serializers/customer_serializer.py" />
-        <option value="$PROJECT_DIR$/epic/model_serializers/note_serializer.py" />
-        <option value="$PROJECT_DIR$/epic/model_serializers/part_serializer.py" />
-        <option value="$PROJECT_DIR$/epic/model_serializers/quote_serializer.py" />
-        <option value="$PROJECT_DIR$/epic/model_serializers/frame_serializer.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.json" />
+        <option value="$PROJECT_DIR$/epic-client/src/state/sagas/apis/framework.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/state/sagas/framework.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/common/SelectInput.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerEdit.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/customer/CustomerPhoneEdit.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/test/containers/framework/PartTypeAttributeEdit.test.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/test/containers/framework/PartTypeAttribute.test.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/common/FormTextInput.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/test/containers/framework/AttributeOptions.test.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/test/helpers/utils.findIndexOfObjectWithKey.test.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/helpers/utils.js" />
+        <option value="$PROJECT_DIR$/epic/api_views/framework_api.py" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/framework/FrameworkMoves.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/state/reducers/framework.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/framework/index.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/state/actions/framework.js" />
+        <option value="$PROJECT_DIR$/epic-client/package-lock.json" />
+        <option value="$PROJECT_DIR$/epic-client/package.json" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/framework/AttributeOptions.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/framework/SectionEdit.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypes.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeEdit.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeAttributes.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeAttributeEdit.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/containers/framework/Framework.jsx" />
+        <option value="$PROJECT_DIR$/epic-client/src/index.css" />
+        <option value="$PROJECT_DIR$/epic-client/src/helpers/constants.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/helpers/framework.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/test/helpers/framework.attributeSummary.test.js" />
+        <option value="$PROJECT_DIR$/epic-client/src/test/helpers/utils.findObjectWithKey.test.js" />
       </list>
     </option>
   </component>
@@ -371,7 +369,7 @@
     </entry>
   </component>
   <component name="ProjectView">
-    <navigator currentView="Scope" currentSubView="Project Files" proportions="" version="1">
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -386,6 +384,12 @@
               <item name="epic" type="b2602c69:ProjectViewProjectNode" />
               <item name="epic" type="462c0819:PsiDirectoryNode" />
               <item name="epic-client" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="epic" type="462c0819:PsiDirectoryNode" />
+              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="epic" type="b2602c69:ProjectViewProjectNode" />
@@ -422,6 +426,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="containers" type="462c0819:PsiDirectoryNode" />
               <item name="customer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
+              <item name="epic" type="462c0819:PsiDirectoryNode" />
+              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="containers" type="462c0819:PsiDirectoryNode" />
+              <item name="framework" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="epic" type="b2602c69:ProjectViewProjectNode" />
@@ -452,39 +464,7 @@
               <item name="epic" type="462c0819:PsiDirectoryNode" />
               <item name="epic-client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="state" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="epic" type="462c0819:PsiDirectoryNode" />
-              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="state" type="462c0819:PsiDirectoryNode" />
-              <item name="actions" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="epic" type="462c0819:PsiDirectoryNode" />
-              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="state" type="462c0819:PsiDirectoryNode" />
-              <item name="reducers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="epic" type="462c0819:PsiDirectoryNode" />
-              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="state" type="462c0819:PsiDirectoryNode" />
-              <item name="sagas" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="epic" type="462c0819:PsiDirectoryNode" />
-              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="state" type="462c0819:PsiDirectoryNode" />
-              <item name="selectors" type="462c0819:PsiDirectoryNode" />
+              <item name="helpers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="epic" type="b2602c69:ProjectViewProjectNode" />
@@ -507,51 +487,6 @@
               <item name="epic-client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="epic" type="462c0819:PsiDirectoryNode" />
-              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="epic" type="462c0819:PsiDirectoryNode" />
-              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="customer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="epic" type="462c0819:PsiDirectoryNode" />
-              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="note" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="epic" type="462c0819:PsiDirectoryNode" />
-              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
-              <item name="note" type="462c0819:PsiDirectoryNode" />
-              <item name="__snapshots__" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="epic" type="462c0819:PsiDirectoryNode" />
-              <item name="epic-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
               <item name="helpers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -561,18 +496,12 @@
             </path>
             <path>
               <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
             </path>
             <path>
               <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.6 (epic) (1) &gt;" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="epic" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.6 (epic) (1) &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="site-packages" type="462c0819:PsiDirectoryNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
             </path>
           </expand>
           <select />
@@ -588,37 +517,7 @@
             <path>
               <item name="Root" type="cbb8eebc:String" user="Root" />
               <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="api_views" type="cbb8eebc:String" user="api_views" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="form_helpers" type="cbb8eebc:String" user="form_helpers" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="helpers" type="cbb8eebc:String" user="helpers" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="model_helpers" type="cbb8eebc:String" user="model_helpers" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="model_serializers" type="cbb8eebc:String" user="model_serializers" />
+              <item name=".idea" type="cbb8eebc:String" user=".idea" />
             </path>
             <path>
               <item name="Root" type="cbb8eebc:String" user="Root" />
@@ -643,6 +542,36 @@
               <item name="epic" type="cbb8eebc:String" user="epic" />
               <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
               <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="helpers" type="cbb8eebc:String" user="helpers" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="epic" type="cbb8eebc:String" user="epic" />
+              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="state" type="cbb8eebc:String" user="state" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="epic" type="cbb8eebc:String" user="epic" />
+              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="state" type="cbb8eebc:String" user="state" />
+              <item name="selectors" type="cbb8eebc:String" user="selectors" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="epic" type="cbb8eebc:String" user="epic" />
+              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="test" type="cbb8eebc:String" user="test" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="epic" type="cbb8eebc:String" user="epic" />
+              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
+              <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="test" type="cbb8eebc:String" user="test" />
               <item name="containers" type="cbb8eebc:String" user="containers" />
             </path>
             <path>
@@ -650,6 +579,7 @@
               <item name="epic" type="cbb8eebc:String" user="epic" />
               <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
               <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="test" type="cbb8eebc:String" user="test" />
               <item name="containers" type="cbb8eebc:String" user="containers" />
               <item name="customer" type="cbb8eebc:String" user="customer" />
             </path>
@@ -658,86 +588,18 @@
               <item name="epic" type="cbb8eebc:String" user="epic" />
               <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
               <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="test" type="cbb8eebc:String" user="test" />
               <item name="containers" type="cbb8eebc:String" user="containers" />
-              <item name="home" type="cbb8eebc:String" user="home" />
+              <item name="framework" type="cbb8eebc:String" user="framework" />
             </path>
             <path>
               <item name="Root" type="cbb8eebc:String" user="Root" />
               <item name="epic" type="cbb8eebc:String" user="epic" />
               <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
               <item name="src" type="cbb8eebc:String" user="src" />
+              <item name="test" type="cbb8eebc:String" user="test" />
               <item name="containers" type="cbb8eebc:String" user="containers" />
               <item name="note" type="cbb8eebc:String" user="note" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="containers" type="cbb8eebc:String" user="containers" />
-              <item name="user" type="cbb8eebc:String" user="user" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="helpers" type="cbb8eebc:String" user="helpers" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="state" type="cbb8eebc:String" user="state" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="state" type="cbb8eebc:String" user="state" />
-              <item name="reducers" type="cbb8eebc:String" user="reducers" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="state" type="cbb8eebc:String" user="state" />
-              <item name="sagas" type="cbb8eebc:String" user="sagas" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="test" type="cbb8eebc:String" user="test" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="test" type="cbb8eebc:String" user="test" />
-              <item name="common" type="cbb8eebc:String" user="common" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="test" type="cbb8eebc:String" user="test" />
-              <item name="common" type="cbb8eebc:String" user="common" />
-              <item name="__snapshots__" type="cbb8eebc:String" user="__snapshots__" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="epic" type="cbb8eebc:String" user="epic" />
-              <item name="epic-client" type="cbb8eebc:String" user="epic-client" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-              <item name="test" type="cbb8eebc:String" user="test" />
-              <item name="containers" type="cbb8eebc:String" user="containers" />
             </path>
           </expand>
           <select />
@@ -752,7 +614,7 @@
     <property name="SearchEverywhereHistoryKey" value="notStandard&#9;null&#9;null&#10;customer.py&#9;FILE&#9;file://C:/Users/Ben/djangogirls/epic/view_helpers/customer_view_helper.py" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="PostgreSQL" />
-    <property name="com.intellij.ide.scratch.LRUPopupBuilder$2/Languages" value="HTML&#10;JSON" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$2/Languages" value="JSON&#10;HTML" />
     <property name="javascript.nodejs.core.library.configured.version" value="8.11.3" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/epic/api_views" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -783,11 +645,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\pc\PycharmProjects\epic\epic-client\src\containers\framework" />
+      <recent name="C:\Users\pc\PycharmProjects\epic\epic-client\src\test\helpers" />
+      <recent name="C:\Users\pc\PycharmProjects\epic\epic-client\src\state\sagas\apis" />
       <recent name="C:\Users\pc\PycharmProjects\epic\epic\api_views" />
       <recent name="C:\Users\pc\PycharmProjects\epic\epic-client\src\containers\customer" />
-      <recent name="C:\Users\pc\PycharmProjects\epic\epic\mixins" />
-      <recent name="C:\Users\pc\PycharmProjects\epic" />
-      <recent name="C:\Users\pc\PycharmProjects\epic\epic\templates\epic\quotes" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\pc\PycharmProjects\epic\epic\api_views" />
@@ -809,7 +671,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Django server.epic">
+  <component name="RunManager" selected="Django tests.Test: test.serializer_tests.test_framework_serializer">
     <configuration name="Test: test" type="DjangoTestsConfigurationType" factoryName="Django tests" temporary="true">
       <module name="djangogirls" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -829,8 +691,8 @@
       <option name="USE_OPTIONS" value="false" />
       <option name="OPTIONS" value="" />
     </configuration>
-    <configuration name="Test: test.model_helpers.test_brand_model_helper" type="DjangoTestsConfigurationType" factoryName="Django tests" temporary="true">
-      <module name="djangogirls" />
+    <configuration name="Test: test.serializer_tests.test_framework_serializer" type="DjangoTestsConfigurationType" factoryName="Django tests" temporary="true">
+      <module name="epic" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -842,7 +704,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="TARGET" value="test.model_helpers.test_brand_model_helper" />
+      <option name="TARGET" value="test.serializer_tests.test_framework_serializer" />
       <option name="SETTINGS_FILE" value="" />
       <option name="CUSTOM_SETTINGS" value="false" />
       <option name="USE_OPTIONS" value="false" />
@@ -1042,19 +904,19 @@
     </configuration>
     <list>
       <item itemvalue="Django server.epic" />
-      <item itemvalue="Django tests.Test: test.model_helpers.test_brand_model_helper" />
       <item itemvalue="Django tests.Test: test" />
       <item itemvalue="npm.start" />
       <item itemvalue="npm.test" />
       <item itemvalue="npm.build" />
+      <item itemvalue="Django tests.Test: test.serializer_tests.test_framework_serializer" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="npm.start" />
+        <item itemvalue="Django tests.Test: test.serializer_tests.test_framework_serializer" />
         <item itemvalue="npm.test" />
         <item itemvalue="npm.build" />
         <item itemvalue="Django tests.Test: test" />
-        <item itemvalue="Django tests.Test: test.model_helpers.test_brand_model_helper" />
       </list>
     </recent_temporary>
   </component>
@@ -1375,28 +1237,38 @@
       <option name="project" value="LOCAL" />
       <updated>1536867531883</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Fix note save and refactor serializers">
+      <created>1537021316057</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1537021316058</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Clear forms on save by random id adding">
+      <created>1537027739426</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1537027739426</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Framework react renders">
+      <created>1538851058891</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1538851058891</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Npm audis completed down to 0 issues">
+      <created>1540116739596</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1540116739596</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Test__test_form_helpers_test_attributes_AttributesTestCase - 2018.05.27 at 13h 01m 49s.xml">
-      <configuration name="Test: test.form_helpers.test_attributes.AttributesTestCase" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__test_form_helpers_test_attributes_AttributesTestCase - 2018.05.27 at 13h 15m 04s.xml">
-      <configuration name="Test: test.form_helpers.test_attributes.AttributesTestCase" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__test_form_helpers_test_attributes_AttributesTestCase - 2018.05.27 at 13h 17m 41s.xml">
-      <configuration name="Test: test.form_helpers.test_attributes.AttributesTestCase" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__test_form_helpers_test_attributes_AttributesTestCase - 2018.05.27 at 13h 18m 19s.xml">
-      <configuration name="Test: test.form_helpers.test_attributes.AttributesTestCase" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__test_form_helpers_test_attributes_AttributesTestCase - 2018.05.27 at 13h 21m 46s.xml">
-      <configuration name="Test: test.form_helpers.test_attributes.AttributesTestCase" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
-    <history-entry file="Test__test_model_helpers_test_brand_model_helper - 2018.07.16 at 19h 50m 46s.xml">
-      <configuration name="Test: test.model_helpers.test_brand_model_helper" configurationId="DjangoTestsConfigurationType" />
-    </history-entry>
     <history-entry file="Test__test_model_helpers_test_brand_model_helper - 2018.07.17 at 19h 39m 42s.xml">
       <configuration name="Test: test.model_helpers.test_brand_model_helper" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
@@ -1408,6 +1280,24 @@
     </history-entry>
     <history-entry file="Test__test - 2018.08.09 at 19h 06m 49s.xml">
       <configuration name="Test: test" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__test_serializer_tests_test_framework_serializer - 2018.09.22 at 10h 54m 30s.xml">
+      <configuration name="Test: test.serializer_tests.test_framework_serializer" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__test_serializer_tests_test_framework_serializer - 2018.09.22 at 10h 57m 39s.xml">
+      <configuration name="Test: test.serializer_tests.test_framework_serializer" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__test_serializer_tests_test_framework_serializer - 2018.09.22 at 11h 42m 34s.xml">
+      <configuration name="Test: test.serializer_tests.test_framework_serializer" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__test_serializer_tests_test_framework_serializer - 2018.09.22 at 11h 44m 00s.xml">
+      <configuration name="Test: test.serializer_tests.test_framework_serializer" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__test_serializer_tests_test_framework_serializer - 2018.09.22 at 11h 45m 20s.xml">
+      <configuration name="Test: test.serializer_tests.test_framework_serializer" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+    <history-entry file="Test__test_serializer_tests_test_framework_serializer - 2018.09.22 at 11h 46m 13s.xml">
+      <configuration name="Test: test.serializer_tests.test_framework_serializer" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -1424,20 +1314,18 @@
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3293011" />
-      <window_info anchor="bottom" id="Messages" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.53277636" side_tool="true" weight="0.3077957" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5051414" side_tool="true" weight="0.32258064" />
       <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4941435" weight="0.3252688" />
       <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.4993573" weight="0.32258064" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49550128" visible="true" weight="0.32258064" />
-      <window_info id="npm" order="0" sideWeight="0.5339806" side_tool="true" weight="0.16709511" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.46722364" weight="0.3077957" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.46601942" visible="true" weight="0.16709511" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49485862" weight="0.32258064" />
+      <window_info id="npm" order="0" sideWeight="0.53968257" side_tool="true" weight="0.17287917" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.466581" weight="0.3077957" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.46031746" visible="true" weight="0.17480719" />
       <window_info anchor="bottom" id="Docker" order="13" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="4" weight="0.32969153" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4941435" weight="0.32258064" />
       <window_info anchor="right" id="SciView" order="5" weight="0.32969153" />
-      <window_info id="Structure" order="2" sideWeight="0.5222672" side_tool="true" weight="0.20437019" />
+      <window_info id="Structure" order="2" sideWeight="0.5339806" side_tool="true" weight="0.16709511" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1447,34 +1335,36 @@
       <window_info anchor="right" id="Data View" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4941435" weight="0.32258064" />
+      <window_info anchor="bottom" id="Messages" order="9" />
       <window_info active="true" anchor="bottom" id="Concurrent Activities Diagram" order="11" visible="true" weight="0.3296355" />
     </layout>
     <layout-to-restore>
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.46601942" visible="true" weight="0.16709511" />
-      <window_info id="npm" order="0" sideWeight="0.5339806" side_tool="true" weight="0.16709511" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4941435" weight="0.3252688" />
       <window_info anchor="bottom" id="Docker" order="13" show_stripe_button="false" />
-      <window_info anchor="right" id="SciView" order="5" weight="0.32969153" />
-      <window_info id="Structure" order="2" sideWeight="0.5222672" side_tool="true" weight="0.20437019" />
+      <window_info id="npm" order="0" sideWeight="0.53968257" side_tool="true" weight="0.17287917" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49485862" visible="true" weight="0.32258064" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="right" id="Data View" order="3" />
+      <window_info id="Structure" order="2" sideWeight="0.5339806" side_tool="true" weight="0.16709511" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3293011" />
       <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49550128" weight="0.32258064" />
-      <window_info anchor="right" id="Data View" order="3" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4941435" weight="0.3252688" />
+      <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.4993573" weight="0.32258064" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4941435" weight="0.32258064" />
-      <window_info anchor="right" id="Database" order="4" weight="0.32969153" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.46722364" visible="true" weight="0.3077957" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.53277636" side_tool="true" weight="0.3077957" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Messages" order="9" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.466581" weight="0.3077957" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5051414" side_tool="true" visible="true" weight="0.32258064" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="right" id="SciView" order="5" weight="0.32969153" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Messages" order="9" />
+      <window_info anchor="right" id="Database" order="4" weight="0.32969153" />
       <window_info active="true" anchor="bottom" id="Concurrent Activities Diagram" order="11" visible="true" weight="0.3296355" />
-      <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.4993573" weight="0.32258064" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.46031746" visible="true" weight="0.17287917" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -1520,10 +1410,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Increase part size" />
-    <MESSAGE value="Order parts and correct review javascript" />
-    <MESSAGE value="Quote layout improvements" />
-    <MESSAGE value="Efficiency improvements settings" />
     <MESSAGE value="Try debig toolbar in sub class" />
     <MESSAGE value="Move import" />
     <MESSAGE value="Efficiency improvements" />
@@ -1545,7 +1431,11 @@
     <MESSAGE value="Pagination server side for Customer List view" />
     <MESSAGE value="Add nested serializers to customer" />
     <MESSAGE value="Refactor to extract elements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor to extract elements" />
+    <MESSAGE value="Fix note save and refactor serializers" />
+    <MESSAGE value="Clear forms on save by random id adding" />
+    <MESSAGE value="Framework react renders" />
+    <MESSAGE value="Npm audis completed down to 0 issues" />
+    <option name="LAST_COMMIT_MESSAGE" value="Npm audis completed down to 0 issues" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1567,426 +1457,371 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/common/field_as_td.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/templates/epic/common/field_as_div.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/test/common/FormTextAreaInput.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" selection-start-line="8" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/test/common/FormTextInput.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="67">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/common/ErrorDismissibleBlock.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/test/common/ErrorDismissableBlock.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="8" column="27" lean-forward="true" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/test/common/Pagination.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="50" selection-start-line="50" selection-end-line="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/test/common/__snapshots__/SelectInput.test.js.snap">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1037">
-          <caret line="262" column="20" lean-forward="true" selection-start-line="262" selection-start-column="20" selection-end-line="262" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/test/common/SelectInput.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/common/SelectInput.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="55" column="34" lean-forward="true" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/state/actions/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="58" selection-start-line="3" selection-start-column="40" selection-end-line="3" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/state/sagas/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="106" lean-forward="true" selection-start-line="4" selection-start-column="106" selection-end-line="4" selection-end-column="106" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/state/selectors/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/state/selectors/customer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/state/sagas/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="9" column="59" selection-start-line="9" selection-start-column="59" selection-end-line="9" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/customer/CustomerEditContainer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="18" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#164#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/customer/CustomerDetailEdit.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="10" column="46" selection-start-line="10" selection-start-column="46" selection-end-line="10" selection-end-column="46" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/epic-client/src/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="260" column="46" selection-start-line="260" selection-start-column="46" selection-end-line="260" selection-end-column="46" />
+        <state relative-caret-position="153">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/note/NoteCreate.jsx">
+    <entry file="file://$PROJECT_DIR$/test/serializer_tests/test_framework_serializer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-816">
-          <caret column="15" selection-start-column="13" selection-end-column="15" />
+        <state relative-caret-position="238">
+          <caret line="14" column="52" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="52" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5639">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/common/FormTextInput.jsx">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/state/sagas/apis/framework.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
-          <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/helpers/utils.js">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/state/sagas/framework.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        <state relative-caret-position="153">
+          <caret line="9" column="39" lean-forward="true" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/form_helpers/regular_expressions.py">
+    <entry file="file://$PROJECT_DIR$/epic/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/state/reducers/application.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="96" selection-start-line="96" selection-end-line="96" />
-          <folding>
-            <element signature="e#0#84#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/state/actions/customer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="124" column="29" selection-start-line="124" selection-start-column="10" selection-end-line="124" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/state/sagas/api.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="81" column="6" selection-start-line="81" selection-start-column="6" selection-end-line="81" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/state/reducers/customer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1331">
-          <caret line="139" column="44" selection-start-line="139" selection-start-column="44" selection-end-line="139" selection-end-column="44" />
-          <folding>
-            <element signature="e#0#821#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/helpers/customer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="27" column="71" selection-start-line="27" selection-start-column="71" selection-end-line="27" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/customer/CustomerPhoneEdit.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="90" selection-start-line="90" selection-end-line="90" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/state/sagas/customer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="187" column="110" selection-start-line="187" selection-start-column="110" selection-end-line="187" selection-end-column="110" />
-          <folding>
-            <element signature="e#0#65#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/customer/CustomerAddressEdit.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="117" selection-start-line="117" selection-end-line="117" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="144">
+          <caret line="226" column="18" selection-start-line="226" selection-start-column="4" selection-end-line="226" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/epic-client/src/state/reducers/note.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="63" column="31" selection-start-line="63" selection-start-column="31" selection-end-line="63" selection-end-column="31" />
+        <state relative-caret-position="-510" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/state/reducers/customer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2766" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/note/NoteCreate.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="76" column="50" lean-forward="true" selection-start-line="71" selection-start-column="16" selection-end-line="76" selection-end-column="50" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/customer/CustomerEdit.jsx">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/customer/CustomerPhoneEdit.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
-          <caret line="60" column="29" lean-forward="true" selection-start-line="60" selection-start-column="29" selection-end-line="60" selection-end-column="29" />
+        <state relative-caret-position="1496">
+          <caret line="91" column="40" selection-start-line="91" selection-start-column="40" selection-end-line="91" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="387" column="21" lean-forward="true" selection-start-line="362" selection-start-column="20" selection-end-line="387" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/containers/note/NoteCreate.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1275" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/helpers/framework.moveObjectDownOne.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="53" lean-forward="true" selection-end-line="82" />
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/containers/customer/CustomerDetailEdit.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" selection-start-line="25" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/containers/framework/__snapshots__/AttributeOptions.test.js.snap">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="436" column="34" selection-start-line="436" selection-start-column="19" selection-end-line="436" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/containers/framework/PartTypeAttributeEdit.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="24" lean-forward="true" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/common/FormTextInput.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/containers/framework/AttributeOptions.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-170">
+          <caret line="56" column="36" selection-start-line="56" selection-start-column="36" selection-end-line="56" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/containers/framework/PartTypeAttributes.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="57" column="25" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/epic/model_serializers/framework_serializer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="32" lean-forward="true" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
+        <state relative-caret-position="260">
+          <caret line="72" column="32" selection-start-line="72" selection-start-column="16" selection-end-line="72" selection-end-column="32" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/serializers.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/api_views/note_api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="14" column="37" selection-start-line="14" selection-start-column="37" selection-end-line="14" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/api_views/customer_phone_api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="13" column="46" lean-forward="true" selection-start-line="13" selection-start-column="46" selection-end-line="13" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/api_views/customer_api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/api_views/customer_address_api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="23" column="46" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/epic/api_views/framework_api.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-125">
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="34">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/models.py">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/FrameworkMoves.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/customer/CustomerEdit.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="137" column="27" selection-start-line="137" selection-start-column="27" selection-end-line="137" selection-end-column="27" />
+          <caret line="13" lean-forward="true" selection-start-line="8" selection-end-line="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/helpers/validation_helper.py">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/common/FormTextInput.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="510">
+          <caret line="30" selection-start-line="30" selection-end-line="32" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/model_serializers/customer_serializer.py">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/customer/CustomerAddressEdit.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="102" column="10" selection-start-line="102" selection-start-column="10" selection-end-line="102" selection-end-column="10" />
-          <folding>
-            <element signature="e#0#72#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="300">
+          <caret line="21" column="27" lean-forward="true" selection-start-line="20" selection-start-column="7" selection-end-line="21" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/forms.py">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/state/reducers/application.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="193" column="52" selection-start-line="193" selection-start-column="52" selection-end-line="193" selection-end-column="52" />
-          <folding>
-            <element signature="e#11#35#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-1428" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/app/Header.jsx">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/customer/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/model_serializers/note_serializer.py">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/customer/CustomerList.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="54" lean-forward="true" selection-start-line="7" selection-start-column="54" selection-end-line="7" selection-end-column="54" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2346">
+          <caret line="144" selection-start-line="139" selection-end-line="144" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/model_serializers/part_serializer.py">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/state/reducers/index.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/state/reducers/framework.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+        <state relative-caret-position="629">
+          <caret line="45" column="29" selection-start-line="45" selection-start-column="29" selection-end-line="45" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="44" selection-start-line="1" selection-start-column="44" selection-end-line="1" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/state/actions/framework.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="20" column="18" selection-start-line="20" selection-start-column="18" selection-end-line="20" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="11097" column="35" lean-forward="true" selection-start-line="11097" selection-start-column="35" selection-end-line="11097" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/AttributeOptions.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1201">
+          <caret line="116" column="20" selection-start-line="116" selection-start-column="20" selection-end-line="116" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeAttributes.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1258">
+          <caret line="83" column="25" selection-start-line="83" selection-start-column="25" selection-end-line="83" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeEdit.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1411">
+          <caret line="87" column="28" selection-start-line="87" selection-start-column="28" selection-end-line="87" selection-end-column="28" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/model_serializers/quote_serializer.py">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/index.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="34" lean-forward="true" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+        <state relative-caret-position="102">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/Framework.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="65" column="21" selection-start-line="65" selection-start-column="21" selection-end-line="65" selection-end-column="21" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/model_serializers/frame_serializer.py">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/helpers/framework.moveObjectToTop.test.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        <state>
+          <caret selection-end-column="26" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/helpers/constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="26" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/common/SelectInput.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/PartTypeAttributeEdit.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="66" column="24" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/epic/model_serializers/user_serializer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="49" column="55" selection-start-line="49" selection-start-column="55" selection-end-line="49" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/epic/api_views/user_api.py">
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/helpers/validateEmailFormat.test.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
-          <caret line="3" column="54" lean-forward="true" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/helpers/framework.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="57" selection-start-line="8" selection-start-column="57" selection-end-line="8" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/SectionEdit.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="45" column="21" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/containers/framework/PartTypes.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="46" column="54" lean-forward="true" selection-start-line="46" selection-start-column="54" selection-end-line="46" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/helpers/framework.attributeSummary.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="557">
+          <caret line="40" column="74" selection-start-line="40" selection-start-column="74" selection-end-line="40" selection-end-column="74" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/helpers/utils.findIndexOfObjectWithKey.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="22" column="40" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/helpers/utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="30" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/epic-client/src/test/helpers/utils.findObjectWithKey.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
         </state>
       </provider>
     </entry>

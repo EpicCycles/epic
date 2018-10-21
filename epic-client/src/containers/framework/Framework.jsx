@@ -3,7 +3,8 @@ import {
     moveObjectDownOnePlace,
     moveObjectToBottom,
     moveObjectToTop,
-    moveObjectUpOnePlace
+    moveObjectUpOnePlace,
+    NEW_FRAMEWORK_ID
 } from "../../helpers/framework";
 import SectionEdit from "./SectionEdit";
 import FrameworkMoves from "./FrameworkMoves";
@@ -56,36 +57,50 @@ class Framework extends React.Component {
         } = this.props;
         const sectionsToUse = sections ? sections.filter(section => !section.delete) : [];
         return <Fragment>
-            <ul key={`sections`}>
+            <table key={`sections`} className="fixed_header">
+                <thead>
+                <tr key="sectionsHeaders">
+                    <th>Section Name</th>
+                    <th>Part Types</th>
+                    <th>Position</th>
+                </tr>
+                </thead>
+                <tbody>
                 {sectionsToUse.map((section) => {
                     const componentKey = section.id ? section.id : section.dummyKey;
                     return (
-                        <Fragment>
+                        <tr key={`section_${componentKey}`}>
                             <SectionEdit
                                 key={`sectionEdit${componentKey}`}
                                 section={section}
                                 componentKey={componentKey}
                                 handleSectionChange={this.handleSectionChange}
                             />
-                            {sectionsToUse.length > 1 &&
-                            <FrameworkMoves
-                                componentKey={"new"}
-                                moveToTop={this.moveToTop}
-                                moveUp={this.moveUp}
-                                moveDown={this.moveDown}
-                                moveToBottom={this.moveToBottom}
-                            />
-                            }
-                        </Fragment>
+                            <td>
+                                {sectionsToUse.length > 1 &&
+                                <FrameworkMoves
+                                    componentKey={componentKey}
+                                    moveToTop={this.moveToTop}
+                                    moveUp={this.moveUp}
+                                    moveDown={this.moveDown}
+                                    moveToBottom={this.moveToBottom}
+                                />
+                                }
+                            </td>
+                        </tr>
                     );
                 })}
-                <SectionEdit
-                    key="sectionEditNew"
-                    section={{}}
-                    componentKey={"new"}
-                    updateSection={this.handleSectionChange}
-                />
-            </ul>
+                <tr key={`section_new`}>
+                    <SectionEdit
+                        key="sectionEditNew"
+                        section={{}}
+                        componentKey={NEW_FRAMEWORK_ID}
+                        updateSection={this.handleSectionChange}
+                    />
+                    <td/>
+                </tr>
+                </tbody>
+            </table>
             {isLoading &&
             <Dimmer active inverted>
                 <Loader content='Loading'/>

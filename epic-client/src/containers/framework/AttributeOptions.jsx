@@ -76,39 +76,46 @@ class AttributeOptions extends React.Component {
     render() {
         const { attributeKey, options } = this.props;
         const optionsToUse = options.filter(option => !option.delete);
-        return <ul>
+        return <table>
+            <tbody>
+            <tr>
+                <th>Value</th>
+                <th>Position</th>
+            </tr>
             {optionsToUse.map((option) => {
                 const fieldkey = option.id ? option.id : option.dummyKey;
-                return <li key={`option_${fieldkey}`}>
-                    <FormTextInput
+                return <tr key={`option_${fieldkey}`}>
+                    <td><FormTextInput
                         placeholder="add new"
                         fieldName={`optionValue_${fieldkey}`}
                         value={option.attribute_option}
                         onChange={this.handleInputChange}
                         onClick={this.handleInputClear}
-                    />
+                    /></td>
                     {optionsToUse.length > 1 &&
-                        <FrameworkMoves
-                            fieldkey={fieldkey}
-                            moveToTop={this.moveToTop}
-                            moveUp={this.moveUp}
-                            moveDown={this.moveDown}
-                            moveToBottom={this.moveToBottom}
-                        />
+                    <td><FrameworkMoves
+                        fieldkey={fieldkey}
+                        moveToTop={this.moveToTop}
+                        moveUp={this.moveUp}
+                        moveDown={this.moveDown}
+                        moveToBottom={this.moveToBottom}
+                    /></td>
                     }
-                </li>
+                </tr>
             })}
 
-            <li key={`newOption${attributeKey}`}>
-                <FormTextInput
+            <tr key={`newOption${attributeKey}`}>
+                <td><FormTextInput
                     placeholder="add new"
                     fieldName="optionValue_new"
                     value=""
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
-                />
-            </li>
-        </ul>;
+                /></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>;
     }
 }
 

@@ -1,16 +1,16 @@
-import React, {Fragment} from "react";
+import React from "react";
 import PartTypeEdit from "./PartTypeEdit";
 import {
     moveObjectDownOnePlace,
     moveObjectToBottom,
     moveObjectToTop,
-    moveObjectUpOnePlace
+    moveObjectUpOnePlace, NEW_FRAMEWORK_ID
 } from "../../helpers/framework";
 import FrameworkMoves from "./FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
 
 class PartTypes extends React.Component {
-    handlePartTypeChange = (partTypeKey, updatedPartType) => {
+    updatePartType = (partTypeKey, updatedPartType) => {
         const partTypesWithUpdates = this.props.partTypes.slice();
         const partTypeToUpdateIndex = findIndexOfObjectWithKey(partTypesWithUpdates, partTypeKey);
         if (partTypeToUpdateIndex > -1) {
@@ -44,36 +44,50 @@ class PartTypes extends React.Component {
     render() {
         const { sectionKey, partTypes } = this.props;
         const partTypesToUse = partTypes.filter(partType => !partType.delete);
-        return <ul key={`partTypes_${sectionKey}`}>
+        return <table key={`partTypes_${sectionKey}`}>
+            <tbody>
+            <tr key={`partTypeHeader${sectionKey}`}>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Quote options</th>
+                <th>Attributes</th>
+                <th>Position</th>
+            </tr>
             {partTypesToUse.map((partType) => {
                 const componentKey = partType.id ? partType.id : partType.dummyKey;
                 return (
-                <Fragment>
-                    <PartTypeEdit
-                        key={`partTypeEdit${componentKey}`}
-                        partType={partType}
-                        componentKey={componentKey}
-                        updatePartType={this.handlePartTypeChange}
-                    />
-                    {partTypesToUse.length > 1 &&
-                    <FrameworkMoves
-                        componentKey={componentKey}
-                        moveToTop={this.moveToTop}
-                        moveUp={this.moveUp}
-                        moveDown={this.moveDown}
-                        moveToBottom={this.moveToBottom}
-                    />
-                    }
-                </Fragment>
+                    <tr key={`partType_${componentKey}`}>
+                        <PartTypeEdit
+                            key={`partTypeEdit${componentKey}`}
+                            partType={partType}
+                            componentKey={componentKey}
+                            updatePartType={this.updatePartType}
+                        />
+                        {partTypesToUse.length > 1 &&
+                        <td>
+                            <FrameworkMoves
+                                componentKey={componentKey}
+                                moveToTop={this.moveToTop}
+                                moveUp={this.moveUp}
+                                moveDown={this.moveDown}
+                                moveToBottom={this.moveToBottom}
+                            />
+                        </td>
+                        }
+                    </tr>
                 );
             })}
-            <PartTypeEdit
-                key="partTypeEditNew"
-                partType={{}}
-                componentKey={"new"}
-                updatePartType={this.handlePartTypeChange}
-            />
-        </ul>;
+            <tr key={`partTypeNew_${sectionKey}`}>
+                <PartTypeEdit
+                    key="partTypeEditNew"
+                    partType={{}}
+                    componentKey={NEW_FRAMEWORK_ID}
+                    updatePartType={this.updatePartType}
+                />
+                <td/>
+            </tr>
+            </tbody>
+        </table>;
     }
 }
 

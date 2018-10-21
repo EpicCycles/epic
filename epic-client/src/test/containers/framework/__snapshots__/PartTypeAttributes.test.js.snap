@@ -1,101 +1,227 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PartTypeAttributes tests renders the form correctly when all attributes deleted 1`] = `
-<ul>
-  <PartTypeAttributeEdit
-    partType={Object {}}
-    componentKey="new"
-    key="attributeEditNew"
-    updatePartTypeAttribute={[Function]}
-  />
-</ul>
+<table
+  key="attributes_undefined"
+>
+  <tbody>
+    <tr>
+      <th>
+        Attribute Name
+      </th>
+      <th>
+        Used?
+      </th>
+      <th>
+        Mandatory?
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Options
+      </th>
+      <th>
+        Position
+      </th>
+    </tr>
+    <tr
+      key="newattributeRowundefined"
+    >
+      <PartTypeAttributeEdit
+        attribute={Object {}}
+        componentKey="new"
+        key="attributeEditNew"
+        updatePartTypeAttribute={[Function]}
+      />
+      <td />
+    </tr>
+  </tbody>
+</table>
 `;
 
 exports[`PartTypeAttributes tests renders the form correctly with attributes 1`] = `
-<ul>
-  <PartTypeAttributeEdit
-    partType={
-      Object {
-        "attribute_name": "Colour",
-        "attribute_type": "1",
-        "id": 12,
-        "in_use": true,
-        "mandatory": true,
-        "options": Array [],
-        "partType": 18,
-        "placing": 1,
-      }
-    }
-    componentKey={12}
-    key="attributeEdit12"
-    updatePartTypeAttribute={[Function]}
-  />
-  <PartTypeAttributeEdit
-    partType={
-      Object {
-        "attribute_name": "Size",
-        "attribute_type": "1",
-        "id": 17,
-        "in_use": true,
-        "mandatory": true,
-        "options": Array [],
-        "partType": 18,
-        "placing": 2,
-      }
-    }
-    componentKey={17}
-    key="attributeEdit17"
-    updatePartTypeAttribute={[Function]}
-  />
-  <PartTypeAttributeEdit
-    partType={
-      Object {
-        "attribute_name": "Valve Length",
-        "attribute_type": "4",
-        "id": 11,
-        "in_use": true,
-        "mandatory": false,
-        "options": Array [
+<table
+  key="attributes_undefined"
+>
+  <tbody>
+    <tr>
+      <th>
+        Attribute Name
+      </th>
+      <th>
+        Used?
+      </th>
+      <th>
+        Mandatory?
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Options
+      </th>
+      <th>
+        Position
+      </th>
+    </tr>
+    <tr
+      key="attributeRow12"
+    >
+      <PartTypeAttributeEdit
+        attribute={
           Object {
-            "attribute_option": "Long",
-            "id": 5,
-            "part_type_attribute": 11,
-          },
+            "attribute_name": "Colour",
+            "attribute_type": "1",
+            "id": 12,
+            "in_use": true,
+            "mandatory": true,
+            "options": Array [],
+            "partType": 18,
+            "placing": 1,
+          }
+        }
+        componentKey={12}
+        key="attributeEdit12"
+        updatePartTypeAttribute={[Function]}
+      />
+      <td>
+        <FrameworkMoves
+          componentKey={12}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      key="attributeRow17"
+    >
+      <PartTypeAttributeEdit
+        attribute={
           Object {
-            "attribute_option": "Medium",
-            "id": 4,
-            "part_type_attribute": 11,
-          },
+            "attribute_name": "Size",
+            "attribute_type": "1",
+            "id": 17,
+            "in_use": true,
+            "mandatory": true,
+            "options": Array [],
+            "partType": 18,
+            "placing": 2,
+          }
+        }
+        componentKey={17}
+        key="attributeEdit17"
+        updatePartTypeAttribute={[Function]}
+      />
+      <td>
+        <FrameworkMoves
+          componentKey={17}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      key="attributeRow11"
+    >
+      <PartTypeAttributeEdit
+        attribute={
           Object {
-            "attribute_option": "Short",
-            "id": 3,
-            "part_type_attribute": 11,
-          },
-        ],
-        "partType": 19,
-        "placing": 1,
-      }
-    }
-    componentKey={11}
-    key="attributeEdit11"
-    updatePartTypeAttribute={[Function]}
-  />
-  <PartTypeAttributeEdit
-    partType={Object {}}
-    componentKey="new"
-    key="attributeEditNew"
-    updatePartTypeAttribute={[Function]}
-  />
-</ul>
+            "attribute_name": "Valve Length",
+            "attribute_type": "4",
+            "id": 11,
+            "in_use": true,
+            "mandatory": false,
+            "options": Array [
+              Object {
+                "attribute_option": "Long",
+                "id": 5,
+                "part_type_attribute": 11,
+              },
+              Object {
+                "attribute_option": "Medium",
+                "id": 4,
+                "part_type_attribute": 11,
+              },
+              Object {
+                "attribute_option": "Short",
+                "id": 3,
+                "part_type_attribute": 11,
+              },
+            ],
+            "partType": 19,
+            "placing": 1,
+          }
+        }
+        componentKey={11}
+        key="attributeEdit11"
+        updatePartTypeAttribute={[Function]}
+      />
+      <td>
+        <FrameworkMoves
+          componentKey={11}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      key="newattributeRowundefined"
+    >
+      <PartTypeAttributeEdit
+        attribute={Object {}}
+        componentKey="new"
+        key="attributeEditNew"
+        updatePartTypeAttribute={[Function]}
+      />
+      <td />
+    </tr>
+  </tbody>
+</table>
 `;
 
 exports[`PartTypeAttributes tests renders the form correctly with no attributes 1`] = `
-<ul>
-  <PartTypeAttributeEdit
-    partType={Object {}}
-    componentKey="new"
-    key="attributeEditNew"
-    updatePartTypeAttribute={[Function]}
-  />
-</ul>
+<table
+  key="attributes_undefined"
+>
+  <tbody>
+    <tr>
+      <th>
+        Attribute Name
+      </th>
+      <th>
+        Used?
+      </th>
+      <th>
+        Mandatory?
+      </th>
+      <th>
+        Type
+      </th>
+      <th>
+        Options
+      </th>
+      <th>
+        Position
+      </th>
+    </tr>
+    <tr
+      key="newattributeRowundefined"
+    >
+      <PartTypeAttributeEdit
+        attribute={Object {}}
+        componentKey="new"
+        key="attributeEditNew"
+        updatePartTypeAttribute={[Function]}
+      />
+      <td />
+    </tr>
+  </tbody>
+</table>
 `;

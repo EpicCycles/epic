@@ -25,180 +25,421 @@ exports[`AttributeOptions tests option update with dummy key calls parent method
     ]
   }
 >
-  <ul>
-    <li
-      key="option_123"
-    >
-      <FormTextInput
-        fieldName="optionValue_123"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value="braze"
+  <table>
+    <tbody>
+      <tr>
+        <th>
+          Value
+        </th>
+        <th>
+          Position
+        </th>
+      </tr>
+      <tr
+        key="option_123"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_123"
-            name="optionValue_123"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_123"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value="braze"
-          />
-          <span
-            className="clearInput"
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_123"
+                name="optionValue_123"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value="braze"
+              />
+              <span
+                className="clearInput"
+              >
+                <Icon
+                  as="i"
+                  circular={true}
+                  id="removeoptionValue_123"
+                  link={true}
+                  name="remove"
+                  onClick={[Function]}
+                  size="small"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="remove small circular link icon"
+                    id="removeoptionValue_123"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </span>
+            </div>
+          </FormTextInput>
+        </td>
+        <td>
+          <FrameworkMoves
+            fieldkey={123}
+            moveDown={[Function]}
+            moveToBottom={[Function]}
+            moveToTop={[Function]}
+            moveUp={[Function]}
           >
             <Icon
               as="i"
               circular={true}
-              id="removeoptionValue_123"
+              id="moveToTop_undefined"
               link={true}
-              name="remove"
+              name="angle double up"
               onClick={[Function]}
               size="small"
             >
               <i
                 aria-hidden="true"
-                className="remove small circular link icon"
-                id="removeoptionValue_123"
+                className="angle double up small circular link icon"
+                id="moveToTop_undefined"
                 onClick={[Function]}
               />
             </Icon>
-          </span>
-        </div>
-      </FormTextInput>
-    </li>
-    <li
-      key="option_323"
-    >
-      <FormTextInput
-        fieldName="optionValue_323"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value="band"
+            <Icon
+              as="i"
+              circular={true}
+              id="moveUp_undefined"
+              link={true}
+              name="angle up"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle up small circular link icon"
+                id="moveUp_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle double down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle double down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+          </FrameworkMoves>
+        </td>
+      </tr>
+      <tr
+        key="option_323"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_323"
-            name="optionValue_323"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_323"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value="band"
-          />
-          <span
-            className="clearInput"
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_323"
+                name="optionValue_323"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value="band"
+              />
+              <span
+                className="clearInput"
+              >
+                <Icon
+                  as="i"
+                  circular={true}
+                  id="removeoptionValue_323"
+                  link={true}
+                  name="remove"
+                  onClick={[Function]}
+                  size="small"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="remove small circular link icon"
+                    id="removeoptionValue_323"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </span>
+            </div>
+          </FormTextInput>
+        </td>
+        <td>
+          <FrameworkMoves
+            fieldkey={323}
+            moveDown={[Function]}
+            moveToBottom={[Function]}
+            moveToTop={[Function]}
+            moveUp={[Function]}
           >
             <Icon
               as="i"
               circular={true}
-              id="removeoptionValue_323"
+              id="moveToTop_undefined"
               link={true}
-              name="remove"
+              name="angle double up"
               onClick={[Function]}
               size="small"
             >
               <i
                 aria-hidden="true"
-                className="remove small circular link icon"
-                id="removeoptionValue_323"
+                className="angle double up small circular link icon"
+                id="moveToTop_undefined"
                 onClick={[Function]}
               />
             </Icon>
-          </span>
-        </div>
-      </FormTextInput>
-    </li>
-    <li
-      key="option_hjgfkuyg34"
-    >
-      <FormTextInput
-        fieldName="optionValue_hjgfkuyg34"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value="boggle"
+            <Icon
+              as="i"
+              circular={true}
+              id="moveUp_undefined"
+              link={true}
+              name="angle up"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle up small circular link icon"
+                id="moveUp_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle double down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle double down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+          </FrameworkMoves>
+        </td>
+      </tr>
+      <tr
+        key="option_hjgfkuyg34"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_hjgfkuyg34"
-            name="optionValue_hjgfkuyg34"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_hjgfkuyg34"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value="boggle"
-          />
-          <span
-            className="clearInput"
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_hjgfkuyg34"
+                name="optionValue_hjgfkuyg34"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value="boggle"
+              />
+              <span
+                className="clearInput"
+              >
+                <Icon
+                  as="i"
+                  circular={true}
+                  id="removeoptionValue_hjgfkuyg34"
+                  link={true}
+                  name="remove"
+                  onClick={[Function]}
+                  size="small"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="remove small circular link icon"
+                    id="removeoptionValue_hjgfkuyg34"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </span>
+            </div>
+          </FormTextInput>
+        </td>
+        <td>
+          <FrameworkMoves
+            fieldkey="hjgfkuyg34"
+            moveDown={[Function]}
+            moveToBottom={[Function]}
+            moveToTop={[Function]}
+            moveUp={[Function]}
           >
             <Icon
               as="i"
               circular={true}
-              id="removeoptionValue_hjgfkuyg34"
+              id="moveToTop_undefined"
               link={true}
-              name="remove"
+              name="angle double up"
               onClick={[Function]}
               size="small"
             >
               <i
                 aria-hidden="true"
-                className="remove small circular link icon"
-                id="removeoptionValue_hjgfkuyg34"
+                className="angle double up small circular link icon"
+                id="moveToTop_undefined"
                 onClick={[Function]}
               />
             </Icon>
-          </span>
-        </div>
-      </FormTextInput>
-    </li>
-    <li
-      key="newOption234"
-    >
-      <FormTextInput
-        fieldName="optionValue_new"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value=""
+            <Icon
+              as="i"
+              circular={true}
+              id="moveUp_undefined"
+              link={true}
+              name="angle up"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle up small circular link icon"
+                id="moveUp_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle double down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle double down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+          </FrameworkMoves>
+        </td>
+      </tr>
+      <tr
+        key="newOption234"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_new"
-            name="optionValue_new"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_new"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value=""
-          />
-        </div>
-      </FormTextInput>
-    </li>
-  </ul>
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_new"
+                name="optionValue_new"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value=""
+              />
+            </div>
+          </FormTextInput>
+        </td>
+        <td />
+      </tr>
+    </tbody>
+  </table>
 </AttributeOptions>
 `;
 
@@ -227,180 +468,421 @@ exports[`AttributeOptions tests option update with dummy key calls parent method
     ]
   }
 >
-  <ul>
-    <li
-      key="option_123"
-    >
-      <FormTextInput
-        fieldName="optionValue_123"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value="braze"
+  <table>
+    <tbody>
+      <tr>
+        <th>
+          Value
+        </th>
+        <th>
+          Position
+        </th>
+      </tr>
+      <tr
+        key="option_123"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_123"
-            name="optionValue_123"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_123"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value="braze"
-          />
-          <span
-            className="clearInput"
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_123"
+                name="optionValue_123"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value="braze"
+              />
+              <span
+                className="clearInput"
+              >
+                <Icon
+                  as="i"
+                  circular={true}
+                  id="removeoptionValue_123"
+                  link={true}
+                  name="remove"
+                  onClick={[Function]}
+                  size="small"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="remove small circular link icon"
+                    id="removeoptionValue_123"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </span>
+            </div>
+          </FormTextInput>
+        </td>
+        <td>
+          <FrameworkMoves
+            fieldkey={123}
+            moveDown={[Function]}
+            moveToBottom={[Function]}
+            moveToTop={[Function]}
+            moveUp={[Function]}
           >
             <Icon
               as="i"
               circular={true}
-              id="removeoptionValue_123"
+              id="moveToTop_undefined"
               link={true}
-              name="remove"
+              name="angle double up"
               onClick={[Function]}
               size="small"
             >
               <i
                 aria-hidden="true"
-                className="remove small circular link icon"
-                id="removeoptionValue_123"
+                className="angle double up small circular link icon"
+                id="moveToTop_undefined"
                 onClick={[Function]}
               />
             </Icon>
-          </span>
-        </div>
-      </FormTextInput>
-    </li>
-    <li
-      key="option_323"
-    >
-      <FormTextInput
-        fieldName="optionValue_323"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value="band"
+            <Icon
+              as="i"
+              circular={true}
+              id="moveUp_undefined"
+              link={true}
+              name="angle up"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle up small circular link icon"
+                id="moveUp_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle double down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle double down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+          </FrameworkMoves>
+        </td>
+      </tr>
+      <tr
+        key="option_323"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_323"
-            name="optionValue_323"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_323"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value="band"
-          />
-          <span
-            className="clearInput"
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_323"
+                name="optionValue_323"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value="band"
+              />
+              <span
+                className="clearInput"
+              >
+                <Icon
+                  as="i"
+                  circular={true}
+                  id="removeoptionValue_323"
+                  link={true}
+                  name="remove"
+                  onClick={[Function]}
+                  size="small"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="remove small circular link icon"
+                    id="removeoptionValue_323"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </span>
+            </div>
+          </FormTextInput>
+        </td>
+        <td>
+          <FrameworkMoves
+            fieldkey={323}
+            moveDown={[Function]}
+            moveToBottom={[Function]}
+            moveToTop={[Function]}
+            moveUp={[Function]}
           >
             <Icon
               as="i"
               circular={true}
-              id="removeoptionValue_323"
+              id="moveToTop_undefined"
               link={true}
-              name="remove"
+              name="angle double up"
               onClick={[Function]}
               size="small"
             >
               <i
                 aria-hidden="true"
-                className="remove small circular link icon"
-                id="removeoptionValue_323"
+                className="angle double up small circular link icon"
+                id="moveToTop_undefined"
                 onClick={[Function]}
               />
             </Icon>
-          </span>
-        </div>
-      </FormTextInput>
-    </li>
-    <li
-      key="option_hjgfkuyg34"
-    >
-      <FormTextInput
-        fieldName="optionValue_hjgfkuyg34"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value="boggle"
+            <Icon
+              as="i"
+              circular={true}
+              id="moveUp_undefined"
+              link={true}
+              name="angle up"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle up small circular link icon"
+                id="moveUp_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle double down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle double down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+          </FrameworkMoves>
+        </td>
+      </tr>
+      <tr
+        key="option_hjgfkuyg34"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_hjgfkuyg34"
-            name="optionValue_hjgfkuyg34"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_hjgfkuyg34"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value="boggle"
-          />
-          <span
-            className="clearInput"
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_hjgfkuyg34"
+                name="optionValue_hjgfkuyg34"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value="boggle"
+              />
+              <span
+                className="clearInput"
+              >
+                <Icon
+                  as="i"
+                  circular={true}
+                  id="removeoptionValue_hjgfkuyg34"
+                  link={true}
+                  name="remove"
+                  onClick={[Function]}
+                  size="small"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="remove small circular link icon"
+                    id="removeoptionValue_hjgfkuyg34"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </span>
+            </div>
+          </FormTextInput>
+        </td>
+        <td>
+          <FrameworkMoves
+            fieldkey="hjgfkuyg34"
+            moveDown={[Function]}
+            moveToBottom={[Function]}
+            moveToTop={[Function]}
+            moveUp={[Function]}
           >
             <Icon
               as="i"
               circular={true}
-              id="removeoptionValue_hjgfkuyg34"
+              id="moveToTop_undefined"
               link={true}
-              name="remove"
+              name="angle double up"
               onClick={[Function]}
               size="small"
             >
               <i
                 aria-hidden="true"
-                className="remove small circular link icon"
-                id="removeoptionValue_hjgfkuyg34"
+                className="angle double up small circular link icon"
+                id="moveToTop_undefined"
                 onClick={[Function]}
               />
             </Icon>
-          </span>
-        </div>
-      </FormTextInput>
-    </li>
-    <li
-      key="newOption234"
-    >
-      <FormTextInput
-        fieldName="optionValue_new"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value=""
+            <Icon
+              as="i"
+              circular={true}
+              id="moveUp_undefined"
+              link={true}
+              name="angle up"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle up small circular link icon"
+                id="moveUp_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle double down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle double down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+          </FrameworkMoves>
+        </td>
+      </tr>
+      <tr
+        key="newOption234"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_new"
-            name="optionValue_new"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_new"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value=""
-          />
-        </div>
-      </FormTextInput>
-    </li>
-  </ul>
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_new"
+                name="optionValue_new"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value=""
+              />
+            </div>
+          </FormTextInput>
+        </td>
+        <td />
+      </tr>
+    </tbody>
+  </table>
 </AttributeOptions>
 `;
 
@@ -429,260 +911,573 @@ exports[`AttributeOptions tests option update with id calls parent method with r
     ]
   }
 >
-  <ul>
-    <li
-      key="option_123"
-    >
-      <FormTextInput
-        fieldName="optionValue_123"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value="braze"
+  <table>
+    <tbody>
+      <tr>
+        <th>
+          Value
+        </th>
+        <th>
+          Position
+        </th>
+      </tr>
+      <tr
+        key="option_123"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_123"
-            name="optionValue_123"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_123"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value="braze"
-          />
-          <span
-            className="clearInput"
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_123"
+                name="optionValue_123"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value="braze"
+              />
+              <span
+                className="clearInput"
+              >
+                <Icon
+                  as="i"
+                  circular={true}
+                  id="removeoptionValue_123"
+                  link={true}
+                  name="remove"
+                  onClick={[Function]}
+                  size="small"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="remove small circular link icon"
+                    id="removeoptionValue_123"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </span>
+            </div>
+          </FormTextInput>
+        </td>
+        <td>
+          <FrameworkMoves
+            fieldkey={123}
+            moveDown={[Function]}
+            moveToBottom={[Function]}
+            moveToTop={[Function]}
+            moveUp={[Function]}
           >
             <Icon
               as="i"
               circular={true}
-              id="removeoptionValue_123"
+              id="moveToTop_undefined"
               link={true}
-              name="remove"
+              name="angle double up"
               onClick={[Function]}
               size="small"
             >
               <i
                 aria-hidden="true"
-                className="remove small circular link icon"
-                id="removeoptionValue_123"
+                className="angle double up small circular link icon"
+                id="moveToTop_undefined"
                 onClick={[Function]}
               />
             </Icon>
-          </span>
-        </div>
-      </FormTextInput>
-    </li>
-    <li
-      key="option_323"
-    >
-      <FormTextInput
-        fieldName="optionValue_323"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value="band"
+            <Icon
+              as="i"
+              circular={true}
+              id="moveUp_undefined"
+              link={true}
+              name="angle up"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle up small circular link icon"
+                id="moveUp_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle double down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle double down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+          </FrameworkMoves>
+        </td>
+      </tr>
+      <tr
+        key="option_323"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_323"
-            name="optionValue_323"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_323"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value="band"
-          />
-          <span
-            className="clearInput"
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_323"
+                name="optionValue_323"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value="band"
+              />
+              <span
+                className="clearInput"
+              >
+                <Icon
+                  as="i"
+                  circular={true}
+                  id="removeoptionValue_323"
+                  link={true}
+                  name="remove"
+                  onClick={[Function]}
+                  size="small"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="remove small circular link icon"
+                    id="removeoptionValue_323"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </span>
+            </div>
+          </FormTextInput>
+        </td>
+        <td>
+          <FrameworkMoves
+            fieldkey={323}
+            moveDown={[Function]}
+            moveToBottom={[Function]}
+            moveToTop={[Function]}
+            moveUp={[Function]}
           >
             <Icon
               as="i"
               circular={true}
-              id="removeoptionValue_323"
+              id="moveToTop_undefined"
               link={true}
-              name="remove"
+              name="angle double up"
               onClick={[Function]}
               size="small"
             >
               <i
                 aria-hidden="true"
-                className="remove small circular link icon"
-                id="removeoptionValue_323"
+                className="angle double up small circular link icon"
+                id="moveToTop_undefined"
                 onClick={[Function]}
               />
             </Icon>
-          </span>
-        </div>
-      </FormTextInput>
-    </li>
-    <li
-      key="option_hjgfkuyg34"
-    >
-      <FormTextInput
-        fieldName="optionValue_hjgfkuyg34"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value="boggle"
+            <Icon
+              as="i"
+              circular={true}
+              id="moveUp_undefined"
+              link={true}
+              name="angle up"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle up small circular link icon"
+                id="moveUp_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle double down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle double down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+          </FrameworkMoves>
+        </td>
+      </tr>
+      <tr
+        key="option_hjgfkuyg34"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_hjgfkuyg34"
-            name="optionValue_hjgfkuyg34"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_hjgfkuyg34"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value="boggle"
-          />
-          <span
-            className="clearInput"
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_hjgfkuyg34"
+                name="optionValue_hjgfkuyg34"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value="boggle"
+              />
+              <span
+                className="clearInput"
+              >
+                <Icon
+                  as="i"
+                  circular={true}
+                  id="removeoptionValue_hjgfkuyg34"
+                  link={true}
+                  name="remove"
+                  onClick={[Function]}
+                  size="small"
+                >
+                  <i
+                    aria-hidden="true"
+                    className="remove small circular link icon"
+                    id="removeoptionValue_hjgfkuyg34"
+                    onClick={[Function]}
+                  />
+                </Icon>
+              </span>
+            </div>
+          </FormTextInput>
+        </td>
+        <td>
+          <FrameworkMoves
+            fieldkey="hjgfkuyg34"
+            moveDown={[Function]}
+            moveToBottom={[Function]}
+            moveToTop={[Function]}
+            moveUp={[Function]}
           >
             <Icon
               as="i"
               circular={true}
-              id="removeoptionValue_hjgfkuyg34"
+              id="moveToTop_undefined"
               link={true}
-              name="remove"
+              name="angle double up"
               onClick={[Function]}
               size="small"
             >
               <i
                 aria-hidden="true"
-                className="remove small circular link icon"
-                id="removeoptionValue_hjgfkuyg34"
+                className="angle double up small circular link icon"
+                id="moveToTop_undefined"
                 onClick={[Function]}
               />
             </Icon>
-          </span>
-        </div>
-      </FormTextInput>
-    </li>
-    <li
-      key="newOption234"
-    >
-      <FormTextInput
-        fieldName="optionValue_new"
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="add new"
-        value=""
+            <Icon
+              as="i"
+              circular={true}
+              id="moveUp_undefined"
+              link={true}
+              name="angle up"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle up small circular link icon"
+                id="moveUp_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+            <Icon
+              as="i"
+              circular={true}
+              id="moveDown_undefined"
+              link={true}
+              name="angle double down"
+              onClick={[Function]}
+              size="small"
+            >
+              <i
+                aria-hidden="true"
+                className="angle double down small circular link icon"
+                id="moveDown_undefined"
+                onClick={[Function]}
+              />
+            </Icon>
+          </FrameworkMoves>
+        </td>
+      </tr>
+      <tr
+        key="newOption234"
       >
-        <div
-          className="undefined"
-        >
-          <input
-            autoComplete="off"
-            className=""
-            id="optionValue_new"
-            name="optionValue_new"
+        <td>
+          <FormTextInput
+            fieldName="optionValue_new"
             onChange={[Function]}
+            onClick={[Function]}
             placeholder="add new"
-            size={30}
-            title=" undefined"
-            type="text"
             value=""
-          />
-        </div>
-      </FormTextInput>
-    </li>
-  </ul>
+          >
+            <div
+              className="undefined"
+            >
+              <input
+                autoComplete="off"
+                className=""
+                id="optionValue_new"
+                name="optionValue_new"
+                onChange={[Function]}
+                placeholder="add new"
+                size={30}
+                title=" undefined"
+                type="text"
+                value=""
+              />
+            </div>
+          </FormTextInput>
+        </td>
+        <td />
+      </tr>
+    </tbody>
+  </table>
 </AttributeOptions>
 `;
 
 exports[`AttributeOptions tests renders the form correctly when all options deleted 1`] = `
-<ul>
-  <li
-    key="newOptionundefined"
-  >
-    <FormTextInput
-      fieldName="optionValue_new"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-      value=""
-    />
-  </li>
-</ul>
+<table>
+  <tbody>
+    <tr>
+      <th>
+        Value
+      </th>
+      <th>
+        Position
+      </th>
+    </tr>
+    <tr
+      key="newOptionundefined"
+    >
+      <td>
+        <FormTextInput
+          fieldName="optionValue_new"
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          value=""
+        />
+      </td>
+      <td />
+    </tr>
+  </tbody>
+</table>
 `;
 
 exports[`AttributeOptions tests renders the form correctly with no options 1`] = `
-<ul>
-  <li
-    key="newOptionundefined"
-  >
-    <FormTextInput
-      fieldName="optionValue_new"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-      value=""
-    />
-  </li>
-</ul>
+<table>
+  <tbody>
+    <tr>
+      <th>
+        Value
+      </th>
+      <th>
+        Position
+      </th>
+    </tr>
+    <tr
+      key="newOptionundefined"
+    >
+      <td>
+        <FormTextInput
+          fieldName="optionValue_new"
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          value=""
+        />
+      </td>
+      <td />
+    </tr>
+  </tbody>
+</table>
 `;
 
 exports[`AttributeOptions tests renders the form correctly with options 1`] = `
-<ul>
-  <li
-    key="option_123"
-  >
-    <FormTextInput
-      fieldName="optionValue_123"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-      value="braze"
-    />
-  </li>
-  <li
-    key="option_323"
-  >
-    <FormTextInput
-      fieldName="optionValue_323"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-      value="band"
-    />
-  </li>
-  <li
-    key="option_hjgfkuyg34"
-  >
-    <FormTextInput
-      fieldName="optionValue_hjgfkuyg34"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-      value="boggle"
-    />
-  </li>
-  <li
-    key="newOptionundefined"
-  >
-    <FormTextInput
-      fieldName="optionValue_new"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-      value=""
-    />
-  </li>
-</ul>
+<table>
+  <tbody>
+    <tr>
+      <th>
+        Value
+      </th>
+      <th>
+        Position
+      </th>
+    </tr>
+    <tr
+      key="option_123"
+    >
+      <td>
+        <FormTextInput
+          fieldName="optionValue_123"
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          value="braze"
+        />
+      </td>
+      <td>
+        <FrameworkMoves
+          fieldkey={123}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      key="option_323"
+    >
+      <td>
+        <FormTextInput
+          fieldName="optionValue_323"
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          value="band"
+        />
+      </td>
+      <td>
+        <FrameworkMoves
+          fieldkey={323}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      key="option_hjgfkuyg34"
+    >
+      <td>
+        <FormTextInput
+          fieldName="optionValue_hjgfkuyg34"
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          value="boggle"
+        />
+      </td>
+      <td>
+        <FrameworkMoves
+          fieldkey="hjgfkuyg34"
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      key="newOptionundefined"
+    >
+      <td>
+        <FormTextInput
+          fieldName="optionValue_new"
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          value=""
+        />
+      </td>
+      <td />
+    </tr>
+  </tbody>
+</table>
 `;

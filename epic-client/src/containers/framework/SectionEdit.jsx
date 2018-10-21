@@ -1,7 +1,8 @@
-import React from "react";
+import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import {generateRandomCode} from "../../helpers/utils";
 import PartTypes from "./PartTypes";
+import {NEW_FRAMEWORK_ID} from "../../helpers/framework";
 
 class SectionEdit extends React.Component {
     handleInputChange = (fieldName, input) => {
@@ -11,7 +12,7 @@ class SectionEdit extends React.Component {
                 updatedSection.name = input;
             } else {
                 updatedSection.name = "";
-             }
+            }
         }
         if (fieldName.startsWith('partTypes')) updatedSection.partTypes = input;
 
@@ -30,20 +31,26 @@ class SectionEdit extends React.Component {
     render() {
         const { section, componentKey } = this.props;
         const partTypes = section.partTypes || [];
-        return <li key={`section_${componentKey}`}>
-            <FormTextInput
-                placeholder="add new"
-                fieldName={`name_${componentKey}`}
-                value={section.name}
-                onChange={this.handleInputChange}
-                onClick={this.handleInputClear}
-            />
-            <PartTypes
-                sectionKey={componentKey}
-                partTypes={partTypes}
-                handleSectionChange={this.handleInputChange}
-            />
-        </li>;
+        return <Fragment>
+            <td>
+                <FormTextInput
+                    placeholder="add new"
+                    fieldName={`name_${componentKey}`}
+                    value={section.name}
+                    onChange={this.handleInputChange}
+                    onClick={this.handleInputClear}
+                />
+            </td>
+            <td>
+                {componentKey !== NEW_FRAMEWORK_ID &&
+                <PartTypes
+                    sectionKey={componentKey}
+                    partTypes={partTypes}
+                    handleSectionChange={this.handleInputChange}
+                />
+                }
+            </td>
+        </Fragment>;
     }
 }
 

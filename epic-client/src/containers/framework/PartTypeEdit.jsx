@@ -1,10 +1,11 @@
-import React from "react";
+import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import {generateRandomCode} from "../../helpers/utils";
 import PartTypeAttributes from "./PartTypeAttributes";
+import {NEW_FRAMEWORK_ID} from "../../helpers/framework";
 
 class PartTypeEdit extends React.Component {
-    handleInputChange = (fieldName, input) => {
+    handlePartTypeValueChange = (fieldName, input) => {
         const updatedPartType = Object.assign({}, this.props.partType);
         if (fieldName.startsWith('shortName')) {
             if (updatedPartType.shortName) {
@@ -38,48 +39,60 @@ class PartTypeEdit extends React.Component {
         const can_be_omittedId = `can_be_omitted_${componentKey}`;
         const customer_facingId = `customer_facing_${componentKey}`;
         const attributes = partType.attributes || [];
-        return <li key={`partType_${componentKey}`}>
-            <FormTextInput
-                placeholder="add new"
-                fieldName={`shortName_${componentKey}`}
-                value={partType.shortName}
-                onChange={this.handleInputChange}
-                onClick={this.handleInputClear}
-            />
-            <FormTextInput
-                placeholder="add new"
-                fieldName={`description_${componentKey}`}
-                value={partType.description}
-                onChange={this.handleInputChange}
-                onClick={this.handleInputClear}
-            />
-            <label htmlFor={can_be_substitutedId}>Can Be Substituted?</label>
-            <input type="checkbox"
-                   name={can_be_substitutedId}
-                   id={can_be_substitutedId}
-                   onChange={event => this.handleInputChange(event.target.name, event.target.value)}
-                   checked={partType.can_be_substituted ? partType.can_be_substituted : true}
-            />
-            <label htmlFor={can_be_omittedId}>Can Be Omitted?</label>
-            <input type="checkbox"
-                   name={can_be_omittedId}
-                   id={can_be_omittedId}
-                   onChange={event => this.handleInputChange(event.target.name, event.target.value)}
-                   checked={partType.can_be_omitted ? partType.can_be_substituted : true}
-            />
-            <label htmlFor={customer_facingId}>Customer Facing?</label>
-            <input type="checkbox"
-                   name={customer_facingId}
-                   id={customer_facingId}
-                   onChange={event => this.handleInputChange(event.target.name, event.target.value)}
-                   checked={partType.customer_facing ? partType.customer_facing : true}
-            />
-            <PartTypeAttributes
-                partTypeKey={componentKey}
-                attributes={attributes}
-                handlePartTypeChange={this.handleInputChange}
-            />
-        </li>;
+        return <Fragment>
+            <td>
+                <FormTextInput
+                    placeholder="add new"
+                    fieldName={`shortName_${componentKey}`}
+                    value={partType.shortName}
+                    onChange={this.handlePartTypeValueChange}
+                    onClick={this.handleInputClear}
+                />
+            </td>
+            <td>
+                <FormTextInput
+                    placeholder="add new"
+                    fieldName={`description_${componentKey}`}
+                    value={partType.description}
+                    onChange={this.handlePartTypeValueChange}
+                    onClick={this.handleInputClear}
+                />
+            </td>
+            <td>
+                <label htmlFor={can_be_substitutedId}>Can Be Substituted?</label>
+                <input type="checkbox"
+                       name={can_be_substitutedId}
+                       id={can_be_substitutedId}
+                       onChange={event => this.handlePartTypeValueChange(event.target.name, event.target.value)}
+                       checked={partType.can_be_substituted ? partType.can_be_substituted : true}
+                />
+                <br/>
+                <label htmlFor={can_be_omittedId}>Can Be Omitted?</label>
+                <input type="checkbox"
+                       name={can_be_omittedId}
+                       id={can_be_omittedId}
+                       onChange={event => this.handlePartTypeValueChange(event.target.name, event.target.value)}
+                       checked={partType.can_be_omitted ? partType.can_be_substituted : true}
+                />
+                <br/>
+                <label htmlFor={customer_facingId}>Customer Facing?</label>
+                <input type="checkbox"
+                       name={customer_facingId}
+                       id={customer_facingId}
+                       onChange={event => this.handlePartTypeValueChange(event.target.name, event.target.value)}
+                       checked={partType.customer_facing ? partType.customer_facing : true}
+                />
+            </td>
+            <td>
+                {componentKey !== NEW_FRAMEWORK_ID &&
+                <PartTypeAttributes
+                    partTypeKey={componentKey}
+                    attributes={attributes}
+                    handlePartTypeChange={this.handlePartTypeValueChange}
+                />
+                }
+            </td>
+        </Fragment>;
     }
 }
 
