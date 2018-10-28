@@ -9,7 +9,7 @@ import {
 import SectionEdit from "./SectionEdit";
 import FrameworkMoves from "./FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
-import {Dimmer, Loader} from "semantic-ui-react";
+import {Button, Dimmer, Loader} from "semantic-ui-react";
 
 class Framework extends React.Component {
     componentWillMount() {
@@ -48,21 +48,28 @@ class Framework extends React.Component {
         const sectionKey = fields[1];
         this.props.updateFramework(moveObjectToBottom(this.props.sections, sectionKey));
     };
+    saveChanges = () => {
+        this.props.saveFramework(this.props.sections);
+    };
 
     render() {
         const {
             sections,
-            isLoading,
-            saveFramework
+            isLoading
         } = this.props;
-        const sectionsToUse = sections ? sections.filter(section => !section.delete) : [];
+        const sectionsToUse = sections ? sections.filter(section => !(section.delete || (section.dummyKey === NEW_FRAMEWORK_ID))) : [];
+        const newSections = sections ? sections.filter(section => (section.dummyKey === NEW_FRAMEWORK_ID)) : [];
+        let newSectionForDisplay = (newSections.length > 0) ? newSections[0] : {};
         return <Fragment>
             <table key={`sections`} className="fixed_header">
                 <thead>
-                <tr key="sectionsHeaders">
-                    <th>Section Name</th>
-                    <th>Part Types</th>
+                <tr key="sectionsHeaders" className="section">
+                    <th></th>
+                    <th>Section</th>
                     <th>Position</th>
+                    <th><Button onClick={this.saveChanges} disabled={isLoading}>
+                        Save
+                    </Button></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -87,15 +94,16 @@ class Framework extends React.Component {
                                 />
                                 }
                             </td>
+                            <td></td>
                         </tr>
                     );
                 })}
                 <tr key={`section_new`}>
                     <SectionEdit
                         key="sectionEditNew"
-                        section={{}}
+                        section={newSectionForDisplay}
                         componentKey={NEW_FRAMEWORK_ID}
-                        updateSection={this.handleSectionChange}
+                        handleSectionChange={this.handleSectionChange}
                     />
                     <td/>
                 </tr>

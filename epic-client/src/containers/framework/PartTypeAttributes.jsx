@@ -4,7 +4,7 @@ import {
     moveObjectDownOnePlace,
     moveObjectToBottom,
     moveObjectToTop,
-    moveObjectUpOnePlace, NEW_FRAMEWORK_ID
+    moveObjectUpOnePlace, NEW_ATTRIBUTE, NEW_FRAMEWORK_ID
 } from "../../helpers/framework";
 import FrameworkMoves from "./FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
@@ -18,39 +18,38 @@ class PartTypeAttributes extends React.Component {
         } else {
             attributesWithUpdates.push(updatedAttribute);
         }
-        this.props.updatePartType(`attributes_${this.props.partTypeKey}`, attributesWithUpdates);
+        this.props.handlePartTypeChange(`attributes_${this.props.partTypeKey}`, attributesWithUpdates);
     };
     moveUp = (fieldName) => {
         const fields = fieldName.split('_');
         const attributeKey = fields[1];
-        this.props.updatePartType(`attributes_${this.props.partTypeKey}`, moveObjectUpOnePlace(this.props.attributes, attributeKey));
+        this.props.handlePartTypeChange(`attributes_${this.props.partTypeKey}`, moveObjectUpOnePlace(this.props.attributes, attributeKey));
     };
     moveDown = (fieldName) => {
         const fields = fieldName.split('_');
         const attributeKey = fields[1];
-        this.props.updatePartType(`attributes_${this.props.partTypeKey}`, moveObjectDownOnePlace(this.props.attributes, attributeKey));
+        this.props.handlePartTypeChange(`attributes_${this.props.partTypeKey}`, moveObjectDownOnePlace(this.props.attributes, attributeKey));
     };
     moveToTop = (fieldName) => {
         const fields = fieldName.split('_');
         const attributeKey = fields[1];
-        this.props.updatePartType(`attributes_${this.props.partTypeKey}`, moveObjectToTop(this.props.attributes, attributeKey));
+        this.props.handlePartTypeChange(`attributes_${this.props.partTypeKey}`, moveObjectToTop(this.props.attributes, attributeKey));
     };
     moveToBottom = (fieldName) => {
         const fields = fieldName.split('_');
         const attributeKey = fields[1];
-        this.props.updatePartType(`attributes_${this.props.partTypeKey}`, moveObjectToBottom(this.props.attributes, attributeKey));
+        this.props.handlePartTypeChange(`attributes_${this.props.partTypeKey}`, moveObjectToBottom(this.props.attributes, attributeKey));
     };
 
     render() {
         const { partTypeKey, attributes } = this.props;
-        const attributesToUse = attributes.filter(attribute => !attribute.delete);
+        const attributesToUse = attributes ? attributes.filter(attribute => !(attribute.delete || (attribute.dummyKey === NEW_FRAMEWORK_ID))) : [];
+        const newAttributes = attributes ? attributes.filter(attribute => (attribute.dummyKey === NEW_FRAMEWORK_ID)) : [];
+        let newAttributeDisplay = (newAttributes.length > 0) ? newAttributes[0] : NEW_ATTRIBUTE;
         return <table key={`attributes_${partTypeKey}`}>
             <tbody>
             <tr>
-                <th>Attribute Name</th>
-                <th>Used?</th>
-                <th>Mandatory?</th>
-                <th>Type</th>
+                <th>Attribute Details</th>
                 <th>Options</th>
                 <th>Position</th>
             </tr>
@@ -63,7 +62,7 @@ class PartTypeAttributes extends React.Component {
                             attribute={attribute}
                             componentKey={componentKey}
                             partType={partTypeKey}
-                            updatePartTypeAttribute={this.handleAttributeChange}
+                            handleAttributeChange={this.handleAttributeChange}
                         />
                         <td>
                             {attributesToUse.length > 1 &&
@@ -82,9 +81,9 @@ class PartTypeAttributes extends React.Component {
             <tr key={`newattributeRow${partTypeKey}`}>
                 <PartTypeAttributeEdit
                     key="attributeEditNew"
-                    attribute={{}}
+                    attribute={newAttributeDisplay}
                     componentKey={NEW_FRAMEWORK_ID}
-                    updatePartTypeAttribute={this.handleAttributeChange}
+                    handleAttributeChange={this.handleAttributeChange}
                 />
                 <td />
             </tr>

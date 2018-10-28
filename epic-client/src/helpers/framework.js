@@ -1,8 +1,21 @@
-import {findObjectWithId} from "./utils";
+import {findObjectWithKey} from "./utils";
+
 export const NEW_FRAMEWORK_ID = "new";
+export const NEW_PART_TYPE = {
+    attributes: [],
+    shortName: "",
+    can_be_substituted: true,
+    can_be_omitted: true,
+    customer_facing: true,
+};
+export const NEW_ATTRIBUTE = {
+    attribute_name: "",
+    in_use: true,
+    mandatory: false,
+    attribute_type: 1,
+};
 
 export const attributeSummary = (attribute) => {
-    // var a2 = a1.map(function(item) { return item.toUpperCase(); });  array1.toString()
     let attributeDetail = [attribute.attribute_name];
     if (attribute.in_use) attributeDetail.push(" in use");
     if (attribute.mandatory) attributeDetail.push(" must be entered");
@@ -12,31 +25,9 @@ export const attributeSummary = (attribute) => {
         }).toString()}`);
     }
     return attributeDetail.toString();
-
-    /*
-     "id": 4,
-                        "options": [
-                            {
-                                "id": 2,
-                                "attribute_option": "Band",
-                                "part_type_attribute": 4
-                            },
-                            {
-                                "id": 1,
-                                "attribute_option": "Braze",
-                                "part_type_attribute": 4
-                            }
-                        ],
-                        "attribute_name": "Braze/Band",
-                        "in_use": true,
-                        "mandatory": true,
-                        "placing": 1,
-                        "attribute_type": "3",
-                        "partType": 9
-     */
 };
 export const moveObjectUpOnePlace = (arrayOfObjects, objectId) => {
-    const objectToMove = findObjectWithId(arrayOfObjects, objectId);
+    const objectToMove = findObjectWithKey(arrayOfObjects, objectId);
     const currentIndex = arrayOfObjects.indexOf(objectToMove);
     if (currentIndex > 0) {
         let finalArray = arrayOfObjects;
@@ -50,7 +41,7 @@ export const moveObjectUpOnePlace = (arrayOfObjects, objectId) => {
 };
 export const moveObjectDownOnePlace = (arrayOfObjects, objectId) => {
     let finalArrayOfObjects = arrayOfObjects;
-    const objectToMove = findObjectWithId(finalArrayOfObjects, objectId);
+    const objectToMove = findObjectWithKey(finalArrayOfObjects, objectId);
     const currentIndex = arrayOfObjects.indexOf(objectToMove);
     if (objectToMove && (currentIndex < (arrayOfObjects.length - 1))) {
         finalArrayOfObjects.splice(currentIndex, 1);
@@ -63,7 +54,7 @@ export const moveObjectDownOnePlace = (arrayOfObjects, objectId) => {
 };
 export const moveObjectToTop = (arrayOfObjects, objectId) => {
     let finalArrayOfObjects = arrayOfObjects;
-    const objectToMove = findObjectWithId(finalArrayOfObjects, objectId);
+    const objectToMove = findObjectWithKey(finalArrayOfObjects, objectId);
     const currentIndex = arrayOfObjects.indexOf(objectToMove);
     if (currentIndex > 0) {
         finalArrayOfObjects.splice(currentIndex, 1);
@@ -75,7 +66,7 @@ export const moveObjectToTop = (arrayOfObjects, objectId) => {
 };
 export const moveObjectToBottom = (arrayOfObjects, objectId) => {
     let finalArrayOfObjects = arrayOfObjects;
-    const objectToMove = findObjectWithId(finalArrayOfObjects, objectId);
+    const objectToMove = findObjectWithKey(finalArrayOfObjects, objectId);
     const currentIndex = arrayOfObjects.indexOf(objectToMove);
     if (objectToMove && (currentIndex < (arrayOfObjects.length - 1))) {
         finalArrayOfObjects.splice(currentIndex, 1);

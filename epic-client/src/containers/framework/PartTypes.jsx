@@ -4,7 +4,7 @@ import {
     moveObjectDownOnePlace,
     moveObjectToBottom,
     moveObjectToTop,
-    moveObjectUpOnePlace, NEW_FRAMEWORK_ID
+    moveObjectUpOnePlace, NEW_FRAMEWORK_ID, NEW_PART_TYPE
 } from "../../helpers/framework";
 import FrameworkMoves from "./FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
@@ -43,16 +43,11 @@ class PartTypes extends React.Component {
 
     render() {
         const { sectionKey, partTypes } = this.props;
-        const partTypesToUse = partTypes.filter(partType => !partType.delete);
+        const partTypesToUse = partTypes ? partTypes.filter(partType => !(partType.delete || (partType.dummyKey === NEW_FRAMEWORK_ID))) : [];
+        const newPartTypes = partTypes ? partTypes.filter(partType => (partType.dummyKey === NEW_FRAMEWORK_ID)) : [];
+        let newPartTypeForDisplay = (newPartTypes.length > 0) ? newPartTypes[0] : NEW_PART_TYPE;
         return <table key={`partTypes_${sectionKey}`}>
             <tbody>
-            <tr key={`partTypeHeader${sectionKey}`}>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Quote options</th>
-                <th>Attributes</th>
-                <th>Position</th>
-            </tr>
             {partTypesToUse.map((partType) => {
                 const componentKey = partType.id ? partType.id : partType.dummyKey;
                 return (
@@ -80,7 +75,7 @@ class PartTypes extends React.Component {
             <tr key={`partTypeNew_${sectionKey}`}>
                 <PartTypeEdit
                     key="partTypeEditNew"
-                    partType={{}}
+                    partType={newPartTypeForDisplay}
                     componentKey={NEW_FRAMEWORK_ID}
                     updatePartType={this.updatePartType}
                 />

@@ -27,6 +27,7 @@ import {
     NOTE_SAVE_ERROR, NOTE_SAVE_REQUESTED, NOTE_REMOVE
 } from "../actions/note";
 import {USER_LOGIN_ERROR} from "../actions/user";
+import {FRAMEWORK_ERROR, FRAMEWORK_SAVE, FRAMEWORK_SAVE_ERROR} from "../actions/framework";
 
 const initialState = {
     message: "",
@@ -35,6 +36,12 @@ const initialState = {
 
 const application = (state = initialState, action) => {
     switch (action.type) {
+        case FRAMEWORK_SAVE:
+            return {
+                ...state,
+                message: "Changes saved",
+                messageType: "I"
+            };
         case CUSTOMER_DELETE:
             return {
                 ...state,
@@ -87,6 +94,8 @@ const application = (state = initialState, action) => {
         case NOTE_CREATE_ERROR:
         case NOTE_DELETE_ERROR:
         case USER_LOGIN_ERROR:
+        case FRAMEWORK_ERROR:
+        case FRAMEWORK_SAVE_ERROR:
             return {
                 ...state,
                 message: action.payload,

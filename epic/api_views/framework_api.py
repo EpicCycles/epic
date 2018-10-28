@@ -8,17 +8,10 @@ from epic.model_serializers.framework_serializer import FrameworkSerializer, Sec
 from epic.models import PartSection, PartType, PartTypeAttribute, AttributeOptions
 
 
-# "error": true,
-# "error_detail": {
-#     "name": [
-#         "part section with this name already exists."
-#     ]
-# }
-
 def validateAndPersistOption(option, part_type_attribute):
     processed_option = None
     option_id = option.get('id', None)
-    option['part_type_attribute'] = part_type_attribute;
+    option['part_type_attribute'] = part_type_attribute
     if option.get('delete', False) is True:
         if option_id is not None:
             AttributeOptions.objects.get(id=option_id).delete()
@@ -190,35 +183,35 @@ def validateAndPersist(part_section):
     if processed_part_section:
         part_types = part_section.get('partTypes', [])
         include_in_section = processed_part_section.get('id', None)
-
         processed_part_types = []
+
         if include_in_section:
             for part_type in part_types:
-                updated_part_type = validateAndPersistPartType(part_type)
+                updated_part_type = validateAndPersistPartType(part_type, include_in_section)
                 if updated_part_type is not None:
                     processed_part_types.append(updated_part_type)
                     if updated_part_type.get('error', False) is True:
                         part_section['error'] = True
         else:
             processed_part_types = part_types
+        processed_part_section['partTypes'] = processed_part_types
 
-    processed_part_section['partTypes'] = processed_part_types
     return processed_part_section
 
 
 class Framework(generics.ListCreateAPIView):
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = FrameworkSerializer
 
     def get_queryset(self):
         return PartSection.objects.all()
 
-    def get(self, request, format=None):
+    def get(self, request, pk=None, format=None):
         serializer = FrameworkSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
 
-    def post(self, request, format=None):
+    def post(self, request, pk=None, format=None):
 
         post_data = request.data
         return_data = []
@@ -234,4 +227,4 @@ class Framework(generics.ListCreateAPIView):
             return Response(return_data, status=status.HTTP_202_ACCEPTED)
 
         serializer = FrameworkSerializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
