@@ -16,7 +16,6 @@
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0",
-    "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react": "^0.82.0"
   },
@@ -27,7 +26,6 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "babel-eslint": "8.2.*",
     "babel-preset-react": "6.24.*",
     "enzyme": "3.3.*",
     "enzyme-adapter-react-16": "1.1.*",

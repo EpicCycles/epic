@@ -2,24 +2,12 @@ body {
     margin: 0;
     padding: 0;
     font-family: Lato, Arial, Helvetica, sans-serif;
-    font-size: 10pt;
+    font-size: 1rem;
     letter-spacing: 0;
 }
-.fixed_header{
+table.fixed_header {
     width: 100%;
-    table-layout: fixed;
     border-collapse: collapse;
-}
-
-.fixed_header tbody{
-  display:block;
-  width: 100%;
-  overflow: auto;
-  height: calc(100% - 200px);
-}
-
-.fixed_header thead tr {
-   display: block;
 }
 
 tr:nth-child(even) {
@@ -36,7 +24,7 @@ tr:nth-child(odd) {
 
 th {
     padding: 5px;
-    font-size: 10pt;
+    font-size: 1.1rem;
     font-weight: bold;
     vertical-align: top;
     text-align: center;
@@ -44,7 +32,7 @@ th {
 
 .listHead {
     padding: 5px;
-    font-size: 11pt;
+    font-size: 1.1rem;
     font-weight: bold;
     background-color: #c82011;
     color: white;
@@ -54,7 +42,7 @@ th {
 
 td {
     padding: 2px;
-    font-size: 10pt;
+    font-size: 1rem;
     font-weight: normal;
     vertical-align: top;
 }
@@ -87,7 +75,6 @@ td {
     color: black;
     text-align: inherit;
     padding: 5px;
-
 }
 
 a.internal_link:hover, a.internal_link:focus {
@@ -127,19 +114,19 @@ h1, h2, h3, h4 {
 }
 
 body h1, .h1 {
-    font-size: 14pt;
+    font-size: 1.4rem;
 }
 
 body h2 {
-    font-size: 13pt;
+    font-size: 1.3rem;
 }
 
 body h3 {
-    font-size: 12pt;
+    font-size: 1.2rem;
 }
 
 body h4 {
-    font-size: 11pt;
+    font-size: 1.1rem;
     font-style: italic;
 }
 
@@ -158,9 +145,10 @@ section.flex-vertical {
     flex-direction: column;
 }
 
-div.field-label {
+label, div.field-label {
     font-weight: bold;
     padding-left: 5px;
+    padding-right: 10px;
 }
 
 div.field-input {
@@ -197,7 +185,7 @@ div.field-input {
 .top-menu, .top-menu:hover, .top-menu:visited {
     color: #c82011;
     float: right;
-    font-size: 11pt;
+    font-size: 1.1rem;
     margin-right: 20px;
     text-decoration: none;
 }
@@ -213,7 +201,7 @@ fieldset {
     margin: 2px;
 
     font-family: inherit;
-    font-size: 90%;
+    font-size: 0.9rem;
     color: black;
 
     box-sizing: border-box;
@@ -283,11 +271,7 @@ input:disabled {
     background-color: rgba(200, 32, 17, 0.15);
 }
 
-div.error {
-    background-color: rgba(200, 32, 17, 0.15);
-}
-
-td.error {
+div.error , td.error, tr.error {
     background-color: rgba(200, 32, 17, 0.15);
 }
 
@@ -344,7 +328,7 @@ button, .ui.button, .ui.buttons,  a.button, input.button {
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
-    font-size: 14px;
+    font-size: 1.4rem;
     margin: 4px 2px;
     cursor: pointer;
     font-family: Lato, Arial, Helvetica, sans-serif;

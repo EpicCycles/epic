@@ -192,7 +192,6 @@ class PartSection(models.Model):
 
 class PartType(models.Model):
     shortName = models.CharField(max_length=60, unique=True)
-    description = models.CharField(max_length=100, blank=True, null=True)
     includeInSection = models.ForeignKey(PartSection, related_name='partTypes', on_delete=models.CASCADE)
     placing = models.PositiveSmallIntegerField()
     can_be_substituted = models.BooleanField('Can be substituted', default=False)
@@ -258,10 +257,13 @@ class PartTypeAttribute(models.Model):
 class AttributeOptions(models.Model):
     part_type_attribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE, related_name='options')
     attribute_option = models.CharField(max_length=30)
+    placing = models.PositiveSmallIntegerField()
 
     def save(self, *args, **kwargs):
         if self.attribute_option is None or self.attribute_option == '':
             raise ValueError('Missing attribute option')
+        if self.placing is None:
+            raise ValueError('Missing placing')
         if AttributeOptions.objects.filter(part_type_attribute=self.part_type_attribute,
                                            attribute_option=self.attribute_option).exclude(id=self.id).exists():
             raise IntegrityError('Part Type Attribute option with this value already exists')
@@ -270,7 +272,7 @@ class AttributeOptions(models.Model):
 
     class Meta:
         indexes = [models.Index(fields=["part_type_attribute", "attribute_option"]), ]
-        ordering = ('attribute_option',)
+        ordering = ('placing',)
 
 
 # suppliers  for bikes/parts etc

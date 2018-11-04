@@ -4,12 +4,13 @@ import {
     moveObjectToBottom,
     moveObjectToTop,
     moveObjectUpOnePlace,
-    NEW_FRAMEWORK_ID
+    NEW_FRAMEWORK_ID, renumberAll
 } from "../../helpers/framework";
 import SectionEdit from "./SectionEdit";
 import FrameworkMoves from "./FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
+import {Prompt} from "react-router";
 
 class Framework extends React.Component {
     componentWillMount() {
@@ -49,7 +50,7 @@ class Framework extends React.Component {
         this.props.updateFramework(moveObjectToBottom(this.props.sections, sectionKey));
     };
     saveChanges = () => {
-        this.props.saveFramework(this.props.sections);
+        this.props.saveFramework(renumberAll(this.props.sections));
     };
 
     render() {
@@ -58,16 +59,22 @@ class Framework extends React.Component {
             isLoading
         } = this.props;
         const sectionsToUse = sections ? sections.filter(section => !(section.delete || (section.dummyKey === NEW_FRAMEWORK_ID))) : [];
+        const sectionsWithChanges = sections ? sections.filter(section => (section.delete || section.changed)) : [];
         const newSections = sections ? sections.filter(section => (section.dummyKey === NEW_FRAMEWORK_ID)) : [];
         let newSectionForDisplay = (newSections.length > 0) ? newSections[0] : {};
+        const changesExist = sectionsWithChanges.length > 0;
         return <Fragment>
+            <Prompt
+                when={changesExist}
+                message="You have made changes to the framework. Cancel and Save if you do not want to lose them."
+            />
             <table key={`sections`} className="fixed_header">
                 <thead>
                 <tr key="sectionsHeaders" className="section">
                     <th></th>
-                    <th>Section</th>
+                    <th className="three-quarters">Section</th>
                     <th>Position</th>
-                    <th><Button onClick={this.saveChanges} disabled={isLoading}>
+                    <th><Button onClick={this.saveChanges} disabled={isLoading || !changesExist}>
                         Save
                     </Button></th>
                 </tr>
@@ -75,8 +82,14 @@ class Framework extends React.Component {
                 <tbody>
                 {sectionsToUse.map((section) => {
                     const componentKey = section.id ? section.id : section.dummyKey;
+                    const className = section.error ? "error" : "";
+                    const rowTitle = section.error ? section.error_detail : "";
                     return (
-                        <tr key={`section_${componentKey}`}>
+                        <tr
+                            key={`section_${componentKey}`}
+                            className={className}
+                            title={rowTitle}
+                        >
                             <SectionEdit
                                 key={`sectionEdit${componentKey}`}
                                 section={section}

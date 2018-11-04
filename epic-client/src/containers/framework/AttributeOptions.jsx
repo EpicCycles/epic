@@ -8,8 +8,7 @@ import {
     moveObjectUpOnePlace, NEW_FRAMEWORK_ID
 } from "../../helpers/framework";
 import FrameworkMoves from "./FrameworkMoves";
-import Icon from "semantic-ui-react/dist/es/elements/Icon/Icon";
-
+import {Icon} from "semantic-ui-react";
 
 class AttributeOptions extends React.Component {
     handleInputChange = (fieldName, input) => {
@@ -24,6 +23,7 @@ class AttributeOptions extends React.Component {
             } else {
                 optionsWithUpdates[optionToUpdateIndex].delete = true;
             }
+            optionsWithUpdates[optionToUpdateIndex].changed = true;
         } else if (input) {
             optionsWithUpdates.push({
                 "dummyKey": NEW_FRAMEWORK_ID,
@@ -66,8 +66,10 @@ class AttributeOptions extends React.Component {
         if (optionKey !== "new") {
             const optionToUpdateIndex = findIndexOfObjectWithKey(optionsWithUpdates, optionKey);
             if (optionToUpdateIndex > -1) {
-                optionsWithUpdates[optionToUpdateIndex].delete = true;
-                this.props.handleAttributeChange(`options_${this.props.attributeKey}`, optionsWithUpdates);
+                if (window.confirm("Are you sure?")) {
+                    optionsWithUpdates[optionToUpdateIndex].delete = true;
+                    this.props.handleAttributeChange(`options_${this.props.attributeKey}`, optionsWithUpdates);
+                }
             }
         }
     };
@@ -81,7 +83,13 @@ class AttributeOptions extends React.Component {
             <tbody>
             {optionsToUse.map((option) => {
                 const componentKey = option.id ? option.id : option.dummyKey;
-                return <tr key={`option_${componentKey}`}>
+                const className = option.error ? "error" : "";
+                const rowTitle = option.error ? option.error_detail : "";
+                return <tr
+                    key={`option_${componentKey}`}
+                    className={className}
+                    title={rowTitle}
+                >
                     <td><FormTextInput
                         placeholder="add new"
                         fieldName={`optionValue_${componentKey}`}

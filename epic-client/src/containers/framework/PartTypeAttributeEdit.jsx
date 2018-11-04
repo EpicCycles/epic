@@ -18,6 +18,8 @@ class PartTypeAttributeEdit extends React.Component {
         if (fieldName.startsWith('options')) updatedAttribute.options = input;
         if (this.props.componentKey === NEW_FRAMEWORK_ID) updatedAttribute.dummyKey = NEW_FRAMEWORK_ID;
 
+        if (!(fieldName.startsWith('options'))) updatedAttribute.changed = true;
+
         this.props.handleAttributeChange(this.props.componentKey, updatedAttribute);
     };
 
@@ -40,44 +42,43 @@ class PartTypeAttributeEdit extends React.Component {
         const attributeOptions = attribute.options || [];
         return <Fragment>
             <td>
-                <nobr>
-                    <FormTextInput
-                        placeholder="add new"
-                        fieldName={`attribute_name_${componentKey}`}
-                        value={attribute.attribute_name}
-                        onChange={this.handleInputChange}
-                        onClick={this.handleInputClear}
-                    />
-                    <label htmlFor={inUseId}>&nbsp;In Use?&nbsp;</label>
-                    <input type="checkbox"
-                           name={inUseId}
-                           id={inUseId}
-                           onChange={event => this.handleInputChange(event.target.name, !attribute.in_use)}
-                           checked={attribute.in_use}
-                    />
-                    <label htmlFor={mandatoryId}>&nbsp;Mandatory?&nbsp;</label>
+                <FormTextInput
+                    placeholder="add new"
+                    fieldName={`attribute_name_${componentKey}`}
+                    value={attribute.attribute_name}
+                    onChange={this.handleInputChange}
+                    onClick={this.handleInputClear}
+                />
+                {componentKey === NEW_FRAMEWORK_ID &&
+                <Icon
+                    name="add"
+                    onClick={this.addAnother}
+                    title="confirm new Attribute"
+                />
+                }
+                <label htmlFor={inUseId}>&nbsp;In Use?&nbsp;</label>
+                <input type="checkbox"
+                       name={inUseId}
+                       id={inUseId}
+                       onChange={event => this.handleInputChange(event.target.name, !attribute.in_use)}
+                       checked={attribute.in_use}
+                />
+                <label htmlFor={mandatoryId}>&nbsp;Mandatory?&nbsp;</label>
 
-                    <input type="checkbox"
-                           name={mandatoryId}
-                           id={mandatoryId}
-                           onChange={event => this.handleInputChange(event.target.name, !attribute.mandatory)}
-                           checked={attribute.mandatory}
-                    />
-                    <label htmlFor={attribute_typeId}>&nbsp;Type:&nbsp;</label>
-                    <SelectInput
-                        fieldName={attribute_typeId}
-                        options={attributeOptionTypes}
-                        onChange={this.handleInputChange}
-                        value={attribute.attribute_type}
-                    />
-                    {componentKey === NEW_FRAMEWORK_ID &&
-                    <Icon
-                        name="add"
-                        onClick={this.addAnother}
-                        title="confirm new Attribute"
-                    />
-                    }
-                </nobr>
+                <input type="checkbox"
+                       name={mandatoryId}
+                       id={mandatoryId}
+                       onChange={event => this.handleInputChange(event.target.name, !attribute.mandatory)}
+                       checked={attribute.mandatory}
+                />
+                <br />
+                <label htmlFor={attribute_typeId}>&nbsp;Type:&nbsp;</label>
+                <SelectInput
+                    fieldName={attribute_typeId}
+                    options={attributeOptionTypes}
+                    onChange={this.handleInputChange}
+                    value={attribute.attribute_type}
+                />
             </td>
             <td>
                 {componentKey !== NEW_FRAMEWORK_ID &&

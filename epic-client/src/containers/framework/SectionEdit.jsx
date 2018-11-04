@@ -17,6 +17,7 @@ class SectionEdit extends React.Component {
         if (componentKey === NEW_FRAMEWORK_ID) {
             updatedSection.dummyKey = NEW_FRAMEWORK_ID;
         }
+        updatedSection.changed = true;
         this.props.handleSectionChange(componentKey, updatedSection);
     };
 

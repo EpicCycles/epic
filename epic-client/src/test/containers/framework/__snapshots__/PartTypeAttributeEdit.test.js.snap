@@ -3,65 +3,80 @@
 exports[`PartTypeAttributeEdit tests renders the component correctly with a new attribute 1`] = `
 <React.Fragment>
   <td>
-    <FormTextInput
-      fieldName="attribute_name_new"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-    />
-  </td>
-  <td>
-    <input
-      checked={true}
-      id="in_use_new"
-      name="in_use_new"
-      onChange={[Function]}
-      type="checkbox"
-    />
-  </td>
-  <td>
-    <input
-      checked={true}
-      id="in_use_new"
-      name="in_use_new"
-      onChange={[Function]}
-      type="checkbox"
-    />
-  </td>
-  <td>
-    <SelectInput
-      fieldName="attribute_type_new"
-      onChange={[Function]}
-      options={
-        Array [
-          Object {
-            "isDefault": true,
-            "name": "Text",
-            "value": "1",
-          },
-          Object {
-            "name": "Numeric",
-            "value": "2",
-          },
-          Object {
-            "name": "Single - Radio",
-            "value": "3",
-          },
-          Object {
-            "name": "Single - Dropdown",
-            "value": "4",
-          },
-          Object {
-            "name": "Multiple - Radio",
-            "value": "5",
-          },
-          Object {
-            "name": "Multiple - Dropdown",
-            "value": "6",
-          },
-        ]
-      }
-    />
+    <nobr>
+      <FormTextInput
+        fieldName="attribute_name_new"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+      />
+      <label
+        htmlFor="in_use_new"
+      >
+         In Use? 
+      </label>
+      <input
+        id="in_use_new"
+        name="in_use_new"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        htmlFor="mandatory_new"
+      >
+         Mandatory? 
+      </label>
+      <input
+        id="mandatory_new"
+        name="mandatory_new"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        htmlFor="attribute_type_new"
+      >
+         Type: 
+      </label>
+      <SelectInput
+        fieldName="attribute_type_new"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "isDefault": true,
+              "name": "Text",
+              "value": "1",
+            },
+            Object {
+              "name": "Numeric",
+              "value": "2",
+            },
+            Object {
+              "name": "Single - Radio",
+              "value": "3",
+            },
+            Object {
+              "name": "Single - Dropdown",
+              "value": "4",
+            },
+            Object {
+              "name": "Multiple - Radio",
+              "value": "5",
+            },
+            Object {
+              "name": "Multiple - Dropdown",
+              "value": "6",
+            },
+          ]
+        }
+      />
+      <Icon
+        as="i"
+        name="add"
+        onClick={[Function]}
+        title="confirm new Attribute"
+      />
+    </nobr>
   </td>
   <td />
 </React.Fragment>
@@ -70,65 +85,80 @@ exports[`PartTypeAttributeEdit tests renders the component correctly with a new 
 exports[`PartTypeAttributeEdit tests renders the component correctly with an attribute 1`] = `
 <React.Fragment>
   <td>
-    <FormTextInput
-      fieldName="attribute_name_new"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-    />
-  </td>
-  <td>
-    <input
-      checked={true}
-      id="in_use_new"
-      name="in_use_new"
-      onChange={[Function]}
-      type="checkbox"
-    />
-  </td>
-  <td>
-    <input
-      checked={true}
-      id="in_use_new"
-      name="in_use_new"
-      onChange={[Function]}
-      type="checkbox"
-    />
-  </td>
-  <td>
-    <SelectInput
-      fieldName="attribute_type_new"
-      onChange={[Function]}
-      options={
-        Array [
-          Object {
-            "isDefault": true,
-            "name": "Text",
-            "value": "1",
-          },
-          Object {
-            "name": "Numeric",
-            "value": "2",
-          },
-          Object {
-            "name": "Single - Radio",
-            "value": "3",
-          },
-          Object {
-            "name": "Single - Dropdown",
-            "value": "4",
-          },
-          Object {
-            "name": "Multiple - Radio",
-            "value": "5",
-          },
-          Object {
-            "name": "Multiple - Dropdown",
-            "value": "6",
-          },
-        ]
-      }
-    />
+    <nobr>
+      <FormTextInput
+        fieldName="attribute_name_new"
+        onChange={[Function]}
+        onClick={[Function]}
+        placeholder="add new"
+      />
+      <label
+        htmlFor="in_use_new"
+      >
+         In Use? 
+      </label>
+      <input
+        id="in_use_new"
+        name="in_use_new"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        htmlFor="mandatory_new"
+      >
+         Mandatory? 
+      </label>
+      <input
+        id="mandatory_new"
+        name="mandatory_new"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        htmlFor="attribute_type_new"
+      >
+         Type: 
+      </label>
+      <SelectInput
+        fieldName="attribute_type_new"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "isDefault": true,
+              "name": "Text",
+              "value": "1",
+            },
+            Object {
+              "name": "Numeric",
+              "value": "2",
+            },
+            Object {
+              "name": "Single - Radio",
+              "value": "3",
+            },
+            Object {
+              "name": "Single - Dropdown",
+              "value": "4",
+            },
+            Object {
+              "name": "Multiple - Radio",
+              "value": "5",
+            },
+            Object {
+              "name": "Multiple - Dropdown",
+              "value": "6",
+            },
+          ]
+        }
+      />
+      <Icon
+        as="i"
+        name="add"
+        onClick={[Function]}
+        title="confirm new Attribute"
+      />
+    </nobr>
   </td>
   <td />
 </React.Fragment>

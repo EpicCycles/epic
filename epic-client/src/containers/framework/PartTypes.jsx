@@ -46,12 +46,18 @@ class PartTypes extends React.Component {
         const partTypesToUse = partTypes ? partTypes.filter(partType => !(partType.delete || (partType.dummyKey === NEW_FRAMEWORK_ID))) : [];
         const newPartTypes = partTypes ? partTypes.filter(partType => (partType.dummyKey === NEW_FRAMEWORK_ID)) : [];
         let newPartTypeForDisplay = (newPartTypes.length > 0) ? newPartTypes[0] : NEW_PART_TYPE;
-        return <table key={`partTypes_${sectionKey}`}>
+        return <table key={`partTypes_${sectionKey}`} className="full">
             <tbody>
             {partTypesToUse.map((partType) => {
                 const componentKey = partType.id ? partType.id : partType.dummyKey;
+                const className = partType.error ? "error" : "";
+                const rowTitle = partType.error ? partType.error_detail : "";
                 return (
-                    <tr key={`partType_${componentKey}`}>
+                    <tr
+                        key={`partType_${componentKey}`}
+                        className={className}
+                        title={rowTitle}
+                    >
                         <PartTypeEdit
                             key={`partTypeEdit${componentKey}`}
                             partType={partType}

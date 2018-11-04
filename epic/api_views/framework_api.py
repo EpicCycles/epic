@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_serializers.framework_serializer import FrameworkSerializer, SectionSerializer, PartTypeSerializer, \
-    PartTypeAttributeSerializer
+    PartTypeAttributeSerializer, AttributeOptionsSerializer
 from epic.models import PartSection, PartType, PartTypeAttribute, AttributeOptions
 
 
@@ -17,29 +17,40 @@ def validateAndPersistOption(option, part_type_attribute):
             AttributeOptions.objects.get(id=option_id).delete()
 
     elif option_id is None:
-        serializer = PartTypeAttributeSerializer(data=option)
+        processed_option = create_attribute_option(option)
+    else:
+        processed_option = update_existing_attribute_option(option, option_id)
+
+    return processed_option
+
+
+def update_existing_attribute_option(option, option_id):
+    existing_option = AttributeOptions.objects.get(id=option_id)
+    if existing_option is not None:
+        serializer = AttributeOptionsSerializer(instance=existing_option, data=option)
         if serializer.is_valid():
             serializer.save()
-            processed_option = serializer.data
+            return serializer.data
         else:
             option['error'] = True
             option['error_detail'] = serializer.errors
-            processed_option = option
+            return option
     else:
-        existing_attribute = AttributeOptions.objects.get(id=option_id)
-        if existing_attribute is not None:
-            serializer = PartTypeAttributeSerializer(instance=existing_attribute, data=option)
-            if serializer.is_valid():
-                serializer.save()
-                processed_option = serializer.data
-            else:
-                option['error'] = True
-                option['error_detail'] = serializer.errors
-                processed_option = option
-        else:
-            option['id'] = ''
-            option['error'] = True
-            processed_option = option
+        option['id'] = ''
+        option['error'] = True
+        return option
+
+
+def create_attribute_option(option):
+
+    serializer = AttributeOptionsSerializer(data=option)
+    if serializer.is_valid():
+        serializer.save()
+        processed_option = serializer.data
+    else:
+        option['error'] = True
+        option['error_detail'] = serializer.errors
+        processed_option = option
 
     return processed_option
 
@@ -54,29 +65,9 @@ def validateAndPersistAttribute(attribute, part_type_id):
             PartTypeAttribute.objects.get(id=attribute_id).delete()
 
     elif attribute_id is None:
-        serializer = PartTypeAttributeSerializer(data=attribute)
-        if serializer.is_valid():
-            serializer.save()
-            processed_attribute = serializer.data
-        else:
-            attribute['error'] = True
-            attribute['error_detail'] = serializer.errors
-            processed_attribute = attribute
+        processed_attribute = create_new_attribute(attribute)
     else:
-        existing_attribute = PartTypeAttribute.objects.get(id=attribute_id)
-        if existing_attribute is not None:
-            serializer = PartTypeAttributeSerializer(instance=existing_attribute, data=attribute)
-            if serializer.is_valid():
-                serializer.save()
-                processed_attribute = serializer.data
-            else:
-                attribute['error'] = True
-                attribute['error_detail'] = serializer.errors
-                processed_attribute = attribute
-        else:
-            attribute['id'] = ''
-            attribute['error'] = True
-            processed_attribute = attribute
+        processed_attribute = update_existing_attribute(attribute, attribute_id)
 
     if processed_attribute:
         options = attribute.get('options', [])
@@ -97,6 +88,35 @@ def validateAndPersistAttribute(attribute, part_type_id):
     return processed_attribute
 
 
+def update_existing_attribute(attribute, attribute_id):
+    existing_attribute = PartTypeAttribute.objects.get(id=attribute_id)
+    if existing_attribute is not None:
+        serializer = PartTypeAttributeSerializer(instance=existing_attribute, data=attribute)
+        if serializer.is_valid():
+            serializer.save()
+            return serializer.data
+        else:
+            attribute['error'] = True
+            attribute['error_detail'] = serializer.errors
+            return attribute
+    else:
+        attribute['id'] = ''
+        attribute['error'] = True
+        return attribute
+
+
+def create_new_attribute(attribute):
+    serializer = PartTypeAttributeSerializer(data=attribute)
+    if serializer.is_valid():
+        serializer.save()
+        processed_attribute = serializer.data
+    else:
+        attribute['error'] = True
+        attribute['error_detail'] = serializer.errors
+        processed_attribute = attribute
+    return processed_attribute
+
+
 def validateAndPersistPartType(part_type, include_in_section):
     processed_part_type = None
     part_type_id = part_type.get('id', None)
@@ -106,29 +126,9 @@ def validateAndPersistPartType(part_type, include_in_section):
             PartType.objects.get(id=part_type_id).delete()
 
     elif part_type_id is None:
-        serializer = PartTypeSerializer(data=part_type)
-        if serializer.is_valid():
-            serializer.save()
-            processed_part_type = serializer.data
-        else:
-            part_type['error'] = True
-            part_type['error_detail'] = serializer.errors
-            processed_part_type = part_type
+        processed_part_type = create_new_part_type(part_type)
     else:
-        existing_part_type = PartType.objects.get(id=part_type_id)
-        if existing_part_type is not None:
-            serializer = PartTypeSerializer(instance=existing_part_type, data=part_type)
-            if serializer.is_valid():
-                serializer.save()
-                processed_part_type = serializer.data
-            else:
-                part_type['error'] = True
-                part_type['error_detail'] = serializer.errors
-                processed_part_type = part_type
-        else:
-            part_type['id'] = ''
-            part_type['error'] = True
-            processed_part_type = part_type
+        processed_part_type = update_existing_part_type(part_type, part_type_id)
 
     if processed_part_type:
         attributes = part_type.get('attributes', [])
@@ -149,6 +149,35 @@ def validateAndPersistPartType(part_type, include_in_section):
     return processed_part_type
 
 
+def update_existing_part_type(part_type, part_type_id):
+    existing_part_type = PartType.objects.get(id=part_type_id)
+    if existing_part_type is not None:
+        serializer = PartTypeSerializer(instance=existing_part_type, data=part_type)
+        if serializer.is_valid():
+            serializer.save()
+            return serializer.data
+        else:
+            part_type['error'] = True
+            part_type['error_detail'] = serializer.errors
+            return part_type
+    else:
+        part_type['id'] = ''
+        part_type['error'] = True
+        return part_type
+
+
+def create_new_part_type(part_type):
+    serializer = PartTypeSerializer(data=part_type)
+    if serializer.is_valid():
+        serializer.save()
+        processed_part_type = serializer.data
+    else:
+        part_type['error'] = True
+        part_type['error_detail'] = serializer.errors
+        processed_part_type = part_type
+    return processed_part_type
+
+
 def validateAndPersist(part_section):
     processed_part_section = None
     part_section_id = part_section.get('id', None)
@@ -157,29 +186,10 @@ def validateAndPersist(part_section):
             PartSection.objects.get(id=part_section_id).delete()
 
     elif part_section_id is None:
-        serializer = SectionSerializer(data=part_section)
-        if serializer.is_valid():
-            serializer.save()
-            processed_part_section = serializer.data
-        else:
-            part_section['error'] = True
-            part_section['error_detail'] = serializer.errors
-            processed_part_section = part_section
+        processed_part_section = create_part_section(part_section)
     else:
-        existing_part_section = PartSection.objects.get(id=part_section_id)
-        if existing_part_section is not None:
-            serializer = SectionSerializer(instance=existing_part_section, data=part_section)
-            if serializer.is_valid():
-                serializer.save()
-                processed_part_section = serializer.data
-            else:
-                part_section['error'] = True
-                part_section['error_detail'] = serializer.errors
-                processed_part_section = part_section
-        else:
-            part_section['id'] = ''
-            part_section['error'] = True
-            processed_part_section = part_section
+        processed_part_section = save_existing_part_section(part_section, part_section_id)
+
     if processed_part_section:
         part_types = part_section.get('partTypes', [])
         include_in_section = processed_part_section.get('id', None)
@@ -196,6 +206,35 @@ def validateAndPersist(part_section):
             processed_part_types = part_types
         processed_part_section['partTypes'] = processed_part_types
 
+    return processed_part_section
+
+
+def save_existing_part_section(part_section, part_section_id):
+    existing_part_section = PartSection.objects.get(id=part_section_id)
+    if existing_part_section is not None:
+        serializer = SectionSerializer(instance=existing_part_section, data=part_section)
+        if serializer.is_valid():
+            serializer.save()
+            return serializer.data
+        else:
+            part_section['error'] = True
+            part_section['error_detail'] = serializer.errors
+            return part_section
+    else:
+        part_section['id'] = ''
+        part_section['error'] = True
+        return part_section
+
+
+def create_part_section(part_section):
+    serializer = SectionSerializer(data=part_section)
+    if serializer.is_valid():
+        serializer.save()
+        processed_part_section = serializer.data
+    else:
+        part_section['error'] = True
+        part_section['error_detail'] = serializer.errors
+        processed_part_section = part_section
     return processed_part_section
 
 

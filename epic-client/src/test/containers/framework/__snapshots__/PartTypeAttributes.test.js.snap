@@ -7,16 +7,7 @@ exports[`PartTypeAttributes tests renders the form correctly when all attributes
   <tbody>
     <tr>
       <th>
-        Attribute Name
-      </th>
-      <th>
-        Used?
-      </th>
-      <th>
-        Mandatory?
-      </th>
-      <th>
-        Type
+        Attribute Details
       </th>
       <th>
         Options
@@ -29,10 +20,17 @@ exports[`PartTypeAttributes tests renders the form correctly when all attributes
       key="newattributeRowundefined"
     >
       <PartTypeAttributeEdit
-        attribute={Object {}}
+        attribute={
+          Object {
+            "attribute_name": "",
+            "attribute_type": 1,
+            "in_use": true,
+            "mandatory": false,
+          }
+        }
         componentKey="new"
+        handleAttributeChange={[Function]}
         key="attributeEditNew"
-        updatePartTypeAttribute={[Function]}
       />
       <td />
     </tr>
@@ -47,16 +45,7 @@ exports[`PartTypeAttributes tests renders the form correctly with attributes 1`]
   <tbody>
     <tr>
       <th>
-        Attribute Name
-      </th>
-      <th>
-        Used?
-      </th>
-      <th>
-        Mandatory?
-      </th>
-      <th>
-        Type
+        Attribute Details
       </th>
       <th>
         Options
@@ -66,7 +55,9 @@ exports[`PartTypeAttributes tests renders the form correctly with attributes 1`]
       </th>
     </tr>
     <tr
+      className=""
       key="attributeRow12"
+      title=""
     >
       <PartTypeAttributeEdit
         attribute={
@@ -82,8 +73,8 @@ exports[`PartTypeAttributes tests renders the form correctly with attributes 1`]
           }
         }
         componentKey={12}
+        handleAttributeChange={[Function]}
         key="attributeEdit12"
-        updatePartTypeAttribute={[Function]}
       />
       <td>
         <FrameworkMoves
@@ -96,7 +87,9 @@ exports[`PartTypeAttributes tests renders the form correctly with attributes 1`]
       </td>
     </tr>
     <tr
+      className=""
       key="attributeRow17"
+      title=""
     >
       <PartTypeAttributeEdit
         attribute={
@@ -112,8 +105,8 @@ exports[`PartTypeAttributes tests renders the form correctly with attributes 1`]
           }
         }
         componentKey={17}
+        handleAttributeChange={[Function]}
         key="attributeEdit17"
-        updatePartTypeAttribute={[Function]}
       />
       <td>
         <FrameworkMoves
@@ -126,7 +119,9 @@ exports[`PartTypeAttributes tests renders the form correctly with attributes 1`]
       </td>
     </tr>
     <tr
+      className=""
       key="attributeRow11"
+      title=""
     >
       <PartTypeAttributeEdit
         attribute={
@@ -158,8 +153,8 @@ exports[`PartTypeAttributes tests renders the form correctly with attributes 1`]
           }
         }
         componentKey={11}
+        handleAttributeChange={[Function]}
         key="attributeEdit11"
-        updatePartTypeAttribute={[Function]}
       />
       <td>
         <FrameworkMoves
@@ -175,10 +170,17 @@ exports[`PartTypeAttributes tests renders the form correctly with attributes 1`]
       key="newattributeRowundefined"
     >
       <PartTypeAttributeEdit
-        attribute={Object {}}
+        attribute={
+          Object {
+            "attribute_name": "",
+            "attribute_type": 1,
+            "in_use": true,
+            "mandatory": false,
+          }
+        }
         componentKey="new"
+        handleAttributeChange={[Function]}
         key="attributeEditNew"
-        updatePartTypeAttribute={[Function]}
       />
       <td />
     </tr>
@@ -193,16 +195,7 @@ exports[`PartTypeAttributes tests renders the form correctly with no attributes 
   <tbody>
     <tr>
       <th>
-        Attribute Name
-      </th>
-      <th>
-        Used?
-      </th>
-      <th>
-        Mandatory?
-      </th>
-      <th>
-        Type
+        Attribute Details
       </th>
       <th>
         Options
@@ -215,10 +208,17 @@ exports[`PartTypeAttributes tests renders the form correctly with no attributes 
       key="newattributeRowundefined"
     >
       <PartTypeAttributeEdit
-        attribute={Object {}}
+        attribute={
+          Object {
+            "attribute_name": "",
+            "attribute_type": 1,
+            "in_use": true,
+            "mandatory": false,
+          }
+        }
         componentKey="new"
+        handleAttributeChange={[Function]}
         key="attributeEditNew"
-        updatePartTypeAttribute={[Function]}
       />
       <td />
     </tr>

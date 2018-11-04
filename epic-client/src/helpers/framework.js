@@ -88,6 +88,7 @@ export const renumberAll = (sections) => {
             let attributeSequence = 10;
             partType.attributes = partType.attributes ? partType.attributes.map((attribute) => {
                 attribute.placing = attributeSequence;
+                attribute.options = attribute.options ? resetPlacing(attribute.options) : []
                 attributeSequence = attributeSequence + 10;
                 return attribute;
             }) : [];

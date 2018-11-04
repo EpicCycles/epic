@@ -1332,16 +1332,8 @@ exports[`AttributeOptions tests option update with id calls parent method with r
 exports[`AttributeOptions tests renders the form correctly when all options deleted 1`] = `
 <table>
   <tbody>
-    <tr>
-      <th>
-        Value
-      </th>
-      <th>
-        Position
-      </th>
-    </tr>
     <tr
-      key="newOptionundefined"
+      key="newOption234"
     >
       <td>
         <FormTextInput
@@ -1352,7 +1344,14 @@ exports[`AttributeOptions tests renders the form correctly when all options dele
           value=""
         />
       </td>
-      <td />
+      <td>
+        <Icon
+          as="i"
+          name="add"
+          onClick={[Function]}
+          title="confirm new Attribute"
+        />
+      </td>
     </tr>
   </tbody>
 </table>
@@ -1361,16 +1360,8 @@ exports[`AttributeOptions tests renders the form correctly when all options dele
 exports[`AttributeOptions tests renders the form correctly with no options 1`] = `
 <table>
   <tbody>
-    <tr>
-      <th>
-        Value
-      </th>
-      <th>
-        Position
-      </th>
-    </tr>
     <tr
-      key="newOptionundefined"
+      key="newOption234"
     >
       <td>
         <FormTextInput
@@ -1381,7 +1372,14 @@ exports[`AttributeOptions tests renders the form correctly with no options 1`] =
           value=""
         />
       </td>
-      <td />
+      <td>
+        <Icon
+          as="i"
+          name="add"
+          onClick={[Function]}
+          title="confirm new Attribute"
+        />
+      </td>
     </tr>
   </tbody>
 </table>
@@ -1390,16 +1388,10 @@ exports[`AttributeOptions tests renders the form correctly with no options 1`] =
 exports[`AttributeOptions tests renders the form correctly with options 1`] = `
 <table>
   <tbody>
-    <tr>
-      <th>
-        Value
-      </th>
-      <th>
-        Position
-      </th>
-    </tr>
     <tr
+      className=""
       key="option_123"
+      title=""
     >
       <td>
         <FormTextInput
@@ -1412,7 +1404,7 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
       </td>
       <td>
         <FrameworkMoves
-          fieldkey={123}
+          componentKey={123}
           moveDown={[Function]}
           moveToBottom={[Function]}
           moveToTop={[Function]}
@@ -1421,7 +1413,9 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
       </td>
     </tr>
     <tr
+      className=""
       key="option_323"
+      title=""
     >
       <td>
         <FormTextInput
@@ -1434,7 +1428,7 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
       </td>
       <td>
         <FrameworkMoves
-          fieldkey={323}
+          componentKey={323}
           moveDown={[Function]}
           moveToBottom={[Function]}
           moveToTop={[Function]}
@@ -1443,7 +1437,9 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
       </td>
     </tr>
     <tr
+      className=""
       key="option_hjgfkuyg34"
+      title=""
     >
       <td>
         <FormTextInput
@@ -1456,7 +1452,7 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
       </td>
       <td>
         <FrameworkMoves
-          fieldkey="hjgfkuyg34"
+          componentKey="hjgfkuyg34"
           moveDown={[Function]}
           moveToBottom={[Function]}
           moveToTop={[Function]}
@@ -1465,7 +1461,7 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
       </td>
     </tr>
     <tr
-      key="newOptionundefined"
+      key="newOption234"
     >
       <td>
         <FormTextInput
@@ -1476,7 +1472,14 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
           value=""
         />
       </td>
-      <td />
+      <td>
+        <Icon
+          as="i"
+          name="add"
+          onClick={[Function]}
+          title="confirm new Attribute"
+        />
+      </td>
     </tr>
   </tbody>
 </table>

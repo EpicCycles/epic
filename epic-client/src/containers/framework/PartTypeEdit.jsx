@@ -17,6 +17,8 @@ class PartTypeEdit extends React.Component {
         if (fieldName.startsWith('attributes')) updatedPartType.attributes = input;
         if (fieldName.startsWith('detail')) updatedPartType._detail = input;
         if (this.props.componentKey === NEW_FRAMEWORK_ID) updatedPartType.dummyKey = NEW_FRAMEWORK_ID;
+
+        if (!(fieldName.startsWith('attributes'))) updatedPartType.changed = true;
         this.props.updatePartType(this.props.componentKey, updatedPartType);
     };
 

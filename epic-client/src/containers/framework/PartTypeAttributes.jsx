@@ -46,7 +46,7 @@ class PartTypeAttributes extends React.Component {
         const attributesToUse = attributes ? attributes.filter(attribute => !(attribute.delete || (attribute.dummyKey === NEW_FRAMEWORK_ID))) : [];
         const newAttributes = attributes ? attributes.filter(attribute => (attribute.dummyKey === NEW_FRAMEWORK_ID)) : [];
         let newAttributeDisplay = (newAttributes.length > 0) ? newAttributes[0] : NEW_ATTRIBUTE;
-        return <table key={`attributes_${partTypeKey}`}>
+        return <table key={`attributes_${partTypeKey}`} className="full">
             <tbody>
             <tr>
                 <th>Attribute Details</th>
@@ -55,8 +55,14 @@ class PartTypeAttributes extends React.Component {
             </tr>
             {attributesToUse.map((attribute) => {
                 const componentKey = attribute.id ? attribute.id : attribute.dummyKey;
+                const className = attribute.error ? "error" : "";
+                const rowTitle = attribute.error ? attribute.error_detail : "";
                 return (
-                    <tr key={`attributeRow${componentKey}`}>
+                    <tr
+                        key={`attributeRow${componentKey}`}
+                        className={className}
+                        title={rowTitle}
+                    >
                         <PartTypeAttributeEdit
                             key={`attributeEdit${componentKey}`}
                             attribute={attribute}
@@ -85,7 +91,7 @@ class PartTypeAttributes extends React.Component {
                     componentKey={NEW_FRAMEWORK_ID}
                     handleAttributeChange={this.handleAttributeChange}
                 />
-                <td />
+                <td/>
             </tr>
             </tbody>
         </table>;
