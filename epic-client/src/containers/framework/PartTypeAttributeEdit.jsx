@@ -11,7 +11,13 @@ class PartTypeAttributeEdit extends React.Component {
     handleInputChange = (fieldName, input) => {
         const updatedAttribute = Object.assign({}, this.props.attribute);
         if (fieldName.startsWith('attribute_name')) updatedAttribute.attribute_name = input;
-        if (!updatedAttribute.attribute_name) updatedAttribute.delete = true;
+        if (!updatedAttribute.attribute_name) {
+            updatedAttribute.error = true;
+            updatedAttribute.error_detail = "A name is required for the attribute";
+        } else {
+            updatedAttribute.error = false;
+            updatedAttribute.error_detail = "";
+        }
         if (fieldName.startsWith('in_use')) updatedAttribute.in_use = input;
         if (fieldName.startsWith('mandatory')) updatedAttribute.mandatory = input;
         if (fieldName.startsWith('attribute_type')) updatedAttribute.attribute_type = input;
@@ -25,8 +31,10 @@ class PartTypeAttributeEdit extends React.Component {
 
     handleInputClear = (fieldName) => {
         const updatedAttribute = Object.assign({}, this.props.attribute);
-        updatedAttribute.delete = true;
-        this.props.handleAttributeChange(this.props.componentKey, updatedAttribute);
+        if (window.confirm("This will remove this attribiute, are you sure?")) {
+            updatedAttribute.delete = true;
+            this.props.handleAttributeChange(this.props.componentKey, updatedAttribute);
+        }
     };
     addAnother = () => {
         const updatedAttribute = Object.assign({}, this.props.attribute);
@@ -71,7 +79,7 @@ class PartTypeAttributeEdit extends React.Component {
                        onChange={event => this.handleInputChange(event.target.name, !attribute.mandatory)}
                        checked={attribute.mandatory}
                 />
-                <br />
+                <br/>
                 <label htmlFor={attribute_typeId}>&nbsp;Type:&nbsp;</label>
                 <SelectInput
                     fieldName={attribute_typeId}

@@ -11,7 +11,13 @@ class SectionEdit extends React.Component {
         if (fieldName.startsWith('name')) updatedSection.name = input;
         if (fieldName.startsWith('partTypes')) updatedSection.partTypes = input;
         if (fieldName.startsWith('detail')) updatedSection._detail = input;
-        if (!updatedSection.name) updatedSection.delete = true;
+        if (!updatedSection.name) {
+            updatedSection.error = true;
+            updatedSection.error_detail = "A name is required for the section";
+        } else {
+            updatedSection.error = false;
+            updatedSection.error_detail = "";
+        }
 
         let componentKey = this.props.componentKey;
         if (componentKey === NEW_FRAMEWORK_ID) {
@@ -22,9 +28,11 @@ class SectionEdit extends React.Component {
     };
 
     handleInputClear = (fieldName) => {
-        const updatedSection = Object.assign({}, this.props.section);
-        updatedSection.delete = true;
-        this.props.handleSectionChange(this.props.componentKey, updatedSection);
+        if (window.confirm("Please confirm that you want to delete this section and all associated part types and their attributes.")) {
+            const updatedSection = Object.assign({}, this.props.section);
+            updatedSection.delete = true;
+            this.props.handleSectionChange(this.props.componentKey, updatedSection);
+        }
     };
 
     toggleDetail = () => {

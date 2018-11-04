@@ -20,8 +20,11 @@ class AttributeOptions extends React.Component {
         if (optionToUpdateIndex > -1) {
             if (input) {
                 optionsWithUpdates[optionToUpdateIndex].attribute_option = input;
+                optionsWithUpdates[optionToUpdateIndex].error = false;
+                optionsWithUpdates[optionToUpdateIndex].error_detail = "";
             } else {
-                optionsWithUpdates[optionToUpdateIndex].delete = true;
+                optionsWithUpdates[optionToUpdateIndex].error = true;
+                optionsWithUpdates[optionToUpdateIndex].error_detail = "A value is required for the attribute";
             }
             optionsWithUpdates[optionToUpdateIndex].changed = true;
         } else if (input) {
@@ -66,7 +69,7 @@ class AttributeOptions extends React.Component {
         if (optionKey !== "new") {
             const optionToUpdateIndex = findIndexOfObjectWithKey(optionsWithUpdates, optionKey);
             if (optionToUpdateIndex > -1) {
-                if (window.confirm("Are you sure?")) {
+                if (window.confirm("Please confirm that you want to delete this Attribute")) {
                     optionsWithUpdates[optionToUpdateIndex].delete = true;
                     this.props.handleAttributeChange(`options_${this.props.attributeKey}`, optionsWithUpdates);
                 }

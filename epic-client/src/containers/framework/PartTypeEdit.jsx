@@ -9,7 +9,13 @@ class PartTypeEdit extends React.Component {
     handlePartTypeValueChange = (fieldName, input) => {
         const updatedPartType = Object.assign({}, this.props.partType);
         if (fieldName.startsWith('shortName')) updatedPartType.shortName = input;
-        if (!updatedPartType.shortName) updatedPartType.delete = true;
+        if (!updatedPartType.shortName) {
+            updatedPartType.error = true;
+            updatedPartType.error_detail = "A name is required for the part Type";
+        } else {
+            updatedPartType.error = false;
+            updatedPartType.error_detail = "";
+        }
         if (fieldName.startsWith('description')) updatedPartType.description = input;
         if (fieldName.startsWith('can_be_substituted')) updatedPartType.can_be_substituted = input;
         if (fieldName.startsWith('can_be_omitted')) updatedPartType.can_be_omitted = input;
@@ -23,9 +29,11 @@ class PartTypeEdit extends React.Component {
     };
 
     handleInputClear = (fieldName) => {
-        const updatedPartType = Object.assign({}, this.props.partType);
-        updatedPartType.delete = true;
-        this.props.updatePartType(this.props.componentKey, updatedPartType);
+        if (window.confirm("Please confirm that you want to delete this Part Type")) {
+            const updatedPartType = Object.assign({}, this.props.partType);
+            updatedPartType.delete = true;
+            this.props.updatePartType(this.props.componentKey, updatedPartType);
+        }
     };
     toggleDetail = () => {
         this.handlePartTypeValueChange(`detail_${this.props.componentKey}`, !this.props.partType._detail)
