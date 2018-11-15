@@ -12,6 +12,10 @@ class CustomerNoteSerializer(serializers.ModelSerializer):
 
     def to_representation(self, obj):
         data = super(CustomerNoteSerializer, self).to_representation(obj)
-        created_by = str(User.objects.get(id=data['created_by']))
-        data['created_by'] = created_by
+        if data['created_by']:
+            userCreatedBy = User.objects.get(id=data['created_by'])
+            created_by = str(userCreatedBy)
+            data['created_by'] = created_by
+        else:
+            data['created_by'] = 'unknown'
         return data

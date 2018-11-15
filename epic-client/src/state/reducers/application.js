@@ -26,7 +26,7 @@ import {
     NOTE_LIST_ERROR, NOTE_LIST_REQUESTED,
     NOTE_SAVE_ERROR, NOTE_SAVE_REQUESTED, NOTE_REMOVE
 } from "../actions/note";
-import {USER_LOGIN_ERROR} from "../actions/user";
+import {USER_LOGIN, USER_LOGIN_ERROR, USER_LOGIN_REQUESTED} from "../actions/user";
 import {FRAMEWORK_ERROR, FRAMEWORK_SAVE, FRAMEWORK_SAVE_ERROR} from "../actions/framework";
 
 const initialState = {
@@ -81,6 +81,8 @@ const application = (state = initialState, action) => {
         case NOTE_LIST_REQUESTED:
         case NOTE_REMOVE:
         case REMOVE_MESSAGE:
+        case USER_LOGIN_REQUESTED:
+        case USER_LOGIN:
         case CLEAR_ALL_STATE:
             return initialState;
         case CUSTOMER_LIST_ERROR:
