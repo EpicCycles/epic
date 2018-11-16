@@ -12,7 +12,7 @@ import HeaderContainer from "./HeaderContainer";
 const App = () => (
     <div>
         <HeaderContainer/>
-        <main>
+        <main className="grid-container" style={{height: (window.innerHeight  - 50) + "px", width: window.innerWidth + "px"}}>
             <Route exact path="/" component={Home}/>
             <Route exact path="/404" component={NotFound}/>
             <Route exact path="/login" component={Login}/>

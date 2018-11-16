@@ -68,26 +68,23 @@ class Framework extends React.Component {
                 when={changesExist}
                 message="You have made changes to the framework. Cancel and Save if you do not want to lose them."
             />
-            <table key={`sections`} className="fixed_header">
-                <thead>
-                <tr key="sectionsHeaders" className="section">
-                    <th></th>
-                    <th className="three-quarters">Section</th>
-                    <th>Position</th>
-                    <th><Button onClick={this.saveChanges} disabled={isLoading || !changesExist}>
+            <div key={`sections`} className="grid">
+                <div key="sectionsHeaders" className="grid-row grid-row--header">
+                    <div className="grid-item--header grid-header--fixed-left" style={{width:"20px"}}>&nbsp;</div>
+                    <div className="grid-item--header" style={{width: (window.innerWidth * 0.8) + "px"}}>Section</div>
+                    <div className="grid-item--header" style={{width:"110px"}}>Position</div>
+                    <div  className="grid-item--header grid-col--fixed-right"><Button onClick={this.saveChanges} disabled={isLoading || !changesExist}>
                         Save
-                    </Button></th>
-                </tr>
-                </thead>
-                <tbody>
+                    </Button></div>
+                </div>
                 {sectionsToUse.map((section) => {
                     const componentKey = section.id ? section.id : section.dummyKey;
                     const className = section.error ? "error" : "";
                     const rowTitle = section.error ? section.error_detail : "";
                     return (
-                        <tr
+                        <div
                             key={`section_${componentKey}`}
-                            className={className}
+                            className={`grid-row ${className}`}
                             title={rowTitle}
                         >
                             <SectionEdit
@@ -96,7 +93,7 @@ class Framework extends React.Component {
                                 componentKey={componentKey}
                                 handleSectionChange={this.handleSectionChange}
                             />
-                            <td>
+                            <div className="grid-item">
                                 {sectionsToUse.length > 1 &&
                                 <FrameworkMoves
                                     componentKey={componentKey}
@@ -106,22 +103,25 @@ class Framework extends React.Component {
                                     moveToBottom={this.moveToBottom}
                                 />
                                 }
-                            </td>
-                            <td></td>
-                        </tr>
+                            </div>
+                            <div className="grid-col--fixed-right" />
+                        </div>
                     );
                 })}
-                <tr key={`section_new`}>
+                <div
+                    key={`section_new`}
+                    className="grid-row"
+                >
                     <SectionEdit
                         key="sectionEditNew"
                         section={newSectionForDisplay}
                         componentKey={NEW_FRAMEWORK_ID}
                         handleSectionChange={this.handleSectionChange}
                     />
-                    <td/>
-                </tr>
-                </tbody>
-            </table>
+                    <div className="grid-item" />
+                    <div className="grid-col--fixed-right" />
+                </div>
+            </div>
             {isLoading &&
             <Dimmer active inverted>
                 <Loader content='Loading'/>

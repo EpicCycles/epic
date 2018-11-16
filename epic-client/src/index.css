@@ -454,3 +454,76 @@ div.dropdown-content a {
     display: block;
     background-color: #FFFFFF;
 }
+
+/*Grid laout CSS for tables*/
+.grid-container {
+  display: grid; /* This is a (hacky) way to make the .grid element size to fit its content */
+   background: #ffffff;
+}
+.grid {
+  display: table-column;
+  flex-wrap: nowrap;
+    border: 1.5em white solid;
+}
+.grid-row {
+  display: table-row;
+}
+.grid-row:nth-child(even) {
+    background: #CCC
+}
+
+.grid-row:nth-child(odd) {
+    background: #FFF
+}
+
+.grid-col {
+  min-width: 150px;
+}
+
+.grid-row--header {
+  min-height: 25px;
+  position: sticky;
+  position: -webkit-sticky;
+}
+.grid-item--header {
+position: sticky;
+  top: 0;
+  padding: 5px;
+  min-width:100px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: #c82011;
+    color: white;
+    vertical-align: bottom;
+    text-align: center;
+   display:table-cell;
+ z-index: 9998;
+}
+
+.grid-col--fixed-left, .grid-item--fixed-left, .grid-header--fixed-left {
+  position: sticky;
+  left: 0;
+}
+.grid-header--fixed-left {
+    z-index: 9998;
+}
+.grid-col--fixed-left, .grid-item--fixed-left {
+   background:inherit;
+    z-index: 9997;
+}
+.grid-col--fixed-right {
+  position: sticky;
+  right: 0;
+  z-index: 9997;
+  background: white;
+}
+
+.grid-item {
+  border: 1px solid gray;
+   padding: 2px;
+    font-size: 1rem;
+    font-weight: normal;
+    vertical-align: top;
+  display:table-cell;
+}
+

@@ -48,7 +48,7 @@ class SectionEdit extends React.Component {
         const { section, componentKey } = this.props;
         const partTypes = section.partTypes || [];
         return <Fragment>
-            <td>
+            <div  className="grid-item grid-item--fixed-left">
                 {componentKey !== NEW_FRAMEWORK_ID ?
                     <Icon
                         name={`toggle ${section._detail ? "down" : "right"}`}
@@ -60,8 +60,8 @@ class SectionEdit extends React.Component {
                         onClick={this.addAnother}
                     />
                 }
-            </td>
-            <td>
+            </div>
+            <div className="grid-item">
                 <FormTextInput
                     placeholder="add new"
                     fieldName={`name_${componentKey}`}
@@ -76,7 +76,7 @@ class SectionEdit extends React.Component {
                     handleSectionChange={this.handleInputChange}
                 />
                 }
-            </td>
+            </div>
         </Fragment>;
     }
 }
