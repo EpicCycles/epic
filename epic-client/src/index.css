@@ -104,7 +104,7 @@ a.internal_link, a.internal_link:visited, a.internal_link:active {
 }
 
 .content {
-    margin-left: 10px;
+    margin: 10px;
 }
 
 h1, h2, h3, h4 {
@@ -369,92 +369,6 @@ fieldset {
     background-color: inherit;
 }
 
-/* menu navigation */
-.nav, .dropbtn, .dropdown, a.dropbtn:hover, a.dropbtn:visited, a.dropbtn:focus, a.dropbtn:active {
-    background-color: #c82011;
-    color: #ffffff;
-}
-
-div.nav {
-    display: inline-flex;
-    align-items: center;
-}
-
-#user {
-    height: 100%;
-    vertical-align: center;
-}
-
-p.dropbtn {
-    margin: 0;
-}
-
-ul.nav {
-    list-style-type: none;
-    background-color: #c82011;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-
-li.nav {
-    float: left;
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 10px 12px;
-    text-decoration: none;
-}
-
-div.dropdown, a.dropdown, li.dropdown a, .dropbtn {
-    display: inline-block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-li.dropdown a:hover, .dropdown:hover .dropbtn {
-    text-decoration: underline;
-}
-
-li.dropdown {
-    display: inline-block;
-}
-
-div.dropdown-content, div.dropdown-content a {
-    display: none;
-    position: absolute;
-    min-width: 160px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    color: #ffffff;
-}
-
-.dropdown-section {
-    z-index: 1;
-    padding: 14px 16px;
-    color: #c82011;
-    font-weight: bold;
-}
-
-div.dropdown-content a {
-    color: white;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-}
-
-.dropdown-content a:hover {
-    text-decoration: underline;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-    background-color: #FFFFFF;
-}
-
 /*Grid laout CSS for tables*/
 .grid-container {
   display: grid; /* This is a (hacky) way to make the .grid element size to fit its content */
@@ -526,4 +440,160 @@ position: sticky;
     vertical-align: top;
   display:table-cell;
 }
+
+/* navbar contents */
+.nav, .dropbtn, .dropdown, a.dropbtn:hover, a.dropbtn:visited, a.dropbtn:focus, a.dropbtn:active {
+    background-color: #c82011;
+}
+
+div.nav {
+    display: inline-flex;
+    align-items: center;
+}
+#user {
+    height: 100%;
+    vertical-align: center;
+}
+ul.nav {
+    list-style-type: none;
+    background-color: #c82011;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+p.dropbtn {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+li.nav {
+    float: left;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding:  10px 12px;
+    text-decoration: none;
+}
+
+li.dropdown a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li.dropdown a:hover, .dropdown:hover .dropbtn {
+    text-decoration: underline;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+div.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-section {
+    z-index: 1;
+    padding: 14px 16px;
+    color: #c82011;
+    font-weight: bold;
+}
+
+div.dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    background-color: #FFFFFF;
+}
+a.dropbtn {
+    color: white;
+}
+div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
+    color:#c82011;
+}
+
+/* dragable boxes */
+.rounded {
+    border-radius: 25px;
+    border: 2px solid #333333;
+    padding: 20px;
+    min-width: 200px;
+    min-height: 50px;
+    margin: .2rem;
+display:inline-block;
+}
+
+/* nice colours */
+/* Backgrounds */
+.bg-navy { background-color: #001F3F; }
+.bg-blue { background-color: #0074D9; }
+.bg-aqua { background-color: #7FDBFF; }
+.bg-teal { background-color: #39CCCC; }
+.bg-olive { background-color: #3D9970; }
+.bg-green { background-color: #2ECC40; }
+.bg-lime { background-color: #01FF70; }
+.bg-yellow { background-color: #FFDC00; }
+.bg-orange { background-color: #FF851B; }
+.bg-red { background-color: #FF4136; }
+.bg-fuchsia { background-color: #F012BE; }
+.bg-purple { background-color: #B10DC9; }
+.bg-maroon { background-color: #85144B; }
+.bg-white { background-color: #FFFFFF; }
+.bg-gray { background-color: #AAAAAA; }
+.bg-silver { background-color: #DDDDDD; }
+.bg-black { background-color: #111111; }
+/* Colors */
+.navy { color: #001F3F; }
+.blue { color: #0074D9; }
+.aqua { color: #7FDBFF; }
+.teal { color: #39CCCC; }
+.olive { color: #3D9970; }
+.green { color: #2ECC40; }
+.lime { color: #01FF70; }
+.yellow { color: #FFDC00; }
+.orange { color: #FF851B; }
+.clearRed { color: #FF4136; }
+.fuchsia { color: #F012BE; }
+.purple { color: #B10DC9; }
+.maroon { color: #85144B; }
+.white { color: #FFFFFF; }
+.silver { color: #DDDDDD; }
+.gray { color: #AAAAAA; }
+.black { color: #111111; }
+/* Border colors
+   Use with another border utility that sets border-width and style
+   i.e .border { border-width: 1px); border-style: solid); }
+*/
+.border--navy { border-color: #001F3F; }
+.border--blue { border-color: #0074D9; }
+.border--aqua { border-color: #7FDBFF; }
+.border--teal { border-color: #39CCCC; }
+.border--olive { border-color: #3D9970; }
+.border--green { border-color: #2ECC40; }
+.border--lime { border-color: #01FF70; }
+.border--yellow { border-color: #FFDC00; }
+.border--orange { border-color: #FF851B; }
+.border--red { border-color: #FF4136; }
+.border--fuchsia { border-color: #F012BE; }
+.border--purple { border-color: #B10DC9; }
+.border--maroon { border-color: #85144B; }
+.border--white { border-color: #FFFFFF; }
+.border--gray { border-color: #AAAAAA; }
+.border--silver { border-color: #DDDDDD; }
+.border--black { border-color: #111111; }
 

@@ -8,6 +8,7 @@ import Framework from '../framework'
 import NotFound from "../404";
 import CustomerEditContainer from "../customer/CustomerEditContainer";
 import HeaderContainer from "./HeaderContainer";
+import BrandsContainer from "../brand/BrandsContainer";
 
 const App = () => (
     <div>
@@ -19,6 +20,7 @@ const App = () => (
             <Route exact path="/customer" component={CustomerEditContainer}/>
             <Route exact path="/customer-search" component={CustomerList}/>
             <Route exact path="/framework" component={Framework}/>
+            <Route exact path="/brands" component={BrandsContainer}/>
         </main>
 
     </div>

@@ -3,6 +3,8 @@ import React, {Fragment} from 'react'
 import {Link} from 'react-router-dom'
 
 import ErrorDismissibleBlock from "../../common/ErrorDismissibleBlock";
+import {menuStructure} from "../../helpers/constants";
+import HeaderSection from "./HeaderSection";
 
 class Header extends React.Component {
     render() {
@@ -15,16 +17,13 @@ class Header extends React.Component {
                         <li className="dropdown">
                             <Link className="dropbtn" to="/">Home</Link>
                         </li>
-                        <li className="dropdown">
-                            <Link className="dropbtn" to="/about-us">About</Link>
-                        </li>
-                        <li className="dropdown">
-                            <p className="dropbtn">Customer</p>
-                            <div className="dropdown-content">
-                                <div className="dropdown-section">Customer</div>
-                                <Link className="dropbtn" to="/customer-search">Find Customer</Link>
-                            </div>
-                        </li>
+                        {menuStructure.map(menuSection => {
+                            return <HeaderSection
+                            key={'headerSection' + menuSection.sectionPos}
+                                sectionContents={menuSection.sectionContents}
+                            />
+                        })}
+
                     </ul>
                     {(this.props.user) &&
                     <span id="user"> Current User: {user.first_name} {user.last_name} ({user.username})</span>}

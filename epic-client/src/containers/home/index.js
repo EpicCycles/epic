@@ -1,25 +1,22 @@
 import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {Link} from "react-router-dom";
+import {menuStructure} from "../../helpers/constants";
+import MenuSection from "./MenuSection";
 
 const Home = props => (
-    <div>
+    <div className=" full content">
         <h1>Epic Cycles</h1>
         <section className='row full content'>
-            <div className='column one-third'>
-                <h2>Customer</h2>
-                <div className="">
-                    <Link className="internal_link" to="/customer">Add Customer</Link>
-                    <Link className="internal_link" to="/customer-search">Find Customer</Link>
-                </div>
-            </div>
-           <div className='column one-third'>
-                <h2>Core Data</h2>
-                <div className="">
-                    <Link className="internal_link" to="/framework">Quote Sections and Part Types</Link>
-                </div>
-            </div>
+            {menuStructure.map(menuSection => {
+                            return <div
+                                key={'menuCol' + menuSection.sectionPos}
+                                className='column'
+                                style={{width: ((window.innerWidth * 0.8) / menuStructure.length ) + "px"}}
+                            >
+                                <MenuSection sectionContents={menuSection.sectionContents} />
+                            </div>;
+                        })}
         </section>
     </div>
 )

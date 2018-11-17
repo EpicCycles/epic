@@ -15,6 +15,7 @@ import {
     watchForGetFramework,
     watchForSaveFramework
 } from "./framework";
+import {watchForGetBrandsAndSuppliers} from "./core";
 export default function* rootSaga() {
     yield all([
         watchForLoginUser(),
@@ -33,6 +34,7 @@ export default function* rootSaga() {
         watchForCreateNote(),
         watchForDeleteNote(),
         watchForSaveNote(),
-        watchForGetNoteList()
+        watchForGetNoteList(),
+        watchForGetBrandsAndSuppliers()
     ]);
 }
