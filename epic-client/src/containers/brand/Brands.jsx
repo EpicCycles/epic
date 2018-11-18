@@ -4,6 +4,7 @@ import {findIndexOfObjectWithKey} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
 import {Prompt} from "react-router";
 import {colourStyles, NEW_ELEMENT_ID} from "../../helpers/constants";
+import BrandEdit from "./BrandEdit";
 
 class Brands extends React.Component {
     componentWillMount() {
@@ -51,10 +52,11 @@ class Brands extends React.Component {
         const brandKey = event.dataTransfer.getData("text");
         const brandsWithUpdates = this.props.brands.slice();
         const brandToUpdateIndex = findIndexOfObjectWithKey(brandsWithUpdates, brandKey);
-        if (brandToUpdateIndex > -1) {
+        if ((brandToUpdateIndex > -1) && (brandsWithUpdates[brandToUpdateIndex].supplier !== supplierId)) {
             brandsWithUpdates[brandToUpdateIndex].supplier = supplierId;
+            brandsWithUpdates[brandToUpdateIndex].changed = true;
+            this.props.updateBrands(brandsWithUpdates);
         }
-        this.props.updateBrands(brandsWithUpdates);
     };
 
     render() {
@@ -69,7 +71,6 @@ class Brands extends React.Component {
         let newbrandForDisplay = (newbrands.length > 0) ? newbrands[0] : {};
         const changesExist = brandsWithChanges.length > 0;
         const coloursLength = colourStyles.length;
-        //onChange={event => onChange(event.target.name, event.target.value)}
         return <Fragment>
             <Prompt
                 when={changesExist}
@@ -78,21 +79,22 @@ class Brands extends React.Component {
             <section key={`brandsAndSuppliers`} className="row">
                 <div key={`brands`}>
                     {brandsToUse.map(brand => {
-                        const colourChoice = brand.supplier ? ((brand.supplier + coloursLength) % coloursLength) : -1;
-
-                        const colour = (colourChoice < 0) ? 'clearRed' : colourStyles[colourChoice].colour;
-                        const background = (colourChoice < 0) ? 'bg-white' : colourStyles[colourChoice].background;
-                        const border = (colourChoice < 0) ? 'border--red' : colourStyles[colourChoice].border;
-
-                        return <div
-                            key={`brand${brand.id}`}
-                            className={`rounded ${colour} ${background} ${border}`}
-                            draggable={true}
-                            onDragStart={event => this.pickUpBrand(event, brand.id)}
-                        >
-                            {brand.brand_name} Supplier: {(brand.supplier) ? brand.supplier : "unknown"}
-                        </div>;
+                        const componentKey = brand.id ? brand.id : brand.dummyKey;
+                        return <BrandEdit
+                            key={`brandEdit${componentKey}`}
+                            brand={brand}
+                            componentKey={componentKey}
+                            handleBrandChange={this.handleBrandChange}
+                            pickUpBrand={this.pickUpBrand}
+                        />;
                     })}
+                    <BrandEdit
+                            key={`brandEdit${NEW_ELEMENT_ID}`}
+                            brand={newbrandForDisplay}
+                            componentKey={NEW_ELEMENT_ID}
+                            handleBrandChange={this.handleBrandChange}
+                            pickUpBrand={this.pickUpBrand}
+                        />
                 </div>
                 <div key={`suppliers`}>
                     {suppliers && suppliers.map(supplier => {

@@ -38,18 +38,17 @@ export const menuStructure = [
 ];
 
 export const colourStyles = [
-    { background: "bg-navy", colour: "white", border: "border--navy" },
-    { background: "bg-olive", colour: "white", border: "border--olive" },
-    { background: "bg-gray", colour: "white", border: "border--gray" },
-    { background: "bg-blue", colour: "white", border: "border--blue" },
-    { background: "bg-green", colour: "white", border: "border--green" },
-    { background: "bg-yellow", colour: "black", border: "border--yellow" },
-    { background: "bg-fuchsia", colour: "white", border: "border--fuchsia" },
-    { background: "bg-aqua", colour: "black", border: "border--aqua" },
-    { background: "bg-lime", colour: "white", border: "border--lime" },
-    { background: "bg-orange", colour: "white", border: "border--orange" },
-    { background: "bg-purple", colour: "white", border: "border--purple" },
-    { background: "bg-teal", colour: "white", border: "border--teal" },
-    { background: "bg-maroon", colour: "white", border: "border--maroon" },
-    { background: "bg-black", colour: "white", border: "border--black" }
+    { background: "bg-col-01", colour: "col-01", border: "border-col-01" },
+    { background: "bg-col-02", colour: "col-02", border: "border-col-02" },
+    { background: "bg-col-03", colour: "col-03", border: "border-col-03" },
+    { background: "bg-col-04", colour: "col-04", border: "border-col-04" },
+    { background: "bg-col-05", colour: "col-05", border: "border-col-05" },
+    { background: "bg-col-06", colour: "col-06", border: "border-col-06" },
+    { background: "bg-col-07", colour: "col-07", border: "border-col-07" },
+    { background: "bg-col-08", colour: "col-08", border: "border-col-08" },
+    { background: "bg-col-09", colour: "col-09", border: "border-col-09" },
+    { background: "bg-col-10", colour: "col-10", border: "border-col-10" },
+    { background: "bg-col-11", colour: "col-11", border: "border-col-11" },
+    { background: "bg-col-12", colour: "col-12", border: "border-col-12" },
+    { background: "bg-col-13", colour: "col-13", border: "border-col-13" },
 ];

@@ -2,7 +2,7 @@ import React from "react";
 import {Icon} from "semantic-ui-react";
 
 const FormTextInput = props => (
-    <div id={props.id} className={(props.className && props.className) + (props.error ? " error" : "")}>
+    <div id={props.id} className={(props.className ? props.className : "") + (props.error ? " error" : "")}>
         {props.label&&<label>{props.label}</label>}
         <input
              className={(props.error ? " error" : "")}
