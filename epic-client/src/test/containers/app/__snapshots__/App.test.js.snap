@@ -3,7 +3,15 @@
 exports[`App.index tests renders the App correctly when the user is logged in 1`] = `
 <div>
   <Connect(Header) />
-  <main>
+  <main
+    className="grid-container"
+    style={
+      Object {
+        "height": "718px",
+        "width": "1024px",
+      }
+    }
+  >
     <Route
       component={[Function]}
       exact={true}
@@ -33,6 +41,11 @@ exports[`App.index tests renders the App correctly when the user is logged in 1`
       component={[Function]}
       exact={true}
       path="/framework"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/brands"
     />
   </main>
 </div>
@@ -41,7 +54,15 @@ exports[`App.index tests renders the App correctly when the user is logged in 1`
 exports[`App.index tests renders the App correctly when the user is not logged in 1`] = `
 <div>
   <Connect(Header) />
-  <main>
+  <main
+    className="grid-container"
+    style={
+      Object {
+        "height": "718px",
+        "width": "1024px",
+      }
+    }
+  >
     <Route
       component={[Function]}
       exact={true}
@@ -71,6 +92,11 @@ exports[`App.index tests renders the App correctly when the user is not logged i
       component={[Function]}
       exact={true}
       path="/framework"
+    />
+    <Route
+      component={[Function]}
+      exact={true}
+      path="/brands"
     />
   </main>
 </div>

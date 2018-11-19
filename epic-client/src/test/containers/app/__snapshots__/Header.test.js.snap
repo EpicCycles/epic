@@ -1,0 +1,238 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header.index tests renders the Header correctly when the user is logged in 1`] = `
+<React.Fragment
+  key="header"
+>
+  <div
+    className="row full nav"
+  >
+    <React.Fragment
+      key="nav"
+    >
+      <ul
+        className="nav"
+      >
+        <li
+          className="dropdown"
+        >
+          <Link
+            className="dropbtn"
+            replace={false}
+            to="/"
+          >
+            Home
+          </Link>
+        </li>
+        <HeaderSection
+          key="headerSection1"
+          sectionContents={
+            Array [
+              Object {
+                "groupHeader": "Customer",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Find Customer",
+                    "linkRoute": "/customer-search",
+                  },
+                  Object {
+                    "displayText": "New Customer",
+                    "linkRoute": "/customer",
+                  },
+                ],
+              },
+            ]
+          }
+        />
+        <HeaderSection
+          key="headerSection2"
+          sectionContents={
+            Array [
+              Object {
+                "groupHeader": "Core Data",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Quote Sections",
+                    "linkRoute": "/framework",
+                  },
+                  Object {
+                    "displayText": "Brands",
+                    "linkRoute": "/brands",
+                  },
+                ],
+              },
+            ]
+          }
+        />
+      </ul>
+      <span
+        id="user"
+      >
+         Current User: 
+         
+         (
+        AVIW
+        )
+      </span>
+    </React.Fragment>
+  </div>
+</React.Fragment>
+`;
+
+exports[`Header.index tests renders the Header correctly when the user is not logged in 1`] = `
+<React.Fragment
+  key="header"
+>
+  <div
+    className="row full nav"
+  >
+    <React.Fragment
+      key="nav"
+    >
+      <ul
+        className="nav"
+      >
+        <li
+          className="dropdown"
+        >
+          <Link
+            className="dropbtn"
+            replace={false}
+            to="/"
+          >
+            Home
+          </Link>
+        </li>
+        <HeaderSection
+          key="headerSection1"
+          sectionContents={
+            Array [
+              Object {
+                "groupHeader": "Customer",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Find Customer",
+                    "linkRoute": "/customer-search",
+                  },
+                  Object {
+                    "displayText": "New Customer",
+                    "linkRoute": "/customer",
+                  },
+                ],
+              },
+            ]
+          }
+        />
+        <HeaderSection
+          key="headerSection2"
+          sectionContents={
+            Array [
+              Object {
+                "groupHeader": "Core Data",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Quote Sections",
+                    "linkRoute": "/framework",
+                  },
+                  Object {
+                    "displayText": "Brands",
+                    "linkRoute": "/brands",
+                  },
+                ],
+              },
+            ]
+          }
+        />
+      </ul>
+    </React.Fragment>
+  </div>
+</React.Fragment>
+`;
+
+exports[`Header.index tests renders the Header correctly with user and application message  1`] = `
+<React.Fragment
+  key="header"
+>
+  <div
+    className="row full nav"
+  >
+    <React.Fragment
+      key="nav"
+    >
+      <ul
+        className="nav"
+      >
+        <li
+          className="dropdown"
+        >
+          <Link
+            className="dropbtn"
+            replace={false}
+            to="/"
+          >
+            Home
+          </Link>
+        </li>
+        <HeaderSection
+          key="headerSection1"
+          sectionContents={
+            Array [
+              Object {
+                "groupHeader": "Customer",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Find Customer",
+                    "linkRoute": "/customer-search",
+                  },
+                  Object {
+                    "displayText": "New Customer",
+                    "linkRoute": "/customer",
+                  },
+                ],
+              },
+            ]
+          }
+        />
+        <HeaderSection
+          key="headerSection2"
+          sectionContents={
+            Array [
+              Object {
+                "groupHeader": "Core Data",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Quote Sections",
+                    "linkRoute": "/framework",
+                  },
+                  Object {
+                    "displayText": "Brands",
+                    "linkRoute": "/brands",
+                  },
+                ],
+              },
+            ]
+          }
+        />
+      </ul>
+      <span
+        id="user"
+      >
+         Current User: 
+         
+         (
+        AVIW
+        )
+      </span>
+    </React.Fragment>
+  </div>
+  <ErrorDismissibleBlock
+    application={
+      Object {
+        "message": "show me a message",
+        "messageType": "E",
+      }
+    }
+    removeMessage={[Function]}
+  />
+</React.Fragment>
+`;

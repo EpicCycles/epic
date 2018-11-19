@@ -8,7 +8,7 @@ import HeaderSection from "./HeaderSection";
 
 class Header extends React.Component {
     render() {
-        const { user } = this.props;
+        const { user, application, removeMessage } = this.props;
 
         return <Fragment key="header">
             <div className="row full nav">
@@ -25,12 +25,12 @@ class Header extends React.Component {
                         })}
 
                     </ul>
-                    {(this.props.user) &&
+                    {(user) &&
                     <span id="user"> Current User: {user.first_name} {user.last_name} ({user.username})</span>}
                 </Fragment>
             </div>
-            {(this.props.application && this.props.application.message) &&
-            <ErrorDismissibleBlock application={this.props.application} removeMessage={this.props.removeMessage}/>
+            {(application && application.message) &&
+            <ErrorDismissibleBlock application={application} removeMessage={removeMessage}/>
             }
         </Fragment>
     }

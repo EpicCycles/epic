@@ -2,8 +2,8 @@ import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import {generateRandomCode} from "../../helpers/utils";
 import PartTypes from "./PartTypes";
-import {NEW_FRAMEWORK_ID} from "../../helpers/framework";
 import {Icon} from "semantic-ui-react";
+import {NEW_ELEMENT_ID} from "../../helpers/constants";
 
 class SectionEdit extends React.Component {
     handleInputChange = (fieldName, input) => {
@@ -20,8 +20,8 @@ class SectionEdit extends React.Component {
         }
 
         let componentKey = this.props.componentKey;
-        if (componentKey === NEW_FRAMEWORK_ID) {
-            updatedSection.dummyKey = NEW_FRAMEWORK_ID;
+        if (componentKey === NEW_ELEMENT_ID) {
+            updatedSection.dummyKey = NEW_ELEMENT_ID;
         }
         updatedSection.changed = true;
         this.props.handleSectionChange(componentKey, updatedSection);
@@ -41,7 +41,7 @@ class SectionEdit extends React.Component {
     addAnother = () => {
         const updatedSection = Object.assign({}, this.props.section);
         updatedSection.dummyKey = generateRandomCode();
-        this.props.handleSectionChange(NEW_FRAMEWORK_ID, updatedSection);
+        this.props.handleSectionChange(NEW_ELEMENT_ID, updatedSection);
     };
 
     render() {
@@ -49,7 +49,7 @@ class SectionEdit extends React.Component {
         const partTypes = section.partTypes || [];
         return <Fragment>
             <div  className="grid-item grid-item--fixed-left">
-                {componentKey !== NEW_FRAMEWORK_ID ?
+                {componentKey !== NEW_ELEMENT_ID ?
                     <Icon
                         name={`toggle ${section._detail ? "down" : "right"}`}
                         onClick={this.toggleDetail}
@@ -69,7 +69,7 @@ class SectionEdit extends React.Component {
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
                 />
-                {(section._detail && componentKey !== NEW_FRAMEWORK_ID) &&
+                {(section._detail && componentKey !== NEW_ELEMENT_ID) &&
                 <PartTypes
                     sectionKey={componentKey}
                     partTypes={partTypes}

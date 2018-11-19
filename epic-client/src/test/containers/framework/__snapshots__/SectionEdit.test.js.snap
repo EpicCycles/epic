@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SectionEdit shows a NEW section correctly 1`] = `
+<React.Fragment>
+  <div
+    className="grid-item grid-item--fixed-left"
+  >
+    <Icon
+      as="i"
+      name="add"
+      onClick={[Function]}
+    />
+  </div>
+  <div
+    className="grid-item"
+  >
+    <FormTextInput
+      fieldName="name_new"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+      value="section is new"
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`SectionEdit shows an existing section correctly 1`] = `
+<React.Fragment>
+  <div
+    className="grid-item grid-item--fixed-left"
+  >
+    <Icon
+      as="i"
+      name="toggle right"
+      onClick={[Function]}
+    />
+  </div>
+  <div
+    className="grid-item"
+  >
+    <FormTextInput
+      fieldName="name_22"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+      value="section is old"
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`SectionEdit shows an existing section with partTypes expanded correctly 1`] = `
+<React.Fragment>
+  <div
+    className="grid-item grid-item--fixed-left"
+  >
+    <Icon
+      as="i"
+      name="toggle down"
+      onClick={[Function]}
+    />
+  </div>
+  <div
+    className="grid-item"
+  >
+    <FormTextInput
+      fieldName="name_22"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+      value="section is old"
+    />
+    <PartTypes
+      handleSectionChange={[Function]}
+      partTypes={
+        Array [
+          "pt1",
+          "pt2",
+        ]
+      }
+      sectionKey={22}
+    />
+  </div>
+</React.Fragment>
+`;

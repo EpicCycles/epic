@@ -1,6 +1,5 @@
 import {findObjectWithKey} from "./utils";
 
-export const NEW_FRAMEWORK_ID = "new";
 export const NEW_PART_TYPE = {
     attributes: [],
     shortName: "",

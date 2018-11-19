@@ -2,8 +2,8 @@ import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import {generateRandomCode} from "../../helpers/utils";
 import PartTypeAttributes from "./PartTypeAttributes";
-import {NEW_FRAMEWORK_ID} from "../../helpers/framework";
 import {Icon} from "semantic-ui-react";
+import {NEW_ELEMENT_ID} from "../../helpers/constants";
 
 class PartTypeEdit extends React.Component {
     handlePartTypeValueChange = (fieldName, input) => {
@@ -22,7 +22,7 @@ class PartTypeEdit extends React.Component {
         if (fieldName.startsWith('customer_facing')) updatedPartType.customer_facing = input;
         if (fieldName.startsWith('attributes')) updatedPartType.attributes = input;
         if (fieldName.startsWith('detail')) updatedPartType._detail = input;
-        if (this.props.componentKey === NEW_FRAMEWORK_ID) updatedPartType.dummyKey = NEW_FRAMEWORK_ID;
+        if (this.props.componentKey === NEW_ELEMENT_ID) updatedPartType.dummyKey = NEW_ELEMENT_ID;
 
         if (!(fieldName.startsWith('attributes'))) updatedPartType.changed = true;
         this.props.updatePartType(this.props.componentKey, updatedPartType);
@@ -41,7 +41,7 @@ class PartTypeEdit extends React.Component {
     addAnother = () => {
         const updatedPartType = Object.assign({}, this.props.partType);
         updatedPartType.dummyKey = generateRandomCode();
-        this.props.updatePartType(NEW_FRAMEWORK_ID, updatedPartType);
+        this.props.updatePartType(NEW_ELEMENT_ID, updatedPartType);
     };
 
     render() {
@@ -52,7 +52,7 @@ class PartTypeEdit extends React.Component {
         const attributes = partType.attributes || [];
         return <Fragment>
             <td>
-                {componentKey !== NEW_FRAMEWORK_ID ?
+                {componentKey !== NEW_ELEMENT_ID ?
                     <Icon
                         name={`toggle ${partType._detail ? "down" : "right"}`}
                         onClick={this.toggleDetail}
@@ -94,7 +94,7 @@ class PartTypeEdit extends React.Component {
                        checked={partType.customer_facing}
                 />
                 {attributes && `Attributes: ${attributes.length}`}
-                {(partType._detail && componentKey !== NEW_FRAMEWORK_ID) &&
+                {(partType._detail && componentKey !== NEW_ELEMENT_ID) &&
                 <PartTypeAttributes
                     partTypeKey={componentKey}
                     attributes={attributes}

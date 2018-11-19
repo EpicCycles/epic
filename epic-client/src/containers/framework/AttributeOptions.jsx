@@ -5,10 +5,11 @@ import {
     moveObjectDownOnePlace,
     moveObjectToBottom,
     moveObjectToTop,
-    moveObjectUpOnePlace, NEW_FRAMEWORK_ID
+    moveObjectUpOnePlace
 } from "../../helpers/framework";
 import FrameworkMoves from "./FrameworkMoves";
 import {Icon} from "semantic-ui-react";
+import {NEW_ELEMENT_ID} from "../../helpers/constants";
 
 class AttributeOptions extends React.Component {
     handleInputChange = (fieldName, input) => {
@@ -29,7 +30,7 @@ class AttributeOptions extends React.Component {
             optionsWithUpdates[optionToUpdateIndex].changed = true;
         } else if (input) {
             optionsWithUpdates.push({
-                "dummyKey": NEW_FRAMEWORK_ID,
+                "dummyKey": NEW_ELEMENT_ID,
                 "attribute_option": input
             });
         }
@@ -38,7 +39,7 @@ class AttributeOptions extends React.Component {
     };
     addAnother = () => {
         const optionsWithUpdates = this.props.options.slice();
-        const optionToUpdateIndex = findIndexOfObjectWithKey(optionsWithUpdates, NEW_FRAMEWORK_ID);
+        const optionToUpdateIndex = findIndexOfObjectWithKey(optionsWithUpdates, NEW_ELEMENT_ID);
         optionsWithUpdates[optionToUpdateIndex].dummyKey = generateRandomCode();
         this.props.handleAttributeChange(`options_${this.props.attributeKey}`, optionsWithUpdates);
     };
@@ -79,8 +80,8 @@ class AttributeOptions extends React.Component {
 
     render() {
         const { attributeKey, options } = this.props;
-        const optionsToUse = options ? options.filter(option => !(option.delete || (option.dummyKey === NEW_FRAMEWORK_ID))) : [];
-        const newOptions = options ? options.filter(option => (option.dummyKey === NEW_FRAMEWORK_ID)) : [];
+        const optionsToUse = options ? options.filter(option => !(option.delete || (option.dummyKey === NEW_ELEMENT_ID))) : [];
+        const newOptions = options ? options.filter(option => (option.dummyKey === NEW_ELEMENT_ID)) : [];
         let newOptionDisplay = (newOptions.length > 0) ? newOptions[0] : {};
         return <table>
             <tbody>

@@ -1,7 +1,6 @@
 import React from "react";
 import FormTextInput from "../../common/FormTextInput";
 import {generateRandomCode} from "../../helpers/utils";
-import {NEW_FRAMEWORK_ID} from "../../helpers/framework";
 import {Icon} from "semantic-ui-react";
 import {colourStyles, NEW_ELEMENT_ID} from "../../helpers/constants";
 
@@ -17,7 +16,7 @@ class BrandEdit extends React.Component {
             updatedBrand.error_detail = "";
         }
 
-        if (this.props.componentKey === NEW_ELEMENT_ID) updatedBrand.dummyKey = NEW_FRAMEWORK_ID;
+        if (this.props.componentKey === NEW_ELEMENT_ID) updatedBrand.dummyKey = NEW_ELEMENT_ID;
 
         updatedBrand.changed = true;
         this.props.handleBrandChange(this.props.componentKey, updatedBrand);
@@ -33,7 +32,7 @@ class BrandEdit extends React.Component {
     addAnother = () => {
         const updatedBrand = Object.assign({}, this.props.brand);
         updatedBrand.dummyKey = generateRandomCode();
-        this.props.handleBrandChange(NEW_FRAMEWORK_ID, updatedBrand);
+        this.props.handleBrandChange(NEW_ELEMENT_ID, updatedBrand);
     };
 
     render() {
@@ -49,10 +48,10 @@ class BrandEdit extends React.Component {
         return <div
             key={`brand${brand.id}`}
             className={`rounded ${colour} ${background} ${border}`}
-            draggable={componentKey !== NEW_FRAMEWORK_ID}
+            draggable={(pickUpBrand) && (componentKey !== NEW_ELEMENT_ID)}
             onDragStart={event => pickUpBrand(event, brand.id)}
         >
-            {componentKey === NEW_FRAMEWORK_ID &&
+            {componentKey === NEW_ELEMENT_ID &&
             <Icon
                 name="add"
                 onClick={this.addAnother}

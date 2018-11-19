@@ -4,18 +4,21 @@ import {
     moveObjectToBottom,
     moveObjectToTop,
     moveObjectUpOnePlace,
-    NEW_FRAMEWORK_ID, renumberAll
+    renumberAll
 } from "../../helpers/framework";
 import SectionEdit from "./SectionEdit";
 import FrameworkMoves from "./FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
 import {Prompt} from "react-router";
+import {NEW_ELEMENT_ID} from "../../helpers/constants";
 
 class Framework extends React.Component {
     componentWillMount() {
         if (!(this.props.sections && this.props.sections.length > 0)) {
-            this.props.getFramework();
+            if (!this.props.isLoading) {
+                this.props.getFramework();
+            }
         }
     };
 
@@ -58,9 +61,9 @@ class Framework extends React.Component {
             sections,
             isLoading
         } = this.props;
-        const sectionsToUse = sections ? sections.filter(section => !(section.delete || (section.dummyKey === NEW_FRAMEWORK_ID))) : [];
+        const sectionsToUse = sections ? sections.filter(section => !(section.delete || (section.dummyKey === NEW_ELEMENT_ID))) : [];
         const sectionsWithChanges = sections ? sections.filter(section => (section.delete || section.changed)) : [];
-        const newSections = sections ? sections.filter(section => (section.dummyKey === NEW_FRAMEWORK_ID)) : [];
+        const newSections = sections ? sections.filter(section => (section.dummyKey === NEW_ELEMENT_ID)) : [];
         let newSectionForDisplay = (newSections.length > 0) ? newSections[0] : {};
         const changesExist = sectionsWithChanges.length > 0;
         return <Fragment>
@@ -115,7 +118,7 @@ class Framework extends React.Component {
                     <SectionEdit
                         key="sectionEditNew"
                         section={newSectionForDisplay}
-                        componentKey={NEW_FRAMEWORK_ID}
+                        componentKey={NEW_ELEMENT_ID}
                         handleSectionChange={this.handleSectionChange}
                     />
                     <div className="grid-item" />

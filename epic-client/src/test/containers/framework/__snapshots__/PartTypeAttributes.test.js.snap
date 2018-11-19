@@ -2,6 +2,7 @@
 
 exports[`PartTypeAttributes tests renders the form correctly when all attributes deleted 1`] = `
 <table
+  className="full"
   key="attributes_undefined"
 >
   <tbody>
@@ -40,6 +41,7 @@ exports[`PartTypeAttributes tests renders the form correctly when all attributes
 
 exports[`PartTypeAttributes tests renders the form correctly with attributes 1`] = `
 <table
+  className="full"
   key="attributes_undefined"
 >
   <tbody>
@@ -190,6 +192,7 @@ exports[`PartTypeAttributes tests renders the form correctly with attributes 1`]
 
 exports[`PartTypeAttributes tests renders the form correctly with no attributes 1`] = `
 <table
+  className="full"
   key="attributes_undefined"
 >
   <tbody>

@@ -4,10 +4,11 @@ import {
     moveObjectDownOnePlace,
     moveObjectToBottom,
     moveObjectToTop,
-    moveObjectUpOnePlace, NEW_ATTRIBUTE, NEW_FRAMEWORK_ID
+    moveObjectUpOnePlace, NEW_ATTRIBUTE
 } from "../../helpers/framework";
 import FrameworkMoves from "./FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
+import {NEW_ELEMENT_ID} from "../../helpers/constants";
 
 class PartTypeAttributes extends React.Component {
     handleAttributeChange = (attributeKey, updatedAttribute) => {
@@ -43,8 +44,8 @@ class PartTypeAttributes extends React.Component {
 
     render() {
         const { partTypeKey, attributes } = this.props;
-        const attributesToUse = attributes ? attributes.filter(attribute => !(attribute.delete || (attribute.dummyKey === NEW_FRAMEWORK_ID))) : [];
-        const newAttributes = attributes ? attributes.filter(attribute => (attribute.dummyKey === NEW_FRAMEWORK_ID)) : [];
+        const attributesToUse = attributes ? attributes.filter(attribute => !(attribute.delete || (attribute.dummyKey === NEW_ELEMENT_ID))) : [];
+        const newAttributes = attributes ? attributes.filter(attribute => (attribute.dummyKey === NEW_ELEMENT_ID)) : [];
         let newAttributeDisplay = (newAttributes.length > 0) ? newAttributes[0] : NEW_ATTRIBUTE;
         return <table key={`attributes_${partTypeKey}`} className="full">
             <tbody>
@@ -88,7 +89,7 @@ class PartTypeAttributes extends React.Component {
                 <PartTypeAttributeEdit
                     key="attributeEditNew"
                     attribute={newAttributeDisplay}
-                    componentKey={NEW_FRAMEWORK_ID}
+                    componentKey={NEW_ELEMENT_ID}
                     handleAttributeChange={this.handleAttributeChange}
                 />
                 <td/>

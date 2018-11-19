@@ -2,9 +2,8 @@ import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import AttributeOptions from "./AttributeOptions";
 import SelectInput from "../../common/SelectInput";
-import {attributeOptionTypes} from "../../helpers/constants";
+import {attributeOptionTypes, NEW_ELEMENT_ID} from "../../helpers/constants";
 import {generateRandomCode} from "../../helpers/utils";
-import {NEW_FRAMEWORK_ID} from "../../helpers/framework";
 import {Icon} from "semantic-ui-react";
 
 class PartTypeAttributeEdit extends React.Component {
@@ -22,7 +21,7 @@ class PartTypeAttributeEdit extends React.Component {
         if (fieldName.startsWith('mandatory')) updatedAttribute.mandatory = input;
         if (fieldName.startsWith('attribute_type')) updatedAttribute.attribute_type = input;
         if (fieldName.startsWith('options')) updatedAttribute.options = input;
-        if (this.props.componentKey === NEW_FRAMEWORK_ID) updatedAttribute.dummyKey = NEW_FRAMEWORK_ID;
+        if (this.props.componentKey === NEW_ELEMENT_ID) updatedAttribute.dummyKey = NEW_ELEMENT_ID;
 
         if (!(fieldName.startsWith('options'))) updatedAttribute.changed = true;
 
@@ -31,7 +30,7 @@ class PartTypeAttributeEdit extends React.Component {
 
     handleInputClear = (fieldName) => {
         const updatedAttribute = Object.assign({}, this.props.attribute);
-        if (window.confirm("This will remove this attribiute, are you sure?")) {
+        if (window.confirm("This will remove this attribute, are you sure?")) {
             updatedAttribute.delete = true;
             this.props.handleAttributeChange(this.props.componentKey, updatedAttribute);
         }
@@ -39,7 +38,7 @@ class PartTypeAttributeEdit extends React.Component {
     addAnother = () => {
         const updatedAttribute = Object.assign({}, this.props.attribute);
         updatedAttribute.dummyKey = generateRandomCode();
-        this.props.handleAttributeChange(NEW_FRAMEWORK_ID, updatedAttribute);
+        this.props.handleAttributeChange(NEW_ELEMENT_ID, updatedAttribute);
     };
 
     render() {
@@ -57,7 +56,7 @@ class PartTypeAttributeEdit extends React.Component {
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
                 />
-                {componentKey === NEW_FRAMEWORK_ID &&
+                {componentKey === NEW_ELEMENT_ID &&
                 <Icon
                     name="add"
                     onClick={this.addAnother}
@@ -89,7 +88,7 @@ class PartTypeAttributeEdit extends React.Component {
                 />
             </td>
             <td>
-                {componentKey !== NEW_FRAMEWORK_ID &&
+                {componentKey !== NEW_ELEMENT_ID &&
                 <AttributeOptions
                     attributeKey={componentKey}
                     options={attributeOptions}

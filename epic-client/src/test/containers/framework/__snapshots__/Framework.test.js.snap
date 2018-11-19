@@ -1,0 +1,284 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Framework displays and getFramework is called 1`] = `
+<React.Fragment>
+  <Prompt
+    message="You have made changes to the framework. Cancel and Save if you do not want to lose them."
+    when={false}
+  />
+  <div
+    className="grid"
+    key="sections"
+  >
+    <div
+      className="grid-row grid-row--header"
+      key="sectionsHeaders"
+    >
+      <div
+        className="grid-item--header grid-header--fixed-left"
+        style={
+          Object {
+            "width": "20px",
+          }
+        }
+      >
+         
+      </div>
+      <div
+        className="grid-item--header"
+        style={
+          Object {
+            "width": "819.2px",
+          }
+        }
+      >
+        Section
+      </div>
+      <div
+        className="grid-item--header"
+        style={
+          Object {
+            "width": "110px",
+          }
+        }
+      >
+        Position
+      </div>
+      <div
+        className="grid-item--header grid-col--fixed-right"
+      >
+        <Button
+          as="button"
+          disabled={true}
+          onClick={[Function]}
+          role="button"
+        >
+          Save
+        </Button>
+      </div>
+    </div>
+    <div
+      className="grid-row"
+      key="section_new"
+    >
+      <SectionEdit
+        componentKey="new"
+        handleSectionChange={[Function]}
+        key="sectionEditNew"
+        section={Object {}}
+      />
+      <div
+        className="grid-item"
+      />
+      <div
+        className="grid-col--fixed-right"
+      />
+    </div>
+  </div>
+</React.Fragment>
+`;
+
+exports[`Framework displays and getFramework is not called 1`] = `
+<React.Fragment>
+  <Prompt
+    message="You have made changes to the framework. Cancel and Save if you do not want to lose them."
+    when={true}
+  />
+  <div
+    className="grid"
+    key="sections"
+  >
+    <div
+      className="grid-row grid-row--header"
+      key="sectionsHeaders"
+    >
+      <div
+        className="grid-item--header grid-header--fixed-left"
+        style={
+          Object {
+            "width": "20px",
+          }
+        }
+      >
+         
+      </div>
+      <div
+        className="grid-item--header"
+        style={
+          Object {
+            "width": "819.2px",
+          }
+        }
+      >
+        Section
+      </div>
+      <div
+        className="grid-item--header"
+        style={
+          Object {
+            "width": "110px",
+          }
+        }
+      >
+        Position
+      </div>
+      <div
+        className="grid-item--header grid-col--fixed-right"
+      >
+        <Button
+          as="button"
+          disabled={false}
+          onClick={[Function]}
+          role="button"
+        >
+          Save
+        </Button>
+      </div>
+    </div>
+    <div
+      className="grid-row "
+      key="section_23"
+      title=""
+    >
+      <SectionEdit
+        componentKey={23}
+        handleSectionChange={[Function]}
+        key="sectionEdit23"
+        section={
+          Object {
+            "id": 23,
+          }
+        }
+      />
+      <div
+        className="grid-item"
+      >
+        <FrameworkMoves
+          componentKey={23}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </div>
+      <div
+        className="grid-col--fixed-right"
+      />
+    </div>
+    <div
+      className="grid-row "
+      key="section_dummy1"
+      title=""
+    >
+      <SectionEdit
+        componentKey="dummy1"
+        handleSectionChange={[Function]}
+        key="sectionEditdummy1"
+        section={
+          Object {
+            "dummyKey": "dummy1",
+          }
+        }
+      />
+      <div
+        className="grid-item"
+      >
+        <FrameworkMoves
+          componentKey="dummy1"
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </div>
+      <div
+        className="grid-col--fixed-right"
+      />
+    </div>
+    <div
+      className="grid-row "
+      key="section_dummy2"
+      title=""
+    >
+      <SectionEdit
+        componentKey="dummy2"
+        handleSectionChange={[Function]}
+        key="sectionEditdummy2"
+        section={
+          Object {
+            "changed": true,
+            "dummyKey": "dummy2",
+          }
+        }
+      />
+      <div
+        className="grid-item"
+      >
+        <FrameworkMoves
+          componentKey="dummy2"
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </div>
+      <div
+        className="grid-col--fixed-right"
+      />
+    </div>
+    <div
+      className="grid-row error"
+      key="section_62"
+      title="errors"
+    >
+      <SectionEdit
+        componentKey={62}
+        handleSectionChange={[Function]}
+        key="sectionEdit62"
+        section={
+          Object {
+            "error": true,
+            "error_detail": "errors",
+            "id": 62,
+          }
+        }
+      />
+      <div
+        className="grid-item"
+      >
+        <FrameworkMoves
+          componentKey={62}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </div>
+      <div
+        className="grid-col--fixed-right"
+      />
+    </div>
+    <div
+      className="grid-row"
+      key="section_new"
+    >
+      <SectionEdit
+        componentKey="new"
+        handleSectionChange={[Function]}
+        key="sectionEditNew"
+        section={
+          Object {
+            "dummyKey": "new",
+          }
+        }
+      />
+      <div
+        className="grid-item"
+      />
+      <div
+        className="grid-col--fixed-right"
+      />
+    </div>
+  </div>
+</React.Fragment>
+`;

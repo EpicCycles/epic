@@ -2,7 +2,7 @@
 
 exports[`renders an error when present 1`] = `
 <div
-  className="undefined error"
+  className=" error"
   id="5678"
 >
   <label>
@@ -23,7 +23,7 @@ exports[`renders an error when present 1`] = `
 
 exports[`renders the form text input correctly 1`] = `
 <div
-  className="undefined"
+  className=""
   id="1234"
 >
   <label>
@@ -44,7 +44,7 @@ exports[`renders the form text input correctly 1`] = `
 
 exports[`should call onChange when an input is entered 1`] = `
 <div
-  className="undefined"
+  className=""
 >
   <input
     autoComplete="off"
