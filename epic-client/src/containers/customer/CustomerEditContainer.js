@@ -5,7 +5,7 @@ import {
     removeCustomer, saveCustomerPhone, deleteCustomerPhone, saveCustomerAddress, deleteCustomerAddress
 } from "../../state/actions/customer";
 import {connect} from "react-redux";
-import CustomerEdit from "./CustomerEdit";
+import CustomerEdit from "../../components/customer/CustomerEdit";
 import {createNote, deleteNote, removeNote, saveNote} from "../../state/actions/note";
 
 export default connect(({ customer, note }) => ({

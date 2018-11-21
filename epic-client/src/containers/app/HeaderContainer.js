@@ -1,10 +1,14 @@
 import {connect} from "react-redux";
-import Header from "./Header";
+import Header from "../../components/menus/Header";
 import {removeMessage} from "../../state/actions/application";
 
-export default connect(({user, application}) => ({
-    user: user.user,
-    application,
-}), {
+const mapStateToProps = (state) => {
+    return {
+        user: user.user,
+        application,
+    }
+};
+const mapDispatchToProps = {
     removeError: removeMessage
-}) (Header)
+};
+export default connect(mapStateToProps, mapDispatchToProps) (Header)

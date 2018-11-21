@@ -2,7 +2,7 @@ import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {menuStructure} from "../../helpers/constants";
-import MenuSection from "./MenuSection";
+import MenuSection from "../../components/menus/MenuSection";
 
 const Home = props => (
     <div className=" full content">

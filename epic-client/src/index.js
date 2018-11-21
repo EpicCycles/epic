@@ -8,7 +8,7 @@ import reducers from "./state/reducers";
 
 import "semantic-ui-css/semantic.min.css";
 
-import App from './containers/app'
+import App from './containers/app/AppContainer'
 
 import './index.css'
 import {Router} from "react-router-dom";
