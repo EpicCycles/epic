@@ -15,27 +15,30 @@ const initialState = {
 };
 
 class CustomerAddressEdit extends React.Component {
-    state = initialState;
+    state= initialState;
 
     componentWillMount() {
-        if (this.props.customerAddress) {
-            this.setState({
-                address1: this.props.customerAddress.address1,
-                address2: this.props.customerAddress.address2,
-                address3: this.props.customerAddress.address3,
-                address4: this.props.customerAddress.address4,
-                postcode: this.props.customerAddress.postcode
-            });
-        }
+        this.setState(this.deriveStateFromProps());
     };
 
+    deriveStateFromProps = () => {
+        let newState = initialState;
+        if (this.props.customerAddress) {
+            newState.address1 = this.props.customerAddress.address1 ? this.props.customerAddress.address1 : "";
+            newState.address2 = this.props.customerAddress.address2 ? this.props.customerAddress.address2 : "";;
+            newState.address3 = this.props.customerAddress.address3 ? this.props.customerAddress.address3 : "";;
+            newState.address4 = this.props.customerAddress.address4 ? this.props.customerAddress.address4 : "";;
+            newState.postcode = this.props.customerAddress.postcode ? this.props.customerAddress.postcode : "";;
+        }
+        return newState;
+    };
     validateCustomerAddressData = (address1, address2, address3, address4, postcode) => {
         let isChanged = false;
         let isValid = true;
         let address1Error = "";
         let postcodeError = "";
 
-        if (this.props.customerAddress) {
+        if (this.props.customerAddress && (Object.keys(this.props.customerAddress).length > 0)) {
             if (this.props.customerAddress.address1 !== address1
                 || this.props.customerAddress.address2 !== address2
                 || this.props.customerAddress.address3 !== address3
@@ -83,7 +86,7 @@ class CustomerAddressEdit extends React.Component {
     };
 
     onClickReset = () => {
-        this.setState(initialState);
+        this.setState(this.deriveStateFromProps());
     };
 
     saveOrCreateCustomerAddress = () => {
@@ -112,7 +115,7 @@ class CustomerAddressEdit extends React.Component {
             };
             this.props.saveCustomerAddress(newAddress);
         }
-                this.setState({saveInProgress:true})
+        this.setState({saveInProgress: true})
 
     };
 
@@ -126,10 +129,10 @@ class CustomerAddressEdit extends React.Component {
     };
 
     render() {
-        const { address1, address2, address3, address4, postcode, isChanged, isValid, address1Error, postcodeError } = this.state;
-        const { customerAddress } = this.props;
+        const {address1, address2, address3, address4, postcode, isChanged, isValid, address1Error, postcodeError} = this.state;
+        const {customerAddress} = this.props;
         const keyValue = (customerAddress && customerAddress.id) ? customerAddress.id : "new";
-        const componentContext = customerAddress ? customerAddress.id : 'newAddress';
+        const componentContext = (customerAddress && customerAddress.id) ? customerAddress.id : 'newAddress';
         const rowClass = (customerAddress && customerAddress.error) ? "error" : "";
         return <tr id={`row${componentContext}`} className={rowClass}>
             <td id={`address1-td_${componentContext}`}>

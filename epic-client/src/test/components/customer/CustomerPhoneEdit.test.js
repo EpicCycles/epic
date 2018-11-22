@@ -124,4 +124,53 @@ it("calls method to delete phone details and sets state as appropriate", () => {
     expect(deleteCustomerPhone.mock.calls.length).toBe(1);
     expect(deleteCustomerPhone.mock.calls[0][0]).toBe(customerPhone.id);
 });
-//TODO save and delete testst when no customer passed but changes add a customer
+it("calls method to save new phone details and sets state as appropriate", () => {
+    const saveCustomerPhone = jest.fn();
+    const customerPhone = {};
+    const customerId = 23;
+
+    const component = shallow(
+        <CustomerPhoneEdit
+            customerPhone={customerPhone}
+            saveCustomerPhone={saveCustomerPhone}
+            customerId={customerId}
+        />
+    );
+    component.instance().handleInputChange("telephone1", '12345678');
+    component.instance().handleInputChange("numberType1", 'M');
+    expect(component.state('isChanged')).toBeTruthy();
+    expect(component.state('telephone')).toBe('12345678');
+    expect(component.state('number_type')).toBe("M");
+
+    component.instance().saveOrCreateCustomerPhone();
+    expect(saveCustomerPhone.mock.calls.length).toBe(1);
+    expect(saveCustomerPhone.mock.calls[0][0].number_type).toBe("M");
+    expect(saveCustomerPhone.mock.calls[0][0].telephone).toBe("12345678");
+    expect(saveCustomerPhone.mock.calls[0][0].customer).toBe(customerId);
+    expect(component.state('saveInProgress')).toBeTruthy();
+});
+it("calls handles clearing a new customer phone", () => {
+    const deleteCustomerPhone = jest.fn();
+    const customerPhone = {};
+    const component = shallow(
+        <CustomerPhoneEdit
+            customerPhone={customerPhone}
+            deleteCustomerPhone={deleteCustomerPhone}
+        />
+    );
+    component.instance().handleInputChange("telephone1", '12345678');
+    expect(component.state('isChanged')).toBeTruthy();
+
+    component.instance().handleInputChange("numberType1", 'M');
+    expect(component.state('isChanged')).toBeTruthy();
+    expect(component.state('telephone')).toBe('12345678');
+    expect(component.state('number_type')).toBe("M");
+
+    component.instance().onClickDelete();
+    expect(deleteCustomerPhone.mock.calls.length).toBe(0);
+    expect(component.state('isChanged')).toBeFalsy();
+    expect(component.state('isValid')).toBeTruthy();
+    expect(component.state('telephoneError')).toBe("");
+    expect(component.state('telephone')).toBe("");
+    expect(component.state('number_type')).toBe("H");
+});

@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`displays a passed customerPhone object correctly 1`] = `
+<tr
+  className=""
+  id={12}
+>
+  <td
+    id="td1_12"
+  >
+    <SelectInput
+      fieldName="number_type_12"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "isDefault": true,
+            "text": "Home",
+            "value": "H",
+          },
+          Object {
+            "text": "Mobile",
+            "value": "M",
+          },
+          Object {
+            "text": "Work",
+            "value": "W",
+          },
+        ]
+      }
+      value={
+        Array [
+          "H",
+        ]
+      }
+    />
+  </td>
+  <td
+    id="td2_12"
+  >
+    <FormTextInput
+      className="column full"
+      fieldName="telephone_12"
+      id="telephone-input_12"
+      onChange={[Function]}
+      placeholder="Phone Number"
+      value="78736"
+    />
+  </td>
+  <td
+    id="td3_12"
+  >
+    <span
+      id="spancomment_12"
+    >
+      Add a new number
+    </span>
+  </td>
+  <td
+    id="td4_12"
+  >
+    <span
+      id="actions12"
+    >
+      <Icon
+        as="i"
+        id="delete-phone12"
+        name="delete"
+        onClick={[Function]}
+        title="Delete Phone Number"
+      />
+    </span>
+  </td>
+</tr>
+`;
+
+exports[`displays a passed customerPhone object correctly when an error is present 1`] = `
+<tr
+  className="error"
+  id={12}
+>
+  <td
+    id="td1_12"
+  >
+    <SelectInput
+      fieldName="number_type_12"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "isDefault": true,
+            "text": "Home",
+            "value": "H",
+          },
+          Object {
+            "text": "Mobile",
+            "value": "M",
+          },
+          Object {
+            "text": "Work",
+            "value": "W",
+          },
+        ]
+      }
+      value={
+        Array [
+          "H",
+        ]
+      }
+    />
+  </td>
+  <td
+    id="td2_12"
+  >
+    <FormTextInput
+      className="column full"
+      fieldName="telephone_12"
+      id="telephone-input_12"
+      onChange={[Function]}
+      placeholder="Phone Number"
+      value="78736"
+    />
+  </td>
+  <td
+    id="td3_12"
+  >
+    <span
+      id="spancomment_12"
+    >
+      Add a new number
+    </span>
+  </td>
+  <td
+    id="td4_12"
+  >
+    <span
+      id="actions12"
+    >
+      <Icon
+        as="i"
+        id="delete-phone12"
+        name="delete"
+        onClick={[Function]}
+        title="Delete Phone Number"
+      />
+    </span>
+  </td>
+</tr>
+`;
