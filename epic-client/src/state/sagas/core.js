@@ -7,8 +7,6 @@ import {
     getBrandsAndSuppliersFailure,
     getBrandsAndSuppliersSuccess
 } from "../actions/core";
-import {FRAMEWORK_REQUESTED} from "../actions/framework";
-import {getFramework} from "./framework";
 import {sampleBrands, sampleSuppliers} from "../../helpers/sampleData";
 import {call, put, select, takeLatest} from "redux-saga/effects";
 

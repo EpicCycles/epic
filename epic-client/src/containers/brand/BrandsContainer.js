@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import {getBrandsAndSuppliers, saveBrands, updateBrands} from "../../state/actions/core";
-import Brands from "./Brands";
+import Brands from "../../components/brand/Brands";
 
 export default connect(({core}) => ({
     brands: core.brands,

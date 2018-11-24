@@ -6,7 +6,7 @@
     --col-4: #946b2d;
     --col-5: #602320;
     --col-6: #2a623d;
-    --col-7: 	#602320;
+    --col-7: #602320;
     --col-8: #a32020;
     --col-9: #e0301e;
     --col-10: #eb8c00;
@@ -550,6 +550,22 @@ div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
     display: inline-block;
 }
 
+/* Modal dialogs */
+.Modal {
+    position: relative;
+    top: 10%;
+    left: 40px;
+    right: 40px;
+    background-color: var(--col-white);
+    max-width: 25%;
+}
+
+.SupplierModal {
+    left: calc(50% - 200px);
+    right: calc(50% - 200px);
+    width: 400px;
+}
+
 /* nice colours */
 /* Backgrounds */
 .bg-col-01 {
@@ -607,6 +623,7 @@ div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
 .bg-epic {
     background-color: var(--col-epic-red);
 }
+
 .bg-white {
     background-color: var(--col-white);
 }
@@ -631,6 +648,7 @@ div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
 .epic {
     color: var(--col-epic-red);
 }
+
 .white {
     color: var(--col-white);
 }
@@ -694,17 +712,19 @@ div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
 .border-col-11 {
     border-color: var(--col-11);
 }
+
 .border-col-12 {
     border-color: var(--col-12);
 }
 
 .border-col-13 {
     border-color: var(--col-13);
-}  
+}
 
 .border-epic {
     border-color: var(--col-epic-red);
 }
+
 .border-white {
     border-color: var(--col-white);
 }

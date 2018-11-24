@@ -1,5 +1,6 @@
 import React from 'react';
 import {Route} from 'react-router-dom'
+import ReactModal from 'react-modal';
 
 import Home from '../home'
 import Login from '../user'
@@ -10,6 +11,7 @@ import CustomerEditContainer from "../customer/CustomerEditContainer";
 import HeaderContainer from "./HeaderContainer";
 import BrandsContainer from "../brand/BrandsContainer";
 
+ReactModal.setAppElement('#root');
 const App = () => (
     <div>
         <HeaderContainer/>

@@ -49,7 +49,7 @@ class BrandEdit extends React.Component {
             key={`brand${brand.id}`}
             className={`rounded ${colour} ${background} ${border}`}
             draggable={(pickUpBrand) && (componentKey !== NEW_ELEMENT_ID)}
-            onDragStart={event => pickUpBrand(event, brand.id)}
+            onDragStart={event => pickUpBrand(event, componentKey)}
         >
             {componentKey === NEW_ELEMENT_ID &&
             <Icon
@@ -64,7 +64,7 @@ class BrandEdit extends React.Component {
                 onChange={this.handleBrandValueChange}
                 onClick={this.handleInputClear}
             />
-            Supplier: {(brand.supplier) ? brand.supplier : "unknown"}
+           {componentKey !== NEW_ELEMENT_ID && `Supplier: ${(brand.supplier) ? brand.supplier : "unknown"}`}
         </div>;
     }
 }

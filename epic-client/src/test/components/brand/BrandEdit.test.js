@@ -1,5 +1,5 @@
 import React from 'react';
-import BrandEdit from "../../../containers/brand/BrandEdit";
+import BrandEdit from "../../../components/brand/BrandEdit";
 import {NEW_ELEMENT_ID} from "../../../helpers/constants";
 // props are: brand, componentKey, pickUpBrand
 test('BrandEdit shows new brand without supplier correctly', () => {

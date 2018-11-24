@@ -2,7 +2,7 @@ import {connect} from "react-redux";
 import Header from "../../components/menus/Header";
 import {removeMessage} from "../../state/actions/application";
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({user, application}) => {
     return {
         user: user.user,
         application,

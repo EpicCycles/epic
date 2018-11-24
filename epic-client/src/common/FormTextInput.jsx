@@ -9,7 +9,7 @@ const FormTextInput = props => (
             type="text"
             autoComplete="off"
             placeholder={props.placeholder}
-            title={`${props.title || ''} ${props.error}`}
+            title={`${props.title || ''} ${props.error || ''}`}
             name={props.fieldName}
             id={props.fieldName}
             onChange={event => props.onChange(event.target.id, event.target.value)}

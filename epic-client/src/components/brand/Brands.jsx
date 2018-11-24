@@ -1,17 +1,38 @@
 import React, {Fragment} from "react";
+import ReactModal from 'react-modal';
 
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
-import {Button, Dimmer, Loader} from "semantic-ui-react";
+import {Button, Dimmer, Icon, Loader} from "semantic-ui-react";
 import {Prompt} from "react-router";
-import {colourStyles, NEW_ELEMENT_ID} from "../../helpers/constants";
+import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import BrandEdit from "./BrandEdit";
+import SupplierEdit from "../supplier/SupplierEdit";
 
 class Brands extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            showModal: false
+        };
+
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+    }
+
     componentWillMount() {
         if (!(this.props.brands && this.props.brands.length > 0)) {
             this.props.getBrandsAndSuppliers();
         }
     };
+
+
+    handleOpenModal() {
+        this.setState({ showModal: true });
+    }
+
+    handleCloseModal() {
+        this.setState({ showModal: false });
+    }
 
     handleBrandChange = (brandKey, updatedbrand) => {
         const brandsWithUpdates = this.props.brands.slice();
@@ -66,11 +87,11 @@ class Brands extends React.Component {
             isLoading
         } = this.props;
         const brandsToUse = brands ? brands.filter(brand => !(brand.delete || (brand.dummyKey === NEW_ELEMENT_ID))) : [];
+        const suppliersToUse = suppliers ? suppliers.filter(supplier => !(supplier.delete || (supplier.dummyKey === NEW_ELEMENT_ID))) : [];
         const brandsWithChanges = brands ? brands.filter(brand => (brand.delete || brand.changed)) : [];
         const newbrands = brands ? brands.filter(brand => (brand.dummyKey === NEW_ELEMENT_ID)) : [];
         let newbrandForDisplay = (newbrands.length > 0) ? newbrands[0] : {};
         const changesExist = brandsWithChanges.length > 0;
-        const coloursLength = colourStyles.length;
         return <Fragment>
             <Prompt
                 when={changesExist}
@@ -89,30 +110,43 @@ class Brands extends React.Component {
                         />;
                     })}
                     <BrandEdit
-                            key={`brandEdit${NEW_ELEMENT_ID}`}
-                            brand={newbrandForDisplay}
-                            componentKey={NEW_ELEMENT_ID}
-                            handleBrandChange={this.handleBrandChange}
-                            pickUpBrand={this.pickUpBrand}
-                        />
+                        key={`brandEdit${NEW_ELEMENT_ID}`}
+                        brand={newbrandForDisplay}
+                        componentKey={NEW_ELEMENT_ID}
+                        handleBrandChange={this.handleBrandChange}
+                        pickUpBrand={this.pickUpBrand}
+                    />
                 </div>
                 <div key={`suppliers`}>
-                    {suppliers && suppliers.map(supplier => {
-                        const colourChoice = (supplier.id + coloursLength) % coloursLength;
-
-                        const colour = colourStyles[colourChoice].colour;
-                        const background = colourStyles[colourChoice].background;
-                        const border = colourStyles[colourChoice].border;
-                        return <div
-                            key={`supplier${supplier.id}`}
-                            className={`rounded ${colour} ${background} ${border}`}
-                            onDragOver={event => this.allowDrop(event)}
-                            onDrop={event => this.assignToSupplier(event, supplier.id)}
+                    <div>
+                        <button onClick={this.handleOpenModal}>Add Supplier</button>
+                        <ReactModal
+                            isOpen={this.state.showModal}
+                            contentLabel="Add new Suppler"
+                            className="Modal SupplierModal"
                         >
-                            {supplier.supplier_name} Brands: {brands.filter(brand => {
-                            return (brand.supplier === supplier.id)
-                        }).length}
-                        </div>
+                            <div style={{ width: "100%", textAlign: "right" }}>
+                                <Icon
+                                    name="remove"
+                                    circular
+                                    link
+                                    onClick={this.handleCloseModal}
+                                />
+                            </div>
+                            <Button onClick={this.handleCloseModal}>
+                                Add
+                            </Button>
+                        </ReactModal>
+                    </div>
+                    {suppliersToUse && suppliersToUse.map(supplier => {
+                       const componentKey = supplier.id ? supplier.id : supplier.dummyKey;
+                        return  <SupplierEdit
+                            supplier={supplier}
+                            componentKey={componentKey}
+                            assignToSupplier={this.assignToSupplier}
+                            allowDrop={this.allowDrop}
+                            brands={brandsToUse.filter(brand => brand.supplier === componentKey)}
+                        />
                     })}
                 </div>
             </section>
