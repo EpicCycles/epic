@@ -1,12 +1,13 @@
 import React, {Fragment} from "react";
 import ReactModal from 'react-modal';
 
-import {findIndexOfObjectWithKey} from "../../helpers/utils";
+import {findIndexOfObjectWithKey, findObjectWithKey} from "../../helpers/utils";
 import {Button, Dimmer, Icon, Loader} from "semantic-ui-react";
 import {Prompt} from "react-router";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import BrandEdit from "./BrandEdit";
 import SupplierEdit from "../supplier/SupplierEdit";
+import SupplierBlob from "../supplier/SupplierBlob";
 
 class Brands extends React.Component {
     constructor() {
@@ -26,8 +27,12 @@ class Brands extends React.Component {
     };
 
 
-    handleOpenModal() {
-        this.setState({ showModal: true });
+    handleOpenModal(supplierId) {
+        if (supplierId) {
+            this.setState({ showModal: true, supplierId });
+        } else {
+            this.setState({ showModal: true });
+        }
     }
 
     handleCloseModal() {
@@ -66,15 +71,22 @@ class Brands extends React.Component {
     };
 
     assignToSupplier = (event, supplierId) => {
-        console.log("drop");
-
+        const brands = this.props.brands;
+        const suppliers = this.props.suppliers;
         event.preventDefault();
         // Get the id of the target and add the moved element to the target's DOM
         const brandKey = event.dataTransfer.getData("text");
-        const brandsWithUpdates = this.props.brands.slice();
-        const brandToUpdateIndex = findIndexOfObjectWithKey(brandsWithUpdates, brandKey);
-        if ((brandToUpdateIndex > -1) && (brandsWithUpdates[brandToUpdateIndex].supplier !== supplierId)) {
-            brandsWithUpdates[brandToUpdateIndex].supplier = supplierId;
+        const brandsWithUpdates = brands.slice();
+        const brandToUpdateIndex = findIndexOfObjectWithKey(brands, brandKey);
+        const supplierIndex = findIndexOfObjectWithKey(suppliers, supplierId);
+        if ((supplierIndex > -1) && (brandToUpdateIndex > -1)) {
+            if (brandsWithUpdates[brandToUpdateIndex].supplier) {
+                brandsWithUpdates[brandToUpdateIndex].supplier.push(suppliers[supplierIndex].id);
+                brandsWithUpdates[brandToUpdateIndex].supplier_names.push(suppliers[supplierIndex].supplier_name);
+            } else {
+                brandsWithUpdates[brandToUpdateIndex].supplier = [suppliers[supplierIndex].id];
+                brandsWithUpdates[brandToUpdateIndex].supplier_names = [suppliers[supplierIndex].supplier_name];
+            }
             brandsWithUpdates[brandToUpdateIndex].changed = true;
             this.props.updateBrands(brandsWithUpdates);
         }
@@ -84,8 +96,12 @@ class Brands extends React.Component {
         const {
             brands,
             suppliers,
-            isLoading
+            isLoading,
+            saveSupplier,
+            deleteSupplier
         } = this.props;
+        const { showModal, supplierId } = this.state;
+        const supplierToEdit = supplierId ? findObjectWithKey(suppliers, supplierId) : {};
         const brandsToUse = brands ? brands.filter(brand => !(brand.delete || (brand.dummyKey === NEW_ELEMENT_ID))) : [];
         const suppliersToUse = suppliers ? suppliers.filter(supplier => !(supplier.delete || (supplier.dummyKey === NEW_ELEMENT_ID))) : [];
         const brandsWithChanges = brands ? brands.filter(brand => (brand.delete || brand.changed)) : [];
@@ -99,6 +115,13 @@ class Brands extends React.Component {
             />
             <section key={`brandsAndSuppliers`} className="row">
                 <div key={`brands`}>
+                    <Button
+                        key="saveBrandsChanges"
+                        onClick={this.saveChanges}
+                        disabled={isLoading || !changesExist}
+                    >
+                        Save
+                    </Button>
                     {brandsToUse.map(brand => {
                         const componentKey = brand.id ? brand.id : brand.dummyKey;
                         return <BrandEdit
@@ -121,32 +144,34 @@ class Brands extends React.Component {
                     <div>
                         <button onClick={this.handleOpenModal}>Add Supplier</button>
                         <ReactModal
-                            isOpen={this.state.showModal}
-                            contentLabel="Add new Suppler"
+                            isOpen={showModal}
+                            contentLabel="Edit Suppler"
                             className="Modal SupplierModal"
                         >
-                            <div style={{ width: "100%", textAlign: "right" }}>
-                                <Icon
-                                    name="remove"
-                                    circular
-                                    link
-                                    onClick={this.handleCloseModal}
-                                />
-                            </div>
-                            <Button onClick={this.handleCloseModal}>
-                                Add
-                            </Button>
+                            <SupplierEdit
+                                supplier={supplierToEdit ? supplierToEdit : {}}
+                                componentKey={supplierId ? supplierId : NEW_ELEMENT_ID}
+                                saveSupplier={saveSupplier}
+                                deleteSupplier={deleteSupplier}
+                                closeModal={this.handleCloseModal}
+                            />
                         </ReactModal>
                     </div>
                     {suppliersToUse && suppliersToUse.map(supplier => {
-                       const componentKey = supplier.id ? supplier.id : supplier.dummyKey;
-                        return  <SupplierEdit
-                            supplier={supplier}
-                            componentKey={componentKey}
-                            assignToSupplier={this.assignToSupplier}
-                            allowDrop={this.allowDrop}
-                            brands={brandsToUse.filter(brand => brand.supplier === componentKey)}
-                        />
+                        const componentKey = supplier.id ? supplier.id : supplier.dummyKey;
+                        return <div
+                            key={`droppablediv${componentKey}`}
+                            onDragOver={event => this.allowDrop(event)}
+                            onDrop={event => this.assignToSupplier(event, supplier.id)}>
+                            <SupplierBlob
+                                supplier={supplier}
+                                componentKey={componentKey}
+                                showBrands={true}
+                                showWebsite={true}
+                                allowEdit={true}
+                                editFunction={this.handleOpenModal}
+                            />
+                        </div>
                     })}
                 </div>
             </section>

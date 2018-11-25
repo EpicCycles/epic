@@ -278,6 +278,8 @@ class AttributeOptions(models.Model):
 # suppliers  for bikes/parts etc
 class Supplier(models.Model):
     supplier_name = models.CharField('Supplier', max_length=100, unique=True)
+    website = models.CharField('Website',blank=True, max_length=200)
+    preferred_supplier = models.BooleanField('Preferred', default=True)
 
     def __str__(self):
         return self.supplier_name
@@ -294,8 +296,8 @@ class Supplier(models.Model):
 
 class Brand(models.Model):
     brand_name = models.CharField(max_length=50, unique=True)
-    link = models.CharField(max_length=100, blank=True, null=True)
-    supplier = models.ForeignKey(Supplier, blank=True, null=True, on_delete=models.CASCADE)
+    link = models.CharField(max_length=100, blank=True)
+    supplier = models.ManyToManyField(Supplier, blank=True)
 
     def __str__(self):
         return self.brand_name
@@ -304,10 +306,7 @@ class Brand(models.Model):
         if self.brand_name is None or self.brand_name == '':
             raise ValueError('Missing brand name')
 
-        if self.link is not None:
-            if self.link == '':
-                raise ValueError('Link cannot be blank')
-
+        if self.link:
             if not is_valid_url(self.link):
                 raise ValueError('Invalid link', self.link)
 

@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {getBrandsAndSuppliers, saveBrands, updateBrands} from "../../state/actions/core";
+import {getBrandsAndSuppliers, saveBrands, updateBrands, saveSupplier, deleteSupplier} from "../../state/actions/core";
 import Brands from "../../components/brand/Brands";
 
 export default connect(({core}) => ({
@@ -9,5 +9,7 @@ export default connect(({core}) => ({
 }), {
     getBrandsAndSuppliers,
     saveBrands,
-    updateBrands
+    updateBrands,
+    saveSupplier,
+    deleteSupplier
 })(Brands)

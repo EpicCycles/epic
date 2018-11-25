@@ -5,7 +5,12 @@ import {
     BRANDS_AND_SUPPLIERS_REQUESTED,
     BRANDS_SAVE_ERROR,
     BRANDS_SAVE_OK,
-    BRANDS_SAVE_REQUESTED, BRANDS_UPDATE
+    BRANDS_SAVE_REQUESTED,
+    BRANDS_UPDATE,
+    SUPPLIER_DELETE_ERROR, SUPPLIER_DELETE_OK, SUPPLIER_DELETE_REQUESTED,
+    SUPPLIER_SAVE_ERROR,
+    SUPPLIER_SAVE_OK,
+    SUPPLIER_SAVE_REQUESTED
 } from "../actions/core";
 
 const initialState = {
@@ -16,7 +21,13 @@ const core = (state = initialState, action) => {
     switch (action.type) {
         case CLEAR_ALL_STATE:
             return initialState;
-        case BRANDS_AND_SUPPLIERS_REQUESTED:
+        case SUPPLIER_SAVE_REQUESTED:
+        case SUPPLIER_DELETE_REQUESTED:
+            return {
+                ...state,
+                isLoading: true,
+            };
+       case BRANDS_AND_SUPPLIERS_REQUESTED:
             return {
                 ...state,
                 isLoading: true,
@@ -26,12 +37,14 @@ const core = (state = initialState, action) => {
         case BRANDS_SAVE_REQUESTED:
             return {
                 ...state,
-                brands: action.payload.brands,
+                brands: action.payload,
                 isLoading: true,
             };
 
         case BRANDS_AND_SUPPLIERS_ERROR:
         case BRANDS_SAVE_ERROR:
+        case SUPPLIER_SAVE_ERROR:
+        case SUPPLIER_DELETE_ERROR:
             return {
                 ...state,
                 isLoading: false,
@@ -50,6 +63,13 @@ const core = (state = initialState, action) => {
                 ...state,
                 brands: action.payload.brands,
                 suppliers: action.payload.suppliers,
+                isLoading: false,
+            };
+        case SUPPLIER_SAVE_OK:
+        case SUPPLIER_DELETE_OK:
+            return {
+                ...state,
+                suppliers: action.payload,
                 isLoading: false,
             };
         default:

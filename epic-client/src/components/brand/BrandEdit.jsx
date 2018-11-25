@@ -1,8 +1,9 @@
 import React from "react";
 import FormTextInput from "../../common/FormTextInput";
-import {generateRandomCode} from "../../helpers/utils";
+import {generateRandomCode, removeObjectWithIndex} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
-import {colourStyles, NEW_ELEMENT_ID} from "../../helpers/constants";
+import {NEW_ELEMENT_ID} from "../../helpers/constants";
+import SupplierBlob from "../supplier/SupplierBlob";
 
 class BrandEdit extends React.Component {
     handleBrandValueChange = (fieldName, input) => {
@@ -21,6 +22,16 @@ class BrandEdit extends React.Component {
         updatedBrand.changed = true;
         this.props.handleBrandChange(this.props.componentKey, updatedBrand);
     };
+    removeSupplier = (supplierKey) => {
+        let updatedBrand = this.props.brand;
+        const supplierIndex = updatedBrand.supplier.indexOf(supplierKey);
+        if (supplierIndex > -1) {
+            updatedBrand.supplier = removeObjectWithIndex(updatedBrand.supplier, supplierIndex);
+            updatedBrand.supplier_names = removeObjectWithIndex(updatedBrand.supplier_names, supplierIndex);
+            updatedBrand.changed = true;
+            this.props.handleBrandChange(this.props.componentKey, updatedBrand);
+        }
+    };
 
     handleInputClear = (fieldName) => {
         if (window.confirm("Please confirm that you want to delete this Brand")) {
@@ -37,17 +48,18 @@ class BrandEdit extends React.Component {
 
     render() {
         const { brand, componentKey, pickUpBrand } = this.props;
-        const coloursLength = colourStyles.length;
-
-        const colourChoice = brand.supplier ? ((brand.supplier) % coloursLength) : -1;
-
-        const colour = (colourChoice < 0) ? 'col-epic' : colourStyles[colourChoice].colour;
-        const background = (colourChoice < 0) ? 'bg-white' : colourStyles[colourChoice].background;
-        const border = (colourChoice < 0) ? 'border-epic' : colourStyles[colourChoice].border;
-
+        const suppliers = [];
+        if (brand.supplier_names) {
+            for (let i = 0; i < brand.supplier_names.length; i++) {
+                suppliers.push({
+                    id: brand.supplier[i],
+                    supplier_name: brand.supplier_names[i]
+                });
+            }
+        }
         return <div
-            key={`brand${brand.id}`}
-            className={`rounded ${colour} ${background} ${border}`}
+            key={`brand${componentKey}`}
+            className="rounded"
             draggable={(pickUpBrand) && (componentKey !== NEW_ELEMENT_ID)}
             onDragStart={event => pickUpBrand(event, componentKey)}
         >
@@ -64,7 +76,13 @@ class BrandEdit extends React.Component {
                 onChange={this.handleBrandValueChange}
                 onClick={this.handleInputClear}
             />
-           {componentKey !== NEW_ELEMENT_ID && `Supplier: ${(brand.supplier) ? brand.supplier : "unknown"}`}
+            Supplier(s): {(suppliers.length > 0) ? suppliers.map(supplier => <SupplierBlob
+            key={`supplier${componentKey}${supplier.id}`}
+            supplier={supplier}
+            componentKey={supplier.id}
+            allowRemoval={true}
+            removeFunction={this.removeSupplier}
+        />) : "Unknown"}
         </div>;
     }
 }

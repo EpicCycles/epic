@@ -85,7 +85,7 @@ class PartInLine(admin.TabularInline):
 
 class BrandAdmin(admin.ModelAdmin):
     inlines = [PartInLine]
-    list_display = ('brand_name', 'link', 'supplier')
+    list_display = ('brand_name', 'link')
     list_filter = ['supplier']
     search_fields = ['brand_name']
 

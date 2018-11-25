@@ -540,14 +540,19 @@ div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
 }
 
 /* dragable boxes */
-.rounded {
+.rounded, .rounded-auto, .Modal {
     border-radius: 5px;
     border: 2px solid var(--col-gray);
+    margin: .2rem;
+    display: inline-block;
+}
+.rounded {
     padding: 5px;
     min-width: 150px;
     min-height: 15px;
-    margin: .2rem;
-    display: inline-block;
+ }
+.rounded-auto {
+    padding: 0 5px;
 }
 
 /* Modal dialogs */

@@ -1,3 +1,5 @@
+import {colourStyles} from "./constants";
+
 export const validateEmailFormat = (email) => {
     const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailPattern.test(email);
@@ -19,14 +21,30 @@ export const findIndexOfObjectWithKey = (arrayOfObjects, componentKey) => {
 };
 export const findObjectWithId = (arrayOfObjects, objectId) => {
     // eslint-disable-next-line
-   return arrayOfObjects.find ( object => object.id == objectId);
+    return arrayOfObjects.find(object => object.id == objectId);
 };
 export const findIndexOfObjectWithId = (arrayOfObjects, objectId) => {
     return arrayOfObjects.indexOf(findObjectWithId(arrayOfObjects, objectId));
 };
+export const buildColourAttributesForId = (elementId) => {
+    if (isNaN(elementId)) {
+        return {
+            colour: "col-epic",
+            background: "bg-white",
+            border: "border-epic"
+        };
+    } else {
+        const colourChoice = elementId % colourStyles.length;
+        return {
+            colour: colourStyles[colourChoice].colour,
+            background: colourStyles[colourChoice].background,
+            border: colourStyles[colourChoice].border
+        };
+    }
+};
 
 export const findObjectWithDummyKey = (arrayOfObjects, dummyKey) => {
-    return arrayOfObjects.find ( object => object.dummyKey === dummyKey);
+    return arrayOfObjects.find(object => object.dummyKey === dummyKey);
 };
 export const findIndexOfObjectWithDummyKey = (arrayOfObjects, dummyKey) => {
     return arrayOfObjects.indexOf(findObjectWithDummyKey(arrayOfObjects, dummyKey));
@@ -35,3 +53,8 @@ export const findIndexOfObjectWithDummyKey = (arrayOfObjects, dummyKey) => {
 export const generateRandomCode = () => {
     return Math.random().toString(36).replace('0.', '');
 };
+
+export const removeObjectWithIndex = (initialArray, removeIndex) => {
+    if (removeIndex < 0) return initialArray;
+    return initialArray.slice(0,removeIndex).concat(initialArray.slice((removeIndex+1)));
+}

@@ -28,6 +28,7 @@ import {
 } from "../actions/note";
 import {USER_LOGIN, USER_LOGIN_ERROR, USER_LOGIN_REQUESTED} from "../actions/user";
 import {FRAMEWORK_ERROR, FRAMEWORK_SAVE, FRAMEWORK_SAVE_ERROR} from "../actions/framework";
+import {BRANDS_SAVE_ERROR, BRANDS_SAVE_OK} from "../actions/core";
 
 const initialState = {
     message: "",
@@ -37,6 +38,7 @@ const initialState = {
 const application = (state = initialState, action) => {
     switch (action.type) {
         case FRAMEWORK_SAVE:
+        case BRANDS_SAVE_OK:
             return {
                 ...state,
                 message: "Changes saved",
@@ -98,6 +100,7 @@ const application = (state = initialState, action) => {
         case USER_LOGIN_ERROR:
         case FRAMEWORK_ERROR:
         case FRAMEWORK_SAVE_ERROR:
+        case BRANDS_SAVE_ERROR:
             return {
                 ...state,
                 message: action.payload,
