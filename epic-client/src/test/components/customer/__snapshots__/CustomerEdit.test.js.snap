@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`displays a full customer with extras properly 1`] = `
+<div
+  id="customer-edit"
+>
+  <h2>
+    Customer
+  </h2>
+  <section
+    className="row"
+  >
+    <div>
+      <CustomerDetailEdit
+        acceptCustomerChanges={[Function]}
+        customer={
+          Object {
+            "addresses": Array [
+              "1",
+              "2",
+            ],
+            "email": "anna@blogs.co.uk",
+            "first_name": "anna",
+            "id": 23,
+            "last_name": "Blogs",
+            "phones": Array [
+              "10",
+              "20",
+            ],
+          }
+        }
+        key="detail23"
+      />
+      <React.Fragment>
+        <h3>
+          Customer Addresses
+        </h3>
+        <table>
+          <tbody>
+            <CustomerAddressEdit
+              customerId={23}
+              key="editNewAddressnew"
+            />
+            <CustomerAddressEdit
+              customerAddress="1"
+              customerId={23}
+              key="editAddressundefined"
+            />
+            <CustomerAddressEdit
+              customerAddress="2"
+              customerId={23}
+              key="editAddressundefined"
+            />
+          </tbody>
+        </table>
+        <h3>
+          Customer Phone
+        </h3>
+        <table>
+          <tbody>
+            <CustomerPhoneEdit
+              customerId={23}
+              key="editNewPhonenew"
+            />
+            <CustomerPhoneEdit
+              customerId={23}
+              customerPhone="10"
+              key="editPhoneundefined"
+            />
+            <CustomerPhoneEdit
+              customerId={23}
+              customerPhone="20"
+              key="editPhoneundefined"
+            />
+          </tbody>
+        </table>
+      </React.Fragment>
+    </div>
+    <div>
+      <NoteCreate
+        key="detail278"
+        note={
+          Object {
+            "customer": 23,
+            "customer_visible": true,
+            "id": 278,
+            "note_text": "a note text",
+          }
+        }
+        saveNote={[Function]}
+      />
+    </div>
+  </section>
+</div>
+`;
+
+exports[`displays a new customer (no id) properly 1`] = `
+<div
+  id="customer-edit"
+>
+  <h2>
+    Customer
+  </h2>
+  <section
+    className="row"
+  >
+    <div>
+      <CustomerDetailEdit
+        acceptCustomerChanges={[Function]}
+        customer={
+          Object {
+            "addresses": Array [
+              "1",
+              "2",
+            ],
+            "email": "anna@blogs.co.uk",
+            "first_name": "anna",
+            "last_name": "Blogs",
+            "phones": Array [
+              "10",
+              "20",
+            ],
+          }
+        }
+        key="detail0"
+      />
+    </div>
+    <div />
+  </section>
+</div>
+`;
