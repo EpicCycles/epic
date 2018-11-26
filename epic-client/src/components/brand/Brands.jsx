@@ -1,8 +1,8 @@
 import React, {Fragment} from "react";
 import ReactModal from 'react-modal';
 
-import {findIndexOfObjectWithKey, findObjectWithKey} from "../../helpers/utils";
-import {Button, Dimmer, Icon, Loader} from "semantic-ui-react";
+import {addToUniqueArray, findIndexOfObjectWithKey, findObjectWithKey} from "../../helpers/utils";
+import {Button, Dimmer, Loader} from "semantic-ui-react";
 import {Prompt} from "react-router";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import BrandEdit from "./BrandEdit";
@@ -55,7 +55,6 @@ class Brands extends React.Component {
     };
 
     allowDrop = (event) => {
-        console.log("dragOver");
 
         event.preventDefault();
         // Set the dropEffect to move
@@ -63,30 +62,29 @@ class Brands extends React.Component {
     };
 
     pickUpBrand = (event, brandKey) => {
-        console.log("dragStart", brandKey);
-
         // Add the target element's id to the data transfer object
         event.dataTransfer.setData("text/plain", brandKey);
         event.dropEffect = "move";
     };
 
     assignToSupplier = (event, supplierId) => {
+        event.preventDefault();
+        const brandKey = event.dataTransfer.getData("text");
+        if (brandKey && supplierId) {
+            this.addSupplierToBrand(brandKey,supplierId);
+        }
+    };
+    addSupplierToBrand = (brandKey, supplierId) => {
         const brands = this.props.brands;
         const suppliers = this.props.suppliers;
-        event.preventDefault();
         // Get the id of the target and add the moved element to the target's DOM
-        const brandKey = event.dataTransfer.getData("text");
         const brandsWithUpdates = brands.slice();
         const brandToUpdateIndex = findIndexOfObjectWithKey(brands, brandKey);
         const supplierIndex = findIndexOfObjectWithKey(suppliers, supplierId);
+
         if ((supplierIndex > -1) && (brandToUpdateIndex > -1)) {
-            if (brandsWithUpdates[brandToUpdateIndex].supplier) {
-                brandsWithUpdates[brandToUpdateIndex].supplier.push(suppliers[supplierIndex].id);
-                brandsWithUpdates[brandToUpdateIndex].supplier_names.push(suppliers[supplierIndex].supplier_name);
-            } else {
-                brandsWithUpdates[brandToUpdateIndex].supplier = [suppliers[supplierIndex].id];
-                brandsWithUpdates[brandToUpdateIndex].supplier_names = [suppliers[supplierIndex].supplier_name];
-            }
+            brandsWithUpdates[brandToUpdateIndex].supplier = addToUniqueArray(brandsWithUpdates[brandToUpdateIndex].supplier, suppliers[supplierIndex].id);
+            brandsWithUpdates[brandToUpdateIndex].supplier_names = addToUniqueArray(brandsWithUpdates[brandToUpdateIndex].supplier_names, suppliers[supplierIndex].supplier_name);
             brandsWithUpdates[brandToUpdateIndex].changed = true;
             this.props.updateBrands(brandsWithUpdates);
         }
@@ -113,7 +111,7 @@ class Brands extends React.Component {
                 when={changesExist}
                 message="You have made changes to brands. Cancel and Save if you do not want to lose them."
             />
-            <section key={`brandsAndSuppliers`} className="row">
+            <section key={`brandsAndSuppliers`} className="row"  id="brandsAndSuppliers">
                 <div key={`brands`}>
                     <Button
                         key="saveBrandsChanges"

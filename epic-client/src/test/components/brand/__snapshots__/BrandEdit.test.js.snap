@@ -1,29 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BrandEdit should call the passed drag function if provided when mouse down 1`] = `
-<div
-  className="rounded col-09 bg-col-09 border-col-09"
-  draggable={true}
-  key="brand8"
-  onDragStart={[Function]}
->
-  <FormTextInput
-    fieldName="brand_name_8"
-    onChange={[Function]}
-    onClick={[Function]}
-    placeholder="add new"
-    value="e brand 8"
-  />
-  Supplier: 
-  34
-</div>
-`;
-
 exports[`BrandEdit shows new brand without supplier correctly 1`] = `
 <div
-  className="rounded col-epic bg-white border-epic"
+  className="rounded"
   draggable={false}
-  key="brand8"
+  key="brandnew"
   onDragStart={[Function]}
 >
   <Icon
@@ -38,7 +19,7 @@ exports[`BrandEdit shows new brand without supplier correctly 1`] = `
     placeholder="add new"
     value="e brand 8"
   />
-  Supplier: 
-  unknown
+  Supplier(s): 
+  Unknown
 </div>
 `;

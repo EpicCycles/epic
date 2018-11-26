@@ -8,23 +8,48 @@ export const validatePostcodeFormat = (postcode) => {
     const postcodePattern = /^(([gG][iI][rR] {0,}0[aA]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) {0,}[0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$/;
     return postcodePattern.test(postcode);
 };
-// todo tests for this one.
+export const addToUniqueArray = (arrayOfObjects, newObject) => {
+    if (arrayOfObjects) {
+        if (Array.isArray(arrayOfObjects)) {
+            if (arrayOfObjects.includes(newObject)) return arrayOfObjects;
+            let returnArray = arrayOfObjects.slice();
+            returnArray.push(newObject);
+            return returnArray;
+        } else {
+            return arrayOfObjects;
+        }
+    } else {
+        return [newObject];
+    }
+};
 export const findObjectWithKey = (arrayOfObjects, componentKey) => {
     const objectWithId = findObjectWithId(arrayOfObjects, componentKey);
     if (objectWithId) return objectWithId;
     return findObjectWithDummyKey(arrayOfObjects, componentKey);
 };
 export const findIndexOfObjectWithKey = (arrayOfObjects, componentKey) => {
-    const indexOfObjectWithId = findIndexOfObjectWithId(arrayOfObjects, componentKey);
-    if (indexOfObjectWithId < 0) return findIndexOfObjectWithDummyKey(arrayOfObjects, componentKey);
-    return indexOfObjectWithId;
+    if (Array.isArray(arrayOfObjects)) {
+        const indexOfObjectWithId = findIndexOfObjectWithId(arrayOfObjects, componentKey);
+        if (indexOfObjectWithId < 0) return findIndexOfObjectWithDummyKey(arrayOfObjects, componentKey);
+        return indexOfObjectWithId;
+    } else {
+        return -1;
+    }
 };
 export const findObjectWithId = (arrayOfObjects, objectId) => {
-    // eslint-disable-next-line
-    return arrayOfObjects.find(object => object.id == objectId);
+    if (Array.isArray(arrayOfObjects)) {
+        // eslint-disable-next-line
+        return arrayOfObjects.find(object => object.id == objectId);
+    } else {
+        return -1;
+    }
 };
 export const findIndexOfObjectWithId = (arrayOfObjects, objectId) => {
-    return arrayOfObjects.indexOf(findObjectWithId(arrayOfObjects, objectId));
+    if (Array.isArray(arrayOfObjects)) {
+        return arrayOfObjects.indexOf(findObjectWithId(arrayOfObjects, objectId));
+    } else {
+        return -1;
+    }
 };
 export const buildColourAttributesForId = (elementId) => {
     if (isNaN(elementId)) {
@@ -56,5 +81,5 @@ export const generateRandomCode = () => {
 
 export const removeObjectWithIndex = (initialArray, removeIndex) => {
     if (removeIndex < 0) return initialArray;
-    return initialArray.slice(0,removeIndex).concat(initialArray.slice((removeIndex+1)));
+    return initialArray.slice(0, removeIndex).concat(initialArray.slice((removeIndex + 1)));
 }

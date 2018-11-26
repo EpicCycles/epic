@@ -1,0 +1,219 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component displays correctly with brands 1`] = `
+<React.Fragment>
+  <Prompt
+    message="You have made changes to brands. Cancel and Save if you do not want to lose them."
+    when={true}
+  />
+  <section
+    className="row"
+    id="brandsAndSuppliers"
+    key="brandsAndSuppliers"
+  >
+    <div
+      key="brands"
+    >
+      <Button
+        as="button"
+        disabled={false}
+        key="saveBrandsChanges"
+        onClick={[Function]}
+        role="button"
+      >
+        Save
+      </Button>
+      <BrandEdit
+        brand={
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          }
+        }
+        componentKey={1}
+        handleBrandChange={[Function]}
+        key="brandEdit1"
+        pickUpBrand={[Function]}
+      />
+      <BrandEdit
+        brand={
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          }
+        }
+        componentKey={2}
+        handleBrandChange={[Function]}
+        key="brandEdit2"
+        pickUpBrand={[Function]}
+      />
+      <BrandEdit
+        brand={
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          }
+        }
+        componentKey={3}
+        handleBrandChange={[Function]}
+        key="brandEdit3"
+        pickUpBrand={[Function]}
+      />
+      <BrandEdit
+        brand={
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          }
+        }
+        componentKey={5}
+        handleBrandChange={[Function]}
+        key="brandEdit5"
+        pickUpBrand={[Function]}
+      />
+      <BrandEdit
+        brand={
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          }
+        }
+        componentKey="123ABC"
+        handleBrandChange={[Function]}
+        key="brandEdit123ABC"
+        pickUpBrand={[Function]}
+      />
+      <BrandEdit
+        brand={
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          }
+        }
+        componentKey="new"
+        handleBrandChange={[Function]}
+        key="brandEditnew"
+        pickUpBrand={[Function]}
+      />
+    </div>
+    <div
+      key="suppliers"
+    >
+      <div>
+        <button
+          onClick={[Function]}
+        >
+          Add Supplier
+        </button>
+        <Modal
+          ariaHideApp={true}
+          bodyOpenClassName="ReactModal__Body--open"
+          className="Modal SupplierModal"
+          closeTimeoutMS={0}
+          contentLabel="Edit Suppler"
+          isOpen={false}
+          parentSelector={[Function]}
+          portalClassName="ReactModalPortal"
+          role="dialog"
+          shouldCloseOnEsc={true}
+          shouldCloseOnOverlayClick={true}
+          shouldFocusAfterRender={true}
+          shouldReturnFocusAfterClose={true}
+        >
+          <SupplierEdit
+            closeModal={[Function]}
+            componentKey="new"
+            supplier={Object {}}
+          />
+        </Modal>
+      </div>
+    </div>
+  </section>
+</React.Fragment>
+`;
+
+exports[`component displays correctly with no brands and fetch called 1`] = `
+<React.Fragment>
+  <Prompt
+    message="You have made changes to brands. Cancel and Save if you do not want to lose them."
+    when={false}
+  />
+  <section
+    className="row"
+    id="brandsAndSuppliers"
+    key="brandsAndSuppliers"
+  >
+    <div
+      key="brands"
+    >
+      <Button
+        as="button"
+        disabled={true}
+        key="saveBrandsChanges"
+        onClick={[Function]}
+        role="button"
+      >
+        Save
+      </Button>
+      <BrandEdit
+        brand={Object {}}
+        componentKey="new"
+        handleBrandChange={[Function]}
+        key="brandEditnew"
+        pickUpBrand={[Function]}
+      />
+    </div>
+    <div
+      key="suppliers"
+    >
+      <div>
+        <button
+          onClick={[Function]}
+        >
+          Add Supplier
+        </button>
+        <Modal
+          ariaHideApp={true}
+          bodyOpenClassName="ReactModal__Body--open"
+          className="Modal SupplierModal"
+          closeTimeoutMS={0}
+          contentLabel="Edit Suppler"
+          isOpen={false}
+          parentSelector={[Function]}
+          portalClassName="ReactModalPortal"
+          role="dialog"
+          shouldCloseOnEsc={true}
+          shouldCloseOnOverlayClick={true}
+          shouldFocusAfterRender={true}
+          shouldReturnFocusAfterClose={true}
+        >
+          <SupplierEdit
+            closeModal={[Function]}
+            componentKey="new"
+            supplier={Object {}}
+          />
+        </Modal>
+      </div>
+    </div>
+  </section>
+</React.Fragment>
+`;

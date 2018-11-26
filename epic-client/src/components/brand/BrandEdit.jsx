@@ -24,12 +24,14 @@ class BrandEdit extends React.Component {
     };
     removeSupplier = (supplierKey) => {
         let updatedBrand = this.props.brand;
-        const supplierIndex = updatedBrand.supplier.indexOf(supplierKey);
-        if (supplierIndex > -1) {
-            updatedBrand.supplier = removeObjectWithIndex(updatedBrand.supplier, supplierIndex);
-            updatedBrand.supplier_names = removeObjectWithIndex(updatedBrand.supplier_names, supplierIndex);
-            updatedBrand.changed = true;
-            this.props.handleBrandChange(this.props.componentKey, updatedBrand);
+        if (updatedBrand.supplier && Array.isArray(updatedBrand.supplier)) {
+            const supplierIndex = updatedBrand.supplier.indexOf(supplierKey);
+            if (supplierIndex > -1) {
+                updatedBrand.supplier = removeObjectWithIndex(updatedBrand.supplier, supplierIndex);
+                updatedBrand.supplier_names = removeObjectWithIndex(updatedBrand.supplier_names, supplierIndex);
+                updatedBrand.changed = true;
+                this.props.handleBrandChange(this.props.componentKey, updatedBrand);
+            }
         }
     };
 

@@ -232,7 +232,7 @@ exports[`Header.index tests renders the Header correctly with user and applicati
         "messageType": "E",
       }
     }
-    removeMessage={[Function]}
+    removeMessage={[MockFunction]}
   />
 </React.Fragment>
 `;
