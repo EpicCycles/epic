@@ -1,0 +1,188 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`displays correctly for existing supplier 1`] = `
+<React.Fragment>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      Edit Supplier
+    </h2>
+    <FormTextInput
+      fieldName="supplier_name_1"
+      key="supplier_name_1"
+      onChange={[Function]}
+      placeholder="Supplier name"
+      value="supplier name"
+    />
+    <FormTextInput
+      fieldName="website_1"
+      key="website_1"
+      onChange={[Function]}
+      placeholder="website"
+      value="supplier.co.uk"
+    />
+    <input
+      checked={false}
+      name="preferred_supplier"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label>
+      Preferred Supplier
+    </label>
+    <div>
+       Brands: 
+      brands 1, brand 2, brand 3
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      id="delete-suppliert"
+      name="trash"
+      onClick={[Function]}
+      title="Delete Supplier"
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`displays correctly for existing supplier as a modal dialogue 1`] = `
+<React.Fragment>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      circular={true}
+      link={true}
+      name="remove"
+      onClick={[MockFunction]}
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      Edit Supplier
+    </h2>
+    <FormTextInput
+      fieldName="supplier_name_1"
+      key="supplier_name_1"
+      onChange={[Function]}
+      placeholder="Supplier name"
+      value="supplier name"
+    />
+    <FormTextInput
+      fieldName="website_1"
+      key="website_1"
+      onChange={[Function]}
+      placeholder="website"
+      value="supplier.co.uk"
+    />
+    <input
+      checked={false}
+      name="preferred_supplier"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label>
+      Preferred Supplier
+    </label>
+    <div>
+       Brands: 
+      brands 1, brand 2, brand 3
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      id="delete-suppliert"
+      name="trash"
+      onClick={[Function]}
+      title="Delete Supplier"
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`displays correctly for new supplier 1`] = `
+<React.Fragment>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      Edit Supplier
+    </h2>
+    <FormTextInput
+      fieldName="supplier_name_new"
+      key="supplier_name_new"
+      onChange={[Function]}
+      placeholder="Supplier name"
+      value=""
+    />
+    <FormTextInput
+      fieldName="website_new"
+      key="website_new"
+      onChange={[Function]}
+      placeholder="website"
+      value=""
+    />
+    <input
+      checked={true}
+      name="preferred_supplier"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label>
+      Preferred Supplier
+    </label>
+    <div>
+       Brands: 
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  />
+</React.Fragment>
+`;

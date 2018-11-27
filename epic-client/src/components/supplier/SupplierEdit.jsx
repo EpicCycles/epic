@@ -86,9 +86,8 @@ class SupplierEdit extends React.Component {
     deleteOrRemoveSupplier = () => {
         if (this.state.id) {
             this.props.deleteSupplier(this.state.id);
-        } else {
-            this.setState(initialState);
         }
+        this.setState(initialState);
         if (this.props.closeModal) {
             this.props.closeModal();
         }
