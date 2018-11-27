@@ -38,7 +38,6 @@ describe("NoteCreate tests", () => {
             <NoteCreate saveNote={saveNote}/>
         );
         input.setState({note_text: "big note text", isChanged:true});
-        expect(input).toMatchSnapshot();
 
         expect(input.find(Icon).length).toBe(2);
 
@@ -93,5 +92,29 @@ describe("NoteCreate tests", () => {
 
         input.find("#reset-note").at(0).simulate("click");
         expect(input.find(Icon).length).toBe(0);
+        expect(input.state('note_text')).toBe("");
+        expect(input.state('customer_visible')).toBe(false);
+        expect(input.state('isChanged')).toBeFalsy();
+
+    });
+    it('resets to passed data when note and reset is clicked', () => {
+        const saveNote = jest.fn();
+
+        let input = shallow(
+            <NoteCreate
+                note={note}
+                saveNote={saveNote}
+            />
+        );
+        expect(input.find(Icon).length).toBe(2);
+
+        input.setState({note_text: "big note text", isChanged:true, customer_visible: true});
+        expect(input.find(Icon).length).toBe(3);
+
+        input.find("#reset-note").at(0).simulate("click");
+        expect(input.find(Icon).length).toBe(2);
+        expect(input.state('note_text')).toBe(note.note_text);
+        expect(input.state('customer_visible')).toBe(note.customer_visible);
+        expect(input.state('isChanged')).toBeFalsy();
     });
 });
