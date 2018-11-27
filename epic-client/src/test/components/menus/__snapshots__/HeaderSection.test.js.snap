@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HeaderSection.index tests renders the HeaderSection correctly 1`] = `
+exports[`it displays correctly 1`] = `
 <li
   className="dropdown"
 >
@@ -22,7 +22,7 @@ exports[`HeaderSection.index tests renders the HeaderSection correctly 1`] = `
       </div>
       <Link
         className="dropbtn"
-        key="linkundefined"
+        key="link1"
         replace={false}
         to="/customer-search"
       >
@@ -30,7 +30,7 @@ exports[`HeaderSection.index tests renders the HeaderSection correctly 1`] = `
       </Link>
       <Link
         className="dropbtn"
-        key="linkundefined"
+        key="link2"
         replace={false}
         to="/customer"
       >
@@ -56,7 +56,7 @@ exports[`HeaderSection.index tests renders the HeaderSection correctly 1`] = `
       </div>
       <Link
         className="dropbtn"
-        key="linkundefined"
+        key="link3"
         replace={false}
         to="/framework"
       >
@@ -64,7 +64,7 @@ exports[`HeaderSection.index tests renders the HeaderSection correctly 1`] = `
       </Link>
       <Link
         className="dropbtn"
-        key="linkundefined"
+        key="link4"
         replace={false}
         to="/brands"
       >

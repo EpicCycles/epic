@@ -11,7 +11,7 @@ const HeaderSection = props => (
                         <div className="dropdown-section">{section.groupHeader}</div>
                         {section.groupLinks.map(linkData => {
                             return <Link
-                                key={`link${linkData.linkRoute.substring(1)}`}
+                                key={`link${linkData.linkNumber}`}
                                 className="dropbtn"
                                 to={linkData.linkRoute ? linkData.linkRoute : linkData.linkURL}
                             >

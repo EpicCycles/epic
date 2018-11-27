@@ -33,10 +33,12 @@ exports[`Header.index tests renders the Header correctly when the user is logged
                 "groupLinks": Array [
                   Object {
                     "displayText": "Find Customer",
+                    "linkNumber": 1,
                     "linkRoute": "/customer-search",
                   },
                   Object {
                     "displayText": "New Customer",
+                    "linkNumber": 2,
                     "linkRoute": "/customer",
                   },
                 ],
@@ -53,10 +55,12 @@ exports[`Header.index tests renders the Header correctly when the user is logged
                 "groupLinks": Array [
                   Object {
                     "displayText": "Quote Sections",
+                    "linkNumber": 3,
                     "linkRoute": "/framework",
                   },
                   Object {
                     "displayText": "Brands",
+                    "linkNumber": 4,
                     "linkRoute": "/brands",
                   },
                 ],
@@ -112,10 +116,12 @@ exports[`Header.index tests renders the Header correctly when the user is not lo
                 "groupLinks": Array [
                   Object {
                     "displayText": "Find Customer",
+                    "linkNumber": 1,
                     "linkRoute": "/customer-search",
                   },
                   Object {
                     "displayText": "New Customer",
+                    "linkNumber": 2,
                     "linkRoute": "/customer",
                   },
                 ],
@@ -132,10 +138,12 @@ exports[`Header.index tests renders the Header correctly when the user is not lo
                 "groupLinks": Array [
                   Object {
                     "displayText": "Quote Sections",
+                    "linkNumber": 3,
                     "linkRoute": "/framework",
                   },
                   Object {
                     "displayText": "Brands",
+                    "linkNumber": 4,
                     "linkRoute": "/brands",
                   },
                 ],
@@ -182,10 +190,12 @@ exports[`Header.index tests renders the Header correctly with user and applicati
                 "groupLinks": Array [
                   Object {
                     "displayText": "Find Customer",
+                    "linkNumber": 1,
                     "linkRoute": "/customer-search",
                   },
                   Object {
                     "displayText": "New Customer",
+                    "linkNumber": 2,
                     "linkRoute": "/customer",
                   },
                 ],
@@ -202,10 +212,12 @@ exports[`Header.index tests renders the Header correctly with user and applicati
                 "groupLinks": Array [
                   Object {
                     "displayText": "Quote Sections",
+                    "linkNumber": 3,
                     "linkRoute": "/framework",
                   },
                   Object {
                     "displayText": "Brands",
+                    "linkNumber": 4,
                     "linkRoute": "/brands",
                   },
                 ],

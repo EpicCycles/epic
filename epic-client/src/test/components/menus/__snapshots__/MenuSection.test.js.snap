@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it displays correctly 1`] = `
+<React.Fragment>
+  <React.Fragment
+    key="menuSectionundefined"
+  >
+    <h2>
+      Customer
+    </h2>
+    <div
+      className=""
+    >
+      <Link
+        className="internal_link"
+        key="menuLink1"
+        replace={false}
+        to="/customer-search"
+      >
+        Find Customer
+      </Link>
+      <Link
+        className="internal_link"
+        key="menuLink2"
+        replace={false}
+        to="/customer"
+      >
+        New Customer
+      </Link>
+    </div>
+  </React.Fragment>
+  <React.Fragment
+    key="menuSectionundefined"
+  >
+    <h2>
+      Core Data
+    </h2>
+    <div
+      className=""
+    >
+      <Link
+        className="internal_link"
+        key="menuLink3"
+        replace={false}
+        to="/framework"
+      >
+        Quote Sections
+      </Link>
+      <Link
+        className="internal_link"
+        key="menuLink4"
+        replace={false}
+        to="/brands"
+      >
+        Brands
+      </Link>
+    </div>
+  </React.Fragment>
+</React.Fragment>
+`;

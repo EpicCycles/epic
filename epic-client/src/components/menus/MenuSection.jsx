@@ -10,6 +10,7 @@ const MenuSection = props => (
                     <div className="">
                         {section.groupLinks.map(linkData => {
                             return <Link
+                                key={`menuLink${linkData.linkNumber}`}
                                 className="internal_link"
                                 to={linkData.linkRoute ? linkData.linkRoute : linkData.linkURL}
                             >

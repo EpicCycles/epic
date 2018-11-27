@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`is displays correctly 1`] = `
+<React.Fragment
+  key="header"
+>
+  <div
+    className="row full nav"
+  >
+    <React.Fragment
+      key="nav"
+    >
+      <ul
+        className="nav"
+      >
+        <li
+          className="dropdown"
+        >
+          <Link
+            className="dropbtn"
+            replace={false}
+            to="/"
+          >
+            Home
+          </Link>
+        </li>
+        <HeaderSection
+          key="headerSection1"
+          sectionContents={
+            Array [
+              Object {
+                "groupHeader": "Customer",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Find Customer",
+                    "linkNumber": 1,
+                    "linkRoute": "/customer-search",
+                  },
+                  Object {
+                    "displayText": "New Customer",
+                    "linkNumber": 2,
+                    "linkRoute": "/customer",
+                  },
+                ],
+              },
+            ]
+          }
+        />
+        <HeaderSection
+          key="headerSection2"
+          sectionContents={
+            Array [
+              Object {
+                "groupHeader": "Core Data",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Quote Sections",
+                    "linkNumber": 3,
+                    "linkRoute": "/framework",
+                  },
+                  Object {
+                    "displayText": "Brands",
+                    "linkNumber": 4,
+                    "linkRoute": "/brands",
+                  },
+                ],
+              },
+            ]
+          }
+        />
+      </ul>
+      <span
+        id="user"
+      >
+         Current User: 
+        anna
+         
+        Weaver
+         (
+        AVIW
+        )
+      </span>
+    </React.Fragment>
+  </div>
+  <ErrorDismissibleBlock
+    application={
+      Object {
+        "message": "Message to be displayed",
+      }
+    }
+  />
+</React.Fragment>
+`;
