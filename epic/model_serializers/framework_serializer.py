@@ -1,10 +1,8 @@
 from rest_framework import serializers
 
-from epic.models import PartSection, PartType, PartTypeAttribute, AttributeOptions, TEXT, NUMBER, RADIO, SELECT, MULTIPLE_C, MULTIPLE_S
+from epic.models.framework_models import *
 
 
-
-# Section serializer
 class SectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PartSection
@@ -68,6 +66,19 @@ class PartTypeAttributeSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError("Invalid attribute_type")
 
 
+class PartTypeSynonymSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PartTypeSynonym
+        fields = '__all__'
+
+    def validate_shortName(self, value):
+        if value:
+            if PartType.objects.filter(shortName=value).exists():
+                raise serializers.ValidationError("Value in use for a part name")
+            return value
+        raise serializers.ValidationError("Missing value for synonym")
+
+
 class AttributeOptionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = AttributeOptions
@@ -83,6 +94,7 @@ class AttributeOptionsSerializer(serializers.ModelSerializer):
             return value
         raise serializers.ValidationError("Invalid part_type_attribute")
 
+
 class PartTypeAttributeDisplaySerializer(serializers.ModelSerializer):
     options = AttributeOptionsSerializer(many=True)
 
@@ -93,6 +105,7 @@ class PartTypeAttributeDisplaySerializer(serializers.ModelSerializer):
 
 class PartTypeDisplaySerializer(serializers.ModelSerializer):
     attributes = PartTypeAttributeDisplaySerializer(many=True)
+    synonyms = PartTypeSynonymSerializer(many=True)
 
     class Meta:
         model = PartType

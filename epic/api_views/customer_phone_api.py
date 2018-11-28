@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_serializers.customer_serializer import CustomerPhoneSerializer
-from epic.models import CustomerPhone
+from epic.models.customer_models import CustomerPhone
 
 
 class CustomerPhoneList(generics.ListCreateAPIView):

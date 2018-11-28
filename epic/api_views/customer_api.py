@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from epic.model_serializers.customer_serializer import CustomerSerializer, PaginatedCustomerSerializer, \
     CustomerEditSerializer
-from epic.models import Customer
+from epic.models.customer_models import Customer
 
 
 class CustomerList(generics.ListCreateAPIView):

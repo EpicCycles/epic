@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from epic.models import CustomerNote
+from epic.models.note_models import CustomerNote
 
 
 class CustomerNoteSerializer(serializers.ModelSerializer):

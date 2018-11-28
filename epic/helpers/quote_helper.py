@@ -1,7 +1,7 @@
 from django.contrib import messages
 
 from epic.helpers.note_helper import create_note_for_requote, create_note_for_quote_archive
-from epic.models import INITIAL, ARCHIVED, Quote, QuotePart, Customer, Frame
+from epic.models.quote_models import INITIAL, ARCHIVED, Quote, QuotePart, Customer, Frame
 
 
 def quote_requote(request, quote: Quote):

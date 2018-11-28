@@ -1,4 +1,4 @@
-from epic.models import CustomerNote
+from epic.models.customer_models import CustomerNote
 
 
 def create_note_for_requote(quote, user):

@@ -5,7 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_serializers.brand_serializer import BrandSerializer
-from epic.models import Brand
+from epic.models.brand_models import Brand
+
 
 
 def create_brand(brand):
@@ -38,8 +39,8 @@ def save_existing_brand(brand, brand_id):
 
 
 class Brands(generics.ListCreateAPIView):
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = BrandSerializer
 
     def get_queryset(self):

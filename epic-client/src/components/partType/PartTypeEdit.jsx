@@ -4,6 +4,7 @@ import {generateRandomCode} from "../../helpers/utils";
 import PartTypeAttributes from "../partTypeAttribute/PartTypeAttributes";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
+import PartTypeSynonyms from "./PartTypeSynonyms";
 
 class PartTypeEdit extends React.Component {
     handlePartTypeValueChange = (fieldName, input) => {
@@ -21,10 +22,10 @@ class PartTypeEdit extends React.Component {
         if (fieldName.startsWith('can_be_omitted')) updatedPartType.can_be_omitted = input;
         if (fieldName.startsWith('customer_facing')) updatedPartType.customer_facing = input;
         if (fieldName.startsWith('attributes')) updatedPartType.attributes = input;
+        if (fieldName.startsWith('synonyms')) updatedPartType.synonyms = input;
         if (fieldName.startsWith('detail')) updatedPartType._detail = input;
         if (this.props.componentKey === NEW_ELEMENT_ID) updatedPartType.dummyKey = NEW_ELEMENT_ID;
 
-        if (!(fieldName.startsWith('attributes'))) updatedPartType.changed = true;
         this.props.updatePartType(this.props.componentKey, updatedPartType);
     };
 
@@ -50,6 +51,7 @@ class PartTypeEdit extends React.Component {
         const can_be_omittedId = `can_be_omitted_${componentKey}`;
         const customer_facingId = `customer_facing_${componentKey}`;
         const attributes = partType.attributes || [];
+        const synonyms = partType.synonyms || [];
         return <Fragment>
             <td>
                 {componentKey !== NEW_ELEMENT_ID ?
@@ -94,12 +96,21 @@ class PartTypeEdit extends React.Component {
                        checked={partType.customer_facing}
                 />
                 {attributes && `Attributes: ${attributes.length}`}
+                {synonyms && `Synonyms: ${synonyms.length}`}
                 {(partType._detail && componentKey !== NEW_ELEMENT_ID) &&
-                <PartTypeAttributes
-                    partTypeKey={componentKey}
-                    attributes={attributes}
-                    handlePartTypeChange={this.handlePartTypeValueChange}
-                />
+                    <Fragment>
+                        <PartTypeAttributes
+                            partTypeKey={componentKey}
+                            attributes={attributes}
+                            handlePartTypeChange={this.handlePartTypeValueChange}
+                        />
+                        <PartTypeSynonyms
+                            partTypeKey={componentKey}
+                            synonyms={synonyms}
+                            handlePartTypeChange={this.handlePartTypeValueChange}
+                        />
+
+                    </Fragment>
                 }
             </td>
         </Fragment>;

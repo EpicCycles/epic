@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from epic.models import Frame, FramePart, FrameExclusion
+from epic.models.bike_models import Frame, BikePart, FrameExclusion
 
 
 class FrameSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class FrameSerializer(serializers.ModelSerializer):
 
 class FramePartSerializer(serializers.ModelSerializer):
     class Meta:
-        model = FramePart
+        model = BikePart
         fields = '__all__'
 
 

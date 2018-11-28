@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_serializers.note_serializer import CustomerNoteSerializer
-from epic.models import CustomerNote
+from epic.models.note_models import CustomerNote
 
 
 class CustomerNoteList(generics.ListCreateAPIView):

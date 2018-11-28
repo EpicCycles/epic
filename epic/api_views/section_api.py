@@ -5,12 +5,12 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from epic.model_serializers.framework_serializer import SectionSerializer
-from epic.models import PartSection
+from epic.models.framework_models import PartSection
 
 
 class PartSection(generics.GenericAPIView):
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = SectionSerializer
 
     def get_object(self, pk):

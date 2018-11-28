@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from epic.models import Quote, QuotePart, QuotePartAttribute
+from epic.models.quote_models import Quote, QuotePart, QuotePartAttribute
 
 
 class QuoteSerializer(serializers.ModelSerializer):

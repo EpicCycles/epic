@@ -9,19 +9,22 @@ const Home = props => (
         <h1>Epic Cycles</h1>
         <section className='row full content'>
             {menuStructure.map(menuSection => {
-                            return <div
-                                key={'menuCol' + menuSection.sectionPos}
-                                className='column'
-                                style={{width: ((window.innerWidth * 0.8) / menuStructure.length ) + "px"}}
-                            >
-                                <MenuSection sectionContents={menuSection.sectionContents} />
-                            </div>;
-                        })}
+                return <div
+                    key={'menuCol' + menuSection.sectionPos}
+                    className='column'
+                    style={{width: ((window.innerWidth * 0.8) / menuStructure.length) + "px"}}
+                >
+                    <MenuSection
+                        sectionPos={menuSection.sectionPos}
+                        sectionContents={menuSection.sectionContents}
+                    />
+                </div>;
+            })}
         </section>
     </div>
-)
+);
 
-const mapStateToProps = () => ({})
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
 

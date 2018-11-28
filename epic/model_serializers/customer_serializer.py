@@ -1,26 +1,15 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from rest_framework import serializers
-from epic.helpers.validation_helper import is_valid_name, is_valid_telephone
 from epic.model_serializers.note_serializer import CustomerNoteSerializer
 from epic.model_serializers.quote_serializer import QuoteSerializer
 
-from epic.models import *
+from epic.models.customer_models import *
 
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = '__all__'
-
-    def validate_first_name(self, value):
-        if value and is_valid_name(value):
-            return value
-        raise serializers.ValidationError("Invalid First name")
-
-    def validate_last_name(self, value):
-        if value and is_valid_name(value):
-            return value
-        raise serializers.ValidationError("Invalid Last name")
 
     def validate_email(self, value):
         if value and not is_valid_email(value):
@@ -51,11 +40,6 @@ class CustomerPhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerPhone
         fields = '__all__'
-
-    def validate_telephone(self, value):
-        if value and is_valid_telephone(value):
-            return value
-        raise serializers.ValidationError("Invalid Telephone number")
 
 
 class CustomerAddressSerializer(serializers.ModelSerializer):

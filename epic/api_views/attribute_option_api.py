@@ -5,12 +5,12 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from epic.model_serializers.framework_serializer import AttributeOptionsSerializer
-from epic.models import AttributeOptions
+from epic.models.framework_models import AttributeOptions
 
 
 class AttributeOptions(generics.GenericAPIView):
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = AttributeOptionsSerializer
 
     def get_object(self, pk):

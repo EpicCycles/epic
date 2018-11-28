@@ -1,19 +1,13 @@
 from django.contrib import messages
 
-from epic.email_helpers.apostle_email import create_apostle_email, send_apostle_email
 from epic.form_helpers.choices import get_part_section_list_from_cache, get_part_types_for_section_from_cache
-from epic.models import FITTING_TYPE_CHOICES, QuotePart, CustomerNote
-
-
-def send_quote_email(request, quote):
-    quote_email = quote.customer.email
-    mail = create_apostle_email("quote-details", str(quote.customer), quote_email)
-    mail.quote = build_quote_detail_for_email(quote)
-    send_apostle_email(mail)
-    messages.success(request, 'Quote set to issued, email sent to ' + quote_email)
 
 
 # post from browse quote page to issue quote
+from epic.models.customer_models import FITTING_TYPE_CHOICES, CustomerNote
+from epic.models.quote_models import QuotePart
+
+
 def build_quote_detail_for_email(quote):
     # todo additional details formatting
     quote_for_email = {}

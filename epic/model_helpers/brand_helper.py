@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 
-from epic.models import Brand, Part
+from epic.models.brand_models import Brand, Part
 
 
 def find_brand_for_string(search_string, brand_list, default_brand, request):

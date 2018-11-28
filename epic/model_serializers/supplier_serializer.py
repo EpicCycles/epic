@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from epic.models import Brand, Supplier
+from epic.models.brand_models import Brand, Supplier
 
 
 class SupplierSerializer(serializers.ModelSerializer):

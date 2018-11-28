@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_serializers.customer_serializer import CustomerAddressSerializer
-from epic.models import CustomerAddress
+from epic.models.customer_models import CustomerAddress
 
 
 class CustomerAddressList(generics.ListCreateAPIView):

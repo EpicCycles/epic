@@ -35,11 +35,11 @@ table.fixed_header {
     border-collapse: collapse;
 }
 
-tr:nth-child(even), .grid-row:nth-child(even) {
+tr:nth-child(even), .grid-row--shaded:nth-child(even) {
     background: var(--col-pale-gray);
 }
 
-tr:nth-child(odd), .grid-row:nth-child(odd) {
+tr:nth-child(odd), .grid-row--shaded:nth-child(odd) {
     background: var(--col-white);
 }
 
@@ -379,6 +379,8 @@ fieldset {
 .grid-container {
     display: grid; /* This is a (hacky) way to make the .grid element size to fit its content */
     background: var(--col-white);
+    align-content: baseline;
+    padding: 10px;
 }
 
 .grid {
@@ -413,7 +415,7 @@ fieldset {
     vertical-align: bottom;
     text-align: center;
     display: table-cell;
-    z-index: 9998;
+    z-index: 9000;
 }
 
 .grid-col--fixed-left, .grid-item--fixed-left, .grid-header--fixed-left {
@@ -422,18 +424,18 @@ fieldset {
 }
 
 .grid-header--fixed-left {
-    z-index: 9998;
+    z-index: 9000;
 }
 
 .grid-col--fixed-left, .grid-item--fixed-left {
     background: inherit;
-    z-index: 9997;
+    z-index: 8000;
 }
 
 .grid-col--fixed-right {
     position: sticky;
     right: 0;
-    z-index: 9997;
+    z-index: 8000;
     background: white;
 }
 
@@ -449,6 +451,7 @@ fieldset {
 /* navbar contents */
 .nav, .dropbtn, .dropdown, a.dropbtn:hover, a.dropbtn:visited, a.dropbtn:focus, a.dropbtn:active {
     background-color: var(--col-epic-red);
+    z-index: 9500;
 }
 
 div.nav {

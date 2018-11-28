@@ -4,8 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_serializers.framework_serializer import FrameworkSerializer, SectionSerializer, PartTypeSerializer, \
-    PartTypeAttributeSerializer, AttributeOptionsSerializer
-from epic.models import PartSection, PartType, PartTypeAttribute, AttributeOptions
+    PartTypeAttributeSerializer, AttributeOptionsSerializer, PartTypeSynonymSerializer
+from epic.models.framework_models import PartSection, PartType, PartTypeAttribute, AttributeOptions, PartTypeSynonym
 
 
 def validateAndPersistOption(option, part_type_attribute):
@@ -117,6 +117,52 @@ def create_new_attribute(attribute):
     return processed_attribute
 
 
+def validateAndPersistSynonym(synonym, part_type_id):
+    processed_synonym = None
+    synonym_id = synonym.get('id', None)
+    synonym['partType'] = part_type_id
+
+    if synonym.get('delete', False) is True:
+        if synonym_id is not None:
+            PartTypeSynonym.objects.get(id=synonym_id).delete()
+
+    elif synonym_id is None:
+        processed_synonym = create_new_synonym(synonym)
+    else:
+        processed_synonym = update_existing_synonym(synonym, synonym_id)
+
+    return processed_synonym
+
+
+def update_existing_synonym(synonym, synonym_id):
+    existing_synonym = PartTypeSynonym.objects.get(id=synonym_id)
+    if existing_synonym is not None:
+        serializer = PartTypeSynonymSerializer(instance=existing_synonym, data=synonym)
+        if serializer.is_valid():
+            serializer.save()
+            return serializer.data
+        else:
+            synonym['error'] = True
+            synonym['error_detail'] = serializer.errors
+            return synonym
+    else:
+        synonym['id'] = ''
+        synonym['error'] = True
+        return synonym
+
+
+def create_new_synonym(synonym):
+    serializer = PartTypeSynonymSerializer(data=synonym)
+    if serializer.is_valid():
+        serializer.save()
+        processed_synonym = serializer.data
+    else:
+        synonym['error'] = True
+        synonym['error_detail'] = serializer.errors
+        processed_synonym = synonym
+    return processed_synonym
+
+
 def validateAndPersistPartType(part_type, include_in_section):
     processed_part_type = None
     part_type_id = part_type.get('id', None)
@@ -132,6 +178,7 @@ def validateAndPersistPartType(part_type, include_in_section):
 
     if processed_part_type:
         attributes = part_type.get('attributes', [])
+        synonyms = part_type.get('synonyms', [])
         partTypeId = processed_part_type.get('id', None)
         if partTypeId:
             processed_attributes = []
@@ -141,10 +188,21 @@ def validateAndPersistPartType(part_type, include_in_section):
                     processed_attributes.append(updated_attribute)
                     if updated_attribute.get('error', False) is True:
                         processed_part_type['error'] = True
+
+            processed_synonyms = []
+            for synonym in synonyms:
+                updated_synonym = validateAndPersistSynonym(synonym, part_type_id)
+                if updated_synonym is not None:
+                    processed_synonyms.append(updated_synonym)
+                    if updated_synonym.get('error', False) is True:
+                        processed_part_type['error'] = True
+
         else:
             processed_attributes = attributes
+            processed_synonyms = synonyms
 
         processed_part_type['attributes'] = processed_attributes
+        processed_part_type['synonyms'] = processed_synonyms
 
     return processed_part_type
 

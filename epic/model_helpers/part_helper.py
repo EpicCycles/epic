@@ -1,4 +1,4 @@
-from epic.models import Part
+from epic.models.brand_models import Part
 
 
 # given values try and create a part

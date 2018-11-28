@@ -4,7 +4,6 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-
 # get the user related to the current session
 from epic.model_serializers.user_serializer import UserSerializer
 

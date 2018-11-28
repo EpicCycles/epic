@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_serializers.supplier_serializer import SupplierSerializer
-from epic.models import Supplier
+from epic.models.brand_models import Supplier
 
 def supplierList():
     suppliers = Supplier.objects.all()
@@ -14,8 +14,8 @@ def supplierList():
 
 
 class Suppliers(generics.ListCreateAPIView):
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = SupplierSerializer
 
     def get_queryset(self):
@@ -25,12 +25,11 @@ class Suppliers(generics.ListCreateAPIView):
         return Response(supplierList())
 
     def post(self, request, format=None):
-        print(request.data)
         serializer = SupplierSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(SupplierSerializer(self.get_queryset(), many=True), status=status.HTTP_201_CREATED)
-        print(serializer.errors)
+            full_supplier_list = SupplierSerializer(self.get_queryset(), many=True)
+            return Response(full_supplier_list.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class MaintainSupplier(generics.GenericAPIView):

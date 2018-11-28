@@ -1,7 +1,0 @@
-<form id="change_frame_form" name="change_frame_form" action="{% url 'quote_change_frame' %}" method="post">
-    {% csrf_token %}
-    <input type="hidden" name="new_frame_id" id="new_frame_id" value=""/>
-
-    <input type="hidden" name="copy_quote_id" id="copy_quote_id" value="{{ quote.id }}"/>
-
-</form>

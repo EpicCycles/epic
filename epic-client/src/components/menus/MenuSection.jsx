@@ -2,10 +2,10 @@ import React, {Fragment} from "react";
 import {Link} from "react-router-dom";
 
 const MenuSection = props => (
-    <Fragment>
+    <Fragment key={'menuSection' + props.sectionPos}>
         {props.sectionContents.map(section => {
             return (
-                <Fragment key={'menuSection' + section.sectionPos}>
+                <Fragment key={'menuSection' + section.groupPos}>
                     <h2>{section.groupHeader}</h2>
                     <div className="">
                         {section.groupLinks.map(linkData => {
