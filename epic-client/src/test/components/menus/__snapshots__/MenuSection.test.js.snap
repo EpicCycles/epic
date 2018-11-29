@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it displays correctly 1`] = `
-<React.Fragment>
+<React.Fragment
+  key="menuSectionundefined"
+>
   <React.Fragment
     key="menuSectionundefined"
   >

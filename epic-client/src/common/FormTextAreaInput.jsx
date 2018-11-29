@@ -10,7 +10,8 @@ const FormTextAreaInput = props => (
       title={props.title}
       onChange={event => props.onChange(event.target.value)}
       value={props.value ? props.value : ''}
-      rows="4" cols="50"
+      rows={props.rows ? props.rows : 4} cols="50"
+      disabled={props.disabled}
     />
     {props.value &&
     <span className="clearInput">

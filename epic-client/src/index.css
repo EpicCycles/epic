@@ -447,7 +447,13 @@ fieldset {
     vertical-align: top;
     display: table-cell;
 }
-
+.grid-item--borderless {
+    padding: 2px;
+    font-size: 1rem;
+    font-weight: normal;
+    vertical-align: top;
+    display: table-cell;
+}
 /* navbar contents */
 .nav, .dropbtn, .dropdown, a.dropbtn:hover, a.dropbtn:visited, a.dropbtn:focus, a.dropbtn:active {
     background-color: var(--col-epic-red);

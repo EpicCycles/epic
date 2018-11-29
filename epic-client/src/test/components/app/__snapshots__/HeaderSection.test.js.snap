@@ -1,76 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HeaderSection.index tests renders the HeaderSection correctly 1`] = `
-<li
-  className="dropdown"
->
-  <React.Fragment
+Array [
+  <li
+    className="dropdown"
     key="navSectionundefined"
-  >
-    <p
-      className="dropbtn"
-    >
-      Customer
-    </p>
-    <div
-      className="dropdown-content"
-    >
-      <div
-        className="dropdown-section"
-      >
-        Customer
-      </div>
-      <Link
-        className="dropbtn"
-        key="linkundefined"
-        replace={false}
-        to="/customer-search"
-      >
-        Find Customer
-      </Link>
-      <Link
-        className="dropbtn"
-        key="linkundefined"
-        replace={false}
-        to="/customer"
-      >
-        New Customer
-      </Link>
-    </div>
-  </React.Fragment>
-  <React.Fragment
+  />,
+  <li
+    className="dropdown"
     key="navSectionundefined"
-  >
-    <p
-      className="dropbtn"
-    >
-      Core Data
-    </p>
-    <div
-      className="dropdown-content"
-    >
-      <div
-        className="dropdown-section"
-      >
-        Core Data
-      </div>
-      <Link
-        className="dropbtn"
-        key="linkundefined"
-        replace={false}
-        to="/framework"
-      >
-        Quote Sections
-      </Link>
-      <Link
-        className="dropbtn"
-        key="linkundefined"
-        replace={false}
-        to="/brands"
-      >
-        Brands
-      </Link>
-    </div>
-  </React.Fragment>
-</li>
+  />,
+]
 `;

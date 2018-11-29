@@ -54,6 +54,7 @@ exports[`displays the PartTypeEdit component for a new part type with no attribu
       type="checkbox"
     />
     Attributes: 0
+    Synonyms: 0
   </td>
 </React.Fragment>
 `;
@@ -112,6 +113,7 @@ exports[`displays the PartTypeEdit component for an existing part type with attr
       type="checkbox"
     />
     Attributes: 0
+    Synonyms: 0
   </td>
 </React.Fragment>
 `;
@@ -170,16 +172,24 @@ exports[`displays the PartTypeEdit component for an existing part type with attr
       type="checkbox"
     />
     Attributes: 2
-    <PartTypeAttributes
-      attributes={
-        Array [
-          "attribute1",
-          "attribute2",
-        ]
-      }
-      handlePartTypeChange={[Function]}
-      partTypeKey="dummy2"
-    />
+    Synonyms: 0
+    <React.Fragment>
+      <PartTypeAttributes
+        attributes={
+          Array [
+            "attribute1",
+            "attribute2",
+          ]
+        }
+        handlePartTypeChange={[Function]}
+        partTypeKey="dummy2"
+      />
+      <PartTypeSynonyms
+        handlePartTypeChange={[Function]}
+        partTypeKey="dummy2"
+        synonyms={Array []}
+      />
+    </React.Fragment>
   </td>
 </React.Fragment>
 `;

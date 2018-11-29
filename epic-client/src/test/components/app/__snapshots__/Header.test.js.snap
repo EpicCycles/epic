@@ -33,15 +33,16 @@ exports[`Header.index tests renders the Header correctly when the user is logged
                 "groupLinks": Array [
                   Object {
                     "displayText": "Find Customer",
-                    "linkNumber": 1,
+                    "linkNumber": 101,
                     "linkRoute": "/customer-search",
                   },
                   Object {
                     "displayText": "New Customer",
-                    "linkNumber": 2,
+                    "linkNumber": 102,
                     "linkRoute": "/customer",
                   },
                 ],
+                "groupPos": 10,
               },
             ]
           }
@@ -51,19 +52,31 @@ exports[`Header.index tests renders the Header correctly when the user is logged
           sectionContents={
             Array [
               Object {
+                "groupHeader": "Bikes",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Bike Upload",
+                    "linkNumber": 201,
+                    "linkRoute": "/bike-upload",
+                  },
+                ],
+                "groupPos": 20,
+              },
+              Object {
                 "groupHeader": "Core Data",
                 "groupLinks": Array [
                   Object {
                     "displayText": "Quote Sections",
-                    "linkNumber": 3,
+                    "linkNumber": 211,
                     "linkRoute": "/framework",
                   },
                   Object {
                     "displayText": "Brands",
-                    "linkNumber": 4,
+                    "linkNumber": 212,
                     "linkRoute": "/brands",
                   },
                 ],
+                "groupPos": 21,
               },
             ]
           }
@@ -116,15 +129,16 @@ exports[`Header.index tests renders the Header correctly when the user is not lo
                 "groupLinks": Array [
                   Object {
                     "displayText": "Find Customer",
-                    "linkNumber": 1,
+                    "linkNumber": 101,
                     "linkRoute": "/customer-search",
                   },
                   Object {
                     "displayText": "New Customer",
-                    "linkNumber": 2,
+                    "linkNumber": 102,
                     "linkRoute": "/customer",
                   },
                 ],
+                "groupPos": 10,
               },
             ]
           }
@@ -134,19 +148,31 @@ exports[`Header.index tests renders the Header correctly when the user is not lo
           sectionContents={
             Array [
               Object {
+                "groupHeader": "Bikes",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Bike Upload",
+                    "linkNumber": 201,
+                    "linkRoute": "/bike-upload",
+                  },
+                ],
+                "groupPos": 20,
+              },
+              Object {
                 "groupHeader": "Core Data",
                 "groupLinks": Array [
                   Object {
                     "displayText": "Quote Sections",
-                    "linkNumber": 3,
+                    "linkNumber": 211,
                     "linkRoute": "/framework",
                   },
                   Object {
                     "displayText": "Brands",
-                    "linkNumber": 4,
+                    "linkNumber": 212,
                     "linkRoute": "/brands",
                   },
                 ],
+                "groupPos": 21,
               },
             ]
           }
@@ -190,15 +216,16 @@ exports[`Header.index tests renders the Header correctly with user and applicati
                 "groupLinks": Array [
                   Object {
                     "displayText": "Find Customer",
-                    "linkNumber": 1,
+                    "linkNumber": 101,
                     "linkRoute": "/customer-search",
                   },
                   Object {
                     "displayText": "New Customer",
-                    "linkNumber": 2,
+                    "linkNumber": 102,
                     "linkRoute": "/customer",
                   },
                 ],
+                "groupPos": 10,
               },
             ]
           }
@@ -208,19 +235,31 @@ exports[`Header.index tests renders the Header correctly with user and applicati
           sectionContents={
             Array [
               Object {
+                "groupHeader": "Bikes",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Bike Upload",
+                    "linkNumber": 201,
+                    "linkRoute": "/bike-upload",
+                  },
+                ],
+                "groupPos": 20,
+              },
+              Object {
                 "groupHeader": "Core Data",
                 "groupLinks": Array [
                   Object {
                     "displayText": "Quote Sections",
-                    "linkNumber": 3,
+                    "linkNumber": 211,
                     "linkRoute": "/framework",
                   },
                   Object {
                     "displayText": "Brands",
-                    "linkNumber": 4,
+                    "linkNumber": 212,
                     "linkRoute": "/brands",
                   },
                 ],
+                "groupPos": 21,
               },
             ]
           }

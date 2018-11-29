@@ -13,7 +13,7 @@ exports[`FormTextAreaInput tests renders an error when present 1`] = `
     cols="50"
     onChange={[Function]}
     placeholder="Please enter your loyalty number"
-    rows="4"
+    rows={4}
     value=""
   />
   <div
@@ -38,7 +38,7 @@ exports[`FormTextAreaInput tests renders the form text input correctly 1`] = `
     cols="50"
     onChange={[Function]}
     placeholder="Please enter your loyalty number"
-    rows="4"
+    rows={4}
     value=""
   />
 </div>

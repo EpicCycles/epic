@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it displays synonyms 1`] = `
+<table>
+  <tbody>
+    <tr
+      className=""
+      key="synonym_1"
+      title=""
+    >
+      <td>
+        <FormTextInput
+          fieldName="synonymValue_1"
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          value="synonym 1"
+        />
+      </td>
+    </tr>
+    <tr
+      className=""
+      key="synonym_dummy2"
+      title=""
+    >
+      <td>
+        <FormTextInput
+          fieldName="synonymValue_dummy2"
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          value="synonym 2"
+        />
+      </td>
+    </tr>
+    <tr
+      key="newSynonym45"
+    >
+      <td>
+        <FormTextInput
+          fieldName="synonymValue_new"
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          value="new one"
+        />
+      </td>
+      <td>
+        <Icon
+          as="i"
+          name="add"
+          onClick={[Function]}
+          title="confirm new Synonym"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

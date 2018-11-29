@@ -1,6 +1,6 @@
 import React from "react";
 import BikeUploadFile from "./BikeUploadFile";
-import BikeUploadPartTypes from "./BikeUploadPartTypes";
+import BikeUploadMapping from "./BikeUploadMapping";
 import BikeUploadParts from "./BikeUploadParts";
 import BikeReview from "./BikeReview";
 
@@ -16,8 +16,8 @@ class BikeUpload extends React.Component {
 
 
     render() {
-        const { brands } = this.props;
-        const { brand, frameName } = this.state;
+        const { brands, sections } = this.props;
+        const { brand, frameName, uploadedData } = this.state;
         switch (this.state.step) {
             case 1:
                 return <BikeUploadFile
@@ -25,9 +25,16 @@ class BikeUpload extends React.Component {
                     frameName={frameName}
                     brands={brands}
                     addDataAndProceed={this.addDataAndProceed}
-                />
+                />;
             case 2:
-                return <BikeUploadPartTypes/>
+                return <BikeUploadMapping
+                    brand={brand}
+                    sections={sections}
+                    frameName={frameName}
+                    brands={brands}
+                    uploadedData={uploadedData}
+                    addDataAndProceed={this.addDataAndProceed}
+                />;
             case 3:
                 return <BikeUploadParts/>
             case 4:

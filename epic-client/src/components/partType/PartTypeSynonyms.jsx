@@ -12,8 +12,8 @@ class PartTypeSynonyms extends React.Component {
         const synonymToUpdateIndex = findIndexOfObjectWithKey(synonymsWithUpdates, synonymKey);
 
         if (synonymToUpdateIndex > -1) {
+            synonymsWithUpdates[synonymToUpdateIndex].shortName = input;
             if (input) {
-                synonymsWithUpdates[synonymToUpdateIndex].shortName = input;
                 synonymsWithUpdates[synonymToUpdateIndex].error = false;
                 synonymsWithUpdates[synonymToUpdateIndex].error_detail = "";
             } else {
