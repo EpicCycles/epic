@@ -1,7 +1,6 @@
 import React, {Fragment} from "react";
-import BrandSelect from "../brand/BrandSelect";
-import FormTextInput from "../../common/FormTextInput";
 import {Button} from "semantic-ui-react";
+import BikeUploadFrame from "./BikeUploadFrame";
 
 class BikeUploadParts extends React.Component {
     state = {};
@@ -25,11 +24,19 @@ class BikeUploadParts extends React.Component {
     };
 
     render() {
-        const { framework } = this.props;
+        const { brands } = this.props;
         const { brand, frameName } = this.state;
         // const uploadDisabled = !(brand && frameName);
         return <Fragment key="bikeUploadPartTypes">
-            <h2>Bike Upload - Assign Part Types</h2>
+            <h2>Bike Upload - Find Parts</h2>
+             <h2>Bike Upload</h2>
+            <BikeUploadFrame
+                brands={brands}
+                onChange={this.onChangeField}
+                brandSelected={brand}
+                frameName={frameName}
+                isEmptyAllowed={true}
+            />
             <Button
                 key="bikeFileUploadCont"
                 onClick={this.goToNextStep}

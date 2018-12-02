@@ -2,7 +2,7 @@ import {CLEAR_ALL_STATE} from "../actions/application";
 import {
     BRANDS_AND_SUPPLIERS_ERROR,
     BRANDS_AND_SUPPLIERS_OK,
-    BRANDS_AND_SUPPLIERS_REQUESTED,
+    BRANDS_AND_SUPPLIERS_REQUESTED, BRANDS_ERROR, BRANDS_OK, BRANDS_REQUESTED,
     BRANDS_SAVE_ERROR,
     BRANDS_SAVE_OK,
     BRANDS_SAVE_REQUESTED,
@@ -27,12 +27,18 @@ const core = (state = initialState, action) => {
                 ...state,
                 isLoading: true,
             };
-       case BRANDS_AND_SUPPLIERS_REQUESTED:
+        case BRANDS_AND_SUPPLIERS_REQUESTED:
             return {
                 ...state,
                 isLoading: true,
                 brands: [],
                 suppliers: [],
+            };
+        case BRANDS_REQUESTED:
+            return {
+                ...state,
+                isLoading: true,
+                brands: [],
             };
         case BRANDS_SAVE_REQUESTED:
             return {
@@ -42,6 +48,7 @@ const core = (state = initialState, action) => {
             };
 
         case BRANDS_AND_SUPPLIERS_ERROR:
+        case BRANDS_ERROR:
         case BRANDS_SAVE_ERROR:
         case SUPPLIER_SAVE_ERROR:
         case SUPPLIER_DELETE_ERROR:
@@ -63,6 +70,12 @@ const core = (state = initialState, action) => {
                 ...state,
                 brands: action.payload.brands,
                 suppliers: action.payload.suppliers,
+                isLoading: false,
+            };
+        case BRANDS_OK:
+            return {
+                ...state,
+                brands: action.payload.brands,
                 isLoading: false,
             };
         case SUPPLIER_SAVE_OK:

@@ -1,8 +1,9 @@
 import React, {Fragment} from "react";
 import BikeUploadFrame from "./BikeUploadFrame";
-import {COLOURS_FIELD, fieldNameData, SELL_PRICE_FIELD, SIZES_FIELD} from "../../helpers/models";
-import {Button, Icon} from "semantic-ui-react";
-import {NEW_ELEMENT_ID} from "../../helpers/constants";
+import {bikeFields} from "../../helpers/models";
+import {Button} from "semantic-ui-react";
+import {BikeUploadFieldMapping} from "./BikeUploadFieldMapping";
+import {BikeUploadPartMapping} from "./BikeUploadPartMapping";
 
 class BikeUploadMapping extends React.Component {
     state = {};
@@ -13,24 +14,28 @@ class BikeUploadMapping extends React.Component {
             const rowField = row[0];
             const rowFieldLower = rowField.toLowerCase();
             const rowData = { rowIndex, rowField };
-            if (COLOURS_FIELD.synonyms.includes(rowFieldLower)) {
-                rowData.bikeAttribute = COLOURS_FIELD.fieldName;
-            } else if (SELL_PRICE_FIELD.synonyms.includes(rowFieldLower)) {
-                rowData.bikeAttribute = SELL_PRICE_FIELD.fieldName;
-            } else if (SIZES_FIELD.synonyms.includes(rowFieldLower)) {
-                rowData.bikeAttribute = SIZES_FIELD.fieldName;
-            } else {
-                sections.forEach(section => {
-                    section.partTypes.forEach(partType => {
+            const matchingField = bikeFields.some(field => {
+                if (field.synonyms.includes(rowFieldLower)) {
+                    rowData.bikeAttribute = field.fieldName;
+                    return true;
+                }
+                return false;
+            });
+            if (!matchingField) {
+                sections.some(section => {
+                    return section.partTypes.some(partType => {
                         if (partType.shortName.toLowerCase() === rowFieldLower) {
                             rowData.partType = partType.id;
+                            return true;
                         } else {
                             partType.synonyms.forEach(synonym => {
                                 if (synonym.shortName.toLowerCase() === rowFieldLower) {
                                     rowData.partType = partType.id;
+                                    return true;
                                 }
                             });
                         }
+                        return false;
                     })
                 })
             }
@@ -70,7 +75,8 @@ class BikeUploadMapping extends React.Component {
         event.preventDefault();
         const rowIndex = event.dataTransfer.getData("text");
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
-            if (rowMap.rowIndex === rowIndex) {
+            // eslint-disable-next-line
+            if (rowMap.rowIndex == rowIndex) {
                 return {
                     rowIndex: rowMap.rowIndex,
                     rowField: rowMap.rowField,
@@ -86,7 +92,8 @@ class BikeUploadMapping extends React.Component {
         event.preventDefault();
         const rowIndex = event.dataTransfer.getData("text");
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
-            if (rowMap.rowIndex === rowIndex) {
+            // eslint-disable-next-line
+            if (rowMap.rowIndex == rowIndex) {
                 return {
                     rowIndex: rowMap.rowIndex,
                     rowField: rowMap.rowField,
@@ -124,51 +131,64 @@ class BikeUploadMapping extends React.Component {
                 isEmptyAllowed={false}
             />
             <section key="mappingData" className="row" id="mappingData">
-                <div key="possibles" className="grid">
+                {/*section 1 Bike mapping*/}
+                <div key="bikeFields" className="grid">
                     <div className="grid-row">
                         <div className="grid-item--borderless">
-                            <h3>Bike fields</h3>
+                            <h3>Bike field</h3>
+                        </div>
+                        <div className="grid-item--borderless">
+                            <h3>Upload field</h3>
                         </div>
                     </div>
-                    <div className="grid-row">
-                        <div className="grid-item--borderless field-label align_right">
-                            {COLOURS_FIELD.header}
-                        </div>
-                        <div
-                            className="grid-item--borderless field-label align_right"
-                            onDragOver={event => this.allowDrop(event)}
-                            onDrop={event => this.assignToBikeAttribute(event, COLOURS_FIELD.fieldName)}
-                        >
-                            {rowMappings.filter(rowMapping => (rowMapping.bikeAttribute === COLOURS_FIELD.fieldName))
-                                .map((matched, matchIndex) =>
-                                    <div
-                                        key={`match${matched.bikeAttribute}${matchIndex}`}
-                                        className={(matchIndex > 1) ? "rounded-auto red" : "rounded-auto "}
-                                    >
-                                        {matched.rowField}
-                                        <Icon
-                                            key={`matchDelete$${matched.bikeAttribute}${matchIndex}`}
-                                            name="delete"
-                                            onClick={() => this.undoMapping(matched.rowIndex)}
-                                        />
-                                    </div>
-                                )
-                            }
-                        </div>
-                    </div>
+                    <Fragment>
+                        {bikeFields.map((field, index) => {
+                            return <BikeUploadFieldMapping
+                                key={`bikeFields${index}`}
+                                field={field}
+                                index={index}
+                                allowDrop={this.allowDrop}
+                                assignToBikeAttribute={this.assignToBikeAttribute}
+                                rowMappings={rowMappings}
+                                undoMapping={this.undoMapping}
+                            />
+                        })
+                        }
+                    </Fragment>
                 </div>
-                <div key="unresolved" className="grid">
+                  {/*section 2 part type mapping*/}
+                  <div key="partTypes" className="grid">
                     <div className="grid-row">
-                        {unResolvedRowMappings.map((mapping, index)=>
-                            <div  key={`mapping${index}`}
-                            className="rounded"
-                            draggable={true}
-                            onDragStart={event => this.pickUpField(event, mapping.rowIndex)}
-                            >
-                                {mapping.rowField}
-                            </div>
-                        )}
-                    </div>
+                        <div className="grid-item--borderless">
+                            <h3>Bike field</h3>
+                        </div>
+                        <div className="grid-item--borderless">
+                            <h3>Upload field</h3>
+                        </div>
+                    </div>   <Fragment>
+                        {sections.map((section) => {
+                            return section.partTypes.map((partType) => <BikeUploadPartMapping
+                                key={`partList${partType.id}`}
+                                partType={partType}
+                                allowDrop={this.allowDrop}
+                                assignToPartType={this.assignToPartType}
+                                rowMappings={rowMappings}
+                            />)
+                        })
+                        }
+                    </Fragment>
+                </div>
+                <div key="unresolved">
+                    <h3>Unmatched fields</h3>
+                    {unResolvedRowMappings.map((mapping, index) =>
+                        <div key={`mapping${index}`}
+                             className="rounded"
+                             draggable={true}
+                             onDragStart={event => this.pickUpField(event, mapping.rowIndex)}
+                        >
+                            {mapping.rowField}
+                        </div>
+                    )}
                 </div>
             </section>
             <div><Button

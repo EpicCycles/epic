@@ -8,6 +8,32 @@ class BikeUpload extends React.Component {
     state = {
         step: 1
     };
+
+    componentDidMount() {
+            this.getDataForUpload();
+    };
+
+    componentDidUpdate() {
+        if (! this.props.isLoading) {
+            this.getDataForUpload();
+        }
+    };
+
+    getDataForUpload = () => {
+        let brandsRequired = true;
+        let frameworkRequired = true;
+        if (this.props.brands && this.props.brands.length > 0) {
+            brandsRequired = false;
+        }
+        if (this.props.sections && this.props.sections.length > 0) {
+            frameworkRequired = false;
+        }
+        if (brandsRequired) {
+            this.props.getBrands();
+        } else if (frameworkRequired) {
+            this.props.getFramework();
+        }
+    };
     addDataAndProceed = (dataForState) => {
         let nextStep = this.state.step + 1;
         let newState = Object.assign({}, this.state, dataForState, { step: nextStep });

@@ -9,11 +9,13 @@ import {fieldNameData} from "../../helpers/models";
 class BikeUploadFile extends React.Component {
     state = {};
 
-    componentWillMount() {
-        this.setState({
-            brand: this.props.brand,
-            frameName: this.props.frameName,
-        });
+    constructor(props) {
+        super(props);
+        // Don't call this.setState() here!
+        this.state = {
+            brand: props.brand,
+            frameName: props.frameName,
+        };
     };
 
     onChangeField = (fieldName, fieldValue) => {
@@ -24,6 +26,7 @@ class BikeUploadFile extends React.Component {
     goToNextStep = () => {
         const { brand, frameName, uploadedHeaders, uploadedData } = this.state;
         this.props.addDataAndProceed({ brand, frameName, uploadedHeaders, uploadedData });
+
     };
 
     handleFileChosen = (bikeUploadFile) => {
@@ -34,8 +37,12 @@ class BikeUploadFile extends React.Component {
             let uploadedData = [];
             fileLines.forEach(fileLine => uploadedData.push(fileLine.split(',')));
             if (uploadedData.length > 0) {
-                var uploadedHeaders = uploadedData.shift();
-                this.setState({ uploadedHeaders, uploadedData });
+                const uploadedHeaders = uploadedData.shift();
+                const usableData = uploadedData.filter(uploadRow => {
+                    const joinedData = uploadRow.join('');
+                    return (joinedData.length > (uploadRow[0].length + 1));
+                });
+                this.setState({ uploadedHeaders, uploadedData: usableData });
             }
         };
         fileReader.readAsText(bikeUploadFile);
@@ -157,7 +164,7 @@ class BikeUploadFile extends React.Component {
                     key='bikeUploadGrid'
                     className="grid"
                     style={{
-                        height: (window.innerHeight - 400) + "px",
+                        height: (window.innerHeight - 100) + "px",
                         width: (window.innerWidth - 50) + "px",
                         overflow: "scroll"
                     }}

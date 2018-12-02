@@ -4,9 +4,12 @@ import brand from "./apis/brand";
 import supplier from "./apis/supplier";
 import {
     BRANDS_AND_SUPPLIERS_REQUESTED,
+    BRANDS_REQUESTED,
     BRANDS_SAVE_REQUESTED,
     getBrandsAndSuppliersFailure,
+    getBrandsFailure,
     getBrandsAndSuppliersSuccess,
+    getBrandsSuccess,
     saveBrandsFailure,
     saveBrandsSuccess,
     saveSupplierSuccess,
@@ -29,6 +32,21 @@ export function* getBrandsAndSuppliers(action) {
     } catch (error) {
         // yield put(getBrandsAndSuppliersSuccess(sampleBrands, sampleSuppliers));
         yield put(getBrandsAndSuppliersFailure("Get Brands and Suppliers Failed"));
+    }
+}
+export function* getBrands(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            const brandsResponse = yield call(brand.getBrands, completePayload);
+            yield put(getBrandsSuccess(brandsResponse.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        // yield put(getBrandsAndSuppliersSuccess(sampleBrands, sampleSuppliers));
+        yield put(getBrandsFailure("Get Brands Failed"));
     }
 }
 
@@ -87,6 +105,9 @@ export function* deleteSupplier(action) {
 
 export function* watchForGetBrandsAndSuppliers() {
     yield takeLatest(BRANDS_AND_SUPPLIERS_REQUESTED, getBrandsAndSuppliers);
+}
+export function* watchForGetBrands() {
+    yield takeLatest(BRANDS_REQUESTED, getBrands);
 }
 
 export function* watchForSaveBrands() {

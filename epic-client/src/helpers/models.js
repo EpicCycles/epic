@@ -7,8 +7,8 @@ export const SELL_PRICE = "sell_price";
 export const SIZES = "sizes";
 
 export const BRAND_FIELD = { fieldName: BRAND, header: "Brand", synonyms: [BRAND, 'manufacturer'] };
-export const FRAME_NAME_FIELD = { fieldName: FRAME_NAME, header: "Frame Name" };
-export const MODEL_NAME_FIELD = { fieldName: MODEL_NAME, header: "Model Name" };
+export const FRAME_NAME_FIELD = { fieldName: FRAME_NAME, header: "Frame Name", synonyms: [] };
+export const MODEL_NAME_FIELD = { fieldName: MODEL_NAME, header: "Model Name", synonyms: [] };
 export const COLOURS_FIELD = {
     fieldName: COLOURS,
     header: "Colours",
