@@ -4,6 +4,7 @@ import {generateRandomCode, removeObjectWithIndex} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import SupplierBlob from "../supplier/SupplierBlob";
+import {BRAND_NAME_MISSING} from "../../helpers/error";
 
 class BrandEdit extends React.Component {
     handleBrandValueChange = (fieldName, input) => {
@@ -11,7 +12,7 @@ class BrandEdit extends React.Component {
         if (fieldName.startsWith('brand_name')) updatedBrand.brand_name = input;
         if (!updatedBrand.brand_name) {
             updatedBrand.error = true;
-            updatedBrand.error_detail = "A name is required for the brand";
+            updatedBrand.error_detail = BRAND_NAME_MISSING;
         } else {
             updatedBrand.error = false;
             updatedBrand.error_detail = "";

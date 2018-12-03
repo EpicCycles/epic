@@ -22,7 +22,7 @@ export const BikeUploadFieldMapping = (props) => {
             key={`matchFieldDiv${props.index}`}
             className="grid-item--borderless field-label "
         >
-            {props.rowMappings.filter(rowMapping => (rowMapping.bikeAttribute === props.field.fieldName))
+            {props.rowMappings
                 .map((matched, matchIndex) => <BikeUploadMatchedData
                     key={`matchArea${props.index}${matchIndex}`}
                     matched={matched}

@@ -12,7 +12,7 @@ class BikeUploadMapping extends React.Component {
         const { brand, frameName, sections, uploadedData } = this.props;
         const rowMappings = uploadedData.map((row, rowIndex) => {
             const rowField = row[0];
-            const rowFieldLower = rowField.toLowerCase();
+            const rowFieldLower = rowField.trim().toLowerCase();
             const rowData = { rowIndex, rowField };
             const matchingField = bikeFields.some(field => {
                 if (field.synonyms.includes(rowFieldLower)) {
@@ -149,7 +149,7 @@ class BikeUploadMapping extends React.Component {
                                 index={index}
                                 allowDrop={this.allowDrop}
                                 assignToBikeAttribute={this.assignToBikeAttribute}
-                                rowMappings={rowMappings}
+                                rowMappings={rowMappings.filter(rowMapping => (rowMapping.bikeAttribute === field.fieldName))}
                                 undoMapping={this.undoMapping}
                             />
                         })
@@ -167,12 +167,14 @@ class BikeUploadMapping extends React.Component {
                         </div>
                     </div>   <Fragment>
                         {sections.map((section) => {
-                            return section.partTypes.map((partType) => <BikeUploadPartMapping
+                            return section.partTypes.map((partType, sectionIndex) => <BikeUploadPartMapping
                                 key={`partList${partType.id}`}
                                 partType={partType}
                                 allowDrop={this.allowDrop}
                                 assignToPartType={this.assignToPartType}
-                                rowMappings={rowMappings}
+                                section={section}
+                                sectionIndex={sectionIndex}
+                                rowMappings={rowMappings.filter(rowMapping => (rowMapping.partType === partType.id))}
                             />)
                         })
                         }

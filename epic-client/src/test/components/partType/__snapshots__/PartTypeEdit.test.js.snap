@@ -10,51 +10,20 @@ exports[`displays the PartTypeEdit component for a new part type with no attribu
     />
   </td>
   <td>
-    <FormTextInput
-      fieldName="shortName_new"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-      value="part one"
+    <PartTypeData
+      componentKey="new"
+      handlePartTypeValueChange={[Function]}
+      partType={
+        Object {
+          "_detail": true,
+          "can_be_omitted": true,
+          "can_be_substituted": false,
+          "customer_facing": true,
+          "dummyKey": "new",
+          "shortName": "part one",
+        }
+      }
     />
-    <label
-      htmlFor="can_be_substituted_new"
-    >
-      Can Be Substituted?
-    </label>
-    <input
-      checked={false}
-      id="can_be_substituted_new"
-      name="can_be_substituted_new"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    <label
-      htmlFor="can_be_omitted_new"
-    >
-      Can Be Omitted?
-    </label>
-    <input
-      checked={true}
-      id="can_be_omitted_new"
-      name="can_be_omitted_new"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    <label
-      htmlFor="customer_facing_new"
-    >
-      Customer Facing?
-    </label>
-    <input
-      checked={true}
-      id="customer_facing_new"
-      name="customer_facing_new"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    Attributes: 0
-    Synonyms: 0
   </td>
 </React.Fragment>
 `;
@@ -69,51 +38,20 @@ exports[`displays the PartTypeEdit component for an existing part type with attr
     />
   </td>
   <td>
-    <FormTextInput
-      fieldName="shortName_21"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-      value="part one"
+    <PartTypeData
+      componentKey="21"
+      handlePartTypeValueChange={[Function]}
+      partType={
+        Object {
+          "_detail": false,
+          "can_be_omitted": true,
+          "can_be_substituted": false,
+          "customer_facing": true,
+          "id": 21,
+          "shortName": "part one",
+        }
+      }
     />
-    <label
-      htmlFor="can_be_substituted_21"
-    >
-      Can Be Substituted?
-    </label>
-    <input
-      checked={false}
-      id="can_be_substituted_21"
-      name="can_be_substituted_21"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    <label
-      htmlFor="can_be_omitted_21"
-    >
-      Can Be Omitted?
-    </label>
-    <input
-      checked={true}
-      id="can_be_omitted_21"
-      name="can_be_omitted_21"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    <label
-      htmlFor="customer_facing_21"
-    >
-      Customer Facing?
-    </label>
-    <input
-      checked={true}
-      id="customer_facing_21"
-      name="customer_facing_21"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    Attributes: 0
-    Synonyms: 0
   </td>
 </React.Fragment>
 `;
@@ -128,68 +66,24 @@ exports[`displays the PartTypeEdit component for an existing part type with attr
     />
   </td>
   <td>
-    <FormTextInput
-      fieldName="shortName_dummy2"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-      value="part one"
-    />
-    <label
-      htmlFor="can_be_substituted_dummy2"
-    >
-      Can Be Substituted?
-    </label>
-    <input
-      checked={false}
-      id="can_be_substituted_dummy2"
-      name="can_be_substituted_dummy2"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    <label
-      htmlFor="can_be_omitted_dummy2"
-    >
-      Can Be Omitted?
-    </label>
-    <input
-      checked={true}
-      id="can_be_omitted_dummy2"
-      name="can_be_omitted_dummy2"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    <label
-      htmlFor="customer_facing_dummy2"
-    >
-      Customer Facing?
-    </label>
-    <input
-      checked={true}
-      id="customer_facing_dummy2"
-      name="customer_facing_dummy2"
-      onChange={[Function]}
-      type="checkbox"
-    />
-    Attributes: 2
-    Synonyms: 0
-    <React.Fragment>
-      <PartTypeAttributes
-        attributes={
-          Array [
+    <PartTypeData
+      componentKey="dummy2"
+      handlePartTypeValueChange={[Function]}
+      partType={
+        Object {
+          "_detail": true,
+          "attributes": Array [
             "attribute1",
             "attribute2",
-          ]
+          ],
+          "can_be_omitted": true,
+          "can_be_substituted": false,
+          "customer_facing": true,
+          "dummyKey": "dummy2",
+          "shortName": "part one",
         }
-        handlePartTypeChange={[Function]}
-        partTypeKey="dummy2"
-      />
-      <PartTypeSynonyms
-        handlePartTypeChange={[Function]}
-        partTypeKey="dummy2"
-        synonyms={Array []}
-      />
-    </React.Fragment>
+      }
+    />
   </td>
 </React.Fragment>
 `;

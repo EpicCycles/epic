@@ -42,7 +42,7 @@ class BikeUpload extends React.Component {
 
 
     render() {
-        const { brands, sections } = this.props;
+        const { brands, sections, saveBrands } = this.props;
         const { brand, frameName, uploadedData } = this.state;
         switch (this.state.step) {
             case 1:
@@ -50,10 +50,12 @@ class BikeUpload extends React.Component {
                     brand={brand}
                     frameName={frameName}
                     brands={brands}
+                    saveBrands={saveBrands}
                     addDataAndProceed={this.addDataAndProceed}
                 />;
             case 2:
                 return <BikeUploadMapping
+                    saveBrands={saveBrands}
                     brand={brand}
                     sections={sections}
                     frameName={frameName}

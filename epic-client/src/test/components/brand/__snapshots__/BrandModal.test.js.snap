@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BrandModal displays correctly for a brand 1`] = `
+<Modal
+  ariaHideApp={true}
+  bodyOpenClassName="ReactModal__Body--open"
+  className="Modal BrandModal"
+  closeTimeoutMS={0}
+  contentLabel="Edit Brand"
+  isOpen={true}
+  parentSelector={[Function]}
+  portalClassName="ReactModalPortal"
+  role="dialog"
+  shouldCloseOnEsc={true}
+  shouldCloseOnOverlayClick={true}
+  shouldFocusAfterRender={true}
+  shouldReturnFocusAfterClose={true}
+>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      circular={true}
+      link={true}
+      name="remove"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      Edit
+       Brand
+    </h2>
+    <FormTextInput
+      fieldName="brand_name_8"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+      value="e brand 8"
+    />
+    <FormTextInput
+      fieldName="link_8"
+      key="link_8"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="link"
+      value="https://bianchi.co.uk"
+    />
+    <SupplierSelect
+      fieldName="supplier_8"
+      isEmptyAllowed={true}
+      isMultiple={true}
+      multipleSize={10}
+      onChange={[Function]}
+      suppliers={
+        Array [
+          Object {
+            "id": 1,
+            "supplier_name": "supplier 1",
+          },
+          Object {
+            "id": 2,
+            "supplier_name": "supplier 2",
+          },
+          Object {
+            "id": 3,
+            "supplier_name": "supplier 3",
+          },
+          Object {
+            "id": 4,
+            "supplier_name": "supplier 4",
+          },
+        ]
+      }
+      value={
+        Array [
+          23,
+          1,
+          2,
+          45,
+          16,
+        ]
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  />
+</Modal>
+`;
+
+exports[`BrandModal displays correctly for a new brand 1`] = `
+<Modal
+  ariaHideApp={true}
+  bodyOpenClassName="ReactModal__Body--open"
+  className="Modal BrandModal"
+  closeTimeoutMS={0}
+  contentLabel="New Brand"
+  isOpen={true}
+  parentSelector={[Function]}
+  portalClassName="ReactModalPortal"
+  role="dialog"
+  shouldCloseOnEsc={true}
+  shouldCloseOnOverlayClick={true}
+  shouldFocusAfterRender={true}
+  shouldReturnFocusAfterClose={true}
+>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      circular={true}
+      link={true}
+      name="remove"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      New
+       Brand
+    </h2>
+    <FormTextInput
+      fieldName="brand_name_undefined"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="add new"
+    />
+    <FormTextInput
+      fieldName="link_undefined"
+      key="link_undefined"
+      onChange={[Function]}
+      onClick={[Function]}
+      placeholder="link"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  />
+</Modal>
+`;

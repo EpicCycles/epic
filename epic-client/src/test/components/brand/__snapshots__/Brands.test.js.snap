@@ -124,27 +124,12 @@ exports[`component displays correctly with brands 1`] = `
         >
           Add Supplier
         </button>
-        <Modal
-          ariaHideApp={true}
-          bodyOpenClassName="ReactModal__Body--open"
-          className="Modal SupplierModal"
-          closeTimeoutMS={0}
-          contentLabel="Edit Suppler"
-          isOpen={false}
-          parentSelector={[Function]}
-          portalClassName="ReactModalPortal"
-          role="dialog"
-          shouldCloseOnEsc={true}
-          shouldCloseOnOverlayClick={true}
-          shouldFocusAfterRender={true}
-          shouldReturnFocusAfterClose={true}
-        >
-          <SupplierEdit
-            closeModal={[Function]}
-            componentKey="new"
-            supplier={Object {}}
-          />
-        </Modal>
+        <SupplierModal
+          closeSupplierModal={[Function]}
+          componentKey="new"
+          supplier={Object {}}
+          supplierModalOpen={false}
+        />
       </div>
     </div>
   </section>
@@ -191,27 +176,12 @@ exports[`component displays correctly with no brands and fetch called 1`] = `
         >
           Add Supplier
         </button>
-        <Modal
-          ariaHideApp={true}
-          bodyOpenClassName="ReactModal__Body--open"
-          className="Modal SupplierModal"
-          closeTimeoutMS={0}
-          contentLabel="Edit Suppler"
-          isOpen={false}
-          parentSelector={[Function]}
-          portalClassName="ReactModalPortal"
-          role="dialog"
-          shouldCloseOnEsc={true}
-          shouldCloseOnOverlayClick={true}
-          shouldFocusAfterRender={true}
-          shouldReturnFocusAfterClose={true}
-        >
-          <SupplierEdit
-            closeModal={[Function]}
-            componentKey="new"
-            supplier={Object {}}
-          />
-        </Modal>
+        <SupplierModal
+          closeSupplierModal={[Function]}
+          componentKey="new"
+          supplier={Object {}}
+          supplierModalOpen={false}
+        />
       </div>
     </div>
   </section>

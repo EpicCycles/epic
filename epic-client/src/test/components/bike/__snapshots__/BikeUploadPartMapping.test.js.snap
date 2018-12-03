@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders correctly for first row in section no mapped details 1`] = `
+<div
+  className="grid-row"
+>
+  <div
+    className="grid-item--borderless field-label red"
+  >
+    section 1
+  </div>
+  <div
+    className="grid-item--borderless field-label align_right"
+    key="partTypeundefined"
+    onDragOver={[Function]}
+    onDrop={[Function]}
+  >
+    my Part Type
+  </div>
+  <div
+    className="grid-item--borderless field-label "
+  />
+</div>
+`;
+
+exports[`it renders correctly for row in section with mapped details 1`] = `
+<div
+  className="grid-row"
+>
+  <div
+    className="grid-item--borderless field-label red"
+  >
+     
+  </div>
+  <div
+    className="grid-item--borderless field-label align_right"
+    key="partTypeundefined"
+    onDragOver={[Function]}
+    onDrop={[Function]}
+  >
+    my Part Type
+  </div>
+  <div
+    className="grid-item--borderless field-label "
+  >
+    <BikeUploadMatchedData
+      key="partTypeundefined0"
+      matchIndex={0}
+      matched={
+        Object {
+          "fieldName": "blah",
+        }
+      }
+    />
+  </div>
+</div>
+`;

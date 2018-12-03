@@ -74,7 +74,7 @@ class BikeUploadFile extends React.Component {
     };
     clearUploadData = () => {
         this.setState({ uploadedHeaders: [], uploadedData: [] });
-    }
+    };
 
     render() {
         const { brands } = this.props;

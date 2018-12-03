@@ -1,6 +1,7 @@
 import React from 'react';
 import BrandEdit from "../../../components/brand/BrandEdit";
 import {NEW_ELEMENT_ID} from "../../../helpers/constants";
+import {BRAND_NAME_MISSING} from "../../../helpers/error";
 // props are: brand, componentKey, pickUpBrand
 test('BrandEdit shows new brand without supplier correctly', () => {
     const brand = {brand_name: "e brand 8", link: "https://bianchi.co.uk", id: 8};
@@ -28,7 +29,7 @@ test('BrandEdit should pass a brand change and errors to an existing brand to th
     expect(handleBrandChange.mock.calls[0][1].id).toBe(brand.id);
     expect(handleBrandChange.mock.calls[0][1].brand_name).toBe("");
     expect(handleBrandChange.mock.calls[0][1].error).toBe(true);
-    expect(handleBrandChange.mock.calls[0][1].error_detail).toBe("A name is required for the brand");
+    expect(handleBrandChange.mock.calls[0][1].error_detail).toBe(BRAND_NAME_MISSING);
 });
 test('BrandEdit should set up a new brand as requested', () => {
     const brand = {brand_name: "e brand 8", link: "https://bianchi.co.uk", supplier: '34'};

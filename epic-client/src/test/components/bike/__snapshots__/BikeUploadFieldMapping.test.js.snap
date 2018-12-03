@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders correctly when no rows match 1`] = `
+<div
+  className="grid-row"
+>
+  <div
+    className="grid-item--borderless field-label align_right"
+    key="bikeFieldundefined"
+    onDragOver={[Function]}
+    onDrop={[Function]}
+  >
+    Colours
+  </div>
+  <div
+    className="grid-item--borderless field-label "
+    key="matchFieldDivundefined"
+  />
+</div>
+`;
+
+exports[`it renders correctly when rows match 1`] = `
+<div
+  className="grid-row"
+>
+  <div
+    className="grid-item--borderless field-label align_right"
+    key="bikeFieldundefined"
+    onDragOver={[Function]}
+    onDrop={[Function]}
+  >
+    Colours
+  </div>
+  <div
+    className="grid-item--borderless field-label "
+    key="matchFieldDivundefined"
+  >
+    <BikeUploadMatchedData
+      key="matchAreaundefined0"
+      matchIndex={0}
+      matched={
+        Object {
+          "fieldName": "blah",
+        }
+      }
+    />
+  </div>
+</div>
+`;

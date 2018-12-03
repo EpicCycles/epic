@@ -1,0 +1,1 @@
+export const BRAND_NAME_MISSING = "A name is required for the brand";

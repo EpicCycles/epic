@@ -1,13 +1,12 @@
 import React, {Fragment} from "react";
-import ReactModal from 'react-modal';
 
 import {addToUniqueArray, findIndexOfObjectWithKey, findObjectWithKey} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
 import {Prompt} from "react-router";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import BrandEdit from "./BrandEdit";
-import SupplierEdit from "../supplier/SupplierEdit";
 import SupplierBlob from "../supplier/SupplierBlob";
+import SupplierModal from "../supplier/SupplierModal";
 
 class Brands extends React.Component {
     constructor() {
@@ -141,19 +140,14 @@ class Brands extends React.Component {
                 <div key={`suppliers`}>
                     <div>
                         <button onClick={this.handleOpenModal}>Add Supplier</button>
-                        <ReactModal
-                            isOpen={showModal}
-                            contentLabel="Edit Suppler"
-                            className="Modal SupplierModal"
-                        >
-                            <SupplierEdit
-                                supplier={supplierToEdit ? supplierToEdit : {}}
-                                componentKey={supplierId ? supplierId : NEW_ELEMENT_ID}
-                                saveSupplier={saveSupplier}
-                                deleteSupplier={deleteSupplier}
-                                closeModal={this.handleCloseModal}
-                            />
-                        </ReactModal>
+                        <SupplierModal
+                            supplierModalOpen={showModal}
+                            supplier={supplierToEdit ? supplierToEdit : {}}
+                            componentKey={supplierId ? supplierId : NEW_ELEMENT_ID}
+                            saveSupplier={saveSupplier}
+                            deleteSupplier={deleteSupplier}
+                            closeSupplierModal={this.handleCloseModal}
+                        />
                     </div>
                     {suppliersToUse && suppliersToUse.map(supplier => {
                         const componentKey = supplier.id ? supplier.id : supplier.dummyKey;
