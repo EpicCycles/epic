@@ -33,11 +33,11 @@ class SelectInput extends Component {
     };
 
     findSelectedOptions = (options, value, isMultiple) => {
-        if (value && value.length > 0) {
+        if (Array.isArray(value) && value.length > 0) {
             if (isMultiple) {
-                return value
+                return JSON.stringify(value)
             } else {
-                return value[0];
+                return value[0].toString();
             }
         }
         let defaultValue = [];
@@ -51,8 +51,23 @@ class SelectInput extends Component {
         }
     };
 
+    handleChange = (event) => {
+        if (this.props.isMultiple) {
+            let value = [];
+            const options = event.target.options;
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].selected) {
+                    value.push(options[i].value);
+                }
+            }
+            this.props.onChange(event.target.name, value)
+        } else {
+            this.props.onChange(event.target.name, event.target.value);
+        }
+
+    };
     render() {
-        const { className, fieldName, error, title, label, onChange, isMultiple, multipleSize, value, isEmptyAllowed, options } = this.props;
+        const { className, fieldName, error, title, label, isMultiple, multipleSize, value, isEmptyAllowed, options } = this.props;
         const displayOptions = this.buildOptions(options, isEmptyAllowed, value);
         const selectedValue = this.findSelectedOptions(options, value, isMultiple);
 
@@ -70,7 +85,7 @@ class SelectInput extends Component {
                 title={title}
                 multiple={isMultiple}
                 size={multipleSize}
-                onChange={event => onChange(event.target.name, event.target.value)}
+                onChange={event => this.handleChange(event)}
                 value={selectedValue}
             >
                 {displayOptions.map((option) => {

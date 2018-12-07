@@ -6,7 +6,7 @@ import PartTypeSynonyms from "./PartTypeSynonyms";
 class PartTypeData extends React.Component {
 
     handleInputClear = () => {
-        if (window.confirm("Please confirm that you want to delete this Part Type")) {
+        if (window.confirm("Please confirm that you want to delete the Part Type and all data")) {
             const updatedPartType = Object.assign({}, this.props.partType);
             updatedPartType.delete = true;
             this.props.updatePartType(this.props.componentKey, updatedPartType);
@@ -34,24 +34,27 @@ class PartTypeData extends React.Component {
                        name={can_be_substitutedId}
                        id={can_be_substitutedId}
                        onChange={event => handlePartTypeValueChange(event.target.name, !partType.can_be_substituted)}
-                       checked={partType.can_be_substituted}
+                       checked={(partType.can_be_substituted === true)}
                 />
                 <label htmlFor={can_be_omittedId}>Can Be Omitted?</label>
                 <input type="checkbox"
                        name={can_be_omittedId}
                        id={can_be_omittedId}
                        onChange={event => handlePartTypeValueChange(event.target.name, !partType.can_be_omitted)}
-                       checked={partType.can_be_omitted}
+                       checked={(partType.can_be_omitted === true)}
                 />
                 <label htmlFor={customer_facingId}>Customer Facing?</label>
                 <input type="checkbox"
                        name={customer_facingId}
                        id={customer_facingId}
                        onChange={event => handlePartTypeValueChange(event.target.name, !partType.customer_facing)}
-                       checked={partType.customer_facing}
+                       checked={(partType.customer_facing === true)}
                 />
+            {(!partType._detail) &&
+            <div>
                 {attributes && `Attributes: ${attributes.length}`}
                 {synonyms && `Synonyms: ${synonyms.length}`}
+            </div>}
                 {(partType._detail) &&
                     <Fragment>
                         <PartTypeAttributes
@@ -61,6 +64,7 @@ class PartTypeData extends React.Component {
                         />
                         <PartTypeSynonyms
                             partTypeKey={componentKey}
+                            label="synonyms"
                             synonyms={synonyms}
                             handlePartTypeChange={handlePartTypeValueChange}
                         />

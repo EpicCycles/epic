@@ -231,31 +231,26 @@ exports[`it sets a value to selected if it is in the array of selected values - 
     multiple={true}
     name="myField"
     onChange={[Function]}
-    value={
-      Array [
-        "A",
-        "O",
-      ]
-    }
+    value="[1,3]"
   >
     <option
-      id="myField_H"
-      key="myField_H"
-      value="H"
+      id="myField_1"
+      key="myField_1"
+      value={1}
     >
       Home
     </option>
     <option
-      id="myField_A"
-      key="myField_A"
-      value="A"
+      id="myField_2"
+      key="myField_2"
+      value={2}
     >
       Away
     </option>
     <option
-      id="myField_O"
-      key="myField_O"
-      value="O"
+      id="myField_3"
+      key="myField_3"
+      value={3}
     >
       Other
     </option>
@@ -275,11 +270,7 @@ exports[`it sets a value to selected if it is in the array of selected values - 
     multiple={true}
     name="myField"
     onChange={[Function]}
-    value={
-      Array [
-        "A",
-      ]
-    }
+    value="[\\"A\\"]"
   >
     <option
       id="myField_"

@@ -127,8 +127,8 @@ exports[`component displays correctly with brands 1`] = `
         <SupplierModal
           closeSupplierModal={[Function]}
           componentKey="new"
-          supplier={Object {}}
           supplierModalOpen={false}
+          supplierToEdit={Object {}}
         />
       </div>
     </div>
@@ -179,8 +179,8 @@ exports[`component displays correctly with no brands and fetch called 1`] = `
         <SupplierModal
           closeSupplierModal={[Function]}
           componentKey="new"
-          supplier={Object {}}
           supplierModalOpen={false}
+          supplierToEdit={Object {}}
         />
       </div>
     </div>

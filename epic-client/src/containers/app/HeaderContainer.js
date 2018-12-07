@@ -9,6 +9,6 @@ const mapStateToProps = ({user, application}) => {
     }
 };
 const mapDispatchToProps = {
-    removeError: removeMessage
+    removeMessage
 };
 export default connect(mapStateToProps, mapDispatchToProps) (Header)

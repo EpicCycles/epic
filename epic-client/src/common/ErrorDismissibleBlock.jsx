@@ -7,11 +7,9 @@ class ErrorDismissibleBlock extends Component {
         const messageColor = (application.messageType && (application.messageType === 'E')) ? 'red' : 'green';
 
         return <Message color={messageColor}
-                        visible
+                        content={application.message}
                         onDismiss={removeMessage}
-        >
-            {application.message}
-        </Message>
+        />
     };
 }
 

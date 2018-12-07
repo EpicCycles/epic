@@ -3,26 +3,11 @@ import {generateRandomCode} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import PartTypeData from "./PartTypeData";
+import {processPartTypeValueChanges} from "../../helpers/framework";
 
 class PartTypeEdit extends React.Component {
     handlePartTypeValueChange = (fieldName, input) => {
-        const updatedPartType = Object.assign({}, this.props.partType);
-        if (fieldName.startsWith('shortName')) updatedPartType.shortName = input;
-        if (!updatedPartType.shortName) {
-            updatedPartType.error = true;
-            updatedPartType.error_detail = "A name is required for the part Type";
-        } else {
-            updatedPartType.error = false;
-            updatedPartType.error_detail = "";
-        }
-        if (fieldName.startsWith('description')) updatedPartType.description = input;
-        if (fieldName.startsWith('can_be_substituted')) updatedPartType.can_be_substituted = input;
-        if (fieldName.startsWith('can_be_omitted')) updatedPartType.can_be_omitted = input;
-        if (fieldName.startsWith('customer_facing')) updatedPartType.customer_facing = input;
-        if (fieldName.startsWith('attributes')) updatedPartType.attributes = input;
-        if (fieldName.startsWith('synonyms')) updatedPartType.synonyms = input;
-        if (fieldName.startsWith('detail')) updatedPartType._detail = input;
-        if (this.props.componentKey === NEW_ELEMENT_ID) updatedPartType.dummyKey = NEW_ELEMENT_ID;
+        const updatedPartType = processPartTypeValueChanges(this.props.partType, this.props.componentKey,fieldName, input);
 
         this.props.updatePartType(this.props.componentKey, updatedPartType);
     };
@@ -64,6 +49,7 @@ class PartTypeEdit extends React.Component {
                     partType={partType}
                     componentKey={componentKey}
                     handlePartTypeValueChange={this.handlePartTypeValueChange}
+                    updatePartType={updatePartType}
                     />
             </td>
         </Fragment>;

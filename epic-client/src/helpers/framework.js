@@ -1,4 +1,6 @@
 import {findObjectWithKey} from "./utils";
+import {NEW_ELEMENT_ID} from "./constants";
+import {PART_TYPE_NAME_MISSING} from "./error";
 
 export const NEW_PART_TYPE = {
     attributes: [],
@@ -14,6 +16,39 @@ export const NEW_ATTRIBUTE = {
     attribute_type: 1,
 };
 
+export const processPartTypeValueChanges =  (partType, componentKey, fieldName, input) => {
+    const updatedPartType = Object.assign({}, partType);
+    if (fieldName.startsWith('shortName')) updatedPartType.shortName = input;
+    if (!updatedPartType.shortName) {
+        updatedPartType.error = true;
+        updatedPartType.error_detail = PART_TYPE_NAME_MISSING;
+    } else {
+        updatedPartType.error = false;
+        updatedPartType.error_detail = "";
+    }
+    if (fieldName.startsWith('description')) updatedPartType.description = input;
+    if (fieldName.startsWith('can_be_substituted')) updatedPartType.can_be_substituted = input;
+    if (fieldName.startsWith('can_be_omitted')) updatedPartType.can_be_omitted = input;
+    if (fieldName.startsWith('customer_facing')) updatedPartType.customer_facing = input;
+    if (fieldName.startsWith('attributes')) updatedPartType.attributes = input;
+    if (fieldName.startsWith('synonyms')) updatedPartType.synonyms = input;
+    if (fieldName.startsWith('detail')) updatedPartType._detail = input;
+    if (componentKey === NEW_ELEMENT_ID) updatedPartType.dummyKey = NEW_ELEMENT_ID;
+
+    updatedPartType.changed = true;
+    return updatedPartType;
+};
+export const doesFieldMatchPartType = (partType, fieldName) => {
+    const fieldNameLower = fieldName.toLowerCase();
+    if (partType.shortName.toLowerCase() === fieldNameLower) {
+        return true;
+    } else {
+        return partType.synonyms.some(synonym => {
+            console.log(fieldName, synonym.shortName, (synonym.shortName.toLowerCase() === fieldNameLower))
+            return (synonym.shortName.toLowerCase() === fieldNameLower);
+        });
+    }
+};
 export const attributeSummary = (attribute) => {
     let attributeDetail = [attribute.attribute_name];
     if (attribute.in_use) attributeDetail.push(" in use");

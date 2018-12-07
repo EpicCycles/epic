@@ -142,7 +142,7 @@ class Brands extends React.Component {
                         <button onClick={this.handleOpenModal}>Add Supplier</button>
                         <SupplierModal
                             supplierModalOpen={showModal}
-                            supplier={supplierToEdit ? supplierToEdit : {}}
+                            supplierToEdit={supplierToEdit ? supplierToEdit : {}}
                             componentKey={supplierId ? supplierId : NEW_ELEMENT_ID}
                             saveSupplier={saveSupplier}
                             deleteSupplier={deleteSupplier}

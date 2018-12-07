@@ -3,9 +3,7 @@
 exports[`ErrorDismissibleBlock tests renders the errorDismissableBlock correctly 1`] = `
 <Message
   color="red"
+  content="show me the error"
   onDismiss={[Function]}
-  visible={true}
->
-  show me the error
-</Message>
+/>
 `;

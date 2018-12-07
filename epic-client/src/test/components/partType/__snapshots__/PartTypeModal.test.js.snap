@@ -1,0 +1,350 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`displays correctly with a new part 1`] = `
+<Modal
+  ariaHideApp={true}
+  bodyOpenClassName="ReactModal__Body--open"
+  className="Modal PartTypeModal"
+  closeTimeoutMS={0}
+  contentLabel="New Part Type"
+  isOpen={true}
+  onAfterOpen={[Function]}
+  parentSelector={[Function]}
+  portalClassName="ReactModalPortal"
+  role="dialog"
+  shouldCloseOnEsc={true}
+  shouldCloseOnOverlayClick={true}
+  shouldFocusAfterRender={true}
+  shouldReturnFocusAfterClose={true}
+>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      circular={true}
+      link={true}
+      name="remove"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      New
+       Part Type
+    </h2>
+    <div>
+      <SelectInput
+        className=""
+        fieldName="includeInSection"
+        isEmptyAllowed={true}
+        label="Section"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "section 1",
+              "value": "1",
+            },
+            Object {
+              "name": "section 2",
+              "value": "2",
+            },
+          ]
+        }
+        title="Select Section"
+      />
+    </div>
+    <PartTypeData
+      handlePartTypeValueChange={[Function]}
+      partType={Object {}}
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  />
+</Modal>
+`;
+
+exports[`displays correctly with a partial new part 1`] = `
+<Modal
+  ariaHideApp={true}
+  bodyOpenClassName="ReactModal__Body--open"
+  className="Modal PartTypeModal"
+  closeTimeoutMS={0}
+  contentLabel="New Part Type"
+  isOpen={true}
+  onAfterOpen={[Function]}
+  parentSelector={[Function]}
+  portalClassName="ReactModalPortal"
+  role="dialog"
+  shouldCloseOnEsc={true}
+  shouldCloseOnOverlayClick={true}
+  shouldFocusAfterRender={true}
+  shouldReturnFocusAfterClose={true}
+>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      circular={true}
+      link={true}
+      name="remove"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      New
+       Part Type
+    </h2>
+    <div>
+      <SelectInput
+        className=""
+        fieldName="includeInSection"
+        isEmptyAllowed={true}
+        label="Section"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "section 1",
+              "value": "1",
+            },
+            Object {
+              "name": "section 2",
+              "value": "2",
+            },
+          ]
+        }
+        title="Select Section"
+      />
+    </div>
+    <PartTypeData
+      handlePartTypeValueChange={[Function]}
+      partType={
+        Object {
+          "_detail": true,
+          "shortName": "new one",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  />
+</Modal>
+`;
+
+exports[`error when no includeInSection 1`] = `
+<Modal
+  ariaHideApp={true}
+  bodyOpenClassName="ReactModal__Body--open"
+  className="Modal PartTypeModal"
+  closeTimeoutMS={0}
+  contentLabel="Edit Part Type"
+  isOpen={true}
+  onAfterOpen={[Function]}
+  parentSelector={[Function]}
+  portalClassName="ReactModalPortal"
+  role="dialog"
+  shouldCloseOnEsc={true}
+  shouldCloseOnOverlayClick={true}
+  shouldFocusAfterRender={true}
+  shouldReturnFocusAfterClose={true}
+>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      circular={true}
+      link={true}
+      name="remove"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      Edit
+       Part Type
+    </h2>
+    <div>
+      <SelectInput
+        className=""
+        fieldName="includeInSection"
+        isEmptyAllowed={true}
+        label="Section"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "section 1",
+              "value": "1",
+            },
+            Object {
+              "name": "section 2",
+              "value": "2",
+            },
+          ]
+        }
+        title="Select Section"
+        value="1"
+      />
+    </div>
+    <PartTypeData
+      handlePartTypeValueChange={[Function]}
+      partType={
+        Object {
+          "_detail": true,
+          "id": "1",
+          "includeInSection": 1,
+          "shortName": "has one one",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  />
+</Modal>
+`;
+
+exports[`error when no short name 1`] = `
+<Modal
+  ariaHideApp={true}
+  bodyOpenClassName="ReactModal__Body--open"
+  className="Modal PartTypeModal"
+  closeTimeoutMS={0}
+  contentLabel="Edit Part Type"
+  isOpen={true}
+  onAfterOpen={[Function]}
+  parentSelector={[Function]}
+  portalClassName="ReactModalPortal"
+  role="dialog"
+  shouldCloseOnEsc={true}
+  shouldCloseOnOverlayClick={true}
+  shouldFocusAfterRender={true}
+  shouldReturnFocusAfterClose={true}
+>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      circular={true}
+      link={true}
+      name="remove"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      Edit
+       Part Type
+    </h2>
+    <div>
+      <SelectInput
+        className=""
+        fieldName="includeInSection"
+        isEmptyAllowed={true}
+        label="Section"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "section 1",
+              "value": "1",
+            },
+            Object {
+              "name": "section 2",
+              "value": "2",
+            },
+          ]
+        }
+        title="Select Section"
+        value="1"
+      />
+    </div>
+    <PartTypeData
+      handlePartTypeValueChange={[Function]}
+      partType={
+        Object {
+          "_detail": true,
+          "id": "1",
+          "includeInSection": 1,
+          "shortName": "has one one",
+        }
+      }
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  />
+</Modal>
+`;

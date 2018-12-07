@@ -45,8 +45,9 @@ class Frame(models.Model):
         indexes = [models.Index(fields=["brand", "frame_name"]), ]
         ordering = ('brand', 'frame_name')
 
+
 class Bike(models.Model):
-    frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
+    frame = models.ForeignKey(Frame, related_name="bikes", on_delete=models.CASCADE)
     model_name = models.CharField(max_length=100)
     description = models.TextField(max_length=400, blank=True, null=True)
     colours = models.CharField(max_length=400, blank=True, null=True)
@@ -87,4 +88,3 @@ class FrameExclusion(models.Model):
 
     class Meta:
         indexes = [models.Index(fields=["frame", "partType"]), ]
-

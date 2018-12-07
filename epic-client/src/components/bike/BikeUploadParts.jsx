@@ -1,48 +1,77 @@
 import React, {Fragment} from "react";
-import {Button} from "semantic-ui-react";
-import BikeUploadFrame from "./BikeUploadFrame";
+import {Button, Icon} from "semantic-ui-react";
 
 class BikeUploadParts extends React.Component {
-    state = {};
-
-    componentWillMount() {
-        // todo add some way of getting part types etc
-        this.setState({
-            brand: this.props.brand,
-            frameName: this.props.frameName,
-        });
+    constructor(props) {
+        super();
+        this.state = this.deriveStateFromProps(props);
     };
 
-    onChangeField = (fieldName, fieldValue) => {
-        let newState = this.state;
-        newState[fieldName] = fieldValue;
-        this.setState(newState);
+    deriveStateFromProps = (props) => {
+        const { sections, apiData } = props;
+        const displayData = [];
+        const partTypesPresent = [];
+
+        apiData.bikes.forEach((bike, bikeIndex) =>{
+            bike.parts.forEach((bikePart, partIndex) => {
+                if (! partTypesPresent.includes(bikePart.partType)) {
+                    partTypesPresent.push(bikePart.partType);
+                    displayData.push({
+                        partType:bikePart.partType,
+                        parts: []
+                    });
+                }
+
+                const added = displayData[partTypesPresent.indexOf(bikePart.partType)].parts.some(part =>{
+                    if ((part.partName === bikePart.partName) && (part.partBrand === bikePart.partbrand)) {
+                        part.uses.push({bikeIndex, partIndex});
+                        return true;
+                    }
+                    return false;
+                });
+                if (! added) {
+                    displayData[partTypesPresent.indexOf(bikePart.partType)].parts.push({
+                        part: bikePart,
+                        uses: [{bikeIndex, partIndex}]
+                    });
+                }
+            })
+        });
+        return {
+            displayData
+        };
     };
     goToNextStep = () => {
-        const {  } = this.state;
-        this.props.addDataAndProceed({  });
+        let { apiData } = this.props;
+        const {displayData} = this.state;
+
+        displayData.forEach(partType => {
+            partType.parts.forEach(part => {
+                if (part.changed) {
+                    part.uses.forEach(use => {
+                        apiData.bikes[use.bikeIndex].parts[use.partIndex].partBrand = part.partBrand;
+                        apiData.bikes[use.bikeIndex].parts[use.partIndex].partName = part.partName;
+                    })
+                }
+            })
+        });
+
+        this.props.addDataAndProceed({ apiData });
     };
 
+
     render() {
-        const { brands } = this.props;
-        const { brand, frameName } = this.state;
-        // const uploadDisabled = !(brand && frameName);
-        return <Fragment key="bikeUploadPartTypes">
-            <h2>Bike Upload - Find Parts</h2>
-             <h2>Bike Upload</h2>
-            <BikeUploadFrame
-                brands={brands}
-                onChange={this.onChangeField}
-                brandSelected={brand}
-                frameName={frameName}
-                isEmptyAllowed={true}
-            />
-            <Button
-                key="bikeFileUploadCont"
-                onClick={this.goToNextStep}
-            >
-                Continue ...
-            </Button>
+        const { rowMappings } = this.state;
+        const { uploadedHeaders, uploadedData } = this.props;
+        return <Fragment key="bikeUploadParts">
+            <div>
+                <Button
+                    key="bikeFileUploadCont"
+                    onClick={this.goToNextStep}
+                >
+                    Upload data and Continue
+                </Button>
+            </div>
         </Fragment>;
     }
 }

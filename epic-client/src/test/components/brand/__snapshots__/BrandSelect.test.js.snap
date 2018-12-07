@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component displays correctly with brands 1`] = `
+<SelectInput
+  options={
+    Array [
+      Object {
+        "name": "brand 1",
+        "value": 1,
+      },
+      Object {
+        "name": "brand 2",
+        "value": 2,
+      },
+      Object {
+        "name": "brand 3",
+        "value": 3,
+      },
+      Object {
+        "name": "brand 4",
+        "value": 4,
+      },
+      Object {
+        "name": "brand 5",
+        "value": 5,
+      },
+      Object {
+        "name": "brand new",
+        "value": "123ABC",
+      },
+      Object {
+        "name": "brand new 2",
+        "value": "new",
+      },
+    ]
+  }
+/>
+`;

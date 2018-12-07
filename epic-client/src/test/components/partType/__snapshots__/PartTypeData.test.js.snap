@@ -44,14 +44,13 @@ exports[`displays the PartTypeData component for a new part type with no attribu
     onChange={[Function]}
     type="checkbox"
   />
-  Attributes: 0
-  Synonyms: 0
   <React.Fragment>
     <PartTypeAttributes
       attributes={Array []}
       partTypeKey="new"
     />
     <PartTypeSynonyms
+      label="synonyms"
       partTypeKey="new"
       synonyms={Array []}
     />
@@ -103,8 +102,10 @@ exports[`displays the PartTypeData component for an existing part type with attr
     onChange={[Function]}
     type="checkbox"
   />
-  Attributes: 0
-  Synonyms: 0
+  <div>
+    Attributes: 0
+    Synonyms: 0
+  </div>
 </React.Fragment>
 `;
 
@@ -152,8 +153,6 @@ exports[`displays the PartTypeData component for an existing part type with attr
     onChange={[Function]}
     type="checkbox"
   />
-  Attributes: 2
-  Synonyms: 2
   <React.Fragment>
     <PartTypeAttributes
       attributes={
@@ -165,6 +164,7 @@ exports[`displays the PartTypeData component for an existing part type with attr
       partTypeKey="dummy2"
     />
     <PartTypeSynonyms
+      label="synonyms"
       partTypeKey="dummy2"
       synonyms={
         Array [

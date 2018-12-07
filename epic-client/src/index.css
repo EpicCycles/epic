@@ -255,6 +255,9 @@ input:disabled {
 .red {
     color: var(--col-epic-red);
 }
+.discarded {
+    text-decoration: line-through;
+}
 
 /*styles for messages*/
 .info {
@@ -308,6 +311,21 @@ div.error, td.error, tr.error {
 
 .align_center {
     text-align: center;
+}
+.circle {
+    border-radius: 50%;
+    display: inline-block;
+    padding: 1rem;
+    margin: 1rem;
+    min-height: 50px;
+    min-width: 50px;
+}
+.selected-circle {
+    font-size: xx-large;
+    text-decoration: underline;
+}
+.unselected-circle {
+    font-size: large;
 }
 
 /* button properties */
@@ -571,16 +589,76 @@ div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
     left: 40px;
     right: 40px;
     background-color: var(--col-white);
-    max-width: 25%;
+    max-width: 80%;
+    padding: 10px;
 }
 
-.SupplierModal {
+.SupplierModal, .BrandModal {
     left: calc(50% - 200px);
     right: calc(50% - 200px);
     width: 400px;
 }
+.PartTypeModal {
+    top: 20%;
+    left: calc(50% - 300px);
+    right: calc(50% - 300px);
+    width: 600px;
+    z-index: 9999;
+}
 
 /* nice colours */
+.transition-01-02,
+.transition-02-03,
+.transition-03-04,
+.transition-04-05,
+.transition-05-06,
+.transition-06-07,
+.transition-07-08,
+.transition-08-09,
+.transition-09-10,
+.transition-10-11,
+.transition-11-12,
+.transition-12-13 {
+    height: 5px;
+    width: 20px;
+    display: inline-block;
+}
+.transition-01-02 {
+    background-image: linear-gradient(to right, var(--col-1) , var(--col-2));
+}
+.transition-02-03 {
+    background-image: linear-gradient(to right, var(--col-2) , var(--col-3));
+}
+.transition-03-04 {
+    background-image: linear-gradient(to right, var(--col-3) , var(--col-4));
+}
+.transition-04-05 {
+    background-image: linear-gradient(to right, var(--col-4) , var(--col-5));
+}
+.transition-05-06 {
+    background-image: linear-gradient(to right, var(--col-5) , var(--col-6));
+}
+.transition-06-07 {
+    background-image: linear-gradient(to right, var(--col-6) , var(--col-7));
+}
+.transition-07-08 {
+    background-image: linear-gradient(to right, var(--col-7) , var(--col-8));
+}
+.transition-08-09 {
+    background-image: linear-gradient(to right, var(--col-8) , var(--col-9));
+}
+.transition-09-10 {
+    background-image: linear-gradient(to right, var(--col-9) , var(--col-10));
+}
+.transition-10-11 {
+    background-image: linear-gradient(to right, var(--col-10) , var(--col-11));
+}
+.transition-11-12 {
+    background-image: linear-gradient(to right, var(--col-11) , var(--col-12));
+}
+.transition-12-13 {
+    background-image: linear-gradient(to right, var(--col-12) , var(--col-13));
+}
 /* Backgrounds */
 .bg-col-01 {
     background-color: var(--col-1);

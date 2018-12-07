@@ -1,6 +1,7 @@
 import React from 'react';
-import BikeUploadFrame from "../../../components/bike/BikeUploadFrame";
 import {NEW_ELEMENT_ID} from "../../../helpers/constants";
+import BrandSelect from "../../../components/brand/BrandSelect";
+
 const brands = [
     {id:1, brand_name:"brand 1"},
     {id:2, brand_name:"brand 2", supplier:[], supplier_names:[]},
@@ -10,17 +11,11 @@ const brands = [
     {dummyKey:"123ABC", brand_name:"brand new", changed:true},
     {dummyKey: NEW_ELEMENT_ID, brand_name:"brand new 2", changed:true},
 ];
-test("upload frame details displays when none entered", () => {
-    const component = shallow (<BikeUploadFrame
-    brands={brands}
-    />);
-    expect(component).toMatchSnapshot();
-});
-test("upload frame details displays when none entered", () => {
-    const component = shallow (<BikeUploadFrame
-    brands={brands}
-    brandSelected={brands[0].id}
-    frameName="bicicletta"
-    />);
+test("component displays correctly with brands", () => {
+    const component = shallow(
+        <BrandSelect
+            brands={brands}
+        />
+    );
     expect(component).toMatchSnapshot();
 });

@@ -1,31 +1,16 @@
 import React, {Fragment} from "react";
-import BrandSelect from "../brand/BrandSelect";
 import FormTextInput from "../../common/FormTextInput";
 import {Button} from "semantic-ui-react";
 import FormTextAreaInput from "../../common/FormTextAreaInput";
-import BikeUploadFrame from "./BikeUploadFrame";
-import {fieldNameData} from "../../helpers/models";
 
 class BikeUploadFile extends React.Component {
     state = {};
 
-    constructor(props) {
-        super(props);
-        // Don't call this.setState() here!
-        this.state = {
-            brand: props.brand,
-            frameName: props.frameName,
-        };
-    };
 
-    onChangeField = (fieldName, fieldValue) => {
-        let newState = this.state;
-        newState[fieldName] = fieldValue;
-        this.setState(newState);
-    };
     goToNextStep = () => {
-        const { brand, frameName, uploadedHeaders, uploadedData } = this.state;
-        this.props.addDataAndProceed({ brand, frameName, uploadedHeaders, uploadedData });
+        const { uploadedHeaders, uploadedData } = this.state;
+        const rowMappings = this.props.buildInitialRowMappings(uploadedData);
+        this.props.addDataAndProceed({ uploadedHeaders, uploadedData, rowMappings });
 
     };
 
@@ -77,20 +62,12 @@ class BikeUploadFile extends React.Component {
     };
 
     render() {
-        const { brands } = this.props;
-        const { brand, frameName, modelName, uploadedHeaders, uploadedData } = this.state;
+        const { modelName, uploadedHeaders, uploadedData } = this.state;
+        const { brandName, frameName } = this.props;
         const uploadData = (uploadedHeaders && (uploadedHeaders.length > 0));
         const uploadDisabled = false;
-        // const uploadDisabled = !(brand && frameName);
-        return <Fragment key="bikeUpload">
-            <h2>Bike Upload</h2>
-            <BikeUploadFrame
-                brands={brands}
-                onChange={this.onChangeField}
-                brandSelected={brand}
-                frameName={frameName}
-                isEmptyAllowed={true}
-            />
+        const continueDisabled = ((!brandName) || (!frameName));
+        return <Fragment key="bikeUploadFile">
             {(!uploadData) && <div key='bikeUploadInput' className="grid">
                 <div className="grid-row">
                     <div className="grid-item--borderless field-label red align_right">
@@ -150,6 +127,7 @@ class BikeUploadFile extends React.Component {
                     <Button
                         key="bikeFileUploadCont"
                         onClick={this.goToNextStep}
+                        disabled={continueDisabled}
                     >
                         Continue ...
                     </Button>

@@ -7,7 +7,7 @@ exports[`it renders correctly for first row in section no mapped details 1`] = `
   <div
     className="grid-item--borderless field-label red"
   >
-    section 1
+     
   </div>
   <div
     className="grid-item--borderless field-label align_right"
@@ -16,6 +16,13 @@ exports[`it renders correctly for first row in section no mapped details 1`] = `
     onDrop={[Function]}
   >
     my Part Type
+    <Icon
+      as="i"
+      key="editundefined"
+      name="add circle"
+      onClick={[Function]}
+      title="Edit part type and synonyms"
+    />
   </div>
   <div
     className="grid-item--borderless field-label "
@@ -39,6 +46,13 @@ exports[`it renders correctly for row in section with mapped details 1`] = `
     onDrop={[Function]}
   >
     my Part Type
+    <Icon
+      as="i"
+      key="editundefined"
+      name="add circle"
+      onClick={[Function]}
+      title="Edit part type and synonyms"
+    />
   </div>
   <div
     className="grid-item--borderless field-label "

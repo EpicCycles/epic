@@ -5,6 +5,7 @@ from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+from epic.model_serializers.bike_serializer import FrameSerializer, BikeSerializer
 from epic.model_serializers.customer_serializer import CustomerSerializer, PaginatedCustomerSerializer, \
     CustomerEditSerializer
 from epic.models.customer_models import Customer
@@ -46,12 +47,6 @@ class CustomerList(generics.ListCreateAPIView):
         serializer = PaginatedCustomerSerializer(customers, request, 20)
         return Response(serializer.data)
 
-    def post(self, request, format=None):
-        serializer = CustomerSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CustomerMaintain(generics.GenericAPIView):

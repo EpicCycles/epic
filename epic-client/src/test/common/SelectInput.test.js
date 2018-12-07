@@ -74,11 +74,11 @@ test("it sets a value to selected if it is in the array of selected values - sin
 });
 test("it sets a value to selected if it is in the array of selected values - multiple select", () => {
     const options = [
-        { value: "H", name: "Home" },
-        { value: "A", name: "Away" },
-        { value: "O", name: "Other" },
+        { value: 1, name: "Home" },
+        { value: 2, name: "Away" },
+        { value: 3, name: "Other" },
     ];
-    const selectedValue = ["A", "O"];
+    const selectedValue = [1,3];
     const component = shallow(<SelectInput
         fieldName="myField"
         onChange={jest.fn()}

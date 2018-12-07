@@ -16,7 +16,9 @@ class BrandModal extends React.Component {
         // Don't call this.setState() here!
         this.state = this.deriveStateFromProps(props);
     };
-
+    onAfterOpen = () => {
+        this.setState(this.deriveStateFromProps(this.props));
+    };
     deriveStateFromProps = (props) => {
         return {
             brand: props.brand || {},
@@ -87,6 +89,7 @@ class BrandModal extends React.Component {
             isOpen={brandModalOpen}
             contentLabel={`${mode} Brand`}
             className="Modal BrandModal"
+            onAfterOpen={this.onAfterOpen}
         >
             <div style={{ width: "100%", textAlign: "right" }}>
                 <Icon
@@ -114,15 +117,18 @@ class BrandModal extends React.Component {
                     onChange={this.handleBrandValueChange}
                     onClick={this.handleInputClear}
                 />
-                {suppliers && <SupplierSelect
-                    fieldName={`supplier_${componentKey}`}
-                    onChange={this.handleBrandValueChange}
-                    value={brand.supplier || []}
-                    suppliers={suppliers}
-                    isEmptyAllowed={true}
-                    isMultiple={true}
-                    multipleSize={10}
-                />}
+                {suppliers && <div className="row">
+                    <label>Supplier(s):</label>
+                    <SupplierSelect
+                        fieldName={`supplier_${componentKey}`}
+                        onChange={this.handleBrandValueChange}
+                        supplierSelected={brand.supplier || []}
+                        suppliers={suppliers}
+                        isEmptyAllowed={true}
+                        isMultiple={true}
+                        multipleSize={10}
+                    />
+                </div>}
             </div>
             <div style={{ width: "100%", textAlign: "right" }}>
                 {brand.changed &&

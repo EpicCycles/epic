@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import {findIndexOfObjectWithKey, generateRandomCode} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
@@ -53,49 +53,40 @@ class PartTypeSynonyms extends React.Component {
     };
 
     render() {
-        const { partTypeKey, synonyms } = this.props;
+        const { synonyms, label } = this.props;
         const synonymsToUse = synonyms ? synonyms.filter(synonym => !(synonym.delete || (synonym.dummyKey === NEW_ELEMENT_ID))) : [];
         const newSynonym = synonyms ? synonyms.filter(synonym => (synonym.dummyKey === NEW_ELEMENT_ID)) : [];
         let newSynonymDisplay = (newSynonym.length > 0) ? newSynonym[0] : {};
-        return <table>
-            <tbody>
+        return <Fragment>
+            {label && <div className="field-label">{label}</div>}
             {synonymsToUse.map((synonym) => {
                 const componentKey = synonym.id ? synonym.id : synonym.dummyKey;
-                const className = synonym.error ? "error" : "";
-                const rowTitle = synonym.error ? synonym.error_detail : "";
-                return <tr
-                    key={`synonym_${componentKey}`}
-                    className={className}
-                    title={rowTitle}
-                >
-                    <td><FormTextInput
-                        placeholder="add new"
-                        fieldName={`synonymValue_${componentKey}`}
-                        value={synonym.shortName}
-                        onChange={this.handleInputChange}
-                        onClick={this.handleInputClear}
-                    /></td>
-                </tr>
-            })}
-
-            <tr key={`newSynonym${partTypeKey}`}>
-                <td><FormTextInput
+                const synonymError = synonym.error ? synonym.error_detail : "";
+                return <FormTextInput
                     placeholder="add new"
-                    fieldName="synonymValue_new"
-                    value={newSynonymDisplay.shortName ? newSynonymDisplay.shortName : ""}
+                    key={`synonymValue_${componentKey}`}
+                    fieldName={`synonymValue_${componentKey}`}
+                    value={synonym.shortName}
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
-                /></td>
-                <td>
-                    <Icon
-                        name="add"
-                        onClick={this.addAnother}
-                        title="confirm new Synonym"
-                    />
-                </td>
-            </tr>
-            </tbody>
-        </table>;
+                    error={synonymError}
+                />
+            })}
+            <div><FormTextInput
+                placeholder="add new"
+                key="synonymValue_new"
+                fieldName="synonymValue_new"
+                value={newSynonymDisplay.shortName ? newSynonymDisplay.shortName : ""}
+                onChange={this.handleInputChange}
+                onClick={this.handleInputClear}
+            />
+                <Icon
+                    key="synonym_add"
+                    name="add"
+                    onClick={this.addAnother}
+                    title="confirm new Synonym"
+                /></div>
+        </Fragment>;
     }
 }
 

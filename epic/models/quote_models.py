@@ -1,8 +1,9 @@
+from decimal import Decimal
+
+from django.conf import settings
 from django.db import models, IntegrityError
 from django.db.models import CharField, TextField
-from django.conf import settings
 from django.utils import timezone
-from decimal import Decimal
 
 from epic.model_helpers.lookup_helpers import UpperCase
 from epic.models.bike_models import Frame
@@ -374,4 +375,3 @@ class QuotePartAttribute(models.Model):
 
     class Meta:
         indexes = [models.Index(fields=["quotePart", "partTypeAttribute"]), ]
-

@@ -8,6 +8,7 @@ exports[`BrandModal displays correctly for a brand 1`] = `
   closeTimeoutMS={0}
   contentLabel="Edit Brand"
   isOpen={true}
+  onAfterOpen={[Function]}
   parentSelector={[Function]}
   portalClassName="ReactModalPortal"
   role="dialog"
@@ -58,42 +59,49 @@ exports[`BrandModal displays correctly for a brand 1`] = `
       placeholder="link"
       value="https://bianchi.co.uk"
     />
-    <SupplierSelect
-      fieldName="supplier_8"
-      isEmptyAllowed={true}
-      isMultiple={true}
-      multipleSize={10}
-      onChange={[Function]}
-      suppliers={
-        Array [
-          Object {
-            "id": 1,
-            "supplier_name": "supplier 1",
-          },
-          Object {
-            "id": 2,
-            "supplier_name": "supplier 2",
-          },
-          Object {
-            "id": 3,
-            "supplier_name": "supplier 3",
-          },
-          Object {
-            "id": 4,
-            "supplier_name": "supplier 4",
-          },
-        ]
-      }
-      value={
-        Array [
-          23,
-          1,
-          2,
-          45,
-          16,
-        ]
-      }
-    />
+    <div
+      className="row"
+    >
+      <label>
+        Supplier(s):
+      </label>
+      <SupplierSelect
+        fieldName="supplier_8"
+        isEmptyAllowed={true}
+        isMultiple={true}
+        multipleSize={10}
+        onChange={[Function]}
+        supplierSelected={
+          Array [
+            23,
+            1,
+            2,
+            45,
+            16,
+          ]
+        }
+        suppliers={
+          Array [
+            Object {
+              "id": 1,
+              "supplier_name": "supplier 1",
+            },
+            Object {
+              "id": 2,
+              "supplier_name": "supplier 2",
+            },
+            Object {
+              "id": 3,
+              "supplier_name": "supplier 3",
+            },
+            Object {
+              "id": 4,
+              "supplier_name": "supplier 4",
+            },
+          ]
+        }
+      />
+    </div>
   </div>
   <div
     style={
@@ -114,6 +122,7 @@ exports[`BrandModal displays correctly for a new brand 1`] = `
   closeTimeoutMS={0}
   contentLabel="New Brand"
   isOpen={true}
+  onAfterOpen={[Function]}
   parentSelector={[Function]}
   portalClassName="ReactModalPortal"
   role="dialog"

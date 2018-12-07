@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`upload framew details displays when none entered 1`] = `
+exports[`upload frame details displays when none entered 1`] = `
 <div
   className="grid"
   key="bikeUpload"
@@ -16,71 +16,75 @@ exports[`upload framew details displays when none entered 1`] = `
     <div
       className="grid-item--borderless"
     >
-      <BrandSelect
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        fieldName="brand"
-      />
-      <button
-        onClick={[Function]}
-      >
-        Add Brand
-      </button>
-      <BrandModal
-        brandModalOpen={false}
-        closeBrandModal={[Function]}
-        saveBrand={[Function]}
-      />
+      <React.Fragment>
+        <BrandSelect
+          brands={
+            Array [
+              Object {
+                "brand_name": "brand 1",
+                "id": 1,
+              },
+              Object {
+                "brand_name": "brand 2",
+                "id": 2,
+                "supplier": Array [],
+                "supplier_names": Array [],
+              },
+              Object {
+                "brand_name": "brand 3",
+                "id": 3,
+                "supplier": Array [
+                  1,
+                ],
+                "supplier_names": Array [
+                  "supplier 1",
+                ],
+              },
+              Object {
+                "brand_name": "brand 4",
+                "delete": true,
+                "id": 4,
+              },
+              Object {
+                "brand_name": "brand 5",
+                "changed": true,
+                "id": 5,
+                "supplier": Array [
+                  1,
+                  3,
+                ],
+                "supplier_names": Array [
+                  "supplier 1",
+                  "supplier 3",
+                ],
+              },
+              Object {
+                "brand_name": "brand new",
+                "changed": true,
+                "dummyKey": "123ABC",
+              },
+              Object {
+                "brand_name": "brand new 2",
+                "changed": true,
+                "dummyKey": "new",
+              },
+            ]
+          }
+          fieldName="brand"
+          isEmptyAllowed={true}
+        />
+        <button
+          onClick={[Function]}
+        >
+          Add Brand
+        </button>
+        <BrandModal
+          brandModalOpen={false}
+          closeBrandModal={[Function]}
+          componentKey="new"
+          saveBrand={[Function]}
+        />
+      </React.Fragment>
     </div>
   </div>
   <div
@@ -105,7 +109,7 @@ exports[`upload framew details displays when none entered 1`] = `
 </div>
 `;
 
-exports[`upload framew details displays when none entered 2`] = `
+exports[`upload frame details displays when none entered 2`] = `
 <div
   className="grid"
   key="bikeUpload"
@@ -121,72 +125,76 @@ exports[`upload framew details displays when none entered 2`] = `
     <div
       className="grid-item--borderless"
     >
-      <BrandSelect
-        brandSelected={1}
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        fieldName="brand"
-      />
-      <button
-        onClick={[Function]}
-      >
-        Add Brand
-      </button>
-      <BrandModal
-        brandModalOpen={false}
-        closeBrandModal={[Function]}
-        saveBrand={[Function]}
-      />
+      <React.Fragment>
+        <BrandSelect
+          brandSelected={1}
+          brands={
+            Array [
+              Object {
+                "brand_name": "brand 1",
+                "id": 1,
+              },
+              Object {
+                "brand_name": "brand 2",
+                "id": 2,
+                "supplier": Array [],
+                "supplier_names": Array [],
+              },
+              Object {
+                "brand_name": "brand 3",
+                "id": 3,
+                "supplier": Array [
+                  1,
+                ],
+                "supplier_names": Array [
+                  "supplier 1",
+                ],
+              },
+              Object {
+                "brand_name": "brand 4",
+                "delete": true,
+                "id": 4,
+              },
+              Object {
+                "brand_name": "brand 5",
+                "changed": true,
+                "id": 5,
+                "supplier": Array [
+                  1,
+                  3,
+                ],
+                "supplier_names": Array [
+                  "supplier 1",
+                  "supplier 3",
+                ],
+              },
+              Object {
+                "brand_name": "brand new",
+                "changed": true,
+                "dummyKey": "123ABC",
+              },
+              Object {
+                "brand_name": "brand new 2",
+                "changed": true,
+                "dummyKey": "new",
+              },
+            ]
+          }
+          fieldName="brand"
+          isEmptyAllowed={true}
+        />
+        <button
+          onClick={[Function]}
+        >
+          Add Brand
+        </button>
+        <BrandModal
+          brandModalOpen={false}
+          closeBrandModal={[Function]}
+          componentKey="new"
+          saveBrand={[Function]}
+        />
+      </React.Fragment>
     </div>
   </div>
   <div

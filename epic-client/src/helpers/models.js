@@ -18,7 +18,7 @@ export const DESCRIPTION_FIELD = { fieldName: DESCRIPTION, header: "Description"
 export const SELL_PRICE_FIELD = {
     fieldName: SELL_PRICE,
     header: "Selling Price",
-    synonyms: ["selling price", "srp", "rrp", "sell price", "retail price"]
+    synonyms: ["price", "selling price", "srp", "rrp", "sell price", "retail price"]
 };
 export const SIZES_FIELD = {
     fieldName: SIZES,
