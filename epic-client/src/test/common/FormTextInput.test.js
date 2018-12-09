@@ -8,6 +8,18 @@ test('renders the form text input correctly', () => {
     );
     expect(input).toMatchSnapshot();
 });
+test('renders the form numeric input correctly', () => {
+    const input = shallow(
+        <FormTextInput
+            id="1234"
+            label="Test"
+            placeholder="Please enter your loyalty number"
+            onChange={() => {}}
+            dataType="number"
+        />
+    );
+    expect(input).toMatchSnapshot();
+});
 
 test('renders an error when present', () => {
     const input = shallow(

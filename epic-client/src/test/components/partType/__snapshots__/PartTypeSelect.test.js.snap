@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it displays correctly 1`] = `
+<SelectInput
+  fieldName="name_of_field"
+  options={Array []}
+/>
+`;

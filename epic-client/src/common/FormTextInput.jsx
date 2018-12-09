@@ -6,7 +6,7 @@ const FormTextInput = props => (
         {props.label&&<label>{props.label}</label>}
         <input
              className={(props.error ? " error" : "")}
-            type="text"
+            type={props.dataType || "text"}
             autoComplete="off"
             placeholder={props.placeholder}
             title={`${props.title || ''} ${props.error || ''}`}

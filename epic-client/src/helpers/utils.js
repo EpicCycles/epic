@@ -1,5 +1,50 @@
 import {colourStyles} from "./constants";
 
+export const checkForChanges = (fieldList, existingObject, newValues) => {
+    return fieldList.some(field => {
+        return existingObject[field.fieldName] !== newValues[field.fieldName];
+    })
+};
+export const validateData = (fieldList, currentValues) => {
+    let errors = {};
+    fieldList.forEach(field => {
+        if (field.required) {
+            if (!currentValues[field.fieldName]) {
+                errors[field.fieldName] = field.error;
+            }
+        }
+    });
+    return errors;
+};
+export const addFieldToState = (initialState, fieldList, fieldName, input) => {
+    let finalState = initialState;
+    fieldList.some(field => {
+        if (fieldName.startsWith(field.fieldName)) {
+            if (input) {
+                finalState[field.fieldName] = input;
+            } else {
+                finalState = removeKey(finalState, field.fieldName);
+            }
+            return true;
+        }
+        return false;
+    });
+    return finalState;
+};
+
+export const removeKey = (obj, deleteKey) => {
+  let clone = Object.assign({}, obj);
+  delete clone[deleteKey];
+  return clone;
+};
+
+export const getUpdatedObject = (fieldList, existingObject, newValues) => {
+    let updatedObject = Object.assign({}, existingObject);
+    fieldList.forEach(field => {
+        updatedObject[field.fieldName] = newValues[field.fieldName];
+    });
+    return updatedObject;
+};
 export const validateEmailFormat = (email) => {
     const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return emailPattern.test(email);

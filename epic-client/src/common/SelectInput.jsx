@@ -75,7 +75,7 @@ class SelectInput extends Component {
             id={"container" + fieldName}
             key={"container" + fieldName}
             className={className + (error ? " error" : "")}
-            title={error}
+            title={error || ""}
         >
             {label && <label>{label}</label>}
             <select

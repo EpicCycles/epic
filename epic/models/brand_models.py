@@ -79,6 +79,8 @@ class Part(models.Model):
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     part_name = models.CharField(max_length=200)
+    trade_in_value =  models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    standard = models.BooleanField(default=False)
     stocked = models.BooleanField(default=False)
     objects = PartManager()
 
@@ -100,10 +102,6 @@ class Part(models.Model):
 
     class Meta:
         indexes = [models.Index(fields=["partType", "brand", 'part_name']), ]
-
-class PartTradeIn(models.Model):
-    part = models.ForeignKey(Part, on_delete=models.CASCADE)
-    trade_in_value = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
 
 
 class SupplierProduct(models.Model):
