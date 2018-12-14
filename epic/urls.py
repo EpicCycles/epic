@@ -1,6 +1,6 @@
-from django.conf.urls import url
 from django.urls import path
 
+from epic.api_views.bike_api import Frames, FrameUpload
 from epic.api_views.brands_api import Brands
 from epic.api_views.customer_address_api import CustomerAddressList, CustomerAddressMaintain
 from epic.api_views.customer_api import CustomerList, CustomerMaintain
@@ -14,7 +14,6 @@ from epic.api_views.attribute_option_api import AttributeOptions
 from epic.api_views.note_api import CustomerNoteList, CustomerNoteMaintain
 from epic.api_views.supplier_api import Suppliers, MaintainSupplier
 from epic.api_views.user_api import UserMaintain
-from . import views
 
 # good explanation of patterns here https://tutorial.djangogirls.org/en/extend_your_application/
 urlpatterns = [path('api/framework/', Framework.as_view()),
@@ -40,4 +39,7 @@ urlpatterns = [path('api/framework/', Framework.as_view()),
                path('api/customerphone/', CustomerPhoneList.as_view()),
                path('api/customerphone/<int:pk>', CustomerPhoneMaintain.as_view()),
                path('api/user/<str:username>', UserMaintain.as_view()),
+               path('api/frames/', Frames.as_view()),
+               path('api/frames/<int:pk>', Frames.as_view()),
+               path('api/frame/upload/', FrameUpload.as_view()),
                ]

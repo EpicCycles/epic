@@ -39,7 +39,15 @@ class SelectInput extends Component {
             } else {
                 return value[0].toString();
             }
+        } else if (value && (value.length > 0)) {
+            if (isMultiple) {
+                return [value]
+            } else {
+                return value;
+            }
         }
+
+        // no selected value found
         let defaultValue = [];
         options.forEach((option) => {
             if (option.isDefault) defaultValue.push(option.value);

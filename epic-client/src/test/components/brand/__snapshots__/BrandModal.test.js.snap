@@ -60,6 +60,19 @@ exports[`BrandModal displays correctly for a brand 1`] = `
       value="https://bianchi.co.uk"
     />
     <div
+      className="ui toggle checkbox"
+    >
+      <input
+        checked={false}
+        name="bike_brand_8"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label>
+        Bike Brand
+      </label>
+    </div>
+    <div
       className="row"
     >
       <label>
@@ -171,6 +184,19 @@ exports[`BrandModal displays correctly for a new brand 1`] = `
       onClick={[Function]}
       placeholder="link"
     />
+    <div
+      className="ui toggle checkbox"
+    >
+      <input
+        checked={false}
+        name="bike_brand_undefined"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label>
+        Bike Brand
+      </label>
+    </div>
   </div>
   <div
     style={

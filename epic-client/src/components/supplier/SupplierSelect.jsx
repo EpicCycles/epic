@@ -10,7 +10,6 @@ const SupplierSelect = (props) => {
             name: supplier.supplier_name
         }
     }) : [];
-    console.log(supplierSelected)
     return <SelectInput
         fieldName={fieldName}
         onChange={onChange}

@@ -59,6 +59,11 @@ exports[`is displays correctly 1`] = `
                     "linkNumber": 201,
                     "linkRoute": "/bike-upload",
                   },
+                  Object {
+                    "displayText": "Bike Review",
+                    "linkNumber": 202,
+                    "linkRoute": "/bike-review",
+                  },
                 ],
                 "groupPos": 20,
               },

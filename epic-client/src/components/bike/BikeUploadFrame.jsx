@@ -49,6 +49,7 @@ class BikeUploadFrame extends React.Component {
                                 onChange={onChange}
                                 brandSelected={brandSelected}
                                 isEmptyAllowed={true}
+                                bikeOnly={true}
                             />
                             <button onClick={this.handleOpenModal}>Add Brand</button>
                             <BrandModal

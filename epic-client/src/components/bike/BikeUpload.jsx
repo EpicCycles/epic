@@ -2,30 +2,33 @@ import React, {Fragment} from "react";
 import BikeUploadFile from "./BikeUploadFile";
 import BikeUploadMapping from "./BikeUploadMapping";
 import BikeUploadParts from "./BikeUploadParts";
-import BikeReview from "./BikeReview";
+import BikeUploadReview from "./BikeUploadReview";
 import BikeUploadFrame from "./BikeUploadFrame";
 import BikeUploadMappingPartTypes from "./BikeUploadMappingPartTypes";
-import {bikeFields} from "../../helpers/models";
-import {colourStyles} from "../../helpers/constants";
 import {doesFieldMatchPartType} from "../../helpers/framework";
 import {findObjectWithId} from "../../helpers/utils";
 import BikeUploadMappingReview from "./BikeUploadMappingReview";
+import {Button} from "semantic-ui-react";
+import {colourStyles} from "../../helpers/constants";
+import {bikeFields} from "../../helpers/models";
 
 const uploadSteps = [
     {
         stepNumber: 1,
-        description: "Upload File" },
+        description: "Upload File"
+    },
     { stepNumber: 2, description: "Assign Part Types for upload data" },
     { stepNumber: 3, description: "Assign Bike level fields" },
     { stepNumber: 4, description: "Review mapping for all data" },
     { stepNumber: 5, description: "Review brands for parts to be created during upload" },
     { stepNumber: 6, description: "List Bikes created during upload" },
 ];
+const initialState = {
+    step: 0
+};
 
 class BikeUpload extends React.Component {
-    state = {
-        step: 0
-    };
+    state = initialState;
 
     componentDidMount() {
         this.getDataForUpload();
@@ -80,7 +83,10 @@ class BikeUpload extends React.Component {
             this.setState(newState);
         }
     };
-
+    startAgain = () => {
+        this.props.clearFrame();
+        this.setState(initialState);
+    };
     buildInitialRowMappings = (uploadedData) => {
         const { sections } = this.props;
         const rowMappings = uploadedData.map((row, rowIndex) => {
@@ -111,7 +117,7 @@ class BikeUpload extends React.Component {
     };
 
     render() {
-        const { brands, suppliers, sections, saveBrands, saveFramework } = this.props;
+        const { brands, suppliers, sections, saveBrands, saveFramework, uploadFrame, frame } = this.props;
         const { brand, brandName, frameName, step, rowMappings, uploadedHeaders, uploadedData, apiData } = this.state;
         return <Fragment key="bikeUpload">
             <h2>Bike Upload - {uploadSteps[step].description}</h2>
@@ -148,17 +154,25 @@ class BikeUpload extends React.Component {
                 uploadedData={uploadedData}
                 brands={brands}
                 brand={brand}
-                frameName={frameName}   addDataAndProceed={this.addDataAndProceed}
-            />}
-           {(step === 4) && <BikeUploadParts
-               apiData={apiData}
-               brands={brands}
-               sections={sections}
+                frameName={frameName}
                 addDataAndProceed={this.addDataAndProceed}
             />}
-            {(step === 5) && <BikeReview/>}
+            {(step === 4) && <BikeUploadParts
+                apiData={apiData}
+                brands={brands}
+                sections={sections}
+                addDataAndProceed={this.addDataAndProceed}
+                saveBrands={saveBrands}
+                recheckBrands={() => this.goToStep(3)}
+                uploadFrame={uploadFrame}
+            />}
+            {(step === 5) && <BikeUploadReview
+                sections={sections}
+                brands={brands}
+                frame={frame}
+            />}
             <div className="full align_center">
-                {uploadSteps.map((stepDetails, stepIndex) => <Fragment>
+                {(this.state.step < (uploadSteps.length - 1)) ? uploadSteps.map((stepDetails, stepIndex) => <Fragment>
                         {(colourStyles[stepIndex].transition) && <div
                             className={colourStyles[stepIndex].transition}
                             key={`transition${stepIndex}`}
@@ -172,8 +186,16 @@ class BikeUpload extends React.Component {
                         >
                             {stepDetails.stepNumber}
                         </div>
-                </Fragment>
-                )}
+                    </Fragment>
+                    )
+                    :
+                    <Button
+                        key="startAgain"
+                        onClick={this.startAgain}
+                    >
+                        Upload Another
+                    </Button>
+                }
             </div>
         </Fragment>
     }

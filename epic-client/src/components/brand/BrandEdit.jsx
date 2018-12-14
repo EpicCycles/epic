@@ -10,6 +10,7 @@ class BrandEdit extends React.Component {
     handleBrandValueChange = (fieldName, input) => {
         const updatedBrand = Object.assign({}, this.props.brand);
         if (fieldName.startsWith('brand_name')) updatedBrand.brand_name = input;
+        if (fieldName.startsWith('bike_brand')) updatedBrand.bike_brand = input;
         if (!updatedBrand.brand_name) {
             updatedBrand.error = true;
             updatedBrand.error_detail = BRAND_NAME_MISSING;
@@ -42,6 +43,9 @@ class BrandEdit extends React.Component {
             updatedBrand.delete = true;
             this.props.handleBrandChange(this.props.componentKey, updatedBrand);
         }
+    };
+    changeBikeBrand = () => {
+        this.handleBrandValueChange("bike_brand", !this.props.brand.bike_brand)
     };
     addAnother = () => {
         const updatedBrand = Object.assign({}, this.props.brand);
@@ -79,6 +83,14 @@ class BrandEdit extends React.Component {
                 onChange={this.handleBrandValueChange}
                 onClick={this.handleInputClear}
             />
+            <div className="ui toggle checkbox">
+                <input type="checkbox"
+                       name={`bike_brand_${componentKey}`}
+                       onChange={this.changeBikeBrand}
+                       checked={brand.bike_brand ? brand.bike_brand : false}
+                />
+                <label>Bike Brand</label>
+            </div>
             Supplier(s): {(suppliers.length > 0) ? suppliers.map(supplier => <SupplierBlob
             key={`supplier${componentKey}${supplier.id}`}
             supplier={supplier}

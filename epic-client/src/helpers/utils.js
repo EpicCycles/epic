@@ -127,4 +127,4 @@ export const generateRandomCode = () => {
 export const removeObjectWithIndex = (initialArray, removeIndex) => {
     if (removeIndex < 0) return initialArray;
     return initialArray.slice(0, removeIndex).concat(initialArray.slice((removeIndex + 1)));
-}
+};

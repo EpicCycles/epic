@@ -25,10 +25,15 @@ class BrandModal extends React.Component {
             mode: (props.brand && props.brand.id) ? "Edit" : "New",
         }
     };
+    changeBikeBrand = () => {
+        this.handleBrandValueChange("bike_brand", !this.state.brand.bike_brand)
+    };
+
     handleBrandValueChange = (fieldName, input) => {
         const updatedBrand = Object.assign({}, this.state.brand);
         if (fieldName.startsWith('brand_name')) updatedBrand.brand_name = input;
         if (fieldName.startsWith('link')) updatedBrand.link = input;
+        if (fieldName.startsWith('bike_brand')) updatedBrand.bike_brand = input;
         if (fieldName.startsWith('supplier')) {
             updatedBrand.supplier = input;
             updatedBrand.supplier_names = this.buildSupplierNameArray(input, this.props.suppliers);
@@ -117,6 +122,14 @@ class BrandModal extends React.Component {
                     onChange={this.handleBrandValueChange}
                     onClick={this.handleInputClear}
                 />
+                <div className="ui toggle checkbox">
+                    <input type="checkbox"
+                           name={`bike_brand_${componentKey}`}
+                           onChange={this.changeBikeBrand}
+                           checked={brand.bike_brand ? brand.bike_brand : false}
+                    />
+                    <label>Bike Brand</label>
+                </div>
                 {suppliers && <div className="row">
                     <label>Supplier(s):</label>
                     <SupplierSelect

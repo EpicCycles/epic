@@ -31,6 +31,7 @@ export const menuStructure = [
                 groupPos: 20,
                 groupLinks: [
                     {displayText: "Bike Upload", linkRoute: "/bike-upload", linkNumber: 201},
+                    {displayText: "Bike Review", linkRoute: "/bike-review", linkNumber: 202},
                 ]
             },
             {

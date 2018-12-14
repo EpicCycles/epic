@@ -1,24 +1,24 @@
 from rest_framework import serializers
 
 from epic.models.bike_models import Frame, BikePart, Bike
-from epic.models.brand_models import Brand
+
+class BikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bike
+        fields = '__all__'
 
 
 class FrameSerializer(serializers.ModelSerializer):
     brand_name = serializers.SerializerMethodField()
+    bikes=BikeSerializer(many=True)
 
     class Meta:
         model = Frame
         fields = '__all__'
 
     def get_brand_name(self, frame):
-        brand = Brand.objects.get(id=frame.brand)
+        brand = frame.brand
         return brand.brand_name
-
-class BikeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Bike
-        fields = '__all__'
 
 
 class BikePartSerializer(serializers.ModelSerializer):

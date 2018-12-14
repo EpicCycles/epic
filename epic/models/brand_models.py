@@ -32,6 +32,7 @@ class Brand(models.Model):
     brand_name = models.CharField(max_length=50, unique=True)
     link = models.CharField(max_length=100, blank=True)
     supplier = models.ManyToManyField(Supplier, blank=True)
+    bike_brand = models.BooleanField(default=False)
 
     def __str__(self):
         return self.brand_name
@@ -48,15 +49,6 @@ class Brand(models.Model):
             raise IntegrityError('Brand already exists with name' + self.brand_name)
 
         super(Brand, self).save(*args, **kwargs)
-
-    # check whether a web kink ispresent
-    def has_link(self):
-        return self.link is not None
-
-    # build a web link as standard
-    def build_link_new_tab(self):
-        if self.has_link():
-            return '<a target="_blank" class="externalLink" href="' + self.link + '">' + self.brand_name + '</a>'
 
     class Meta:
         ordering = ('brand_name',)

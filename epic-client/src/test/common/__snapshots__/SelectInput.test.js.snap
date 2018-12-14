@@ -5,6 +5,7 @@ exports[`it renders a multiple select array if one is passed 1`] = `
   className="undefined"
   id="containermyField"
   key="containermyField"
+  title=""
 >
   <select
     id="myField"
@@ -51,6 +52,7 @@ exports[`it renders a multiple select array if one is passed with correct size 1
   className="undefined"
   id="containermyField"
   key="containermyField"
+  title=""
 >
   <select
     id="myField"
@@ -91,6 +93,7 @@ exports[`it renders an empty option if one is allowed 1`] = `
   className="undefined"
   id="containermyField"
   key="containermyField"
+  title=""
 >
   <select
     id="myField"
@@ -162,6 +165,7 @@ exports[`it renders the default value as selected if no value is passed 1`] = `
   className="undefined"
   id="containermyField"
   key="containermyField"
+  title=""
 >
   <select
     id="myField"
@@ -201,6 +205,7 @@ exports[`it renders with minimum data 1`] = `
   className="undefined"
   id="containermyField"
   key="containermyField"
+  title=""
 >
   <select
     id="myField"
@@ -224,6 +229,7 @@ exports[`it sets a value to selected if it is in the array of selected values - 
   className="undefined"
   id="containermyField"
   key="containermyField"
+  title=""
 >
   <select
     id="myField"
@@ -263,6 +269,7 @@ exports[`it sets a value to selected if it is in the array of selected values - 
   className="undefined"
   id="containermyField"
   key="containermyField"
+  title=""
 >
   <select
     id="myField"

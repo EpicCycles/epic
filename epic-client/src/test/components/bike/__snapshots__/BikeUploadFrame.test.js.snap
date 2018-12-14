@@ -18,6 +18,7 @@ exports[`upload frame details displays when none entered 1`] = `
     >
       <React.Fragment>
         <BrandSelect
+          bikeOnly={true}
           brands={
             Array [
               Object {
@@ -127,6 +128,7 @@ exports[`upload frame details displays when none entered 2`] = `
     >
       <React.Fragment>
         <BrandSelect
+          bikeOnly={true}
           brandSelected={1}
           brands={
             Array [

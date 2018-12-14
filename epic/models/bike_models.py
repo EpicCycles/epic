@@ -31,7 +31,7 @@ class Frame(models.Model):
             raise ValueError('Missing frame_name')
 
         if Frame.objects.filter(frame_name__upper=self.frame_name,
-                                brand=self.brand, model__upper=self.model).exclude(id=self.id).exists():
+                                brand=self.brand).exclude(id=self.id).exists():
             raise IntegrityError('Frame with these values already exists')
         if self.archived:
             if not self.archived_date:

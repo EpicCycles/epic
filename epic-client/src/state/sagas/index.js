@@ -21,6 +21,10 @@ import {
     watchForDeleteSupplier,
     watchForSaveSupplier
 } from "./core";
+import {
+    watchForSaveFrame,
+    watchForGetFrames, watchForUploadFrame, watchForArchiveFrames
+} from "./bike";
 
 export default function* rootSaga() {
     yield all([
@@ -45,6 +49,10 @@ export default function* rootSaga() {
         watchForGetBrands(),
         watchForSaveBrands(),
         watchForSaveSupplier(),
-        watchForDeleteSupplier()
+        watchForDeleteSupplier(),
+        watchForArchiveFrames(),
+        watchForSaveFrame(),
+        watchForUploadFrame(),
+        watchForGetFrames()
     ]);
 }

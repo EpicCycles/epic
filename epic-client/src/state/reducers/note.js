@@ -15,6 +15,7 @@ import {
 } from "../actions/note";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_NOT_VALIDATED} from "../actions/user";
+import {removeKey} from "../../helpers/utils";
 
 const initialState = {
     count: 0,
@@ -34,10 +35,7 @@ const note = (state = initialState, action) => {
         case CLEAR_ALL_STATE:
             return initialState;
         case NOTE_REMOVE:
-            return {
-                ...state,
-                note: {}
-            };
+            return removeKey(state, 'note')
         case NOTE_LIST_REQUESTED:
             return {
                 ...state,

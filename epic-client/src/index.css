@@ -833,3 +833,9 @@ div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
     border-color: var(--col-black);
 }
 
+ /*ui toggle checkbox colour  DOES NOT WORK */
+ui.toggle.checkbox input[type="checkbox"]:checked,
+ui.toggle.checkbox input[type="radio"]:checked {
+    color: var(--col-epic-red);
+    background-color: var(--col-epic-red);
+}

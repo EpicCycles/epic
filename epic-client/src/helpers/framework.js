@@ -16,7 +16,7 @@ export const NEW_ATTRIBUTE = {
     attribute_type: 1,
 };
 
-export const processPartTypeValueChanges =  (partType, componentKey, fieldName, input) => {
+export const processPartTypeValueChanges = (partType, componentKey, fieldName, input) => {
     const updatedPartType = Object.assign({}, partType);
     if (fieldName.startsWith('shortName')) updatedPartType.shortName = input;
     if (!updatedPartType.shortName) {
@@ -44,7 +44,6 @@ export const doesFieldMatchPartType = (partType, fieldName) => {
         return true;
     } else {
         return partType.synonyms.some(synonym => {
-            console.log(fieldName, synonym.shortName, (synonym.shortName.toLowerCase() === fieldNameLower))
             return (synonym.shortName.toLowerCase() === fieldNameLower);
         });
     }
@@ -122,7 +121,7 @@ export const renumberAll = (sections) => {
             let attributeSequence = 10;
             partType.attributes = partType.attributes ? partType.attributes.map((attribute) => {
                 attribute.placing = attributeSequence;
-                attribute.options = attribute.options ? resetPlacing(attribute.options) : []
+                attribute.options = attribute.options ? resetPlacing(attribute.options) : [];
                 attributeSequence = attributeSequence + 10;
                 return attribute;
             }) : [];
