@@ -15,6 +15,19 @@ export const NEW_ATTRIBUTE = {
     mandatory: false,
     attribute_type: 1,
 };
+export const getPartTypeName = (partTypeId, sections) => {
+    let partTypeName = "Unknown";
+    sections.some(section => {
+        return section.partTypes.some(partType => {
+            if (partType.id === partTypeId) {
+                partTypeName = partType.shortName;
+                return true;
+            }
+            return false;
+        });
+    });
+    return partTypeName;
+};
 
 export const processPartTypeValueChanges = (partType, componentKey, fieldName, input) => {
     const updatedPartType = Object.assign({}, partType);

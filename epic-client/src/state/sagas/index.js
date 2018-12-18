@@ -23,7 +23,12 @@ import {
 } from "./core";
 import {
     watchForSaveFrame,
-    watchForGetFrames, watchForUploadFrame, watchForArchiveFrames
+    watchForGetFrames,
+    watchForUploadFrame,
+    watchForArchiveFrames,
+    watchForDeleteFrames,
+    watchForDeleteBikes,
+    watchForReviewBikeStart, watchForReviewBike
 } from "./bike";
 
 export default function* rootSaga() {
@@ -53,6 +58,10 @@ export default function* rootSaga() {
         watchForArchiveFrames(),
         watchForSaveFrame(),
         watchForUploadFrame(),
-        watchForGetFrames()
+        watchForGetFrames(),
+        watchForDeleteFrames(),
+        watchForDeleteBikes(),
+        watchForReviewBikeStart(),
+        watchForReviewBike()
     ]);
 }

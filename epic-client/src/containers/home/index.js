@@ -1,32 +1,11 @@
-import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {menuStructure} from "../../helpers/constants";
-import MenuSection from "../../components/menus/MenuSection";
-
-const Home = props => (
-    <div className=" full content">
-        <h1>Epic Cycles</h1>
-        <section className='row full content'>
-            {menuStructure.map(menuSection => {
-                return <div
-                    key={'menuCol' + menuSection.sectionPos}
-                    className='column'
-                    style={{width: ((window.innerWidth * 0.8) / menuStructure.length) + "px"}}
-                >
-                    <MenuSection
-                        sectionPos={menuSection.sectionPos}
-                        sectionContents={menuSection.sectionContents}
-                    />
-                </div>;
-            })}
-        </section>
-    </div>
-);
+import {clearAllState} from "../../state/actions/application";
+import Home from "../../components/menus/Home";
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ clearAllState }, dispatch)
 
 export default connect(
     mapStateToProps,

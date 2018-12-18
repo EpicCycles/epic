@@ -8,7 +8,7 @@ class BikeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class FrameSerializer(serializers.ModelSerializer):
+class FrameListSerializer(serializers.ModelSerializer):
     brand_name = serializers.SerializerMethodField()
     bikes=BikeSerializer(many=True)
 
@@ -19,6 +19,12 @@ class FrameSerializer(serializers.ModelSerializer):
     def get_brand_name(self, frame):
         brand = frame.brand
         return brand.brand_name
+
+class FrameSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Frame
+        fields = '__all__'
 
 
 class BikePartSerializer(serializers.ModelSerializer):

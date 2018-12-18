@@ -2,7 +2,15 @@ import {connect} from 'react-redux'
 // import {sampleBrands, sampleSections} from "../../helpers/sampleData";
 import {getBrands} from "../../state/actions/core";
 import {getFramework} from "../../state/actions/framework";
-import {archiveFrames, clearFrame, getFrameList, saveFrame} from "../../state/actions/bike";
+import {
+    archiveFrames,
+    clearFrame,
+    deleteBikes,
+    deleteFrames,
+    getFrameList,
+    reviewBikes,
+    saveFrame
+} from "../../state/actions/bike";
 import BikeReviewList from "../../components/bike/BikeReviewList";
 const mapStateToProps = ({core, framework, bike}) => {
     return {
@@ -17,8 +25,11 @@ const mapDispatchToProps = {
     getFramework,
     getFrameList,
     clearFrame,
+    reviewBikes,
+    deleteBikes,
     saveFrame,
     archiveFrames,
+    deleteFrames,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BikeReviewList)
 

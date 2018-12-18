@@ -5,29 +5,163 @@ import history from "../../history";
 import {
     archiveFramesError,
     archiveFramesSuccess,
+    BIKE_DELETE_REQUESTED, BIKE_REVIEW_BIKE, BIKE_REVIEW_REQUESTED,
+    deleteBikesError,
+    deleteBikesSuccess,
+    deleteFramesError,
+    deleteFramesSuccess,
     FRAME_ARCHIVE_REQUESTED,
+    FRAME_DELETE_REQUESTED,
     FRAME_LIST_REQUESTED,
     FRAME_SAVE_REQUESTED,
     FRAME_UPLOAD_REQUESTED,
     getFrameListError,
-    getFrameListOK,
+    getFrameListOK, reviewBikeError, reviewBikeOK,
     saveFrameError,
     saveFrameSuccess,
     uploadFrameError,
     uploadFrameSuccess,
+    reviewBike,
 } from "../actions/bike";
 
-export function* archiveFrames(action) {
+export function* reviewBikeStart(action) {
+    const bikeIdsToReview = action.payload.bikeReviewList;
+    if (bikeIdsToReview && bikeIdsToReview.length > 0) {
+        yield put(reviewBike(bikeIdsToReview[0]));
+        yield call(history.push, "/bike-browse");
+    } else{
+        yield put(reviewBikeError("No Bikes to Review"));
+    }
+
+}
+
+export function* watchForReviewBikeStart() {
+    yield takeLatest(BIKE_REVIEW_REQUESTED, reviewBikeStart);
+}
+
+export function* reviewBikeParts(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            const response = yield call(bike.getBikeParts, completePayload);
+            yield put(reviewBikeOK(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(reviewBikeError("Get Bike for Review failed"));
+    }
+}
+
+export function* watchForReviewBike() {
+    yield takeLatest(BIKE_REVIEW_BIKE, reviewBikeParts);
+}
+
+export function* deleteBikes(bikeIdsToDelete, token) {
+    try {
+        for (let i = 0; i < bikeIdsToDelete.length; i++) {
+            yield call(bike.deleteBike, { bikeId: bikeIdsToDelete[i], token });
+        }
+
+    } catch (error) {
+        yield put(deleteBikesError("Delete Frames failed"));
+    }
+}
+
+export function* deleteBikesAndGetList(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const bikeIdsToDelete = action.payload.bikeDeleteList;
+            const searchCriteria = action.payload.searchCriteria;
+
+            if (bikeIdsToDelete && bikeIdsToDelete.length > 0) {
+                yield* deleteBikes(bikeIdsToDelete, token);
+            }
+
+            if (searchCriteria && searchCriteria.brand) {
+                const searchPayload = Object.assign(searchCriteria, { token });
+                const searchResponse = yield call(bike.getFrames, searchPayload);
+                yield put(getFrameListOK(searchResponse.data));
+            } else {
+                yield put(deleteBikesSuccess());
+            }
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(deleteBikesError("Delete Bikes failed"));
+    }
+}
+
+export function* watchForDeleteBikes() {
+    yield takeLatest(BIKE_DELETE_REQUESTED, deleteBikesAndGetList);
+}
+
+export function* deleteFrames(frameIdsToDelete, token) {
+    try {
+        for (let i = 0; i < frameIdsToDelete.length; i++) {
+            yield call(bike.deleteFrame, { frameId: frameIdsToDelete[i], token });
+        }
+
+    } catch (error) {
+        yield put(deleteFramesError("Delete Frames failed"));
+    }
+}
+
+export function* deleteFramesAndGetList(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const frameIdsToDelete = action.payload.frameDeleteList;
+            const searchCriteria = action.payload.searchCriteria;
+
+            if (frameIdsToDelete && frameIdsToDelete.length > 0) {
+                yield* deleteFrames(frameIdsToDelete, token);
+            }
+
+            if (searchCriteria && searchCriteria.brand) {
+                const searchPayload = Object.assign(searchCriteria, { token });
+                const searchResponse = yield call(bike.getFrames, searchPayload);
+                yield put(getFrameListOK(searchResponse.data));
+            } else {
+                yield put(deleteFramesSuccess());
+            }
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(deleteFramesError("Delete Frames failed"));
+    }
+}
+
+export function* watchForDeleteFrames() {
+    yield takeLatest(FRAME_DELETE_REQUESTED, deleteFramesAndGetList);
+}
+export function* archiveFrames(frameIdsToArchive, token) {
+    try {
+        for (let i = 0; i < frameIdsToArchive.length; i++) {
+            const frame = { id: frameIdsToArchive[i], archived: true };
+            yield call(bike.saveFrame, { frame, token });
+        }
+
+    } catch (error) {
+        yield put(archiveFramesError("Archive Frames failed"));
+    }
+}
+
+export function* archiveFramesAndGetList(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
             const frameIdsToArchive = action.payload.frameArchiveList;
             const searchCriteria = action.payload.searchCriteria;
 
-            yield frameIdsToArchive.forEach(frameId => {
-                const frame = { id: frameId, archived: true };
-                return bike.saveFrame({ frame, token });
-            });
+            if (frameIdsToArchive && frameIdsToArchive.length > 0) {
+                yield* archiveFrames(frameIdsToArchive, token);
+            }
+
             if (searchCriteria && searchCriteria.brand) {
                 const searchPayload = Object.assign(searchCriteria, { token });
                 const searchResponse = yield call(bike.getFrames, searchPayload);
@@ -44,7 +178,7 @@ export function* archiveFrames(action) {
 }
 
 export function* watchForArchiveFrames() {
-    yield takeLatest(FRAME_ARCHIVE_REQUESTED, archiveFrames);
+    yield takeLatest(FRAME_ARCHIVE_REQUESTED, archiveFramesAndGetList);
 }
 
 export function* saveFrame(action) {

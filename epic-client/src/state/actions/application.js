@@ -8,3 +8,6 @@ export const addMessage = (messageText, messageType) => ({
     type: ADD_MESSAGE    ,
     payload: { messageText, messageType }
 });
+export const clearAllState = () => ({
+    type: CLEAR_ALL_STATE
+});

@@ -6,7 +6,7 @@ from django.db.models import CharField, TextField
 from django.utils import timezone
 
 from epic.model_helpers.lookup_helpers import UpperCase
-from epic.models.bike_models import Frame
+from epic.models.bike_models import Frame, Bike
 from epic.models.brand_models import Brand, Part
 from epic.models.customer_models import Customer, Fitting
 from epic.models.framework_models import PartType, PartTypeAttribute
@@ -34,7 +34,7 @@ class Quote(models.Model):
     sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
 
     # frame will be null for a quote for items only
-    frame = models.ForeignKey(Frame, on_delete=models.CASCADE, blank=True, null=True)
+    bike = models.ForeignKey(Bike, on_delete=models.CASCADE, blank=True, null=True)
     frame_sell_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     colour = models.CharField(max_length=40, blank=True, null=True)
     colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)

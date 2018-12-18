@@ -9,6 +9,7 @@ class BikeReviewList extends React.Component {
         frameName: '',
         archived: false,
         frameArchiveList: [],
+        frameDeleteList: [],
         bikeReviewList: [],
         bikeDeleteList: []
     };
@@ -41,13 +42,13 @@ class BikeReviewList extends React.Component {
         this.props.getFrameList(this.buildSearchCriteria());
     };
     showSearch = () => {
-        const { frameArchiveList, bikeReviewList, bikeDeleteList } = this.state;
-        if ((frameArchiveList.length > 0) || (bikeReviewList.length > 0) || (bikeDeleteList.length > 0)) {
+        const { frameArchiveList, frameDeleteList, bikeReviewList, bikeDeleteList } = this.state;
+        if ((frameArchiveList.length > 0) || (frameDeleteList.length > 0) || (bikeReviewList.length > 0) || (bikeDeleteList.length > 0)) {
             if (!window.confirm("Are You Sure?")) return;
         }
         let newState = Object.assign({},
             this.state,
-            { frameArchiveList: [], bikeReviewList: [], bikeDeleteList: [] }
+            { frameArchiveList: [],frameDeleteList:[], bikeReviewList: [], bikeDeleteList: [] }
         );
         this.setState(newState);
         this.props.clearFrame();
@@ -66,6 +67,13 @@ class BikeReviewList extends React.Component {
         let newState = Object.assign({},
             this.state,
             { frameArchiveList: this.changeList(this.state.frameArchiveList, frameId) }
+        );
+        this.setState(newState);
+    };
+    changeFrameDeleteList = (frameId) => {
+        let newState = Object.assign({},
+            this.state,
+            { frameDeleteList: this.changeList(this.state.frameDeleteList, frameId) }
         );
         this.setState(newState);
     };
@@ -101,22 +109,36 @@ class BikeReviewList extends React.Component {
         this.setState(newState);
     };
 
+    deleteFrames = () => {
+        this.props.deleteFrames(this.state.frameDeleteList, this.buildSearchCriteria());
+        let newState = Object.assign({},
+            this.state,
+            { frameDeleteList: [] }
+        );
+        this.setState(newState);
+    };
+
     startReview = () => {
-        const { frameArchiveList, bikeReviewList, bikeDeleteList } = this.state;
-        if ((frameArchiveList.length > 0) || (bikeDeleteList.length > 0)) {
+        const { frameArchiveList, frameDeleteList, bikeReviewList, bikeDeleteList } = this.state;
+        if ((frameArchiveList.length > 0) || (frameDeleteList.length > 0) || (bikeDeleteList.length > 0)) {
             if (!window.confirm("Do you want to start the review without processing delete and archive requests?")) {
                 return false;
             }
         }
-        window.alert("would review" + bikeReviewList.join())
+        this.props.reviewBikes(bikeReviewList, this.buildSearchCriteria());
     };
 
     deleteBikes = () => {
-        window.alert("would delete" + this.state.bikeDeleteList.join())
+        this.props.deleteBikes(this.state.bikeDeleteList, this.buildSearchCriteria());
+        let newState = Object.assign({},
+            this.state,
+            { bikeDeleteList: [] }
+        );
+        this.setState(newState);
     };
 
     render() {
-        const { brand, frameName, archived, frameArchiveList, bikeReviewList, bikeDeleteList } = this.state;
+        const { brand, frameName, archived, frameArchiveList, bikeReviewList, bikeDeleteList, frameDeleteList } = this.state;
         const { isLoading, brands, frames } = this.props;
         const archivedFrames = frames ? frames.filter(frame => frame.archived) : [];
         const nonArchivedFrames = frames ? frames.filter(frame => (!frame.archived)) : [];
@@ -147,7 +169,14 @@ class BikeReviewList extends React.Component {
                             disabled={(frameArchiveList.length === 0)}
                             onClick={this.archiveFrames}
                         >
-                            Archive Selected
+                            Archive Frames
+                        </Button>
+                        <Button
+                            key="deleteFrames"
+                            disabled={(frameDeleteList.length === 0)}
+                            onClick={this.deleteFrames}
+                        >
+                            Delete Frames
                         </Button>
                         <Button
                             key="reviewBikes"
@@ -176,7 +205,7 @@ class BikeReviewList extends React.Component {
                             >
                                 <div key="bikeReviewHeaders" className="grid-row grid-row--header">
                                     <div className="grid-item--header grid-header--fixed-left">Frame</div>
-                                    <div className="grid-item--header">Archive?</div>
+                                    <div className="grid-item--header"></div>
                                     <div className="grid-item--header">Model</div>
                                     <div className="grid-item--header">Description</div>
                                     <div className="grid-item--header">Sell Price</div>
@@ -196,12 +225,26 @@ class BikeReviewList extends React.Component {
                                                 className="grid-item align_center"
                                                 key={`bikeRowArchive${bike.id}`}
                                             >
-                                                {(bikeIndex === 0) && <input
-                                                    type="checkbox"
-                                                    key={`frameArchive${frame.id}`}
-                                                    onChange={() => this.changeFrameArchiveList(frame.id)}
-                                                    checked={frameArchiveList.includes(frame.id)}
-                                                />}
+                                                {(bikeIndex === 0) &&
+                                                    <Fragment>
+                                                        <Icon
+                                                            key={`archive${frame.id}`}
+                                                            name="archive"
+                                                            className={frameArchiveList.includes(frame.id) && "red"}
+                                                            onClick={() => this.changeFrameArchiveList(frame.id)}
+                                                            disabled={(frameDeleteList.includes(frame.id))}
+                                                            title="Archive this frame and all related bikes"
+                                                        />
+                                                        <Icon
+                                                            key={`delete${frame.id}`}
+                                                            name="delete"
+                                                            className={frameDeleteList.includes(frame.id) && "red"}
+                                                            onClick={() => this.changeFrameDeleteList(frame.id)}
+                                                            disabled={(frameArchiveList.includes(frame.id))}
+                                                            title="Delete this frame and all related bikes"
+                                                        />
+                                                    </Fragment>
+                                                }
                                             </div>
                                             <div
                                                 className="grid-item"
