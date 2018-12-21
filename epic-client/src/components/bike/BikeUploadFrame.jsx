@@ -52,13 +52,13 @@ class BikeUploadFrame extends React.Component {
                                 bikeOnly={true}
                             />
                             <button onClick={this.handleOpenModal}>Add Brand</button>
-                            <BrandModal
+                            {showModal && <BrandModal
                                 brandModalOpen={showModal}
                                 componentKey={NEW_ELEMENT_ID}
                                 saveBrand={this.saveBrand}
                                 closeBrandModal={this.handleCloseModal}
                                 suppliers={suppliers}
-                            />
+                            />}
                         </Fragment>
                     }
                 </div>

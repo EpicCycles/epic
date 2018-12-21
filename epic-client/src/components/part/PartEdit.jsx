@@ -3,24 +3,21 @@ import FormTextInput from "../../common/FormTextInput";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {Icon} from "semantic-ui-react";
 import {BRAND_FIELD, PART_NAME_FIELD, PART_TYPE_FIELD, partFields, TRADE_IN_FIELD} from "../../helpers/models";
-import {addFieldToState, checkForChanges, getUpdatedObject, validateData} from "../../helpers/utils";
+import {addFieldToState, checkForChanges, getUpdatedObject, isItAnObject, validateData} from "../../helpers/utils";
 import BrandSelect from "../brand/BrandSelect";
 import PartTypeSelect from "../partType/PartTypeSelect";
 import {getNewDataListRequired} from "../../helpers/part_helper";
 import PartDataList from "./PartDataList";
-//partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
-//     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
-//     part_name = models.CharField(max_length=200)
-//     trade_in_value =  models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-//     standard = models.BooleanField(default=False)
-//     stocked
+import * as PropTypes from "prop-types";
+
 const initialState = {
     partType: "",
     brand: "",
     part_name: "",
     trade_in_value: "",
     standard: false,
-    stocked: false
+    stocked: false,
+    errors: {}
 };
 
 class PartEdit extends React.Component {
@@ -33,7 +30,7 @@ class PartEdit extends React.Component {
     checkForChanges = (stateBeforeSetting) => {
         const originalPart = this.props.part;
 
-        if (originalPart && (Object.keys(originalPart).length > 0)) {
+        if (isItAnObject(originalPart)) {
             return checkForChanges(partFields, originalPart, stateBeforeSetting || this.state)
         } else {
             return checkForChanges(partFields, initialState, stateBeforeSetting || this.state)
@@ -68,9 +65,10 @@ class PartEdit extends React.Component {
 
     // get a new part list only if this part hasn't got an id
     checkPartDataList(newState) {
-        if ((!newState.id) && getNewDataListRequired(props.partDataList, newState.brand, newState.partType)) {
-            this.props.getPartDataList(newState.brand, newState.partType);
-        }
+        console.warn("not implemented")
+        // if ((!newState.id) && getNewDataListRequired(this.props.partDataList, newState.brand, newState.partType)) {
+        //     this.props.getPartDataList(newState.brand, newState.partType);
+        // }
     }
 
     saveOrCreatePart = () => {
@@ -91,8 +89,8 @@ class PartEdit extends React.Component {
     };
 
     render() {
-        const { id, partType, part_name, brand, trade_in_value, standard, stocked, errors } = this.state;
-        const { closeModal, sections, brands, partDataList, partTypeEditable } = this.props;
+        const { id, partType, part_name, brand, trade_in_value, standard, stocked, errors }   = this.state;
+        const { closeModal, sections, brands, partDataList, partTypeEditable, deletePart } = this.props;
         const componentKey = id ? id : NEW_ELEMENT_ID;
         const isChanged = this.checkForChanges();
 
@@ -107,7 +105,7 @@ class PartEdit extends React.Component {
             </div>}
             <div style={{ width: "100%", textAlign: "left" }}>
                 <h2>Edit Part</h2>
-                {partTypeEditable && <div className="grid-row">
+                <div className="grid-row">
                     <div className="grid-item--borderless field-label">
                         Part Type
                     </div>
@@ -115,14 +113,14 @@ class PartEdit extends React.Component {
                         <PartTypeSelect
                             sections={sections}
                             fieldName="partType"
-                            onChange={onChange}
-                            brandSelected={partType}
+                            onChange={this.handleInputChange}
+                            partTypeSelected={partType}
                             isEmptyAllowed={true}
                             error={errors[PART_TYPE_FIELD.fieldName]}
+                            disabled={!partTypeEditable}
                         />
                     </div>
                 </div>
-                }
                 <div className="grid-row">
                     <div className="grid-item--borderless field-label">
                         Brand
@@ -131,7 +129,7 @@ class PartEdit extends React.Component {
                         <BrandSelect
                             brands={brands}
                             fieldName="brand"
-                            onChange={onChange}
+                            onChange={this.handleInputChange}
                             brandSelected={brand}
                             isEmptyAllowed={true}
                             error={errors[BRAND_FIELD.fieldName]}
@@ -209,13 +207,13 @@ class PartEdit extends React.Component {
                       title="Reset Part details"
                 />
                 }
-                {(isChanged && isValid) &&
+                {(isChanged && !isItAnObject(errors)) &&
                 <Icon id={`accept-part`} name="check"
                       onClick={this.saveOrCreatePart}
                       title="Confirm Part Change"
                 />
                 }
-                {(id || isChanged) &&
+                {(deletePart && (id || isChanged)) &&
                 <Icon id={`delete-part`} name="trash"
                       onClick={this.deleteOrRemovePart}
                       title="Delete Part"
@@ -225,5 +223,15 @@ class PartEdit extends React.Component {
         </Fragment>;
     }
 }
-
+PartEdit.propTypes = {
+    part: PropTypes.any,
+    partTypeEditable: PropTypes.any,
+    getPartList: PropTypes.func,
+    componentKey: PropTypes.any,
+    sections: PropTypes.any,
+    brands: PropTypes.any,
+    savePart: PropTypes.func,
+    deletePart: PropTypes.func,
+    closeModal: PropTypes.func
+};
 export default PartEdit;

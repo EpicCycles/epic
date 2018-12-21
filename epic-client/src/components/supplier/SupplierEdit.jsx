@@ -148,7 +148,7 @@ class SupplierEdit extends React.Component {
                       title="Confirm Supplier Change"/>
                 }
                 {(id || isChanged) &&
-                <Icon id={`delete-suppliert`} name="trash"
+                <Icon id={`delete-supplier`} name="trash"
                       onClick={this.deleteOrRemoveSupplier}
                       title="Delete Supplier"/>
                 }

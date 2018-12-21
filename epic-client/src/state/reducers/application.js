@@ -30,6 +30,7 @@ import {USER_LOGIN, USER_LOGIN_ERROR, USER_LOGIN_REQUESTED} from "../actions/use
 import {FRAMEWORK_ERROR, FRAMEWORK_SAVE, FRAMEWORK_SAVE_ERROR} from "../actions/framework";
 import {BRANDS_SAVE_ERROR, BRANDS_SAVE_OK} from "../actions/core";
 import {
+    BIKE_ADD_PART_ERROR, BIKE_DELETE_ERROR, BIKE_PART_DELETE_ERROR,
     FRAME_ARCHIVE_ERROR,
     FRAME_ARCHIVE_OK,
     FRAME_SAVE_ERROR,
@@ -125,6 +126,9 @@ const application = (state = initialState, action) => {
         case BRANDS_SAVE_ERROR:
         case FRAME_SAVE_ERROR:
         case FRAME_UPLOAD_ERROR:
+        case BIKE_ADD_PART_ERROR:
+        case BIKE_DELETE_ERROR:
+        case BIKE_PART_DELETE_ERROR:
             return {
                 ...state,
                 message: action.payload,

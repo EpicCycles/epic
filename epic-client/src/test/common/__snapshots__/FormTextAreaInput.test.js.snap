@@ -10,10 +10,11 @@ exports[`FormTextAreaInput tests renders an error when present 1`] = `
   </label>
   <textarea
     autoComplete="off"
-    cols="50"
+    cols={50}
     onChange={[Function]}
     placeholder="Please enter your loyalty number"
     rows={4}
+    title=" Incorrect loyalty number"
     value=""
   />
   <div
@@ -35,10 +36,11 @@ exports[`FormTextAreaInput tests renders the form text input correctly 1`] = `
   </label>
   <textarea
     autoComplete="off"
-    cols="50"
+    cols={50}
     onChange={[Function]}
     placeholder="Please enter your loyalty number"
     rows={4}
+    title=" "
     value=""
   />
 </div>

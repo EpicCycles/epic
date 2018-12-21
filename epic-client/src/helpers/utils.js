@@ -1,5 +1,8 @@
 import {colourStyles} from "./constants";
 
+export const isItAnObject = (thing) => {
+    return (thing && (Object.keys(thing).length > 0));
+}
 export const checkForChanges = (fieldList, existingObject, newValues) => {
     return fieldList.some(field => {
         return existingObject[field.fieldName] !== newValues[field.fieldName];

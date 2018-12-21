@@ -48,7 +48,7 @@ class BikeReviewList extends React.Component {
         }
         let newState = Object.assign({},
             this.state,
-            { frameArchiveList: [],frameDeleteList:[], bikeReviewList: [], bikeDeleteList: [] }
+            { frameArchiveList: [], frameDeleteList: [], bikeReviewList: [], bikeDeleteList: [] }
         );
         this.setState(newState);
         this.props.clearFrame();
@@ -118,14 +118,31 @@ class BikeReviewList extends React.Component {
         this.setState(newState);
     };
 
+    reviewAll = () => {
+        const { frames } = this.props;
+        const nonArchivedFrames = frames ? frames.filter(frame => (!frame.archived)) : [];
+        let bikeReviewList = [];
+        nonArchivedFrames.forEach(frame => {
+            frame.bikes.forEach(bike => bikeReviewList.push(bike.id));
+        });
+        let newState = Object.assign({},
+            this.state,
+            { bikeReviewList }
+        );
+        if (!this.kickOffReview(bikeReviewList)) this.setState(newState);
+    };
     startReview = () => {
-        const { frameArchiveList, frameDeleteList, bikeReviewList, bikeDeleteList } = this.state;
+        this.kickOffReview(this.state.bikeReviewList);
+    };
+    kickOffReview = (bikeReviewList) => {
+        const { frameArchiveList, frameDeleteList, bikeDeleteList } = this.state;
         if ((frameArchiveList.length > 0) || (frameDeleteList.length > 0) || (bikeDeleteList.length > 0)) {
-            if (!window.confirm("Do you want to start the review without processing delete and archive requests?")) {
+            if (!window.confirm("Do you want to continue without processing delete and archive requests?")) {
                 return false;
             }
         }
         this.props.reviewBikes(bikeReviewList, this.buildSearchCriteria());
+        return true;
     };
 
     deleteBikes = () => {
@@ -179,7 +196,7 @@ class BikeReviewList extends React.Component {
                             Delete Frames
                         </Button>
                         <Button
-                            key="reviewBikes"
+                            key="deleteBikes"
                             disabled={(bikeDeleteList.length === 0)}
                             onClick={this.deleteBikes}
                         >
@@ -191,6 +208,12 @@ class BikeReviewList extends React.Component {
                             onClick={this.startReview}
                         >
                             Review Bikes
+                        </Button>
+                        <Button
+                            key="reviewAllBikes"
+                            onClick={this.reviewAll}
+                        >
+                            Review All
                         </Button>
                     </div>
                     <div className="row">
@@ -226,24 +249,24 @@ class BikeReviewList extends React.Component {
                                                 key={`bikeRowArchive${bike.id}`}
                                             >
                                                 {(bikeIndex === 0) &&
-                                                    <Fragment>
-                                                        <Icon
-                                                            key={`archive${frame.id}`}
-                                                            name="archive"
-                                                            className={frameArchiveList.includes(frame.id) && "red"}
-                                                            onClick={() => this.changeFrameArchiveList(frame.id)}
-                                                            disabled={(frameDeleteList.includes(frame.id))}
-                                                            title="Archive this frame and all related bikes"
-                                                        />
-                                                        <Icon
-                                                            key={`delete${frame.id}`}
-                                                            name="delete"
-                                                            className={frameDeleteList.includes(frame.id) && "red"}
-                                                            onClick={() => this.changeFrameDeleteList(frame.id)}
-                                                            disabled={(frameArchiveList.includes(frame.id))}
-                                                            title="Delete this frame and all related bikes"
-                                                        />
-                                                    </Fragment>
+                                                <Fragment>
+                                                    <Icon
+                                                        key={`archive${frame.id}`}
+                                                        name="archive"
+                                                        className={frameArchiveList.includes(frame.id) && "red"}
+                                                        onClick={() => (!frameDeleteList.includes(frame.id)) && this.changeFrameArchiveList(frame.id)}
+                                                        disabled={(frameDeleteList.includes(frame.id))}
+                                                        title="Archive this frame and all related bikes"
+                                                    />
+                                                    <Icon
+                                                        key={`delete${frame.id}`}
+                                                        name="delete"
+                                                        className={frameDeleteList.includes(frame.id) && "red"}
+                                                        onClick={() => (!frameArchiveList.includes(frame.id)) && this.changeFrameDeleteList(frame.id)}
+                                                        disabled={(frameArchiveList.includes(frame.id))}
+                                                        title="Delete this frame and all related bikes"
+                                                    />
+                                                </Fragment>
                                                 }
                                             </div>
                                             <div
@@ -278,7 +301,7 @@ class BikeReviewList extends React.Component {
                                                     key={`delete${bike.id}`}
                                                     name="trash"
                                                     className={bikeDeleteList.includes(bike.id) && "red"}
-                                                    onClick={() => this.changeBikeDeleteList(bike.id)}
+                                                    onClick={() => (!bikeReviewList.includes(bike.id)) && this.changeBikeDeleteList(bike.id)}
                                                     disabled={(bikeReviewList.includes(bike.id))}
                                                     title="Delete this bike"
                                                 />
@@ -286,7 +309,7 @@ class BikeReviewList extends React.Component {
                                                     key={`review${bike.id}`}
                                                     name="edit outline"
                                                     className={bikeReviewList.includes(bike.id) && "red"}
-                                                    onClick={() => this.changeBikeReviewList(bike.id)}
+                                                    onClick={() => (!bikeDeleteList.includes(bike.id)) && this.changeBikeReviewList(bike.id)}
                                                     disabled={(bikeDeleteList.includes(bike.id))}
                                                     title="Review this bike"
                                                 />
@@ -301,50 +324,50 @@ class BikeReviewList extends React.Component {
                             <div>No current frames found</div>
                         }
                         {(archived && (archivedFrames.length > 0)) && <div
-                                key='bikeArchiveGrid'
-                                className="grid"
-                                style={{
-                                    height: (window.innerHeight - 100) + "px",
-                                    width: ((window.innerWidth * 0.25) - 50) + "px",
-                                    overflow: "scroll"
-                                }}
-                            >
-                                <div key="bikeReviewHeaders" className="grid-row grid-row--header">
-                                    <div className="grid-item--header grid-header--fixed-left">Frame</div>
-                                    <div className="grid-item--header">Date Archived</div>
-                                    <div className="grid-item--header">Undo</div>
-                                </div>
-                                {archivedFrames.map(frame =>
-                                    <div key={`archiveRow${frame.id}`} className="grid-row">
-                                        <div
-                                            className="grid-item grid-item--fixed-left"
-                                            key={`archiveRowFrame${frame.id}`}
-                                        >
-                                            {frame.frame_name}
-                                        </div>
-                                        <div
-                                            className="grid-item"
-                                            key={`archiveRowDate${frame.id}`}
-                                        >
-                                            {frame.archived_date.substring(0, 10)}
-                                        </div>
-                                        <div
-                                            className="grid-item align_center"
-                                            key={`archiveRowUndo${frame.id}`}
-                                        >
-                                            <Icon
-                                                key={`undo${frame.id}`}
-                                                name="undo"
-                                                className="red"
-                                                onClick={() => this.restoreArchivedFrame(frame.id)}
-                                                title="Undo Archive of frame"
-                                            />
-                                        </div>
-                                    </div>
-                                )}
+                            key='bikeArchiveGrid'
+                            className="grid"
+                            style={{
+                                height: (window.innerHeight - 100) + "px",
+                                width: ((window.innerWidth * 0.25) - 50) + "px",
+                                overflow: "scroll"
+                            }}
+                        >
+                            <div key="bikeReviewHeaders" className="grid-row grid-row--header">
+                                <div className="grid-item--header grid-header--fixed-left">Frame</div>
+                                <div className="grid-item--header">Date Archived</div>
+                                <div className="grid-item--header">Undo</div>
                             </div>
+                            {archivedFrames.map(frame =>
+                                <div key={`archiveRow${frame.id}`} className="grid-row">
+                                    <div
+                                        className="grid-item grid-item--fixed-left"
+                                        key={`archiveRowFrame${frame.id}`}
+                                    >
+                                        {frame.frame_name}
+                                    </div>
+                                    <div
+                                        className="grid-item"
+                                        key={`archiveRowDate${frame.id}`}
+                                    >
+                                        {frame.archived_date.substring(0, 10)}
+                                    </div>
+                                    <div
+                                        className="grid-item align_center"
+                                        key={`archiveRowUndo${frame.id}`}
+                                    >
+                                        <Icon
+                                            key={`undo${frame.id}`}
+                                            name="undo"
+                                            className="red"
+                                            onClick={() => this.restoreArchivedFrame(frame.id)}
+                                            title="Undo Archive of frame"
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                         }
-                        {(archived && (archivedFrames.length === 0)) &&   <div>No Archived frames found</div> }
+                        {(archived && (archivedFrames.length === 0)) && <div>No Archived frames found</div>}
                     </div>
                 </Fragment>
             }

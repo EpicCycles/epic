@@ -36,6 +36,6 @@ describe("FormTextAreaInput tests", () => {
       />);
     input.find("textarea").simulate("change", {target:{value:1234567890123456}});
     expect(onChange.mock.calls.length).toBe(1);
-    expect(onChange.mock.calls[0][0]).toBe(1234567890123456);
+    expect(onChange.mock.calls[0][1]).toBe(1234567890123456);
   });
 });

@@ -195,7 +195,7 @@ class CustomerDetailEdit extends React.Component {
                 }
                 {(customerInState || isChanged) &&
                 <Icon id={`accept-cust`} name="check" disabled={!isValid}
-                      onClick={this.validateCustomerDataAndSave} title="Confirm Customer changes"/>
+                      onClick={isValid && this.validateCustomerDataAndSave} title="Confirm Customer changes"/>
                 }
                 {customerInState &&
                 <Icon id={`delete-customer`} name="delete"

@@ -79,12 +79,6 @@ exports[`upload frame details displays when none entered 1`] = `
         >
           Add Brand
         </button>
-        <BrandModal
-          brandModalOpen={false}
-          closeBrandModal={[Function]}
-          componentKey="new"
-          saveBrand={[Function]}
-        />
       </React.Fragment>
     </div>
   </div>
@@ -190,12 +184,6 @@ exports[`upload frame details displays when none entered 2`] = `
         >
           Add Brand
         </button>
-        <BrandModal
-          brandModalOpen={false}
-          closeBrandModal={[Function]}
-          componentKey="new"
-          saveBrand={[Function]}
-        />
       </React.Fragment>
     </div>
   </div>

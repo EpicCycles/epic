@@ -205,7 +205,7 @@ class CustomerAddressEdit extends React.Component {
                       }
                       {isChanged &&
                       <Icon id={`accept-address${keyValue}`} name="check" disabled={!isValid}
-                            onClick={this.saveOrCreateCustomerAddress}
+                            onClick={isValid && this.saveOrCreateCustomerAddress}
                             title="Confirm changes"/>
                       }
                       {(address1 || address2 || address3 || address4 || postcode) &&

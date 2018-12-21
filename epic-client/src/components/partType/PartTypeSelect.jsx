@@ -3,23 +3,24 @@ import React from "react";
 import SelectInput from "../../common/SelectInput";
 
 const PartTypeSelect = (props) => {
-    const { sections, fieldName, onChange, partTypeSelected, isEmptyAllowed, error } = props;
+    const { sections, fieldName, onChange, partTypeSelected, isEmptyAllowed, error, disabled } = props;
     const partTypeOptions = [];
     sections && sections.forEach(section => {
-        partTypeOptions.concat(section.partTypes.map(partType => {
-            return {
-                'value': partType.id ? partType.id : partType.dummyKey,
-                'name': partType.shortName + " (" + section.shortName + ")"
-            };
-        }));
+        section.partTypes.forEach(partType => {
+            partTypeOptions.push({
+                'value': partType.id ? partType.id.toString() : partType.dummyKey,
+                'name': partType.shortName + " (" + section.name + ")"
+            });
+        });
     });
     return <SelectInput
         fieldName={fieldName}
         onChange={onChange}
-        value={partTypeSelected}
+        value={partTypeSelected ? partTypeSelected.toString() : ""}
         options={partTypeOptions}
         isEmptyAllowed={isEmptyAllowed}
         error={error}
+        disabled={disabled}
     />;
 };
 export default PartTypeSelect;

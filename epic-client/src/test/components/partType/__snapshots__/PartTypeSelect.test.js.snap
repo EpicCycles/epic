@@ -3,6 +3,26 @@
 exports[`it displays correctly 1`] = `
 <SelectInput
   fieldName="name_of_field"
-  options={Array []}
+  options={
+    Array [
+      Object {
+        "name": "partType 1 (sections1)",
+        "value": "11",
+      },
+      Object {
+        "name": "partType 21 (sections2)",
+        "value": "21",
+      },
+      Object {
+        "name": "partType 22 (sections2)",
+        "value": "22",
+      },
+      Object {
+        "name": "partType 23 (sections2)",
+        "value": "23",
+      },
+    ]
+  }
+  value=""
 />
 `;

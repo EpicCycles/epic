@@ -12,6 +12,7 @@ import HeaderContainer from "./HeaderContainer";
 import BrandsContainer from "../brand/BrandsContainer";
 import BikeUploadContainer from "../bike/BikeUploadContainer";
 import BikeReviewListContainer from "../bike/BikeReviewListContainer";
+import BikeReviewContainer from "../bike/BikeReviewContainer";
 
 ReactModal.setAppElement('#root');
 const App = () => (
@@ -26,9 +27,9 @@ const App = () => (
             <Route exact path="/framework" component={Framework}/>
             <Route exact path="/brands" component={BrandsContainer}/>
             <Route exact path="/bike-upload" component={BikeUploadContainer}/>
-            <Route exact path="/bike-review" component={BikeReviewListContainer}/>
+            <Route exact path="/bike-review-list" component={BikeReviewListContainer}/>
+            <Route exact path="/bike-review" component={BikeReviewContainer}/>
         </main>
-
     </div>
 );
 export default App;

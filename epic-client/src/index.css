@@ -605,6 +605,12 @@ div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
     width: 600px;
     z-index: 9999;
 }
+.PartModal {
+    top: 20%;
+    width: 400px;
+    z-index: 9999;
+    min-height: 250px;
+}
 
 /* nice colours */
 .transition-01-02,

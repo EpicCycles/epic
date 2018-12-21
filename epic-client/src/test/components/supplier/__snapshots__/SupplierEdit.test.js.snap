@@ -51,7 +51,7 @@ exports[`displays correctly for existing supplier 1`] = `
   >
     <Icon
       as="i"
-      id="delete-suppliert"
+      id="delete-supplier"
       name="trash"
       onClick={[Function]}
       title="Delete Supplier"
@@ -127,7 +127,7 @@ exports[`displays correctly for existing supplier as a modal dialogue 1`] = `
   >
     <Icon
       as="i"
-      id="delete-suppliert"
+      id="delete-supplier"
       name="trash"
       onClick={[Function]}
       title="Delete Supplier"

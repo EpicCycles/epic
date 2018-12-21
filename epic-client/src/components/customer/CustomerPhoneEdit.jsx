@@ -145,7 +145,7 @@ class CustomerPhoneEdit extends React.Component {
                       }
                       {isChanged &&
                       <Icon id={`accept-phone${keyValue}`} name="check" disabled={!isValid}
-                            onClick={this.saveOrCreateCustomerPhone}
+                            onClick={isValid && this.saveOrCreateCustomerPhone}
                             title="Confirm changes"/>
                       }
                       {telephone &&

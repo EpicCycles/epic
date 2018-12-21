@@ -3,7 +3,7 @@ import React from "react";
 import SelectInput from "../../common/SelectInput";
 
 const BrandSelect = (props) => {
-    const { brands, fieldName, onChange, brandSelected, isEmptyAllowed, error, bikeOnly } = props;
+    const { brands, fieldName, onChange, brandSelected, isEmptyAllowed, error, bikeOnly, disabled } = props;
     const brandsToUse = (brands && bikeOnly) ? brands.filter(brand => brand.bike_brand) : brands;
     const brandOptions = brandsToUse ? brandsToUse.map(brand => {
         return {
@@ -18,6 +18,7 @@ const BrandSelect = (props) => {
         options={brandOptions}
         isEmptyAllowed={isEmptyAllowed}
         error={error}
+        disabled={disabled}
     />;
 }
 export default BrandSelect;

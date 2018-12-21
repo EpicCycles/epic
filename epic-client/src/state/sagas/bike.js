@@ -5,7 +5,9 @@ import history from "../../history";
 import {
     archiveFramesError,
     archiveFramesSuccess,
-    BIKE_DELETE_REQUESTED, BIKE_REVIEW_BIKE, BIKE_REVIEW_REQUESTED,
+    BIKE_DELETE_REQUESTED,
+    BIKE_REVIEW_BIKE,
+    BIKE_REVIEW_REQUESTED,
     deleteBikesError,
     deleteBikesSuccess,
     deleteFramesError,
@@ -16,19 +18,112 @@ import {
     FRAME_SAVE_REQUESTED,
     FRAME_UPLOAD_REQUESTED,
     getFrameListError,
-    getFrameListOK, reviewBikeError, reviewBikeOK,
+    getFrameListOK,
     saveFrameError,
     saveFrameSuccess,
     uploadFrameError,
     uploadFrameSuccess,
     reviewBike,
+    reviewBikeError,
+    reviewBikeOK,
+    saveBikeError,
+    saveBikeOK,
+    BIKE_SAVE_REQUESTED,
+    saveBikePartOK,
+    saveBikePartError,
+    BIKE_PART_SAVE_REQUESTED,
+    deleteBikePartOK,
+    BIKE_PART_DELETE_REQUESTED,
+    addBikePartOK,
+    addBikePartError,
+    BIKE_ADD_PART_REQUESTED,
+    deleteBikePartError,
 } from "../actions/bike";
+
+
+export function* saveBike(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            const response = yield call(bike.saveBike, completePayload);
+            yield put(saveBikeOK(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(saveBikeError("Save Bike failed"));
+    }
+}
+
+export function* watchForSaveBike() {
+    yield takeLatest(BIKE_SAVE_REQUESTED, saveBike);
+}
+
+export function* addBikePart(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            yield call(bike.addBikePart, completePayload);
+            const response = yield call(bike.getBikeParts, completePayload);
+            yield put(addBikePartOK(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(addBikePartError("Add Bike Part failed"));
+    }
+}
+
+export function* watchForAddBikePart() {
+    yield takeLatest(BIKE_ADD_PART_REQUESTED, addBikePart);
+}
+export function* saveBikePart(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            yield call(bike.saveBikePart, completePayload);
+            const response = yield call(bike.getBikeParts, completePayload);
+            yield put(saveBikePartOK(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(saveBikePartError("Save Bike Part failed"));
+    }
+}
+
+export function* watchForSaveBikePart() {
+    yield takeLatest(BIKE_PART_SAVE_REQUESTED, saveBikePart);
+}
+
+export function* deleteBikePart(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = Object.assign(action.payload, { token });
+            yield call(bike.deleteBikePart, completePayload);
+            const response = yield call(bike.getBikeParts, completePayload);
+            yield put(deleteBikePartOK(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        yield put(deleteBikePartError("Delete Bike Part failed"));
+    }
+}
+
+export function* watchForDeleteBikePart() {
+    yield takeLatest(BIKE_PART_DELETE_REQUESTED, deleteBikePart);
+}
 
 export function* reviewBikeStart(action) {
     const bikeIdsToReview = action.payload.bikeReviewList;
     if (bikeIdsToReview && bikeIdsToReview.length > 0) {
         yield put(reviewBike(bikeIdsToReview[0]));
-        yield call(history.push, "/bike-browse");
+        yield call(history.push, "/bike-review");
     } else{
         yield put(reviewBikeError("No Bikes to Review"));
     }
@@ -44,8 +139,9 @@ export function* reviewBikeParts(action) {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = Object.assign(action.payload, { token });
-            const response = yield call(bike.getBikeParts, completePayload);
-            yield put(reviewBikeOK(response.data));
+            const responseBike = yield call(bike.getBike, completePayload);
+            const responseParts = yield call(bike.getBikeParts, completePayload);
+            yield put(reviewBikeOK(responseBike.data, responseParts.data));
         } else {
             yield call(history.push, "/login");
         }

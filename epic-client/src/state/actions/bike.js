@@ -6,6 +6,18 @@ export const BIKE_REVIEW_ERROR = "bike/BIKE_REVIEW_ERROR";
 export const BIKE_DELETE_REQUESTED = "bike/BIKE_DELETE_REQUESTED";
 export const BIKE_DELETE_OK = "bike/BIKE_DELETE_OK";
 export const BIKE_DELETE_ERROR = "bike/BIKE_DELETE_ERROR";
+export const BIKE_ADD_PART_REQUESTED = "bike/BIKE_ADD_PART_REQUESTED";
+export const BIKE_ADD_PART_OK = "bike/BIKE_ADD_PART_OK";
+export const BIKE_ADD_PART_ERROR = "bike/BIKE_ADD_PART_ERROR";
+export const BIKE_SAVE_REQUESTED = "bike/BIKE_SAVE_REQUESTED";
+export const BIKE_SAVE_OK = "bike/BIKE_SAVE_OK";
+export const BIKE_SAVE_ERROR = "bike/BIKE_SAVE_ERROR";
+export const BIKE_PART_DELETE_REQUESTED = "bike/BIKE_PART_DELETE_REQUESTED";
+export const BIKE_PART_DELETE_OK = "bike/BIKE_PART_DELETE_OK";
+export const BIKE_PART_DELETE_ERROR = "bike/BIKE_PART_DELETE_ERROR";
+export const BIKE_PART_SAVE_REQUESTED = "bike/BIKE_PART_SAVE_REQUESTED";
+export const BIKE_PART_SAVE_OK = "bike/BIKE_PART_SAVE_OK";
+export const BIKE_PART_SAVE_ERROR = "bike/BIKE_PART_SAVE_ERROR";
 export const FRAME_ARCHIVE_REQUESTED = "bike/FRAME_ARCHIVE_REQUESTED";
 export const FRAME_ARCHIVE_OK = "bike/FRAME_ARCHIVE_OK";
 export const FRAME_ARCHIVE_ERROR = "bike/FRAME_ARCHIVE_ERROR";
@@ -26,9 +38,57 @@ export const FRAME_LIST_ERROR = "bike/FRAME_LIST_ERROR";
 export const clearFrame = () => ({
     type: CLEAR_FRAME
 });
-export const reviewBikes = (bikeReviewList, bikeId) => ({
+export const saveBike = (bike) => ({
+    type: BIKE_SAVE_REQUESTED,
+    payload: { bike }
+});
+export const saveBikeOK = (bike) => ({
+    type: BIKE_SAVE_OK,
+    payload: { bike }
+});
+export const saveBikeError = (error) => ({
+    type: BIKE_SAVE_ERROR,
+    payload: error
+});
+export const saveBikePart = (bikeId, part) => ({
+    type: BIKE_PART_SAVE_REQUESTED,
+    payload: { bikeId, part }
+});
+export const saveBikePartOK = (parts) => ({
+    type: BIKE_PART_SAVE_OK,
+    payload: { parts }
+});
+export const saveBikePartError = (error) => ({
+    type: BIKE_PART_SAVE_ERROR,
+    payload: error
+});
+export const addBikePart = (bikeId, part) => ({
+    type: BIKE_ADD_PART_REQUESTED,
+    payload: { bikeId, part }
+});
+export const addBikePartOK = (parts) => ({
+    type: BIKE_ADD_PART_OK,
+    payload: { parts }
+});
+export const addBikePartError = (error) => ({
+    type: BIKE_ADD_PART_ERROR,
+    payload: error
+});
+export const deleteBikePart = (bikeId, partId) => ({
+    type: BIKE_PART_DELETE_REQUESTED,
+    payload: { bikeId, partId }
+});
+export const deleteBikePartOK = (parts) => ({
+    type: BIKE_PART_DELETE_OK,
+    payload: { parts }
+});
+export const deleteBikePartError = (error) => ({
+    type: BIKE_PART_DELETE_ERROR,
+    payload: error
+});
+export const reviewBikes = (bikeReviewList) => ({
     type:BIKE_REVIEW_REQUESTED,
-    payload: {bikeReviewList, bikeId}
+    payload: {bikeReviewList}
 });
 export const reviewBike = (bikeId) => ({
     type:BIKE_REVIEW_BIKE,
@@ -38,9 +98,9 @@ export const reviewBikeError = (error) => ({
     type: BIKE_REVIEW_ERROR,
     payload: error
 });
-export const reviewBikeOK = (parts) => ({
+export const reviewBikeOK = (bike, parts) => ({
     type: BIKE_REVIEW_OK,
-    payload: parts
+    payload: {bike, parts}
 });
 export const deleteBikes = (bikeDeleteList, searchCriteria) => ({
     type: BIKE_DELETE_REQUESTED,

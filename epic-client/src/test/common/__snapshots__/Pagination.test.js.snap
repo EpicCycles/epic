@@ -4,14 +4,15 @@ exports[`Pagination tests renders the pagination correctly 1`] = `
 <span
   id="paging"
 >
-  Page: 
+  Page
+  : 
   <Icon
     as="i"
     disabled={true}
     id="firstPage"
     name="angle double left"
     onClick={[Function]}
-    title="Go to page 1"
+    title="Go to first page"
   />
   <Icon
     as="i"

@@ -62,7 +62,7 @@ exports[`Header.index tests renders the Header correctly when the user is logged
                   Object {
                     "displayText": "Bike Review",
                     "linkNumber": 202,
-                    "linkRoute": "/bike-review",
+                    "linkRoute": "/bike-review-list",
                   },
                 ],
                 "groupPos": 20,
@@ -163,7 +163,7 @@ exports[`Header.index tests renders the Header correctly when the user is not lo
                   Object {
                     "displayText": "Bike Review",
                     "linkNumber": 202,
-                    "linkRoute": "/bike-review",
+                    "linkRoute": "/bike-review-list",
                   },
                 ],
                 "groupPos": 20,
@@ -255,7 +255,7 @@ exports[`Header.index tests renders the Header correctly with user and applicati
                   Object {
                     "displayText": "Bike Review",
                     "linkNumber": 202,
-                    "linkRoute": "/bike-review",
+                    "linkRoute": "/bike-review-list",
                   },
                 ],
                 "groupPos": 20,

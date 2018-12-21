@@ -62,7 +62,7 @@ exports[`is displays correctly 1`] = `
                   Object {
                     "displayText": "Bike Review",
                     "linkNumber": 202,
-                    "linkRoute": "/bike-review",
+                    "linkRoute": "/bike-review-list",
                   },
                 ],
                 "groupPos": 20,

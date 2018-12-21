@@ -5,7 +5,7 @@ test("it displays correctly", () => {
     const sections = [
         {
             id: 1,
-            shortName: "sections1",
+            name: "sections1",
             partTypes: [
                 {
                     id: 11, shortName: "partType 1",
@@ -14,7 +14,7 @@ test("it displays correctly", () => {
         },
         {
             id: 2,
-            shortName: "sections2",
+            name: "sections2",
             partTypes: [
                 {
                     id: 21, shortName: "partType 21",
