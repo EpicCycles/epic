@@ -20,7 +20,7 @@ class Frames(generics.ListCreateAPIView):
 
     def get_object(self, frame_id):
         try:
-            return Frame.objects.get(id=frame_id)
+            return Frame.objects.get(pk=frame_id)
         except Frame.DoesNotExist:
             raise Http404
 
@@ -61,6 +61,7 @@ class Frames(generics.ListCreateAPIView):
 
         return Response(status=status.HTTP_403_FORBIDDEN)
 
+
 class FrameUpload(generics.ListCreateAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -94,7 +95,7 @@ class FrameUpload(generics.ListCreateAPIView):
                 bike['frame'] = frame_id
                 model_name = bike.get('model_name')
                 bikeSerializer = BikeSerializer(data=bike)
-                existing_bike = Bike.objects.filter(frame__id=frame_id, model_name=model_name)
+                existing_bike = Bike.objects.filter(frame__id=frame_id, model_name=model_name).first()
                 if existing_bike:
                     bikeSerializer = BikeSerializer(existing_bike, data=bike)
                     BikePart.objects.filter(bike=existing_bike).delete()
@@ -111,7 +112,9 @@ class FrameUpload(generics.ListCreateAPIView):
                         part_brand = part.get('partBrand', frame_brand)
                         if part_type and part_name and bike_id:
                             part = find_or_create_part(Brand.objects.get(id=part_brand),
-                                                       PartType.objects.get(id=part_type), part_name)
+                                                       PartType.objects.get(id=part_type),
+                                                       part_name,
+                                                       False)
                             persisted_parts.append(PartSerializer(part).data)
                             bike_part = BikePart.objects.create(bike=Bike.objects.get(id=bike_id), part=part)
                             bike_part.save()
@@ -173,7 +176,7 @@ class BikeParts(generics.ListCreateAPIView):
 
     def get_object(self, bike_id, part_id):
         try:
-            bike_parts =  BikePart.objects.filter(bike__id=bike_id, part__id=part_id)
+            bike_parts = BikePart.objects.filter(bike__id=bike_id, part__id=part_id)
             if bike_parts.exists():
                 return bike_parts[0]
             raise Http404
@@ -196,7 +199,6 @@ class BikeParts(generics.ListCreateAPIView):
     def get(self, request, bike_id):
         serializer = PartSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
-
 
     def post(self, request, bike_id):
         part_data = request.data
@@ -236,8 +238,8 @@ class BikeParts(generics.ListCreateAPIView):
                 # if a part already exists with a different id but these values then use that
 
                 part = find_or_create_part(Brand.objects.get(id=part_brand),
-                                       PartType.objects.get(id=part_type),
-                                       part_name, False)
+                                           PartType.objects.get(id=part_type),
+                                           part_name, False)
                 if part:
                     bike_part.part = part
                     bike_part.save()
@@ -255,7 +257,3 @@ class BikeParts(generics.ListCreateAPIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-
-

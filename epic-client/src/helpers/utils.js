@@ -1,8 +1,18 @@
 import {colourStyles} from "./constants";
 
+export const changeList = (oldList, checkObject) => {
+    let newList = oldList.slice();
+    if (newList.includes(checkObject)) {
+        const index = newList.indexOf(checkObject);
+        if (index !== -1) newList.splice(index, 1);
+    } else {
+        newList.push(checkObject);
+    }
+    return newList;
+};
 export const isItAnObject = (thing) => {
     return (thing && (Object.keys(thing).length > 0));
-}
+};
 export const checkForChanges = (fieldList, existingObject, newValues) => {
     return fieldList.some(field => {
         return existingObject[field.fieldName] !== newValues[field.fieldName];

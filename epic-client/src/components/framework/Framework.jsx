@@ -16,9 +16,7 @@ import {NEW_ELEMENT_ID} from "../../helpers/constants";
 class Framework extends React.Component {
     componentWillMount() {
         if (!(this.props.sections && this.props.sections.length > 0)) {
-            if (!this.props.isLoading) {
-                this.props.getFramework();
-            }
+            this.props.getFramework();
         }
     };
 

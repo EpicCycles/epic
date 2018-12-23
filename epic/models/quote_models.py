@@ -190,7 +190,7 @@ class QuotePartManager(models.Manager):
             brand = Brand.objects.get(id=brand_id)
             part_name = quote_part_form.cleaned_data['part_name']
             from epic.model_helpers.part_helper import find_or_create_part
-            part = find_or_create_part(brand, part_type, part_name)
+            part = find_or_create_part(brand, part_type, part_name, True)
             if part:
                 quote_part = self.create(quote=quote, partType=part_type, part=part,
                                          quantity=quote_part_form.cleaned_data['quantity'],

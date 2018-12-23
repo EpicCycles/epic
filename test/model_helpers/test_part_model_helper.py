@@ -23,10 +23,10 @@ class PartModelTestCase(TestCase):
 
     def test_find_or_create_part(self):
         parts_before_test = Part.objects.all().count()
-        self.assertEqual(self.part1, find_or_create_part(self.brand1, self.part_type1, 'Part 1'))
-        self.assertEqual(self.part1, find_or_create_part(self.brand1, self.part_type1, 'PART 1'))
-        self.assertEqual(self.part1, find_or_create_part(self.brand1, self.part_type1, 'part 1'))
+        self.assertEqual(self.part1, find_or_create_part(self.brand1, self.part_type1, 'Part 1', True))
+        self.assertEqual(self.part1, find_or_create_part(self.brand1, self.part_type1, 'PART 1', True))
+        self.assertEqual(self.part1, find_or_create_part(self.brand1, self.part_type1, 'part 1', True))
 
-        find_or_create_part(self.brand2, self.part_type1, self.part1.part_name)
+        find_or_create_part(self.brand2, self.part_type1, self.part1.part_name, True)
         expected_count = parts_before_test + 1
         self.assertEqual(expected_count, Part.objects.all().count())

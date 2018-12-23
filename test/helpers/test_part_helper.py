@@ -26,11 +26,11 @@ class PartHelperTestCase(TestCase):
         self.part3 = Part.objects.create_part(self.part_type3, self.brand2, 'Part 3')
 
     def test_find_or_create_part_found(self):
-        self.assertEqual(self.part1, find_or_create_part(self.brand1, self.part_type2, 'Part 1'))
+        self.assertEqual(self.part1, find_or_create_part(self.brand1, self.part_type2, 'Part 1', True))
 
     def test_find_or_create_part_created(self):
         expected_count = Part.objects.all().count() + 1
-        created_part = find_or_create_part(self.brand1, self.part_type2, 'Part x')
+        created_part = find_or_create_part(self.brand1, self.part_type2, 'Part x', True)
         final_count = Part.objects.all().count()
 
         self.assertNotEqual(self.part1, created_part)

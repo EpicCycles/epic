@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react'
-import {removeKey} from "../../helpers/utils";
+import {changeList, removeKey} from "../../helpers/utils";
 import {Button, Dimmer, Icon, Loader} from "semantic-ui-react";
 import BikeReviewListSelection from "./BikeReviewListSelection";
 
@@ -53,41 +53,33 @@ class BikeReviewList extends React.Component {
         this.setState(newState);
         this.props.clearFrame();
     };
-    changeList = (oldList, checkId) => {
-        let newList = oldList.slice();
-        if (newList.includes(checkId)) {
-            var index = newList.indexOf(checkId);
-            if (index !== -1) newList.splice(index, 1);
-        } else {
-            newList.push(checkId);
-        }
-        return newList;
-    };
+
     changeFrameArchiveList = (frameId) => {
         let newState = Object.assign({},
             this.state,
-            { frameArchiveList: this.changeList(this.state.frameArchiveList, frameId) }
+            { frameArchiveList: changeList(this.state.frameArchiveList, frameId) }
         );
         this.setState(newState);
     };
+
     changeFrameDeleteList = (frameId) => {
         let newState = Object.assign({},
             this.state,
-            { frameDeleteList: this.changeList(this.state.frameDeleteList, frameId) }
+            { frameDeleteList: changeList(this.state.frameDeleteList, frameId) }
         );
         this.setState(newState);
     };
     changeBikeReviewList = (bikeId) => {
         let newState = Object.assign({},
             this.state,
-            { bikeReviewList: this.changeList(this.state.bikeReviewList, bikeId) }
+            { bikeReviewList: changeList(this.state.bikeReviewList, bikeId) }
         );
         this.setState(newState);
     };
     changeBikeDeleteList = (bikeId) => {
         let newState = Object.assign({},
             this.state,
-            { bikeDeleteList: this.changeList(this.state.bikeDeleteList, bikeId) }
+            { bikeDeleteList: changeList(this.state.bikeDeleteList, bikeId) }
         );
         this.setState(newState);
     };

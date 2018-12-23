@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import {removeObjectWithIndex} from "../../helpers/utils";
+import {changeList, removeObjectWithIndex} from "../../helpers/utils";
 import ShowOrHide from "../../common/ShowOrHide";
 import PartString from "../part/PartString";
 
@@ -10,11 +10,12 @@ class BikeUploadReview extends React.Component {
             bikesWithDetail: []
         }
     }
-
-    showBikeDetail = id => {
-        const updatedShownBikes = this.state.bikesWithDetail.slice(0)
-        updatedShownBikes.push(id);
-        this.setState({ bikesWithDetail: updatedShownBikes });
+    toggleBikeDetail = id => {
+        let newState = Object.assign({},
+            this.state,
+            { bikesWithDetail: changeList(this.state.bikesWithDetail, id) }
+        );
+        this.setState(newState);
     };
     hideBikeDetail = id => {
         const bikeIndex = this.state.bikesWithDetail.indexOf(id);
@@ -76,8 +77,8 @@ class BikeUploadReview extends React.Component {
                                 <ShowOrHide
                                     componentKey={`seeParts${bikeIndex}`}
                                     isShown={bikesWithDetail.includes(bikeIndex)}
-                                    hideDetail={this.hideBikeDetail}
-                                    showDetail={this.showBikeDetail}
+                                    hideDetail={this.toggleBikeDetail}
+                                    showDetail={this.toggleBikeDetail}
                                     detailKey={bikeIndex}
                                 />
                             </div>

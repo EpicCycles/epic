@@ -27,7 +27,7 @@ def validateAndPersistOption(option, part_type_attribute):
 def update_existing_attribute_option(option, option_id):
     existing_option = AttributeOptions.objects.get(id=option_id)
     if existing_option is not None:
-        serializer = AttributeOptionsSerializer(instance=existing_option, data=option)
+        serializer = AttributeOptionsSerializer(existing_option, data=option)
         if serializer.is_valid():
             serializer.save()
             return serializer.data
@@ -91,7 +91,7 @@ def validateAndPersistAttribute(attribute, part_type_id):
 def update_existing_attribute(attribute, attribute_id):
     existing_attribute = PartTypeAttribute.objects.get(id=attribute_id)
     if existing_attribute is not None:
-        serializer = PartTypeAttributeSerializer(instance=existing_attribute, data=attribute)
+        serializer = PartTypeAttributeSerializer(existing_attribute, data=attribute)
         if serializer.is_valid():
             serializer.save()
             return serializer.data
@@ -137,7 +137,7 @@ def validateAndPersistSynonym(synonym, part_type_id):
 def update_existing_synonym(synonym, synonym_id):
     existing_synonym = PartTypeSynonym.objects.get(id=synonym_id)
     if existing_synonym is not None:
-        serializer = PartTypeSynonymSerializer(instance=existing_synonym, data=synonym)
+        serializer = PartTypeSynonymSerializer(existing_synonym, data=synonym)
         if serializer.is_valid():
             serializer.save()
             return serializer.data
@@ -179,9 +179,10 @@ def validateAndPersistPartType(part_type, include_in_section):
     if processed_part_type:
         attributes = part_type.get('attributes', [])
         synonyms = part_type.get('synonyms', [])
+        processed_attributes = []
+        processed_synonyms = []
         partTypeId = processed_part_type.get('id', None)
         if partTypeId:
-            processed_attributes = []
             for attribute in attributes:
                 updated_attribute = validateAndPersistAttribute(attribute, partTypeId)
                 if updated_attribute is not None:
@@ -189,7 +190,6 @@ def validateAndPersistPartType(part_type, include_in_section):
                     if updated_attribute.get('error', False) is True:
                         processed_part_type['error'] = True
 
-            processed_synonyms = []
             for synonym in synonyms:
                 updated_synonym = validateAndPersistSynonym(synonym, part_type_id)
                 if updated_synonym is not None:
@@ -210,7 +210,7 @@ def validateAndPersistPartType(part_type, include_in_section):
 def update_existing_part_type(part_type, part_type_id):
     existing_part_type = PartType.objects.get(id=part_type_id)
     if existing_part_type is not None:
-        serializer = PartTypeSerializer(instance=existing_part_type, data=part_type)
+        serializer = PartTypeSerializer(existing_part_type, data=part_type)
         if serializer.is_valid():
             serializer.save()
             return serializer.data
@@ -270,7 +270,7 @@ def validateAndPersist(part_section):
 def save_existing_part_section(part_section, part_section_id):
     existing_part_section = PartSection.objects.get(id=part_section_id)
     if existing_part_section is not None:
-        serializer = SectionSerializer(instance=existing_part_section, data=part_section)
+        serializer = SectionSerializer(existing_part_section, data=part_section)
         if serializer.is_valid():
             serializer.save()
             return serializer.data
