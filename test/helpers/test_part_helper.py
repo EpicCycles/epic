@@ -1,7 +1,8 @@
 from django.test import TestCase
 
 from epic.model_helpers.part_helper import find_or_create_part
-from epic.models import PartSection, PartType, Supplier, Brand, Part
+from epic.models.framework_models import PartSection, PartType
+from epic.models.brand_models import Supplier, Brand, Part
 
 
 class PartHelperTestCase(TestCase):

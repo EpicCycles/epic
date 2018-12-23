@@ -3,8 +3,10 @@ from decimal import Decimal
 from django.db import IntegrityError
 from django.test import TestCase
 
-from epic.models import PartSection, PartType, PartTypeAttribute, TEXT, RADIO, NUMBER, SELECT, AttributeOptions, \
-    Supplier, Brand, Part, Frame, FramePart, FrameExclusion
+from epic.models.bike_models import Frame
+from epic.models.brand_models import Supplier, Brand, Part
+from epic.models.framework_models import PartSection, PartType, PartTypeAttribute, TEXT, RADIO, NUMBER, SELECT, \
+    AttributeOptions
 
 
 class FrameModeltestCase(TestCase):
@@ -46,10 +48,7 @@ class FrameModeltestCase(TestCase):
                                            sell_price=Decimal('3345.99'))
         self.frame3 = Frame.objects.create(brand=self.brand2, frame_name='Frame 2', model='Model 3',
                                            sell_price=Decimal('3345.99'), archived=True)
-        self.frame_part1 = FramePart.objects.create(frame=self.frame1, part=self.part1)
-        self.frame_part2 = FramePart.objects.create(frame=self.frame1, part=self.part2)
-        self.frame_exclusion1 = FrameExclusion.objects.create(frame=self.frame1, partType=self.part_type1)
-        self.frame_exclusion2 = FrameExclusion.objects.create(frame=self.frame1, partType=self.part_type2)
+
 
     def test_frame_insert_errors(self):
         with self.assertRaises(ValueError):
@@ -61,21 +60,7 @@ class FrameModeltestCase(TestCase):
         with self.assertRaises(ValueError):
             Frame.objects.create(brand=self.brand1, model='New model')
 
-    def test_frame_part_insert_errors(self):
-        with self.assertRaises(Exception):
-            FramePart.objects.create()
-        with self.assertRaises(Exception):
-            FramePart.objects.create(frame=self.frame1)
-        with self.assertRaises(Exception):
-            FramePart.objects.create(part=self.part1)
 
-    def test_frame_exclusion_insert_errors(self):
-        with self.assertRaises(Exception):
-            FrameExclusion.objects.create()
-        with self.assertRaises(Exception):
-            FrameExclusion.objects.create(frame=self.frame1)
-        with self.assertRaises(Exception):
-            FrameExclusion.objects.create(partType=self.part_type1)
 
     def test_frame_manager_sparse_errors(self):
         with self.assertRaises(TypeError):
@@ -121,33 +106,7 @@ class FrameModeltestCase(TestCase):
         with self.assertRaises(TypeError):
             Frame.objects.create_frame('Brand', 'Frame name', 'Model for test', 'full description with long text')
 
-    def test_frame_part_manager_create_errors(self):
-        with self.assertRaises(Exception):
-            FramePart.objects.create_frame_part()
-        with self.assertRaises(Exception):
-            FramePart.objects.create_frame_part(self.frame2)
-        with self.assertRaises(ValueError):
-            FramePart.objects.create_frame_part(self.frame2, None)
-        with self.assertRaises(TypeError):
-            FramePart.objects.create_frame_part(self.frame2, self.part_section1)
-        with self.assertRaises(ValueError):
-            FramePart.objects.create_frame_part(None, self.part1)
-        with self.assertRaises(TypeError):
-            FramePart.objects.create_frame_part(self.brand2, self.part1)
 
-    def test_frame_exclusion_manager_create_errors(self):
-        with self.assertRaises(Exception):
-            FrameExclusion.objects.create_frame_exclusion()
-        with self.assertRaises(Exception):
-            FrameExclusion.objects.create_frame_exclusion(self.frame2)
-        with self.assertRaises(ValueError):
-            FrameExclusion.objects.create_frame_exclusion(self.frame2, None)
-        with self.assertRaises(TypeError):
-            FrameExclusion.objects.create_frame_exclusion(self.frame2, self.part_section1)
-        with self.assertRaises(ValueError):
-            FrameExclusion.objects.create_frame_exclusion(None, self.part_type1)
-        with self.assertRaises(TypeError):
-            FrameExclusion.objects.create_frame_exclusion(self.brand2, self.part_type1)
 
     def test_frame_update_errors(self):
         check_id = self.frame1.id
@@ -160,27 +119,7 @@ class FrameModeltestCase(TestCase):
             test_frame.model = None
             test_frame.save()
 
-    def test_frame_part_update_errors(self):
-        check_id = self.frame_part1.id
-        with self.assertRaises(Exception):
-            test_frame_part = FramePart.objects.get(id=check_id)
-            test_frame_part.frame = None
-            test_frame_part.save()
-        with self.assertRaises(Exception):
-            test_frame_part = FramePart.objects.get(id=check_id)
-            test_frame_part.part = None
-            test_frame_part.save()
 
-    def test_frame_exclusion_update_errors(self):
-        check_id = self.frame_exclusion1.id
-        with self.assertRaises(Exception):
-            test_frame_exclusion = FrameExclusion.objects.get(id=check_id)
-            test_frame_exclusion.frame = None
-            test_frame_exclusion.save()
-        with self.assertRaises(Exception):
-            test_frame_exclusion = FrameExclusion.objects.get(id=check_id)
-            test_frame_exclusion.partType = None
-            test_frame_exclusion.save()
 
     def test_frame_create_duplicate(self):
         with self.assertRaises(IntegrityError):
@@ -194,17 +133,7 @@ class FrameModeltestCase(TestCase):
         with self.assertRaises(IntegrityError):
             Frame.objects.create_frame_sparse(self.frame1.brand, self.frame1.frame_name, self.frame1.model.lower())
 
-    def test_frame_part_create_duplicate(self):
-        with self.assertRaises(IntegrityError):
-            FramePart.objects.create_frame_part(self.frame_part1.frame, self.frame_part1.part)
-        with self.assertRaises(IntegrityError):
-            FramePart.objects.create(frame=self.frame_part1.frame, part=self.frame_part1.part)
 
-    def test_frame_exclusion_create_duplicate(self):
-        with self.assertRaises(IntegrityError):
-            FrameExclusion.objects.create_frame_exclusion(self.frame_exclusion1.frame, self.frame_exclusion1.partType)
-        with self.assertRaises(IntegrityError):
-            FrameExclusion.objects.create(frame=self.frame_exclusion1.frame, partType=self.frame_exclusion1.partType)
 
     def test_frame_update_duplicate(self):
         check_id = self.frame1.id
@@ -239,21 +168,7 @@ class FrameModeltestCase(TestCase):
             test_frame.model = self.frame2.model.lower()
             test_frame.save()
 
-    def test_frame_part_update_duplicate(self):
-        check_id = self.frame_part1.id
-        with self.assertRaises(IntegrityError):
-            test_frame_part = FramePart.objects.get(id=check_id)
-            test_frame_part.frame = self.frame_part2.frame
-            test_frame_part.part = self.frame_part2.part
-            test_frame_part.save()
 
-    def test_frame_exclusion_update_duplicate(self):
-        check_id = self.frame_exclusion1.id
-        with self.assertRaises(IntegrityError):
-            test_frame_exclusion = FrameExclusion.objects.get(id=check_id)
-            test_frame_exclusion.frame = self.frame_exclusion2.frame
-            test_frame_exclusion.partType = self.frame_exclusion2.partType
-            test_frame_exclusion.save()
 
     def test_frame_insert_defaults(self):
         test_frame_1 = Frame.objects.create_frame_sparse(self.brand2, 'test frame 2', 'Test Model 1')

@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from epic.models import PartSection, PartType, PartTypeAttribute, AttributeOptions
+from epic.models.framework_models import PartSection, PartType, PartTypeAttribute, AttributeOptions
 from epic.model_serializers.framework_serializer import SectionSerializer, PartTypeSerializer, \
     PartTypeAttributeSerializer, AttributeOptionsSerializer
 

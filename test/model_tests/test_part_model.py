@@ -1,8 +1,9 @@
 from django.db import IntegrityError
 from django.test import TestCase
 
-from epic.models import PartSection, PartType, PartTypeAttribute, TEXT, RADIO, NUMBER, SELECT, MULTIPLE_C, \
-    AttributeOptions, Supplier, Brand, Part
+from epic.models.brand_models import Supplier, Brand, Part
+from epic.models.framework_models import PartSection, PartType, PartTypeAttribute, TEXT, RADIO, NUMBER, SELECT, MULTIPLE_C, \
+    AttributeOptions
 
 
 class PartModelTestCase(TestCase):

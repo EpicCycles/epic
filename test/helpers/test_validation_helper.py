@@ -1,7 +1,7 @@
 import unittest
 from _decimal import Decimal
 
-from epic.helpers.validation_helper import decimal_for_string, is_valid_email, is_valid_post_code, is_valid_url
+from epic.helpers.validation_helper import decimal_for_string, is_valid_email, is_valid_url
 
 
 class TestValidationHelper(unittest.TestCase):

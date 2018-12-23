@@ -2,8 +2,7 @@ import time
 
 from django.test import TestCase
 
-from epic.models import Customer, CustomerPhone, HOME, MOBILE, WORK, CustomerAddress, Fitting, CUST
-
+from epic.models.customer_models import *
 
 class CustomerModelTestCase(TestCase):
     def setUp(self):
