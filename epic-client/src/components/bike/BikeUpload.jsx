@@ -4,7 +4,7 @@ import BikeUploadMapping from "./BikeUploadMapping";
 import BikeUploadParts from "./BikeUploadParts";
 import BikeUploadReview from "./BikeUploadReview";
 import BikeUploadFrame from "./BikeUploadFrame";
-import BikeUploadMappingPartTypes from "./BikeUploadMappingPartTypes";
+import UploadMappingPartTypes from "../../common/UploadMappingPartTypes";
 import {doesFieldMatchPartType} from "../../helpers/framework";
 import {findObjectWithId} from "../../helpers/utils";
 import BikeUploadMappingReview from "./BikeUploadMappingReview";
@@ -69,7 +69,7 @@ class BikeUpload extends React.Component {
 
         let newState = Object.assign({}, this.state, dataForState, { step: nextStep });
         if ((nextStep < 3) && newState.rowMappings) {
-            const unmappedFields = newState.rowMappings.filter(rowMapping => (Object.keys(rowMapping).length === 2))
+            const unmappedFields = newState.rowMappings.filter(rowMapping => !(rowMapping.ignore || rowMapping.partType || rowMapping.bikeAttribute))
             if (unmappedFields.length === 0) {
                 newState.step = 3;
             }
@@ -90,11 +90,11 @@ class BikeUpload extends React.Component {
     buildInitialRowMappings = (uploadedData) => {
         const { sections } = this.props;
         const rowMappings = uploadedData.map((row, rowIndex) => {
-            const rowField = row[0].trim();
-            const rowFieldLower = rowField.toLowerCase();
-            const rowData = { rowIndex, rowField };
+            const partTypeName = row[0].trim();
+            const partTypeNameLower = partTypeName.toLowerCase();
+            const rowData = { rowIndex, partTypeName };
             const matchingField = bikeFields.some(field => {
-                if (field.synonyms.includes(rowFieldLower)) {
+                if (field.synonyms.includes(partTypeNameLower)) {
                     rowData.bikeAttribute = field.fieldName;
                     return true;
                 }
@@ -103,7 +103,7 @@ class BikeUpload extends React.Component {
             if (!matchingField) {
                 sections.some(section => {
                     return section.partTypes.some(partType => {
-                        if (doesFieldMatchPartType(partType, rowFieldLower)) {
+                        if (doesFieldMatchPartType(partType, partTypeNameLower)) {
                             rowData.partType = partType.id;
                             return true;
                         }
@@ -138,7 +138,7 @@ class BikeUpload extends React.Component {
                 buildInitialRowMappings={this.buildInitialRowMappings}
                 addDataAndProceed={this.addDataAndProceed}
             />}
-            {(step === 1) && <BikeUploadMappingPartTypes
+            {(step === 1) && <UploadMappingPartTypes
                 rowMappings={rowMappings}
                 sections={sections}
                 saveFramework={saveFramework}

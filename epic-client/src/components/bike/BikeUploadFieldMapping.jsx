@@ -1,12 +1,11 @@
 import React from "react";
-
 /**
  *
  * @type {Function}
  * props
  * field, index, allowDrop, assignToBikeAttribute, rowMappings,undoMapping
  */
-import {BikeUploadMatchedData} from "./BikeUploadMatchedData";
+import {UploadMatchedData} from "../../common/UploadMatchedData";
 
 export const BikeUploadFieldMapping = (props) => {
     return (<div className="grid-row">
@@ -23,7 +22,7 @@ export const BikeUploadFieldMapping = (props) => {
             className="grid-item--borderless field-label "
         >
             {props.rowMappings
-                .map((matched, matchIndex) => <BikeUploadMatchedData
+                .map((matched, matchIndex) => <UploadMatchedData
                     key={`matchArea${props.index}${matchIndex}`}
                     matched={matched}
                     matchIndex={matchIndex}

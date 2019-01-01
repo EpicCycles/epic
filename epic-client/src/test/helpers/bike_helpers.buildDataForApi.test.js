@@ -5,9 +5,9 @@ test("single bike, part and attribute set", () => {
     const brands = [];
     const frameName = "Frame thing";
     const rowMappings = [
-        { rowIndex: 0, rowField: "sizes", bikeAttribute: "sizes" },
-        { rowIndex: 1, rowField: "frame", partType: 12 },
-        { rowIndex: 2, rowField: "mudguards", ignore: true },
+        { rowIndex: 0, partTypeName: "sizes", bikeAttribute: "sizes" },
+        { rowIndex: 1, partTypeName: "frame", partType: 12 },
+        { rowIndex: 2, partTypeName: "mudguards", ignore: true },
     ];
     const uploadedHeaders = ["", "Bike1"];
     const uploadedData = [
@@ -38,11 +38,11 @@ test("multiple bikes, parts and attributes set", () => {
     ];
     const frameName = "Frame thing";
     const rowMappings = [
-        { rowIndex: 0, rowField: "sizes", bikeAttribute: "sizes" },
-        { rowIndex: 1, rowField: "frame", partType: 12 },
-        { rowIndex: 2, rowField: "mudguards", ignore: true },
-        { rowIndex: 3, rowField: "description", bikeAttribute: "description" },
-        { rowIndex: 4, rowField: "Bottom bracket", partType: 14 },
+        { rowIndex: 0, partTypeName: "sizes", bikeAttribute: "sizes" },
+        { rowIndex: 1, partTypeName: "frame", partType: 12 },
+        { rowIndex: 2, partTypeName: "mudguards", ignore: true },
+        { rowIndex: 3, partTypeName: "description", bikeAttribute: "description" },
+        { rowIndex: 4, partTypeName: "Bottom bracket", partType: 14 },
     ];
     const uploadedHeaders = ["", "Bike1", "Bike21", "Bike31"];
     const uploadedData = [

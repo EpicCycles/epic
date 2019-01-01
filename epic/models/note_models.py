@@ -1,8 +1,11 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
 
 from epic.models.customer_models import Customer
 from epic.models.quote_models import Quote
+
+
+# TODO add note for parts/brands/suppliers
 
 
 class CustomerNote(models.Model):

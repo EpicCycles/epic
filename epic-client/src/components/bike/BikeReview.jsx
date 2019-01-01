@@ -9,7 +9,6 @@ import {Redirect} from "react-router";
 import {buildPartString} from "../../helpers/part_helper";
 import PartEdit from "../part/PartEdit";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
-import {saveBikePart} from "../../state/actions/bike";
 import ReactModal from "react-modal";
 
 // Review page for a single bike - needs: bike field entry section, table of parts with edit ability for each part

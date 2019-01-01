@@ -45,7 +45,7 @@ class BikeUploadMapping extends React.Component {
             if (rowMap.rowIndex == rowIndex) {
                 return {
                     rowIndex: rowMap.rowIndex,
-                    rowField: rowMap.rowField,
+                    partTypeName: rowMap.partTypeName,
                     bikeAttribute
                 };
             } else {
@@ -58,7 +58,7 @@ class BikeUploadMapping extends React.Component {
     undoMapping = (rowIndex) => {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
             if (rowMap.rowIndex === rowIndex) {
-                return { rowIndex: rowMap.rowIndex, rowField: rowMap.rowField };
+                return { rowIndex: rowMap.rowIndex, partTypeName: rowMap.partTypeName };
             } else {
                 return rowMap
             }
@@ -68,7 +68,7 @@ class BikeUploadMapping extends React.Component {
     discardData = (rowIndex) => {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
             if (rowMap.rowIndex === rowIndex) {
-                return { rowIndex: rowMap.rowIndex, rowField: rowMap.rowField, ignore: true };
+                return { rowIndex: rowMap.rowIndex, partTypeName: rowMap.partTypeName, ignore: true };
             } else {
                 return rowMap
             }
@@ -79,7 +79,7 @@ class BikeUploadMapping extends React.Component {
     undoDiscardData = (rowIndex) => {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
             if (rowMap.rowIndex === rowIndex) {
-                return { rowIndex: rowMap.rowIndex, rowField: rowMap.rowField };
+                return { rowIndex: rowMap.rowIndex, partTypeName: rowMap.partTypeName };
             } else {
                 return rowMap
             }
@@ -131,7 +131,7 @@ class BikeUploadMapping extends React.Component {
                              draggable={true}
                              onDragStart={event => this.pickUpField(event, mapping.rowIndex)}
                         >
-                            {mapping.rowField}
+                            {mapping.partTypeName}
                             <Icon id={`delete-field${index}`} name="trash"
                                   onClick={() => this.discardData(mapping.rowIndex)}
                                   title="Discard data"/>
@@ -146,7 +146,7 @@ class BikeUploadMapping extends React.Component {
                         <div key={`discard${index}`}
                              className="rounded"
                         >
-                            {mapping.rowField}
+                            {mapping.partTypeName}
                             <Icon id={`restore-field${index}`} name="remove circle"
                                   onClick={() => this.undoDiscardData(mapping.rowIndex)}
                                   title="Do not Discard data"/>

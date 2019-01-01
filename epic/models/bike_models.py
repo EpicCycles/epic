@@ -51,7 +51,9 @@ class Bike(models.Model):
     model_name = models.CharField(max_length=100)
     description = models.TextField(max_length=400, blank=True, null=True)
     colours = models.CharField(max_length=400, blank=True, null=True)
-    sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    rrp = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    epic_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    club_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     sizes = models.CharField(max_length=100, blank=True, null=True)
 
 

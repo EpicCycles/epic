@@ -1,17 +1,17 @@
 import React from 'react';
-import {BikeUploadMatchedData} from "../../../components/bike/BikeUploadMatchedData";
+import {UploadMatchedData} from "../../../common/UploadMatchedData";
 
 test("it renders correctly", () => {
-    const matched = { rowIndex: 12, rowField: "Chain" };
-    const component = shallow(<BikeUploadMatchedData
+    const matched = { rowIndex: 12, partTypeName: "Chain" };
+    const component = shallow(<UploadMatchedData
         matched={matched}
         matchIndex={0}
     />);
     expect(component).toMatchSnapshot();
 });
 test("it renders correctly when not first match", () => {
-    const matched = { rowIndex: 12, rowField: "Chain" };
-    const component = shallow(<BikeUploadMatchedData
+    const matched = { rowIndex: 12, partTypeName: "Chain" };
+    const component = shallow(<UploadMatchedData
         matched={matched}
         matchIndex={3}
     />);

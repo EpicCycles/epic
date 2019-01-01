@@ -1,40 +1,41 @@
 import {all} from 'redux-saga/effects';
 import {watchForLoginUser} from "./user";
 import {
-    watchForGetCustomer,
-    watchForGetCustomerList,
     watchForCreateCustomer,
     watchForDeleteCustomer,
-    watchForSaveCustomer,
+    watchForDeleteCustomerAddress,
+    watchForDeleteCustomerPhone,
+    watchForGetCustomer,
+    watchForGetCustomerList,
     watchForGetCustomerListPage,
-    watchForSaveCustomerPhone, watchForDeleteCustomerPhone,
-    watchForSaveCustomerAddress, watchForDeleteCustomerAddress
+    watchForSaveCustomer,
+    watchForSaveCustomerAddress,
+    watchForSaveCustomerPhone
 } from "./customer";
 import {watchForCreateNote, watchForDeleteNote, watchForGetNoteList, watchForSaveNote} from "./note";
+import {watchForGetFramework, watchForSaveFramework} from "./framework";
 import {
-    watchForGetFramework,
-    watchForSaveFramework
-} from "./framework";
-import {
-    watchForGetBrandsAndSuppliers,
-    watchForGetBrands, watchForSaveBrands,
     watchForDeleteSupplier,
+    watchForGetBrands,
+    watchForGetBrandsAndSuppliers,
+    watchForSaveBrands,
     watchForSaveSupplier
 } from "./core";
 import {
-    watchForSaveFrame,
-    watchForGetFrames,
-    watchForUploadFrame,
+    watchForAddBikePart,
     watchForArchiveFrames,
-    watchForDeleteFrames,
+    watchForDeleteBikePart,
     watchForDeleteBikes,
-    watchForReviewBikeStart,
+    watchForDeleteFrames,
+    watchForGetFrames,
     watchForReviewBike,
+    watchForReviewBikeStart,
     watchForSaveBike,
     watchForSaveBikePart,
-    watchForDeleteBikePart,
-    watchForAddBikePart
+    watchForSaveFrame,
+    watchForUploadFrame
 } from "./bike";
+import {watchForDeletePart, watchForGetParts, watchForSavePart, watchForUploadParts} from "./part";
 
 export default function* rootSaga() {
     yield all([
@@ -71,6 +72,10 @@ export default function* rootSaga() {
         watchForSaveBike(),
         watchForSaveBikePart(),
         watchForDeleteBikePart(),
-        watchForAddBikePart()
+        watchForAddBikePart(),
+        watchForSavePart(),
+        watchForDeletePart(),
+        watchForUploadParts(),
+        watchForGetParts(),
     ]);
 }

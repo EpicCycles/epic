@@ -1,12 +1,12 @@
 import React, {Fragment} from "react";
 import {Button, Icon} from "semantic-ui-react";
-import {BikeUploadPartMapping} from "./BikeUploadPartMapping";
-import {NEW_ELEMENT_ID} from "../../helpers/constants";
-import PartTypeModal from "../partType/PartTypeModal";
-import {doesFieldMatchPartType, renumberAll} from "../../helpers/framework";
-import {generateRandomCode} from "../../helpers/utils";
+import {UploadPartTypeMapping} from "./UploadPartTypeMapping";
+import {NEW_ELEMENT_ID} from "../helpers/constants";
+import PartTypeModal from "../components/partType/PartTypeModal";
+import {doesFieldMatchPartType, renumberAll} from "../helpers/framework";
+import {generateRandomCode, removeKey} from "../helpers/utils";
 
-class BikeUploadMappingPartTypes extends React.Component {
+class UploadMappingPartTypes extends React.Component {
     constructor(props) {
         super();
         this.state = this.deriveStateFromProps(props);
@@ -50,11 +50,7 @@ class BikeUploadMappingPartTypes extends React.Component {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
             // eslint-disable-next-line
             if (rowMap.rowIndex == rowIndex) {
-                return {
-                    rowIndex: rowMap.rowIndex,
-                    rowField: rowMap.rowField,
-                    partType
-                };
+                return Object.assign({}, rowMap, { partType, ignore: false });
             } else {
                 return rowMap
             }
@@ -64,7 +60,9 @@ class BikeUploadMappingPartTypes extends React.Component {
     undoMapping = (rowIndex) => {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
             if (rowMap.rowIndex === rowIndex) {
-                return { rowIndex: rowMap.rowIndex, rowField: rowMap.rowField };
+                let updatedRowMap = removeKey(rowMap, 'partType');
+                updatedRowMap.ignore = false;
+                return updatedRowMap;
             } else {
                 return rowMap
             }
@@ -74,7 +72,9 @@ class BikeUploadMappingPartTypes extends React.Component {
     discardData = (rowIndex) => {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
             if (rowMap.rowIndex === rowIndex) {
-                return { rowIndex: rowMap.rowIndex, rowField: rowMap.rowField, ignore: true };
+                let updatedRowMap = removeKey(rowMap, 'partType');
+                updatedRowMap.ignore = true;
+                return updatedRowMap;
             } else {
                 return rowMap
             }
@@ -85,7 +85,9 @@ class BikeUploadMappingPartTypes extends React.Component {
     undoDiscardData = (rowIndex) => {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
             if (rowMap.rowIndex === rowIndex) {
-                return { rowIndex: rowMap.rowIndex, rowField: rowMap.rowField };
+                let updatedRowMap = removeKey(rowMap, 'partType');
+                updatedRowMap.ignore = false;
+                return updatedRowMap;
             } else {
                 return rowMap
             }
@@ -95,7 +97,7 @@ class BikeUploadMappingPartTypes extends React.Component {
 
     setUpPartTypeModalForNewField = (rowMap) => {
         const partType = {
-            shortName: rowMap.rowField,
+            shortName: rowMap.partTypeName,
             _detail: true
         };
         this.setState({
@@ -108,7 +110,7 @@ class BikeUploadMappingPartTypes extends React.Component {
         this.state.rowMappings.forEach(rowMap => {
             // eslint-disable-next-line
             if (rowMap.partType == partType.id) {
-                const checkField = rowMap.rowField.trim();
+                const checkField = rowMap.partTypeName.trim();
                 if (! doesFieldMatchPartType(partType, checkField)) {
                     partType.synonyms.push({
                         shortName:checkField,
@@ -158,14 +160,14 @@ class BikeUploadMappingPartTypes extends React.Component {
         const unResolvedRowMappings = rowMappings.filter(rowMapping => (Object.keys(rowMapping).length === 2));
         const discardedRowMappings = rowMappings.filter(rowMapping => rowMapping.ignore);
         return <Fragment key="bikeUploadMapping">
-            <PartTypeModal
+            {showModal && <PartTypeModal
                 partTypeModalOpen={showModal}
                 partType={partType}
                 componentKey={NEW_ELEMENT_ID}
                 savePartType={this.savePartType}
                 sections={sections}
                 closePartTypeModal={this.handleCloseModal}
-            />
+            />}
             <section key="mappingData" className="row" id="mappingData">
                 {/* part type mapping*/}
                 <div key="partTypes" className="grid" style={{height: (window.innerHeight * 0.8) + "px", overflow: "scroll"}}>
@@ -186,7 +188,7 @@ class BikeUploadMappingPartTypes extends React.Component {
                                      draggable={true}
                                      onDragStart={event => this.pickUpField(event, mapping.rowIndex)}
                                 >
-                                    {mapping.rowField}
+                                    {mapping.partTypeName}
                                     <Icon id={`delete-field${index}`} name="trash"
                                           onClick={() => this.discardData(mapping.rowIndex)}
                                           title="Discard data"/>
@@ -199,7 +201,7 @@ class BikeUploadMappingPartTypes extends React.Component {
                                 <div key={`discard${index}`}
                                      className="rounded discarded"
                                 >
-                                    {mapping.rowField}
+                                    {mapping.partTypeName}
                                     <Icon id={`restore-field${index}`} name="remove circle"
                                           onClick={() => this.undoDiscardData(mapping.rowIndex)}
                                           title="Do not Discard data"/>
@@ -209,7 +211,7 @@ class BikeUploadMappingPartTypes extends React.Component {
                     </div>
                     <Fragment>
                         {sections.map((section, sectionIndex) => {
-                            return section.partTypes.map((partType, partTypeIndex) => <BikeUploadPartMapping
+                            return section.partTypes.map((partType, partTypeIndex) => <UploadPartTypeMapping
                                 key={`partList${partType.id}`}
                                 partType={partType}
                                 partTypeIndex={partTypeIndex}
@@ -237,4 +239,4 @@ class BikeUploadMappingPartTypes extends React.Component {
 }
 
 
-export default BikeUploadMappingPartTypes;
+export default UploadMappingPartTypes;

@@ -1,17 +1,17 @@
 from django.urls import path
 
+from epic.api_views.attribute_option_api import AttributeOptions
 from epic.api_views.bike_api import Frames, FrameUpload, BikeParts, BikeMaintain
 from epic.api_views.brands_api import Brands
 from epic.api_views.customer_address_api import CustomerAddressList, CustomerAddressMaintain
 from epic.api_views.customer_api import CustomerList, CustomerMaintain
 from epic.api_views.customer_phone_api import CustomerPhoneList, CustomerPhoneMaintain
 from epic.api_views.framework_api import Framework
-from epic.api_views.section_api import PartSection
+from epic.api_views.note_api import CustomerNoteList, CustomerNoteMaintain
+from epic.api_views.part_api import Parts, parts_and_supplier_parts
 from epic.api_views.part_type_api import PartType
 from epic.api_views.part_type_attribute_api import PartTypeAttribute
-from epic.api_views.attribute_option_api import AttributeOptions
-
-from epic.api_views.note_api import CustomerNoteList, CustomerNoteMaintain
+from epic.api_views.section_api import PartSection
 from epic.api_views.supplier_api import Suppliers, MaintainSupplier
 from epic.api_views.user_api import UserMaintain
 
@@ -39,10 +39,13 @@ urlpatterns = [path('api/framework/', Framework.as_view()),
                path('api/customerphone/', CustomerPhoneList.as_view()),
                path('api/customerphone/<int:pk>', CustomerPhoneMaintain.as_view()),
                path('api/user/<str:username>', UserMaintain.as_view()),
+               path('api/parts/', Parts.as_view()),
+               path('api/parts/<int:part_id>/', Parts.as_view()),
                path('api/frames/', Frames.as_view()),
                path('api/frames/<int:frame_id>/', Frames.as_view()),
                path('api/frame/upload/', FrameUpload.as_view()),
                path('api/bike/<int:bike_id>/parts/', BikeParts.as_view()),
                path('api/bike/<int:bike_id>/', BikeMaintain.as_view()),
                path('api/bike/<int:bike_id>/parts/<int:part_id>/', BikeParts.as_view()),
+               path('api/productsearch/', parts_and_supplier_parts),
                ]

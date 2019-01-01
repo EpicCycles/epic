@@ -1,8 +1,12 @@
 export const BRAND_NAME_MISSING = "A name is required for the brand";
 export const FRAME_NAME_MISSING = "A name is required for the frame";
+export const BUNDLE_NAME_MISSING = "A name is required for the bundle";
 export const MODEL_NAME_MISSING = "A name is required for the model";
 export const PART_NAME_MISSING = "A name is required for the part";
 export const PART_TYPE_NAME_MISSING = "A name is required for the part type";
 export const SECTION_MISSING = "A section must be selected for the part type";
 export const PART_TYPE_MISSING = "A part type must be selected";
 export const BRAND_MISSING = "A brand must be selected";
+export const PRODUCTS_MISSING = "At least 2 products must be selected";
+export const SUPPLIER_MISSING = "A supplier must be selected";
+export const PART_MISSING = "A part must be selected";

@@ -1,11 +1,9 @@
+import {buildPartObject} from "./part_helper";
+import {buildBrandNameArray} from "./brand_helper";
+
 export const buildDataForApi = (brand, frameName, rowMappings, uploadedHeaders, uploadedData, brands) => {
-    const brandsLower = brands.map(brand => {
-        return {
-            id: brand.id,
-            brand_name: brand.brand_name.toLowerCase()
-        };
-    });
-    brandsLower.sort((a,b) => b.brand_name.length - a.brand_name.length);
+    const brandsLower = buildBrandNameArray(brands);
+
     const frame = {
         brand: brand,
         frame_name: frameName
@@ -38,14 +36,4 @@ export const buildDataForApi = (brand, frameName, rowMappings, uploadedHeaders, 
     });
     frame.bikes = bikes;
     return frame;
-};
-
-export const buildPartObject = (partType, partNameWithBrand, brandsLower, bikeBrand) => {
-    let partBrandFound = brandsLower.find(brand => {
-        return partNameWithBrand.toLowerCase().startsWith(brand.brand_name)
-    });
-    const partBrand = partBrandFound ? partBrandFound.id : bikeBrand;
-    const partName = partBrandFound ? partNameWithBrand.slice(partBrandFound.brand_name.length).trim() : partNameWithBrand;
-
-    return {partType, partName, partBrand};
 };

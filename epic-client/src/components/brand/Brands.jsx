@@ -140,14 +140,14 @@ class Brands extends React.Component {
                 <div key={`suppliers`}>
                     <div>
                         <button onClick={this.handleOpenModal}>Add Supplier</button>
-                        <SupplierModal
+                        {showModal && <SupplierModal
                             supplierModalOpen={showModal}
                             supplierToEdit={supplierToEdit ? supplierToEdit : {}}
                             componentKey={supplierId ? supplierId : NEW_ELEMENT_ID}
                             saveSupplier={saveSupplier}
                             deleteSupplier={deleteSupplier}
                             closeSupplierModal={this.handleCloseModal}
-                        />
+                        />}
                     </div>
                     {suppliersToUse && suppliersToUse.map(supplier => {
                         const componentKey = supplier.id ? supplier.id : supplier.dummyKey;

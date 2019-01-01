@@ -1,8 +1,8 @@
 import React from "react";
-import {BikeUploadMatchedData} from "./BikeUploadMatchedData";
+import {UploadMatchedData} from "./UploadMatchedData";
 import {Icon} from "semantic-ui-react";
-// partType allowDrop assignToPartType rowMappings section section.index
-export const BikeUploadPartMapping = props => (
+
+export const UploadPartTypeMapping = props => (
     <div className="grid-row">
         <div
             className="grid-item--borderless field-label red"
@@ -26,7 +26,7 @@ export const BikeUploadPartMapping = props => (
         <div
             className="grid-item--borderless field-label "
         >
-            {props.rowMappings.map((matched, matchIndex) => <BikeUploadMatchedData
+            {props.rowMappings.map((matched, matchIndex) => <UploadMatchedData
                     key={`partType${props.partType.id}${matchIndex}`}
                     matched={matched}
                     matchIndex={matchIndex}

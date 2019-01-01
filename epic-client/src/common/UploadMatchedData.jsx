@@ -1,12 +1,12 @@
 import React from "react";
 import {Icon} from "semantic-ui-react";
 
-export const BikeUploadMatchedData = props => (
+export const UploadMatchedData = props => (
     <div
         key={`match${props.matched.rowIndex}${props.matchIndex}`}
         className={(props.matchIndex > 1) ? "rounded-auto red" : "rounded-auto "}
     >
-        {props.matched.rowField}
+        {props.matched.partTypeName}
         <Icon
             key={`matchDelete$${props.matched.rowIndex}${props.matchIndex}`}
             name="delete"

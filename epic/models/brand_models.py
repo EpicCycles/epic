@@ -76,15 +76,12 @@ class Part(models.Model):
     stocked = models.BooleanField(default=False)
     objects = PartManager()
 
-    def getJavascriptObject(self):
-        return f'brand:"{self.brand.id}",partType:"{self.partType.id}",partName:"{self.part_name}"'
-
     def __str__(self):
         return f'{self.partType.shortName}: {self.brand.brand_name} {self.part_name}'
 
     def save(self, *args, **kwargs):
         if self.part_name is None or self.part_name == '':
-            raise ValueError('Missing brand name')
+            raise ValueError('Missing part name')
 
         if Part.objects.filter(part_name__upper=self.part_name, brand=self.brand, partType=self.partType).exclude(
                 id=self.id).exists():
@@ -104,14 +101,15 @@ class SupplierProduct(models.Model):
     ticket_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     rrp = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     trade_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    club_discount = models.BooleanField(default=True)
+    club_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    check_date = models.DateTimeField(auto_now=True)
 
     class Meta:
         indexes = [models.Index(fields=['supplier', 'part']), ]
 
 
 class Bundle(models.Model):
-    bundle_name = models.CharField('Supplier', max_length=100, unique=True)
+    bundle_name = models.CharField(max_length=100, unique=True)
     products = models.ManyToManyField(SupplierProduct, blank=True)
     fitted_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     ticket_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
