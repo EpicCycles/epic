@@ -13,6 +13,9 @@ export const changeList = (oldList, checkObject) => {
 export const isItAnObject = (thing) => {
     return (thing && (Object.keys(thing).length > 0));
 };
+export const doWeHaveObjects = (possibleArray) => {
+    return (possibleArray && possibleArray.length > 0);
+};
 export const checkForChanges = (fieldList, existingObject, newValues) => {
     return fieldList.some(field => {
         return existingObject[field.fieldName] !== newValues[field.fieldName];
@@ -46,9 +49,9 @@ export const addFieldToState = (initialState, fieldList, fieldName, input) => {
 };
 
 export const removeKey = (obj, deleteKey) => {
-  let clone = Object.assign({}, obj);
-  delete clone[deleteKey];
-  return clone;
+    let clone = Object.assign({}, obj);
+    delete clone[deleteKey];
+    return clone;
 };
 
 export const getUpdatedObject = (fieldList, existingObject, newValues) => {
@@ -140,4 +143,15 @@ export const generateRandomCode = () => {
 export const removeObjectWithIndex = (initialArray, removeIndex) => {
     if (removeIndex < 0) return initialArray;
     return initialArray.slice(0, removeIndex).concat(initialArray.slice((removeIndex + 1)));
+};
+
+export const updateObjectInArray = (initialArray, updatedObject, componentKey) => {
+    const arrayWithUpdates = initialArray.slice();
+    const objectToUpdateIndex = findIndexOfObjectWithKey(arrayWithUpdates, componentKey);
+    if (objectToUpdateIndex > -1) {
+        arrayWithUpdates[objectToUpdateIndex] = updatedObject;
+    } else {
+        arrayWithUpdates.push(updatedObject);
+    }
+    return arrayWithUpdates;
 };

@@ -4,9 +4,11 @@ import {
     FRAMEWORK_REQUESTED,
     FRAMEWORK_SAVE,
     FRAMEWORK_SAVE_ERROR,
-    FRAMEWORK_SAVE_REQUESTED, FRAMEWORK_UPDATE
+    FRAMEWORK_SAVE_REQUESTED,
+    FRAMEWORK_UPDATE
 } from "../actions/framework";
 import {CLEAR_ALL_STATE} from "../actions/application";
+import {USER_LOGIN_REQUESTED} from "../actions/user";
 
 // const initialState = {
 //     isLoading: false,
@@ -20,6 +22,7 @@ const initialState = {
 const framework = (state = initialState, action) => {
     switch (action.type) {
         case CLEAR_ALL_STATE:
+        case USER_LOGIN_REQUESTED:
             return initialState;
         case FRAMEWORK_REQUESTED:
             return {

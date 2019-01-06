@@ -13,12 +13,15 @@ import BrandsContainer from "../brand/BrandsContainer";
 import BikeUploadContainer from "../bike/BikeUploadContainer";
 import BikeReviewListContainer from "../bike/BikeReviewListContainer";
 import BikeReviewContainer from "../bike/BikeReviewContainer";
+import SupplierProductUploadContainer from "../supplierProduct/SupplierProductUploadContainer";
+import SupplierProductReviewContainer from "../supplierProduct/SupplierProductReviewContainer";
 
 ReactModal.setAppElement('#root');
 const App = () => (
     <div>
         <HeaderContainer/>
-        <main className="grid-container" style={{height: (window.innerHeight  - 50) + "px", width: window.innerWidth + "px"}}>
+        <main className="grid-container"
+              style={{ height: (window.innerHeight - 50) + "px", width: window.innerWidth + "px" }}>
             <Route exact path="/" component={Home}/>
             <Route exact path="/404" component={NotFound}/>
             <Route exact path="/login" component={Login}/>
@@ -29,6 +32,8 @@ const App = () => (
             <Route exact path="/bike-upload" component={BikeUploadContainer}/>
             <Route exact path="/bike-review-list" component={BikeReviewListContainer}/>
             <Route exact path="/bike-review" component={BikeReviewContainer}/>
+            <Route exact path="/product-upload" component={SupplierProductUploadContainer}/>
+            <Route exact path="/product-review" component={SupplierProductReviewContainer}/>
         </main>
     </div>
 );

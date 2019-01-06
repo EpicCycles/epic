@@ -1,13 +1,13 @@
 import React, {Fragment} from "react";
 import SupplierProductUploadFile from "./SupplierProductUploadFile";
 import {doesFieldMatchPartType} from "../../helpers/framework";
-import {Button} from "semantic-ui-react";
 import {colourStyles} from "../../helpers/constants";
 import UploadMappingPartTypes from "../../common/UploadMappingPartTypes";
 import UploadMappingSuppliers from "../../common/UploadMappingSuppliers";
 import {buildSupplierProductForApi} from "../../helpers/part_helper";
 import BrandPrompt from "../brand/BrandPrompt";
 import SupplierProductUploadReview from "./SupplierProductUploadReview";
+import {doWeHaveObjects} from "../../helpers/utils";
 
 const uploadSteps = [
     {
@@ -30,15 +30,10 @@ class SupplierProductUpload extends React.Component {
         this.getDataForUpload();
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         if (!this.props.isLoading) {
             this.getDataForUpload();
-            if (this.props.brands !== prevProps.brands) {
-                // have added a brand - check whether we have all brands
-
-            }
         }
-
     };
 
     onChangeField = (fieldName, fieldValue) => {
@@ -48,15 +43,15 @@ class SupplierProductUpload extends React.Component {
         this.setState(newState);
     };
     getDataForUpload = () => {
-        let sectionsRequired = true;
+        let brandsRequired = true;
         let frameworkRequired = true;
-        if (this.props.sections && this.props.sections.length > 0) {
-            sectionsRequired = false;
+        if (doWeHaveObjects(this.props.brands) && doWeHaveObjects(this.props.suppliers)) {
+            brandsRequired = false;
         }
-        if (this.props.sections && this.props.sections.length > 0) {
+        if (doWeHaveObjects(this.props.sections)) {
             frameworkRequired = false;
         }
-        if (sectionsRequired) {
+        if (brandsRequired) {
             this.props.getBrandsAndSuppliers();
         } else if (frameworkRequired) {
             this.props.getFramework();
@@ -67,7 +62,6 @@ class SupplierProductUpload extends React.Component {
 
         let newState = Object.assign({}, this.state, dataForState, { step: nextStep });
         if (newState.rowMappings) {
-
             const missingPartType = newState.rowMappings.some(rowMapping => (!rowMapping.partType && !rowMapping.ignore));
             const missingSupplier = newState.rowMappings.some(rowMapping => (!rowMapping.supplier && !rowMapping.ignore));
             if (missingPartType) {
@@ -77,8 +71,8 @@ class SupplierProductUpload extends React.Component {
             } else {
                 newState.step = 3;
                 newState.apiData = buildSupplierProductForApi(newState.rowMappings, newState.uploadedData, this.props.brands);
-                if (newState.apiData.updatedBrands) this.props.saveBrands(newState.apiData.updatedBrands);
-                if (newState.apiData.partsMissingBrands.length === 0) newState.step = 4;
+                if (doWeHaveObjects(newState.apiData.updatedBrands)) this.props.saveBrands(newState.apiData.updatedBrands);
+                if (!doWeHaveObjects(newState.apiData.partsMissingBrands)) newState.step = 4;
             }
         }
 
@@ -87,7 +81,7 @@ class SupplierProductUpload extends React.Component {
 
     goToStep = (step) => {
         if (step < this.state.step) {
-            let newState = Object.assign({}, { step: step });
+            let newState = Object.assign({}, this.state, { step: step });
             this.setState(newState);
         }
     };
@@ -125,9 +119,19 @@ class SupplierProductUpload extends React.Component {
         });
     };
 
+    actionOnBrandsChange = () => {
+        if (!this.props.isLoading) {
+            let newState = Object.assign({}, this.state);
+            newState.apiData = buildSupplierProductForApi(newState.rowMappings, newState.uploadedData, this.props.brands);
+            if (doWeHaveObjects(newState.apiData.updatedBrands)) this.props.saveBrands(newState.apiData.updatedBrands);
+            if (!doWeHaveObjects(newState.apiData.partsMissingBrands)) newState.step = 4;
+            this.setState(newState);
+        }
+    };
+
     render() {
-        const { sections, suppliers, brands, saveSections, saveFramework, saveSupplier, uploadParts, saveBrands } = this.props;
-        const { step, rowMappings, uploadedData, apiData } = this.state;
+        const { sections, suppliers, brands, saveFramework, saveSupplier, uploadParts, saveBrands } = this.props;
+        const { step, rowMappings, apiData } = this.state;
         return <Fragment key="supplierProductUpload">
             <h2>Supplier Product Upload - {uploadSteps[step].description}</h2>
             {(step === 0) && <SupplierProductUploadFile
@@ -139,6 +143,7 @@ class SupplierProductUpload extends React.Component {
                 sections={sections}
                 saveFramework={saveFramework}
                 addDataAndProceed={this.addDataAndProceed}
+                multiplesAllowed
             />}
             {(step === 2) && <UploadMappingSuppliers
                 rowMappings={rowMappings}
@@ -150,6 +155,7 @@ class SupplierProductUpload extends React.Component {
                 brands={brands}
                 productDescriptions={apiData.partsMissingBrands}
                 saveBrands={saveBrands}
+                actionOnBrandsChange={this.actionOnBrandsChange}
             />}
             {(step === 4) && <SupplierProductUploadReview
                 apiData={apiData}
@@ -159,14 +165,20 @@ class SupplierProductUpload extends React.Component {
                 uploadParts={uploadParts}
             />}
             <div className="full align_center">
-                {(this.state.step < (uploadSteps.length - 1)) ? uploadSteps.map((stepDetails, stepIndex) => <Fragment>
+                {uploadSteps.map((stepDetails, stepIndex) => <Fragment>
                         {(colourStyles[stepIndex].transition) && <div
                             className={colourStyles[stepIndex].transition}
                             key={`transition${stepIndex}`}
                         />}
                         <div
                             key={`step${stepDetails.stepDescriptor}`}
-                            className={`circle ${(stepIndex === step) ? " selected-circle" : " unselected-circle"} ${colourStyles[stepIndex].colour} ${colourStyles[stepIndex].background} ${colourStyles[stepIndex].border}`}
+                            className={`circle
+                            ${(stepIndex === step)
+                                ? " selected-circle"
+                                : " unselected-circle"}
+                                 ${colourStyles[stepIndex].colour}
+                                  ${colourStyles[stepIndex].background}
+                                   ${colourStyles[stepIndex].border}`}
                             onClick={() => this.goToStep(stepIndex)}
                             disabled={!(stepIndex < this.state.step)}
                             title={stepDetails.description}
@@ -175,13 +187,6 @@ class SupplierProductUpload extends React.Component {
                         </div>
                     </Fragment>
                     )
-                    :
-                    <Button
-                        key="startAgain"
-                        onClick={this.startAgain}
-                    >
-                        Upload Another
-                    </Button>
                 }
             </div>
         </Fragment>

@@ -2,6 +2,7 @@ import {connect} from 'react-redux'
 import {getBrandsAndSuppliers, saveBrands, saveSupplier} from "../../state/actions/core";
 import {getFramework, saveFramework} from "../../state/actions/framework";
 import {clearParts, uploadParts} from "../../state/actions/part";
+import SupplierProductUpload from "../../components/supplierProduct/SupplierProductUpload";
 
 const mapStateToProps = ({ core, framework, part }) => {
     return {

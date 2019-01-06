@@ -7,6 +7,7 @@ import bike from "./bike";
 import user from "./user";
 import framework from "./framework";
 import application from "./application";
+import part from "./part";
 
 const reducers = combineReducers({
     customer,
@@ -16,6 +17,7 @@ const reducers = combineReducers({
     user,
     core,
     bike,
+    part,
     routing: routerReducer
 });
 

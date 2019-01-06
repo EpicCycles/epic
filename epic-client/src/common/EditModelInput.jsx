@@ -1,10 +1,11 @@
 import * as PropTypes from "prop-types";
 import React, {Component, Fragment} from "react";
-import {BRAND, CHECKBOX, NUMBER, PART_TYPE, TEXT_AREA} from "../helpers/models";
+import {BRAND, CHECKBOX, CURRENCY, NUMBER, PART_TYPE, SUPPLIER, TEXT_AREA} from "../helpers/models";
 import FormTextAreaInput from "./FormTextAreaInput";
 import FormTextInput from "./FormTextInput";
 import PartTypeSelect from "../components/partType/PartTypeSelect";
 import BrandSelect from "../components/brand/BrandSelect";
+import SupplierSelect from "../components/supplier/SupplierSelect";
 
 class EditModelField extends Component {
     state = {};
@@ -23,11 +24,12 @@ class EditModelField extends Component {
     };
 
     render() {
-        const { field, model, className, componentKey, index, sections, brands } = this.props;
+        const { field, model, className, componentKey, index, sections, brands, suppliers } = this.props;
         const { error } = this.state;
         let editComponent;
         const fieldName = `${field.fieldName}_${componentKey}${index}`;
         const fieldValue = model[field.fieldName];
+        const emptyAllowed = !(field.required && fieldValue);
         switch (field.type) {
             case TEXT_AREA:
                 editComponent = <FormTextAreaInput
@@ -42,6 +44,7 @@ class EditModelField extends Component {
                 />;
                 break;
             case NUMBER:
+            case CURRENCY:
                 editComponent = <FormTextInput
                     type="number"
                     className={className}
@@ -67,7 +70,7 @@ class EditModelField extends Component {
                     fieldName={fieldName}
                     onChange={this.validateOnChange}
                     partTypeSelected={fieldValue}
-                    isEmptyAllowed={!field.required}
+                    isEmptyAllowed={emptyAllowed}
                     error={error}
                     disabled={false}
                 />;
@@ -78,7 +81,19 @@ class EditModelField extends Component {
                     fieldName={fieldName}
                     onChange={this.validateOnChange}
                     brandSelected={fieldValue}
-                    isEmptyAllowed={!field.required}
+                    isEmptyAllowed={emptyAllowed}
+                    error={error}
+                    disabled={false}
+                    bikeOnly={field.bikeOnly}
+                />;
+                break;
+            case SUPPLIER:
+                editComponent = <SupplierSelect
+                    suppliers={suppliers}
+                    fieldName={fieldName}
+                    onChange={this.validateOnChange}
+                    supplierSelected={fieldValue}
+                    isEmptyAllowed={emptyAllowed}
                     error={error}
                     disabled={false}
                 />;
@@ -107,8 +122,9 @@ EditModelField.propTypes = {
     className: PropTypes.any,
     componentKey: PropTypes.any,
     index: PropTypes.any,
-    sections: PropTypes.any,
-    brands: PropTypes.any,
+    sections: PropTypes.array,
+    brands: PropTypes.array,
+    suppliers: PropTypes.array,
     onChange: PropTypes.func
 };
 export default EditModelField;

@@ -4,7 +4,7 @@ import {Icon} from "semantic-ui-react";
 export const UploadMatchedData = props => (
     <div
         key={`match${props.matched.rowIndex}${props.matchIndex}`}
-        className={(props.matchIndex > 1) ? "rounded-auto red" : "rounded-auto "}
+        className={(props.multiplesAllowed || (props.matchIndex === 0)) ? "rounded-auto" : "rounded-auto red"}
     >
         {props.matched.partTypeName}
         <Icon

@@ -1,31 +1,37 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
+import EditModelInput from "../../common/EditModelInput";
 import {supplierProductFields} from "../../helpers/models";
-import ViewModelField from "../../common/ViewModelField";
 
 
-const SupplierProductViewRow = (props) => {
-    const { supplierProduct, lockFirstColumn, suppliers } = props;
+const SupplierProductEditRow = (props) => {
+    const { supplierProduct, persistedSupplierProduct, onChange, lockFirstColumn, suppliers } = props;
     const componentKey = supplierProduct.id ? supplierProduct.id : supplierProduct.dummyKey;
     return <Fragment>
         {supplierProductFields.map((field, index) => {
             return <div
                 className={`grid-item ${((index === 0) && lockFirstColumn) && "grid-item--fixed-left"}`}
-                key={`SupplierProductRow${field.fieldName}${componentKey}`}
+                key={`supplierProductRow${field.fieldName}${componentKey}`}
             >
-                <ViewModelField
+                <EditModelInput
                     field={field}
                     model={supplierProduct}
+                    persistedModel={persistedSupplierProduct}
+                    componentKey={componentKey}
+                    index={index}
+                    onChange={onChange}
                     suppliers={suppliers}
                 />
             </div>
         })}
     </Fragment>
 };
-SupplierProductViewRow.propTypes = {
+SupplierProductEditRow.propTypes = {
     supplierProduct: PropTypes.any,
+    persistedSupplierProduct: PropTypes.any,
+    onChange: PropTypes.func,
     lockFirstColumn: PropTypes.bool,
     suppliers: PropTypes.any,
 };
 
-export default SupplierProductViewRow;
+export default SupplierProductEditRow;

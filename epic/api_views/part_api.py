@@ -47,7 +47,7 @@ def parts_and_supplier_parts(request):
     q_bundles = Bundle.objects.filter(products__in=q_supplier_products)
 
     return Response({"parts": PartSerializer(q_parts, many=True).data,
-                     "supplier_products": SupplierProductSerializer(q_supplier_products, many=True).data,
+                     "supplierProducts": SupplierProductSerializer(q_supplier_products, many=True).data,
                      "bundles": BundleSerializer(q_bundles, many=True).data})
 
 
@@ -106,21 +106,49 @@ class Parts(generics.ListCreateAPIView):
     # post
     def post(self, request, format=None):
         post_data = request.data
+        print(post_data)
         return_data = []
         errors = False
         for part in post_data:
-            part_serializer = PartSerializer(part)
+            part_serializer = PartSerializer(data=part)
+            supplier_product = part.get('supplierProduct')
+            print("supplier product", supplier_product)
             if part.get('id'):
                 existing_part = Part.objects.get(pk=part.get('id'))
-                part_serializer = PartSerializer(existing_part, part)
+            else:
+                existing_part = Part.objects.filter(brand__id=part.get('brand'),
+                                                    part_name=part.get('part_name')).first()
+
+            if existing_part:
+                part_serializer = PartSerializer(existing_part, data=part)
 
             if part_serializer.is_valid():
                 part_serializer.save()
-                return_data.append(part_serializer.data)
+                part_id = part_serializer.data.get('id', None)
+                if part_id and supplier_product:
+                    supplier_product['part'] = part_id
+                    supplier_product_serializer = SupplierProductSerializer(data=supplier_product)
+                    existing_supplier_product = SupplierProduct.objects.get(part__id=part_id,
+                                                                            supplier__id=supplier_product.get(
+                                                                                'supplier')).first()
+                    if existing_supplier_product:
+                        supplier_product_serializer = SupplierProductSerializer(existing_supplier_product,
+                                                                                data=supplier_product)
+
+                    if supplier_product_serializer.is_valid():
+                        supplier_product_serializer.save()
+                    else:
+                        errorPart = part_serializer.data
+                        errorPart['supplierProduct'] = supplier_product_serializer.data
+                        errorPart['error'] = True
+                        errors = True
+                        errorPart['error_detail'] = 'Part Supplier details could not be saved ' + str(
+                            supplier_product_serializer.errors)
+                        return_data.append(errorPart)
             else:
                 part['error'] = True
                 errors = True
-                part['error_detail'] = part_serializer.errors
+                part['error_detail'] = 'Part could not be saved ' + str(part_serializer.errors)
                 return_data.append(part)
 
         if errors:

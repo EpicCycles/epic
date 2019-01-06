@@ -1,6 +1,6 @@
 import * as PropTypes from "prop-types";
-import React, {Fragment} from "react";
-import {BRAND, CHECKBOX, PART_TYPE, SUPPLIER} from "../helpers/models";
+import React, {Component, Fragment} from "react";
+import {BRAND, CHECKBOX, CURRENCY, PART_TYPE, SUPPLIER} from "../helpers/models";
 import {getBrandName} from "../helpers/brand_helper";
 import {getPartTypeName} from "../helpers/framework";
 import {getSupplierName} from "../helpers/supplier_helper";
@@ -12,6 +12,9 @@ class ViewModelField extends Component {
         let viewData;
         const fieldValue = model[field.fieldName];
         switch (field.type) {
+            case CURRENCY:
+                viewData = Number(fieldValue).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' });
+                break;
             case CHECKBOX:
                 viewData = fieldValue ? "Y" : "N";
                 break;
@@ -32,11 +35,11 @@ class ViewModelField extends Component {
 
 }
 
-EditModelField.propTypes = {
+ViewModelField.propTypes = {
     field: PropTypes.any,
     model: PropTypes.any,
     sections: PropTypes.any,
     brands: PropTypes.any,
     suppliers: PropTypes.any,
 };
-export default EditModelField;
+export default ViewModelField;

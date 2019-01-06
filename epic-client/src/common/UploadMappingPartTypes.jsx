@@ -155,9 +155,9 @@ class UploadMappingPartTypes extends React.Component {
         this.props.saveFramework(renumberAll(updatedSections));
     };
     render() {
-        const { sections } = this.props;
+        const { sections, multiplesAllowed } = this.props;
         const { rowMappings, showModal, partType } = this.state;
-        const unResolvedRowMappings = rowMappings.filter(rowMapping => (Object.keys(rowMapping).length === 2));
+        const unResolvedRowMappings = rowMappings.filter(rowMapping => (!rowMapping.partType));
         const discardedRowMappings = rowMappings.filter(rowMapping => rowMapping.ignore);
         return <Fragment key="bikeUploadMapping">
             {showModal && <PartTypeModal
@@ -170,7 +170,15 @@ class UploadMappingPartTypes extends React.Component {
             />}
             <section key="mappingData" className="row" id="mappingData">
                 {/* part type mapping*/}
-                <div key="partTypes" className="grid" style={{height: (window.innerHeight * 0.8) + "px", overflow: "scroll"}}>
+                <div
+                    key="partTypes"
+                    className="grid"
+                    style={{
+                        height: (window.innerHeight * 0.8) + "px",
+                        width: (window.innerWidth * 0.5) + "px",
+                        overflow: "scroll"
+                    }}
+                >
                     <div className="grid-row grid-row--header ">
                         <div className="grid-item--header">
                             Section
@@ -181,7 +189,27 @@ class UploadMappingPartTypes extends React.Component {
                         <div className="grid-item--header">
                             Upload field
                         </div>
-                        <div className="grid-item--header">
+                    </div>
+                    <Fragment>
+                        {sections.map((section, sectionIndex) => {
+                            return section.partTypes.map((partType, partTypeIndex) => <UploadPartTypeMapping
+                                key={`partList${partType.id}`}
+                                partType={partType}
+                                partTypeIndex={partTypeIndex}
+                                allowDrop={this.allowDrop}
+                                assignToPartType={this.assignToPartType}
+                                section={section}
+                                sectionIndex={sectionIndex}
+                                rowMappings={rowMappings.filter(rowMapping => (rowMapping.partType === partType.id))}
+                                undoMapping={this.undoMapping}
+                                setUpPartTypeModalForPart={this.setUpPartTypeModalForPart}
+                                multiplesAllowed={multiplesAllowed}
+                            />)
+                        })
+                        }
+                    </Fragment>
+                </div>
+                <div>
                             {unResolvedRowMappings.map((mapping, index) =>
                                 <div key={`mapping${index}`}
                                      className="rounded"
@@ -208,25 +236,7 @@ class UploadMappingPartTypes extends React.Component {
                                 </div>
                             )}
                         </div>
-                    </div>
-                    <Fragment>
-                        {sections.map((section, sectionIndex) => {
-                            return section.partTypes.map((partType, partTypeIndex) => <UploadPartTypeMapping
-                                key={`partList${partType.id}`}
-                                partType={partType}
-                                partTypeIndex={partTypeIndex}
-                                allowDrop={this.allowDrop}
-                                assignToPartType={this.assignToPartType}
-                                section={section}
-                                sectionIndex={sectionIndex}
-                                rowMappings={rowMappings.filter(rowMapping => (rowMapping.partType === partType.id))}
-                                undoMapping={this.undoMapping}
-                                setUpPartTypeModalForPart={this.setUpPartTypeModalForPart}
-                            />)
-                        })
-                        }
-                    </Fragment>
-                </div>
+
             </section>
             <div><Button
                 key="bikeFileUploadCont"

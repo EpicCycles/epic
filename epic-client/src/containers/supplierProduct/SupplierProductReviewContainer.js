@@ -1,24 +1,27 @@
 import {connect} from 'react-redux'
-import {getBrands} from "../../state/actions/core";
+import {getBrandsAndSuppliers} from "../../state/actions/core";
 import {getFramework} from "../../state/actions/framework";
-import {getParts} from "../../state/sagas/part";
-import {clearParts} from "../../state/actions/part";
+import {clearParts, listParts, saveSupplierParts, updateParts, updateSupplierProducts} from "../../state/actions/part";
+import SupplierProductReview from "../../components/supplierProduct/SupplierProductReview";
 
 const mapStateToProps = ({ core, framework, part }) => {
     return {
         brands: core.brands,
+        suppliers: core.suppliers,
         sections: framework.sections,
-        isLoading: (part.isLoading),
+        isLoading: (framework.isLoading || core.isLoading || part.isLoading),
         parts: part.parts,
-        supplier_parts: part.supplier_parts,
+        supplierProducts: part.supplierProducts,
     }
 };
 const mapDispatchToProps = {
-    getBrands,
+    getBrandsAndSuppliers,
     getFramework,
-    getParts,
+    listParts,
     clearParts,
     saveSupplierParts,
+    updateParts,
+    updateSupplierProducts,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(SupplierPartReview)
+export default connect(mapStateToProps, mapDispatchToProps)(SupplierProductReview)
 

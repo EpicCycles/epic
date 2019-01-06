@@ -5,21 +5,22 @@ import {partFields} from "../../helpers/models";
 
 
 const PartEditRow = (props) => {
-    const { part, persistedPart, onChange, supplierParts, lockFirstColumn, brands, sections } = props;
-    const rowSpan = supplierParts ? supplierParts.length : 1;
+    const { part, persistedPart, onChange, supplierProducts, lockFirstColumn, brands, sections } = props;
+    const rowSpan = supplierProducts ? supplierProducts.length : 1;
     const componentKey = part.id ? part.id : part.dummyKey;
     return <Fragment>
         {partFields.map((field, index) => {
+            let divClass = "grid-item";
+            if (lockFirstColumn) divClass += " grid-item--fixed-left";
             return <div
-                className={`grid-item ${((index === 0) && lockFirstColumn) && "grid-item--fixed-left"}`}
+                className={divClass}
                 key={`partRow${field.fieldName}${componentKey}`}
-                style={`grid-row: span ${rowSpan};`}
+                style={{ gridRow: `span ${rowSpan};` }}
             >
                 <EditModelInput
                     field={field}
                     model={part}
                     persistedModel={persistedPart}
-                    className={className}
                     componentKey={componentKey}
                     index={index}
                     onChange={onChange}
@@ -34,7 +35,7 @@ PartEditRow.propTypes = {
     part: PropTypes.any,
     persistedPart: PropTypes.any,
     onChange: PropTypes.func,
-    supplierParts: PropTypes.array,
+    supplierProducts: PropTypes.array,
     lockFirstColumn: PropTypes.bool,
     sections: PropTypes.any,
     brands: PropTypes.any,

@@ -1,4 +1,3 @@
-from django.http import Http404
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -6,7 +5,6 @@ from rest_framework.response import Response
 
 from epic.model_serializers.brand_serializer import BrandSerializer
 from epic.models.brand_models import Brand
-
 
 
 def create_brand(brand):
@@ -53,7 +51,6 @@ class Brands(generics.ListCreateAPIView):
     def post(self, request, pk=None, format=None):
 
         post_data = request.data
-        print(post_data)
         return_data = []
         errors = False
         for brand in post_data:

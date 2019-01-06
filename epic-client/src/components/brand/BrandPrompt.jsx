@@ -4,10 +4,24 @@ import BrandModal from "../brand/BrandModal";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 
 class BrandPrompt extends React.Component {
+    constructor() {
+        super();
+        this.state = { showModal: false };
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+    };
 
-    handleOpenModal() {
-        this.setState({ showModal: true });
+    componentDidUpdate(prevProps) {
+        // Typical usage (don't forget to compare props):
+        if (this.props.brands !== prevProps.brands) {
+            this.props.actionOnBrandsChange();
+        }
     }
+
+    handleOpenModal = () => {
+        this.setState({
+            showModal: true,
+        });
+    };
 
 
     handleCloseModal() {
@@ -41,8 +55,9 @@ class BrandPrompt extends React.Component {
                     brands={brands}
                 />}
             </div>
-            <section key="partData" className="column" id="partData">
-                {displayProductDescriptions.map(description => <div>{description}</div>)}
+            <section key="partData" className="flex-vertical" id="partData">
+                {displayProductDescriptions.map((description, descIndex) => <div
+                    key={`desc${descIndex}`}>{description}</div>)}
             </section>
         </Fragment>;
     }

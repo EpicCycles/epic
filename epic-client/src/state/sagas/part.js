@@ -74,10 +74,12 @@ export function* uploadParts(action) {
             const completePayload = Object.assign(action.payload, { token });
             const response = yield call(part.uploadParts, completePayload);
             yield put(uploadPartsOK(response.data));
+            yield call(history.push, "/product-review");
         } else {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        console.log(error)
         yield put(uploadPartsError("Save Parts failed"));
     }
 }

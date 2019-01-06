@@ -6,7 +6,6 @@ import {supplierProductHeaders} from "../../helpers/part_helper"
 class SupplierProductUploadFile extends React.Component {
     state = {};
 
-
     goToNextStep = () => {
         const { uploadedData } = this.state;
         const rowMappings = this.props.buildInitialRowMappings(uploadedData);
@@ -18,16 +17,18 @@ class SupplierProductUploadFile extends React.Component {
         let fileReader = new FileReader();
         fileReader.onloadend = () => {
             const fileContent = fileReader.result;
-            let fileLines = fileContent.split("\n");
+            let fileLines = fileContent.split(/\r?\n/);
             let uploadedData = [];
             fileLines.forEach(fileLine => uploadedData.push(fileLine.split(',')));
             if (uploadedData.length > 0) {
-                const uploadedHeaders = uploadedData.shift();
+                uploadedData.shift(); // remove header row
                 const usableData = uploadedData.filter(uploadRow => {
+                    if (uploadRow[0].length === 0) return false;
+
                     const joinedData = uploadRow.join('');
                     return (joinedData.length > (uploadRow[0].length + 1));
                 });
-                this.setState({ uploadedHeaders, uploadedData: usableData });
+                this.setState({ uploadedData: usableData });
             }
         };
         fileReader.readAsText(supplierProductUploadFile);
@@ -46,11 +47,9 @@ class SupplierProductUploadFile extends React.Component {
     };
 
     render() {
-        const { modelName, uploadedHeaders, uploadedData } = this.state;
-        const { brandName, frameName } = this.props;
-        const uploadData = (uploadedHeaders && (uploadedHeaders.length > 0));
+        const { modelName, uploadedData } = this.state;
+        const uploadData = (uploadedData && (uploadedData.length > 0));
         const uploadDisabled = false;
-        const continueDisabled = ((!brandName) || (!frameName));
         return <Fragment key="supplierProductUploadFile">
             {(!uploadData) && <div key='supplierProductUploadInput' className="grid">
                 <div className="grid-row">
@@ -93,7 +92,6 @@ class SupplierProductUploadFile extends React.Component {
                     <Button
                         key="supplierProductFileUploadCont"
                         onClick={this.goToNextStep}
-                        disabled={continueDisabled}
                     >
                         Continue ...
                     </Button>

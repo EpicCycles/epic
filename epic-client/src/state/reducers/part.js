@@ -2,6 +2,7 @@ import {CLEAR_ALL_STATE} from "../actions/application";
 import {
     PART_CLEAR,
     PART_DELETE_ERROR,
+    PART_DELETE_OK,
     PART_DELETE_REQUESTED,
     PART_LIST_ERROR,
     PART_LIST_OK,
@@ -11,7 +12,9 @@ import {
     PART_SAVE_REQUESTED,
     PART_UPLOAD_ERROR,
     PART_UPLOAD_OK,
-    PART_UPLOAD_REQUESTED
+    PART_UPLOAD_REQUESTED,
+    UPDATE_PARTS,
+    UPDATE_SUPPLIER_PRODUCTS
 } from "../actions/part";
 
 const initialState = {
@@ -44,6 +47,17 @@ const part = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 parts: action.payload.parts,
+                supplierProducts: action.payload.supplierProducts,
+            };
+        case UPDATE_PARTS:
+            return {
+                ...state,
+                parts: action.payload,
+            };
+        case UPDATE_SUPPLIER_PRODUCTS:
+            return {
+                ...state,
+                supplierProducts: action.payload,
             };
         case PART_SAVE_OK:
             return {

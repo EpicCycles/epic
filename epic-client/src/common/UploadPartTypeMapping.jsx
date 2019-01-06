@@ -27,10 +27,11 @@ export const UploadPartTypeMapping = props => (
             className="grid-item--borderless field-label "
         >
             {props.rowMappings.map((matched, matchIndex) => <UploadMatchedData
-                    key={`partType${props.partType.id}${matchIndex}`}
-                    matched={matched}
-                    matchIndex={matchIndex}
-                    undoMapping={props.undoMapping}
+                key={`partType${props.partType.id}${matchIndex}`}
+                matched={matched}
+                matchIndex={matchIndex}
+                undoMapping={props.undoMapping}
+                multiplesAllowed={props.multiplesAllowed}
                 />)
             }
         </div>

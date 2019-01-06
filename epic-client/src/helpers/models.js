@@ -9,6 +9,7 @@ import {
     PRODUCTS_MISSING,
     SUPPLIER_MISSING
 } from "./error";
+import {findObjectWithKey, removeKey, updateObjectInArray} from "./utils";
 
 export const BRAND = "brand";
 export const SUPPLIER = "supplier";
@@ -34,6 +35,7 @@ export const STOCKED = "stocked";
 export const PRODUCTS = "products";
 export const TEXT = "text";
 export const NUMBER = "number";
+export const CURRENCY = "currency";
 export const TEXT_AREA = "textArea";
 export const CHECKBOX = "checkbox";
 
@@ -117,21 +119,21 @@ export const SELL_PRICE_FIELD = {
     fieldName: SELL_PRICE,
     header: "RRP",
     synonyms: ["price", "selling price", "srp", "rrp", "sell price", "retail price"],
-    type: NUMBER,
+    type: CURRENCY,
     length:10
 };
 export const EPIC_PRICE_FIELD = {
     fieldName: EPIC_PRICE,
     header: "Epic Price",
     synonyms: [],
-    type: NUMBER,
+    type: CURRENCY,
     length: 10
 };
 export const CLUB_PRICE_FIELD = {
     fieldName: CLUB_PRICE,
     header: "Club Price",
     synonyms: [],
-    type: NUMBER,
+    type: CURRENCY,
     length: 10
 };
 
@@ -139,21 +141,21 @@ export const FITTED_PRICE_FIELD = {
     fieldName: FITTED_PRICE,
     header: "Fitted Price",
     synonyms: [],
-    type: NUMBER,
+    type: CURRENCY,
     length: 10
 };
 export const TRADE_PRICE_FIELD = {
     fieldName: TRADE_PRICE,
     header: "Trade Price",
     synonyms: [],
-    type: NUMBER,
+    type: CURRENCY,
     length: 10
 };
 export const TICKET_PRICE_FIELD = {
     fieldName: TICKET_PRICE,
     header: "Ticket Price",
     synonyms: [],
-    type: NUMBER,
+    type: CURRENCY,
     length: 10
 };
 export const SIZES_FIELD = {
@@ -179,7 +181,7 @@ export const PART_NAME_FIELD = {
 export const TRADE_IN_FIELD = {
     fieldName: TRADE_IN_PRICE,
     header: "Trade In £",
-    type: NUMBER,
+    type: CURRENCY,
     length:10
 };
 export const STOCKED_FIELD = {
@@ -204,7 +206,6 @@ export const partFields = [
 ];
 export const supplierProductFields = [
     SUPPLIER_FIELD,
-    PART_FIELD,
     FITTED_PRICE_FIELD,
     TICKET_PRICE_FIELD,
     SELL_PRICE_FIELD,
@@ -224,4 +225,34 @@ export const applyFieldValueToModel = (modelInstance, fieldName, value) => {
     updatedModelInstance[fieldName] = value;
     updatedModelInstance.changed = true;
     return updatedModelInstance;
+};
+
+export const getAttribute = (modelFields, fieldName) => {
+    let attribute;
+    modelFields.some(field => {
+        if (fieldName.startsWith(field.fieldName)) {
+            attribute = field.fieldName;
+            return true;
+        }
+        return false;
+    });
+    return attribute;
+};
+
+export const updateModelArrayWithChanges = (modelArray, modelFields, fieldName, fieldValue, componentKey) => {
+    const attribute = getAttribute(modelFields, fieldName);
+    if (attribute) {
+        let modelInstance = findObjectWithKey(modelArray, componentKey);
+        let currentChanges = modelInstance.changes || {};
+        if (fieldValue && (modelInstance[attribute] !== fieldValue)) {
+            currentChanges[attribute] = fieldValue;
+        } else {
+            currentChanges = removeKey(currentChanges, attribute);
+        }
+        modelInstance.changes = currentChanges;
+        return updateObjectInArray(modelArray, modelInstance, componentKey)
+    } else {
+        console.error("attribuite not cound for", modelFields, fieldName)
+    }
+    return modelArray;
 };

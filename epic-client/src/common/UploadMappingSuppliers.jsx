@@ -115,7 +115,7 @@ class UploadMappingSuppliers extends React.Component {
                               title="Discard data"/>
                         <Icon id={`create{index}`} name="add circle"
                               onClick={() => this.setUpSupplierModalForNewField(mapping)}
-                              title="Create Part Type to store data"/>
+                              title="Create Supplier to store data"/>
                     </div>
                 )}
                 {discardedRowMappings.map((mapping, index) =>

@@ -5,7 +5,7 @@ export const removeMessage = () => ({
     type: REMOVE_MESSAGE
 });
 export const addMessage = (messageText, messageType) => ({
-    type: ADD_MESSAGE    ,
+    type: ADD_MESSAGE,
     payload: { messageText, messageType }
 });
 export const clearAllState = () => ({

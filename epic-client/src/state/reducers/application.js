@@ -2,7 +2,8 @@ import {ADD_MESSAGE, CLEAR_ALL_STATE, REMOVE_MESSAGE} from "../actions/applicati
 import {
     CUSTOMER_ADDRESS_DELETE,
     CUSTOMER_ADDRESS_DELETE_ERROR,
-    CUSTOMER_ADDRESS_DELETE_REQUEST, CUSTOMER_ADDRESS_SAVE_ERROR,
+    CUSTOMER_ADDRESS_DELETE_REQUEST,
+    CUSTOMER_ADDRESS_SAVE_ERROR,
     CUSTOMER_ADDRESS_SAVE_REQUEST,
     CUSTOMER_CREATE_ERROR,
     CUSTOMER_CREATE_REQUESTED,
@@ -21,16 +22,23 @@ import {
     CUSTOMER_SAVE_REQUESTED
 } from "../actions/customer";
 import {
-    NOTE_CREATE_ERROR, NOTE_CREATE_REQUESTED,
-    NOTE_DELETE_ERROR, NOTE_DELETE_REQUESTED,
-    NOTE_LIST_ERROR, NOTE_LIST_REQUESTED,
-    NOTE_SAVE_ERROR, NOTE_SAVE_REQUESTED, NOTE_REMOVE
+    NOTE_CREATE_ERROR,
+    NOTE_CREATE_REQUESTED,
+    NOTE_DELETE_ERROR,
+    NOTE_DELETE_REQUESTED,
+    NOTE_LIST_ERROR,
+    NOTE_LIST_REQUESTED,
+    NOTE_REMOVE,
+    NOTE_SAVE_ERROR,
+    NOTE_SAVE_REQUESTED
 } from "../actions/note";
 import {USER_LOGIN, USER_LOGIN_ERROR, USER_LOGIN_REQUESTED} from "../actions/user";
 import {FRAMEWORK_ERROR, FRAMEWORK_SAVE, FRAMEWORK_SAVE_ERROR} from "../actions/framework";
 import {BRANDS_SAVE_ERROR, BRANDS_SAVE_OK} from "../actions/core";
 import {
-    BIKE_ADD_PART_ERROR, BIKE_DELETE_ERROR, BIKE_PART_DELETE_ERROR,
+    BIKE_ADD_PART_ERROR,
+    BIKE_DELETE_ERROR,
+    BIKE_PART_DELETE_ERROR,
     FRAME_ARCHIVE_ERROR,
     FRAME_ARCHIVE_OK,
     FRAME_SAVE_ERROR,
@@ -38,6 +46,7 @@ import {
     FRAME_SAVE_REQUESTED,
     FRAME_UPLOAD_ERROR
 } from "../actions/bike";
+import {PART_UPLOAD_ERROR} from "../actions/part";
 
 const initialState = {
     message: "",
@@ -129,6 +138,7 @@ const application = (state = initialState, action) => {
         case BIKE_ADD_PART_ERROR:
         case BIKE_DELETE_ERROR:
         case BIKE_PART_DELETE_ERROR:
+        case PART_UPLOAD_ERROR:
             return {
                 ...state,
                 message: action.payload,

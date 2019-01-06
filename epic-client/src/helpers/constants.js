@@ -42,6 +42,14 @@ export const menuStructure = [
                     {displayText: "Brands", linkRoute: "/brands", linkNumber: 212},
                 ]
             },
+            {
+                groupHeader: "Products",
+                groupPos: 22,
+                groupLinks: [
+                    { displayText: "Product Upload", linkRoute: "/product-upload", linkNumber: 221 },
+                    { displayText: "Product Review", linkRoute: "/product-review", linkNumber: 222 },
+                ]
+            },
         ]
     },
 

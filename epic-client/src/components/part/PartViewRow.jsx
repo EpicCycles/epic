@@ -13,7 +13,7 @@ const PartViewRow = (props) => {
             return <div
                 className={`grid-item ${((index === 0) && lockFirstColumn) && "grid-item--fixed-left"}`}
                 key={`partRow${field.fieldName}${componentKey}`}
-                style={`grid-row: span ${rowSpan};`}
+                style={{ gridRow: ` span ${rowSpan}` }}
             >
                 <ViewModelField
                     field={field}
