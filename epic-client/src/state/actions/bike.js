@@ -155,9 +155,8 @@ export const uploadFrameError = (error) => ({
     type: FRAME_UPLOAD_ERROR,
     payload: error
 });
-export const uploadFrameSuccess = (frame) => ({
+export const uploadFrameSuccess = () => ({
     type: FRAME_UPLOAD_OK,
-    payload: frame
 });
 export const getFrameList = (searchCriteria) => ({
     type: FRAME_LIST_REQUESTED,

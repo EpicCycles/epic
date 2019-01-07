@@ -83,6 +83,22 @@ exports[`Header.index tests renders the Header correctly when the user is logged
                 ],
                 "groupPos": 21,
               },
+              Object {
+                "groupHeader": "Products",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Product Upload",
+                    "linkNumber": 221,
+                    "linkRoute": "/product-upload",
+                  },
+                  Object {
+                    "displayText": "Product Review",
+                    "linkNumber": 222,
+                    "linkRoute": "/product-review",
+                  },
+                ],
+                "groupPos": 22,
+              },
             ]
           }
         />
@@ -184,6 +200,22 @@ exports[`Header.index tests renders the Header correctly when the user is not lo
                 ],
                 "groupPos": 21,
               },
+              Object {
+                "groupHeader": "Products",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Product Upload",
+                    "linkNumber": 221,
+                    "linkRoute": "/product-upload",
+                  },
+                  Object {
+                    "displayText": "Product Review",
+                    "linkNumber": 222,
+                    "linkRoute": "/product-review",
+                  },
+                ],
+                "groupPos": 22,
+              },
             ]
           }
         />
@@ -275,6 +307,22 @@ exports[`Header.index tests renders the Header correctly with user and applicati
                   },
                 ],
                 "groupPos": 21,
+              },
+              Object {
+                "groupHeader": "Products",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Product Upload",
+                    "linkNumber": 221,
+                    "linkRoute": "/product-upload",
+                  },
+                  Object {
+                    "displayText": "Product Review",
+                    "linkNumber": 222,
+                    "linkRoute": "/product-review",
+                  },
+                ],
+                "groupPos": 22,
               },
             ]
           }

@@ -24,10 +24,10 @@ const SupplierSelect = (props) => {
 SupplierSelect.propTypes = {
     fieldName: PropTypes.string,
     suppliers: PropTypes.array,
-    supplierSelected: PropTypes.string,
+    supplierSelected: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     onChange: PropTypes.func,
     isEmptyAllowed: PropTypes.bool,
     isMultiple: PropTypes.bool,
-    multipleSize: PropTypes.string,
+    multipleSize: PropTypes.number,
 };
 export default SupplierSelect;

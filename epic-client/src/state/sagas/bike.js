@@ -37,8 +37,11 @@ import {
     addBikePartOK,
     addBikePartError,
     BIKE_ADD_PART_REQUESTED,
-    deleteBikePartError,
+    deleteBikePartError, getFrameList,
 } from "../actions/bike";
+import {logError} from "../../helpers/api_error";
+import {addMessage} from "../actions/application";
+import {INFO_MESSAGE, UPLOAD_PARTIAL_SUCCESS, UPLOAD_SUCCESS, WARNING_MESSAGE} from "../../helpers/messages";
 
 
 export function* saveBike(action) {
@@ -52,6 +55,7 @@ export function* saveBike(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(saveBikeError("Save Bike failed"));
     }
 }
@@ -72,6 +76,7 @@ export function* addBikePart(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(addBikePartError("Add Bike Part failed"));
     }
 }
@@ -91,6 +96,7 @@ export function* saveBikePart(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(saveBikePartError("Save Bike Part failed"));
     }
 }
@@ -111,6 +117,7 @@ export function* deleteBikePart(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(deleteBikePartError("Delete Bike Part failed"));
     }
 }
@@ -146,6 +153,7 @@ export function* reviewBikeParts(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(reviewBikeError("Get Bike for Review failed"));
     }
 }
@@ -161,6 +169,7 @@ export function* deleteBikes(bikeIdsToDelete, token) {
         }
 
     } catch (error) {
+        logError(error);
         yield put(deleteBikesError("Delete Frames failed"));
     }
 }
@@ -187,6 +196,7 @@ export function* deleteBikesAndGetList(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(deleteBikesError("Delete Bikes failed"));
     }
 }
@@ -202,6 +212,7 @@ export function* deleteFrames(frameIdsToDelete, token) {
         }
 
     } catch (error) {
+        logError(error);
         yield put(deleteFramesError("Delete Frames failed"));
     }
 }
@@ -228,6 +239,7 @@ export function* deleteFramesAndGetList(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(deleteFramesError("Delete Frames failed"));
     }
 }
@@ -294,6 +306,7 @@ export function* saveFrame(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(saveFrameError("Save Frame failed"));
     }
 }
@@ -308,12 +321,26 @@ export function* uploadFrame(action) {
         if (token) {
             const completePayload = Object.assign(action.payload, { token });
             const response = yield call(bike.uploadFrame, completePayload);
-            yield put(uploadFrameSuccess(response.data));
+            console.log("response from save",response)
+            console.log(response.data);
+            console.log(response.status);
+            console.log(response.statusText);
+            console.log(response.headers);
+            if (response.status === 201) {
+                yield put(addMessage(UPLOAD_SUCCESS, INFO_MESSAGE));
+            } else {
+                yield put(addMessage(UPLOAD_PARTIAL_SUCCESS, WARNING_MESSAGE));
+            }
+            const searchCriteria = {brand:action.payload.frame.brand, frameName: action.payload.frame.frame_name, archived: false};
+            yield put(uploadFrameSuccess());
+            yield put(getFrameList(searchCriteria));
+            yield call(history.push, "/bike-review");
         } else {
             yield call(history.push, "/login");
         }
     } catch (error) {
-        yield put(uploadFrameError("Save Frame failed"));
+        logError(error);
+        yield put(uploadFrameError("Upload Frame failed"));
     }
 }
 

@@ -6,6 +6,7 @@ import {call, put, select, takeLatest} from "redux-saga/effects";
 import history from "../../history";
 import * as selectors from "../selectors/user";
 import framework from "./apis/framework";
+import {logError} from "../../helpers/api_error";
 
 export function* getFramework(action) {
     try {
@@ -18,6 +19,7 @@ export function* getFramework(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(getFrameworkFailure("Get Framework failed"));
     }
 }
@@ -37,6 +39,7 @@ export function* saveFramework(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(saveFrameworkFailure("Save Framework failed"));
     }
 }

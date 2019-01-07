@@ -91,10 +91,14 @@ const bike = (state = initialState, action) => {
                 isLoading: true,
             };
         case FRAME_SAVE_OK:
-        case FRAME_UPLOAD_OK:
             return {
                 ...state,
                 frame: action.payload,
+                isLoading: false,
+            };
+        case FRAME_UPLOAD_OK:
+            return {
+                ...state,
                 isLoading: false,
             };
         case FRAME_LIST_REQUESTED:

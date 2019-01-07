@@ -2,7 +2,7 @@
 
 exports[`it renders correctly 1`] = `
 <div
-  className="rounded-auto "
+  className="rounded-auto"
   key="match120"
 >
   Chain

@@ -17,6 +17,7 @@ import {
     SUPPLIER_SAVE_REQUESTED, SUPPLIER_DELETE_REQUESTED, deleteSupplierSuccess, deleteSupplierFailure
 } from "../actions/core";
 import {call, put, select, takeLatest} from "redux-saga/effects";
+import {logError} from "../../helpers/api_error";
 
 export function* getBrandsAndSuppliers(action) {
     try {
@@ -31,6 +32,7 @@ export function* getBrandsAndSuppliers(action) {
         }
     } catch (error) {
         // yield put(getBrandsAndSuppliersSuccess(sampleBrands, sampleSuppliers));
+        logError(error);
         yield put(getBrandsAndSuppliersFailure("Get Brands and Suppliers Failed"));
     }
 }
@@ -46,6 +48,7 @@ export function* getBrands(action) {
         }
     } catch (error) {
         // yield put(getBrandsAndSuppliersSuccess(sampleBrands, sampleSuppliers));
+        logError(error);
         yield put(getBrandsFailure("Get Brands Failed"));
     }
 }
@@ -62,6 +65,7 @@ export function* saveBrands(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(saveBrandsFailure("Save Brands Failed"));
     }
 }
@@ -83,6 +87,7 @@ export function* saveSupplier(action) {
         }
     } catch (error) {
         // yield put(getBrandsAndSuppliersSuccess(sampleBrands, sampleSuppliers));
+        logError(error);
         yield put(saveSupplierFailure("Save Supplier Failed"));
     }
 }
@@ -99,6 +104,7 @@ export function* deleteSupplier(action) {
         }
     } catch (error) {
         // yield put(getBrandsAndSuppliersSuccess(sampleBrands, sampleSuppliers));
+        logError(error);
         yield put(deleteSupplierFailure("Delete Supplier Failed"));
     }
 }

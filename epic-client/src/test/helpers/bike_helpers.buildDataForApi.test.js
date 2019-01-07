@@ -23,7 +23,7 @@ test("single bike, part and attribute set", () => {
                 model_name: uploadedHeaders[1],
                 sizes: uploadedData[0][1],
                 parts: [
-                    { partBrand: brand, partType: rowMappings[1].partType, partName: uploadedData[1][1] }
+                    { brand: brand, partType: rowMappings[1].partType, part_name: uploadedData[1][1] }
                 ]
             }
         ]
@@ -61,21 +61,21 @@ test("multiple bikes, parts and attributes set", () => {
                 sizes: uploadedData[0][1],
                 description: uploadedData[3][1],
                 parts: [
-                    { partBrand: brand, partType: rowMappings[1].partType, partName: uploadedData[1][1] }
+                    { brand: brand, partType: rowMappings[1].partType, part_name: uploadedData[1][1] }
                 ]
             },
             {
                 model_name: uploadedHeaders[2],
                 parts: [
-                    { partBrand: brand, partType: rowMappings[1].partType, partName: uploadedData[1][2] },
-                    { partBrand: brands[1].id, partType: rowMappings[4].partType, partName: uploadedData[4][2].slice(brands[1].brand_name.length).trim() },
+                    { brand: brand, partType: rowMappings[1].partType, part_name: uploadedData[1][2] },
+                    { brand: brands[1].id, partType: rowMappings[4].partType, part_name: uploadedData[4][2].slice(brands[1].brand_name.length).trim() },
                 ]
             },
             {
                 model_name: uploadedHeaders[3],
                 description: uploadedData[3][3],
                 parts: [
-                    { partBrand: brands[0].id, partType: rowMappings[4].partType, partName: uploadedData[4][3].slice(brands[0].brand_name.length).trim() }
+                    { brand: brands[0].id, partType: rowMappings[4].partType, part_name: uploadedData[4][3].slice(brands[0].brand_name.length).trim() }
                 ]
             },
         ]

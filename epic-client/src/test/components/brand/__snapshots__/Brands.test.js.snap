@@ -124,12 +124,6 @@ exports[`component displays correctly with brands 1`] = `
         >
           Add Supplier
         </button>
-        <SupplierModal
-          closeSupplierModal={[Function]}
-          componentKey="new"
-          supplierModalOpen={false}
-          supplierToEdit={Object {}}
-        />
       </div>
     </div>
   </section>
@@ -176,12 +170,6 @@ exports[`component displays correctly with no brands and fetch called 1`] = `
         >
           Add Supplier
         </button>
-        <SupplierModal
-          closeSupplierModal={[Function]}
-          componentKey="new"
-          supplierModalOpen={false}
-          supplierToEdit={Object {}}
-        />
       </div>
     </div>
   </section>

@@ -108,8 +108,8 @@ class FrameUpload(generics.ListCreateAPIView):
                     persisted_parts = []
                     for part in parts:
                         part_type = part.get('partType', None)
-                        part_name = part.get('partName', None)
-                        part_brand = part.get('partBrand', frame_brand)
+                        part_name = part.get('part_name', None)
+                        part_brand = part.get('brand', frame_brand)
                         if part_type and part_name and bike_id:
                             part = find_or_create_part(Brand.objects.get(id=part_brand),
                                                        PartType.objects.get(id=part_type),
@@ -129,10 +129,13 @@ class FrameUpload(generics.ListCreateAPIView):
             savedFrameData['bikes'] = persisted_bikes
             if errors:
                 savedFrameData['error'] = True
-                return Response(savedFrameData, status=status.HTTP_202_ACCEPTED)
+                print("status 202 response")
+                return Response(status=status.HTTP_202_ACCEPTED)
 
-            return Response(savedFrameData, status=status.HTTP_201_CREATED)
+            print("status 201 response")
+            return Response(status=status.HTTP_201_CREATED)
 
+        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

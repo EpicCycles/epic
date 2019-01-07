@@ -16,6 +16,7 @@ import {
     uploadPartsError,
     uploadPartsOK
 } from "../actions/part";
+import {logError} from "../../helpers/api_error";
 
 
 export function* savePart(action) {
@@ -29,7 +30,7 @@ export function* savePart(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
-        console.error(error);
+        logError(error);
         yield put(savePartError("Save Part failed"));
     }
 }
@@ -58,6 +59,7 @@ export function* deletePart(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(deletePartError("Delete Part failed"));
     }
 }
@@ -79,7 +81,7 @@ export function* uploadParts(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
-        console.log(error)
+        logError(error);
         yield put(uploadPartsError("Save Parts failed"));
     }
 }
@@ -99,6 +101,7 @@ export function* getParts(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(listPartsError("Get Parts failed"));
     }
 }

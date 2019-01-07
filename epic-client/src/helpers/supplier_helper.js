@@ -1,4 +1,5 @@
 export const getSupplierName = (supplierId, suppliers) => {
+    if (! supplierId) return undefined;
     let supplierName = "Unknown Supplier";
 
     suppliers.some(supplier => {

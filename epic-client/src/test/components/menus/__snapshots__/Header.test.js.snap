@@ -83,6 +83,22 @@ exports[`is displays correctly 1`] = `
                 ],
                 "groupPos": 21,
               },
+              Object {
+                "groupHeader": "Products",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Product Upload",
+                    "linkNumber": 221,
+                    "linkRoute": "/product-upload",
+                  },
+                  Object {
+                    "displayText": "Product Review",
+                    "linkNumber": 222,
+                    "linkRoute": "/product-review",
+                  },
+                ],
+                "groupPos": 22,
+              },
             ]
           }
         />

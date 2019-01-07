@@ -135,7 +135,7 @@ class BrandModal extends React.Component {
                     <SupplierSelect
                         fieldName={`supplier_${componentKey}`}
                         onChange={this.handleBrandValueChange}
-                        supplierSelected={brand.supplier || []}
+                        supplierSelected={brand.supplier}
                         suppliers={suppliers}
                         isEmptyAllowed={true}
                         isMultiple={true}

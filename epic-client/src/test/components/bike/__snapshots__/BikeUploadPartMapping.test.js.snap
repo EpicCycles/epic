@@ -57,7 +57,7 @@ exports[`it renders correctly for row in section with mapped details 1`] = `
   <div
     className="grid-item--borderless field-label "
   >
-    <BikeUploadMatchedData
+    <UploadMatchedData
       key="partTypeundefined0"
       matchIndex={0}
       matched={

@@ -16,6 +16,7 @@ export const NEW_ATTRIBUTE = {
     attribute_type: 1,
 };
 export const getPartTypeName = (partTypeId, sections) => {
+    if (! partTypeId) return undefined;
     let partTypeName = "Unknown";
     sections.some(section => {
         return section.partTypes.some(partType => {
