@@ -1,4 +1,4 @@
-import {findObjectWithKey} from "./utils";
+import {findObjectWithKey, updateObject} from "./utils";
 import {NEW_ELEMENT_ID} from "./constants";
 import {PART_TYPE_NAME_MISSING} from "./error";
 
@@ -31,7 +31,7 @@ export const getPartTypeName = (partTypeId, sections) => {
 };
 
 export const processPartTypeValueChanges = (partType, componentKey, fieldName, input) => {
-    const updatedPartType = Object.assign({}, partType);
+    const updatedPartType = updateObject(partType);
     if (fieldName.startsWith('shortName')) updatedPartType.shortName = input;
     if (!updatedPartType.shortName) {
         updatedPartType.error = true;

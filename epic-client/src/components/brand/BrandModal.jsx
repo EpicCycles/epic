@@ -7,6 +7,8 @@ import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {Icon} from "semantic-ui-react";
 import SupplierSelect from "../supplier/SupplierSelect";
 import {BRAND_NAME_MISSING} from "../../helpers/error";
+import {updateObject} from "../../helpers/utils";
+import {brandFields, updateModel} from "../../helpers/models";
 
 class BrandModal extends React.Component {
     state = {};
@@ -30,31 +32,19 @@ class BrandModal extends React.Component {
     };
 
     handleBrandValueChange = (fieldName, input) => {
-        const updatedBrand = Object.assign({}, this.state.brand);
-        if (fieldName.startsWith('brand_name')) updatedBrand.brand_name = input;
-        if (fieldName.startsWith('link')) updatedBrand.link = input;
-        if (fieldName.startsWith('bike_brand')) updatedBrand.bike_brand = input;
+        const updatedBrand = updateModel(this.props.brand, brandFields, fieldName, input);
         if (fieldName.startsWith('supplier')) {
-            updatedBrand.supplier = input;
             updatedBrand.supplier_names = this.buildSupplierNameArray(input, this.props.suppliers);
-        }
-        if (!updatedBrand.brand_name) {
-            updatedBrand.error = true;
-            updatedBrand.error_detail = BRAND_NAME_MISSING;
-        } else {
-            updatedBrand.error = false;
-            updatedBrand.error_detail = "";
         }
 
         if (this.props.componentKey === NEW_ELEMENT_ID) updatedBrand.dummyKey = NEW_ELEMENT_ID;
 
-        updatedBrand.changed = true;
         this.setState({ brand: updatedBrand });
     };
     handleInputClear = (fieldName) => {
         if (fieldName.startsWith('brand_name')) {
             if (window.confirm("Please confirm that you want to delete this Brand")) {
-                const updatedBrand = Object.assign({}, this.props.brand);
+                const updatedBrand = updateObject(this.props.brand);
                 updatedBrand.delete = true;
                 this.props.handleBrandChange(this.props.componentKey, updatedBrand);
             }

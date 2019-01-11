@@ -5,7 +5,8 @@ import React from "react";
  * props
  * field, index, allowDrop, assignToBikeAttribute, rowMappings,undoMapping
  */
-import {UploadMatchedData} from "../../common/UploadMatchedData";
+import {UploadMatchedPartType} from "../../common/UploadMatchedPartType";
+import * as PropTypes from "prop-types";
 
 export const BikeUploadFieldMapping = (props) => {
     return (<div className="grid-row">
@@ -22,7 +23,7 @@ export const BikeUploadFieldMapping = (props) => {
             className="grid-item--borderless field-label "
         >
             {props.rowMappings
-                .map((matched, matchIndex) => <UploadMatchedData
+                .map((matched, matchIndex) => <UploadMatchedPartType
                     key={`matchArea${props.index}${matchIndex}`}
                     matched={matched}
                     matchIndex={matchIndex}
@@ -31,4 +32,10 @@ export const BikeUploadFieldMapping = (props) => {
             }
         </div>
     </div>);
+};
+BikeUploadFieldMapping.propTypes = {
+    field: PropTypes.object.isRequired,
+    index: PropTypes.number.isRequired,
+    rowMappings: PropTypes.array.isRequired,
+    undoMapping: PropTypes.func.isRequired,
 };

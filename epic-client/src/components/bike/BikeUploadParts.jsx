@@ -3,6 +3,7 @@ import {Button} from "semantic-ui-react";
 import BrandModal from "../brand/BrandModal";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import BikeUploadPartsEditPart from "./BikeUploadPartsEditPart";
+import {updateObject} from "../../helpers/utils";
 
 class BikeUploadParts extends React.Component {
     constructor(props) {
@@ -92,8 +93,8 @@ class BikeUploadParts extends React.Component {
         let updatedDisplayData = this.state.displayData.slice();
         let updatedSection = updatedDisplayData[sectionIndex];
         let updatedPartType = updatedSection.partTypes[partTypeIndex];
-        let updatedPartData = Object.assign({}, updatedPartType.uploadParts[partIndex]);
-        let updatedPart = Object.assign({}, updatedPartData.part);
+        let updatedPartData = updateObject(updatedPartType.uploadParts[partIndex]);
+        let updatedPart = updateObject(updatedPartData.part);
 
         updatedPart[fieldName] = input;
         updatedPart.changed = true;

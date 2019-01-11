@@ -1,4 +1,4 @@
-import {colourStyles} from "./constants";
+import {colourStyles, NEW_ELEMENT_ID} from "./constants";
 
 export const changeList = (oldList, checkObject) => {
     let newList = oldList.slice();
@@ -49,13 +49,13 @@ export const addFieldToState = (initialState, fieldList, fieldName, input) => {
 };
 
 export const removeKey = (obj, deleteKey) => {
-    let clone = Object.assign({}, obj);
+    let clone = updateObject(obj);
     delete clone[deleteKey];
     return clone;
 };
 
 export const getUpdatedObject = (fieldList, existingObject, newValues) => {
-    let updatedObject = Object.assign({}, existingObject);
+    let updatedObject = updateObject(existingObject);
     fieldList.forEach(field => {
         updatedObject[field.fieldName] = newValues[field.fieldName];
     });
@@ -155,3 +155,11 @@ export const updateObjectInArray = (initialArray, updatedObject, componentKey) =
     }
     return arrayWithUpdates;
 };
+
+export const getComponentKey = (object) => {
+    const componentKey = object.id ? object.id : object.dummyKey;
+    return componentKey ? componentKey : NEW_ELEMENT_ID;
+};
+export const updateObject = (initialObject, fieldList1 = {}, fieldList2 = {}) => {
+    return Object.assign({}, initialObject, fieldList1, fieldList2);
+}

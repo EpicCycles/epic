@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import {generateRandomCode} from "../../helpers/utils";
+import {generateRandomCode, updateObject} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import PartTypeData from "./PartTypeData";
@@ -14,7 +14,7 @@ class PartTypeEdit extends React.Component {
 
     handleInputClear = (fieldName) => {
         if (window.confirm("Please confirm that you want to delete this Part Type")) {
-            const updatedPartType = Object.assign({}, this.props.partType);
+            const updatedPartType = updateObject(this.props.partType);
             updatedPartType.delete = true;
             this.props.updatePartType(this.props.componentKey, updatedPartType);
         }
@@ -23,7 +23,7 @@ class PartTypeEdit extends React.Component {
         this.handlePartTypeValueChange(`detail_${this.props.componentKey}`, !this.props.partType._detail)
     };
     addAnother = () => {
-        const updatedPartType = Object.assign({}, this.props.partType);
+        const updatedPartType = updateObject(this.props.partType);
         updatedPartType.dummyKey = generateRandomCode();
         this.props.updatePartType(NEW_ELEMENT_ID, updatedPartType);
     };

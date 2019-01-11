@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders a field 1`] = `
+<div
+  className="grid-row"
+>
+  <div
+    className="grid-item--borderless field-label align_right"
+    key="modelFieldnew0"
+  />
+  <div
+    className="grid-item--borderless field-label "
+    key="matchFieldDivnew0"
+  >
+    <EditModelInput
+      componentKey="new"
+      field={
+        Object {
+          "fieldName": "data_field",
+          "length": 10,
+          "type": "currency",
+        }
+      }
+      index={0}
+      model={
+        Object {
+          "data_field": 23.9,
+        }
+      }
+      onChange={[MockFunction]}
+    />
+  </div>
+</div>
+`;

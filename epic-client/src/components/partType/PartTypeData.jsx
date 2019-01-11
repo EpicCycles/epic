@@ -2,12 +2,13 @@ import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import PartTypeAttributes from "../partTypeAttribute/PartTypeAttributes";
 import PartTypeSynonyms from "./PartTypeSynonyms";
+import {updateObject} from "../../helpers/utils";
 
 class PartTypeData extends React.Component {
 
     handleInputClear = () => {
         if (window.confirm("Please confirm that you want to delete the Part Type and all data")) {
-            const updatedPartType = Object.assign({}, this.props.partType);
+            const updatedPartType = updateObject(this.props.partType);
             updatedPartType.delete = true;
             this.props.updatePartType(this.props.componentKey, updatedPartType);
         }

@@ -3,7 +3,14 @@ import FormTextInput from "../../common/FormTextInput";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {Icon} from "semantic-ui-react";
 import {BRAND_FIELD, PART_NAME_FIELD, PART_TYPE_FIELD, partFields, TRADE_IN_FIELD} from "../../helpers/models";
-import {addFieldToState, checkForChanges, getUpdatedObject, isItAnObject, validateData} from "../../helpers/utils";
+import {
+    addFieldToState,
+    checkForChanges,
+    getUpdatedObject,
+    isItAnObject,
+    updateObject,
+    validateData
+} from "../../helpers/utils";
 import BrandSelect from "../brand/BrandSelect";
 import PartTypeSelect from "../partType/PartTypeSelect";
 import {getNewDataListRequired} from "../../helpers/part_helper";
@@ -40,7 +47,7 @@ class PartEdit extends React.Component {
     deriveStateFromProps = () => {
         let newState = initialState;
         if (this.props.part) {
-            Object.assign(newState, this.props.part);
+            updateObject(newState, this.props.part);
         }
         this.checkPartDataList(newState);
         return newState;

@@ -1,5 +1,5 @@
 import React from "react";
-import {UploadMatchedData} from "./UploadMatchedData";
+import {UploadMatchedPartType} from "./UploadMatchedPartType";
 import {Icon} from "semantic-ui-react";
 
 export const UploadPartTypeMapping = props => (
@@ -26,7 +26,7 @@ export const UploadPartTypeMapping = props => (
         <div
             className="grid-item--borderless field-label "
         >
-            {props.rowMappings.map((matched, matchIndex) => <UploadMatchedData
+            {props.rowMappings.map((matched, matchIndex) => <UploadMatchedPartType
                 key={`partType${props.partType.id}${matchIndex}`}
                 matched={matched}
                 matchIndex={matchIndex}

@@ -42,13 +42,14 @@ import {
 import {logError} from "../../helpers/api_error";
 import {addMessage} from "../actions/application";
 import {INFO_MESSAGE, UPLOAD_PARTIAL_SUCCESS, UPLOAD_SUCCESS, WARNING_MESSAGE} from "../../helpers/messages";
+import {updateObject} from "../../helpers/utils";
 
 
 export function* saveBike(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(bike.saveBike, completePayload);
             yield put(saveBikeOK(response.data));
         } else {
@@ -68,7 +69,7 @@ export function* addBikePart(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             yield call(bike.addBikePart, completePayload);
             const response = yield call(bike.getBikeParts, completePayload);
             yield put(addBikePartOK(response.data));
@@ -88,7 +89,7 @@ export function* saveBikePart(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             yield call(bike.saveBikePart, completePayload);
             const response = yield call(bike.getBikeParts, completePayload);
             yield put(saveBikePartOK(response.data));
@@ -109,7 +110,7 @@ export function* deleteBikePart(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             yield call(bike.deleteBikePart, completePayload);
             const response = yield call(bike.getBikeParts, completePayload);
             yield put(deleteBikePartOK(response.data));
@@ -145,7 +146,7 @@ export function* reviewBikeParts(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const responseBike = yield call(bike.getBike, completePayload);
             const responseParts = yield call(bike.getBikeParts, completePayload);
             yield put(reviewBikeOK(responseBike.data, responseParts.data));
@@ -186,7 +187,7 @@ export function* deleteBikesAndGetList(action) {
             }
 
             if (searchCriteria && searchCriteria.brand) {
-                const searchPayload = Object.assign(searchCriteria, { token });
+                const searchPayload = updateObject(searchCriteria, { token });
                 const searchResponse = yield call(bike.getFrames, searchPayload);
                 yield put(getFrameListOK(searchResponse.data));
             } else {
@@ -229,7 +230,7 @@ export function* deleteFramesAndGetList(action) {
             }
 
             if (searchCriteria && searchCriteria.brand) {
-                const searchPayload = Object.assign(searchCriteria, { token });
+                const searchPayload = updateObject(searchCriteria, { token });
                 const searchResponse = yield call(bike.getFrames, searchPayload);
                 yield put(getFrameListOK(searchResponse.data));
             } else {
@@ -271,7 +272,7 @@ export function* archiveFramesAndGetList(action) {
             }
 
             if (searchCriteria && searchCriteria.brand) {
-                const searchPayload = Object.assign(searchCriteria, { token });
+                const searchPayload = updateObject(searchCriteria, { token });
                 const searchResponse = yield call(bike.getFrames, searchPayload);
                 yield put(getFrameListOK(searchResponse.data));
             } else {
@@ -293,10 +294,10 @@ export function* saveFrame(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(bike.saveFrame, completePayload);
             if (completePayload.searchCriteria) {
-                const searchPayload = Object.assign(completePayload.searchCriteria, { token });
+                const searchPayload = updateObject(completePayload.searchCriteria, { token });
                 const searchResponse = yield call(bike.getFrames, searchPayload);
                 yield put(getFrameListOK(searchResponse.data));
             } else {
@@ -319,7 +320,7 @@ export function* uploadFrame(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(bike.uploadFrame, completePayload);
             console.log("response from save",response)
             console.log(response.data);
@@ -352,7 +353,7 @@ export function* getFrames(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(bike.getFrames, completePayload);
             yield put(getFrameListOK(response.data));
         } else {

@@ -4,7 +4,7 @@ import {applyFieldValueToModel, bikeFields} from "../../helpers/models";
 import {Dimmer, Icon, Loader} from "semantic-ui-react";
 import EditModelField from "../../common/EditModelField";
 import Pagination from "../../common/pagination";
-import {isItAnObject} from "../../helpers/utils";
+import {isItAnObject, updateObject} from "../../helpers/utils";
 import {Redirect} from "react-router";
 import {buildPartString} from "../../helpers/part_helper";
 import PartEdit from "../part/PartEdit";
@@ -75,7 +75,7 @@ class BikeReview extends React.Component {
                 section.partTypes.forEach(partType => {
                     const bikePart = parts.filter((part) => (part.partType === partType.id))[0];
                     if (bikePart) {
-                        displayParts.push(Object.assign({},
+                        displayParts.push(updateObject(
                             dummyPart,
                             bikePart,
                             {
@@ -87,13 +87,13 @@ class BikeReview extends React.Component {
                     }
                 });
                 if (sectionPos === 0) {
-                    displayParts.push(Object.assign({}, dummyPart, { empty: true, sectionPos }));
+                    displayParts.push(updateObject(dummyPart, { empty: true, sectionPos }));
                 }
             });
             valuesForState.displayParts = displayParts;
             valuesForState.partRefresh = false;
         }
-        const newState = Object.assign({}, this.state, valuesForState);
+        const newState = updateObject(this.state, valuesForState);
         this.setState(newState);
     };
     getData = () => {
@@ -155,11 +155,11 @@ class BikeReview extends React.Component {
         this.flagPartRefresh();
     };
     flagBikeRefresh = () => {
-        const newState = Object.assign({}, this.state, { bikeRefresh: true });
+        const newState = updateObject(this.state, { bikeRefresh: true });
         this.setState(newState);
     };
     flagPartRefresh = () => {
-        const newState = Object.assign({}, this.state, { partRefresh: true });
+        const newState = updateObject(this.state, { partRefresh: true });
         this.setState(newState);
     };
 

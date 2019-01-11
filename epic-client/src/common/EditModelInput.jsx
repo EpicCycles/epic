@@ -7,20 +7,21 @@ import PartTypeSelect from "../components/partType/PartTypeSelect";
 import BrandSelect from "../components/brand/BrandSelect";
 import SupplierSelect from "../components/supplier/SupplierSelect";
 
-class EditModelField extends Component {
+class EditModelInput extends Component {
     state = {};
     validateOnChange = (fieldName, fieldValue) => {
+        let newState = {};
         if (fieldValue) {
             this.props.onChange(this.props.field.fieldName, fieldValue, this.props.componentKey);
         } else {
             this.props.onChange(this.props.field.fieldName, "", this.props.componentKey);
-            if (this.props.field.required) {
-                this.setState({ error: this.props.field.error })
-            }
+            if (this.props.field.required) newState.error = this.props.field.error;
         }
+        this.setState(newState);
     };
     resetField = fieldName => {
-        this.props.onChange(fieldName, this.props.persistedModel[this.props.field.fieldName]);
+        const originalValue = this.props.persistedModel ? this.props.persistedModel[this.props.field.fieldName] : undefined;
+        this.validateOnChange(fieldName, originalValue);
     };
 
     render() {
@@ -28,7 +29,7 @@ class EditModelField extends Component {
         const { error } = this.state;
         let editComponent;
         const fieldName = `${field.fieldName}_${componentKey}${index}`;
-        const fieldValue = model[field.fieldName];
+        const fieldValue = model && model[field.fieldName];
         const emptyAllowed = !(field.required && fieldValue);
         switch (field.type) {
             case TEXT_AREA:
@@ -115,16 +116,16 @@ class EditModelField extends Component {
 
 }
 
-EditModelField.propTypes = {
-    field: PropTypes.any,
-    model: PropTypes.any,
-    persistedModel: PropTypes.any,
-    className: PropTypes.any,
-    componentKey: PropTypes.any,
-    index: PropTypes.any,
+EditModelInput.propTypes = {
+    field: PropTypes.object.isRequired,
+    model: PropTypes.object.isRequired,
+    persistedModel: PropTypes.object,
+    className: PropTypes.string,
+    componentKey: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
     sections: PropTypes.array,
     brands: PropTypes.array,
     suppliers: PropTypes.array,
-    onChange: PropTypes.func
+    onChange: PropTypes.func.isRequired
 };
-export default EditModelField;
+export default EditModelInput;
