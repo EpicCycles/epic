@@ -1,6 +1,7 @@
 import React from "react";
 
 import SelectInput from "../../common/SelectInput";
+import {getComponentKey} from "../../helpers/models";
 
 const PartTypeSelect = (props) => {
     const { sections, fieldName, onChange, partTypeSelected, isEmptyAllowed, error, disabled } = props;
@@ -8,7 +9,7 @@ const PartTypeSelect = (props) => {
     sections && sections.forEach(section => {
         section.partTypes.forEach(partType => {
             partTypeOptions.push({
-                'value': partType.id ? partType.id.toString() : partType.dummyKey,
+                'value': String(getComponentKey(partType)),
                 'name': partType.shortName + " (" + section.name + ")"
             });
         });

@@ -10,3 +10,4 @@ export const BRAND_MISSING = "A brand must be selected";
 export const PRODUCTS_MISSING = "At least 2 products must be selected";
 export const SUPPLIER_MISSING = "A supplier must be selected";
 export const PART_MISSING = "A part must be selected";
+export const INVALID_POSTCODE = "A postcode is expected which for this country has the format ";

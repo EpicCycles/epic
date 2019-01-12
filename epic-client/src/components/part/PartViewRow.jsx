@@ -1,13 +1,13 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {partFields} from "../../helpers/models";
+import {getComponentKey, partFields} from "../../helpers/models";
 import ViewModelField from "../../common/ViewModelField";
 
 
 const PartViewRow = (props) => {
     const { part, supplierProducts, lockFirstColumn, brands, sections } = props;
     const rowSpan = supplierProducts ? supplierProducts.length : 1;
-    const componentKey = part.id ? part.id : part.dummyKey;
+    const componentKey = getComponentKey(part);
     return <Fragment>
         {partFields.map((field, index) => {
             return <div

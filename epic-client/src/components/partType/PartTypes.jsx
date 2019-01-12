@@ -4,11 +4,13 @@ import {
     moveObjectDownOnePlace,
     moveObjectToBottom,
     moveObjectToTop,
-    moveObjectUpOnePlace, NEW_PART_TYPE
+    moveObjectUpOnePlace,
+    NEW_PART_TYPE
 } from "../../helpers/framework";
 import FrameworkMoves from "../framework/FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
+import {getComponentKey} from "../../helpers/models";
 
 class PartTypes extends React.Component {
     updatePartType = (partTypeKey, updatedPartType) => {
@@ -50,7 +52,7 @@ class PartTypes extends React.Component {
         return <table key={`partTypes_${sectionKey}`} className="full">
             <tbody>
             {partTypesToUse.map((partType) => {
-                const componentKey = partType.id ? partType.id : partType.dummyKey;
+                const componentKey = getComponentKey(partType);
                 const className = partType.error ? "error" : "";
                 const rowTitle = partType.error ? partType.error_detail : "";
                 return (

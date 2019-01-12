@@ -30,6 +30,8 @@ class EditModelField extends Component {
         const fieldName = `${field.fieldName}_${componentKey}${index}`;
         const fieldValue = model[field.fieldName];
         const emptyAllowed = !(field.required && fieldValue);
+
+        // TODO add country type field
         switch (field.type) {
             case TEXT_AREA:
                 editComponent = <FormTextAreaInput

@@ -3,6 +3,7 @@ import FormTextInput from "../../common/FormTextInput";
 import {findIndexOfObjectWithKey, generateRandomCode} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
+import {getComponentKey} from "../../helpers/models";
 
 class PartTypeSynonyms extends React.Component {
     handleInputChange = (fieldName, input) => {
@@ -60,7 +61,7 @@ class PartTypeSynonyms extends React.Component {
         return <Fragment>
             {label && <div className="field-label">{label}</div>}
             {synonymsToUse.map((synonym) => {
-                const componentKey = synonym.id ? synonym.id : synonym.dummyKey;
+                const componentKey = getComponentKey(synonym);
                 const synonymError = synonym.error ? synonym.error_detail : "";
                 return <FormTextInput
                     placeholder="add new"

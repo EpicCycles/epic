@@ -10,6 +10,7 @@ import {
     SUPPLIER_MISSING
 } from "./error";
 import {findObjectWithKey, removeKey, updateObjectInArray} from "./utils";
+import {NEW_ELEMENT_ID} from "./constants";
 
 export const BRAND = "brand";
 export const SUPPLIER = "supplier";
@@ -39,6 +40,8 @@ export const CURRENCY = "currency";
 export const TEXT_AREA = "textArea";
 export const CHECKBOX = "checkbox";
 
+// TODO add COUNTRY type and fields for address
+// TODO consider having a function passed for validator
 export const BRAND_FIELD = {
     fieldName: BRAND,
     header: "Brand",
@@ -219,7 +222,12 @@ export const bundleFields = [
     TICKET_PRICE_FIELD,
 ];
 
-
+export const getComponentKey = modelInstance => {
+    if (!modelInstance) return NEW_ELEMENT_ID;
+    if (modelInstance.id) return modelInstance.id;
+    if (modelInstance.dummyKey) return modelInstance.dummyKey;
+    return NEW_ELEMENT_ID;
+};
 export const applyFieldValueToModel = (modelInstance, fieldName, value) => {
     let updatedModelInstance = Object.assign({}, modelInstance);
     updatedModelInstance[fieldName] = value;

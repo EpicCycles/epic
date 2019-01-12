@@ -4,11 +4,13 @@ import {
     moveObjectDownOnePlace,
     moveObjectToBottom,
     moveObjectToTop,
-    moveObjectUpOnePlace, NEW_ATTRIBUTE
+    moveObjectUpOnePlace,
+    NEW_ATTRIBUTE
 } from "../../helpers/framework";
 import FrameworkMoves from "../framework/FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
+import {getComponentKey} from "../../helpers/models";
 
 class PartTypeAttributes extends React.Component {
     handleAttributeChange = (attributeKey, updatedAttribute) => {
@@ -55,7 +57,7 @@ class PartTypeAttributes extends React.Component {
                 <th>Position</th>
             </tr>
             {attributesToUse.map((attribute) => {
-                const componentKey = attribute.id ? attribute.id : attribute.dummyKey;
+                const componentKey = getComponentKey(attribute);
                 const className = attribute.error ? "error" : "";
                 const rowTitle = attribute.error ? attribute.error_detail : "";
                 return (

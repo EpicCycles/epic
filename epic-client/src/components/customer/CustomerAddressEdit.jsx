@@ -25,10 +25,10 @@ class CustomerAddressEdit extends React.Component {
         let newState = initialState;
         if (this.props.customerAddress) {
             newState.address1 = this.props.customerAddress.address1 ? this.props.customerAddress.address1 : "";
-            newState.address2 = this.props.customerAddress.address2 ? this.props.customerAddress.address2 : "";;
-            newState.address3 = this.props.customerAddress.address3 ? this.props.customerAddress.address3 : "";;
-            newState.address4 = this.props.customerAddress.address4 ? this.props.customerAddress.address4 : "";;
-            newState.postcode = this.props.customerAddress.postcode ? this.props.customerAddress.postcode : "";;
+            newState.address2 = this.props.customerAddress.address2 ? this.props.customerAddress.address2 : "";
+            newState.address3 = this.props.customerAddress.address3 ? this.props.customerAddress.address3 : "";
+            newState.address4 = this.props.customerAddress.address4 ? this.props.customerAddress.address4 : "";
+            newState.postcode = this.props.customerAddress.postcode ? this.props.customerAddress.postcode : "";
         }
         return newState;
     };

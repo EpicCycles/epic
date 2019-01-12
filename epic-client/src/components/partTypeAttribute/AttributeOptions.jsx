@@ -10,6 +10,7 @@ import {
 import FrameworkMoves from "../framework/FrameworkMoves";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
+import {getComponentKey} from "../../helpers/models";
 
 class AttributeOptions extends React.Component {
     handleInputChange = (fieldName, input) => {
@@ -86,7 +87,7 @@ class AttributeOptions extends React.Component {
         return <table>
             <tbody>
             {optionsToUse.map((option) => {
-                const componentKey = option.id ? option.id : option.dummyKey;
+                const componentKey = getComponentKey(option);
                 const className = option.error ? "error" : "";
                 const rowTitle = option.error ? option.error_detail : "";
                 return <tr

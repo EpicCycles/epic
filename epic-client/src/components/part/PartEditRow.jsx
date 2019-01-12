@@ -1,13 +1,13 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import EditModelInput from "../../common/EditModelInput";
-import {partFields} from "../../helpers/models";
+import {getComponentKey, partFields} from "../../helpers/models";
 
 
 const PartEditRow = (props) => {
     const { part, persistedPart, onChange, supplierProducts, lockFirstColumn, brands, sections } = props;
     const rowSpan = supplierProducts ? supplierProducts.length : 1;
-    const componentKey = part.id ? part.id : part.dummyKey;
+    const componentKey = getComponentKey(part);
     return <Fragment>
         {partFields.map((field, index) => {
             let divClass = "grid-item";

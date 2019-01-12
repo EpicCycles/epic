@@ -1,6 +1,5 @@
 from django.db import models
 from django.db.models import CharField, TextField
-from django.conf import settings
 
 from epic.helpers.validation_helper import is_valid_email
 from epic.model_helpers.lookup_helpers import UpperCase
@@ -85,7 +84,8 @@ class CustomerAddress(models.Model):
     address2 = models.CharField(max_length=200, blank=True)
     address3 = models.CharField(max_length=200, blank=True)
     address4 = models.CharField(max_length=200, blank=True)
-    postcode = models.CharField(max_length=200)
+    postcode = models.CharField(max_length=20, blank=True)
+    country = models.CharField(max_length=2, default='GB')
     add_date = models.DateTimeField('date added', auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
 
@@ -103,11 +103,9 @@ class CustomerAddress(models.Model):
     def save(self, *args, **kwargs):
         if self.address1 is None or self.address1 == '':
             raise ValueError('Missing address1')
-        if self.postcode is None or self.postcode == '':
-            raise ValueError('Missing postcode')
 
         if CustomerAddress.objects.filter(customer=self.customer,
-                                          address1=self.address1, postcode=self.postcode).exclude(id=self.id).exists():
+                                          address1=self.address1).exclude(id=self.id).exists():
             raise ValueError('Customer with these values already exists')
 
         super(CustomerAddress, self).save(*args, **kwargs)

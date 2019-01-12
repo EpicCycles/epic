@@ -1,12 +1,12 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {supplierProductFields} from "../../helpers/models";
+import {getComponentKey, supplierProductFields} from "../../helpers/models";
 import ViewModelField from "../../common/ViewModelField";
 
 
 const SupplierProductViewRow = (props) => {
     const { supplierProduct, lockFirstColumn, suppliers } = props;
-    const componentKey = supplierProduct.id ? supplierProduct.id : supplierProduct.dummyKey;
+    const componentKey = getComponentKey(supplierProduct);
     return <Fragment>
         {supplierProductFields.map((field, index) => {
             return <div
