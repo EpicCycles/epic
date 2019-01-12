@@ -1,6 +1,7 @@
 import {
+    ADDRESS_MISSING,
     BRAND_MISSING, BRAND_NAME_MISSING,
-    BUNDLE_NAME_MISSING,
+    BUNDLE_NAME_MISSING, COUNTRY_MISSING,
     FRAME_NAME_MISSING,
     MODEL_NAME_MISSING,
     PART_MISSING,
@@ -11,7 +12,14 @@ import {
 } from "./error";
 import {findObjectWithKey, removeKey, updateObject, updateObjectInArray} from "./utils";
 import {NEW_ELEMENT_ID} from "./constants";
+import {validatePostcodeAndReturnError} from "./address_helpers";
 
+export const ADDRESS1 = "address1";
+export const ADDRESS2 = "address2";
+export const ADDRESS3 = "address3";
+export const ADDRESS4 = "address4";
+export const COUNTRY = "country";
+export const POSTCODE = "postcode";
 export const BRAND = "brand";
 export const SUPPLIER = "supplier";
 export const PART = "part";
@@ -45,6 +53,47 @@ export const CHECKBOX = "checkbox";
 
 // TODO add COUNTRY type and fields for address
 // TODO consider having a function passed for validator
+export const ADDRESS1_FIELD = {
+    fieldName: ADDRESS1,
+    type: TEXT,
+    length: 100,
+    header: "Address",
+    required: true,
+    error: ADDRESS_MISSING
+};
+export const ADDRESS2_FIELD = {
+    fieldName: ADDRESS2,
+    type: TEXT,
+    length: 100,
+    header: "Line 2",
+};
+export const ADDRESS3_FIELD = {
+    fieldName: ADDRESS3,
+    type: TEXT,
+    length: 100,
+    header: "Line 3",
+};
+export const ADDRESS4_FIELD = {
+    fieldName: ADDRESS4,
+    type: TEXT,
+    length: 100,
+    header: "Line 4",
+};
+export const COUNTRY_FIELD = {
+    fieldName: COUNTRY,
+    header: "Country",
+    type: COUNTRY,
+    required: true,
+    error: COUNTRY_MISSING
+};
+export const POSTCODE_FIELD = {
+    fieldName: POSTCODE,
+    type: TEXT,
+    length: 20,
+    header: "Address",
+    validator: validatePostcodeAndReturnError,
+    validatorAdditionalFields: [COUNTRY]
+};
 export const BRAND_FIELD = {
     fieldName: BRAND,
     header: "Brand",
@@ -116,21 +165,21 @@ export const MODEL_NAME_FIELD = {
     required: true,
     error: MODEL_NAME_MISSING,
     type: TEXT,
-    length:100
+    length: 100
 };
 export const COLOURS_FIELD = {
     fieldName: COLOURS,
     header: "Colours",
     synonyms: [COLOURS, "colour", "colors", "color"],
     type: TEXT,
-    length:100
+    length: 100
 };
 export const DESCRIPTION_FIELD = {
     fieldName: DESCRIPTION,
     header: "Description",
     synonyms: [DESCRIPTION, "desc"],
     type: TEXT_AREA,
-    length:400
+    length: 400
 };
 export const PRODUCT_CODE_FIELD = {
     fieldName: PRODUCT_CODE,
@@ -144,7 +193,7 @@ export const SELL_PRICE_FIELD = {
     header: "RRP",
     synonyms: ["price", "selling price", "srp", "rrp", "sell price", "retail price"],
     type: CURRENCY,
-    length:10
+    length: 10
 };
 export const EPIC_PRICE_FIELD = {
     fieldName: EPIC_PRICE,
@@ -187,7 +236,7 @@ export const SIZES_FIELD = {
     header: "Sizes",
     synonyms: [SIZES, "size", "frame sizes", "frame size"],
     type: TEXT,
-    length:100
+    length: 100
 };
 export const PART_TYPE_FIELD = {
     fieldName: PART_TYPE,
@@ -206,7 +255,7 @@ export const TRADE_IN_FIELD = {
     fieldName: TRADE_IN_PRICE,
     header: "Trade In £",
     type: CURRENCY,
-    length:10
+    length: 10
 };
 export const STOCKED_FIELD = {
     fieldName: STOCKED,
@@ -223,6 +272,7 @@ export const BIKE_BRAND_FIELD = {
     header: "Bike Brand",
     type: CHECKBOX
 };
+export const customerAddressFields = [ADDRESS1_FIELD, ADDRESS2_FIELD, ADDRESS3_FIELD, ADDRESS4_FIELD, COUNTRY_FIELD, POSTCODE_FIELD];
 export const frameFields = [BRAND, FRAME_NAME];
 export const brandFields = [BRAND_NAME_FIELD, BIKE_BRAND_FIELD, LINK_FIELD, SUPPLIER_FIELD_OPTIONAL];
 export const bikeFields = [MODEL_NAME_FIELD, DESCRIPTION_FIELD, COLOURS_FIELD, SELL_PRICE_FIELD, EPIC_PRICE_FIELD, CLUB_PRICE_FIELD, SIZES_FIELD];
@@ -260,13 +310,20 @@ export const applyFieldValueToModel = (modelInstance, field, value) => {
     let updatedModelInstance = updateObject(modelInstance);
     updatedModelInstance[field.fieldName] = value;
     updatedModelInstance.changed = true;
-    if (field.required && ! value) {
+    if (field.required && !value) {
         updatedModelInstance.error = true;
         updatedModelInstance.error_detail = field.error;
-    } else {
-        updatedModelInstance.error = false;
-        updatedModelInstance.error_detail = "";
+        return updatedModelInstance;
+    } else if (field.validator) {
+        const error = field.validator(value, modelInstance);
+        if (error) {
+            updatedModelInstance.error = true;
+            updatedModelInstance.error_detail = error;
+            return updatedModelInstance;
+        }
     }
+    updatedModelInstance.error = false;
+    updatedModelInstance.error_detail = "";
     return updatedModelInstance;
 };
 
@@ -294,6 +351,25 @@ export const getField = (modelFields, fieldName) => {
     return modelField;
 };
 
+export const updateModelChanges = (modelInstance, attribute, fieldValue) => {
+    let changes = modelInstance.changes || {};
+    if (fieldValue && (modelInstance[attribute] !== fieldValue)) {
+        changes[attribute] = fieldValue;
+    } else {
+        changes = removeKey(changes, attribute);
+    }
+    modelInstance.changes = currentChanges;
+    return updateObject(modelInstance, { changes })
+};
+export const updateModelWithChanges = (modelInstance, modelFields, fieldName, fieldValue) => {
+    const attribute = getAttribute(modelFields, fieldName);
+    if (attribute) {
+        return updateModelChanges(modelInstance, attribute, fieldValue)
+    } else {
+        console.error("attribute not found for", modelFields, fieldName)
+    }
+    return modelInstance;
+};
 export const updateModelArrayWithChanges = (modelArray, modelFields, fieldName, fieldValue, componentKey) => {
     const attribute = getAttribute(modelFields, fieldName);
     if (attribute) {
@@ -313,5 +389,6 @@ export const updateModelArrayWithChanges = (modelArray, modelFields, fieldName, 
 };
 export const updateModel = (model, modelFields, fieldName, fieldValue, componentKey) => {
     const modelField = getField(modelFields, fieldName);
-    return applyFieldValueToModel(model, modelField, fieldValue);
+    if (modelField) return applyFieldValueToModel(model, modelField, fieldValue);
+    return model;
 };

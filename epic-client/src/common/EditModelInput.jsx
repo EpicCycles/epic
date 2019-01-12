@@ -123,7 +123,10 @@ EditModelInput.propTypes = {
     model: PropTypes.object.isRequired,
     persistedModel: PropTypes.object,
     className: PropTypes.string,
-    componentKey: PropTypes.string.isRequired,
+    componentKey: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]).isRequired,
     index: PropTypes.number.isRequired,
     sections: PropTypes.array,
     brands: PropTypes.array,

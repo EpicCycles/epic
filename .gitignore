@@ -6,6 +6,7 @@ db.sqlite3
 /static
 .DS_Store
 .idea/
+epic/.idea/
 **/.idea/
 /.idea/
 config.json
