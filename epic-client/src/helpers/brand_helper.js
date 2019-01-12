@@ -10,6 +10,7 @@ export const buildBrandNameArray = brands => {
 };
 
 export const getBrandName = (brandId, brands) => {
+    if (! brandId) return undefined;
     let brandName = "Unknown Brand";
 
     brands.some(brand => {

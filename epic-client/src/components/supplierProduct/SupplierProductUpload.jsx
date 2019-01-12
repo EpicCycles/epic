@@ -7,7 +7,7 @@ import UploadMappingSuppliers from "../../common/UploadMappingSuppliers";
 import {buildSupplierProductForApi} from "../../helpers/part_helper";
 import BrandPrompt from "../brand/BrandPrompt";
 import SupplierProductUploadReview from "./SupplierProductUploadReview";
-import {doWeHaveObjects} from "../../helpers/utils";
+import {doWeHaveObjects, updateObject} from "../../helpers/utils";
 
 const uploadSteps = [
     {
@@ -60,7 +60,7 @@ class SupplierProductUpload extends React.Component {
     addDataAndProceed = (dataForState) => {
         let nextStep = this.state.step + 1;
 
-        let newState = Object.assign({}, this.state, dataForState, { step: nextStep });
+        let newState = updateObject(this.state, dataForState, { step: nextStep });
         if (newState.rowMappings) {
             const missingPartType = newState.rowMappings.some(rowMapping => (!rowMapping.partType && !rowMapping.ignore));
             const missingSupplier = newState.rowMappings.some(rowMapping => (!rowMapping.supplier && !rowMapping.ignore));
@@ -81,7 +81,7 @@ class SupplierProductUpload extends React.Component {
 
     goToStep = (step) => {
         if (step < this.state.step) {
-            let newState = Object.assign({}, this.state, { step: step });
+            let newState = updateObject(this.state, { step: step });
             this.setState(newState);
         }
     };
@@ -121,7 +121,7 @@ class SupplierProductUpload extends React.Component {
 
     actionOnBrandsChange = () => {
         if (!this.props.isLoading) {
-            let newState = Object.assign({}, this.state);
+            let newState = updateObject(this.state);
             newState.apiData = buildSupplierProductForApi(newState.rowMappings, newState.uploadedData, this.props.brands);
             if (doWeHaveObjects(newState.apiData.updatedBrands)) this.props.saveBrands(newState.apiData.updatedBrands);
             if (!doWeHaveObjects(newState.apiData.partsMissingBrands)) newState.step = 4;

@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {Icon} from "semantic-ui-react";
+import {updateObject} from "../../helpers/utils";
 
 const initialState = {
     brand_names: [],
@@ -74,7 +75,7 @@ class SupplierEdit extends React.Component {
     };
 
     saveOrCreateSupplier = () => {
-        const updatedSupplier = Object.assign({}, this.props.supplier);
+        const updatedSupplier = updateObject(this.props.supplier);
         updatedSupplier.supplier_name = this.state.supplier_name;
         updatedSupplier.website = this.state.website;
         updatedSupplier.preferred_supplier = this.state.preferred_supplier;

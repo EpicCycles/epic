@@ -10,10 +10,10 @@ class ViewModelField extends Component {
     render() {
         const { field, model, sections, brands, suppliers } = this.props;
         let viewData;
-        const fieldValue = model[field.fieldName];
+        const fieldValue = model ? model[field.fieldName]  : undefined;
         switch (field.type) {
             case CURRENCY:
-                viewData = Number(fieldValue).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' });
+                viewData = fieldValue ? Number(fieldValue).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' }) : "";
                 break;
             case CHECKBOX:
                 viewData = fieldValue ? "Y" : "N";
@@ -36,10 +36,10 @@ class ViewModelField extends Component {
 }
 
 ViewModelField.propTypes = {
-    field: PropTypes.any,
+    field: PropTypes.any.isRequired,
     model: PropTypes.any,
-    sections: PropTypes.any,
-    brands: PropTypes.any,
-    suppliers: PropTypes.any,
+    sections: PropTypes.array,
+    brands: PropTypes.array,
+    suppliers: PropTypes.array,
 };
 export default ViewModelField;

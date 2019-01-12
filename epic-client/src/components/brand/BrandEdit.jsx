@@ -1,23 +1,15 @@
 import React from "react";
 import FormTextInput from "../../common/FormTextInput";
-import {generateRandomCode, removeObjectWithIndex} from "../../helpers/utils";
+import {generateRandomCode, removeObjectWithIndex, updateObject} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import SupplierBlob from "../supplier/SupplierBlob";
 import {BRAND_NAME_MISSING} from "../../helpers/error";
+import {brandFields, updateModel} from "../../helpers/models";
 
 class BrandEdit extends React.Component {
     handleBrandValueChange = (fieldName, input) => {
-        const updatedBrand = Object.assign({}, this.props.brand);
-        if (fieldName.startsWith('brand_name')) updatedBrand.brand_name = input;
-        if (fieldName.startsWith('bike_brand')) updatedBrand.bike_brand = input;
-        if (!updatedBrand.brand_name) {
-            updatedBrand.error = true;
-            updatedBrand.error_detail = BRAND_NAME_MISSING;
-        } else {
-            updatedBrand.error = false;
-            updatedBrand.error_detail = "";
-        }
+        const updatedBrand = updateModel(this.props.brand, brandFields, fieldName, input);
 
         if (this.props.componentKey === NEW_ELEMENT_ID) updatedBrand.dummyKey = NEW_ELEMENT_ID;
 
@@ -25,7 +17,7 @@ class BrandEdit extends React.Component {
         this.props.handleBrandChange(this.props.componentKey, updatedBrand);
     };
     removeSupplier = (supplierKey) => {
-        let updatedBrand = this.props.brand;
+        let updatedBrand = updateObject(this.props.brand);
         if (updatedBrand.supplier && Array.isArray(updatedBrand.supplier)) {
             const supplierIndex = updatedBrand.supplier.indexOf(supplierKey);
             if (supplierIndex > -1) {
@@ -39,7 +31,7 @@ class BrandEdit extends React.Component {
 
     handleInputClear = (fieldName) => {
         if (window.confirm("Please confirm that you want to delete this Brand")) {
-            const updatedBrand = Object.assign({}, this.props.brand);
+            const updatedBrand = updateObject(this.props.brand);
             updatedBrand.delete = true;
             this.props.handleBrandChange(this.props.componentKey, updatedBrand);
         }
@@ -48,7 +40,7 @@ class BrandEdit extends React.Component {
         this.handleBrandValueChange("bike_brand", !this.props.brand.bike_brand)
     };
     addAnother = () => {
-        const updatedBrand = Object.assign({}, this.props.brand);
+        const updatedBrand = updateObject(this.props.brand);
         updatedBrand.dummyKey = generateRandomCode();
         this.props.handleBrandChange(NEW_ELEMENT_ID, updatedBrand);
     };

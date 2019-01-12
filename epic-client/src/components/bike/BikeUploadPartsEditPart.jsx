@@ -32,11 +32,11 @@ class BikeUploadPartsEditPart extends React.Component {
             <div className="grid-item--borderless row">
                 <div className="row align_top">
                     <BrandSelect
-                        key={`partBrand${componentKey}`}
+                        key={`brand${componentKey}`}
                         brands={brands}
-                        fieldName="partBrand"
+                        fieldName="brand"
                         onChange={this.changePart}
-                        brandSelected={uploadPart.part.partBrand}
+                        brandSelected={uploadPart.part.brand}
                     />
                     <Icon
                         key={`addBrand${componentKey}`}
@@ -49,8 +49,8 @@ class BikeUploadPartsEditPart extends React.Component {
             <div className="grid-item--borderless">
                 <FormTextInput
                     key={`partName${componentKey}`}
-                    fieldName={`partName`}
-                    value={uploadPart.part.partName}
+                    fieldName={`part_name`}
+                    value={uploadPart.part.part_name}
                     onChange={this.changePart}
                     error={uploadPart.part.error}
                     size={100}

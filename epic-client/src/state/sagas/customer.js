@@ -29,12 +29,13 @@ import {
 import api from './api';
 import * as selectors from '../selectors/user.js';
 import * as customerSelectors from '../selectors/customer.js';
+import {updateObject} from "../../helpers/utils";
 
 export function* getCustomerList(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token, page: 1 });
+            const completePayload = updateObject(action.payload, { token, page: 1 });
             const response = yield call(api.getCustomerList, completePayload);
             yield put(getCustomerListSuccess(response.data));
         } else {
@@ -54,7 +55,7 @@ export function* getCustomerListPage(action) {
         const token = yield select(selectors.token);
         const searchParams = yield select(customerSelectors.searchParams);
         if (token) {
-            const completePayload2 = Object.assign(action.payload, { token }, searchParams);
+            const completePayload2 = updateObject(action.payload, { token }, searchParams);
             const response = yield call(api.getCustomerList, completePayload2);
             yield put(getCustomerListSuccess(response.data));
         } else {
@@ -73,7 +74,7 @@ export function* getCustomer(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.getCustomer, completePayload);
             yield put(getCustomerSuccess(response.data));
             yield call(history.push, "/customer");
@@ -94,7 +95,7 @@ export function* createCustomer(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.createCustomer, completePayload);
             yield put(createCustomerSuccess(response.data));
         } else {
@@ -115,7 +116,7 @@ export function* saveCustomer(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.saveCustomer, completePayload);
             yield put(saveCustomerSuccess(response.data));
         } else {
@@ -134,7 +135,7 @@ export function* deleteCustomer(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.deleteCustomer, completePayload);
             yield put(deleteCustomerSuccess(response.data));
             yield call(history.push, "/");
@@ -154,7 +155,7 @@ export function* deleteCustomerPhone(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.deleteCustomerPhone, completePayload);
             yield put(deleteCustomerPhoneSuccess(response.data));
         } else {
@@ -173,7 +174,7 @@ export function* saveCustomerPhone(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             let response;
             if (action.payload.customerPhone.id) {
                 response = yield call(api.saveCustomerPhone, completePayload);
@@ -198,7 +199,7 @@ export function* deleteCustomerAddress(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.deleteCustomerAddress, completePayload);
             yield put(deleteCustomerAddressSuccess(response.data));
         } else {
@@ -217,7 +218,7 @@ export function* saveCustomerAddress(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             let response;
             if (action.payload.customerAddress.id) {
                 response = yield call(api.saveCustomerAddress, completePayload);

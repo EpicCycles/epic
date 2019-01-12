@@ -7,7 +7,7 @@ import {NEW_ELEMENT_ID} from "../../helpers/constants";
 
 class SectionEdit extends React.Component {
     handleInputChange = (fieldName, input) => {
-        const updatedSection = Object.assign({}, this.props.section);
+        const updatedSection = updateObject(this.props.section);
         if (fieldName.startsWith('name')) updatedSection.name = input;
         if (fieldName.startsWith('partTypes')) updatedSection.partTypes = input;
         if (fieldName.startsWith('detail')) updatedSection._detail = input;
@@ -29,7 +29,7 @@ class SectionEdit extends React.Component {
 
     handleInputClear = (fieldName) => {
         if (window.confirm("Please confirm that you want to delete this section and all associated part types and their attributes.")) {
-            const updatedSection = Object.assign({}, this.props.section);
+            const updatedSection = updateObject(this.props.section);
             updatedSection.delete = true;
             this.props.handleSectionChange(this.props.componentKey, updatedSection);
         }
@@ -39,7 +39,7 @@ class SectionEdit extends React.Component {
         this.handleInputChange("detail", !this.props.section._detail);
     };
     addAnother = () => {
-        const updatedSection = Object.assign({}, this.props.section);
+        const updatedSection = updateObject(this.props.section);
         updatedSection.dummyKey = generateRandomCode();
         this.props.handleSectionChange(NEW_ELEMENT_ID, updatedSection);
     };

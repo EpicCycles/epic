@@ -1,29 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`it renders correctly 1`] = `
+exports[`it renders 1`] = `
 <div
-  className="rounded-auto "
-  key="match120"
+  className="rounded-auto"
+  key="match10"
 >
-  Chain
+  find me
   <Icon
     as="i"
-    key="matchDelete$120"
+    key="matchDelete$10"
     name="delete"
     onClick={[Function]}
   />
 </div>
 `;
 
-exports[`it renders correctly when not first match 1`] = `
+exports[`it renders red when not first match 1`] = `
 <div
   className="rounded-auto red"
-  key="match123"
+  key="match111"
 >
-  Chain
+  find me
   <Icon
     as="i"
-    key="matchDelete$123"
+    key="matchDelete$111"
     name="delete"
     onClick={[Function]}
   />

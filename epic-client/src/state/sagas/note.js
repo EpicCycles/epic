@@ -17,12 +17,13 @@ import {
 import api from './api';
 import * as selectors from "../selectors/user";
 import history from "../../history";
+import {updateObject} from "../../helpers/utils";
 
 export function* getNoteList(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.getNoteList, completePayload);
             yield put(getNoteListSuccess(response.data));
         } else {
@@ -41,7 +42,7 @@ export function* createNote(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.createNote, completePayload);
             yield put(createNoteSuccess(response.data));
         } else {
@@ -62,7 +63,7 @@ export function* saveNote(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.saveNote, completePayload);
             yield put(saveNoteSuccess(response.data));
         } else {
@@ -82,7 +83,7 @@ export function* deleteNote(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.deleteNote, completePayload);
             yield put(deleteNoteSuccess(response.data));
         } else {

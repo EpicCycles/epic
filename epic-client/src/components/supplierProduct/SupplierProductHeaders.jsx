@@ -1,16 +1,10 @@
 import React from "react";
 import {partFields, supplierProductFields} from "../../helpers/models";
+import PartHeaders from "../part/PartHeaders";
 
 const SupplierProductHeaders = () => {
     return <div className="grid-row grid-row--header ">
-        {partFields.map((field, index) => {
-            return <div
-                className={`grid-item--header ${(index === 0) && "grid-header--fixed-left"}`}
-                key={`partHead${field.fieldName}`}
-            >
-                {field.header}
-            </div>;
-        })}
+        <PartHeaders lockFirstColumn={true} />
         {supplierProductFields.map(field => {
             return <div
                 className={`grid-item--header`}

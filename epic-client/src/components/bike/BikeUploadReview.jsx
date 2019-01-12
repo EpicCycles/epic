@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import {changeList, removeObjectWithIndex} from "../../helpers/utils";
+import {changeList, removeObjectWithIndex, updateObject} from "../../helpers/utils";
 import ShowOrHide from "../../common/ShowOrHide";
 import PartString from "../part/PartString";
 
@@ -11,7 +11,7 @@ class BikeUploadReview extends React.Component {
         }
     }
     toggleBikeDetail = id => {
-        let newState = Object.assign({},
+        let newState = updateObject(
             this.state,
             { bikesWithDetail: changeList(this.state.bikesWithDetail, id) }
         );

@@ -6,7 +6,7 @@ import BikeUploadReview from "./BikeUploadReview";
 import BikeUploadFrame from "./BikeUploadFrame";
 import UploadMappingPartTypes from "../../common/UploadMappingPartTypes";
 import {doesFieldMatchPartType} from "../../helpers/framework";
-import {findObjectWithId} from "../../helpers/utils";
+import {findObjectWithId, updateObject} from "../../helpers/utils";
 import BikeUploadMappingReview from "./BikeUploadMappingReview";
 import {Button} from "semantic-ui-react";
 import {colourStyles} from "../../helpers/constants";
@@ -67,7 +67,7 @@ class BikeUpload extends React.Component {
     addDataAndProceed = (dataForState) => {
         let nextStep = this.state.step + 1;
 
-        let newState = Object.assign({}, this.state, dataForState, { step: nextStep });
+        let newState = updateObject(this.state, dataForState, { step: nextStep });
         if ((nextStep < 3) && newState.rowMappings) {
             const unmappedFields = newState.rowMappings.filter(rowMapping => !(rowMapping.ignore || rowMapping.partType || rowMapping.bikeAttribute))
             if (unmappedFields.length === 0) {
@@ -79,7 +79,7 @@ class BikeUpload extends React.Component {
 
     goToStep = (step) => {
         if (step < this.state.step) {
-            let newState = Object.assign({}, { step: step });
+            let newState = { step: step };
             this.setState(newState);
         }
     };

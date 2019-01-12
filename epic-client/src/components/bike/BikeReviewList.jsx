@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react'
-import {changeList, removeKey} from "../../helpers/utils";
+import {changeList, removeKey, updateObject} from "../../helpers/utils";
 import {Button, Dimmer, Icon, Loader} from "semantic-ui-react";
 import BikeReviewListSelection from "./BikeReviewListSelection";
 
@@ -24,7 +24,7 @@ class BikeReviewList extends React.Component {
     }
 
     handleInputChange = (fieldName, input) => {
-        let newState = Object.assign({}, this.state);
+        let newState = updateObject(this.state);
         newState[fieldName] = input;
         this.setState(newState);
     };
@@ -46,7 +46,7 @@ class BikeReviewList extends React.Component {
         if ((frameArchiveList.length > 0) || (frameDeleteList.length > 0) || (bikeReviewList.length > 0) || (bikeDeleteList.length > 0)) {
             if (!window.confirm("Are You Sure?")) return;
         }
-        let newState = Object.assign({},
+        let newState = updateObject(
             this.state,
             { frameArchiveList: [], frameDeleteList: [], bikeReviewList: [], bikeDeleteList: [] }
         );
@@ -55,7 +55,7 @@ class BikeReviewList extends React.Component {
     };
 
     changeFrameArchiveList = (frameId) => {
-        let newState = Object.assign({},
+        let newState = updateObject(
             this.state,
             { frameArchiveList: changeList(this.state.frameArchiveList, frameId) }
         );
@@ -63,21 +63,21 @@ class BikeReviewList extends React.Component {
     };
 
     changeFrameDeleteList = (frameId) => {
-        let newState = Object.assign({},
+        let newState = updateObject(
             this.state,
             { frameDeleteList: changeList(this.state.frameDeleteList, frameId) }
         );
         this.setState(newState);
     };
     changeBikeReviewList = (bikeId) => {
-        let newState = Object.assign({},
+        let newState = updateObject(
             this.state,
             { bikeReviewList: changeList(this.state.bikeReviewList, bikeId) }
         );
         this.setState(newState);
     };
     changeBikeDeleteList = (bikeId) => {
-        let newState = Object.assign({},
+        let newState = updateObject(
             this.state,
             { bikeDeleteList: changeList(this.state.bikeDeleteList, bikeId) }
         );
@@ -94,7 +94,7 @@ class BikeReviewList extends React.Component {
 
     archiveFrames = () => {
         this.props.archiveFrames(this.state.frameArchiveList, this.buildSearchCriteria());
-        let newState = Object.assign({},
+        let newState = updateObject(
             this.state,
             { frameArchiveList: [] }
         );
@@ -103,7 +103,7 @@ class BikeReviewList extends React.Component {
 
     deleteFrames = () => {
         this.props.deleteFrames(this.state.frameDeleteList, this.buildSearchCriteria());
-        let newState = Object.assign({},
+        let newState = updateObject(
             this.state,
             { frameDeleteList: [] }
         );
@@ -117,7 +117,7 @@ class BikeReviewList extends React.Component {
         nonArchivedFrames.forEach(frame => {
             frame.bikes.forEach(bike => bikeReviewList.push(bike.id));
         });
-        let newState = Object.assign({},
+        let newState = updateObject(
             this.state,
             { bikeReviewList }
         );
@@ -139,7 +139,7 @@ class BikeReviewList extends React.Component {
 
     deleteBikes = () => {
         this.props.deleteBikes(this.state.bikeDeleteList, this.buildSearchCriteria());
-        let newState = Object.assign({},
+        let newState = updateObject(
             this.state,
             { bikeDeleteList: [] }
         );

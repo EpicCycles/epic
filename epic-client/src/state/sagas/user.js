@@ -3,6 +3,7 @@ import api from './api';
 import history from '../../history.js'
 
 import {cancelActionForLogin, loginUserFailure, loginUserSuccess, USER_LOGIN_REQUESTED} from "../actions/user";
+import {updateObject} from "../../helpers/utils";
 
 export function* loginUser(action) {
     try {
@@ -10,7 +11,7 @@ export function* loginUser(action) {
         const loginResponse = yield call(api.loginUser, action.payload);
         const token = loginResponse.data.key;
 
-        const getUserPayload =  Object.assign(action.payload, { token });
+        const getUserPayload =  updateObject(action.payload, { token });
         const getUserResponse = yield call(api.getUser, getUserPayload);
 
         yield put(loginUserSuccess(token, getUserResponse.data));

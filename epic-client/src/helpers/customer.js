@@ -1,28 +1,27 @@
-import {findIndexOfObjectWithId, generateRandomCode} from "./utils";
+import {findIndexOfObjectWithId, generateRandomCode, updateObject} from "./utils";
 
-export const updateCustomerBasic = (customer, updatedValues) => {
-    let updatedCustomer = customer ? Object.assign({}, customer) : {};
-    updatedCustomer = Object.assign(updatedCustomer, updatedValues);
-
-    return updatedCustomer;
+export const updateCustomerBasic = (customer = {}, updatedValues) => {
+    return updateObject(customer, updatedValues);
 };
 
-export const updateCustomerPhoneList = (customer, phones) => {
-    let updatedCustomer = customer ? Object.assign({}, customer) : {};
+export const updateCustomerPhoneList = (customer = {}, phones) => {
+    let updatedCustomer = updateObject(customer);
     updatedCustomer.phones = phones;
     if (customer.phones.length < phones.length) updatedCustomer.newPhone = {"dummyKey": generateRandomCode()};
     return updatedCustomer;
 };
 
-export const updateCustomerAddressList = (customer, addresses) => {
-    let updatedCustomer = customer ? Object.assign({}, customer) : {};
+export const updateCustomerAddressList = (customer = {}, addresses) => {
+    let updatedCustomer = updateObject(customer);
     updatedCustomer.addresses = addresses;
     if (customer.addresses && (customer.addresses.length < addresses.length)) updatedCustomer.newAddress = {"dummyKey": generateRandomCode()};
     return updatedCustomer;
 };
 
-export const customerAddErrorForAddress = (customer, customerAddress) => {
-    let updatedCustomer = customer ? Object.assign({}, customer) : {};
+export const customerAddErrorForAddress = (customer = {}, customerAddress) => {
+
+    let updatedCustomer = updateObject(customer);
+
     const addressId = customerAddress.id;
     if (addressId && updatedCustomer.addresses) {
         const indexOfAddress = findIndexOfObjectWithId(updatedCustomer.addresses, addressId);
@@ -34,8 +33,9 @@ export const customerAddErrorForAddress = (customer, customerAddress) => {
     return updatedCustomer;
 };
 
-export const customerAddErrorForPhone = (customer, customerPhone) => {
-    let updatedCustomer = customer ? Object.assign({}, customer) : {};
+export const customerAddErrorForPhone = (customer = {}, customerPhone) => {
+    let updatedCustomer = updateObject(customer);
+
     const phoneId = customerPhone.id;
     if (phoneId && updatedCustomer.phones) {
         const indexOfPhone = findIndexOfObjectWithId(updatedCustomer.phones, phoneId);

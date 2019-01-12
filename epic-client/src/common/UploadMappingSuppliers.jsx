@@ -2,6 +2,9 @@ import React, {Fragment} from "react";
 import {Button, Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../helpers/constants";
 import SupplierModal from "../components/supplier/SupplierModal";
+import * as PropTypes from "prop-types";
+import UploadMappingPartTypes from "./UploadMappingPartTypes";
+import {removeKey} from "../helpers/utils";
 
 class UploadMappingSuppliers extends React.Component {
     constructor(props) {
@@ -35,29 +38,17 @@ class UploadMappingSuppliers extends React.Component {
         };
     };
 
-    onChangeField = (fieldName, fieldValue) => {
-        let newState = this.state;
-        newState[fieldName] = fieldValue;
-        this.setState(newState);
-    };
     goToNextStep = () => {
         const { rowMappings } = this.state;
         this.props.addDataAndProceed({ rowMappings });
     };
 
-    undoMapping = (rowIndex) => {
-        const updatedRowMappings = this.state.rowMappings.map(rowMap => {
-            if (rowMap.rowIndex === rowIndex) {
-                rowMap.ignore = false;
-            }
-            return rowMap;
-        });
-        this.setState({ rowMappings: updatedRowMappings });
-    };
     discardData = (rowIndex) => {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
             if (rowMap.rowIndex === rowIndex) {
-                rowMap.ignore = true;
+                let updatedRowMap = removeKey(rowMap, 'supplier');
+                updatedRowMap.ignore = true;
+                return updatedRowMap;
             }
             return rowMap;
         });
@@ -76,7 +67,7 @@ class UploadMappingSuppliers extends React.Component {
 
     setUpSupplierModalForNewField = (rowMap) => {
         const supplier = {
-            shortName: rowMap.supplierName,
+            supplier_name: rowMap.supplierName,
         };
         this.setState({
             supplier,
@@ -106,8 +97,6 @@ class UploadMappingSuppliers extends React.Component {
                 {unResolvedRowMappings.map((mapping, index) =>
                     <div key={`mapping${index}`}
                          className="rounded"
-                         draggable={true}
-                         onDragStart={event => this.pickUpField(event, mapping.rowIndex)}
                     >
                         {mapping.supplierName}
                         <Icon id={`delete-field${index}`} name="trash"
@@ -141,5 +130,10 @@ class UploadMappingSuppliers extends React.Component {
     }
 }
 
-
+UploadMappingSuppliers.propTypes = {
+    rowMappings: PropTypes.array.isRequired,
+    suppliers: PropTypes.array.isRequired,
+    saveSupplier: PropTypes.func.isRequired,
+    addDataAndProceed: PropTypes.func.isRequired,
+};
 export default UploadMappingSuppliers;

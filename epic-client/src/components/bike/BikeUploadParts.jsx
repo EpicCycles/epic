@@ -3,6 +3,7 @@ import {Button} from "semantic-ui-react";
 import BrandModal from "../brand/BrandModal";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import BikeUploadPartsEditPart from "./BikeUploadPartsEditPart";
+import {updateObject} from "../../helpers/utils";
 
 class BikeUploadParts extends React.Component {
     constructor(props) {
@@ -28,7 +29,7 @@ class BikeUploadParts extends React.Component {
                 }
 
                 const added = partTypeParts[partTypesPresent.indexOf(bikePart.partType)].parts.some(addedPart => {
-                    if ((addedPart.part.partName === bikePart.partName) && (addedPart.part.partBrand === bikePart.partBrand)) {
+                    if ((addedPart.part.partName === bikePart.partName) && (addedPart.part.brand === bikePart.brand)) {
                         addedPart.uses.push({ bikeIndex, partIndex });
                         addedPart.models.push([bike.model_name]);
                         return true;
@@ -78,7 +79,7 @@ class BikeUploadParts extends React.Component {
                 partType.uploadParts.forEach(uploadPart => {
                     if (uploadPart.part.changed) {
                         uploadPart.uses.forEach(use => {
-                            apiData.bikes[use.bikeIndex].parts[use.partIndex].partBrand = uploadPart.part.partBrand;
+                            apiData.bikes[use.bikeIndex].parts[use.partIndex].brand = uploadPart.part.brand;
                             apiData.bikes[use.bikeIndex].parts[use.partIndex].partName = uploadPart.part.partName;
                         });
                     }
@@ -92,8 +93,8 @@ class BikeUploadParts extends React.Component {
         let updatedDisplayData = this.state.displayData.slice();
         let updatedSection = updatedDisplayData[sectionIndex];
         let updatedPartType = updatedSection.partTypes[partTypeIndex];
-        let updatedPartData = Object.assign({}, updatedPartType.uploadParts[partIndex]);
-        let updatedPart = Object.assign({}, updatedPartData.part);
+        let updatedPartData = updateObject(updatedPartType.uploadParts[partIndex]);
+        let updatedPart = updateObject(updatedPartData.part);
 
         updatedPart[fieldName] = input;
         updatedPart.changed = true;
@@ -180,15 +181,18 @@ class BikeUploadParts extends React.Component {
                                 return partType.uploadParts.map((uploadPart, partIndex) => <div className="grid-row">
                                         <div
                                             className="grid-item--borderless field-label red"
+                                            key={`section${sectionIndex}${partTypeIndex}${partIndex}`}
                                         >
                                             {((partTypeIndex === 0) && (partIndex === 0)) ? section.name : " "}
                                         </div>
                                         <div
+                                            key={`partType${sectionIndex}${partTypeIndex}${partIndex}`}
                                             className="grid-item--borderless field-label align_right"
                                         >
                                             {(partIndex === 0) ? partType.shortName : " "}
                                         </div>
                                         <BikeUploadPartsEditPart
+                                            key={`partEdit${sectionIndex}${partTypeIndex}${partIndex}`}
                                             brands={brands}
                                             uploadPart={uploadPart}
                                             partIndex={partIndex}

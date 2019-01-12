@@ -3,12 +3,12 @@ import FormTextInput from "../../common/FormTextInput";
 import AttributeOptions from "./AttributeOptions";
 import SelectInput from "../../common/SelectInput";
 import {attributeOptionTypes, NEW_ELEMENT_ID} from "../../helpers/constants";
-import {generateRandomCode} from "../../helpers/utils";
+import {generateRandomCode, updateObject} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
 
 class PartTypeAttributeEdit extends React.Component {
     handleInputChange = (fieldName, input) => {
-        const updatedAttribute = Object.assign({}, this.props.attribute);
+        const updatedAttribute = updateObject(this.props.attribute);
         if (fieldName.startsWith('attribute_name')) updatedAttribute.attribute_name = input;
         if (!updatedAttribute.attribute_name) {
             updatedAttribute.error = true;
@@ -29,14 +29,14 @@ class PartTypeAttributeEdit extends React.Component {
     };
 
     handleInputClear = (fieldName) => {
-        const updatedAttribute = Object.assign({}, this.props.attribute);
+        const updatedAttribute = updateObject(this.props.attribute);
         if (window.confirm("This will remove this attribute, are you sure?")) {
             updatedAttribute.delete = true;
             this.props.handleAttributeChange(this.props.componentKey, updatedAttribute);
         }
     };
     addAnother = () => {
-        const updatedAttribute = Object.assign({}, this.props.attribute);
+        const updatedAttribute = updateObject(this.props.attribute);
         updatedAttribute.dummyKey = generateRandomCode();
         this.props.handleAttributeChange(NEW_ELEMENT_ID, updatedAttribute);
     };

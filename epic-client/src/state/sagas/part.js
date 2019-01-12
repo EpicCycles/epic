@@ -16,20 +16,22 @@ import {
     uploadPartsError,
     uploadPartsOK
 } from "../actions/part";
+import {logError} from "../../helpers/api_error";
+import {updateObject} from "../../helpers/utils";
 
 
 export function* savePart(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(part.savePart, completePayload);
             yield put(savePartOK(response.data));
         } else {
             yield call(history.push, "/login");
         }
     } catch (error) {
-        console.error(error);
+        logError(error);
         yield put(savePartError("Save Part failed"));
     }
 }
@@ -45,7 +47,7 @@ export function* deletePart(action) {
         const listCriteria = action.payload.listCriteria;
 
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             yield call(part.deletePart, completePayload);
             if (listCriteria) {
                 const searchPayload = { listCriteria, token };
@@ -58,6 +60,7 @@ export function* deletePart(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(deletePartError("Delete Part failed"));
     }
 }
@@ -71,7 +74,7 @@ export function* uploadParts(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(part.uploadParts, completePayload);
             yield put(uploadPartsOK(response.data));
             yield call(history.push, "/product-review");
@@ -79,7 +82,7 @@ export function* uploadParts(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
-        console.log(error)
+        logError(error);
         yield put(uploadPartsError("Save Parts failed"));
     }
 }
@@ -92,13 +95,14 @@ export function* getParts(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = Object.assign(action.payload, { token });
+            const completePayload = updateObject(action.payload, { token });
             const response = yield call(part.getParts, completePayload);
             yield put(listPartsOK(response.data));
         } else {
             yield call(history.push, "/login");
         }
     } catch (error) {
+        logError(error);
         yield put(listPartsError("Get Parts failed"));
     }
 }

@@ -46,11 +46,11 @@ export const findSupplierProducts = (part, supplierProducts) => {
 
 
 export const buildPartObject = (partType, partNameWithBrand, brandsLower, bikeBrand) => {
-    let partBrandFound = brandsLower.find(brand => {
+    let brandFound = brandsLower.find(brand => {
         return partNameWithBrand.toLowerCase().startsWith(brand.brand_name)
     });
-    const brand = partBrandFound ? partBrandFound.id : bikeBrand;
-    const part_name = partBrandFound ? partNameWithBrand.slice(partBrandFound.brand_name.length).trim() : partNameWithBrand;
+    const brand = brandFound ? brandFound.id : bikeBrand;
+    const part_name = brandFound ? partNameWithBrand.slice(brandFound.brand_name.length).trim() : partNameWithBrand;
 
     return { partType, part_name, brand };
 };
@@ -79,11 +79,11 @@ export const buildSupplierProductForApi = (rowMappings, uploadedData, brands) =>
                     part.stocked = dataToUse[9];
                     part.standard = true;
                     if (rowMapping.supplier) {
-                        let partBrand = updatedBrands.filter(brand => (brand.id === part.brand))[0];
-                        if (!partBrand.supplier.includes(rowMapping.supplier)) {
-                            partBrand.supplier.push(rowMapping.supplier);
-                            partBrand.changed = true;
-                            updatedBrands = updateObjectInArray(updatedBrands, partBrand, partBrand.id);
+                        let brand = updatedBrands.filter(brand => (brand.id === part.brand))[0];
+                        if (!brand.supplier.includes(rowMapping.supplier)) {
+                            brand.supplier.push(rowMapping.supplier);
+                            brand.changed = true;
+                            updatedBrands = updateObjectInArray(updatedBrands, brand, brand.id);
                         }
                         part.supplierProduct = {
                             supplier: rowMapping.supplier,

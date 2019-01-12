@@ -4,7 +4,8 @@ import {UploadPartTypeMapping} from "./UploadPartTypeMapping";
 import {NEW_ELEMENT_ID} from "../helpers/constants";
 import PartTypeModal from "../components/partType/PartTypeModal";
 import {doesFieldMatchPartType, renumberAll} from "../helpers/framework";
-import {generateRandomCode, removeKey} from "../helpers/utils";
+import {generateRandomCode, getComponentKey, removeKey, updateObject, updateObjectInArray} from "../helpers/utils";
+import * as PropTypes from "prop-types";
 
 class UploadMappingPartTypes extends React.Component {
     constructor(props) {
@@ -21,11 +22,6 @@ class UploadMappingPartTypes extends React.Component {
         };
     };
 
-    onChangeField = (fieldName, fieldValue) => {
-        let newState = this.state;
-        newState[fieldName] = fieldValue;
-        this.setState(newState);
-    };
     goToNextStep = () => {
         const { rowMappings } = this.state;
         this.props.addDataAndProceed({ rowMappings });
@@ -47,10 +43,14 @@ class UploadMappingPartTypes extends React.Component {
     assignToPartType = (event, partType) => {
         event.preventDefault();
         const rowIndex = event.dataTransfer.getData("text");
+        this.updateMapping(rowIndex, partType);
+
+    };
+    updateMapping = (rowIndex, partType) => {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
             // eslint-disable-next-line
             if (rowMap.rowIndex == rowIndex) {
-                return Object.assign({}, rowMap, { partType, ignore: false });
+                return updateObject(rowMap, { partType, ignore: false });
             } else {
                 return rowMap
             }
@@ -59,7 +59,8 @@ class UploadMappingPartTypes extends React.Component {
     };
     undoMapping = (rowIndex) => {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
-            if (rowMap.rowIndex === rowIndex) {
+            // eslint-disable-next-line
+            if (rowMap.rowIndex == rowIndex) {
                 let updatedRowMap = removeKey(rowMap, 'partType');
                 updatedRowMap.ignore = false;
                 return updatedRowMap;
@@ -71,7 +72,8 @@ class UploadMappingPartTypes extends React.Component {
     };
     discardData = (rowIndex) => {
         const updatedRowMappings = this.state.rowMappings.map(rowMap => {
-            if (rowMap.rowIndex === rowIndex) {
+            // eslint-disable-next-line
+            if (rowMap.rowIndex == rowIndex) {
                 let updatedRowMap = removeKey(rowMap, 'partType');
                 updatedRowMap.ignore = true;
                 return updatedRowMap;
@@ -83,16 +85,7 @@ class UploadMappingPartTypes extends React.Component {
     };
 
     undoDiscardData = (rowIndex) => {
-        const updatedRowMappings = this.state.rowMappings.map(rowMap => {
-            if (rowMap.rowIndex === rowIndex) {
-                let updatedRowMap = removeKey(rowMap, 'partType');
-                updatedRowMap.ignore = false;
-                return updatedRowMap;
-            } else {
-                return rowMap
-            }
-        });
-        this.setState({ rowMappings: updatedRowMappings });
+        this.undoMapping(rowIndex);
     };
 
     setUpPartTypeModalForNewField = (rowMap) => {
@@ -106,7 +99,7 @@ class UploadMappingPartTypes extends React.Component {
         });
     };
     setUpPartTypeModalForPart = (sectionIndex, partTypeIndex) => {
-        let partType = Object.assign({}, this.props.sections[sectionIndex].partTypes[partTypeIndex]);
+        let partType = updateObject(this.props.sections[sectionIndex].partTypes[partTypeIndex]);
         this.state.rowMappings.forEach(rowMap => {
             // eslint-disable-next-line
             if (rowMap.partType == partType.id) {
@@ -138,17 +131,7 @@ class UploadMappingPartTypes extends React.Component {
         const updatedSections = this.props.sections.map(section => {
             // eslint-disable-next-line
             if (section.id == partType.includeInSection) {
-                if (!partType.id) {
-                    section.partTypes.push(partType);
-                } else {
-                    section.partTypes = section.partTypes.map(existingPartType => {
-                        if (partType.id === existingPartType.id) {
-                            return Object.assign({}, existingPartType, partType);
-                        } else {
-                            return existingPartType;
-                        }
-                    })
-                }
+                return updateObject(section, {partTypes: updateObjectInArray(section.partTypes, partType, getComponentKey(partType))});
             }
             return section;
         });
@@ -157,7 +140,7 @@ class UploadMappingPartTypes extends React.Component {
     render() {
         const { sections, multiplesAllowed } = this.props;
         const { rowMappings, showModal, partType } = this.state;
-        const unResolvedRowMappings = rowMappings.filter(rowMapping => (!rowMapping.partType));
+        const unResolvedRowMappings = rowMappings.filter(rowMapping => (!(rowMapping.partType || rowMapping.ignore)));
         const discardedRowMappings = rowMappings.filter(rowMapping => rowMapping.ignore);
         return <Fragment key="bikeUploadMapping">
             {showModal && <PartTypeModal
@@ -247,6 +230,12 @@ class UploadMappingPartTypes extends React.Component {
         </Fragment>;
     }
 }
-
+UploadMappingPartTypes.propTypes = {
+    rowMappings: PropTypes.array.isRequired,
+    sections: PropTypes.array.isRequired,
+    multiplesAllowed: PropTypes.bool,
+    saveFramework: PropTypes.any.isRequired,
+    addDataAndProceed: PropTypes.func.isRequired,
+};
 
 export default UploadMappingPartTypes;

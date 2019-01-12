@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react'
-import {doWeHaveObjects, isItAnObject, removeKey} from "../../helpers/utils";
+import {doWeHaveObjects, isItAnObject, removeKey, updateObject} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
 import SupplierProductReviewListSelection from "./SupplierProductReviewListSelection";
 import PartEditRow from "../part/PartEditRow";
@@ -17,7 +17,7 @@ const initialState = {
 };
 
 class SupplierProductReviewList extends React.Component {
-    state = Object.assign({}, initialState);
+    state = updateObject(initialState);
 
     componentDidMount() {
         if (!this.props.isLoading) {
@@ -48,7 +48,7 @@ class SupplierProductReviewList extends React.Component {
     };
 
     handleInputChange = (fieldName, input) => {
-        let newState = Object.assign({}, this.state);
+        let newState = updateObject(this.state);
         newState[fieldName] = input;
         this.setState(newState);
     };
@@ -82,7 +82,7 @@ class SupplierProductReviewList extends React.Component {
         if (this.hasChanges()) {
             if (!window.confirm("Are You Sure?")) return;
         }
-        let newState = Object.assign({}, initialState);
+        let newState = updateObject(initialState);
         this.setState(newState);
         this.props.clearParts();
     };
@@ -155,7 +155,7 @@ class SupplierProductReviewList extends React.Component {
                             return supplierProducts.map((supplierProduct, supplierProductIndex) => {
                                 return <div className="grid-row" key={`partRow${partIndex}`}>
                                     {(supplierProductIndex === 0) && <PartEditRow
-                                        part={Object.assign({}, part, part.changes)}
+                                        part={updateObject(part, part.changes)}
                                         persistedPart={part}
                                         onChange={this.applyPartChanges}
                                         supplierProducts={supplierProducts}
@@ -164,7 +164,7 @@ class SupplierProductReviewList extends React.Component {
                                         brands={brands}
                                     />}
                                     <SupplierProductEditRow
-                                        supplierProduct={Object.assign({}, supplierProduct, supplierProduct.changes)}
+                                        supplierProduct={updateObject(supplierProduct, supplierProduct.changes)}
                                         persistedSupplierProduct={supplierProduct}
                                         onChange={this.applySupplierProductChanges}
                                         suppliers={suppliers}
