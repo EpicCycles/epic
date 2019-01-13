@@ -2,6 +2,7 @@ import React from 'react';
 
 import BrandModal from "../../../components/brand/BrandModal";
 import {BRAND_NAME_MISSING} from "../../../helpers/error";
+import {NEW_ELEMENT_ID} from "../../../helpers/constants";
 
 const suppliers = [
     { id: 1, supplier_name: "supplier 1" },
@@ -9,18 +10,16 @@ const suppliers = [
     { id: 3, supplier_name: "supplier 3" },
     { id: 4, supplier_name: "supplier 4" },
 ];
-/**
- brandModalOpen: PropTypes.any,
- brand: PropTypes.any,
- componentKey: PropTypes.any,
- suppliers: PropTypes.any,
- saveBrand: PropTypes.any,
- deleteBrand: PropTypes.any,
- closeBrandModal: PropTypes.func
- */
+
 test("BrandModal displays correctly for a new brand", () => {
     const component = shallow(<BrandModal
+        brand={{}}
+        componentKey={NEW_ELEMENT_ID}
         brandModalOpen={true}
+        deleteBrand={jest.fn()}
+        saveBrand={jest.fn()}
+        closeBrandModal={jest.fn()}
+        suppliers={suppliers}
     />);
     expect(component).toMatchSnapshot();
 });
@@ -38,6 +37,9 @@ test("BrandModal displays correctly for a brand", () => {
         brand={brand}
         componentKey={componentKey}
         suppliers={suppliers}
+        deleteBrand={jest.fn()}
+        saveBrand={jest.fn()}
+        closeBrandModal={jest.fn()}
     />);
     expect(component).toMatchSnapshot();
 });
@@ -55,6 +57,9 @@ test("BrandModal value changes processing 1", () => {
         brand={brand}
         componentKey={componentKey}
         suppliers={suppliers}
+        deleteBrand={jest.fn()}
+        saveBrand={jest.fn()}
+        closeBrandModal={jest.fn()}
     />);
 
     //brand name change to no value
@@ -62,8 +67,7 @@ test("BrandModal value changes processing 1", () => {
     const expectedData = Object.assign({}, brand, {
         brand_name: "",
         changed: true,
-        error: true,
-        error_detail: BRAND_NAME_MISSING
+        error_detail: {brand_name: BRAND_NAME_MISSING},
     })
     expect(component.state('brand')).toEqual(expectedData);
 
@@ -81,7 +85,10 @@ test("BrandModal value changes processing 2", () => {
         brandModalOpen={true}
         brand={brand}
         componentKey={componentKey}
-        suppliers={suppliers}
+ suppliers={suppliers}
+        deleteBrand={jest.fn()}
+        saveBrand={jest.fn()}
+        closeBrandModal={jest.fn()}
     />);
 
     //brand name change to value
@@ -89,9 +96,8 @@ test("BrandModal value changes processing 2", () => {
     const expectedData = Object.assign({}, brand, {
         brand_name: "new brand name",
         changed: true,
-        error: false,
-        error_detail: ""
-    })
+        error_detail: {}
+    });
     expect(component.state('brand')).toEqual(expectedData);
 
 });
@@ -109,11 +115,14 @@ test("BrandModal value changes processing 3", () => {
         brand={brand}
         componentKey={componentKey}
         suppliers={suppliers}
+        deleteBrand={jest.fn()}
+        saveBrand={jest.fn()}
+        closeBrandModal={jest.fn()}
     />);
 
     //link change to no value
     component.instance().handleBrandValueChange("link", "");
-    const expectedData = Object.assign({}, brand, { link: "", changed: true, error: false, error_detail: "" })
+    const expectedData = Object.assign({}, brand, { link: "", changed: true, error_detail: {} });
     expect(component.state('brand')).toEqual(expectedData);
 });
 test("BrandModal value changes processing 4", () => {
@@ -130,6 +139,9 @@ test("BrandModal value changes processing 4", () => {
         brand={brand}
         componentKey={componentKey}
         suppliers={suppliers}
+        deleteBrand={jest.fn()}
+        saveBrand={jest.fn()}
+        closeBrandModal={jest.fn()}
     />);
 
     //link change to new value
@@ -137,9 +149,8 @@ test("BrandModal value changes processing 4", () => {
     const expectedData = Object.assign({}, brand, {
         link: "myLink.co.uk",
         changed: true,
-        error: false,
-        error_detail: ""
-    })
+        error_detail: {}
+    });
     expect(component.state('brand')).toEqual(expectedData);
 });
 test("BrandModal value changes processing 5", () => {
@@ -156,6 +167,9 @@ test("BrandModal value changes processing 5", () => {
         brand={brand}
         componentKey={componentKey}
         suppliers={suppliers}
+        deleteBrand={jest.fn()}
+        saveBrand={jest.fn()}
+        closeBrandModal={jest.fn()}
     />);
 
     //supplier list changes
@@ -164,8 +178,7 @@ test("BrandModal value changes processing 5", () => {
         supplier: [suppliers[1].id],
         supplier_names: [suppliers[1].supplier_name],
         changed: true,
-        error: false,
-        error_detail: ""
+        error_detail: {}
     });
     expect(component.state('brand')).toEqual(expectedData);
 });

@@ -92,7 +92,7 @@ class BikeUploadReview extends React.Component {
                                 )}
                             </div>
                             <div className="grid-item">
-                                {bike.error && bike.error_detail.join()}
+                                {displayModelErrorSummary(part)}
                             </div>
                         </div>)}
                 </Fragment>

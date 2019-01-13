@@ -1,5 +1,5 @@
 import React from "react";
-import {BRAND, CHECKBOX, CURRENCY, PART_TYPE, SUPPLIER, TEXT, TEXT_AREA} from "../../helpers/models";
+import {BRAND, CHECKBOX, COUNTRY, CURRENCY, PART_TYPE, SUPPLIER, TEXT, TEXT_AREA} from "../../helpers/models";
 import EditModelInput from "../../common/EditModelInput";
 
 const foundName = "find me";
@@ -51,6 +51,33 @@ test("it renders a currency field that has no data", () => {
         fieldName: "data_field",
         type: CURRENCY,
         length: 10
+    };
+    expect(shallow(<EditModelInput
+        field={field}
+        model={emptyModel}
+        componentKey={componentKey}
+        index={0}
+        onChange={jest.fn()}
+    />)).toMatchSnapshot();
+});
+test("it renders a country field that has data", () => {
+    const field = {
+        fieldName: "data_field",
+        type: COUNTRY,
+    };
+    const model = { data_field: "NZ" };
+    expect(shallow(<EditModelInput
+        field={field}
+        model={model}
+        componentKey={componentKey}
+        index={0}
+        onChange={jest.fn()}
+    />)).toMatchSnapshot();
+});
+test("it renders a country field that has no data", () => {
+    const field = {
+        fieldName: "data_field",
+        type: COUNTRY,
     };
     expect(shallow(<EditModelInput
         field={field}
@@ -324,7 +351,6 @@ test("it calls onchange with a valid field setting state correctly", () => {
     expect(onChange.mock.calls[0][0]).toBe(field.fieldName);
     expect(onChange.mock.calls[0][1]).toBe('45.75');
     expect(onChange.mock.calls[0][2]).toBe(componentKey);
-    expect(component.state('error')).toBe(undefined);
 });
 test("it calls reset on a field to set back to model value", () => {
     const field = {
@@ -348,7 +374,6 @@ test("it calls reset on a field to set back to model value", () => {
     expect(onChange.mock.calls[0][0]).toBe(field.fieldName);
     expect(onChange.mock.calls[0][1]).toBe(persistedModel.data_field);
     expect(onChange.mock.calls[0][2]).toBe(componentKey);
-    expect(component.state('error')).toBe(undefined);
 });
 test("it calls reset on a field with no model and shows error", () => {
     const field = {
@@ -373,7 +398,6 @@ test("it calls reset on a field with no model and shows error", () => {
     expect(onChange.mock.calls[0][0]).toBe(field.fieldName);
     expect(onChange.mock.calls[0][1]).toBe("");
     expect(onChange.mock.calls[0][2]).toBe(componentKey);
-    expect(component.state('error')).toEqual("My data is missing");
 });
 test("it calls onchange with a missing field setting state correctly", () => {
     const field = {
@@ -399,6 +423,4 @@ test("it calls onchange with a missing field setting state correctly", () => {
     expect(onChange.mock.calls[0][0]).toBe(field.fieldName);
     expect(onChange.mock.calls[0][1]).toBe("");
     expect(onChange.mock.calls[0][2]).toBe(componentKey);
-    expect(component.state('error')).toEqual("My data is missing");
-
 });

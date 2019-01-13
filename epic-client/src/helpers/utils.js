@@ -160,6 +160,6 @@ export const getComponentKey = (object) => {
     const componentKey = object.id ? object.id : object.dummyKey;
     return componentKey ? componentKey : NEW_ELEMENT_ID;
 };
-export const updateObject = (initialObject, fieldList1 = {}, fieldList2 = {}) => {
+export const updateObject = (initialObject = {}, fieldList1 = {}, fieldList2 = {}) => {
     return Object.assign({}, initialObject, fieldList1, fieldList2);
 }

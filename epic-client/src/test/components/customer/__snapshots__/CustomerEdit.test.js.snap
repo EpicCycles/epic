@@ -35,24 +35,26 @@ exports[`displays a full customer with extras properly 1`] = `
         <h3>
           Customer Addresses
         </h3>
-        <table>
-          <tbody>
-            <CustomerAddressEdit
-              customerId={23}
-              key="editNewAddressnew"
-            />
-            <CustomerAddressEdit
-              customerAddress="1"
-              customerId={23}
-              key="editAddressundefined"
-            />
-            <CustomerAddressEdit
-              customerAddress="2"
-              customerId={23}
-              key="editAddressundefined"
-            />
-          </tbody>
-        </table>
+        <div
+          className="grid"
+          key="partReviewGrid"
+        >
+          <CustomerAddressEdit
+            customerAddress={Object {}}
+            customerId={23}
+            key="editNewAddressnew"
+          />
+          <CustomerAddressEdit
+            customerAddress="1"
+            customerId={23}
+            key="editAddressundefined"
+          />
+          <CustomerAddressEdit
+            customerAddress="2"
+            customerId={23}
+            key="editAddressundefined"
+          />
+        </div>
         <h3>
           Customer Phone
         </h3>

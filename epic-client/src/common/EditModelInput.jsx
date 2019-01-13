@@ -1,23 +1,20 @@
 import * as PropTypes from "prop-types";
 import React, {Component, Fragment} from "react";
-import {BRAND, CHECKBOX, CURRENCY, NUMBER, PART_TYPE, SUPPLIER, TEXT_AREA} from "../helpers/models";
+import {BRAND, CHECKBOX, COUNTRY, CURRENCY, NUMBER, PART_TYPE, SUPPLIER, TEXT_AREA} from "../helpers/models";
 import FormTextAreaInput from "./FormTextAreaInput";
 import FormTextInput from "./FormTextInput";
 import PartTypeSelect from "../components/partType/PartTypeSelect";
 import BrandSelect from "../components/brand/BrandSelect";
 import SupplierSelect from "../components/supplier/SupplierSelect";
+import CountrySelect from "./CountrySelect";
 
 class EditModelInput extends Component {
-    state = {};
     validateOnChange = (fieldName, fieldValue) => {
-        let newState = {};
         if (fieldValue) {
             this.props.onChange(this.props.field.fieldName, fieldValue, this.props.componentKey);
         } else {
             this.props.onChange(this.props.field.fieldName, "", this.props.componentKey);
-            if (this.props.field.required) newState.error = this.props.field.error;
         }
-        this.setState(newState);
     };
     resetField = fieldName => {
         const originalValue = this.props.persistedModel ? this.props.persistedModel[this.props.field.fieldName] : undefined;
@@ -26,11 +23,11 @@ class EditModelInput extends Component {
 
     render() {
         const { field, model, className, componentKey, index, sections, brands, suppliers } = this.props;
-        const { error } = this.state;
         let editComponent;
         const fieldName = `${field.fieldName}_${componentKey}${index}`;
         const fieldValue = model && model[field.fieldName];
         const emptyAllowed = !(field.required && fieldValue);
+        const error = model.error_detail ? model.error_detail[field.fieldName] : "";
 
         // TODO add country type field
         switch (field.type) {
@@ -44,8 +41,16 @@ class EditModelInput extends Component {
                     onChange={this.validateOnChange}
                     cols={Math.ceil(field.size / 4)}
                     onClick={this.resetField}
+                    error={error}
                 />;
                 break;
+            case COUNTRY:
+                editComponent = <CountrySelect
+                    fieldName={fieldName}
+                    countrySelected={fieldValue}
+                    onChange={this.validateOnChange}
+                    isEmptyAllowed={emptyAllowed}
+                    />;
             case NUMBER:
             case CURRENCY:
                 editComponent = <FormTextInput
@@ -57,15 +62,18 @@ class EditModelInput extends Component {
                     value={fieldValue}
                     onChange={this.validateOnChange}
                     size={field.size}
+                    error={error}
                     onClick={this.validateOnChange}
                 />;
                 break;
             case CHECKBOX:
-                editComponent = <input type="checkbox"
+                editComponent = <div className="ui toggle checkbox"><input type="checkbox"
                                        name={fieldName}
                                        onChange={() => this.validateOnChange(fieldName, !fieldValue)}
                                        checked={fieldValue}
-                />;
+                                       className={error ? "red" : ""}
+                                       title={error ? `${field.title} red` : field.title}
+                /></div>;
                 break;
             case PART_TYPE:
                 editComponent = <PartTypeSelect

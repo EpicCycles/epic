@@ -10,7 +10,7 @@ import {
     PRODUCTS_MISSING,
     SUPPLIER_MISSING
 } from "./error";
-import {findObjectWithKey, removeKey, updateObject, updateObjectInArray} from "./utils";
+import {findObjectWithKey, isItAnObject, removeKey, updateObject, updateObjectInArray} from "./utils";
 import {NEW_ELEMENT_ID} from "./constants";
 import {validatePostcodeAndReturnError} from "./address_helpers";
 
@@ -90,7 +90,7 @@ export const POSTCODE_FIELD = {
     fieldName: POSTCODE,
     type: TEXT,
     length: 20,
-    header: "Address",
+    header: "Postcode",
     validator: validatePostcodeAndReturnError,
     validatorAdditionalFields: [COUNTRY]
 };
@@ -306,24 +306,26 @@ export const getComponentKey = modelInstance => {
     return NEW_ELEMENT_ID;
 };
 
+export const isModelValid = (modelInstance) => {
+    return !(modelInstance.error || isItAnObject(modelInstance.error_detail));
+};
+
 export const applyFieldValueToModel = (modelInstance, field, value) => {
     let updatedModelInstance = updateObject(modelInstance);
     updatedModelInstance[field.fieldName] = value;
     updatedModelInstance.changed = true;
+    if (!updatedModelInstance.error_detail) updatedModelInstance.error_detail = {};
     if (field.required && !value) {
-        updatedModelInstance.error = true;
-        updatedModelInstance.error_detail = field.error;
+        updatedModelInstance.error_detail[field.fieldName] = field.error;
         return updatedModelInstance;
     } else if (field.validator) {
         const error = field.validator(value, modelInstance);
         if (error) {
-            updatedModelInstance.error = true;
-            updatedModelInstance.error_detail = error;
+            updatedModelInstance.error_detail[field.fieldName] = error;
             return updatedModelInstance;
         }
     }
-    updatedModelInstance.error = false;
-    updatedModelInstance.error_detail = "";
+    updatedModelInstance.error_detail = removeKey(updatedModelInstance.error_detail, field.fieldName);
     return updatedModelInstance;
 };
 
@@ -391,4 +393,20 @@ export const updateModel = (model, modelFields, fieldName, fieldValue, component
     const modelField = getField(modelFields, fieldName);
     if (modelField) return applyFieldValueToModel(model, modelField, fieldValue);
     return model;
+};
+
+export const displayModelErrorSummary = (model, modelFields) => {
+    let displayErrors = model.error;
+    const fieldErrors = isItAnObject(model.error_detail) ? model.error_detail : {};
+    for (var property in fieldErrors) {
+        const field = getField(modelFields, property);
+        if (!displayErrors) {
+            displayErrors = "";
+        } else {
+            displayErrors += '<br>';
+        }
+        displayErrors += field.header + ": " + fieldErrors[property].join(" ");
+    }
+
+    return displayErrors;
 };

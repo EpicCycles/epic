@@ -1,175 +1,177 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly with a new customer address 1`] = `
-<tr
-  className=""
-  id="rownewAddress"
+<div
+  className="grid-row"
+  key="rownew"
 >
-  <td
-    id="address1-td_newAddress"
-  >
-    <FormTextInput
-      className="column full"
-      error=""
-      fieldName="address1_newAddress"
-      id="address1-input_newAddress"
-      onChange={[Function]}
-      placeholder="Address line 1"
-      value=""
-    />
-  </td>
-  <td
-    id="address2_td_newAddress"
-  >
-    <FormTextInput
-      className="column full"
-      fieldName="address2_newAddress"
-      id="address2-input_newAddress"
-      onChange={[Function]}
-      placeholder="Address line 2"
-      value=""
-    />
-  </td>
-  <td
-    id="address3_td_newAddress"
-  >
-    <FormTextInput
-      className="column full"
-      fieldName="address3_newAddress"
-      id="address3-input_newAddress"
-      onChange={[Function]}
-      placeholder="Address line 3"
-      size="30"
-      value=""
-    />
-  </td>
-  <td
-    id="address4_td_newAddress"
-  >
-    <FormTextInput
-      className="column full"
-      fieldName="address4_newAddress"
-      id="address4-input_newAddress"
-      onChange={[Function]}
-      placeholder="Address line 4"
-      size="30"
-      value=""
-    />
-  </td>
-  <td
-    id="postcode_td_newAddress"
-  >
-    <FormTextInput
-      className="column full"
-      error=""
-      fieldName="postcode_newAddress"
-      id="postcode-input_newAddress"
-      onChange={[Function]}
-      placeholder="Postcode"
-      size="10"
-      value=""
-    />
-  </td>
-  <td
-    id="detail_td_newAddress"
+  <EditModelRow
+    model={
+      Object {
+        "customer": 12,
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "At least one line of address must be entered",
+          "fieldName": "address1",
+          "header": "Address",
+          "length": 100,
+          "required": true,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "address2",
+          "header": "Line 2",
+          "length": 100,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "address3",
+          "header": "Line 3",
+          "length": 100,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "address4",
+          "header": "Line 4",
+          "length": 100,
+          "type": "text",
+        },
+        Object {
+          "error": "A country must be selected",
+          "fieldName": "country",
+          "header": "Country",
+          "required": true,
+          "type": "country",
+        },
+        Object {
+          "fieldName": "postcode",
+          "header": "Postcode",
+          "length": 20,
+          "type": "text",
+          "validator": [Function],
+          "validatorAdditionalFields": Array [
+            "country",
+          ],
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={Object {}}
+  />
+  <div
+    className="grid-item"
+    key="date_new"
   >
     <span
-      id="comment_td_newAddress"
+      id="comment_td_new"
     >
       Add a new address
     </span>
-  </td>
-  <td
-    id="actions_td_newAddress"
+  </div>
+  <div
+    className="grid-item align_center"
+    key="actions_td_new"
   >
     <span
       id="actionsnew"
     />
-  </td>
-</tr>
+  </div>
+</div>
 `;
 
 exports[`renders correctly with a passed customer address 1`] = `
-<tr
-  className=""
-  id="row123"
+<div
+  className="grid-row"
+  key="row123"
 >
-  <td
-    id="address1-td_123"
-  >
-    <FormTextInput
-      className="column full"
-      error=""
-      fieldName="address1_123"
-      id="address1-input_123"
-      onChange={[Function]}
-      placeholder="Address line 1"
-      value="line one"
-    />
-  </td>
-  <td
-    id="address2_td_123"
-  >
-    <FormTextInput
-      className="column full"
-      fieldName="address2_123"
-      id="address2-input_123"
-      onChange={[Function]}
-      placeholder="Address line 2"
-      value="line Ywo"
-    />
-  </td>
-  <td
-    id="address3_td_123"
-  >
-    <FormTextInput
-      className="column full"
-      fieldName="address3_123"
-      id="address3-input_123"
-      onChange={[Function]}
-      placeholder="Address line 3"
-      size="30"
-      value="line Three"
-    />
-  </td>
-  <td
-    id="address4_td_123"
-  >
-    <FormTextInput
-      className="column full"
-      fieldName="address4_123"
-      id="address4-input_123"
-      onChange={[Function]}
-      placeholder="Address line 4"
-      size="30"
-      value="line Four"
-    />
-  </td>
-  <td
-    id="postcode_td_123"
-  >
-    <FormTextInput
-      className="column full"
-      error=""
-      fieldName="postcode_123"
-      id="postcode-input_123"
-      onChange={[Function]}
-      placeholder="Postcode"
-      size="10"
-      value="xxxyyy"
-    />
-  </td>
-  <td
-    id="detail_td_123"
+  <EditModelRow
+    model={
+      Object {
+        "address1": "line one",
+        "address2": "line Ywo",
+        "address3": "line Three",
+        "address4": "line Four",
+        "customer": 6,
+        "id": 123,
+        "postcode": "xxxyyy",
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "At least one line of address must be entered",
+          "fieldName": "address1",
+          "header": "Address",
+          "length": 100,
+          "required": true,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "address2",
+          "header": "Line 2",
+          "length": 100,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "address3",
+          "header": "Line 3",
+          "length": 100,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "address4",
+          "header": "Line 4",
+          "length": 100,
+          "type": "text",
+        },
+        Object {
+          "error": "A country must be selected",
+          "fieldName": "country",
+          "header": "Country",
+          "required": true,
+          "type": "country",
+        },
+        Object {
+          "fieldName": "postcode",
+          "header": "Postcode",
+          "length": 20,
+          "type": "text",
+          "validator": [Function],
+          "validatorAdditionalFields": Array [
+            "country",
+          ],
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={
+      Object {
+        "address1": "line one",
+        "address2": "line Ywo",
+        "address3": "line Three",
+        "address4": "line Four",
+        "customer": 6,
+        "id": 123,
+        "postcode": "xxxyyy",
+      }
+    }
+  />
+  <div
+    className="grid-item"
+    key="date_123"
   >
     <span
       id="comment_td_123"
     >
       Add a new address
     </span>
-  </td>
-  <td
-    id="actions_td_123"
+  </div>
+  <div
+    className="grid-item align_center"
+    key="actions_td_123"
   >
     <span
       id="actions123"
@@ -182,6 +184,6 @@ exports[`renders correctly with a passed customer address 1`] = `
         title="Delete Address Number"
       />
     </span>
-  </td>
-</tr>
+  </div>
+</div>
 `;

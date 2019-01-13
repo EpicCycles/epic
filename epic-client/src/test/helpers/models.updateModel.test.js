@@ -1,4 +1,4 @@
-import {ADDRESS2_FIELD, applyFieldValueToModel, customerAddressFields, updateModel} from "../../helpers/models";
+import {customerAddressFields, updateModel} from "../../helpers/models";
 
 test('field added to model', () => {
     const model = {
@@ -19,8 +19,7 @@ test('field added to model', () => {
         postcode: "xxxyyy",
         customer: 6,
         changed: true,
-        error: false,
-        error_detail: ""
+        error_detail: {}
     };
     const result = updateModel(model, customerAddressFields, "address2_componentKet", "line two corrected");
     expect(result).toEqual(updatedModel);

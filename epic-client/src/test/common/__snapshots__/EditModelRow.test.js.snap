@@ -1,0 +1,811 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+<React.Fragment>
+  <div
+    className="grid-item"
+    key="modelRowaddress1new"
+    style={
+      Object {
+        "gridRow": "span 1;",
+      }
+    }
+  >
+    <EditModelInput
+      componentKey="new"
+      field={
+        Object {
+          "error": "At least one line of address must be entered",
+          "fieldName": "address1",
+          "header": "Address",
+          "length": 100,
+          "required": true,
+          "type": "text",
+        }
+      }
+      index={0}
+      model={Object {}}
+      onChange={[MockFunction]}
+    />
+  </div>
+  <div
+    className="grid-item"
+    key="modelRowaddress2new"
+    style={
+      Object {
+        "gridRow": "span 1;",
+      }
+    }
+  >
+    <EditModelInput
+      componentKey="new"
+      field={
+        Object {
+          "fieldName": "address2",
+          "header": "Line 2",
+          "length": 100,
+          "type": "text",
+        }
+      }
+      index={1}
+      model={Object {}}
+      onChange={[MockFunction]}
+    />
+  </div>
+  <div
+    className="grid-item"
+    key="modelRowaddress3new"
+    style={
+      Object {
+        "gridRow": "span 1;",
+      }
+    }
+  >
+    <EditModelInput
+      componentKey="new"
+      field={
+        Object {
+          "fieldName": "address3",
+          "header": "Line 3",
+          "length": 100,
+          "type": "text",
+        }
+      }
+      index={2}
+      model={Object {}}
+      onChange={[MockFunction]}
+    />
+  </div>
+  <div
+    className="grid-item"
+    key="modelRowaddress4new"
+    style={
+      Object {
+        "gridRow": "span 1;",
+      }
+    }
+  >
+    <EditModelInput
+      componentKey="new"
+      field={
+        Object {
+          "fieldName": "address4",
+          "header": "Line 4",
+          "length": 100,
+          "type": "text",
+        }
+      }
+      index={3}
+      model={Object {}}
+      onChange={[MockFunction]}
+    />
+  </div>
+  <div
+    className="grid-item"
+    key="modelRowcountrynew"
+    style={
+      Object {
+        "gridRow": "span 1;",
+      }
+    }
+  >
+    <EditModelInput
+      componentKey="new"
+      field={
+        Object {
+          "error": "A country must be selected",
+          "fieldName": "country",
+          "header": "Country",
+          "required": true,
+          "type": "country",
+        }
+      }
+      index={4}
+      model={Object {}}
+      onChange={[MockFunction]}
+    />
+  </div>
+  <div
+    className="grid-item"
+    key="modelRowpostcodenew"
+    style={
+      Object {
+        "gridRow": "span 1;",
+      }
+    }
+  >
+    <EditModelInput
+      componentKey="new"
+      field={
+        Object {
+          "fieldName": "postcode",
+          "header": "Postcode",
+          "length": 20,
+          "type": "text",
+          "validator": [Function],
+          "validatorAdditionalFields": Array [
+            "country",
+          ],
+        }
+      }
+      index={5}
+      model={Object {}}
+      onChange={[MockFunction]}
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`it renders with data 1`] = `
+<React.Fragment>
+  <div
+    className="grid-item grid-item--fixed-leftred"
+    key="modelRowaddress1123"
+    style={
+      Object {
+        "gridRow": "span 2;",
+      }
+    }
+  >
+    <EditModelInput
+      brands={
+        Array [
+          Object {
+            "brand_name": "id is 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "find me",
+            "id": 2,
+          },
+          Object {
+            "brand_name": "id is 3",
+            "id": 3,
+          },
+        ]
+      }
+      componentKey={123}
+      field={
+        Object {
+          "error": "At least one line of address must be entered",
+          "fieldName": "address1",
+          "header": "Address",
+          "length": 100,
+          "required": true,
+          "type": "text",
+        }
+      }
+      index={0}
+      model={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      onChange={[MockFunction]}
+      persistedModel={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "partTypes": Array [
+              Object {
+                "id": 11,
+                "shortName": "id 11",
+              },
+              Object {
+                "id": 21,
+                "shortName": "id 11",
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "partTypes": Array [
+              Object {
+                "id": 2,
+                "shortName": "find me",
+              },
+              Object {
+                "id": 22,
+                "shortName": "id 11",
+              },
+            ],
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 1,
+            "supplier_name": "id is 1",
+          },
+          Object {
+            "id": 2,
+            "supplier_name": "find me",
+          },
+          Object {
+            "id": 3,
+            "supplier_name": "id is 3",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item grid-item--fixed-leftred"
+    key="modelRowaddress2123"
+    style={
+      Object {
+        "gridRow": "span 2;",
+      }
+    }
+  >
+    <EditModelInput
+      brands={
+        Array [
+          Object {
+            "brand_name": "id is 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "find me",
+            "id": 2,
+          },
+          Object {
+            "brand_name": "id is 3",
+            "id": 3,
+          },
+        ]
+      }
+      componentKey={123}
+      field={
+        Object {
+          "fieldName": "address2",
+          "header": "Line 2",
+          "length": 100,
+          "type": "text",
+        }
+      }
+      index={1}
+      model={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      onChange={[MockFunction]}
+      persistedModel={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "partTypes": Array [
+              Object {
+                "id": 11,
+                "shortName": "id 11",
+              },
+              Object {
+                "id": 21,
+                "shortName": "id 11",
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "partTypes": Array [
+              Object {
+                "id": 2,
+                "shortName": "find me",
+              },
+              Object {
+                "id": 22,
+                "shortName": "id 11",
+              },
+            ],
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 1,
+            "supplier_name": "id is 1",
+          },
+          Object {
+            "id": 2,
+            "supplier_name": "find me",
+          },
+          Object {
+            "id": 3,
+            "supplier_name": "id is 3",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item grid-item--fixed-leftred"
+    key="modelRowaddress3123"
+    style={
+      Object {
+        "gridRow": "span 2;",
+      }
+    }
+  >
+    <EditModelInput
+      brands={
+        Array [
+          Object {
+            "brand_name": "id is 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "find me",
+            "id": 2,
+          },
+          Object {
+            "brand_name": "id is 3",
+            "id": 3,
+          },
+        ]
+      }
+      componentKey={123}
+      field={
+        Object {
+          "fieldName": "address3",
+          "header": "Line 3",
+          "length": 100,
+          "type": "text",
+        }
+      }
+      index={2}
+      model={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      onChange={[MockFunction]}
+      persistedModel={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "partTypes": Array [
+              Object {
+                "id": 11,
+                "shortName": "id 11",
+              },
+              Object {
+                "id": 21,
+                "shortName": "id 11",
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "partTypes": Array [
+              Object {
+                "id": 2,
+                "shortName": "find me",
+              },
+              Object {
+                "id": 22,
+                "shortName": "id 11",
+              },
+            ],
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 1,
+            "supplier_name": "id is 1",
+          },
+          Object {
+            "id": 2,
+            "supplier_name": "find me",
+          },
+          Object {
+            "id": 3,
+            "supplier_name": "id is 3",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item grid-item--fixed-leftred"
+    key="modelRowaddress4123"
+    style={
+      Object {
+        "gridRow": "span 2;",
+      }
+    }
+  >
+    <EditModelInput
+      brands={
+        Array [
+          Object {
+            "brand_name": "id is 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "find me",
+            "id": 2,
+          },
+          Object {
+            "brand_name": "id is 3",
+            "id": 3,
+          },
+        ]
+      }
+      componentKey={123}
+      field={
+        Object {
+          "fieldName": "address4",
+          "header": "Line 4",
+          "length": 100,
+          "type": "text",
+        }
+      }
+      index={3}
+      model={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      onChange={[MockFunction]}
+      persistedModel={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "partTypes": Array [
+              Object {
+                "id": 11,
+                "shortName": "id 11",
+              },
+              Object {
+                "id": 21,
+                "shortName": "id 11",
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "partTypes": Array [
+              Object {
+                "id": 2,
+                "shortName": "find me",
+              },
+              Object {
+                "id": 22,
+                "shortName": "id 11",
+              },
+            ],
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 1,
+            "supplier_name": "id is 1",
+          },
+          Object {
+            "id": 2,
+            "supplier_name": "find me",
+          },
+          Object {
+            "id": 3,
+            "supplier_name": "id is 3",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item grid-item--fixed-leftred"
+    key="modelRowcountry123"
+    style={
+      Object {
+        "gridRow": "span 2;",
+      }
+    }
+  >
+    <EditModelInput
+      brands={
+        Array [
+          Object {
+            "brand_name": "id is 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "find me",
+            "id": 2,
+          },
+          Object {
+            "brand_name": "id is 3",
+            "id": 3,
+          },
+        ]
+      }
+      componentKey={123}
+      field={
+        Object {
+          "error": "A country must be selected",
+          "fieldName": "country",
+          "header": "Country",
+          "required": true,
+          "type": "country",
+        }
+      }
+      index={4}
+      model={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      onChange={[MockFunction]}
+      persistedModel={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "partTypes": Array [
+              Object {
+                "id": 11,
+                "shortName": "id 11",
+              },
+              Object {
+                "id": 21,
+                "shortName": "id 11",
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "partTypes": Array [
+              Object {
+                "id": 2,
+                "shortName": "find me",
+              },
+              Object {
+                "id": 22,
+                "shortName": "id 11",
+              },
+            ],
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 1,
+            "supplier_name": "id is 1",
+          },
+          Object {
+            "id": 2,
+            "supplier_name": "find me",
+          },
+          Object {
+            "id": 3,
+            "supplier_name": "id is 3",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item grid-item--fixed-leftred"
+    key="modelRowpostcode123"
+    style={
+      Object {
+        "gridRow": "span 2;",
+      }
+    }
+  >
+    <EditModelInput
+      brands={
+        Array [
+          Object {
+            "brand_name": "id is 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "find me",
+            "id": 2,
+          },
+          Object {
+            "brand_name": "id is 3",
+            "id": 3,
+          },
+        ]
+      }
+      componentKey={123}
+      field={
+        Object {
+          "fieldName": "postcode",
+          "header": "Postcode",
+          "length": 20,
+          "type": "text",
+          "validator": [Function],
+          "validatorAdditionalFields": Array [
+            "country",
+          ],
+        }
+      }
+      index={5}
+      model={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      onChange={[MockFunction]}
+      persistedModel={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "partTypes": Array [
+              Object {
+                "id": 11,
+                "shortName": "id 11",
+              },
+              Object {
+                "id": 21,
+                "shortName": "id 11",
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "partTypes": Array [
+              Object {
+                "id": 2,
+                "shortName": "find me",
+              },
+              Object {
+                "id": 22,
+                "shortName": "id 11",
+              },
+            ],
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 1,
+            "supplier_name": "id is 1",
+          },
+          Object {
+            "id": 2,
+            "supplier_name": "find me",
+          },
+          Object {
+            "id": 3,
+            "supplier_name": "id is 3",
+          },
+        ]
+      }
+    />
+  </div>
+</React.Fragment>
+`;

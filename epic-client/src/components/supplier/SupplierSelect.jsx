@@ -27,6 +27,7 @@ SupplierSelect.propTypes = {
     suppliers: PropTypes.array,
     supplierSelected: PropTypes.oneOfType([
         PropTypes.string,
+        PropTypes.number,
         PropTypes.array,
     ]),
     onChange: PropTypes.func,

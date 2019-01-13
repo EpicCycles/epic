@@ -30,6 +30,7 @@ exports[`BrandModal displays correctly for a brand 1`] = `
       circular={true}
       link={true}
       name="remove"
+      onClick={[MockFunction]}
     />
   </div>
   <div
@@ -44,77 +45,100 @@ exports[`BrandModal displays correctly for a brand 1`] = `
       Edit
        Brand
     </h2>
-    <FormTextInput
-      fieldName="brand_name_8"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
-      value="e brand 8"
-    />
-    <FormTextInput
-      fieldName="link_8"
-      key="link_8"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="link"
-      value="https://bianchi.co.uk"
-    />
-    <div
-      className="ui toggle checkbox"
-    >
-      <input
-        checked={false}
-        name="bike_brand_8"
-        onChange={[Function]}
-        type="checkbox"
-      />
-      <label>
-        Bike Brand
-      </label>
-    </div>
-    <div
-      className="row"
-    >
-      <label>
-        Supplier(s):
-      </label>
-      <SupplierSelect
-        fieldName="supplier_8"
-        isEmptyAllowed={true}
-        isMultiple={true}
-        multipleSize={10}
-        onChange={[Function]}
-        supplierSelected={
-          Array [
+    <EditModelPage
+      model={
+        Object {
+          "brand_name": "e brand 8",
+          "id": 8,
+          "link": "https://bianchi.co.uk",
+          "supplier": Array [
             23,
             1,
             2,
             45,
             16,
-          ]
+          ],
+          "supplier_names": Array [
+            "name 23",
+            "name 1",
+            "name 2",
+            "name 45",
+            "name 16",
+          ],
         }
-        suppliers={
-          Array [
-            Object {
-              "id": 1,
-              "supplier_name": "supplier 1",
-            },
-            Object {
-              "id": 2,
-              "supplier_name": "supplier 2",
-            },
-            Object {
-              "id": 3,
-              "supplier_name": "supplier 3",
-            },
-            Object {
-              "id": 4,
-              "supplier_name": "supplier 4",
-            },
-          ]
+      }
+      modelFields={
+        Array [
+          Object {
+            "error": "A name is required for the brand",
+            "fieldName": "brand_name",
+            "header": "Brand Name",
+            "required": true,
+            "synonyms": Array [],
+          },
+          Object {
+            "fieldName": "bike_brand",
+            "header": "Bike Brand",
+            "type": "checkbox",
+          },
+          Object {
+            "fieldName": "link",
+            "header": "URL",
+            "synonyms": Array [],
+          },
+          Object {
+            "fieldName": "supplier",
+            "header": "Supplier",
+            "synonyms": Array [
+              "supplier",
+            ],
+            "type": "supplier",
+          },
+        ]
+      }
+      onChange={[Function]}
+      persistedModel={
+        Object {
+          "brand_name": "e brand 8",
+          "id": 8,
+          "link": "https://bianchi.co.uk",
+          "supplier": Array [
+            23,
+            1,
+            2,
+            45,
+            16,
+          ],
+          "supplier_names": Array [
+            "name 23",
+            "name 1",
+            "name 2",
+            "name 45",
+            "name 16",
+          ],
         }
-      />
-    </div>
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 1,
+            "supplier_name": "supplier 1",
+          },
+          Object {
+            "id": 2,
+            "supplier_name": "supplier 2",
+          },
+          Object {
+            "id": 3,
+            "supplier_name": "supplier 3",
+          },
+          Object {
+            "id": 4,
+            "supplier_name": "supplier 4",
+          },
+        ]
+      }
+    />
   </div>
   <div
     style={
@@ -123,7 +147,15 @@ exports[`BrandModal displays correctly for a brand 1`] = `
         "width": "100%",
       }
     }
-  />
+  >
+    <Icon
+      as="i"
+      id="delete-brand"
+      name="trash"
+      onClick={[Function]}
+      title="Delete Brand"
+    />
+  </div>
 </Modal>
 `;
 
@@ -157,6 +189,7 @@ exports[`BrandModal displays correctly for a new brand 1`] = `
       circular={true}
       link={true}
       name="remove"
+      onClick={[MockFunction]}
     />
   </div>
   <div
@@ -171,32 +204,60 @@ exports[`BrandModal displays correctly for a new brand 1`] = `
       New
        Brand
     </h2>
-    <FormTextInput
-      fieldName="brand_name_undefined"
+    <EditModelPage
+      model={Object {}}
+      modelFields={
+        Array [
+          Object {
+            "error": "A name is required for the brand",
+            "fieldName": "brand_name",
+            "header": "Brand Name",
+            "required": true,
+            "synonyms": Array [],
+          },
+          Object {
+            "fieldName": "bike_brand",
+            "header": "Bike Brand",
+            "type": "checkbox",
+          },
+          Object {
+            "fieldName": "link",
+            "header": "URL",
+            "synonyms": Array [],
+          },
+          Object {
+            "fieldName": "supplier",
+            "header": "Supplier",
+            "synonyms": Array [
+              "supplier",
+            ],
+            "type": "supplier",
+          },
+        ]
+      }
       onChange={[Function]}
-      onClick={[Function]}
-      placeholder="add new"
+      persistedModel={Object {}}
+      suppliers={
+        Array [
+          Object {
+            "id": 1,
+            "supplier_name": "supplier 1",
+          },
+          Object {
+            "id": 2,
+            "supplier_name": "supplier 2",
+          },
+          Object {
+            "id": 3,
+            "supplier_name": "supplier 3",
+          },
+          Object {
+            "id": 4,
+            "supplier_name": "supplier 4",
+          },
+        ]
+      }
     />
-    <FormTextInput
-      fieldName="link_undefined"
-      key="link_undefined"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="link"
-    />
-    <div
-      className="ui toggle checkbox"
-    >
-      <input
-        checked={false}
-        name="bike_brand_undefined"
-        onChange={[Function]}
-        type="checkbox"
-      />
-      <label>
-        Bike Brand
-      </label>
-    </div>
   </div>
   <div
     style={

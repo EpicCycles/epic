@@ -28,8 +28,7 @@ test('BrandEdit should pass a brand change and errors to an existing brand to th
     expect(handleBrandChange.mock.calls[0][0]).toBe(componentKey);
     expect(handleBrandChange.mock.calls[0][1].id).toBe(brand.id);
     expect(handleBrandChange.mock.calls[0][1].brand_name).toBe("");
-    expect(handleBrandChange.mock.calls[0][1].error).toBe(true);
-    expect(handleBrandChange.mock.calls[0][1].error_detail).toBe(BRAND_NAME_MISSING);
+    expect(handleBrandChange.mock.calls[0][1].error_detail).toEqual({brand_name: BRAND_NAME_MISSING});
 });
 test('BrandEdit should set up a new brand as requested', () => {
     const brand = {brand_name: "e brand 8", link: "https://bianchi.co.uk", supplier: '34'};
@@ -51,7 +50,6 @@ test('BrandEdit should set up a new brand as requested', () => {
     expect(handleBrandChange.mock.calls[0][1].dummyKey).not.toBe(undefined);
     expect(handleBrandChange.mock.calls[0][1].brand_name).toBe(brand.brand_name);
     expect(handleBrandChange.mock.calls[0][1].link).toBe(brand.link);
-    expect(handleBrandChange.mock.calls[0][1].error).not.toBe(true);
 });
 test('BrandEdit should pass a brand change and errors to an new brand to the supplied function', () => {
     const brand = {brand_name: "e brand 8", link: "https://bianchi.co.uk", supplier: '34'};
@@ -73,8 +71,7 @@ test('BrandEdit should pass a brand change and errors to an new brand to the sup
     expect(handleBrandChange.mock.calls[0][1].dummyKey).not.toBe(undefined);
     expect(handleBrandChange.mock.calls[0][1].brand_name).toBe("");
     expect(handleBrandChange.mock.calls[0][1].link).toBe(brand.link);
-    expect(handleBrandChange.mock.calls[0][1].error).toBe(true);
-    expect(handleBrandChange.mock.calls[0][1].error_detail).toBe("A name is required for the brand");
+    expect(handleBrandChange.mock.calls[0][1].error_detail).toEqual({brand_name: "A name is required for the brand"});
 });
 test('BrandEdit should pass a brand change to an existing brand to the supplied function', () => {
     const brand = {brand_name: "e brand 8", link: "https://bianchi.co.uk", id: 8, supplier: '34'};
@@ -95,8 +92,7 @@ test('BrandEdit should pass a brand change to an existing brand to the supplied 
     expect(handleBrandChange.mock.calls[0][0]).toBe(componentKey);
     expect(handleBrandChange.mock.calls[0][1].id).toBe(brand.id);
     expect(handleBrandChange.mock.calls[0][1].brand_name).toBe("New Name");
-    expect(handleBrandChange.mock.calls[0][1].error).toBe(false);
-    expect(handleBrandChange.mock.calls[0][1].error_detail).toBe("");
+    expect(handleBrandChange.mock.calls[0][1].error_detail).toEqual({});
 });
 test('BrandEdit should pass a brand change to an new brand to the supplied function', () => {
     const brand = {brand_name: "e brand 8", link: "https://bianchi.co.uk", supplier: '34'};
@@ -119,8 +115,7 @@ test('BrandEdit should pass a brand change to an new brand to the supplied funct
     expect(handleBrandChange.mock.calls[0][1].dummyKey).not.toBe(undefined);
     expect(handleBrandChange.mock.calls[0][1].brand_name).toBe("New Name");
     expect(handleBrandChange.mock.calls[0][1].link).toBe(brand.link);
-    expect(handleBrandChange.mock.calls[0][1].error).toBe(false);
-    expect(handleBrandChange.mock.calls[0][1].error_detail).toBe("");
+    expect(handleBrandChange.mock.calls[0][1].error_detail).toEqual({});
 });
 test("remove supplier when no suppliers does not fail", () => {
     const brand = {brand_name: "e brand 8", link: "https://bianchi.co.uk", id: 8};

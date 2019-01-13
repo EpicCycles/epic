@@ -72,11 +72,12 @@ class CustomerEdit extends React.Component {
                     {(customer && customer.id) &&
                     <Fragment>
                         <h3>Customer Addresses</h3>
-                        <table>
-                            <tbody>
+                        <div
+                        key='partReviewGrid'
+                        className="grid">
                             <CustomerAddressEdit
                                 key={`editNewAddress${newAddressKey}`}
-                                customerAddress={customer.newAddress}
+                                customerAddress={customer.newAddress ? customer.newAddress : {}}
                                 customerId={customer.id}
                                 saveCustomerAddress={saveCustomerAddress}
                                 deleteCustomerAddress={deleteCustomerAddress}
@@ -90,8 +91,7 @@ class CustomerEdit extends React.Component {
                                     customerAddress={address}
                                 />
                             })}
-                            </tbody>
-                        </table>
+                        </div>
                         <h3>Customer Phone</h3>
                         <table>
                             <tbody>

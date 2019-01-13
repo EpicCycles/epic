@@ -2,13 +2,10 @@ import React from "react";
 import ReactModal from 'react-modal';
 
 import * as PropTypes from "prop-types";
-import FormTextInput from "../../common/FormTextInput";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {Icon} from "semantic-ui-react";
-import SupplierSelect from "../supplier/SupplierSelect";
-import {BRAND_NAME_MISSING} from "../../helpers/error";
-import {updateObject} from "../../helpers/utils";
 import {brandFields, updateModel} from "../../helpers/models";
+import EditModelPage from "../../common/EditModelPage";
 
 class BrandModal extends React.Component {
     state = {};
@@ -27,9 +24,6 @@ class BrandModal extends React.Component {
             mode: (props.brand && props.brand.id) ? "Edit" : "New",
         }
     };
-    changeBikeBrand = () => {
-        this.handleBrandValueChange("bike_brand", !this.state.brand.bike_brand)
-    };
 
     handleBrandValueChange = (fieldName, input) => {
         const updatedBrand = updateModel(this.props.brand, brandFields, fieldName, input);
@@ -40,17 +34,6 @@ class BrandModal extends React.Component {
         if (this.props.componentKey === NEW_ELEMENT_ID) updatedBrand.dummyKey = NEW_ELEMENT_ID;
 
         this.setState({ brand: updatedBrand });
-    };
-    handleInputClear = (fieldName) => {
-        if (fieldName.startsWith('brand_name')) {
-            if (window.confirm("Please confirm that you want to delete this Brand")) {
-                const updatedBrand = updateObject(this.props.brand);
-                updatedBrand.delete = true;
-                this.props.handleBrandChange(this.props.componentKey, updatedBrand);
-            }
-        } else {
-            this.handleBrandValueChange(fieldName, "");
-        }
     };
 
     buildSupplierNameArray = (selectedSuppliers, suppliers) => {
@@ -96,42 +79,13 @@ class BrandModal extends React.Component {
             </div>
             <div style={{ width: "100%", textAlign: "left" }}>
                 <h2>{mode} Brand</h2>
-                {brand.error && <div className="red">{brand.error_detail}</div>}
-                <FormTextInput
-                    placeholder="add new"
-                    fieldName={`brand_name_${componentKey}`}
-                    value={brand.brand_name}
+                <EditModelPage
+                    model={brand}
+                    persistedModel={this.props.brand}
+                    modelFields={brandFields}
                     onChange={this.handleBrandValueChange}
-                    onClick={this.handleInputClear}
+                    suppliers={suppliers}
                 />
-                <FormTextInput
-                    placeholder="link"
-                    fieldName={`link_${componentKey}`}
-                    key={`link_${componentKey}`}
-                    value={brand.link}
-                    onChange={this.handleBrandValueChange}
-                    onClick={this.handleInputClear}
-                />
-                <div className="ui toggle checkbox">
-                    <input type="checkbox"
-                           name={`bike_brand_${componentKey}`}
-                           onChange={this.changeBikeBrand}
-                           checked={brand.bike_brand ? brand.bike_brand : false}
-                    />
-                    <label>Bike Brand</label>
-                </div>
-                {suppliers && <div className="row">
-                    <label>Supplier(s):</label>
-                    <SupplierSelect
-                        fieldName={`supplier_${componentKey}`}
-                        onChange={this.handleBrandValueChange}
-                        supplierSelected={brand.supplier}
-                        suppliers={suppliers}
-                        isEmptyAllowed={true}
-                        isMultiple={true}
-                        multipleSize={10}
-                    />
-                </div>}
             </div>
             <div style={{ width: "100%", textAlign: "right" }}>
                 {brand.changed &&
@@ -156,13 +110,16 @@ class BrandModal extends React.Component {
 }
 
 BrandModal.propTypes = {
-    brandModalOpen: PropTypes.any,
-    brand: PropTypes.any,
-    componentKey: PropTypes.any,
-    suppliers: PropTypes.any,
-    saveBrand: PropTypes.any,
-    deleteBrand: PropTypes.any,
-    closeBrandModal: PropTypes.func
+    brandModalOpen: PropTypes.bool.isRequired,
+    brand: PropTypes.object.isRequired,
+    componentKey: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]).isRequired,
+    suppliers: PropTypes.array.isRequired,
+    saveBrand: PropTypes.func.isRequired,
+    deleteBrand: PropTypes.func.isRequired,
+    closeBrandModal: PropTypes.func.isRequired,
 };
 
 export default BrandModal;
