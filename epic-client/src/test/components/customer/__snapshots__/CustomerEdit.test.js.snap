@@ -31,13 +31,22 @@ exports[`displays a full customer with extras properly 1`] = `
         }
         key="detail23"
       />
-      <React.Fragment>
+      <div
+        className="grid-container"
+      >
         <h3>
           Customer Addresses
         </h3>
         <div
           className="grid"
-          key="partReviewGrid"
+          key="customerAddressGrid"
+          style={
+            Object {
+              "height": "307.20000000000005px",
+              "overflow": "scroll",
+              "width": "824px",
+            }
+          }
         >
           <CustomerAddressEdit
             customerAddress={Object {}}
@@ -76,7 +85,7 @@ exports[`displays a full customer with extras properly 1`] = `
             />
           </tbody>
         </table>
-      </React.Fragment>
+      </div>
     </div>
     <div>
       <NoteCreate

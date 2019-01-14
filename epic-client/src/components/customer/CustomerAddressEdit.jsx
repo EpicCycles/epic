@@ -65,8 +65,8 @@ class CustomerAddressEdit extends React.Component {
             />
             <div key={`date_${componentContext}`} className="grid-item">
                 {(customerAddress && customerAddress.add_date) ?
-                    <span id={`comment_td_${componentContext}`}>Added on {customerAddress.add_date.substring(0, 10)}, last updated on {customerAddress.upd_date.substring(0, 10)}</span>
-                    : <span id={`comment_td_${componentContext}`}>Add a new address</span>
+                    <nobr id={`comment_td_${componentContext}`}>Added on {customerAddress.add_date.substring(0, 10)}, last updated on {customerAddress.upd_date.substring(0, 10)}</nobr>
+                    : <nobr id={`comment_td_${componentContext}`}>Add a new address</nobr>
                 }
             </div>
             <div

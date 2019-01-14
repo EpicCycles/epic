@@ -354,13 +354,12 @@ export const getField = (modelFields, fieldName) => {
 };
 
 export const updateModelChanges = (modelInstance, attribute, fieldValue) => {
-    let changes = modelInstance.changes || {};
+    let changes = updateObject(modelInstance.changes);
     if (fieldValue && (modelInstance[attribute] !== fieldValue)) {
         changes[attribute] = fieldValue;
     } else {
         changes = removeKey(changes, attribute);
     }
-    modelInstance.changes = currentChanges;
     return updateObject(modelInstance, { changes })
 };
 export const updateModelWithChanges = (modelInstance, modelFields, fieldName, fieldValue) => {

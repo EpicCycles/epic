@@ -62,7 +62,7 @@ class BrandModal extends React.Component {
 
     render() {
         const { brand, mode } = this.state;
-        const { componentKey, closeBrandModal, suppliers, brandModalOpen, deleteBrand } = this.props;
+        const { closeBrandModal, suppliers, brandModalOpen, deleteBrand } = this.props;
         return <ReactModal
             isOpen={brandModalOpen}
             contentLabel={`${mode} Brand`}

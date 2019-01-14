@@ -70,11 +70,17 @@ class CustomerEdit extends React.Component {
                                         key={`detail${customer_key}`}
                     />
                     {(customer && customer.id) &&
-                    <Fragment>
+                    <div className="grid-container">
                         <h3>Customer Addresses</h3>
                         <div
-                        key='partReviewGrid'
-                        className="grid">
+                            key='customerAddressGrid'
+                            className="grid"
+                            style={{
+                            height: (window.innerHeight * 0.4) + "px",
+                            width: (window.innerWidth - 200) + "px",
+                            overflow: "scroll"
+                        }}
+                        >
                             <CustomerAddressEdit
                                 key={`editNewAddress${newAddressKey}`}
                                 customerAddress={customer.newAddress ? customer.newAddress : {}}
@@ -113,7 +119,7 @@ class CustomerEdit extends React.Component {
                             })}
                             </tbody>
                         </table>
-                    </Fragment>}
+                    </div>}
                 </div>
                 <div>
                     {(customer && customer.id) &&

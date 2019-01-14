@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {getComponentKey, modelFields} from "../helpers/models";
+import {getComponentKey} from "../helpers/models";
 import EditModelInput from "./EditModelInput";
 
 
@@ -16,7 +16,7 @@ const EditModelRow = (props) => {
             return <div
                 className={divClass}
                 key={`modelRow${field.fieldName}${componentKey}`}
-                style={{ gridRow: `span ${rowSpan};` }}
+                style={{ gridRow: `span ${rowSpan}` }}
             >
                 <EditModelInput
                     field={field}

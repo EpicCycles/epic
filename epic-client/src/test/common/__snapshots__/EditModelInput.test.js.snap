@@ -132,25 +132,21 @@ exports[`it renders a checkbox field that is true 1`] = `
 
 exports[`it renders a country field that has data 1`] = `
 <React.Fragment>
-  <FormTextInput
-    error=""
+  <CountrySelect
+    countrySelected="NZ"
     fieldName="data_field_120"
+    isEmptyAllowed={true}
     onChange={[Function]}
-    onClick={[Function]}
-    type="number"
-    value="NZ"
   />
 </React.Fragment>
 `;
 
 exports[`it renders a country field that has no data 1`] = `
 <React.Fragment>
-  <FormTextInput
-    error=""
+  <CountrySelect
     fieldName="data_field_120"
+    isEmptyAllowed={true}
     onChange={[Function]}
-    onClick={[Function]}
-    type="number"
   />
 </React.Fragment>
 `;

@@ -35,7 +35,6 @@ class EditModelInput extends Component {
                 editComponent = <FormTextAreaInput
                     className={className}
                     placeholder={field.header}
-                    error={error}
                     fieldName={fieldName}
                     value={fieldValue}
                     onChange={this.validateOnChange}
@@ -50,7 +49,8 @@ class EditModelInput extends Component {
                     countrySelected={fieldValue}
                     onChange={this.validateOnChange}
                     isEmptyAllowed={emptyAllowed}
-                    />;
+                />;
+                break;
             case NUMBER:
             case CURRENCY:
                 editComponent = <FormTextInput
@@ -62,18 +62,18 @@ class EditModelInput extends Component {
                     value={fieldValue}
                     onChange={this.validateOnChange}
                     size={field.size}
-                    error={error}
                     onClick={this.validateOnChange}
                 />;
                 break;
             case CHECKBOX:
-                editComponent = <div className="ui toggle checkbox"><input type="checkbox"
-                                       name={fieldName}
-                                       onChange={() => this.validateOnChange(fieldName, !fieldValue)}
-                                       checked={fieldValue}
-                                       className={error ? "red" : ""}
-                                       title={error ? `${field.title} red` : field.title}
-                /></div>;
+                editComponent = <div className="ui toggle checkbox">
+                    <input type="checkbox"
+                           name={fieldName}
+                           onChange={() => this.validateOnChange(fieldName, !fieldValue)}
+                           checked={fieldValue}
+                           className={error ? "red" : ""}
+                           title={error ? `${field.title} red` : field.title}
+                    /></div>;
                 break;
             case PART_TYPE:
                 editComponent = <PartTypeSelect

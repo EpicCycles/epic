@@ -4,7 +4,6 @@ import {generateRandomCode, removeObjectWithIndex, updateObject} from "../../hel
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import SupplierBlob from "../supplier/SupplierBlob";
-import {BRAND_NAME_MISSING} from "../../helpers/error";
 import {brandFields, updateModel} from "../../helpers/models";
 
 class BrandEdit extends React.Component {

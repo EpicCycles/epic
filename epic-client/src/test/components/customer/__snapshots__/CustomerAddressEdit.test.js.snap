@@ -65,11 +65,11 @@ exports[`renders correctly with a new customer address 1`] = `
     className="grid-item"
     key="date_new"
   >
-    <span
+    <nobr
       id="comment_td_new"
     >
       Add a new address
-    </span>
+    </nobr>
   </div>
   <div
     className="grid-item align_center"
@@ -163,11 +163,11 @@ exports[`renders correctly with a passed customer address 1`] = `
     className="grid-item"
     key="date_123"
   >
-    <span
+    <nobr
       id="comment_td_123"
     >
       Add a new address
-    </span>
+    </nobr>
   </div>
   <div
     className="grid-item align_center"

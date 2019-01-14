@@ -3,7 +3,6 @@ import {Button, Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../helpers/constants";
 import SupplierModal from "../components/supplier/SupplierModal";
 import * as PropTypes from "prop-types";
-import UploadMappingPartTypes from "./UploadMappingPartTypes";
 import {removeKey} from "../helpers/utils";
 
 class UploadMappingSuppliers extends React.Component {

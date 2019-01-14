@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
-import {generateRandomCode} from "../../helpers/utils";
+import {generateRandomCode, updateObject} from "../../helpers/utils";
 import PartTypes from "../partType/PartTypes";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
