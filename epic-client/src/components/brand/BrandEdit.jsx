@@ -7,24 +7,22 @@ import SupplierBlob from "../supplier/SupplierBlob";
 import {brandFields, updateModel} from "../../helpers/models";
 
 class BrandEdit extends React.Component {
-    handleBrandValueChange = (fieldName, input) => {
+    handleBrandValueChange = (fieldName, input, updatedSupplierNames) => {
         const updatedBrand = updateModel(this.props.brand, brandFields, fieldName, input);
-
+        if (updatedSupplierNames) {
+            updatedBrand.supplier_names = updatedSupplierNames;
+        }
         if (this.props.componentKey === NEW_ELEMENT_ID) updatedBrand.dummyKey = NEW_ELEMENT_ID;
-
-        updatedBrand.changed = true;
         this.props.handleBrandChange(this.props.componentKey, updatedBrand);
     };
     removeSupplier = (supplierKey) => {
-        let updatedBrand = updateObject(this.props.brand);
-        if (updatedBrand.supplier && Array.isArray(updatedBrand.supplier)) {
-            const supplierIndex = updatedBrand.supplier.indexOf(supplierKey);
-            if (supplierIndex > -1) {
-                updatedBrand.supplier = removeObjectWithIndex(updatedBrand.supplier, supplierIndex);
-                updatedBrand.supplier_names = removeObjectWithIndex(updatedBrand.supplier_names, supplierIndex);
-                updatedBrand.changed = true;
-                this.props.handleBrandChange(this.props.componentKey, updatedBrand);
-            }
+        let currentSuppliers = this.props.brand.supplier || [];
+        const supplierIndex = currentSuppliers.indexOf(supplierKey);
+        if (supplierIndex > -1) {
+            const updatedSupplier = removeObjectWithIndex(currentSuppliers, supplierIndex);
+            const updatedSupplierNames = removeObjectWithIndex(this.props.brand.supplier_names, supplierIndex);
+
+            this.handleBrandValueChange('supplier', updatedSupplier, updatedSupplierNames)
         }
     };
 

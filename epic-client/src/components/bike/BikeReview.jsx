@@ -2,7 +2,7 @@ import React, {Fragment} from 'react'
 
 import {applyFieldValueToModel, bikeFields} from "../../helpers/models";
 import {Dimmer, Icon, Loader} from "semantic-ui-react";
-import EditModelField from "../../common/EditModelField";
+import EditModelField from "../app/model/EditModelField";
 import Pagination from "../../common/pagination";
 import {isItAnObject, updateObject} from "../../helpers/utils";
 import {Redirect} from "react-router";

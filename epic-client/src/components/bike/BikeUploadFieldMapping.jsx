@@ -5,7 +5,7 @@ import React from "react";
  * props
  * field, index, allowDrop, assignToBikeAttribute, rowMappings,undoMapping
  */
-import {UploadMatchedPartType} from "../../common/UploadMatchedPartType";
+import {UploadMatchedPartType} from "../app/upload/UploadMatchedPartType";
 import * as PropTypes from "prop-types";
 
 export const BikeUploadFieldMapping = (props) => {

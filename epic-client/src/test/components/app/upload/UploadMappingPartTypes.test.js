@@ -1,6 +1,6 @@
 import React from 'react';
-import UploadMappingPartTypes from "../../common/UploadMappingPartTypes";
-import {renumberAll} from "../../helpers/framework";
+import UploadMappingPartTypes from "../../../../components/app/upload/UploadMappingPartTypes";
+import {renumberAll} from "../../../../helpers/framework";
 
 const foundName = "find me";
 

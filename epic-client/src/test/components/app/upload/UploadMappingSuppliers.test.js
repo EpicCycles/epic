@@ -1,5 +1,5 @@
 import React from 'react';
-import UploadMappingSuppliers from "../../common/UploadMappingSuppliers";
+import UploadMappingSuppliers from "../../../../components/app/upload/UploadMappingSuppliers";
 const foundName = "find me";
 const suppliers = [
     {id:1, supplier_name: "id is 1"},

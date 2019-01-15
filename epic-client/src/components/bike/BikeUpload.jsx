@@ -4,7 +4,7 @@ import BikeUploadMapping from "./BikeUploadMapping";
 import BikeUploadParts from "./BikeUploadParts";
 import BikeUploadReview from "./BikeUploadReview";
 import BikeUploadFrame from "./BikeUploadFrame";
-import UploadMappingPartTypes from "../../common/UploadMappingPartTypes";
+import UploadMappingPartTypes from "../app/upload/UploadMappingPartTypes";
 import {doesFieldMatchPartType} from "../../helpers/framework";
 import {findObjectWithId, updateObject} from "../../helpers/utils";
 import BikeUploadMappingReview from "./BikeUploadMappingReview";

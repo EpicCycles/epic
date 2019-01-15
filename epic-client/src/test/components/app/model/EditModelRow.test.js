@@ -1,6 +1,6 @@
 import React from "react";
-import EditModelRow from "../../common/EditModelRow";
-import {customerAddressFields} from "../../helpers/models";
+import EditModelRow from "../../../../components/app/model/EditModelRow";
+import {customerAddressFields} from "../../../../helpers/models";
 
 const foundName = "find me";
 const sections = [

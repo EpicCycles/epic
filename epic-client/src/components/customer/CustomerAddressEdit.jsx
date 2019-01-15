@@ -1,7 +1,7 @@
 import React from "react";
 import {Icon} from "semantic-ui-react";
 import {customerAddressFields, getComponentKey, isModelValid, updateModel} from "../../helpers/models";
-import EditModelRow from "../../common/EditModelRow";
+import EditModelRow from "../app/model/EditModelRow";
 import * as PropTypes from "prop-types";
 import {isItAnObject} from "../../helpers/utils";
 

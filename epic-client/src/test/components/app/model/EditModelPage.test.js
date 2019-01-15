@@ -1,6 +1,6 @@
 import React from "react";
-import EditModelPage from "../../common/EditModelPage";
-import {customerAddressFields} from "../../helpers/models";
+import EditModelPage from "../../../../components/app/model/EditModelPage";
+import {customerAddressFields} from "../../../../helpers/models";
 
 const foundName = "find me";
 const sections = [

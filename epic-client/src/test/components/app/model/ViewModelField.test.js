@@ -1,6 +1,6 @@
 import React from 'react';
-import {BRAND, CHECKBOX, CURRENCY, PART_TYPE, SELL_PRICE, SUPPLIER, TEXT} from "../../helpers/models";
-import ViewModelField from "../../common/ViewModelField";
+import {BRAND, CHECKBOX, CURRENCY, PART_TYPE, SELL_PRICE, SUPPLIER, TEXT} from "../../../../helpers/models";
+import ViewModelField from "../../../../components/app/model/ViewModelField";
 const foundName = "find me";
 const sections = [
     {

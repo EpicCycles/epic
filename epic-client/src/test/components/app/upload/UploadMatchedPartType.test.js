@@ -1,5 +1,5 @@
 import React from 'react';
-import {UploadMatchedPartType} from "../../common/UploadMatchedPartType";
+import {UploadMatchedPartType} from "../../../../components/app/upload/UploadMatchedPartType";
 import {Icon} from "semantic-ui-react";
 const foundName = "find me";
 const rowMappings = [

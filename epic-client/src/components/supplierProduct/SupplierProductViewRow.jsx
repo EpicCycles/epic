@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import {getComponentKey, supplierProductFields} from "../../helpers/models";
-import ViewModelField from "../../common/ViewModelField";
+import ViewModelField from "../app/model/ViewModelField";
 
 
 const SupplierProductViewRow = (props) => {

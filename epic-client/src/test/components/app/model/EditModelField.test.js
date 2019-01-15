@@ -1,7 +1,7 @@
 import React from "react";
-import {CURRENCY} from "../../helpers/models";
-import EditModelField from "../../common/EditModelField";
-import {NEW_ELEMENT_ID} from "../../helpers/constants";
+import {CURRENCY} from "../../../../helpers/models";
+import EditModelField from "../../../../components/app/model/EditModelField";
+import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
 
 const field =  {
     fieldName: "data_field",

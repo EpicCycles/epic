@@ -1,6 +1,6 @@
 import React from "react";
-import {BRAND, CHECKBOX, COUNTRY, CURRENCY, PART_TYPE, SUPPLIER, TEXT, TEXT_AREA} from "../../helpers/models";
-import EditModelInput from "../../common/EditModelInput";
+import {BRAND, CHECKBOX, COUNTRY, CURRENCY, PART_TYPE, SUPPLIER, TEXT, TEXT_AREA} from "../../../../helpers/models";
+import EditModelInput from "../../../../components/app/model/EditModelInput";
 
 const foundName = "find me";
 const sections = [

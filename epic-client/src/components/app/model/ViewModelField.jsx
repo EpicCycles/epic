@@ -1,9 +1,9 @@
 import * as PropTypes from "prop-types";
 import React, {Component, Fragment} from "react";
-import {BRAND, CHECKBOX, CURRENCY, PART_TYPE, SUPPLIER} from "../helpers/models";
-import {getBrandName} from "../helpers/brand_helper";
-import {getPartTypeName} from "../helpers/framework";
-import {getSupplierName} from "../helpers/supplier_helper";
+import {BRAND, CHECKBOX, CURRENCY, PART_TYPE, SUPPLIER} from "../../../helpers/models";
+import {getBrandName} from "../../../helpers/brand_helper";
+import {getPartTypeName} from "../../../helpers/framework";
+import {getSupplierName} from "../../../helpers/supplier_helper";
 
 class ViewModelField extends Component {
 

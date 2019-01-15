@@ -1,12 +1,12 @@
 import * as PropTypes from "prop-types";
 import React, {Component, Fragment} from "react";
-import {BRAND, CHECKBOX, COUNTRY, CURRENCY, NUMBER, PART_TYPE, SUPPLIER, TEXT_AREA} from "../helpers/models";
-import FormTextAreaInput from "./FormTextAreaInput";
-import FormTextInput from "./FormTextInput";
-import PartTypeSelect from "../components/partType/PartTypeSelect";
-import BrandSelect from "../components/brand/BrandSelect";
-import SupplierSelect from "../components/supplier/SupplierSelect";
-import CountrySelect from "./CountrySelect";
+import {BRAND, CHECKBOX, COUNTRY, CURRENCY, NUMBER, PART_TYPE, SUPPLIER, TEXT_AREA} from "../../../helpers/models";
+import FormTextAreaInput from "../../../common/FormTextAreaInput";
+import FormTextInput from "../../../common/FormTextInput";
+import PartTypeSelect from "../../partType/PartTypeSelect";
+import BrandSelect from "../../brand/BrandSelect";
+import SupplierSelect from "../../supplier/SupplierSelect";
+import CountrySelect from "../../../common/CountrySelect";
 
 class EditModelInput extends Component {
     validateOnChange = (fieldName, fieldValue) => {

@@ -1,9 +1,9 @@
 import React, {Fragment} from "react";
 import {Button, Icon} from "semantic-ui-react";
-import {NEW_ELEMENT_ID} from "../helpers/constants";
-import SupplierModal from "../components/supplier/SupplierModal";
+import {NEW_ELEMENT_ID} from "../../../helpers/constants";
+import SupplierModal from "../../supplier/SupplierModal";
 import * as PropTypes from "prop-types";
-import {removeKey} from "../helpers/utils";
+import {removeKey} from "../../../helpers/utils";
 
 class UploadMappingSuppliers extends React.Component {
     constructor(props) {

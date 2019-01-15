@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import EditModelInput from "../../common/EditModelInput";
+import EditModelInput from "../app/model/EditModelInput";
 import {getComponentKey, partFields} from "../../helpers/models";
 
 
