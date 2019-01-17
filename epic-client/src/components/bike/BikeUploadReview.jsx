@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import {changeList, removeObjectWithIndex, updateObject} from "../../helpers/utils";
 import ShowOrHide from "../../common/ShowOrHide";
 import PartString from "../part/PartString";
-import {displayModelErrorSummary} from "../../helpers/models";
+import {displayModelErrorSummary} from "../app/model/helpers/model";
 
 class BikeUploadReview extends React.Component {
     constructor() {

@@ -3,7 +3,7 @@ import FormTextInput from "../../common/FormTextInput";
 import {findIndexOfObjectWithKey, generateRandomCode} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
-import {getComponentKey} from "../../helpers/models";
+import {getComponentKey} from "../app/model/helpers/model";
 
 class PartTypeSynonyms extends React.Component {
     handleInputChange = (fieldName, input) => {

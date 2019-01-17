@@ -2,7 +2,7 @@ import React from "react";
 
 import SelectInput from "../../common/SelectInput";
 import * as PropTypes from "prop-types";
-import {getComponentKey} from "../../helpers/models";
+import {getComponentKey} from "../app/model/helpers/model";
 
 const SupplierSelect = (props) => {
     const { suppliers, fieldName, onChange, supplierSelected, isEmptyAllowed, isMultiple, multipleSize } = props;

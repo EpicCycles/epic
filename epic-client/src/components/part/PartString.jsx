@@ -1,7 +1,7 @@
 import React from "react";
 
-import {getPartTypeName} from "../../helpers/framework";
-import {buildPartString} from "../../helpers/part_helper";
+import {getPartTypeName} from "../framework/helpers/framework";
+import {buildPartString} from "./helpers/part_helper";
 
 const PartString = props => (
     <div

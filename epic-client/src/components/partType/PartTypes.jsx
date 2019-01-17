@@ -6,11 +6,11 @@ import {
     moveObjectToTop,
     moveObjectUpOnePlace,
     NEW_PART_TYPE
-} from "../../helpers/framework";
+} from "../framework/helpers/framework";
 import FrameworkMoves from "../framework/FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
-import {getComponentKey} from "../../helpers/models";
+import {getComponentKey} from "../app/model/helpers/model";
 
 class PartTypes extends React.Component {
     updatePartType = (partTypeKey, updatedPartType) => {

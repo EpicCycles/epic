@@ -1,6 +1,6 @@
 import React from 'react'
-import {menuStructure} from "../../helpers/constants";
 import MenuSection from "./MenuSection";
+import {menuStructure} from "./helpers/menu";
 
 class Home  extends React.Component {
     componentDidMount() {

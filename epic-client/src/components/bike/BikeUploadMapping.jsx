@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import {bikeFields} from "../../helpers/models";
+import {bikeFields} from "../app/model/helpers/fields";
 import {Button, Icon} from "semantic-ui-react";
 import {BikeUploadFieldMapping} from "./BikeUploadFieldMapping";
 

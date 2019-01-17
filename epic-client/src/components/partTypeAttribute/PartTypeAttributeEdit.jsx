@@ -2,9 +2,10 @@ import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import AttributeOptions from "./AttributeOptions";
 import SelectInput from "../../common/SelectInput";
-import {attributeOptionTypes, NEW_ELEMENT_ID} from "../../helpers/constants";
+import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {generateRandomCode, updateObject} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
+import {ATTRIBUTE_OPTION_TYPES} from "../app/model/helpers/constants";
 
 class PartTypeAttributeEdit extends React.Component {
     handleInputChange = (fieldName, input) => {
@@ -82,7 +83,7 @@ class PartTypeAttributeEdit extends React.Component {
                 <label htmlFor={attribute_typeId}>&nbsp;Type:&nbsp;</label>
                 <SelectInput
                     fieldName={attribute_typeId}
-                    options={attributeOptionTypes}
+                    options={ATTRIBUTE_OPTION_TYPES}
                     onChange={this.handleInputChange}
                     value={attribute.attribute_type}
                 />

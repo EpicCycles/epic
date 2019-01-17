@@ -5,12 +5,12 @@ import BikeUploadParts from "./BikeUploadParts";
 import BikeUploadReview from "./BikeUploadReview";
 import BikeUploadFrame from "./BikeUploadFrame";
 import UploadMappingPartTypes from "../app/upload/UploadMappingPartTypes";
-import {doesFieldMatchPartType} from "../../helpers/framework";
+import {doesFieldMatchPartType} from "../framework/helpers/framework";
 import {findObjectWithId, updateObject} from "../../helpers/utils";
 import BikeUploadMappingReview from "./BikeUploadMappingReview";
 import {Button} from "semantic-ui-react";
 import {colourStyles} from "../../helpers/constants";
-import {bikeFields} from "../../helpers/models";
+import {bikeFields} from "../app/model/helpers/fields";
 
 const uploadSteps = [
     {

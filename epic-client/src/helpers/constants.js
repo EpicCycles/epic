@@ -1,59 +1,6 @@
-export const attributeOptionTypes = [
-    {value: '1', name: 'Text', isDefault: true},
-    {value: '2', name: 'Numeric'},
-    {value: '3', name: 'Single - Radio'},
-    {value: '4', name: 'Single - Dropdown'},
-    {value: '5', name: 'Multiple - Radio'},
-    {value: '6', name: 'Multiple - Dropdown'},
-];
 
 export const NEW_ELEMENT_ID = "new";
 
-export const menuStructure = [
-    {
-        sectionPos: 1,
-        sectionContents: [
-            {
-                groupHeader: "Customer",
-                groupPos: 10,
-                groupLinks: [
-                    {displayText: "Find Customer", linkRoute: "/customer-search", linkNumber: 101},
-                    {displayText: "New Customer", linkRoute: "/customer", linkNumber: 102},
-                ]
-            },
-        ]
-    },
-    {
-        sectionPos: 2,
-        sectionContents: [
-            {
-                groupHeader: "Bikes",
-                groupPos: 20,
-                groupLinks: [
-                    {displayText: "Bike Upload", linkRoute: "/bike-upload", linkNumber: 201},
-                    {displayText: "Bike Review", linkRoute: "/bike-review-list", linkNumber: 202},
-                ]
-            },
-            {
-                groupHeader: "Core Data",
-                groupPos: 21,
-                groupLinks: [
-                    {displayText: "Quote Sections", linkRoute: "/framework", linkNumber: 211},
-                    {displayText: "Brands", linkRoute: "/brands", linkNumber: 212},
-                ]
-            },
-            {
-                groupHeader: "Products",
-                groupPos: 22,
-                groupLinks: [
-                    { displayText: "Product Upload", linkRoute: "/product-upload", linkNumber: 221 },
-                    { displayText: "Product Review", linkRoute: "/product-review", linkNumber: 222 },
-                ]
-            },
-        ]
-    },
-
-];
 
 export const colourStyles = [
     {background: "bg-col-01", colour: "col-01", border: "border-col-01"},

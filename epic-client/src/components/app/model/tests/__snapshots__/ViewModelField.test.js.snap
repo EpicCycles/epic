@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders a brand field that has data that is found 1`] = `
+<React.Fragment>
+  find me
+</React.Fragment>
+`;
+
+exports[`it renders a brand field that has data that is not found 1`] = `
+<React.Fragment>
+  Unknown Brand
+</React.Fragment>
+`;
+
+exports[`it renders a brand field that has no data 1`] = `<React.Fragment />`;
+
+exports[`it renders a checkbox field that has no data 1`] = `<React.Fragment />`;
+
+exports[`it renders a checkbox field that is false 1`] = `
+<React.Fragment>
+  N
+</React.Fragment>
+`;
+
+exports[`it renders a checkbox field that is true 1`] = `
+<React.Fragment>
+  Y
+</React.Fragment>
+`;
+
+exports[`it renders a country field that has data 1`] = `
+<React.Fragment>
+  Germany
+</React.Fragment>
+`;
+
+exports[`it renders a country field that has no data 1`] = `<React.Fragment />`;
+
+exports[`it renders a currency field that has data 1`] = `
+<React.Fragment>
+  £23.90
+</React.Fragment>
+`;
+
+exports[`it renders a currency field that has no data 1`] = `<React.Fragment />`;
+
+exports[`it renders a part Type field that has no data 1`] = `<React.Fragment />`;
+
+exports[`it renders a part type field that has data that is found 1`] = `
+<React.Fragment>
+  find me
+</React.Fragment>
+`;
+
+exports[`it renders a part type field that has data that is not found 1`] = `
+<React.Fragment>
+  Unknown
+</React.Fragment>
+`;
+
+exports[`it renders a supplier field that has data that is found 1`] = `
+<React.Fragment>
+  find me
+</React.Fragment>
+`;
+
+exports[`it renders a supplier field that has data that is not found 1`] = `<React.Fragment />`;
+
+exports[`it renders a supplier field that has no data 1`] = `<React.Fragment />`;
+
+exports[`it renders a text field that has data 1`] = `
+<React.Fragment>
+  SHow text
+</React.Fragment>
+`;
+
+exports[`it renders a text field that has no data 1`] = `<React.Fragment />`;

@@ -6,11 +6,11 @@ import {
     moveObjectToBottom,
     moveObjectToTop,
     moveObjectUpOnePlace
-} from "../../helpers/framework";
+} from "../framework/helpers/framework";
 import FrameworkMoves from "../framework/FrameworkMoves";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
-import {getComponentKey} from "../../helpers/models";
+import {getComponentKey} from "../app/model/helpers/model";
 
 class AttributeOptions extends React.Component {
     handleInputChange = (fieldName, input) => {

@@ -29,7 +29,7 @@ import {
     updateCustomerPhoneList,
     updateCustomerAddressList,
     customerAddErrorForPhone, customerAddErrorForAddress
-} from "../../helpers/customer";
+} from "../../components/customer/helpers/customer";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_NOT_VALIDATED} from "../actions/user";
 

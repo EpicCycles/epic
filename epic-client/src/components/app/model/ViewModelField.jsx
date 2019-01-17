@@ -1,10 +1,10 @@
 import * as PropTypes from "prop-types";
 import React, {Component, Fragment} from "react";
-import {BRAND, CHECKBOX, COUNTRY, CURRENCY, PART_TYPE, SUPPLIER} from "../../../helpers/models";
-import {getBrandName} from "../../../helpers/brand_helper";
-import {getPartTypeName} from "../../../helpers/framework";
-import {getSupplierName} from "../../../helpers/supplier_helper";
-import {getCountryName} from "../../../helpers/address_helpers";
+import {BRAND, CHECKBOX, COUNTRY, CURRENCY, PART_TYPE, SUPPLIER} from "./helpers/fields";
+import {getBrandName} from "../../brand/helpers/brand_helper";
+import {getPartTypeName} from "../../framework/helpers/framework";
+import {getSupplierName} from "../../supplier/helpers/supplier";
+import {getCountryName} from "../../address/helpers/address";
 
 class ViewModelField extends Component {
 
@@ -34,7 +34,7 @@ class ViewModelField extends Component {
             default:
                 viewData = fieldValue
         }
-        return <Fragment>{viewData}</Fragment>;
+        return <Fragment>{Array.isArray(viewData) ? viewData.join() : viewData}</Fragment>;
     };
 
 }

@@ -2,20 +2,19 @@ import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {Icon} from "semantic-ui-react";
-import {BRAND_FIELD, PART_NAME_FIELD, PART_TYPE_FIELD, partFields, TRADE_IN_FIELD} from "../../helpers/models";
+import {BRAND_FIELD, PART_NAME_FIELD, PART_TYPE_FIELD, partFields, TRADE_IN_FIELD} from "../app/model/helpers/fields";
 import {
-    addFieldToState,
-    checkForChanges,
     getUpdatedObject,
     isItAnObject,
     updateObject,
-    validateData
 } from "../../helpers/utils";
 import BrandSelect from "../brand/BrandSelect";
 import PartTypeSelect from "../partType/PartTypeSelect";
-import {getNewDataListRequired} from "../../helpers/part_helper";
+import {getNewDataListRequired} from "./helpers/part_helper";
 import PartDataList from "./PartDataList";
 import * as PropTypes from "prop-types";
+import {addFieldToState, checkForChanges} from "../app/model/helpers/model";
+import {validateData} from "../app/model/helpers/validators";
 
 const initialState = {
     partType: "",
@@ -36,7 +35,6 @@ class PartEdit extends React.Component {
 
     checkForChanges = (stateBeforeSetting) => {
         const originalPart = this.props.part;
-
         if (isItAnObject(originalPart)) {
             return checkForChanges(partFields, originalPart, stateBeforeSetting || this.state)
         } else {

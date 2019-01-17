@@ -3,9 +3,10 @@ import {Button, Icon} from "semantic-ui-react";
 import {UploadPartTypeMapping} from "./UploadPartTypeMapping";
 import {NEW_ELEMENT_ID} from "../../../helpers/constants";
 import PartTypeModal from "../../partType/PartTypeModal";
-import {doesFieldMatchPartType, renumberAll} from "../../../helpers/framework";
-import {generateRandomCode, getComponentKey, removeKey, updateObject, updateObjectInArray} from "../../../helpers/utils";
+import {doesFieldMatchPartType, renumberAll} from "../../framework/helpers/framework";
+import {generateRandomCode, removeKey, updateObject, updateObjectInArray} from "../../../helpers/utils";
 import * as PropTypes from "prop-types";
+import {getComponentKey} from "../model/helpers/model";
 
 class UploadMappingPartTypes extends React.Component {
     constructor(props) {

@@ -3,8 +3,8 @@ import React, {Fragment} from 'react'
 import {Link} from 'react-router-dom'
 
 import ErrorDismissibleBlock from "../../common/ErrorDismissibleBlock";
-import {menuStructure} from "../../helpers/constants";
 import HeaderSection from "./HeaderSection";
+import {menuStructure} from "./helpers/menu";
 
 class Header extends React.Component {
     render() {

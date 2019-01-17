@@ -1,5 +1,5 @@
 import React from "react";
-import {supplierProductFields} from "../../helpers/models";
+import {supplierProductFields} from "../app/model/helpers/fields";
 import PartHeaders from "../part/PartHeaders";
 
 const SupplierProductHeaders = () => {

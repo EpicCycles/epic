@@ -1,7 +1,8 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import EditModelInput from "../app/model/EditModelInput";
-import {getComponentKey, supplierProductFields} from "../../helpers/models";
+import {supplierProductFields} from "../app/model/helpers/fields";
+import {getComponentKey} from "../app/model/helpers/model";
 
 
 const SupplierProductEditRow = (props) => {

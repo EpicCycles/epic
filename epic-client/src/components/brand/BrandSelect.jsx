@@ -1,7 +1,7 @@
 import React from "react";
 
 import SelectInput from "../../common/SelectInput";
-import {getComponentKey} from "../../helpers/models";
+import {getComponentKey} from "../app/model/helpers/model";
 
 const BrandSelect = (props) => {
     const { brands, fieldName, onChange, brandSelected, isEmptyAllowed, error, bikeOnly, disabled } = props;

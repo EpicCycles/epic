@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import {Button, Icon} from "semantic-ui-react";
-import {buildDataForApi} from "../../helpers/bike_helpers";
+import {buildDataForApi} from "./helpers/bike_helpers";
 
 class BikeUploadMappingReview extends React.Component {
     constructor(props) {

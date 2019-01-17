@@ -5,14 +5,14 @@ import {
     moveObjectToTop,
     moveObjectUpOnePlace,
     renumberAll
-} from "../../helpers/framework";
+} from "./helpers/framework";
 import SectionEdit from "../section/SectionEdit";
 import FrameworkMoves from "./FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
 import {Prompt} from "react-router";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
-import {getComponentKey} from "../../helpers/models";
+import {getComponentKey} from "../app/model/helpers/model";
 
 class Framework extends React.Component {
     componentWillMount() {

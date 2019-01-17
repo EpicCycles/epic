@@ -7,7 +7,7 @@ import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import BrandEdit from "./BrandEdit";
 import SupplierBlob from "../supplier/SupplierBlob";
 import SupplierModal from "../supplier/SupplierModal";
-import {getComponentKey} from "../../helpers/models";
+import {getComponentKey} from "../app/model/helpers/model";
 
 class Brands extends React.Component {
     constructor() {

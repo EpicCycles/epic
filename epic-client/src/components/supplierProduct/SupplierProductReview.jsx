@@ -3,10 +3,11 @@ import {doWeHaveObjects, isItAnObject, removeKey, updateObject} from "../../help
 import {Button, Dimmer, Loader} from "semantic-ui-react";
 import SupplierProductReviewListSelection from "./SupplierProductReviewListSelection";
 import PartEditRow from "../part/PartEditRow";
-import {partFields, supplierProductFields, updateModelArrayWithChanges} from "../../helpers/models";
+import {partFields, supplierProductFields} from "../app/model/helpers/fields";
+import { updateModelArrayWithChanges} from "../app/model/helpers/model";
 import SupplierProductEditRow from "./SupplierProductEditRow";
 import SupplierProductHeaders from "./SupplierProductHeaders";
-import {findSupplierProducts} from "../../helpers/part_helper";
+import {findSupplierProducts} from "../part/helpers/part_helper";
 
 const initialState = {
     brand: '',

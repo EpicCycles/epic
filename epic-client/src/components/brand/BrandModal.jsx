@@ -4,8 +4,9 @@ import ReactModal from 'react-modal';
 import * as PropTypes from "prop-types";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {Icon} from "semantic-ui-react";
-import {brandFields, updateModel} from "../../helpers/models";
+import {brandFields} from "../app/model/helpers/fields";
 import EditModelPage from "../app/model/EditModelPage";
+import {updateModel} from "../app/model/helpers/model";
 
 class BrandModal extends React.Component {
     state = {};

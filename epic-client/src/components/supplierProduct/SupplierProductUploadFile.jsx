@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import {Button} from "semantic-ui-react";
 import FormTextAreaInput from "../../common/FormTextAreaInput";
-import {supplierProductHeaders} from "../../helpers/part_helper"
+import {supplierProductHeaders} from "../part/helpers/part_helper"
 
 class SupplierProductUploadFile extends React.Component {
     state = {};

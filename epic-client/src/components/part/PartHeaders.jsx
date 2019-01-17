@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import {partFields} from "../../helpers/models";
+import {partFields} from "../app/model/helpers/fields";
 import * as PropTypes from "prop-types";
 
 const PartHeaders = (props) => {

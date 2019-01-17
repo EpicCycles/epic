@@ -7,8 +7,8 @@ upd_date(pin): '2018-07-04T13:02:09.988343+01:00'
  */
 import React from "react";
 import {Icon} from "semantic-ui-react";
-import {validateEmailFormat} from "../../helpers/utils";
 import FormTextInput from "../../common/FormTextInput";
+import {validateEmailFormat} from "../app/model/helpers/validators";
 
 class CustomerDetailEdit extends React.Component {
     state = {
