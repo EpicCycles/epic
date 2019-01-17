@@ -1,9 +1,10 @@
 import * as PropTypes from "prop-types";
 import React, {Component, Fragment} from "react";
-import {BRAND, CHECKBOX, CURRENCY, PART_TYPE, SUPPLIER} from "../../../helpers/models";
+import {BRAND, CHECKBOX, COUNTRY, CURRENCY, PART_TYPE, SUPPLIER} from "../../../helpers/models";
 import {getBrandName} from "../../../helpers/brand_helper";
 import {getPartTypeName} from "../../../helpers/framework";
 import {getSupplierName} from "../../../helpers/supplier_helper";
+import {getCountryName} from "../../../helpers/address_helpers";
 
 class ViewModelField extends Component {
 
@@ -12,6 +13,9 @@ class ViewModelField extends Component {
         let viewData;
         const fieldValue = model ? model[field.fieldName]  : undefined;
         switch (field.type) {
+            case COUNTRY:
+                viewData = getCountryName(fieldValue);
+                break;
             case CURRENCY:
                 viewData = fieldValue ? Number(fieldValue).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' }) : "";
                 break;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {BRAND, CHECKBOX, CURRENCY, PART_TYPE, SELL_PRICE, SUPPLIER, TEXT} from "../../../../helpers/models";
+import {BRAND, CHECKBOX, COUNTRY, CURRENCY, PART_TYPE, SELL_PRICE, SUPPLIER, TEXT} from "../../../../helpers/models";
 import ViewModelField from "../../../../components/app/model/ViewModelField";
 const foundName = "find me";
 const sections = [
@@ -43,6 +43,21 @@ test("it renders a currency field that has no data", () => {
         fieldName: "data_field",
         type: CURRENCY,
         length:10
+    };
+    expect(shallow(<ViewModelField field={field} />)).toMatchSnapshot();
+});
+test("it renders a country field that has data", () => {
+    const field =  {
+        fieldName: "data_field",
+        type: COUNTRY,
+    };
+    const model= {data_field: "DE"};
+    expect(shallow(<ViewModelField field={field} model={model} />)).toMatchSnapshot();
+});
+test("it renders a country field that has no data", () => {
+    const field =  {
+        fieldName: "data_field",
+        type: COUNTRY,
     };
     expect(shallow(<ViewModelField field={field} />)).toMatchSnapshot();
 });
