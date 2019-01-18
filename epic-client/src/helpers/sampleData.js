@@ -101,7 +101,7 @@ export const sampleBike =
             model_name: '4',
             description: null,
             colours: 'titan/anthracite matt',
-            sell_price: '3700.00',
+            rrp: '3700.00',
             sizes: null,
             frame: 13
         },
@@ -109,7 +109,7 @@ export const sampleBike =
             {
                 id: 65,
                 part_name: 'A-Head Tapered Cartridge aluminium\r',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 3,
@@ -118,7 +118,7 @@ export const sampleBike =
             {
                 id: 73,
                 part_name: 'aluminium 6061 Gravity Casting Interface hydroformed Tapered head tube quick-release 5 x 135mm disc brake Post Mount\r',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 1,
@@ -127,7 +127,7 @@ export const sampleBike =
             {
                 id: 74,
                 part_name: 'Urban Race steel steerer tube 1 1/8 - 1 1/2 tapered quick release',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 2,
@@ -136,7 +136,7 @@ export const sampleBike =
             {
                 id: 80,
                 part_name: 'Components TheBar ++ Topflat 740mm',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 20,
@@ -145,7 +145,7 @@ export const sampleBike =
             {
                 id: 81,
                 part_name: 'Components TheStem ++ A-head Bar bore: 31.8mm 6˚',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 21,
@@ -154,7 +154,7 @@ export const sampleBike =
             {
                 id: 82,
                 part_name: 'Components The seat post ++ patent 31.6mm',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 22,
@@ -163,7 +163,7 @@ export const sampleBike =
             {
                 id: 328,
                 part_name: 'x-sync 18',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 4,
@@ -172,7 +172,7 @@ export const sampleBike =
             {
                 id: 329,
                 part_name: 'SLX M7000 rapidfire',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 5,
@@ -181,7 +181,7 @@ export const sampleBike =
             {
                 id: 330,
                 part_name: 'Deore XT M8000 Shadow Plus 11 speed',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 7,
@@ -190,7 +190,7 @@ export const sampleBike =
             {
                 id: 331,
                 part_name: 'SLX M7000 aluminium',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 9,
@@ -199,7 +199,7 @@ export const sampleBike =
             {
                 id: 332,
                 part_name: 'HG601',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 10,
@@ -208,7 +208,7 @@ export const sampleBike =
             {
                 id: 333,
                 part_name: 'SLX M7000 11-42 teeth',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 11,
@@ -217,7 +217,7 @@ export const sampleBike =
             {
                 id: 334,
                 part_name: 'Cobalt 1',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 18,
@@ -226,7 +226,7 @@ export const sampleBike =
             {
                 id: 335,
                 part_name: 'Marathon Supreme 32-622 28 x 1.25 Reflective stripes',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 16,
@@ -235,7 +235,7 @@ export const sampleBike =
             {
                 id: 336,
                 part_name: 'Light MTB',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 23,
@@ -244,7 +244,7 @@ export const sampleBike =
             {
                 id: 337,
                 part_name: 'lock on grips Sport',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 24,
@@ -253,7 +253,7 @@ export const sampleBike =
             {
                 id: 338,
                 part_name: 'Freeride Plattform Pedal',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 25,
@@ -262,7 +262,7 @@ export const sampleBike =
             {
                 id: 339,
                 part_name: 'Intuvia',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 27,
@@ -271,7 +271,7 @@ export const sampleBike =
             {
                 id: 340,
                 part_name: 'PowerPack 500 Wh',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 26,
@@ -280,7 +280,7 @@ export const sampleBike =
             {
                 id: 341,
                 part_name: 'compact charger 2A',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 35,
@@ -289,7 +289,7 @@ export const sampleBike =
             {
                 id: 342,
                 part_name: 'Performance Cruise 250W 60Nm 25km/h',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 34,
@@ -298,7 +298,7 @@ export const sampleBike =
             {
                 id: 343,
                 part_name: 'SLX M7000 160mm 2-Kolben Scheibenbremse',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 42,
@@ -307,7 +307,7 @@ export const sampleBike =
             {
                 id: 344,
                 part_name: 'SLX M7000 160mm 2-Kolben Scheibenbremse',
-                trade_in_value: null,
+                trade_in_price: null,
                 standard: false,
                 stocked: false,
                 partType: 40,

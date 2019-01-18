@@ -91,7 +91,7 @@ class UploadMappingPartTypes extends React.Component {
 
     setUpPartTypeModalForNewField = (rowMap) => {
         const partType = {
-            shortName: rowMap.partTypeName,
+            name: rowMap.partTypeName,
             _detail: true
         };
         this.setState({
@@ -107,7 +107,7 @@ class UploadMappingPartTypes extends React.Component {
                 const checkField = rowMap.partTypeName.trim();
                 if (! doesFieldMatchPartType(partType, checkField)) {
                     partType.synonyms.push({
-                        shortName:checkField,
+                        name:checkField,
                         dummyKey: generateRandomCode()
                     });
                     partType.changed = true;

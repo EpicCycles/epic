@@ -54,7 +54,6 @@ class Customer(models.Model):
 
 class CustomerPhone(models.Model):
     customer = models.ForeignKey(Customer, related_name='phones', on_delete=models.CASCADE)
-
     number_type = models.CharField(max_length=1, choices=NUMBER_TYPE_CHOICES, default=HOME, )
     telephone = models.CharField(max_length=60)
     add_date = models.DateTimeField('date added', auto_now_add=True)
@@ -117,7 +116,7 @@ class Fitting(models.Model):
     saddle_height = models.CharField('Saddle Height', max_length=20)
     bar_height = models.CharField('Bar Height', max_length=20)
     reach = models.CharField('Reach', max_length=20)
-    notes = models.CharField(max_length=200, blank=True)
+    note_text = models.CharField(max_length=200, blank=True)
     add_date = models.DateTimeField('date added', auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
 

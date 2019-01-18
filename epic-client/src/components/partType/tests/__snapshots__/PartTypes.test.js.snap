@@ -17,8 +17,8 @@ exports[`PartTypes displays when none present 1`] = `
             "attributes": Array [],
             "can_be_omitted": true,
             "can_be_substituted": true,
-            "customer_facing": true,
-            "shortName": "",
+            "customer_visible": true,
+            "name": "",
           }
         }
         updatePartType={[Function]}
@@ -46,8 +46,8 @@ exports[`PartTypes displays when only deleted present 1`] = `
             "attributes": Array [],
             "can_be_omitted": true,
             "can_be_substituted": true,
-            "customer_facing": true,
-            "shortName": "",
+            "customer_visible": true,
+            "name": "",
           }
         }
         updatePartType={[Function]}

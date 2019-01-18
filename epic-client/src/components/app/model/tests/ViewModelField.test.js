@@ -1,20 +1,20 @@
 import React from 'react';
-import {BRAND, CHECKBOX, COUNTRY, CURRENCY, PART_TYPE, SELL_PRICE, SUPPLIER, TEXT} from "../helpers/fields";
+import {BRAND, CHECKBOX, COUNTRY, CURRENCY, DATE_TIME, PART_TYPE, SELL_PRICE, SUPPLIER, TEXT} from "../helpers/fields";
 import ViewModelField from "../ViewModelField";
 const foundName = "find me";
 const sections = [
     {
         id: 1,
         partTypes: [
-            {id:11, shortName: "id 11"},
-            {id:21, shortName: "id 11"},
+            {id:11, name: "id 11"},
+            {id:21, name: "id 11"},
         ]
     },
     {
         id: 2,
         partTypes: [
-            {id:2, shortName: foundName},
-            {id:22, shortName: "id 11"},
+            {id:2, name: foundName},
+            {id:22, name: "id 11"},
         ]
     },
 ];
@@ -29,6 +29,22 @@ const suppliers = [
     {id:3, supplier_name: "id is 3"},
 ];
 
+test("it renders a date field that has data", () => {
+    const field =  {
+        fieldName: "data_field",
+        type: DATE_TIME,
+    };
+    const model= {data_field: new Date(Date.UTC(2012, 11, 20, 3, 0, 0))};
+    expect(shallow(<ViewModelField field={field} model={model} />)).toMatchSnapshot();
+});
+test("it renders a date field that has no data", () => {
+    const field =  {
+        fieldName: "data_field",
+        type: CURRENCY,
+        length:10
+    };
+    expect(shallow(<ViewModelField field={field} />)).toMatchSnapshot();
+});
 test("it renders a currency field that has data", () => {
     const field =  {
         fieldName: "data_field",

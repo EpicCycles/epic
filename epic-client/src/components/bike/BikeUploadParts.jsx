@@ -53,7 +53,7 @@ class BikeUploadParts extends React.Component {
                 const partTypesPresentIndex = partTypesPresent.indexOf(partType.id);
                 if (partTypesPresentIndex > -1) {
                     partTypesWithParts.push({
-                        shortName: partType.shortName,
+                        name: partType.name,
                         uploadParts: partTypeParts[partTypesPresentIndex].parts
                     })
                 }
@@ -189,7 +189,7 @@ class BikeUploadParts extends React.Component {
                                             key={`partType${sectionIndex}${partTypeIndex}${partIndex}`}
                                             className="grid-item--borderless field-label align_right"
                                         >
-                                            {(partIndex === 0) ? partType.shortName : " "}
+                                            {(partIndex === 0) ? partType.name : " "}
                                         </div>
                                         <BikeUploadPartsEditPart
                                             key={`partEdit${sectionIndex}${partTypeIndex}${partIndex}`}

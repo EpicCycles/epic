@@ -8,7 +8,7 @@ test("it displays correctly", () => {
             name: "sections1",
             partTypes: [
                 {
-                    id: 11, shortName: "partType 1",
+                    id: 11, name: "partType 1",
                 }
             ]
         },
@@ -17,13 +17,13 @@ test("it displays correctly", () => {
             name: "sections2",
             partTypes: [
                 {
-                    id: 21, shortName: "partType 21",
+                    id: 21, name: "partType 21",
                 },
                 {
-                    id: 22, shortName: "partType 22",
+                    id: 22, name: "partType 22",
                 },
                 {
-                    id: 23, shortName: "partType 23",
+                    id: 23, name: "partType 23",
                 },
             ]
         },

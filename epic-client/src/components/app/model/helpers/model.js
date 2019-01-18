@@ -1,6 +1,10 @@
 import {findObjectWithKey, isItAnObject, removeKey, updateObject, updateObjectInArray} from "../../../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
 
+export const eliminateReadOnlyFields = (fieldList) => {
+    return fieldList.filter(field => (! field.readOnly));
+};
+
 export const checkForChanges = (fieldList, existingObject, newValues) => {
     return fieldList.some(field => {
         return existingObject[field.fieldName] !== newValues[field.fieldName];
@@ -133,4 +137,18 @@ export const displayModelErrorSummary = (model, modelFields) => {
     }
 
     return displayErrors;
+};
+
+export const getNameForValue = (value, sourceArray) => {
+    if (!value) return undefined;
+    let name = value;
+
+    sourceArray.some(pair => {
+        if (pair.value === value) {
+            name = pair.name;
+            return true;
+        }
+        return false;
+    });
+    return name;
 };

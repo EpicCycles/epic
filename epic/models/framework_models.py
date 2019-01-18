@@ -33,18 +33,18 @@ class PartSection(models.Model):
 
 
 class PartType(models.Model):
-    shortName = models.CharField(max_length=60, unique=True)
+    name = models.CharField(max_length=60, unique=True)
     includeInSection = models.ForeignKey(PartSection, related_name='partTypes', on_delete=models.CASCADE)
     placing = models.PositiveSmallIntegerField()
     can_be_substituted = models.BooleanField('Can be substituted', default=False)
     can_be_omitted = models.BooleanField('Can be omitted', default=False)
-    customer_facing = models.BooleanField('Show Customer', default=False)
+    customer_visible = models.BooleanField('Show Customer', default=False)
 
     def __str__(self):
-        return self.shortName
+        return self.name
 
     def save(self, *args, **kwargs):
-        if self.shortName is None or self.shortName == '':
+        if self.name is None or self.name == '':
             raise ValueError('Missing short name')
         if self.placing is None:
             raise ValueError('Missing placing')
@@ -54,12 +54,12 @@ class PartType(models.Model):
         super(PartType, self).save(*args, **kwargs)
 
     class Meta:
-        indexes = [models.Index(fields=["includeInSection", "shortName"]), ]
-        ordering = ('includeInSection', 'placing', 'shortName')
+        indexes = [models.Index(fields=["includeInSection", "name"]), ]
+        ordering = ('includeInSection', 'placing', 'name')
 
 class PartTypeSynonym(models.Model):
     partType = models.ForeignKey(PartType, related_name='synonyms', on_delete=models.CASCADE)
-    shortName = models.CharField(max_length=60, unique=True)
+    name = models.CharField(max_length=60, unique=True)
 
 # strings for attributes for PartTypes
 class PartTypeAttribute(models.Model):
@@ -101,20 +101,20 @@ class PartTypeAttribute(models.Model):
 # values for part type attributes
 class AttributeOptions(models.Model):
     part_type_attribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE, related_name='options')
-    attribute_option = models.CharField(max_length=30)
+    option_name = models.CharField(max_length=30)
     placing = models.PositiveSmallIntegerField()
 
     def save(self, *args, **kwargs):
-        if self.attribute_option is None or self.attribute_option == '':
+        if self.option_name is None or self.option_name == '':
             raise ValueError('Missing attribute option')
         if self.placing is None:
             raise ValueError('Missing placing')
         if AttributeOptions.objects.filter(part_type_attribute=self.part_type_attribute,
-                                           attribute_option=self.attribute_option).exclude(id=self.id).exists():
+                                           option_name=self.option_name).exclude(id=self.id).exists():
             raise IntegrityError('Part Type Attribute option with this value already exists')
 
         super(AttributeOptions, self).save(*args, **kwargs)
 
     class Meta:
-        indexes = [models.Index(fields=["part_type_attribute", "attribute_option"]), ]
+        indexes = [models.Index(fields=["part_type_attribute", "option_name"]), ]
         ordering = ('placing',)

@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {getComponentKey} from "./helpers/model";
+import {eliminateReadOnlyFields, getComponentKey} from "./helpers/model";
 import EditModelInput from "./EditModelInput";
 
 
@@ -9,7 +9,7 @@ const EditModelRow = (props) => {
     const rowSpan = childModels ? childModels.length : 1;
     const componentKey = getComponentKey(model);
     return <Fragment>
-        {modelFields.map((field, index) => {
+        {eliminateReadOnlyFields(modelFields).map((field, index) => {
             let divClass = "grid-item";
             if (lockFirstColumn) divClass += " grid-item--fixed-left";
             if (className) divClass += className;

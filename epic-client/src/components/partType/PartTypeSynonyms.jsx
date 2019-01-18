@@ -13,7 +13,7 @@ class PartTypeSynonyms extends React.Component {
         const synonymToUpdateIndex = findIndexOfObjectWithKey(synonymsWithUpdates, synonymKey);
 
         if (synonymToUpdateIndex > -1) {
-            synonymsWithUpdates[synonymToUpdateIndex].shortName = input;
+            synonymsWithUpdates[synonymToUpdateIndex].name = input;
             if (input) {
                 synonymsWithUpdates[synonymToUpdateIndex].error = false;
                 synonymsWithUpdates[synonymToUpdateIndex].error_detail = "";
@@ -25,7 +25,7 @@ class PartTypeSynonyms extends React.Component {
         } else if (input) {
             synonymsWithUpdates.push({
                 "dummyKey": NEW_ELEMENT_ID,
-                "shortName": input
+                "name": input
             });
         }
 
@@ -67,7 +67,7 @@ class PartTypeSynonyms extends React.Component {
                     placeholder="add new"
                     key={`synonymValue_${componentKey}`}
                     fieldName={`synonymValue_${componentKey}`}
-                    value={synonym.shortName}
+                    value={synonym.name}
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
                     error={synonymError}
@@ -77,7 +77,7 @@ class PartTypeSynonyms extends React.Component {
                 placeholder="add new"
                 key="synonymValue_new"
                 fieldName="synonymValue_new"
-                value={newSynonymDisplay.shortName ? newSynonymDisplay.shortName : ""}
+                value={newSynonymDisplay.name ? newSynonymDisplay.name : ""}
                 onChange={this.handleInputChange}
                 onClick={this.handleInputClear}
             />

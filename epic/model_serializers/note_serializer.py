@@ -8,7 +8,7 @@ class CustomerNoteSerializer(serializers.ModelSerializer):
     quote = serializers.StringRelatedField(many=False)
     class Meta:
         model = CustomerNote
-        fields = ('customer', 'note_text', 'customer_visible', 'created_on', 'created_by', 'quote')
+        fields = ('customer', 'note_text', 'customer_visible', 'created_date', 'created_by', 'quote')
 
     def to_representation(self, obj):
         data = super(CustomerNoteSerializer, self).to_representation(obj)
@@ -17,5 +17,5 @@ class CustomerNoteSerializer(serializers.ModelSerializer):
             created_by = str(userCreatedBy)
             data['created_by'] = created_by
         else:
-            data['created_by'] = 'unknown'
+            data['created_date'] = 'unknown'
         return data

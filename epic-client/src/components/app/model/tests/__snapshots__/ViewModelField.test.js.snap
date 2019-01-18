@@ -44,6 +44,14 @@ exports[`it renders a currency field that has data 1`] = `
 
 exports[`it renders a currency field that has no data 1`] = `<React.Fragment />`;
 
+exports[`it renders a date field that has data 1`] = `
+<React.Fragment>
+  12/20/2012, 3:00:00 AM
+</React.Fragment>
+`;
+
+exports[`it renders a date field that has no data 1`] = `<React.Fragment />`;
+
 exports[`it renders a part Type field that has no data 1`] = `<React.Fragment />`;
 
 exports[`it renders a part type field that has data that is found 1`] = `

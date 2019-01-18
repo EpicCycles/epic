@@ -28,12 +28,12 @@ test('returns an attribute correctly with an array of options', () => {
         options: [
             {
                 "id": 2,
-                "attribute_option": "Band",
+                "option_name": "Band",
                 "part_type_attribute": 4
             },
             {
                 "id": 1,
-                "attribute_option": "Braze",
+                "option_name": "Braze",
                 "part_type_attribute": 4
             }
         ],

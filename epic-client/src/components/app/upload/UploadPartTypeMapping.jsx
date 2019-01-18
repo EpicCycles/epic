@@ -15,7 +15,7 @@ export const UploadPartTypeMapping = props => (
             onDragOver={event => props.allowDrop(event)}
             onDrop={event => props.assignToPartType(event, props.partType.id)}
         >
-            {props.partType.shortName}
+            {props.partType.name}
             <Icon
                 key={`edit${props.partType.id}`}
                 name="add circle"

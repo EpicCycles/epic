@@ -10,7 +10,7 @@ const PartTypeSelect = (props) => {
         section.partTypes.forEach(partType => {
             partTypeOptions.push({
                 'value': String(getComponentKey(partType)),
-                'name': partType.shortName + " (" + section.name + ")"
+                'name': partType.name + " (" + section.name + ")"
             });
         });
     });

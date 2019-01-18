@@ -32,7 +32,7 @@ class AttributeOptions extends React.Component {
         } else if (input) {
             optionsWithUpdates.push({
                 "dummyKey": NEW_ELEMENT_ID,
-                "attribute_option": input
+                "option_name": input
             });
         }
 
@@ -98,7 +98,7 @@ class AttributeOptions extends React.Component {
                     <td><FormTextInput
                         placeholder="add new"
                         fieldName={`optionValue_${componentKey}`}
-                        value={option.attribute_option}
+                        value={option.option_name}
                         onChange={this.handleInputChange}
                         onClick={this.handleInputClear}
                     /></td>

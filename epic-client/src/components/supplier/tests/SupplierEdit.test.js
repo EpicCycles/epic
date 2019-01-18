@@ -11,7 +11,7 @@ test("displays correctly for existing supplier", () => {
         id: 1,
         supplier_name: "supplier name",
         brand_names: ["brands 1", "brand 2", "brand 3"],
-        website: "supplier.co.uk",
+        link: "supplier.co.uk",
         preferred_supplier: false,
     };
     const component = shallow(<SupplierEdit
@@ -24,7 +24,7 @@ test("displays correctly for existing supplier as a modal dialogue", () => {
         id: 1,
         supplier_name: "supplier name",
         brand_names: ["brands 1", "brand 2", "brand 3"],
-        website: "supplier.co.uk",
+        link: "supplier.co.uk",
         preferred_supplier: false,
     };
     const closeModal = jest.fn();
@@ -39,7 +39,7 @@ test("removing name for a supplier leads to an error being shown", () => {
         id: 1,
         supplier_name: "supplier name",
         brand_names: ["brands 1", "brand 2", "brand 3"],
-        website: "supplier.co.uk",
+        link: "supplier.co.uk",
         preferred_supplier: false,
     };
     const component = shallow(<SupplierEdit
@@ -47,7 +47,7 @@ test("removing name for a supplier leads to an error being shown", () => {
     />);
     component.instance().handleInputChange("supplier_name","");
     expect(component.state('supplier_name')).toBe("");
-    expect(component.state('website')).toBe(supplier.website);
+    expect(component.state('link')).toBe(supplier.link);
     expect(component.state('preferred_supplier')).toBe(supplier.preferred_supplier);
     expect(component.state('nameError')).toBe("Supplier name must be provided");
     expect(component.state('isValid')).toBeFalsy();
@@ -57,7 +57,7 @@ test("removing name for a supplier leads to an error being shown", () => {
 
     component.instance().handleInputChange("supplier_name","Replacement name");
     expect(component.state('supplier_name')).toBe("Replacement name");
-    expect(component.state('website')).toBe(supplier.website);
+    expect(component.state('link')).toBe(supplier.link);
     expect(component.state('preferred_supplier')).toBe(supplier.preferred_supplier);
     expect(component.state('nameError')).toBe("");
     expect(component.state('isValid')).toBeTruthy();
@@ -77,7 +77,7 @@ test("save for existing supplier saves all changes", () => {
         id: 1,
         supplier_name: "supplier name",
         brand_names: ["brands 1", "brand 2", "brand 3"],
-        website: "supplier.co.uk",
+        link: "supplier.co.uk",
         preferred_supplier: false,
     };
     const component = shallow(<SupplierEdit
@@ -88,14 +88,14 @@ test("save for existing supplier saves all changes", () => {
 
     component.instance().handleInputChange("supplier_name","Replacement name");
     component.instance().handleInputChange("preferred_supplier", true);
-    component.instance().handleInputChange("website","website.supplier.co.uk");
+    component.instance().handleInputChange("link","link.supplier.co.uk");
     component.instance().saveOrCreateSupplier();
     expect(saveSupplier.mock.calls.length).toBe(1);
     expect(closeModal.mock.calls.length).toBe(1);
     expect(saveSupplier.mock.calls[0][0].id).toBe(supplier.id);
     expect(saveSupplier.mock.calls[0][0].supplier_name).toBe("Replacement name");
     expect(saveSupplier.mock.calls[0][0].brand_names).toBe(supplier.brand_names);
-    expect(saveSupplier.mock.calls[0][0].website).toBe("website.supplier.co.uk");
+    expect(saveSupplier.mock.calls[0][0].link).toBe("link.supplier.co.uk");
     expect(saveSupplier.mock.calls[0][0].preferred_supplier).toBe(true);
 });
 test("save for new supplier saves all changes", () => {
@@ -110,14 +110,14 @@ test("save for new supplier saves all changes", () => {
 
     component.instance().handleInputChange("supplier_name","Replacement name");
     component.instance().handleInputChange("preferred_supplier", false);
-    component.instance().handleInputChange("website","website.supplier.co.uk");
+    component.instance().handleInputChange("link","link.supplier.co.uk");
     component.instance().saveOrCreateSupplier();
     expect(saveSupplier.mock.calls.length).toBe(1);
     expect(closeModal.mock.calls.length).toBe(1);
     expect(saveSupplier.mock.calls[0][0].id).toBe(undefined);
     expect(saveSupplier.mock.calls[0][0].supplier_name).toBe("Replacement name");
     expect(saveSupplier.mock.calls[0][0].brand_names).toBe(undefined);
-    expect(saveSupplier.mock.calls[0][0].website).toBe("website.supplier.co.uk");
+    expect(saveSupplier.mock.calls[0][0].link).toBe("link.supplier.co.uk");
     expect(saveSupplier.mock.calls[0][0].preferred_supplier).toBe(false);
 });
 test("delete for existing supplier calls passed method", () => {
@@ -127,7 +127,7 @@ test("delete for existing supplier calls passed method", () => {
         id: 1,
         supplier_name: "supplier name",
         brand_names: ["brands 1", "brand 2", "brand 3"],
-        website: "supplier.co.uk",
+        link: "supplier.co.uk",
         preferred_supplier: false,
     };
     const component = shallow(<SupplierEdit
@@ -138,7 +138,7 @@ test("delete for existing supplier calls passed method", () => {
 
     component.instance().handleInputChange("supplier_name","Replacement name");
     component.instance().handleInputChange("preferred_supplier", true);
-    component.instance().handleInputChange("website","website.supplier.co.uk");
+    component.instance().handleInputChange("link","link.supplier.co.uk");
     component.instance().deleteOrRemoveSupplier();
     expect(deleteSupplier.mock.calls.length).toBe(1);
     expect(closeModal.mock.calls.length).toBe(1);
@@ -156,7 +156,7 @@ test("delete on modal for new supplier just closes modal", () => {
 
     component.instance().handleInputChange("supplier_name","Replacement name");
     component.instance().handleInputChange("preferred_supplier", true);
-    component.instance().handleInputChange("website","website.supplier.co.uk");
+    component.instance().handleInputChange("link","link.supplier.co.uk");
     component.instance().deleteOrRemoveSupplier();
     expect(deleteSupplier.mock.calls.length).toBe(0);
     expect(closeModal.mock.calls.length).toBe(1);

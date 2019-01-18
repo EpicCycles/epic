@@ -8,6 +8,7 @@ import BrandSelect from "../../brand/BrandSelect";
 import SupplierSelect from "../../supplier/SupplierSelect";
 import CountrySelect from "../../address/CountrySelect";
 
+// TODO add types for SELECT_ONE and FITTING
 class EditModelInput extends Component {
     validateOnChange = (fieldName, fieldValue) => {
         if (fieldValue) {
@@ -29,7 +30,7 @@ class EditModelInput extends Component {
         const emptyAllowed = !(field.required && fieldValue);
         const error = model.error_detail ? model.error_detail[field.fieldName] : "";
 
-        // TODO add country type field
+        // TODO country field may not be required - but select one is and also attribute value for use on a quote part.
         switch (field.type) {
             case TEXT_AREA:
                 editComponent = <FormTextAreaInput
@@ -139,6 +140,7 @@ EditModelInput.propTypes = {
     sections: PropTypes.array,
     brands: PropTypes.array,
     suppliers: PropTypes.array,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    fittings: PropTypes.array,
 };
 export default EditModelInput;

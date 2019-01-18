@@ -3,7 +3,7 @@
 exports[`displays the PartTypeData component for a new part type with no attributes 1`] = `
 <React.Fragment>
   <FormTextInput
-    fieldName="shortName_new"
+    fieldName="name_new"
     onClick={[Function]}
     placeholder="add new"
     value="part one"
@@ -33,14 +33,14 @@ exports[`displays the PartTypeData component for a new part type with no attribu
     type="checkbox"
   />
   <label
-    htmlFor="customer_facing_new"
+    htmlFor="customer_visible_new"
   >
     Customer Facing?
   </label>
   <input
     checked={true}
-    id="customer_facing_new"
-    name="customer_facing_new"
+    id="customer_visible_new"
+    name="customer_visible_new"
     onChange={[Function]}
     type="checkbox"
   />
@@ -61,7 +61,7 @@ exports[`displays the PartTypeData component for a new part type with no attribu
 exports[`displays the PartTypeData component for an existing part type with attributes, detail hidden 1`] = `
 <React.Fragment>
   <FormTextInput
-    fieldName="shortName_21"
+    fieldName="name_21"
     onClick={[Function]}
     placeholder="add new"
     value="part one"
@@ -91,14 +91,14 @@ exports[`displays the PartTypeData component for an existing part type with attr
     type="checkbox"
   />
   <label
-    htmlFor="customer_facing_21"
+    htmlFor="customer_visible_21"
   >
     Customer Facing?
   </label>
   <input
     checked={true}
-    id="customer_facing_21"
-    name="customer_facing_21"
+    id="customer_visible_21"
+    name="customer_visible_21"
     onChange={[Function]}
     type="checkbox"
   />
@@ -112,7 +112,7 @@ exports[`displays the PartTypeData component for an existing part type with attr
 exports[`displays the PartTypeData component for an existing part type with attributes, detail shown 1`] = `
 <React.Fragment>
   <FormTextInput
-    fieldName="shortName_dummy2"
+    fieldName="name_dummy2"
     onClick={[Function]}
     placeholder="add new"
     value="part one"
@@ -142,14 +142,14 @@ exports[`displays the PartTypeData component for an existing part type with attr
     type="checkbox"
   />
   <label
-    htmlFor="customer_facing_dummy2"
+    htmlFor="customer_visible_dummy2"
   >
     Customer Facing?
   </label>
   <input
     checked={true}
-    id="customer_facing_dummy2"
-    name="customer_facing_dummy2"
+    id="customer_visible_dummy2"
+    name="customer_visible_dummy2"
     onChange={[Function]}
     type="checkbox"
   />

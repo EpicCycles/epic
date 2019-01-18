@@ -81,7 +81,7 @@ class BikeReview extends React.Component {
                             bikePart,
                             {
                                 sectionPos,
-                                partTypeName: partType.shortName,
+                                partTypeName: partType.name,
                                 fullPartName: buildPartString(bikePart, brands)
                             }));
                         sectionPos++;

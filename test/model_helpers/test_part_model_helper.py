@@ -9,12 +9,12 @@ class PartModelTestCase(TestCase):
     def setUp(self):
         self.part_section1 = PartSection.objects.create(name='Section1', placing=1)
         self.part_section2 = PartSection.objects.create(name='Section2', placing=2)
-        self.part_type1 = PartType.objects.create(shortName='Wheels', description='Wheels description',
+        self.part_type1 = PartType.objects.create(name='Wheels', description='Wheels description',
                                                   includeInSection=self.part_section1, placing=1,
-                                                  can_be_substituted=True, can_be_omitted=True, customer_facing=True)
-        self.part_type2 = PartType.objects.create(shortName='Lights', description='Wheels description',
+                                                  can_be_substituted=True, can_be_omitted=True, customer_visible=True)
+        self.part_type2 = PartType.objects.create(name='Lights', description='Wheels description',
                                                   includeInSection=self.part_section1, placing=1,
-                                                  can_be_substituted=True, can_be_omitted=True, customer_facing=True)
+                                                  can_be_substituted=True, can_be_omitted=True, customer_visible=True)
         self.supplier1 = Supplier.objects.create(supplier_name='Supplier 1')
         self.supplier2 = Supplier.objects.create(supplier_name='Supplier 2')
         self.brand1 = Brand.objects.create(supplier=self.supplier1, brand_name='Brand 1', link='orbea.co.uk')

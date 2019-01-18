@@ -4,10 +4,10 @@ import {PART_TYPE_NAME_MISSING} from "../../app/model/helpers/error";
 
 export const NEW_PART_TYPE = {
     attributes: [],
-    shortName: "",
+    name: "",
     can_be_substituted: true,
     can_be_omitted: true,
-    customer_facing: true,
+    customer_visible: true,
 };
 export const NEW_ATTRIBUTE = {
     attribute_name: "",
@@ -21,7 +21,7 @@ export const getPartTypeName = (partTypeId, sections) => {
     sections.some(section => {
         return section.partTypes.some(partType => {
             if (partType.id === partTypeId) {
-                partTypeName = partType.shortName;
+                partTypeName = partType.name;
                 return true;
             }
             return false;
@@ -32,8 +32,8 @@ export const getPartTypeName = (partTypeId, sections) => {
 
 export const processPartTypeValueChanges = (partType, componentKey, fieldName, input) => {
     const updatedPartType = updateObject(partType);
-    if (fieldName.startsWith('shortName')) updatedPartType.shortName = input;
-    if (!updatedPartType.shortName) {
+    if (fieldName.startsWith('name')) updatedPartType.name = input;
+    if (!updatedPartType.name) {
         updatedPartType.error = true;
         updatedPartType.error_detail = PART_TYPE_NAME_MISSING;
     } else {
@@ -43,7 +43,7 @@ export const processPartTypeValueChanges = (partType, componentKey, fieldName, i
     if (fieldName.startsWith('description')) updatedPartType.description = input;
     if (fieldName.startsWith('can_be_substituted')) updatedPartType.can_be_substituted = input;
     if (fieldName.startsWith('can_be_omitted')) updatedPartType.can_be_omitted = input;
-    if (fieldName.startsWith('customer_facing')) updatedPartType.customer_facing = input;
+    if (fieldName.startsWith('customer_visible')) updatedPartType.customer_visible = input;
     if (fieldName.startsWith('attributes')) updatedPartType.attributes = input;
     if (fieldName.startsWith('synonyms')) updatedPartType.synonyms = input;
     if (fieldName.startsWith('detail')) updatedPartType._detail = input;
@@ -54,11 +54,11 @@ export const processPartTypeValueChanges = (partType, componentKey, fieldName, i
 };
 export const doesFieldMatchPartType = (partType, fieldName) => {
     const fieldNameLower = fieldName.toLowerCase();
-    if (partType.shortName.toLowerCase() === fieldNameLower) {
+    if (partType.name.toLowerCase() === fieldNameLower) {
         return true;
     } else {
         return partType.synonyms.some(synonym => {
-            return (synonym.shortName.toLowerCase() === fieldNameLower);
+            return (synonym.name.toLowerCase() === fieldNameLower);
         });
     }
 };
@@ -68,7 +68,7 @@ export const attributeSummary = (attribute) => {
     if (attribute.mandatory) attributeDetail.push(" must be entered");
     if (attribute.options && attribute.options.length > 0) {
         attributeDetail.push(` allowed options: ${attribute.options.map((option) => {
-            return option.attribute_option;
+            return option.option_name;
         }).toString()}`);
     }
     return attributeDetail.toString();

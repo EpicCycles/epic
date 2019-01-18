@@ -5,9 +5,9 @@ import PartTypeSynonyms from "../PartTypeSynonyms";
 test("it displays synonyms", () => {
     const partTypeKey = 45;
     const synonyms = [
-        { id: 1, shortName: "synonym 1" },
-        { dummyKey: 'dummy2', shortName: "synonym 2" },
-        { dummyKey: NEW_ELEMENT_ID, shortName: "new one" }
+        { id: 1, name: "synonym 1" },
+        { dummyKey: 'dummy2', name: "synonym 2" },
+        { dummyKey: NEW_ELEMENT_ID, name: "new one" }
     ];
     const component = shallow(<PartTypeSynonyms
         partTypeKey={partTypeKey}
@@ -18,10 +18,10 @@ test("it displays synonyms", () => {
 test("it adds a change to an existing element by id", () => {
     const partTypeKey = 45;
     const synonyms = [
-        { id: 1, shortName: "synonym 1" },
-        { id: 21, shortName: "synonym 21" },
-        { dummyKey: 'dummy2', shortName: "synonym 2" },
-        { dummyKey: NEW_ELEMENT_ID, shortName: "new one" }
+        { id: 1, name: "synonym 1" },
+        { id: 21, name: "synonym 21" },
+        { dummyKey: 'dummy2', name: "synonym 2" },
+        { dummyKey: NEW_ELEMENT_ID, name: "new one" }
     ];
     const handlePartTypeChange = jest.fn();
     const component = shallow(<PartTypeSynonyms
@@ -29,12 +29,12 @@ test("it adds a change to an existing element by id", () => {
         synonyms={synonyms}
         handlePartTypeChange={handlePartTypeChange}
     />);
-    component.instance().handleInputChange("shortName_21","new name");
+    component.instance().handleInputChange("name_21","new name");
     const expectedSynonyms = [
-        { id: 1, shortName: "synonym 1" },
-        { id: 21, shortName: "new name", changed:true, error: false, error_detail:""},
-        { dummyKey: 'dummy2', shortName: "synonym 2" },
-        { dummyKey: NEW_ELEMENT_ID, shortName: "new one" }
+        { id: 1, name: "synonym 1" },
+        { id: 21, name: "new name", changed:true, error: false, error_detail:""},
+        { dummyKey: 'dummy2', name: "synonym 2" },
+        { dummyKey: NEW_ELEMENT_ID, name: "new one" }
     ];
     expect(handlePartTypeChange.mock.calls.length).toBe(1);
     expect(handlePartTypeChange.mock.calls[0][0]).toEqual("synonyms_45");
@@ -43,10 +43,10 @@ test("it adds a change to an existing element by id", () => {
 test("it adds an error to an existing element by id", () => {
     const partTypeKey = 45;
     const synonyms = [
-        { id: 1, shortName: "synonym 1" },
-        { id: 21, shortName: "synonym 21" },
-        { dummyKey: 'dummy2', shortName: "synonym 2" },
-        { dummyKey: NEW_ELEMENT_ID, shortName: "new one" }
+        { id: 1, name: "synonym 1" },
+        { id: 21, name: "synonym 21" },
+        { dummyKey: 'dummy2', name: "synonym 2" },
+        { dummyKey: NEW_ELEMENT_ID, name: "new one" }
     ];
     const handlePartTypeChange = jest.fn();
     const component = shallow(<PartTypeSynonyms
@@ -54,12 +54,12 @@ test("it adds an error to an existing element by id", () => {
         synonyms={synonyms}
         handlePartTypeChange={handlePartTypeChange}
     />);
-    component.instance().handleInputChange("shortName_21","");
+    component.instance().handleInputChange("name_21","");
     const expectedSynonyms = [
-        { id: 1, shortName: "synonym 1" },
-        { id: 21, shortName: "", changed:true, error: true, error_detail:"A value is required for the synonym"},
-        { dummyKey: 'dummy2', shortName: "synonym 2" },
-        { dummyKey: NEW_ELEMENT_ID, shortName: "new one" }
+        { id: 1, name: "synonym 1" },
+        { id: 21, name: "", changed:true, error: true, error_detail:"A value is required for the synonym"},
+        { dummyKey: 'dummy2', name: "synonym 2" },
+        { dummyKey: NEW_ELEMENT_ID, name: "new one" }
     ];
     expect(handlePartTypeChange.mock.calls.length).toBe(1);
     expect(handlePartTypeChange.mock.calls[0][0]).toEqual("synonyms_45");
@@ -68,10 +68,10 @@ test("it adds an error to an existing element by id", () => {
 test("it adds a change to an existing element by key", () => {
     const partTypeKey = 45;
     const synonyms = [
-        { id: 1, shortName: "synonym 1" },
-        { id: 21, shortName: "synonym 21" },
-        { dummyKey: 'dummy2', shortName: "synonym 2" },
-        { dummyKey: NEW_ELEMENT_ID, shortName: "new one" }
+        { id: 1, name: "synonym 1" },
+        { id: 21, name: "synonym 21" },
+        { dummyKey: 'dummy2', name: "synonym 2" },
+        { dummyKey: NEW_ELEMENT_ID, name: "new one" }
     ];
     const handlePartTypeChange = jest.fn();
     const component = shallow(<PartTypeSynonyms
@@ -79,12 +79,12 @@ test("it adds a change to an existing element by key", () => {
         synonyms={synonyms}
         handlePartTypeChange={handlePartTypeChange}
     />);
-    component.instance().handleInputChange("shortName_dummy2","new name");
+    component.instance().handleInputChange("name_dummy2","new name");
     const expectedSynonyms = [
-        { id: 1, shortName: "synonym 1" },
-        { id: 21, shortName: "synonym 21" },
-        { dummyKey: 'dummy2', shortName: "new name", changed:true, error: false, error_detail:""},
-        { dummyKey: NEW_ELEMENT_ID, shortName: "new one" }
+        { id: 1, name: "synonym 1" },
+        { id: 21, name: "synonym 21" },
+        { dummyKey: 'dummy2', name: "new name", changed:true, error: false, error_detail:""},
+        { dummyKey: NEW_ELEMENT_ID, name: "new one" }
     ];
     expect(handlePartTypeChange.mock.calls.length).toBe(1);
     expect(handlePartTypeChange.mock.calls[0][0]).toEqual("synonyms_45");
@@ -93,9 +93,9 @@ test("it adds a change to an existing element by key", () => {
 test("it adds new element when data keyed", () => {
     const partTypeKey = 45;
     const synonyms = [
-        { id: 1, shortName: "synonym 1" },
-        { id: 21, shortName: "synonym 21" },
-        { dummyKey: 'dummy2', shortName: "synonym 2" },
+        { id: 1, name: "synonym 1" },
+        { id: 21, name: "synonym 21" },
+        { dummyKey: 'dummy2', name: "synonym 2" },
     ];
     const handlePartTypeChange = jest.fn();
     const component = shallow(<PartTypeSynonyms
@@ -103,12 +103,12 @@ test("it adds new element when data keyed", () => {
         synonyms={synonyms}
         handlePartTypeChange={handlePartTypeChange}
     />);
-    component.instance().handleInputChange("shortName_not_found","new one");
+    component.instance().handleInputChange("name_not_found","new one");
     const expectedSynonyms = [
-        { id: 1, shortName: "synonym 1" },
-        { id: 21, shortName: "synonym 21" },
-        { dummyKey: 'dummy2', shortName: "synonym 2" },
-        { dummyKey: NEW_ELEMENT_ID, shortName: "new one" }
+        { id: 1, name: "synonym 1" },
+        { id: 21, name: "synonym 21" },
+        { dummyKey: 'dummy2', name: "synonym 2" },
+        { dummyKey: NEW_ELEMENT_ID, name: "new one" }
     ];
     expect(handlePartTypeChange.mock.calls.length).toBe(1);
     expect(handlePartTypeChange.mock.calls[0][0]).toEqual("synonyms_45");
@@ -117,10 +117,10 @@ test("it adds new element when data keyed", () => {
 test("it converts a new element to a dummy key to add another", () => {
     const partTypeKey = 45;
     const synonyms = [
-        { id: 1, shortName: "synonym 1" },
-        { id: 21, shortName: "synonym 21" },
-        { dummyKey: 'dummy2', shortName: "synonym 2" },
-        { dummyKey: NEW_ELEMENT_ID, shortName: "new one" }
+        { id: 1, name: "synonym 1" },
+        { id: 21, name: "synonym 21" },
+        { dummyKey: 'dummy2', name: "synonym 2" },
+        { dummyKey: NEW_ELEMENT_ID, name: "new one" }
     ];
     const handlePartTypeChange = jest.fn();
     const component = shallow(<PartTypeSynonyms
@@ -133,6 +133,6 @@ test("it converts a new element to a dummy key to add another", () => {
     expect(handlePartTypeChange.mock.calls[0][0]).toEqual("synonyms_45");
     expect(handlePartTypeChange.mock.calls[0][1].length).toEqual(synonyms.length);
     expect(handlePartTypeChange.mock.calls[0][1][3].dummyKey).not.toEqual(NEW_ELEMENT_ID);
-    expect(handlePartTypeChange.mock.calls[0][1][3].shortName).toEqual(synonyms[3].shortName);
+    expect(handlePartTypeChange.mock.calls[0][1][3].name).toEqual(synonyms[3].name);
 
 });

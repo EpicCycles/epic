@@ -15,7 +15,7 @@ test("displays correctly with a new part", () => {
 });
 test("displays correctly with a partial new part", () => {
     const partType = {
-        shortName: "new one",
+        name: "new one",
         _detail: true
     };
     const component = shallow(<PartTypeModal
@@ -28,7 +28,7 @@ test("displays correctly with a partial new part", () => {
 test("error when no short name", () => {
     const partType = {
         includeInSection:sections[0].id,
-        shortName: "has one one",
+        name: "has one one",
         id: "1",
         _detail: true
     };
@@ -39,9 +39,9 @@ test("error when no short name", () => {
     />);
     expect(component).toMatchSnapshot();
 
-    component.instance().handlePartTypeValueChange("shortName_1", "");
+    component.instance().handlePartTypeValueChange("name_1", "");
     const expectedData = Object.assign({}, partType, {
-        shortName: "",
+        name: "",
         changed: true,
         error: true,
         error_detail: PART_TYPE_NAME_MISSING
@@ -52,7 +52,7 @@ test("error when no short name", () => {
 test("error when no includeInSection", () => {
     const partType = {
         includeInSection:sections[0].id,
-        shortName: "has one one",
+        name: "has one one",
         id: "1",
         _detail: true
     };

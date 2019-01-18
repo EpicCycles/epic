@@ -21,10 +21,10 @@ exports[`displays correctly for existing supplier 1`] = `
       value="supplier name"
     />
     <FormTextInput
-      fieldName="website_1"
-      key="website_1"
+      fieldName="link_1"
+      key="link_1"
       onChange={[Function]}
-      placeholder="website"
+      placeholder="link"
       value="supplier.co.uk"
     />
     <input
@@ -97,10 +97,10 @@ exports[`displays correctly for existing supplier as a modal dialogue 1`] = `
       value="supplier name"
     />
     <FormTextInput
-      fieldName="website_1"
-      key="website_1"
+      fieldName="link_1"
+      key="link_1"
       onChange={[Function]}
-      placeholder="website"
+      placeholder="link"
       value="supplier.co.uk"
     />
     <input
@@ -157,10 +157,10 @@ exports[`displays correctly for new supplier 1`] = `
       value=""
     />
     <FormTextInput
-      fieldName="website_new"
-      key="website_new"
+      fieldName="link_new"
+      key="link_new"
       onChange={[Function]}
-      placeholder="website"
+      placeholder="link"
       value=""
     />
     <input

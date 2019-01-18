@@ -153,7 +153,7 @@ exports[`displays correctly with a partial new part 1`] = `
       partType={
         Object {
           "_detail": true,
-          "shortName": "new one",
+          "name": "new one",
         }
       }
     />
@@ -243,7 +243,7 @@ exports[`error when no includeInSection 1`] = `
           "_detail": true,
           "id": "1",
           "includeInSection": 1,
-          "shortName": "has one one",
+          "name": "has one one",
         }
       }
     />
@@ -333,7 +333,7 @@ exports[`error when no short name 1`] = `
           "_detail": true,
           "id": "1",
           "includeInSection": 1,
-          "shortName": "has one one",
+          "name": "has one one",
         }
       }
     />

@@ -13,9 +13,9 @@ describe("AttributeOptions tests", () => {
     });
     it("renders the form correctly with options", () => {
         const options = [
-            { id: 123, part_type_attribute: 101, attribute_option: 'braze' },
-            { id: 323, part_type_attribute: 101, attribute_option: 'band', delete: false },
-            { part_type_attribute: 1, attribute_option: 'boggle', dummyKey: 'hjgfkuyg34' },
+            { id: 123, part_type_attribute: 101, option_name: 'braze' },
+            { id: 323, part_type_attribute: 101, option_name: 'band', delete: false },
+            { part_type_attribute: 1, option_name: 'boggle', dummyKey: 'hjgfkuyg34' },
         ];
         const input = shallow(
             <AttributeOptions options={options} attributeKey={attributeId}/>
@@ -24,9 +24,9 @@ describe("AttributeOptions tests", () => {
     });
     it("renders the form correctly when all options deleted", () => {
         const optionsDeleted = [
-            { id: 123, part_type_attribute: 101, attribute_option: 'braze', delete: true },
-            { id: 323, part_type_attribute: 101, attribute_option: 'band', delete: true },
-            { part_type_attribute: 1, attribute_option: 'braze', dummyKey: 'hjgfkuyg34', delete: true },
+            { id: 123, part_type_attribute: 101, option_name: 'braze', delete: true },
+            { id: 323, part_type_attribute: 101, option_name: 'band', delete: true },
+            { part_type_attribute: 1, option_name: 'braze', dummyKey: 'hjgfkuyg34', delete: true },
         ];
         const input = shallow(
             <AttributeOptions options={optionsDeleted} attributeKey={attributeId}/>

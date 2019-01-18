@@ -18,9 +18,9 @@ exports[`displays the PartTypeEdit component for a new part type with no attribu
           "_detail": true,
           "can_be_omitted": true,
           "can_be_substituted": false,
-          "customer_facing": true,
+          "customer_visible": true,
           "dummyKey": "new",
-          "shortName": "part one",
+          "name": "part one",
         }
       }
     />
@@ -46,9 +46,9 @@ exports[`displays the PartTypeEdit component for an existing part type with attr
           "_detail": false,
           "can_be_omitted": true,
           "can_be_substituted": false,
-          "customer_facing": true,
+          "customer_visible": true,
           "id": 21,
-          "shortName": "part one",
+          "name": "part one",
         }
       }
     />
@@ -78,9 +78,9 @@ exports[`displays the PartTypeEdit component for an existing part type with attr
           ],
           "can_be_omitted": true,
           "can_be_substituted": false,
-          "customer_facing": true,
+          "customer_visible": true,
           "dummyKey": "dummy2",
-          "shortName": "part one",
+          "name": "part one",
         }
       }
     />

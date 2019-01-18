@@ -1,6 +1,6 @@
 import * as PropTypes from "prop-types";
 import React, {Component, Fragment} from "react";
-import {BRAND, CHECKBOX, COUNTRY, CURRENCY, PART_TYPE, SUPPLIER} from "./helpers/fields";
+import {BRAND, CHECKBOX, COUNTRY, CURRENCY, DATE_TIME, PART_TYPE, SUPPLIER} from "./helpers/fields";
 import {getBrandName} from "../../brand/helpers/brand_helper";
 import {getPartTypeName} from "../../framework/helpers/framework";
 import {getSupplierName} from "../../supplier/helpers/supplier";
@@ -21,6 +21,9 @@ class ViewModelField extends Component {
                 break;
             case CHECKBOX:
                 viewData = fieldValue ? "Y" : "N";
+                break;
+            case DATE_TIME:
+                viewData = fieldValue ? new Date(fieldValue).toLocaleString('en-GB', { timeZone: 'UTC' }) : "";
                 break;
             case PART_TYPE:
                 viewData = getPartTypeName(fieldValue, sections);

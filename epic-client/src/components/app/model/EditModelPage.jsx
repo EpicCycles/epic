@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 
 import * as PropTypes from "prop-types";
-import {getComponentKey} from "./helpers/model";
+import {eliminateReadOnlyFields, getComponentKey} from "./helpers/model";
 import EditModelPageRow from "./EditModelPageRow";
 
 const EditModelPage = (props) => {
@@ -11,7 +11,7 @@ const EditModelPage = (props) => {
         {model.error && <div className="red">{model.error}</div>}
         <div key="modelFields" className={`grid ${className}`}>
 
-            {modelFields.map((field, index) => <EditModelPageRow
+            {eliminateReadOnlyFields(modelFields).map((field, index) => <EditModelPageRow
                 key={`EditModelPageRow${index}`}
                 field={field}
                 model={model}

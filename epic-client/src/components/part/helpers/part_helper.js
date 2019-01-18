@@ -75,7 +75,7 @@ export const buildSupplierProductForApi = (rowMappings, uploadedData, brands) =>
                 if (!part.brand) {
                     partsMissingBrands.push(dataToUse[3]);
                 } else {
-                    part.trade_in_value = dataToUse[8];
+                    part.trade_in_price = dataToUse[8];
                     part.stocked = dataToUse[9];
                     part.standard = true;
                     if (rowMapping.supplier) {

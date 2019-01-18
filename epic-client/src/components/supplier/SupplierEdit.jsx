@@ -7,7 +7,7 @@ import {updateObject} from "../../helpers/utils";
 const initialState = {
     brand_names: [],
     supplier_name: "",
-    website: "",
+    link: "",
     preferred_supplier: true
 };
 
@@ -23,12 +23,12 @@ class SupplierEdit extends React.Component {
 
         if (originalSupplier && (Object.keys(originalSupplier).length > 0)) {
             if ((originalSupplier.supplier_name !== this.state.supplier_name)
-                || (originalSupplier.website !== this.state.website)
+                || (originalSupplier.link !== this.state.link)
                 || (originalSupplier.preferred_supplier !== this.state.preferred_supplier)) {
                 return true;
             }
         } else {
-            return (this.state.supplier_name || this.state.website);
+            return (this.state.supplier_name || this.state.link);
         }
     };
 
@@ -38,12 +38,12 @@ class SupplierEdit extends React.Component {
             newState.id = this.props.supplier.id;
             newState.supplier_name = this.props.supplier.supplier_name;
             newState.brand_names = this.props.supplier.brand_names;
-            newState.website = this.props.supplier.website;
+            newState.link = this.props.supplier.link;
             newState.preferred_supplier = this.props.supplier.preferred_supplier;
         }
         return newState;
     };
-    validateSupplierData = (supplier_name, website, preferred_supplier) => {
+    validateSupplierData = (supplier_name, link, preferred_supplier) => {
         let isValid = true;
         let nameError = "";
 
@@ -54,20 +54,20 @@ class SupplierEdit extends React.Component {
         newState.nameError = nameError;
         newState.isValid = isValid;
         newState.supplier_name = supplier_name;
-        newState.website = website;
+        newState.link = link;
         newState.preferred_supplier = preferred_supplier;
         this.setState(newState);
     };
     handleInputChange = (fieldName, input) => {
         let supplier_name = this.state.supplier_name;
-        let website = this.state.website;
+        let link = this.state.link;
         let preferred_supplier = this.state.preferred_supplier;
 
         if (fieldName.startsWith('supplier_name')) supplier_name = input;
-        if (fieldName.startsWith('website')) website = input;
+        if (fieldName.startsWith('link')) link = input;
         if (fieldName.startsWith('preferred_supplier')) preferred_supplier = input;
 
-        this.validateSupplierData(supplier_name, website, preferred_supplier);
+        this.validateSupplierData(supplier_name, link, preferred_supplier);
     };
 
     onClickReset = () => {
@@ -77,7 +77,7 @@ class SupplierEdit extends React.Component {
     saveOrCreateSupplier = () => {
         const updatedSupplier = updateObject(this.props.supplier);
         updatedSupplier.supplier_name = this.state.supplier_name;
-        updatedSupplier.website = this.state.website;
+        updatedSupplier.link = this.state.link;
         updatedSupplier.preferred_supplier = this.state.preferred_supplier;
         this.props.saveSupplier(updatedSupplier);
         if (this.props.closeModal) {
@@ -95,7 +95,7 @@ class SupplierEdit extends React.Component {
     };
 
     render() {
-        const { supplier_name, website, id, preferred_supplier, brand_names, isValid, nameError } = this.state;
+        const { supplier_name, link, id, preferred_supplier, brand_names, isValid, nameError } = this.state;
         const { closeModal } = this.props;
         const componentKey = id ? id : NEW_ELEMENT_ID;
         const isChanged = this.checkForChanges();
@@ -121,10 +121,10 @@ class SupplierEdit extends React.Component {
                     error={nameError}
                 />
                 <FormTextInput
-                    placeholder="website"
-                    fieldName={`website_${componentKey}`}
-                    key={`website_${componentKey}`}
-                    value={website}
+                    placeholder="link"
+                    fieldName={`link_${componentKey}`}
+                    key={`link_${componentKey}`}
+                    value={link}
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
                 />

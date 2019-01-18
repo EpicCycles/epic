@@ -191,11 +191,11 @@ exports[`it renders a part Type field that has no data 1`] = `
           "partTypes": Array [
             Object {
               "id": 11,
-              "shortName": "id 11",
+              "name": "id 11",
             },
             Object {
               "id": 21,
-              "shortName": "id 11",
+              "name": "id 11",
             },
           ],
         },
@@ -204,11 +204,11 @@ exports[`it renders a part Type field that has no data 1`] = `
           "partTypes": Array [
             Object {
               "id": 2,
-              "shortName": "find me",
+              "name": "find me",
             },
             Object {
               "id": 22,
-              "shortName": "id 11",
+              "name": "id 11",
             },
           ],
         },
@@ -234,11 +234,11 @@ exports[`it renders a part type field that has data that is found 1`] = `
           "partTypes": Array [
             Object {
               "id": 11,
-              "shortName": "id 11",
+              "name": "id 11",
             },
             Object {
               "id": 21,
-              "shortName": "id 11",
+              "name": "id 11",
             },
           ],
         },
@@ -247,11 +247,11 @@ exports[`it renders a part type field that has data that is found 1`] = `
           "partTypes": Array [
             Object {
               "id": 2,
-              "shortName": "find me",
+              "name": "find me",
             },
             Object {
               "id": 22,
-              "shortName": "id 11",
+              "name": "id 11",
             },
           ],
         },
@@ -277,11 +277,11 @@ exports[`it renders a part type field that has data that is not found 1`] = `
           "partTypes": Array [
             Object {
               "id": 11,
-              "shortName": "id 11",
+              "name": "id 11",
             },
             Object {
               "id": 21,
-              "shortName": "id 11",
+              "name": "id 11",
             },
           ],
         },
@@ -290,11 +290,11 @@ exports[`it renders a part type field that has data that is not found 1`] = `
           "partTypes": Array [
             Object {
               "id": 2,
-              "shortName": "find me",
+              "name": "find me",
             },
             Object {
               "id": 22,
-              "shortName": "id 11",
+              "name": "id 11",
             },
           ],
         },

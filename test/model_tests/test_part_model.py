@@ -10,12 +10,12 @@ class PartModelTestCase(TestCase):
     def setUp(self):
         self.part_section1 = PartSection.objects.create(name='Section1', placing=1)
         self.part_section2 = PartSection.objects.create(name='Section2', placing=2)
-        self.part_type1 = PartType.objects.create(shortName='Wheels', description='Wheels description',
+        self.part_type1 = PartType.objects.create(name='Wheels', description='Wheels description',
                                                   includeInSection=self.part_section1, placing=1,
-                                                  can_be_substituted=True, can_be_omitted=True, customer_facing=True)
-        self.part_type2 = PartType.objects.create(shortName='Lights', description='Wheels description',
+                                                  can_be_substituted=True, can_be_omitted=True, customer_visible=True)
+        self.part_type2 = PartType.objects.create(name='Lights', description='Wheels description',
                                                   includeInSection=self.part_section1, placing=1,
-                                                  can_be_substituted=True, can_be_omitted=True, customer_facing=True)
+                                                  can_be_substituted=True, can_be_omitted=True, customer_visible=True)
         self.part_type_attribute1 = PartTypeAttribute.objects.create(partType=self.part_type1,
                                                                      attribute_name='attribute 1', placing=1,
                                                                      attribute_type=TEXT)
@@ -30,9 +30,9 @@ class PartModelTestCase(TestCase):
                                                                      attribute_type=SELECT, in_use=False,
                                                                      mandatory=False)
         self.attribute_value1 = AttributeOptions.objects.create(part_type_attribute=self.part_type_attribute1,
-                                                                attribute_option='Option 1')
+                                                                option_name='Option 1')
         self.attribute_value2 = AttributeOptions.objects.create(part_type_attribute=self.part_type_attribute1,
-                                                                attribute_option='Option 2')
+                                                                option_name='Option 2')
         self.supplier1 = Supplier.objects.create(supplier_name='Supplier 1')
         self.supplier2 = Supplier.objects.create(supplier_name='Supplier 2')
         self.brand1 = Brand.objects.create(supplier=self.supplier1, brand_name='Brand 1', link='orbea.co.uk')
@@ -81,27 +81,27 @@ class PartModelTestCase(TestCase):
         with self.assertRaises(ValueError):
             PartType.objects.create()
         with self.assertRaises(ValueError):
-            PartType.objects.create(shortName='Valid')
+            PartType.objects.create(name='Valid')
         with self.assertRaises(ValueError):
             PartType.objects.create(placing=1)
         with self.assertRaises(ValueError):
-            PartType.objects.create(shortName='', placing=1)
+            PartType.objects.create(name='', placing=1)
         with self.assertRaises(ValueError):
-            PartType.objects.create(shortName='Valid', placing=0)
+            PartType.objects.create(name='Valid', placing=0)
         with self.assertRaises(ValueError):
-            PartType.objects.create(shortName='Valid', placing=-1)
+            PartType.objects.create(name='Valid', placing=-1)
         with self.assertRaises(IntegrityError):
-            PartType.objects.create(shortName='Valid', placing=1)
+            PartType.objects.create(name='Valid', placing=1)
 
     def test_type_update_errors(self):
         get_id = self.part_type1.id
         with self.assertRaises(ValueError):
             change_type = PartType.objects.get(id=get_id)
-            change_type.shortName = None
+            change_type.name = None
             change_type.save()
         with self.assertRaises(ValueError):
             change_type = PartType.objects.get(id=get_id)
-            change_type.shortName = ''
+            change_type.name = ''
             change_type.save()
         with self.assertRaises(ValueError):
             change_type = PartType.objects.get(id=get_id)
@@ -173,20 +173,20 @@ class PartModelTestCase(TestCase):
         with self.assertRaises(ValueError):
             AttributeOptions.objects.create(part_type_attribute=self.part_type_attribute1)
         with self.assertRaises(ValueError):
-            AttributeOptions.objects.create(part_type_attribute=self.part_type_attribute1, attribute_option='')
+            AttributeOptions.objects.create(part_type_attribute=self.part_type_attribute1, option_name='')
         with self.assertRaises(Exception):
-            AttributeOptions.objects.create(attribute_option='Valid Option')
+            AttributeOptions.objects.create(option_name='Valid Option')
 
     def test_option_update_error(self):
         get_id = self.attribute_value1.id
         with self.assertRaises(ValueError):
             check_option = AttributeOptions.objects.get(id=get_id)
-            check_option.attribute_option = None
+            check_option.option_name = None
             check_option.save()
 
         with self.assertRaises(ValueError):
             check_option = AttributeOptions.objects.get(id=get_id)
-            check_option.attribute_option = ''
+            check_option.option_name = ''
             check_option.save()
 
         with self.assertRaises(Exception):
@@ -286,7 +286,7 @@ class PartModelTestCase(TestCase):
 
     def test_type_create_duplicate(self):
         with self.assertRaises(IntegrityError):
-            PartType.objects.create(shortName='Lights', placing=1)
+            PartType.objects.create(name='Lights', placing=1)
 
     def test_type_attribute_create_duplicate(self):
         with self.assertRaises(IntegrityError):
@@ -297,7 +297,7 @@ class PartModelTestCase(TestCase):
     def test_option_value_create_duplicate(self):
         with self.assertRaises(IntegrityError):
             AttributeOptions.objects.create(part_type_attribute=self.attribute_value1.part_type_attribute,
-                                            attribute_option=self.attribute_value1.attribute_option)
+                                            option_name=self.attribute_value1.option_name)
 
     def test_supplier_create_duplicate1(self):
         with self.assertRaises(IntegrityError):
@@ -332,7 +332,7 @@ class PartModelTestCase(TestCase):
 
     def test_type_update_duplicate(self):
         with self.assertRaises(IntegrityError):
-            self.part_type1.shortName = self.part_type2.shortName
+            self.part_type1.name = self.part_type2.name
             self.part_type1.save()
 
     def test_attribute_update_duplicate(self):
@@ -343,7 +343,7 @@ class PartModelTestCase(TestCase):
 
     def test_option_value_update_duplicate(self):
         with self.assertRaises(IntegrityError):
-            self.attribute_value1.attribute_option = self.attribute_value2.attribute_option
+            self.attribute_value1.option_name = self.attribute_value2.option_name
             self.attribute_value1.save()
 
     def test_supplier_update_duplicate(self):
@@ -382,11 +382,11 @@ class PartModelTestCase(TestCase):
             self.part2.save()
 
     def test_type_defaults(self):
-        new_part_type = PartType.objects.create(shortName='Check', placing=4, includeInSection=self.part_section1)
+        new_part_type = PartType.objects.create(name='Check', placing=4, includeInSection=self.part_section1)
         self.assertEqual(new_part_type.description, None)
         self.assertEqual(new_part_type.can_be_substituted, False)
         self.assertEqual(new_part_type.can_be_omitted, False)
-        self.assertEqual(new_part_type.customer_facing, False)
+        self.assertEqual(new_part_type.customer_visible, False)
 
     def test_attribute_defaults(self):
         new_attribute = PartTypeAttribute.objects.create(partType=self.part_type_attribute1.partType,
@@ -412,26 +412,26 @@ class PartModelTestCase(TestCase):
 
     def test_type_update(self):
         part_id = self.part_type1.id
-        short_name = self.part_type1.shortName
+        name = self.part_type1.name
         description = self.part_type1.description
         includeInSection = self.part_type1.includeInSection
         placing = self.part_type1.placing
         can_be_substituted = self.part_type1.can_be_substituted
         can_be_omitted = self.part_type1.can_be_omitted
-        customer_facing = self.part_type1.customer_facing
+        customer_visible = self.part_type1.customer_visible
 
-        self.part_type1.shortName = 'Bob'
+        self.part_type1.name = 'Bob'
         self.part_type1.description = 'Bob desc'
         self.part_type1.includeInSection = self.part_section2
         self.part_type1.placing = 24
         self.part_type1.can_be_substituted = False
         self.part_type1.can_be_omitted = False
-        self.part_type1.customer_facing = False
+        self.part_type1.customer_visible = False
         self.part_type1.save()
 
         check_type = PartType.objects.get(id=part_id)
-        self.assertEqual(check_type.shortName, 'Bob')
-        self.assertNotEqual(check_type.shortName, short_name)
+        self.assertEqual(check_type.name, 'Bob')
+        self.assertNotEqual(check_type.name, name)
         self.assertEqual(check_type.description, 'Bob desc')
         self.assertNotEqual(check_type.description, description)
         self.assertEqual(check_type.includeInSection, self.part_section2)
@@ -442,8 +442,8 @@ class PartModelTestCase(TestCase):
         self.assertNotEqual(check_type.can_be_substituted, can_be_substituted)
         self.assertEqual(check_type.can_be_omitted, False)
         self.assertNotEqual(check_type.can_be_omitted, can_be_omitted)
-        self.assertEqual(check_type.customer_facing, False)
-        self.assertNotEqual(check_type.customer_facing, customer_facing)
+        self.assertEqual(check_type.customer_visible, False)
+        self.assertNotEqual(check_type.customer_visible, customer_visible)
 
     def test_attribute_update(self):
         attribute_id = self.part_type_attribute1.id
@@ -565,7 +565,7 @@ class PartModelTestCase(TestCase):
         self.assertEqual(str(self.part_section2), self.part_section2.name)
 
     def test_type_string(self):
-        self.assertEqual(str(self.part_type1), self.part_type1.shortName)
+        self.assertEqual(str(self.part_type1), self.part_type1.name)
 
     def test_attribute_string(self):
         self.assertEqual(str(self.part_type_attribute1), self.part_type_attribute1.attribute_name)
@@ -577,7 +577,7 @@ class PartModelTestCase(TestCase):
         self.assertEqual(str(self.brand1), self.brand1.brand_name)
 
     def test_part_string(self):
-        expected = f'{self.part1.partType.shortName}: {self.part1.brand.brand_name} {self.part1.part_name}'
+        expected = f'{self.part1.partType.name}: {self.part1.brand.brand_name} {self.part1.part_name}'
         self.assertEqual(str(self.part1), expected)
 
     def test_attribute_needs_completing(self):

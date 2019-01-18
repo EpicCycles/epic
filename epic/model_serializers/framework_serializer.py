@@ -24,10 +24,10 @@ class PartTypeSerializer(serializers.ModelSerializer):
         model = PartType
         fields = '__all__'
 
-    def validate_shortName(self, value):
+    def validate_name(self, value):
         if value:
             return value
-        raise serializers.ValidationError("Missing shortName")
+        raise serializers.ValidationError("Missing name")
 
     def validate_placing(self, value):
         if value and isinstance(value, int) and value > 0:
@@ -71,9 +71,9 @@ class PartTypeSynonymSerializer(serializers.ModelSerializer):
         model = PartTypeSynonym
         fields = '__all__'
 
-    def validate_shortName(self, value):
+    def validate_name(self, value):
         if value:
-            if PartType.objects.filter(shortName=value).exists():
+            if PartType.objects.filter(name=value).exists():
                 raise serializers.ValidationError("Value in use for a part name")
             return value
         raise serializers.ValidationError("Missing value for synonym")

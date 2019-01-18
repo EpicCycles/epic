@@ -9,9 +9,9 @@ class AttributesTestCase(TestCase):
 
     def setUp(self):
         self.part_section1 = PartSection.objects.create(name='Section1', placing=1)
-        self.part_type1 = PartType.objects.create(shortName='Wheels', description='Wheels description',
+        self.part_type1 = PartType.objects.create(name='Wheels', description='Wheels description',
                                                   includeInSection=self.part_section1, placing=1,
-                                                  can_be_substituted=True, can_be_omitted=True, customer_facing=True)
+                                                  can_be_substituted=True, can_be_omitted=True, customer_visible=True)
         self.part_type_attribute = PartTypeAttribute.objects.create(attribute_name='BB Type',
                                                                     partType=self.part_type1,
                                                                     in_use=True,
@@ -19,7 +19,7 @@ class AttributesTestCase(TestCase):
                                                                     placing=1,
                                                                     attribute_type='1')
         self.attribute_option = AttributeOptions.objects.create(part_type_attribute=self.part_type_attribute,
-                                                                attribute_option='Option Value')
+                                                                option_name='Option Value')
 
     def test_SectionSerializer_validators(self):
         serializer = SectionSerializer(data={'id': 2, 'name': 'Groupset'})
@@ -36,74 +36,74 @@ class AttributesTestCase(TestCase):
     def test_PartTypeSerializer_validators(self):
         # invalid section create
         serializer = PartTypeSerializer(
-            data={'id': self.part_type1.id, 'shortName': 'Wheels', 'description': 'Wheels descriptions',
+            data={'id': self.part_type1.id, 'name': 'Wheels', 'description': 'Wheels descriptions',
                   'includeInSection': 99998, 'placing': 1,
-                  'can_be_substituted': True, 'can_be_omitted': True, 'customer_facing': True})
+                  'can_be_substituted': True, 'can_be_omitted': True, 'customer_visible': True})
         self.assertEqual(serializer.is_valid(False), False)
         # missing section
-        serializer = PartTypeSerializer(data={'shortName': 'Wheels', 'description': 'Wheelset descriptions',
+        serializer = PartTypeSerializer(data={'name': 'Wheels', 'description': 'Wheelset descriptions',
                                               'placing': 2,
                                               'can_be_substituted': True, 'can_be_omitted': True,
-                                              'customer_facing': True})
+                                              'customer_visible': True})
         self.assertEqual(serializer.is_valid(False), False)
         # missing short name update
         serializer = PartTypeSerializer(
             data={'id': self.part_type1.id, 'description': 'Wheels description',
                   'includeInSection': self.part_section1.id, 'placing': 1,
-                  'can_be_substituted': True, 'can_be_omitted': True, 'customer_facing': True})
+                  'can_be_substituted': True, 'can_be_omitted': True, 'customer_visible': True})
         self.assertEqual(serializer.is_valid(False), False)
         # missing short name new
         serializer = PartTypeSerializer(data={'description': 'Wheels description',
                                               'includeInSection': self.part_section1.id, 'placing': 1,
                                               'can_be_substituted': True, 'can_be_omitted': True,
-                                              'customer_facing': True})
+                                              'customer_visible': True})
         self.assertEqual(serializer.is_valid(False), False)
         # missing placing update
         serializer = PartTypeSerializer(
-            data={'id': self.part_type1.id, 'shortName': 'Wheels', 'description': 'Wheels description',
+            data={'id': self.part_type1.id, 'name': 'Wheels', 'description': 'Wheels description',
                   'includeInSection': self.part_section1.id,
-                  'can_be_substituted': True, 'can_be_omitted': True, 'customer_facing': True})
+                  'can_be_substituted': True, 'can_be_omitted': True, 'customer_visible': True})
         self.assertEqual(serializer.is_valid(False), False)
         # missing placing new
-        serializer = PartTypeSerializer(data={'shortName': 'Wheels', 'description': 'Wheels description',
+        serializer = PartTypeSerializer(data={'name': 'Wheels', 'description': 'Wheels description',
                                               'includeInSection': self.part_section1.id,
                                               'can_be_substituted': True, 'can_be_omitted': True,
-                                              'customer_facing': True})
+                                              'customer_visible': True})
         self.assertEqual(serializer.is_valid(False), False)
         # invalid placing update
         serializer = PartTypeSerializer(
-            data={'id': self.part_type1.id, 'shortName': 'Wheels', 'description': 'Wheels description',
+            data={'id': self.part_type1.id, 'name': 'Wheels', 'description': 'Wheels description',
                   'includeInSection': self.part_section1.id, 'placing': 0,
-                  'can_be_substituted': True, 'can_be_omitted': True, 'customer_facing': True})
+                  'can_be_substituted': True, 'can_be_omitted': True, 'customer_visible': True})
         self.assertEqual(serializer.is_valid(False), False)
         # invalid placing new
-        serializer = PartTypeSerializer(data={'shortName': 'Wheels', 'description': 'Wheels description',
+        serializer = PartTypeSerializer(data={'name': 'Wheels', 'description': 'Wheels description',
                                               'includeInSection': self.part_section1.id, 'placing': 'd',
                                               'can_be_substituted': True, 'can_be_omitted': True,
-                                              'customer_facing': True})
+                                              'customer_visible': True})
         self.assertEqual(serializer.is_valid(False), False)
         # all fields is valid create
-        serializer = PartTypeSerializer(instance=self.part_type1, data={'id': self.part_type1.id, 'shortName': 'Wheels',
+        serializer = PartTypeSerializer(instance=self.part_type1, data={'id': self.part_type1.id, 'name': 'Wheels',
                                                                         'description': 'Wheels description',
                                                                         'includeInSection': self.part_section1.id,
                                                                         'placing': 12,
                                                                         'can_be_substituted': True,
                                                                         'can_be_omitted': True,
-                                                                        'customer_facing': True})
+                                                                        'customer_visible': True})
         self.assertEqual(serializer.is_valid(), True)
         # all fields is valid new
-        serializer = PartTypeSerializer(data={'shortName': 'Wheelsdd', 'description': 'Wheels descriptiondd',
+        serializer = PartTypeSerializer(data={'name': 'Wheelsdd', 'description': 'Wheels descriptiondd',
                                               'includeInSection': self.part_section1.id, 'placing': 2,
                                               'can_be_substituted': True, 'can_be_omitted': True,
-                                              'customer_facing': True})
+                                              'customer_visible': True})
         self.assertEqual(serializer.is_valid(False), True)
         # missing optional fields or default fields is OK
-        serializer = PartTypeSerializer(instance=self.part_type1, data={'id': self.part_type1.id, 'shortName': 'Wheels',
+        serializer = PartTypeSerializer(instance=self.part_type1, data={'id': self.part_type1.id, 'name': 'Wheels',
                                                                         'includeInSection': self.part_section1.id,
                                                                         'placing': 1})
         self.assertEqual(serializer.is_valid(False), True)
         # missing optional fields or default fields is OK for new row
-        serializer = PartTypeSerializer(data={'shortName': 'Wheels2',
+        serializer = PartTypeSerializer(data={'name': 'Wheels2',
                                               'includeInSection': self.part_section1.id, 'placing': 2})
         self.assertEqual(serializer.is_valid(False), True)
 

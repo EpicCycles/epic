@@ -48,7 +48,7 @@ exports[`it renders 1`] = `
             Object {
               "id": 11,
               "includeInSection": 1,
-              "shortName": "id 11",
+              "name": "id 11",
             }
           }
           partTypeIndex={0}
@@ -60,12 +60,12 @@ exports[`it renders 1`] = `
                 Object {
                   "id": 11,
                   "includeInSection": 1,
-                  "shortName": "id 11",
+                  "name": "id 11",
                 },
                 Object {
                   "id": 21,
                   "includeInSection": 1,
-                  "shortName": "id 21",
+                  "name": "id 21",
                 },
               ],
             }
@@ -82,7 +82,7 @@ exports[`it renders 1`] = `
             Object {
               "id": 21,
               "includeInSection": 1,
-              "shortName": "id 21",
+              "name": "id 21",
             }
           }
           partTypeIndex={1}
@@ -94,12 +94,12 @@ exports[`it renders 1`] = `
                 Object {
                   "id": 11,
                   "includeInSection": 1,
-                  "shortName": "id 11",
+                  "name": "id 11",
                 },
                 Object {
                   "id": 21,
                   "includeInSection": 1,
-                  "shortName": "id 21",
+                  "name": "id 21",
                 },
               ],
             }
@@ -116,7 +116,7 @@ exports[`it renders 1`] = `
             Object {
               "id": 2,
               "includeInSection": 2,
-              "shortName": "find me",
+              "name": "find me",
             }
           }
           partTypeIndex={0}
@@ -141,12 +141,12 @@ exports[`it renders 1`] = `
                 Object {
                   "id": 2,
                   "includeInSection": 2,
-                  "shortName": "find me",
+                  "name": "find me",
                 },
                 Object {
                   "id": 22,
                   "includeInSection": 2,
-                  "shortName": "id 22",
+                  "name": "id 22",
                 },
               ],
             }
@@ -163,7 +163,7 @@ exports[`it renders 1`] = `
             Object {
               "id": 22,
               "includeInSection": 2,
-              "shortName": "id 22",
+              "name": "id 22",
             }
           }
           partTypeIndex={1}
@@ -175,12 +175,12 @@ exports[`it renders 1`] = `
                 Object {
                   "id": 2,
                   "includeInSection": 2,
-                  "shortName": "find me",
+                  "name": "find me",
                 },
                 Object {
                   "id": 22,
                   "includeInSection": 2,
-                  "shortName": "id 22",
+                  "name": "id 22",
                 },
               ],
             }

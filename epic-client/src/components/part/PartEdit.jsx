@@ -20,7 +20,7 @@ const initialState = {
     partType: "",
     brand: "",
     part_name: "",
-    trade_in_value: "",
+    trade_in_price: "",
     standard: false,
     stocked: false,
     errors: {}
@@ -94,7 +94,7 @@ class PartEdit extends React.Component {
     };
 
     render() {
-        const { id, partType, part_name, brand, trade_in_value, standard, stocked, errors }   = this.state;
+        const { id, partType, part_name, brand, trade_in_price, standard, stocked, errors }   = this.state;
         const { closeModal, sections, brands, partDataList, partTypeEditable, deletePart } = this.props;
         const componentKey = id ? id : NEW_ELEMENT_ID;
         const isChanged = this.checkForChanges();
@@ -168,7 +168,7 @@ class PartEdit extends React.Component {
                         <FormTextInput
                             key={`${TRADE_IN_FIELD.fieldName}_${componentKey}`}
                             fieldName={`${TRADE_IN_FIELD.fieldName}_${componentKey}`}
-                            value={trade_in_value}
+                            value={trade_in_price}
                             onChange={this.handleInputChange}
                             error={errors[TRADE_IN_FIELD.fieldName]}
                             dataType="number"

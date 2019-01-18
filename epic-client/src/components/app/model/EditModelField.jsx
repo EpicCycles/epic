@@ -5,7 +5,7 @@ import * as PropTypes from "prop-types";
 class EditModelField extends Component {
 
     render() {
-        const { field, model, className, componentKey, index, onChange,sections, brands, suppliers } = this.props;
+        const { field, model, className, componentKey, index, onChange,sections, brands, suppliers, fittings } = this.props;
 
         return <div className="grid-row">
             <div
@@ -28,6 +28,7 @@ class EditModelField extends Component {
                     sections={sections}
                     brands={brands}
                     suppliers={suppliers}
+                    fittings={fittings}
                 />
             </div>
         </div>;
@@ -43,5 +44,6 @@ EditModelField.propTypes = {
     sections: PropTypes.array,
     brands: PropTypes.array,
     suppliers: PropTypes.array,
+    fittings: PropTypes.array,
 };
 export default EditModelField;

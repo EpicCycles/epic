@@ -1,3 +1,5 @@
+import {getNameForValue} from "../../app/model/helpers/model";
+
 export const COUNTRIES = [
     { value: "AF", name: "Afghanistan" }, {
         value: "AX",
@@ -255,19 +257,14 @@ export const COUNTRIES = [
     }, { value: "WF", name: "Wallis and Futuna" }, { value: "EH", name: "Western Sahara" }, {
         value: "YE",
         name: "Yemen"
-    }, { value: "ZM", name: "Zambia" }, { value: "ZW", name: "Zimbabwe" }]
-
+    }, { value: "ZM", name: "Zambia" }, { value: "ZW", name: "Zimbabwe" }
+    ];
+export const NUMBER_TYPE_CHOICES = [
+    {name:'Home', value:'H'},
+    {name:'Work', value:'M'},
+    {name:'Mobile', value:"W"},
+    ];
 export const getCountryName = countryCode => {
-    if (!countryCode) return undefined;
-    let countryName = countryCode;
-
-    COUNTRIES.some(country => {
-        if (country.value === countryCode) {
-            countryName = country.name;
-            return true;
-        }
-        return false;
-    });
-    return countryName;
+    return getNameForValue(countryCode, COUNTRIES);
 };
 // TODO address validation

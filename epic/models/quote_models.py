@@ -31,16 +31,14 @@ class Quote(models.Model):
     version = models.PositiveSmallIntegerField(default=1, editable=False)
     created_date = models.DateTimeField(auto_now_add=True)
     issued_date = models.DateTimeField(null=True)
-    sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-
-    # frame will be null for a quote for items only
+    rrp = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     bike = models.ForeignKey(Bike, on_delete=models.CASCADE, blank=True, null=True)
-    frame_sell_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
+    bike_price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     colour = models.CharField(max_length=40, blank=True, null=True)
     colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     frame_size = models.CharField(max_length=15, blank=True, null=True)
     fitting = models.ForeignKey(Fitting, on_delete=models.CASCADE, blank=True, null=True)
-    keyed_sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    epic_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     quote_type = models.CharField(max_length=1, choices=QUOTE_TYPE_CHOICES, default=BIKE, )
     quote_status = models.CharField(max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
@@ -64,8 +62,8 @@ class Quote(models.Model):
         # is_new = self._state.adding
         is_new = (self.pk is None)
         if is_new:
-            if self.is_bike() and not self.frame_sell_price:
-                self.frame_sell_price = self.frame.sell_price
+            if self.is_bike() and not self.bike_price:
+                self.bike_price = self.frame.rrp
 
         # calculate sum before saving.
         self.recalculate_prices()
@@ -100,11 +98,11 @@ class Quote(models.Model):
             return False
 
         # check all prices complete and quantities set before issuing
-        if self.keyed_sell_price is None:
+        if self.epic_price is None:
             return False
 
         if self.frame is not None:
-            if self.frame_sell_price is None:
+            if self.bike_price is None:
                 return False
             if self.colour is None or self.colour_price is None:
                 return False
@@ -133,25 +131,25 @@ class Quote(models.Model):
         self.save()
 
     def recalculate_prices(self):
-        self.sell_price = Decimal(0)
+        self.rrp = Decimal(0)
 
-        if self.frame is None:
+        if self.bike is None:
             pass
-        elif self.frame_sell_price:
-            self.sell_price += self.frame_sell_price
+        elif self.bike_price:
+            self.rrp += self.bike_price
             if self.colour_price:
-                self.sell_price += self.colour_price
+                self.rrp += self.colour_price
 
         # loop through the parts for the quote
         quote_parts = self.quotepart_set.all()
         for quote_part in quote_parts:
 
-            if quote_part.quantity and quote_part.sell_price:
-                self.sell_price += quote_part.sell_price * quote_part.quantity
+            if quote_part.quantity and quote_part.rrp:
+                self.rrp += quote_part.rrp * quote_part.quantity
 
             if quote_part.trade_in_price:
-                self.sell_price -= quote_part.trade_in_price
-        return self.sell_price
+                self.rrp -= quote_part.trade_in_price
+        return self.rrp
 
     class Meta:
         # order most recent first
@@ -164,7 +162,7 @@ class QuotePartManager(models.Manager):
     def copy_quote_part_to_new_quote(self, quote, old_quote_part):
         quote_part = self.create(quote=quote, partType=old_quote_part.partType, part=old_quote_part.part,
                                  quantity=old_quote_part.quantity,
-                                 sell_price=old_quote_part.sell_price,
+                                 rrp=old_quote_part.rrp,
                                  trade_in_price=old_quote_part.trade_in_price,
                                  replacement_part=old_quote_part.replacement_part)
 
@@ -178,38 +176,6 @@ class QuotePartManager(models.Manager):
             quote_part.save()
         return quote_part
 
-    # this creates a skinny version to use on a form incomplete cannot be saved
-    def create_quote_part(self, quote, quote_part_form):
-        # find the part
-        brand_id = quote_part_form.cleaned_data['brand']
-        trade_in_price = quote_part_form.cleaned_data['trade_in_price']
-        part_type = quote_part_form.cleaned_data['part_type']
-
-        quote_part = None
-        if brand_id:
-            brand = Brand.objects.get(id=brand_id)
-            part_name = quote_part_form.cleaned_data['part_name']
-            from epic.model_helpers.part_helper import find_or_create_part
-            part = find_or_create_part(brand, part_type, part_name, True)
-            if part:
-                quote_part = self.create(quote=quote, partType=part_type, part=part,
-                                         quantity=quote_part_form.cleaned_data['quantity'],
-                                         sell_price=quote_part_form.cleaned_data['sell_price'],
-                                         trade_in_price=quote_part_form.cleaned_data['trade_in_price'],
-                                         replacement_part=quote_part_form.cleaned_data['replacement_part'])
-
-        elif trade_in_price is not None:
-            quote_part = self.create(quote=quote, partType=part_type, sell_price=None, part=None,
-                                     trade_in_price=quote_part_form.cleaned_data['trade_in_price'],
-                                     replacement_part=True)
-
-        if quote_part:
-            QuotePartAttribute.objects.save_quote_part_attributes(quote_part)
-            quote_part.is_incomplete = quote_part.check_incomplete(False)
-            quote_part.save()
-
-        return quote_part
-
 
 class QuotePart(models.Model):
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
@@ -217,7 +183,8 @@ class QuotePart(models.Model):
     # part can be None if the part has not been selected
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=1, blank=True, null=True)
-    sell_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    rrp = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    epic_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     replacement_part = models.BooleanField(default=False)
     is_incomplete = models.BooleanField(default=False)
@@ -290,7 +257,7 @@ class QuotePart(models.Model):
     def check_incomplete(self, is_new):
 
         if self.part:
-            if self.sell_price is None:
+            if self.rrp is None:
                 return True
             if is_new:
                 if PartTypeAttribute.objects.filter(partType=self.partType, in_use=True, mandatory=True):

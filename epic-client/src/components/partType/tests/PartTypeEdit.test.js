@@ -6,10 +6,10 @@ test("displays the PartTypeEdit component for an existing part type with attribu
     const partType = {
         _detail: false,
         id:21,
-        shortName:"part one",
+        name:"part one",
         can_be_substituted: false,
         can_be_omitted: true,
-        customer_facing:true
+        customer_visible:true
     };
     const component = shallow(<PartTypeEdit componentKey={componentKey} partType={partType} />);
     expect(component).toMatchSnapshot();
@@ -19,10 +19,10 @@ test("displays the PartTypeEdit component for an existing part type with attribu
     const partType = {
         _detail: true,
         dummyKey:componentKey,
-        shortName:"part one",
+        name:"part one",
         can_be_substituted: false,
         can_be_omitted: true,
-        customer_facing:true,
+        customer_visible:true,
         attributes: ["attribute1","attribute2"]
     };
     const component = shallow(<PartTypeEdit componentKey={componentKey} partType={partType} />);
@@ -32,10 +32,10 @@ test("displays the PartTypeEdit component for a new part type with no attributes
     const partType = {
         _detail: true,
         dummyKey:NEW_ELEMENT_ID,
-        shortName:"part one",
+        name:"part one",
         can_be_substituted: false,
         can_be_omitted: true,
-        customer_facing:true
+        customer_visible:true
 };
     const component = shallow(<PartTypeEdit componentKey={NEW_ELEMENT_ID} partType={partType} />);
     expect(component).toMatchSnapshot();

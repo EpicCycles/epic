@@ -35,8 +35,8 @@ class SupplierBlob extends React.Component {
             </nobr>
             {showBrands &&
             <div key={`supplierBlobBrands${dest}${componentKey}`}> Brands: {supplier.brand_names.join(", ")}</div>}
-            {(showWebsite && supplier.website) &&
-            <a key={`supplierBlobLink${dest}${componentKey}`} href={supplier.website}>Website</a>}
+            {(showWebsite && supplier.link) &&
+            <a key={`supplierBlobLink${dest}${componentKey}`} href={supplier.link}>Website</a>}
         </div>;
     }
 }

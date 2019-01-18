@@ -12,7 +12,7 @@ TextField.register_lookup(UpperCase)
 # suppliers  for bikes/parts etc
 class Supplier(models.Model):
     supplier_name = models.CharField('Supplier', max_length=100, unique=True)
-    website = models.CharField('Website', blank=True, max_length=200)
+    link = models.CharField('Website', blank=True, max_length=200)
     preferred_supplier = models.BooleanField('Preferred', default=True)
 
     def __str__(self):
@@ -71,7 +71,7 @@ class Part(models.Model):
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     part_name = models.CharField(max_length=200)
-    trade_in_value =  models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     standard = models.BooleanField(default=False)
     stocked = models.BooleanField(default=False)
     objects = PartManager()

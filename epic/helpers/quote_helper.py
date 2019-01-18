@@ -22,15 +22,15 @@ def quote_requote_reset_prices(request, quote):
     quote_parts = quote.quotepart_set.all()
     for quote_part in quote_parts:
         quote_part.trade_in_price = None
-        quote_part.sell_price = None
+        quote_part.rrp = None
         quote_part.save()
 
-    quote.keyed_sell_price = None
-    if quote.frame:
-        quote.frame_sell_price = quote.frame.sell_price
+    quote.epic_price = None
+    if quote.bike:
+        quote.bike_price = quote.bike.epic_price
 
     else:
-        quote.frame_sell_price = None
+        quote.bike_price = None
 
     quote.quote_status = INITIAL
     quote.save()
@@ -75,8 +75,8 @@ def copy_quote_with_changes(old_quote, request, frame, customer):
         if new_quote.is_bike():
             if type(frame) == Frame:
                 new_quote.frame = frame
-                new_quote.keyed_sell_price = None
-                new_quote.frame_sell_price = frame.sell_price
+                new_quote.epic_price = None
+                new_quote.bike_price = frame.rrp
                 new_quote.colour = None
                 new_quote.colour_price = None
                 new_quote.frame_size = None

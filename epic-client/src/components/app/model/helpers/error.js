@@ -1,5 +1,6 @@
 export const BRAND_NAME_MISSING = "A name is required for the brand";
 export const FRAME_NAME_MISSING = "A name is required for the frame";
+export const ATTRIBUTE_NAME_MISSING = "A name is required for the attribute";
 export const BUNDLE_NAME_MISSING = "A name is required for the bundle";
 export const MODEL_NAME_MISSING = "A name is required for the model";
 export const PART_NAME_MISSING = "A name is required for the part";
@@ -13,3 +14,7 @@ export const PART_MISSING = "A part must be selected";
 export const ADDRESS_MISSING = "At least one line of address must be entered";
 export const COUNTRY_MISSING = "A country must be selected";
 export const INVALID_POSTCODE = "A postcode is expected which for this country has the format ";
+export const SELECT_ONE_MISSING = "Please select an option.";
+export const VALUE_MISSING = "A value is required.";
+export const INVALID_EMAIL = "Invalid email address.";
+export const INVALID_URL = "Invalid URL";

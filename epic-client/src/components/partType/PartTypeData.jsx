@@ -18,15 +18,15 @@ class PartTypeData extends React.Component {
         const { partType, componentKey, handlePartTypeValueChange } = this.props;
         const can_be_substitutedId = `can_be_substituted_${componentKey}`;
         const can_be_omittedId = `can_be_omitted_${componentKey}`;
-        const customer_facingId = `customer_facing_${componentKey}`;
+        const customer_visibleId = `customer_visible_${componentKey}`;
         const attributes = partType.attributes || [];
         const synonyms = partType.synonyms || [];
         return <Fragment>
 
                 <FormTextInput
                     placeholder="add new"
-                    fieldName={`shortName_${componentKey}`}
-                    value={partType.shortName}
+                    fieldName={`name_${componentKey}`}
+                    value={partType.name}
                     onChange={handlePartTypeValueChange}
                     onClick={this.handleInputClear}
                 />
@@ -44,12 +44,12 @@ class PartTypeData extends React.Component {
                        onChange={event => handlePartTypeValueChange(event.target.name, !partType.can_be_omitted)}
                        checked={(partType.can_be_omitted === true)}
                 />
-                <label htmlFor={customer_facingId}>Customer Facing?</label>
+                <label htmlFor={customer_visibleId}>Customer Facing?</label>
                 <input type="checkbox"
-                       name={customer_facingId}
-                       id={customer_facingId}
-                       onChange={event => handlePartTypeValueChange(event.target.name, !partType.customer_facing)}
-                       checked={(partType.customer_facing === true)}
+                       name={customer_visibleId}
+                       id={customer_visibleId}
+                       onChange={event => handlePartTypeValueChange(event.target.name, !partType.customer_visible)}
+                       checked={(partType.customer_visible === true)}
                 />
             {(!partType._detail) &&
             <div>
