@@ -123,3 +123,4 @@ export const updateObjectInArray = (initialArray, updatedObject, componentKey) =
 export const updateObject = (initialObject = {}, fieldList1 = {}, fieldList2 = {}) => {
     return Object.assign({}, initialObject, fieldList1, fieldList2);
 };
+export const definedOrZero = (numericField) => (numericField || numericField === 0);

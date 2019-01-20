@@ -152,3 +152,18 @@ export const getNameForValue = (value, sourceArray) => {
     });
     return name;
 };
+
+export const hasErrors = (model) => {
+    if (model.error && model.error.length > 0) return true;
+    if (isItAnObject(model.error_detail)) return true;
+    return false;
+};
+
+export const addErrorDetail = (error_detail = {}, field, error) => {
+      let updated_error_detail = updateObject(error_detail);
+  if (!Array.isArray(updated_error_detail[field])) {
+         updated_error_detail[field] = [];
+  }
+  updated_error_detail[field].push(error);
+  return updated_error_detail;
+};

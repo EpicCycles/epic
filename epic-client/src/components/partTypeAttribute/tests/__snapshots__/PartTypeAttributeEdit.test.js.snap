@@ -65,14 +65,6 @@ exports[`PartTypeAttributeEdit tests renders the component correctly with a new 
             "name": "Single - Dropdown",
             "value": "4",
           },
-          Object {
-            "name": "Multiple - Radio",
-            "value": "5",
-          },
-          Object {
-            "name": "Multiple - Dropdown",
-            "value": "6",
-          },
         ]
       }
     />
@@ -145,14 +137,6 @@ exports[`PartTypeAttributeEdit tests renders the component correctly with an att
           Object {
             "name": "Single - Dropdown",
             "value": "4",
-          },
-          Object {
-            "name": "Multiple - Radio",
-            "value": "5",
-          },
-          Object {
-            "name": "Multiple - Dropdown",
-            "value": "6",
           },
         ]
       }

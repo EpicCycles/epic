@@ -73,6 +73,7 @@ exports[`BrandModal displays correctly for a brand 1`] = `
             "error": "A name is required for the brand",
             "fieldName": "brand_name",
             "header": "Brand Name",
+            "length": 50,
             "required": true,
             "synonyms": Array [],
           },
@@ -84,7 +85,9 @@ exports[`BrandModal displays correctly for a brand 1`] = `
           Object {
             "fieldName": "link",
             "header": "URL",
-            "synonyms": Array [],
+            "length": 100,
+            "type": "text",
+            "validator": [Function],
           },
           Object {
             "fieldName": "supplier",
@@ -212,6 +215,7 @@ exports[`BrandModal displays correctly for a new brand 1`] = `
             "error": "A name is required for the brand",
             "fieldName": "brand_name",
             "header": "Brand Name",
+            "length": 50,
             "required": true,
             "synonyms": Array [],
           },
@@ -223,7 +227,9 @@ exports[`BrandModal displays correctly for a new brand 1`] = `
           Object {
             "fieldName": "link",
             "header": "URL",
-            "synonyms": Array [],
+            "length": 100,
+            "type": "text",
+            "validator": [Function],
           },
           Object {
             "fieldName": "supplier",

@@ -5,7 +5,7 @@ import SelectInput from "../../common/SelectInput";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {generateRandomCode, updateObject} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
-import {ATTRIBUTE_OPTION_TYPES} from "../app/model/helpers/constants";
+import {ATTRIBUTE_OPTION_TYPES} from "./helpers/partTypeAttribute";
 
 class PartTypeAttributeEdit extends React.Component {
     handleInputChange = (fieldName, input) => {

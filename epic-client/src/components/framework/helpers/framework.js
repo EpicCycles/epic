@@ -30,6 +30,24 @@ export const getPartTypeName = (partTypeId, sections) => {
     return partTypeName;
 };
 
+export const getPartType = (partTypeId, sections) => {
+if (! partTypeId) return undefined;
+    let partType = {};
+    sections.some(section => {
+        return section.partTypes.some(aPartType => {
+            if (aPartType.id === partTypeId) {
+                partType = aPartType;
+                return true;
+            }
+            return false;
+        });
+    });
+    return partType;
+};
+export const getPartTypeAttributeFields = (partTypeId, sections) => {
+    return getPartType(partTypeId, sections).attributes || [];
+};
+
 export const processPartTypeValueChanges = (partType, componentKey, fieldName, input) => {
     const updatedPartType = updateObject(partType);
     if (fieldName.startsWith('name')) updatedPartType.name = input;

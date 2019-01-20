@@ -11,11 +11,15 @@ import {
     SUPPLIER_MISSING, VALUE_MISSING
 } from "./error";
 import {validateEmailFormat, validatePostcodeAndReturnError, validateURLAndReturnError} from "./validators";
-import {ATTRIBUTE_OPTION_TYPES} from "./constants";
+import {ATTRIBUTE_OPTION_TYPES} from "../../../partTypeAttribute/helpers/partTypeAttribute";
 import {FITTING_TYPE_CHOICES} from "../../../fitting/helpers/fitting";
 import {COUNTRIES, NUMBER_TYPE_CHOICES} from "../../../address/helpers/address";
 import {QUOTE_STATUS_CHOICES} from "../../../quote/helpers/quote";
+import {updateObject} from "../../../../helpers/utils";
 
+export const overrideReadonly = { readonly: false };
+export const CHECKBOX = "checkbox";
+export const RADIO = "radio";
 export const DATE_TIME = "date_time";
 export const SELECT_ONE = "select_one";
 export const CURRENCY = "currency";
@@ -41,7 +45,6 @@ export const BIKE_BRAND = "bike_brand";
 export const BRAND = "brand";
 export const BRAND_NAME = "brand_name";
 export const BUNDLE_NAME = "bundle_name";
-export const CHECKBOX = "checkbox";
 export const CAN_BE_OMITTED = "can_be_omitted";
 export const CAN_BE_SUBSTITUTED = "can_be_substituted";
 export const CHECK_DATE = "check_date";
@@ -83,6 +86,7 @@ export const PRODUCT_CODE = "product_code";
 export const PRODUCTS = "products";
 export const QUANTITY = "quantity";
 export const QUOTE_DESC = "quote_desc";
+export const QUOTE_PRICE = "quote_price";
 export const QUOTE_STATUS = "quote_status";
 export const REACH = "reach";
 export const REPLACEMENT_PART = "replacement_part";
@@ -115,7 +119,7 @@ export const ARCHIVED_DATE_FIELD = {
 export const ARCHIVED_FIELD = {
     fieldName: ARCHIVED,
     header: "Archived",
-    type: CHECKBOX
+    type: CHECKBOX,
 };
 export const ATTRIBUTE_NAME_FIELD = {
     fieldName: ATTRIBUTE_NAME,
@@ -486,6 +490,14 @@ export const SUPPLIER_FIELD_OPTIONAL = {
     synonyms: [SUPPLIER],
     type: SUPPLIER
 };
+export const OPTION_NAME_FIELD = {
+    fieldName: OPTION_NAME,
+    header: "Option Name",
+    type: TEXT,
+    required: true,
+    error: VALUE_MISSING,
+    length: 30
+};
 export const PART_FIELD = {
     fieldName: PART,
     header: "Part",
@@ -493,6 +505,13 @@ export const PART_FIELD = {
     required: true,
     error: PART_MISSING,
     type: PART
+};
+export const QUOTE_PRICE_FIELD = {
+    fieldName: QUOTE_PRICE,
+    header: "Quote Price",
+    synonyms: [],
+    type: CURRENCY,
+    length: 10
 };
 export const BRAND_NAME_FIELD = {
     fieldName: BRAND_NAME,
@@ -507,14 +526,6 @@ export const PRODUCT_CODE_FIELD = {
     header: "Product Code",
     synonyms: [PRODUCT_CODE],
     type: TEXT,
-    length: 30
-};
-export const OPTION_NAME_FIELD = {
-    fieldName: OPTION_NAME,
-    header: "Option Name",
-    type: TEXT,
-    required: true,
-    error: VALUE_MISSING,
     length: 30
 };
 export const SELL_PRICE_FIELD = {
@@ -663,8 +674,10 @@ export const quoteFieldsNoBike = [
     CREATED_DATE_FIELD,
     UPD_DATE_FIELD,
     ISSUED_DATE_FIELD,
-    SELL_PRICE_FIELD,
-    EPIC_PRICE_FIELD,
+    updateObject(SELL_PRICE_FIELD, overrideReadonly),
+    updateObject(EPIC_PRICE_FIELD, overrideReadonly),
+    updateObject(CLUB_PRICE_FIELD, overrideReadonly),
+    QUOTE_PRICE_FIELD,
 ];
 export const quoteFields = quoteFieldsNoBike.concat(quoteFieldsBike);
 
@@ -675,7 +688,7 @@ export const quotePartFields = [
     QUANTITY_FIELD,
     SELL_PRICE_FIELD,
     EPIC_PRICE_FIELD,
-    TRADE_PRICE_FIELD
+    CLUB_PRICE_FIELD
 ];
 export const quotePartAttributeFields = [
     ATTRIBUTE_VALUE_FIELD
