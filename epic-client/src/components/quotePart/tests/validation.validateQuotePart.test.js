@@ -1,4 +1,3 @@
-import {completeQuotePart} from "../helpers/quotePart";
 import {validateQuotePart} from "../helpers/validation";
 
 const sections = [
@@ -299,11 +298,11 @@ test('part and replacement part with trade in price no errors', () => {
         error_detail: {},
     };
     const bike_parts = [
-        { partType: 14, part: 23 },
+        { partType: 1, part: 23 },
     ];
     expect(validateQuotePart(quotePart, bike_parts, sections)).toEqual(quotePartExpected);
 });
-test('no part and replacement part with trade in price no errors', () => {
+test('replacement part with trade in price no errors', () => {
     const quotePart = {
         quote: 1,
         partType: 1,
@@ -321,7 +320,150 @@ test('no part and replacement part with trade in price no errors', () => {
         error_detail: {},
     };
     const bike_parts = [
+        { partType: 1, part: 23 },
+    ];
+    expect(validateQuotePart(quotePart, bike_parts, sections)).toEqual(quotePartExpected);
+});
+test('part and replacement part with no trade in price error', () => {
+    const quotePart = {
+        quote: 1,
+        partType: 1,
+        part: 16,
+        quantity: 1,
+        rrp: 12.99,
+        epic_price: 11.50,
+        replacement_part: true,
+        quote_part_attributes: [],
+    };
+    const quotePartExpected = {
+        quote: 1,
+        part: 16,
+        partType: 1,
+        quantity: 1,
+        rrp: 12.99,
+        epic_price: 11.50,
+        replacement_part: true,
+        quote_part_attributes: [],
+        error: [],
+        error_detail: { trade_in_price: ["A trade in price must be keyed (can be zero)."] },
+    };
+    const bike_parts = [
+        { partType: 1, part: 23 },
+    ];
+    expect(validateQuotePart(quotePart, bike_parts, sections)).toEqual(quotePartExpected);
+});
+test('no part and replacement part not on bike spec - error', () => {
+    const quotePart = {
+        quote: 1,
+        partType: 1,
+        trade_in_price: 10.30,
+        replacement_part: true,
+        quote_part_attributes: [],
+    };
+    const quotePartExpected = {
+        quote: 1,
+        partType: 1,
+        trade_in_price: 10.30,
+        replacement_part: true,
+        quote_part_attributes: [],
+        error: [],
+        error_detail: {
+            replacement_part: ["No matching part on bike specification."]
+        },
+    };
+    const bike_parts = [
         { partType: 14, part: 23 },
+    ];
+    expect(validateQuotePart(quotePart, bike_parts, sections)).toEqual(quotePartExpected);
+});
+test('no part and rrp - error', () => {
+    const quotePart = {
+        quote: 1,
+        partType: 1,
+        trade_in_price: 10.30,
+        rrp: 30.00,
+        quantity: 2,
+        epic_price: 30.00,
+        club_price: 30.00,
+        replacement_part: true,
+        quote_part_attributes: [],
+    };
+    const quotePartExpected = {
+        quote: 1,
+        partType: 1,
+        trade_in_price: 10.30,
+        rrp: 30.00,
+        quantity: 2,
+        epic_price: 30.00,
+        club_price: 30.00,
+        replacement_part: true,
+        quote_part_attributes: [],
+        error: [],
+        error_detail: {
+            rrp: ["No prices or quantities should be entered if there is no part"],
+            quantity: ["No prices or quantities should be entered if there is no part"],
+            epic_price: ["No prices or quantities should be entered if there is no part"],
+            club_price: ["No prices or quantities should be entered if there is no part"],
+        },
+    };
+    const bike_parts = [
+        { partType: 1, part: 23 },
+    ];
+    expect(validateQuotePart(quotePart, bike_parts, sections)).toEqual(quotePartExpected);
+});
+test('part and not replacement part with trade in price', () => {
+    const quotePart = {
+        quote: 1,
+        partType: 1,
+        part: 16,
+        quantity: 1,
+        rrp: 12.99,
+        epic_price: 11.50,
+        trade_in_price: 10.30,
+        replacement_part: false,
+        quote_part_attributes: [],
+    };
+    const quotePartExpected = {
+        quote: 1,
+        part: 16,
+        partType: 1,
+        quantity: 1,
+        rrp: 12.99,
+        epic_price: 11.50,
+        trade_in_price: 10.30,
+        replacement_part: false,
+        quote_part_attributes: [],
+        error: [],
+        error_detail: {trade_in_price:["Trade in price only valid when this is a replacement part"]},
+    };
+    const bike_parts = [
+        { partType: 1, part: 23 },
+    ];
+    expect(validateQuotePart(quotePart, bike_parts, sections)).toEqual(quotePartExpected);
+});
+
+test('part with missing data', () => {
+    const quotePart = {
+        quote: 1,
+        partType: 171,
+        part: 16,
+        epic_price: 11.50,
+        quote_part_attributes: [],
+    };
+    const quotePartExpected = {
+        quote: 1,
+        part: 16,
+        partType: 171,
+        epic_price: 11.50,
+        quote_part_attributes: [],
+        error: ["Attributes need to be completed"],
+        error_detail: {
+            rrp: ["At least an RRP must be provided for the part"],
+            quantity: ["A value is required."]
+        },
+    };
+    const bike_parts = [
+        { partType: 1, part: 23 },
     ];
     expect(validateQuotePart(quotePart, bike_parts, sections)).toEqual(quotePartExpected);
 });

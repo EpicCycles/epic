@@ -22,7 +22,6 @@ const MANDATORY_ATTRIBUTES = "Attributes need to be completed";
 export const validateQuotePart = (quote_part, bike_parts, sections) => {
     let error = quote_part.error || [];
     let error_detail = quote_part.error_detail || {};
-    const partType = getPartType(quote_part.partType, sections);
 
     // can only have replacement parts if there is a matching part
     if (quote_part.replacement_part) {
@@ -37,7 +36,7 @@ export const validateQuotePart = (quote_part, bike_parts, sections) => {
     if (quote_part.part) {
         if (!definedOrZero(quote_part[SELL_PRICE])) error_detail = addErrorDetail(error_detail, SELL_PRICE, AT_LEAST_ONE_PRICE);
         if (!definedOrZero(quote_part[QUANTITY])) error_detail = addErrorDetail(error_detail, QUANTITY, VALUE_MISSING);
-        if (! hasMandatoryAttributes(quote_part, partType.attributes)) error.push(MANDATORY_ATTRIBUTES);
+        if (! hasMandatoryAttributes(quote_part, sections)) error.push(MANDATORY_ATTRIBUTES);
     } else {
         if (definedOrZero(quote_part[SELL_PRICE])) error_detail = addErrorDetail(error_detail, SELL_PRICE, PLEASE_REMOVE);
         if (definedOrZero(quote_part[EPIC_PRICE])) error_detail = addErrorDetail(error_detail, EPIC_PRICE, PLEASE_REMOVE);
@@ -45,5 +44,5 @@ export const validateQuotePart = (quote_part, bike_parts, sections) => {
         if (definedOrZero(quote_part[QUANTITY])) error_detail = addErrorDetail(error_detail, QUANTITY, PLEASE_REMOVE);
     }
 
-    return updateObject(quote_part, { error_detail });
+    return updateObject(quote_part, { error, error_detail });
 };
