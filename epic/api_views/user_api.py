@@ -14,7 +14,12 @@ class UserMaintain(generics.GenericAPIView):
     serializer_class = UserSerializer
     lookup_field = 'username'
 
-    def get(self, request, username, format=None):
-        user = User.objects.get(username=username)
+    def get(self, request):
+        user = request.user
         serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+    def patch(self, request, username):
+        user = request.user
+        serializer = UserSerializer(data=request.data)
         return Response(serializer.data)

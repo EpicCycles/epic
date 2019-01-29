@@ -14,7 +14,7 @@ import {
     NOTE_SAVE_REQUESTED
 } from "../actions/note";
 import {CLEAR_ALL_STATE} from "../actions/application";
-import {USER_NOT_VALIDATED} from "../actions/user";
+import {USER_LOGOUT, USER_NOT_VALIDATED} from "../actions/user";
 import {removeKey} from "../../helpers/utils";
 
 const initialState = {
@@ -33,6 +33,7 @@ const initialState = {
 const note = (state = initialState, action) => {
     switch (action.type) {
         case CLEAR_ALL_STATE:
+        case USER_LOGOUT:
             return initialState;
         case NOTE_REMOVE:
             return removeKey(state, 'note')

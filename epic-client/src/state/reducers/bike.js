@@ -30,6 +30,7 @@ import {
     FRAME_UPLOAD_OK,
     FRAME_UPLOAD_REQUESTED
 } from "../actions/bike";
+import {USER_LOGOUT} from "../actions/user";
 
 const initialState = {
     isLoading: false
@@ -39,6 +40,7 @@ const bike = (state = initialState, action) => {
     switch (action.type) {
         case CLEAR_ALL_STATE:
         case CLEAR_FRAME:
+        case USER_LOGOUT:
             return initialState;
         case BIKE_SAVE_REQUESTED:
         case BIKE_PART_DELETE_REQUESTED:

@@ -6,16 +6,6 @@ const instance = axios.create({
     headers: { 'Content-Type': 'application/json' }
 });
 
-const loginUser = async (payload) => {
-    const api = `/rest-auth/login/ `;
-    return await instance.post(api, payload);
-};
-const getUser = async (payload) => {
-    instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
-    const api = `/api/user/${payload.username}`;
-    return await instance.get(api);
-};
-
 // "Authorization: Token 5e2effff34c85c11a8720a597b96d73a4634c9ad"
 const getCustomerList = async (payload) => {
     instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
@@ -110,8 +100,6 @@ const deleteNote = async (payload) => {
 };
 
 export default {
-    loginUser,
-    getUser,
     createCustomer,
     deleteCustomer,
     getCustomerList,

@@ -1,5 +1,5 @@
 import {all} from 'redux-saga/effects';
-import {watchForLoginUser} from "./user";
+import {watchForChangePassword, watchForChangeUserData, watchForLoginUser, watchForLogoutUser} from "./user";
 import {
     watchForCreateCustomer,
     watchForDeleteCustomer,
@@ -40,6 +40,9 @@ import {watchForDeletePart, watchForGetParts, watchForSavePart, watchForUploadPa
 export default function* rootSaga() {
     yield all([
         watchForLoginUser(),
+        watchForLogoutUser(),
+        watchForChangePassword(),
+        watchForChangeUserData(),
         watchForGetFramework(),
         watchForSaveFramework(),
         watchForGetCustomerList(),

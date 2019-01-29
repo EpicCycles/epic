@@ -32,7 +32,13 @@ import {
     NOTE_SAVE_ERROR,
     NOTE_SAVE_REQUESTED
 } from "../actions/note";
-import {USER_LOGIN, USER_LOGIN_ERROR, USER_LOGIN_REQUESTED} from "../actions/user";
+import {
+    CHANGE_PASSWORD_FAILURE, CHANGE_PASSWORD_SUCCESS, CHANGE_USER_DATA_FAILURE, CHANGE_USER_DATA_SUCCESS,
+    USER_LOGIN,
+    USER_LOGIN_ERROR,
+    USER_LOGIN_REQUESTED, USER_LOGOUT,
+    USER_LOGOUT_ERROR
+} from "../actions/user";
 import {FRAMEWORK_ERROR, FRAMEWORK_SAVE, FRAMEWORK_SAVE_ERROR} from "../actions/framework";
 import {BRANDS_SAVE_ERROR, BRANDS_SAVE_OK} from "../actions/core";
 import {
@@ -93,6 +99,18 @@ const application = (state = initialState, action) => {
                 message: "Customer Address deleted",
                 messageType: "I"
             };
+        case CHANGE_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                message: "Password Changed",
+                messageType: "I"
+            };
+        case CHANGE_USER_DATA_SUCCESS:
+            return {
+                ...state,
+                message: "Details Changed",
+                messageType: "I"
+            };
         case ADD_MESSAGE:
             return {
                 ...state,
@@ -116,6 +134,7 @@ const application = (state = initialState, action) => {
         case REMOVE_MESSAGE:
         case USER_LOGIN_REQUESTED:
         case USER_LOGIN:
+        case USER_LOGOUT:
         case CLEAR_ALL_STATE:
         case FRAME_SAVE_REQUESTED:
             return initialState;
@@ -130,6 +149,9 @@ const application = (state = initialState, action) => {
         case NOTE_CREATE_ERROR:
         case NOTE_DELETE_ERROR:
         case USER_LOGIN_ERROR:
+        case USER_LOGOUT_ERROR:
+        case CHANGE_PASSWORD_FAILURE:
+        case CHANGE_USER_DATA_FAILURE:
         case FRAMEWORK_ERROR:
         case FRAMEWORK_SAVE_ERROR:
         case BRANDS_SAVE_ERROR:

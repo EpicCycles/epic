@@ -31,7 +31,7 @@ import {
     customerAddErrorForPhone, customerAddErrorForAddress
 } from "../../components/customer/helpers/customer";
 import {CLEAR_ALL_STATE} from "../actions/application";
-import {USER_NOT_VALIDATED} from "../actions/user";
+import {USER_LOGOUT, USER_NOT_VALIDATED} from "../actions/user";
 
 const initialState = {
     isLoading: false,
@@ -51,6 +51,7 @@ const customer = (state = initialState, action) => {
     switch (action.type) {
         case CLEAR_ALL_STATE:
         case CUSTOMER_CLEAR_STATE:
+        case USER_LOGOUT:
             return initialState;
         case CUSTOMER_REMOVE:
             return {

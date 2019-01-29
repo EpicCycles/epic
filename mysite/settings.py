@@ -161,6 +161,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     )
 }
+OLD_PASSWORD_FIELD_ENABLED = True
+LOGOUT_ON_PASSWORD_CHANGE = False
+
 # redirect after login to HOME page
 LOGIN_REDIRECT_URL = '/'
 

@@ -16,6 +16,7 @@ import {
     UPDATE_PARTS,
     UPDATE_SUPPLIER_PRODUCTS
 } from "../actions/part";
+import {USER_LOGOUT} from "../actions/user";
 
 const initialState = {
     isLoading: false
@@ -24,6 +25,7 @@ const part = (state = initialState, action) => {
     switch (action.type) {
         case CLEAR_ALL_STATE:
         case PART_CLEAR:
+        case USER_LOGOUT:
             return initialState;
         case PART_SAVE_REQUESTED:
         case PART_DELETE_REQUESTED:

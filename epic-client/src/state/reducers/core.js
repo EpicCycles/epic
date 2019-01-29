@@ -17,7 +17,7 @@ import {
     SUPPLIER_SAVE_OK,
     SUPPLIER_SAVE_REQUESTED
 } from "../actions/core";
-import {USER_LOGIN_REQUESTED} from "../actions/user";
+import {USER_LOGIN_REQUESTED, USER_LOGOUT} from "../actions/user";
 
 const initialState = {
     isLoading: false,
@@ -27,6 +27,7 @@ const core = (state = initialState, action) => {
     switch (action.type) {
         case CLEAR_ALL_STATE:
         case USER_LOGIN_REQUESTED:
+        case USER_LOGOUT:
             return initialState;
         case SUPPLIER_SAVE_REQUESTED:
         case SUPPLIER_DELETE_REQUESTED:

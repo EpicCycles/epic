@@ -3,7 +3,6 @@ import {Route} from 'react-router-dom'
 import ReactModal from 'react-modal';
 
 import Home from '../home'
-import Login from '../user'
 import CustomerList from '../customer/CustomerListContainer'
 import Framework from '../framework/FrameworkContainer'
 import NotFound from "../404";
@@ -15,6 +14,8 @@ import BikeReviewListContainer from "../bike/BikeReviewListContainer";
 import BikeReviewContainer from "../bike/BikeReviewContainer";
 import SupplierProductUploadContainer from "../supplierProduct/SupplierProductUploadContainer";
 import SupplierProductReviewContainer from "../supplierProduct/SupplierProductReviewContainer";
+import Login from "../user/LoginContainer";
+import PasswordChange from  "../user/PasswordChangeContainer";
 
 ReactModal.setAppElement('#root');
 const App = () => (
@@ -25,6 +26,7 @@ const App = () => (
             <Route exact path="/" component={Home}/>
             <Route exact path="/404" component={NotFound}/>
             <Route exact path="/login" component={Login}/>
+            <Route exact path="/change-password" component={PasswordChange}/>
             <Route exact path="/customer" component={CustomerEditContainer}/>
             <Route exact path="/customer-search" component={CustomerList}/>
             <Route exact path="/framework" component={Framework}/>
