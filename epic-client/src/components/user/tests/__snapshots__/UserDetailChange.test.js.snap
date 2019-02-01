@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`displays correctly 1`] = `
+<div
+  className="red error"
+>
+  You need to log in,
+</div>
+`;
+
+exports[`displays correctly with a user 1`] = `
+<div
+  className="red error"
+>
+  You need to log in,
+</div>
+`;
