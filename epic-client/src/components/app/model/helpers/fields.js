@@ -710,3 +710,8 @@ export const supplierProductFields = [
     CHECK_DATE_FIELD,
 ];
 
+export const userFields = [
+    FIRST_NAME_FIELD,
+    LAST_NAME_FIELD,
+    EMAIL_FIELD,
+];

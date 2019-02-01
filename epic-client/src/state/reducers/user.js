@@ -1,6 +1,6 @@
 import {
     CHANGE_PASSWORD_FAILURE,
-    CHANGE_PASSWORD_REQUESTED, CHANGE_USER_DATA_FAILURE, CHANGE_USER_DATA_REQUESTED,
+    CHANGE_PASSWORD_REQUESTED, CHANGE_PASSWORD_SUCCESS, CHANGE_USER_DATA_FAILURE, CHANGE_USER_DATA_REQUESTED,
     CHANGE_USER_DATA_SUCCESS,
     USER_LOGIN,
     USER_LOGIN_ERROR,
@@ -43,6 +43,7 @@ const user = (state = initialState, action) => {
         case USER_LOGOUT_ERROR:
         case CHANGE_PASSWORD_FAILURE:
         case CHANGE_USER_DATA_FAILURE:
+        case CHANGE_PASSWORD_SUCCESS:
             return {
                 ...state,
                 isLoading: false,

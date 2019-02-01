@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it renders 1`] = `
-<React.Fragment>
+<div
+  className="grid-container"
+>
   <div
     className="grid "
     key="modelFields"
@@ -1103,11 +1105,13 @@ exports[`it renders 1`] = `
       onChange={[MockFunction]}
     />
   </div>
-</React.Fragment>
+</div>
 `;
 
 exports[`it renders with data 1`] = `
-<React.Fragment>
+<div
+  className="grid-container"
+>
   <div
     className="grid red"
     key="modelFields"
@@ -2707,5 +2711,5 @@ exports[`it renders with data 1`] = `
       }
     />
   </div>
-</React.Fragment>
+</div>
 `;

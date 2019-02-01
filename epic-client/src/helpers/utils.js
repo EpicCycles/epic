@@ -1,4 +1,4 @@
-import {colourStyles, NEW_ELEMENT_ID} from "./constants";
+import {colourStyles} from "./constants";
 
 export const changeList = (oldList, checkObject) => {
     let newList = oldList.slice();

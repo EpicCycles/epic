@@ -16,3 +16,12 @@ export const logError = (error) => {
     }
     console.log(error.config);
 };
+
+export const errorAsMessage = (error, defaultMessage) => {
+    if (error.response) {
+        return JSON.stringify(error.response.data);
+    } else {
+        logError(error);
+        return defaultMessage;
+    }
+};

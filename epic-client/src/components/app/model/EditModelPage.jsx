@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React from "react";
 
 import * as PropTypes from "prop-types";
 import {eliminateReadOnlyFields, getComponentKey} from "./helpers/model";
@@ -7,8 +7,9 @@ import EditModelPageRow from "./EditModelPageRow";
 const EditModelPage = (props) => {
     const { model, modelFields, persistedModel, className = "", sections, brands, suppliers, onChange } = props;
     const componentKey = getComponentKey(model);
-    return <Fragment>
+    return <div className="grid-container">
         {model.error && <div className="red">{model.error}</div>}
+
         <div key="modelFields" className={`grid ${className}`}>
 
             {eliminateReadOnlyFields(modelFields).map((field, index) => <EditModelPageRow
@@ -24,7 +25,7 @@ const EditModelPage = (props) => {
                 suppliers={suppliers}
             />)}
         </div>
-    </Fragment>
+    </div>
 };
 
 

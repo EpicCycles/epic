@@ -28,7 +28,7 @@ const changePassword = async (payload) => {
 const changeUserData = async (payload) => {
     api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
     const changeUserDataApi = `rest-auth/user/`;
-    return await api.instance.post(changeUserDataApi, payload.user);
+    return await api.instance.patch(changeUserDataApi, payload.user);
 };
 export default {
     loginUser,

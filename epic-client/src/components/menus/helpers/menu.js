@@ -41,5 +41,19 @@ export const menuStructure = [
             },
         ]
     },
+    {
+        sectionPos: 3,
+        sectionContents: [
+            {
+                groupHeader: "User",
+                groupPos: 30,
+                groupLinks: [
+                    {displayText: "Edit User", linkRoute: "/change-user-detail", linkNumber: 301},
+                    {displayText: "Change Password", linkRoute: "/change-password", linkNumber: 302},
+                    {displayText: "Login", linkRoute: "/login", linkNumber: 303},
+                ]
+            },
+        ]
+    },
 
 ];

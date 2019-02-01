@@ -57,10 +57,11 @@ export const changePasswordError = (error) => ({
 
 export const changeUserData = (user) => ({
     type: CHANGE_USER_DATA_REQUESTED,
-        payload: { user }
+    payload: { user }
 });
-export const changeUserDataOK = () => ({
+export const changeUserDataOK = (user) => ({
     type: CHANGE_USER_DATA_SUCCESS,
+    payload: { user }
 });
 export const changeUserDataError = (error) => ({
     type: CHANGE_USER_DATA_FAILURE,

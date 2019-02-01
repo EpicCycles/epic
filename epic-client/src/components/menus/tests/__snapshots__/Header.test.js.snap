@@ -102,17 +102,50 @@ exports[`is displays correctly 1`] = `
             ]
           }
         />
+        <HeaderSection
+          key="headerSection3"
+          sectionContents={
+            Array [
+              Object {
+                "groupHeader": "User",
+                "groupLinks": Array [
+                  Object {
+                    "displayText": "Edit User",
+                    "linkNumber": 301,
+                    "linkRoute": "/change-user-detail",
+                  },
+                  Object {
+                    "displayText": "Change Password",
+                    "linkNumber": 302,
+                    "linkRoute": "/change-password",
+                  },
+                  Object {
+                    "displayText": "Login",
+                    "linkNumber": 303,
+                    "linkRoute": "/login",
+                  },
+                ],
+                "groupPos": 30,
+              },
+            ]
+          }
+        />
       </ul>
       <span
         id="user"
       >
-         Current User: 
+        Current User: 
         anna
          
         Weaver
          (
         AVIW
         )
+        <Icon
+          as="i"
+          name="log out"
+          onClick={[Function]}
+        />
       </span>
     </React.Fragment>
   </div>

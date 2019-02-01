@@ -15,7 +15,8 @@ import BikeReviewContainer from "../bike/BikeReviewContainer";
 import SupplierProductUploadContainer from "../supplierProduct/SupplierProductUploadContainer";
 import SupplierProductReviewContainer from "../supplierProduct/SupplierProductReviewContainer";
 import Login from "../user/LoginContainer";
-import PasswordChange from  "../user/PasswordChangeContainer";
+import UserDetailChangeContainer from "../user/UserDetailChangeContainer";
+import PasswordChangeContainer from "../user/PasswordChangeContainer";
 
 ReactModal.setAppElement('#root');
 const App = () => (
@@ -26,7 +27,8 @@ const App = () => (
             <Route exact path="/" component={Home}/>
             <Route exact path="/404" component={NotFound}/>
             <Route exact path="/login" component={Login}/>
-            <Route exact path="/change-password" component={PasswordChange}/>
+            <Route exact path="/change-user-detail" component={UserDetailChangeContainer}/>
+            <Route exact path="/change-password" component={PasswordChangeContainer}/>
             <Route exact path="/customer" component={CustomerEditContainer}/>
             <Route exact path="/customer-search" component={CustomerList}/>
             <Route exact path="/framework" component={Framework}/>

@@ -18,7 +18,7 @@ import {
     USER_LOGOUT_REQUESTED
 } from "../actions/user";
 import {updateObject} from "../../helpers/utils";
-import {logError} from "../../helpers/api_error";
+import {errorAsMessage, logError} from "../../helpers/api_error";
 import * as selectors from "../selectors/user";
 import {clearAllState} from "../actions/application";
 
@@ -35,8 +35,7 @@ export function* loginUser(action) {
         yield call(history.goBack)
 
     } catch (error) {
-        logError(error);
-        yield put(loginUserFailure("Login was not successful"));
+        yield put(loginUserFailure(errorAsMessage(error, "Login was not successful")));
     }
 }
 
@@ -55,8 +54,7 @@ export function* logoutUser(action) {
         }
         yield call(history.push, "/login");
     } catch (error) {
-        logError(error);
-        yield put(logoutUserFailure("Logout was not successful"));
+        yield put(logoutUserFailure(errorAsMessage(error, "Logout was not successful")));
     }
 }
 
@@ -75,8 +73,7 @@ export function* changePassword(action) {
             yield call(history.push, "/login");
         }
     } catch (error) {
-        logError(error);
-        yield put(changePasswordError("Password change was not successful"));
+        yield put(changePasswordError(errorAsMessage(error, "Password change was not successful")));
     }
 }
 
@@ -89,8 +86,8 @@ export function* changeUserData(action) {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
-            yield call(user.changeUserData, completePayload);
-            yield put(changeUserDataOK());
+            const changeUserResponse =  yield call(user.changeUserData, completePayload);
+            yield put(changeUserDataOK(changeUserResponse.data));
         } else {
             yield call(history.push, "/login");
         }

@@ -1,6 +1,5 @@
 import React, {Fragment} from 'react'
-import {Button, Dimmer, Icon, Loader} from 'semantic-ui-react'
-import ErrorDismissibleBlock from "../../common/ErrorDismissibleBlock";
+import {Dimmer, Icon, Loader} from 'semantic-ui-react'
 
 class Login extends React.Component {
     state = {
@@ -40,7 +39,7 @@ class Login extends React.Component {
 
     render() {
         const { username, password } = this.state;
-        const { isLoading, user, error, removeUserError, logoutUser } = this.props;
+        const { isLoading, user, logoutUser } = this.props;
 
         return (
             <Fragment>

@@ -6,7 +6,7 @@ import EditModelInput from "./EditModelInput";
 const EditModelPageRow = (props) => {
     const { model, field, index, persistedModel, sections, brands, suppliers, onChange, componentKey } = props;
     return <div
-        className={`grid-row${index}`}
+        className="grid-row"
         key={`field-row${index}`}
     >
         <div
