@@ -14,17 +14,29 @@ exports[`displays correctly for existing supplier 1`] = `
       Edit Supplier
     </h2>
     <FormTextInput
+      className=""
+      dataType="text"
+      error=""
       fieldName="supplier_name_1"
       key="supplier_name_1"
+      label=""
       onChange={[Function]}
       placeholder="Supplier name"
+      size={30}
+      title=""
       value="supplier name"
     />
     <FormTextInput
+      className=""
+      dataType="text"
+      error=""
       fieldName="link_1"
       key="link_1"
+      label=""
       onChange={[Function]}
       placeholder="link"
+      size={30}
+      title=""
       value="supplier.co.uk"
     />
     <input
@@ -90,17 +102,29 @@ exports[`displays correctly for existing supplier as a modal dialogue 1`] = `
       Edit Supplier
     </h2>
     <FormTextInput
+      className=""
+      dataType="text"
+      error=""
       fieldName="supplier_name_1"
       key="supplier_name_1"
+      label=""
       onChange={[Function]}
       placeholder="Supplier name"
+      size={30}
+      title=""
       value="supplier name"
     />
     <FormTextInput
+      className=""
+      dataType="text"
+      error=""
       fieldName="link_1"
       key="link_1"
+      label=""
       onChange={[Function]}
       placeholder="link"
+      size={30}
+      title=""
       value="supplier.co.uk"
     />
     <input
@@ -150,17 +174,29 @@ exports[`displays correctly for new supplier 1`] = `
       Edit Supplier
     </h2>
     <FormTextInput
+      className=""
+      dataType="text"
+      error=""
       fieldName="supplier_name_new"
       key="supplier_name_new"
+      label=""
       onChange={[Function]}
       placeholder="Supplier name"
+      size={30}
+      title=""
       value=""
     />
     <FormTextInput
+      className=""
+      dataType="text"
+      error=""
       fieldName="link_new"
       key="link_new"
+      label=""
       onChange={[Function]}
       placeholder="link"
+      size={30}
+      title=""
       value=""
     />
     <input

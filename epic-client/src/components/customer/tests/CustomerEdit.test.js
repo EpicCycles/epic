@@ -58,13 +58,10 @@ it("calls create customer when a new customer is saved", () => {
             saveCustomer={saveCustomer}
         />
     );
-    component.instance().saveOrCreateCustomer("new first", "new last","email@provider.com");
+    component.instance().saveOrCreateCustomer(fullCustomer);
     expect(saveCustomer.mock.calls.length).toBe(0);
     expect(createCustomer.mock.calls.length).toBe(1);
-    expect(createCustomer.mock.calls[0][0].id).toBe(undefined);
-    expect(createCustomer.mock.calls[0][0].first_name).toBe("new first");
-    expect(createCustomer.mock.calls[0][0].last_name).toBe("new last");
-    expect(createCustomer.mock.calls[0][0].email).toBe("email@provider.com");
+    expect(createCustomer.mock.calls[0][0]).toBe(fullCustomer);
 });
 it("calls save customer when an existing customer is saved", () => {
     const saveCustomer = jest.fn();
@@ -92,13 +89,10 @@ it("calls save customer when an existing customer is saved", () => {
             saveCustomer={saveCustomer}
         />
     );
-    component.instance().saveOrCreateCustomer("new first", "new last");
+    component.instance().saveOrCreateCustomer(fullCustomer);
     expect(createCustomer.mock.calls.length).toBe(0);
     expect(saveCustomer.mock.calls.length).toBe(1);
-    expect(saveCustomer.mock.calls[0][0].id).toBe(fullCustomer.id);
-    expect(saveCustomer.mock.calls[0][0].first_name).toBe("new first");
-    expect(saveCustomer.mock.calls[0][0].last_name).toBe("new last");
-    expect(saveCustomer.mock.calls[0][0].email).toBe(undefined);
+    expect(saveCustomer.mock.calls[0][0]).toBe(fullCustomer);
 });
 it("calls create note when a new note is saved", () => {
     const saveCustomer = jest.fn();

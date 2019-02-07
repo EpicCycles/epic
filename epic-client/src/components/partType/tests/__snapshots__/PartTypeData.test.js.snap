@@ -3,9 +3,15 @@
 exports[`displays the PartTypeData component for a new part type with no attributes 1`] = `
 <React.Fragment>
   <FormTextInput
+    className=""
+    dataType="text"
+    error=""
     fieldName="name_new"
+    label=""
     onClick={[Function]}
     placeholder="add new"
+    size={30}
+    title=""
     value="part one"
   />
   <label
@@ -61,9 +67,15 @@ exports[`displays the PartTypeData component for a new part type with no attribu
 exports[`displays the PartTypeData component for an existing part type with attributes, detail hidden 1`] = `
 <React.Fragment>
   <FormTextInput
+    className=""
+    dataType="text"
+    error=""
     fieldName="name_21"
+    label=""
     onClick={[Function]}
     placeholder="add new"
+    size={30}
+    title=""
     value="part one"
   />
   <label
@@ -112,9 +124,15 @@ exports[`displays the PartTypeData component for an existing part type with attr
 exports[`displays the PartTypeData component for an existing part type with attributes, detail shown 1`] = `
 <React.Fragment>
   <FormTextInput
+    className=""
+    dataType="text"
+    error=""
     fieldName="name_dummy2"
+    label=""
     onClick={[Function]}
     placeholder="add new"
+    size={30}
+    title=""
     value="part one"
   />
   <label

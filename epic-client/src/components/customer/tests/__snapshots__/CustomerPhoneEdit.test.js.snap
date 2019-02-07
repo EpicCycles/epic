@@ -40,10 +40,15 @@ exports[`displays a passed customerPhone object correctly 1`] = `
   >
     <FormTextInput
       className="column full"
+      dataType="text"
+      error=""
       fieldName="telephone_12"
       id="telephone-input_12"
+      label=""
       onChange={[Function]}
       placeholder="Phone Number"
+      size={30}
+      title=""
       value="78736"
     />
   </td>
@@ -114,10 +119,15 @@ exports[`displays a passed customerPhone object correctly when an error is prese
   >
     <FormTextInput
       className="column full"
+      dataType="text"
+      error=""
       fieldName="telephone_12"
       id="telephone-input_12"
+      label=""
       onChange={[Function]}
       placeholder="Phone Number"
+      size={30}
+      title=""
       value="78736"
     />
   </td>

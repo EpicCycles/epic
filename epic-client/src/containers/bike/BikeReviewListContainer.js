@@ -17,7 +17,8 @@ const mapStateToProps = ({core, framework, bike}) => {
         brands: core.brands ,
         sections: framework.sections,
         isLoading: (bike.isLoading),
-        frames: bike.frames
+        frames: bike.frames,
+        bikes: bike.bikes,
     }
 };
 const mapDispatchToProps = {

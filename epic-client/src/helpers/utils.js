@@ -1,5 +1,19 @@
 import {colourStyles} from "./constants";
+import {getComponentKey} from "../components/app/model/helpers/model";
 
+export const addItemsToArray = (oldArray = [], listOfItems) => {
+  let newArray = oldArray.slice();
+  listOfItems.forEach(item => {
+      let itemKey = getComponentKey(item);
+      let existingIndex = findIndexOfObjectWithKey(newArray, itemKey);
+      if (existingIndex < 0) {
+          newArray.push(item);
+      } else {
+          newArray[existingIndex] = item;
+      }
+  });
+  return newArray;
+};
 export const changeList = (oldList, checkObject) => {
     let newList = oldList.slice();
     if (newList.includes(checkObject)) {
@@ -124,3 +138,9 @@ export const updateObject = (initialObject = {}, fieldList1 = {}, fieldList2 = {
     return Object.assign({}, initialObject, fieldList1, fieldList2);
 };
 export const definedOrZero = (numericField) => (numericField || numericField === 0);
+
+export const updateObjectWithSelectionChanges = (object, fieldName, value) => {
+    let newObject = updateObject(object);
+    newObject[fieldName] = value;
+    return newObject;
+};

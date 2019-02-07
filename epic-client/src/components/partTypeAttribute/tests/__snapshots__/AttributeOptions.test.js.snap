@@ -8,10 +8,16 @@ exports[`AttributeOptions tests renders the form correctly when all options dele
     >
       <td>
         <FormTextInput
+          className=""
+          dataType="text"
+          error=""
           fieldName="optionValue_new"
+          label=""
           onChange={[Function]}
           onClick={[Function]}
           placeholder="add new"
+          size={30}
+          title=""
           value=""
         />
       </td>
@@ -36,10 +42,16 @@ exports[`AttributeOptions tests renders the form correctly with no options 1`] =
     >
       <td>
         <FormTextInput
+          className=""
+          dataType="text"
+          error=""
           fieldName="optionValue_new"
+          label=""
           onChange={[Function]}
           onClick={[Function]}
           placeholder="add new"
+          size={30}
+          title=""
           value=""
         />
       </td>
@@ -66,10 +78,16 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
     >
       <td>
         <FormTextInput
+          className=""
+          dataType="text"
+          error=""
           fieldName="optionValue_123"
+          label=""
           onChange={[Function]}
           onClick={[Function]}
           placeholder="add new"
+          size={30}
+          title=""
           value="braze"
         />
       </td>
@@ -90,10 +108,16 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
     >
       <td>
         <FormTextInput
+          className=""
+          dataType="text"
+          error=""
           fieldName="optionValue_323"
+          label=""
           onChange={[Function]}
           onClick={[Function]}
           placeholder="add new"
+          size={30}
+          title=""
           value="band"
         />
       </td>
@@ -114,10 +138,16 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
     >
       <td>
         <FormTextInput
+          className=""
+          dataType="text"
+          error=""
           fieldName="optionValue_hjgfkuyg34"
+          label=""
           onChange={[Function]}
           onClick={[Function]}
           placeholder="add new"
+          size={30}
+          title=""
           value="boggle"
         />
       </td>
@@ -136,10 +166,16 @@ exports[`AttributeOptions tests renders the form correctly with options 1`] = `
     >
       <td>
         <FormTextInput
+          className=""
+          dataType="text"
+          error=""
           fieldName="optionValue_new"
+          label=""
           onChange={[Function]}
           onClick={[Function]}
           placeholder="add new"
+          size={30}
+          title=""
           value=""
         />
       </td>

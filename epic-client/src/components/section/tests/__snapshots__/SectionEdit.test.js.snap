@@ -15,10 +15,16 @@ exports[`SectionEdit shows a NEW section correctly 1`] = `
     className="grid-item"
   >
     <FormTextInput
+      className=""
+      dataType="text"
+      error=""
       fieldName="name_new"
+      label=""
       onChange={[Function]}
       onClick={[Function]}
       placeholder="add new"
+      size={30}
+      title=""
       value="section is new"
     />
   </div>
@@ -40,10 +46,16 @@ exports[`SectionEdit shows an existing section correctly 1`] = `
     className="grid-item"
   >
     <FormTextInput
+      className=""
+      dataType="text"
+      error=""
       fieldName="name_22"
+      label=""
       onChange={[Function]}
       onClick={[Function]}
       placeholder="add new"
+      size={30}
+      title=""
       value="section is old"
     />
   </div>
@@ -65,10 +77,16 @@ exports[`SectionEdit shows an existing section with partTypes expanded correctly
     className="grid-item"
   >
     <FormTextInput
+      className=""
+      dataType="text"
+      error=""
       fieldName="name_22"
+      label=""
       onChange={[Function]}
       onClick={[Function]}
       placeholder="add new"
+      size={30}
+      title=""
       value="section is old"
     />
     <PartTypes

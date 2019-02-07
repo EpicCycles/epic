@@ -73,6 +73,7 @@ exports[`should call onChange when an input is entered 1`] = `
     id="email"
     name="email"
     onChange={[Function]}
+    placeholder=""
     size={30}
     title=" "
     type="text"

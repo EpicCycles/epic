@@ -5,12 +5,14 @@ myvenv
 db.sqlite3
 /static
 .DS_Store
+.idea
 .idea/
 epic/.idea/
 **/.idea/
 /.idea/
 config.json
 migrations/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -60,11 +60,7 @@ exports[`it renders a part type field that has data that is found 1`] = `
 </React.Fragment>
 `;
 
-exports[`it renders a part type field that has data that is not found 1`] = `
-<React.Fragment>
-  Unknown
-</React.Fragment>
-`;
+exports[`it renders a part type field that has data that is not found 1`] = `<React.Fragment />`;
 
 exports[`it renders a supplier field that has data that is found 1`] = `
 <React.Fragment>

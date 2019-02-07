@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render the component with default props 1`] = `
+<SelectInput
+  fieldName="field"
+  isEmptyAllowed={true}
+  isMultiple={false}
+  multipleSize={0}
+  onChange={[MockFunction]}
+  options={
+    Array [
+      Object {
+        "name": "brand 3 A-Head Tapered Cartridge aluminium",
+        "value": "65",
+      },
+      Object {
+        "name": "Shimano SLX M7000 rapidfire",
+        "value": "329",
+      },
+      Object {
+        "name": "Shimano Deore XT M8000 Shadow Plus 11 speed",
+        "value": "330",
+      },
+    ]
+  }
+  value="new"
+/>
+`;

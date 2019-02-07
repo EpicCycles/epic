@@ -47,7 +47,7 @@ class Frame(models.Model):
 
 
 class Bike(models.Model):
-    frame = models.ForeignKey(Frame, related_name="bikes", on_delete=models.CASCADE)
+    frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
     model_name = models.CharField(max_length=100)
     description = models.TextField(max_length=400, blank=True, null=True)
     colours = models.CharField(max_length=400, blank=True, null=True)

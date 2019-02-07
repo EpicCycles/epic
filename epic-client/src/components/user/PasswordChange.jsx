@@ -167,7 +167,7 @@ class PasswordChange extends React.Component {
 }
 PasswordChange.propTypes = {
     user: PropTypes.object,
-    changePassword: PropTypes.func.required,
+    changePassword: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 }
 export default PasswordChange;

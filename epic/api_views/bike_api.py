@@ -5,7 +5,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_helpers.part_helper import find_or_create_part
-from epic.model_serializers.bike_serializer import FrameSerializer, BikeSerializer, FrameListSerializer
+from epic.model_serializers.bike_serializer import FrameSerializer, BikeSerializer, FrameListSerializer, \
+    BikePartSerializer
 from epic.model_serializers.part_serializer import PartSerializer
 from epic.models.bike_models import Frame, BikePart, Bike
 from epic.models.brand_models import Brand, Part
@@ -14,8 +15,8 @@ from epic.models.quote_models import Quote
 
 
 class Frames(generics.ListCreateAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
     serializer_class = FrameSerializer
 
     def get_object(self, frame_id):
@@ -42,8 +43,20 @@ class Frames(generics.ListCreateAPIView):
         return q.filter(archived=False)
 
     def get(self, request, format=None):
-        serializer = FrameListSerializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
+        frame_list = self.get_queryset()
+        frame_serializer = FrameListSerializer(frame_list, many=True)
+
+        bike_list = Bike.objects.filter(frame__in=frame_list)
+        bike_serializer = BikeSerializer(bike_list, many=True)
+
+        bike_part_list = BikePart.objects.filter(bike__in=bike_list)
+        bike_part_serializer = BikePartSerializer(bike_part_list, many=True)
+        bike_part_part_ids = bike_part_list.values_list('part__pk', flat=True)
+        part_list = Part.objects.filter(id__in=list(bike_part_part_ids))
+        part_serializer = PartSerializer(part_list, many=True)
+
+        return Response({'parts': part_serializer.data, 'frames': frame_serializer.data, 'bikes': bike_serializer.data,
+                         'bikeParts': bike_part_serializer.data})
 
     def patch(self, request, frame_id):
         frame = self.get_object(frame_id)

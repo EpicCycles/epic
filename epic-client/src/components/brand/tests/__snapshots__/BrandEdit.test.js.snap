@@ -13,10 +13,16 @@ exports[`BrandEdit shows new brand without supplier correctly 1`] = `
     onClick={[Function]}
   />
   <FormTextInput
+    className=""
+    dataType="text"
+    error=""
     fieldName="brand_name_new"
+    label=""
     onChange={[Function]}
     onClick={[Function]}
     placeholder="add new"
+    size={30}
+    title=""
     value="e brand 8"
   />
   <div

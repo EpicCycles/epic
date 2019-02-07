@@ -10,6 +10,7 @@ describe("ErrorDismissibleBlock tests", () => {
             }}/>
         );
         expect(errorDismissibleBlock).toMatchSnapshot();
+
     });
 
 });

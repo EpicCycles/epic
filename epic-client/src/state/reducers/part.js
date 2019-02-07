@@ -17,6 +17,8 @@ import {
     UPDATE_SUPPLIER_PRODUCTS
 } from "../actions/part";
 import {USER_LOGOUT} from "../actions/user";
+import {FRAME_LIST_OK} from "../actions/bike";
+import {addItemsToArray} from "../../helpers/utils";
 
 const initialState = {
     isLoading: false
@@ -51,6 +53,11 @@ const part = (state = initialState, action) => {
                 parts: action.payload.parts,
                 supplierProducts: action.payload.supplierProducts,
             };
+        case FRAME_LIST_OK:
+            return {
+                ...state,
+                parts: addItemsToArray(state.parts, action.payload.parts)
+            }
         case UPDATE_PARTS:
             return {
                 ...state,

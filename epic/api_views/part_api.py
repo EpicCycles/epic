@@ -63,11 +63,14 @@ class Parts(generics.ListCreateAPIView):
             raise Http404
 
     def get_queryset(self):
+        search_part_type = self.request.query_params.get('partType', None)
         search_name = self.request.query_params.get('partName', None)
         search_brand = self.request.query_params.get('brand', None)
         include_standard = self.request.query_params.get('standard', None)
         include_stocked = self.request.query_params.get('stocked', None)
         q = Part.objects.all()
+        if search_part_type:
+            q = q.filter(partType__id=search_part_type)
         if search_brand:
             q = q.filter(brand__id=search_brand)
 

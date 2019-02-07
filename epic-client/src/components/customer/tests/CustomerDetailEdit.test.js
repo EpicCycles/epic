@@ -4,6 +4,7 @@ import {Icon} from "semantic-ui-react";
 
 describe("CustomerDetailEdit tests", () => {
     const customer = {
+        id: 16,
         first_name: 'Anna',
         last_name: 'Weaver',
         email: 'anna.weaver@johnlewis.co.uk',
@@ -28,13 +29,13 @@ describe("CustomerDetailEdit tests", () => {
         const input = shallow(
             <CustomerDetailEdit customer={customer} acceptCustomerChanges={acceptChanges}/>
         );
-        input.setState({isChanged: true, isValid:true});
+        input.setState({changed: true});
         expect(input.find("#accept-cust").prop("disabled")).toEqual(false);
         expect(input.find(Icon).length).toBe(3);
 
         input.find("#accept-cust").at(0).simulate("click");
         expect(acceptChanges.mock.calls.length).toBe(1);
-        input.setState({isValid: false});
+        input.setState({error: "missing a field"});
 
         expect(input.find("#accept-cust").prop("disabled")).toEqual(true);
     })

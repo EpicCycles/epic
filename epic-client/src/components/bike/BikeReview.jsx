@@ -14,6 +14,16 @@ import {applyFieldValueToModel} from "../app/model/helpers/model";
 
 // Review page for a single bike - needs: bike field entry section, table of parts with edit ability for each part
 
+// TODO revise with new api structure
+// 1.  state - check prev props and bikeId - get details for that bike id onload, frame name from frames.
+// 2.  remove modal for parts - instead add panel to add a new part
+// 3.  when a part is saved the api call gets bike parts and parts - needs revising
+//     - api change - return bikeparts, parts
+//     - reducer change to remove all bike parts for bike and add values from api - and trigger parts being added
+// 4.  when a bike is deleted - api OK (I thnk) - check that bike and bike parts are removed and that bike id for review is updated, and id removed from review array
+// 5.  next review - check that id is updated
+// 6. display - drive from sections in body rather than in initialisation
+// 7.  allow edit part details (price trade in price etc) as well as use different part - different part will be search for parts or enter new part block
 class BikeReview extends React.Component {
     constructor() {
         super();
@@ -172,7 +182,7 @@ class BikeReview extends React.Component {
         return <Fragment key={`bikeReview`}>
             {!(bikeReviewList && (bikeReviewList.length > 0)) && <Redirect to="/bike-review-list" push/>}
             {bike && <Fragment>
-                <h2>{bike.frame_name}</h2>
+                <h2>{bike.frame_name}</h2> // TODO frame_name not on bike
                 <div className="row">
                     <div className="column grid"
                          style={{
@@ -200,7 +210,7 @@ class BikeReview extends React.Component {
                                 />
                             </div>
                         </div>
-                        <Fragment>
+                        <Fragment>// TODO consider using EditModel fragment here.
                             {bikeFields.map((field, index) => {
                                 return <EditModelField
                                     key={`bikeFields${index}${bike.id}`}
@@ -252,7 +262,7 @@ class BikeReview extends React.Component {
                                 className="grid-item--header"
                             />
                         </div>
-                        {displayParts.map((displayPart, partIndex) =>
+                        {displayParts.map((displayPart, partIndex) => //TODO display including readolny fields can this be a separate fragment
                             <div key={`detailRow${displayPart.id}`} className="grid-row">
                                 <div className="grid-item grid-item--fixed-left">
                                     {(displayPart.sectionPos === 0) && displayPart.section_name}

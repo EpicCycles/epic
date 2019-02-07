@@ -18,11 +18,16 @@ exports[`CustomerList.index tests renders the CustomerList correctly 1`] = `
       </div>
       <FormTextInput
         className="column "
+        dataType="text"
+        error=""
         fieldName="firstName"
         id="first-name-input"
+        label=""
         onChange={[Function]}
         onClick={[Function]}
         placeholder="First Name"
+        size={30}
+        title=""
         value=""
       />
       <div>
@@ -30,11 +35,16 @@ exports[`CustomerList.index tests renders the CustomerList correctly 1`] = `
       </div>
       <FormTextInput
         className="column "
+        dataType="text"
+        error=""
         fieldName="lastName"
         id="last-name-input"
+        label=""
         onChange={[Function]}
         onClick={[Function]}
         placeholder="Last Name"
+        size={30}
+        title=""
         value=""
       />
       <div>
@@ -42,11 +52,16 @@ exports[`CustomerList.index tests renders the CustomerList correctly 1`] = `
       </div>
       <FormTextInput
         className="column "
+        dataType="text"
+        error=""
         fieldName="email"
         id="email-input"
+        label=""
         onChange={[Function]}
         onClick={[Function]}
         placeholder="bod@gmail.com"
+        size={30}
+        title=""
         value=""
       />
       <div>

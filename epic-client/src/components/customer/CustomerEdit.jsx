@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import {Dimmer, Loader} from 'semantic-ui-react'
 import CustomerDetailEdit from "./CustomerDetailEdit";
 import NoteCreate from "../note/NoteCreate";
@@ -18,8 +18,7 @@ class CustomerEdit extends React.Component {
             noteToSave.note_text = note_text;
             noteToSave.customer_visible = customer_visible;
             this.props.saveNote(noteToSave);
-        }
-        else {
+        } else {
             const newNote = {
                 customer: this.props.customer.id,
                 note_text: note_text,
@@ -29,21 +28,11 @@ class CustomerEdit extends React.Component {
         }
     };
 
-    saveOrCreateCustomer = (first_name, last_name, email) => {
-        if (this.props.customer && this.props.customer.id) {
-            let customerToSave = this.props.customer;
-            customerToSave.first_name = first_name;
-            customerToSave.last_name = last_name;
-            customerToSave.email = email;
-            this.props.saveCustomer(customerToSave);
-        }
-        else {
-            const newCustomer = {
-                first_name: first_name,
-                last_name: last_name,
-                email: email
-            };
-            this.props.createCustomer(newCustomer);
+    saveOrCreateCustomer = (customer) => {
+        if (customer.id) {
+            this.props.saveCustomer(customer);
+        } else {
+            this.props.createCustomer(customer);
         }
     };
 
@@ -57,8 +46,8 @@ class CustomerEdit extends React.Component {
         } = this.props;
         const note_key = (note && note.id) ? note.id : 0;
         const customer_key = (customer && customer.id) ? customer.id : 0;
-        const newAddressKey = (customer && customer.newAddress && customer.newAddress.dummyKey) ?  customer.newAddress.dummyKey : "new";
-        const newPhoneKey = (customer && customer.newPhone && customer.newPhone.dummyKey) ?  customer.newPhone.dummyKey : "new";
+        const newAddressKey = (customer && customer.newAddress && customer.newAddress.dummyKey) ? customer.newAddress.dummyKey : "new";
+        const newPhoneKey = (customer && customer.newPhone && customer.newPhone.dummyKey) ? customer.newPhone.dummyKey : "new";
         return <div id="customer-edit">
             <h2>Customer</h2>
             <section className="row">
@@ -76,10 +65,10 @@ class CustomerEdit extends React.Component {
                             key='customerAddressGrid'
                             className="grid"
                             style={{
-                            height: (window.innerHeight * 0.4) + "px",
-                            width: (window.innerWidth - 200) + "px",
-                            overflow: "scroll"
-                        }}
+                                height: (window.innerHeight * 0.4) + "px",
+                                width: (window.innerWidth - 200) + "px",
+                                overflow: "scroll"
+                            }}
                         >
                             <CustomerAddressEdit
                                 key={`editNewAddress${newAddressKey}`}

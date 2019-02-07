@@ -71,6 +71,8 @@ exports[`upload frame details displays when none entered 1`] = `
               },
             ]
           }
+          disabled={false}
+          error=""
           fieldName="brand"
           isEmptyAllowed={true}
         />
@@ -94,10 +96,16 @@ exports[`upload frame details displays when none entered 1`] = `
       className="grid-item--borderless"
     >
       <FormTextInput
+        className=""
+        dataType="text"
+        error=""
         fieldName="frameName"
         id="frameName"
+        label=""
         placeholder="Frame Name"
         size={100}
+        title=""
+        value=""
       />
     </div>
   </div>
@@ -176,6 +184,8 @@ exports[`upload frame details displays when none entered 2`] = `
               },
             ]
           }
+          disabled={false}
+          error=""
           fieldName="brand"
           isEmptyAllowed={true}
         />
@@ -199,10 +209,15 @@ exports[`upload frame details displays when none entered 2`] = `
       className="grid-item--borderless"
     >
       <FormTextInput
+        className=""
+        dataType="text"
+        error=""
         fieldName="frameName"
         id="frameName"
+        label=""
         placeholder="Frame Name"
         size={100}
+        title=""
         value="bicicletta"
       />
     </div>

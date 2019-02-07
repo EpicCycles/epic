@@ -14,7 +14,6 @@ class BikeSerializer(serializers.ModelSerializer):
 
 class FrameListSerializer(serializers.ModelSerializer):
     brand_name = serializers.SerializerMethodField()
-    bikes=BikeSerializer(many=True)
 
     class Meta:
         model = Frame

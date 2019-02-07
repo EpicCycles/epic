@@ -589,6 +589,7 @@ export const TRADE_IN_FIELD = {
     type: CURRENCY,
     length: 10
 };
+// TODO add validation based on whether this is a standard field.
 export const STOCKED_FIELD = {
     fieldName: STOCKED,
     header: "Stocked",
@@ -632,7 +633,7 @@ export const bundleFields = [
     TICKET_PRICE_FIELD,
 ];
 export const customerFields = [
-    FIRST_NAME_FIELD, LAST_NAME_FIELD, EMAIL_FIELD, UPD_DATE_FIELD,
+    FIRST_NAME_FIELD, LAST_NAME_FIELD, EMAIL_FIELD, ADD_DATE_FIELD, UPD_DATE_FIELD,
 ];
 export const customerAddressFields = [ADDRESS1_FIELD, ADDRESS2_FIELD, ADDRESS3_FIELD, ADDRESS4_FIELD, COUNTRY_FIELD, POSTCODE_FIELD];
 export const customerPhoneFields = [NUMBER_TYPE_FIELD, TELEPHONE_FIELD, UPD_DATE_FIELD];
@@ -647,7 +648,12 @@ export const partFields = [
     PART_NAME_FIELD,
     TRADE_IN_FIELD,
     STANDARD_FIELD,
-    STOCKED_FIELD
+];
+export const partFieldsNoPartType = [
+    BRAND_FIELD,
+    PART_NAME_FIELD,
+    TRADE_IN_FIELD,
+    STANDARD_FIELD,
 ];
 export const sectionFields = [NAME_FIELD];
 export const partTypeFields = [NAME_FIELD];

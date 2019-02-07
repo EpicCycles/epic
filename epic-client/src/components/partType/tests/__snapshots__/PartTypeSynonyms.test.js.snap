@@ -3,30 +3,46 @@
 exports[`it displays synonyms 1`] = `
 <React.Fragment>
   <FormTextInput
+    className=""
+    dataType="text"
     error=""
     fieldName="synonymValue_1"
     key="synonymValue_1"
+    label=""
     onChange={[Function]}
     onClick={[Function]}
     placeholder="add new"
+    size={30}
+    title=""
     value="synonym 1"
   />
   <FormTextInput
+    className=""
+    dataType="text"
     error=""
     fieldName="synonymValue_dummy2"
     key="synonymValue_dummy2"
+    label=""
     onChange={[Function]}
     onClick={[Function]}
     placeholder="add new"
+    size={30}
+    title=""
     value="synonym 2"
   />
   <div>
     <FormTextInput
+      className=""
+      dataType="text"
+      error=""
       fieldName="synonymValue_new"
       key="synonymValue_new"
+      label=""
       onChange={[Function]}
       onClick={[Function]}
       placeholder="add new"
+      size={30}
+      title=""
       value="new one"
     />
     <Icon

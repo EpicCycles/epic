@@ -7,7 +7,7 @@ import {partFields, supplierProductFields} from "../app/model/helpers/fields";
 import { updateModelArrayWithChanges} from "../app/model/helpers/model";
 import SupplierProductEditRow from "./SupplierProductEditRow";
 import SupplierProductHeaders from "./SupplierProductHeaders";
-import {findSupplierProducts} from "../part/helpers/part_helper";
+import {findSupplierProducts} from "./helpers/supplierProduct";
 
 const initialState = {
     brand: '',

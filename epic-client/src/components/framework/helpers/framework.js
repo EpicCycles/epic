@@ -17,17 +17,7 @@ export const NEW_ATTRIBUTE = {
 };
 export const getPartTypeName = (partTypeId, sections) => {
     if (! partTypeId) return undefined;
-    let partTypeName = "Unknown";
-    sections.some(section => {
-        return section.partTypes.some(partType => {
-            if (partType.id === partTypeId) {
-                partTypeName = partType.name;
-                return true;
-            }
-            return false;
-        });
-    });
-    return partTypeName;
+    return getPartType(partTypeId, sections).name;
 };
 
 export const getPartType = (partTypeId, sections) => {

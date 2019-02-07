@@ -1,4 +1,5 @@
 import React from "react";
+import * as PropTypes from "prop-types";
 
 import SelectInput from "../../common/SelectInput";
 import {getComponentKey} from "../app/model/helpers/model";
@@ -21,5 +22,26 @@ const BrandSelect = (props) => {
         error={error}
         disabled={disabled}
     />;
-}
+};
+
+BrandSelect.defaultProps = {
+    brands: [],
+    fieldName: 'brand',
+    isEmptyAllowed: false,
+    error: "",
+    bikeOnly: false,
+    disabled: false,
+};
+
+BrandSelect.propTypes = {
+    brands: PropTypes.array.isRequired,
+    fieldName: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+    brandSelected: PropTypes.any,
+    isEmptyAllowed: PropTypes.bool,
+    error: PropTypes.string,
+    bikeOnly: PropTypes.bool,
+    disabled: PropTypes.bool,
+};
+
 export default BrandSelect;

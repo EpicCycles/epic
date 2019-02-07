@@ -4,48 +4,69 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
 <div
   id="customer-detail"
 >
-  <div
-    className="row"
-  >
-    <FormTextInput
-      className="column full"
-      error=""
-      fieldName="first_name"
-      id="first-name-input"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="First Name"
-      value="Anna"
-    />
-  </div>
-  <div
-    className="row"
-  >
-    <FormTextInput
-      className="column full"
-      error=""
-      fieldName="last_name"
-      id="last-name-input"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="Last Name"
-      value="Weaver"
-    />
-  </div>
-  <div
-    className="row"
-  >
-    <FormTextInput
-      className="column full"
-      error=""
-      fieldName="email"
-      id="email-input"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="email"
-      value="anna.weaver@johnlewis.co.uk"
-    />
-  </div>
+  <EditModelPage
+    model={
+      Object {
+        "add_date": "2018-07-04T13:02:09.988286+01:00",
+        "email": "anna.weaver@johnlewis.co.uk",
+        "first_name": "Anna",
+        "id": 16,
+        "last_name": "Weaver",
+        "upd_date": "2018-07-04T13:02:09.988343+01:00",
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "A value is required.",
+          "fieldName": "first_name",
+          "header": "First Name",
+          "length": 60,
+          "required": true,
+          "synonyms": Array [],
+          "type": "text",
+        },
+        Object {
+          "error": "A value is required.",
+          "fieldName": "last_name",
+          "header": "Last Name",
+          "length": 60,
+          "required": true,
+          "synonyms": Array [],
+          "type": "text",
+        },
+        Object {
+          "fieldName": "email",
+          "header": "email",
+          "type": "text",
+          "validator": [Function],
+        },
+        Object {
+          "fieldName": "add_date",
+          "header": "Date Added",
+          "readonly": true,
+          "type": "date_time",
+        },
+        Object {
+          "fieldName": "upd_date",
+          "header": "Date Updated",
+          "readonly": true,
+          "type": "date_time",
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={
+      Object {
+        "add_date": "2018-07-04T13:02:09.988286+01:00",
+        "email": "anna.weaver@johnlewis.co.uk",
+        "first_name": "Anna",
+        "id": 16,
+        "last_name": "Weaver",
+        "upd_date": "2018-07-04T13:02:09.988343+01:00",
+      }
+    }
+  />
   <div
     className="row"
   >
@@ -57,14 +78,6 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
   <div
     className="row align_right"
   >
-    <Icon
-      as="i"
-      disabled={false}
-      id="accept-cust"
-      name="check"
-      onClick={[Function]}
-      title="Confirm Customer changes"
-    />
     <Icon
       as="i"
       id="delete-customer"
@@ -80,48 +93,50 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
 <div
   id="customer-detail"
 >
-  <div
-    className="row"
-  >
-    <FormTextInput
-      className="column full"
-      error=""
-      fieldName="first_name"
-      id="first-name-input"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="First Name"
-      value=""
-    />
-  </div>
-  <div
-    className="row"
-  >
-    <FormTextInput
-      className="column full"
-      error=""
-      fieldName="last_name"
-      id="last-name-input"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="Last Name"
-      value=""
-    />
-  </div>
-  <div
-    className="row"
-  >
-    <FormTextInput
-      className="column full"
-      error=""
-      fieldName="email"
-      id="email-input"
-      onChange={[Function]}
-      onClick={[Function]}
-      placeholder="email"
-      value=""
-    />
-  </div>
+  <EditModelPage
+    model={Object {}}
+    modelFields={
+      Array [
+        Object {
+          "error": "A value is required.",
+          "fieldName": "first_name",
+          "header": "First Name",
+          "length": 60,
+          "required": true,
+          "synonyms": Array [],
+          "type": "text",
+        },
+        Object {
+          "error": "A value is required.",
+          "fieldName": "last_name",
+          "header": "Last Name",
+          "length": 60,
+          "required": true,
+          "synonyms": Array [],
+          "type": "text",
+        },
+        Object {
+          "fieldName": "email",
+          "header": "email",
+          "type": "text",
+          "validator": [Function],
+        },
+        Object {
+          "fieldName": "add_date",
+          "header": "Date Added",
+          "readonly": true,
+          "type": "date_time",
+        },
+        Object {
+          "fieldName": "upd_date",
+          "header": "Date Updated",
+          "readonly": true,
+          "type": "date_time",
+        },
+      ]
+    }
+    onChange={[Function]}
+  />
   <div
     className="row align_right"
   />

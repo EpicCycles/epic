@@ -9,8 +9,10 @@ const mapStateToProps = ({core, framework, bike, part}) => {
         suppliers: core.suppliers,
         sections: framework.sections,
         isLoading: (core.isLoading || bike.isLoading || framework.isLoading),
-        bike: bike.bike,
-        parts: bike.parts,
+        frames: bike.frames,
+        bikes: bike.bikes,
+        bikeParts: bike.bikeParts,
+        parts: part.parts,
         bikeReviewList: bike.bikeReviewList
     }
 };

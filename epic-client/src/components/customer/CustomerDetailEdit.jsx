@@ -7,197 +7,75 @@ upd_date(pin): '2018-07-04T13:02:09.988343+01:00'
  */
 import React from "react";
 import {Icon} from "semantic-ui-react";
-import FormTextInput from "../../common/FormTextInput";
-import {validateEmailFormat} from "../app/model/helpers/validators";
+import {updateObject} from "../../helpers/utils";
+import {isModelValid, updateModel} from "../app/model/helpers/model";
+import {customerFields} from "../app/model/helpers/fields";
+import EditModelPage from "../app/model/EditModelPage";
 
 class CustomerDetailEdit extends React.Component {
-    state = {
-        first_name: '',
-        first_nameError: '',
-        last_name: '',
-        last_nameError: '',
-        email: '',
-        emailError: '',
-        add_date: '',
-        upd_date: '',
-        isChanged: false,
-        isValid: true
-    };
+    state = {};
 
     componentWillMount() {
-        if (this.props.customer) {
-            this.setState({
-                first_name: this.props.customer.first_name,
-                last_name: this.props.customer.last_name,
-                email: this.props.customer.email,
-                add_date: this.props.customer.add_date,
-                upd_date: this.props.customer.upd_date,
-            });
-        }
+        this.setState(this.deriveStateFromProps());
     };
 
+    componentDidUpdate(prevProps) {
+        if (this.props.customer !== prevProps.customer) this.deriveStateFromProps();
+    }
+
+    deriveStateFromProps = () => {
+        return updateObject(this.props.customer);
+    };
     validateCustomerDataAndSave = () => {
-        let isValid = true;
-        let first_nameError = "";
-        let last_nameError = "";
-        let emailError = "";
-        const first_name = this.state.first_name;
-        const last_name = this.state.last_name;
-        const email = this.state.email;
+        const isValid = isModelValid(this.state);
 
-        if (this.props.customer) {
-            if (!(first_name)) first_nameError = "First Name must be provided";
-            if (!(last_name)) last_nameError = "Last Name must be provided";
-        }
-        else {
-            if (first_name || last_name || email) {
-                if (!(first_name)) first_nameError = "First Name must be provided";
-                if (!(last_name)) last_nameError = "Last Name must be provided";
-            }
-        }
-        if ((email) && (!validateEmailFormat(email))) emailError = "Invalid Email";
-
-        if (first_nameError || last_nameError || emailError) isValid = false;
-        this.setState({
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-            first_nameError: first_nameError,
-            last_nameError: last_nameError,
-            emailError: emailError,
-            isValid: isValid
-        });
-
-        isValid && this.props.acceptCustomerChanges(first_name, last_name, email);
+        isValid && this.props.acceptCustomerChanges(this.state);
     };
 
-    isFormChanged = (first_name, last_name, email) => {
-        if (this.props.customer) {
-            if (this.props.customer.first_name !== first_name
-                || this.props.customer.last_name !== last_name
-                || this.props.customer.email !== email) {
-                return true;
-            }
-        } else {
-            if (first_name || last_name || email) {
-                return true;
-            }
-        }
-        return false;
-    };
     handleInputChange = (fieldName, input) => {
-        if (fieldName === 'first_name') {
-            const isChanged = this.isFormChanged(input, this.state.last_name, this.state.email);
-            this.setState({
-                first_name: input,
-                first_nameError: '', isChanged: isChanged
-            });
-        } else if (fieldName === 'last_name') {
-            const isChanged = this.isFormChanged(this.state.first_name, input, this.state.email);
-            this.setState({last_name: input, last_nameError: '', isChanged: isChanged});
-        } else if (fieldName === 'email') {
-            const isChanged = this.isFormChanged(this.state.first_name, this.state.last_name, input);
-            this.setState({email: input, emailError: '', isChanged: isChanged});
-        }
-    };
-    handleInputClear = (fieldName) => {
-        if (fieldName === 'removefirst_name') {
-            const first_name = this.props.customer ? this.props.customer.first_name : '';
-            const isChanged = this.isFormChanged(first_name, this.state.last_name, this.state.email);
-            this.setState({
-                first_name: first_name,
-                first_nameError: '', isChanged: isChanged
-            });
-        } else if (fieldName === 'removelast_name') {
-            const last_name = this.props.customer ? this.props.customer.last_name : '';
-            const isChanged = this.isFormChanged(this.state.first_name, last_name, this.state.email);
-            this.setState({last_name: last_name, last_nameError: '', isChanged: isChanged});
-        } else if (fieldName === 'removeemail') {
-            const email = this.props.customer ? this.props.customer.email : '';
-            const isChanged = this.isFormChanged(this.state.first_name, this.state.last_name, email);
-            this.setState({email: email, emailError: '', isChanged: isChanged});
-        }
+        const newState = updateModel(this.state, customerFields, fieldName, input);
+        this.setState(newState);
     };
 
     onClickReset = () => {
-        this.setState({
-            first_name: this.props.customer ? this.props.customer.first_name : '',
-            first_nameError: '',
-            last_name: this.props.customer ? this.props.customer.last_name : '',
-            last_nameError: '',
-            email: this.props.customer ? this.props.customer.email : '',
-            emailError: '',
-            isChanged: false,
-            isValid: true
-        });
+        this.setState(this.deriveStateFromProps());
     };
 
     onClickDelete = () => {
-        const {customer, deleteCustomer, removeCustomer} = this.props;
+        const { customer, deleteCustomer, removeCustomer } = this.props;
         if (customer && customer.id) {
             deleteCustomer(customer);
-         } else {
+        } else {
             removeCustomer();
         }
     };
 
     render() {
-        const {first_name, last_name, email, add_date, upd_date, isChanged, isValid, first_nameError, last_nameError, emailError} = this.state;
-        const {customer} = this.props;
-        const customerInState = (customer && (customer.first_name || customer.last_name || customer.email));
-
+        const { add_date, upd_date, changed, id } = this.state;
+        const isValid = isModelValid(this.state);
         return <div id="customer-detail">
-            <div className="row">
-                <FormTextInput
-                    placeholder="First Name"
-                    id="first-name-input"
-                    className="column full"
-                    value={first_name}
-                    fieldName="first_name"
-                    error={first_nameError}
-                    onChange={this.handleInputChange}
-                    onClick={this.handleInputClear}/>
-            </div>
-            <div className="row">
-                <FormTextInput
-                    placeholder="Last Name"
-                    id="last-name-input"
-                    className="column full"
-                    value={last_name}
-                    fieldName="last_name"
-                    onChange={this.handleInputChange}
-                    onClick={this.handleInputClear}
-                    error={last_nameError}
-                />
-            </div>
-            <div className="row">
-                <FormTextInput
-                    placeholder="email"
-                    id="email-input"
-                    className="column full"
-                    value={email}
-                    fieldName="email"
-                    onChange={this.handleInputChange}
-                    onClick={this.handleInputClear}
-                    error={emailError}
-                />
-            </div>
+            <EditModelPage
+                model={this.state}
+                persistedModel={this.props.customer}
+                modelFields={customerFields}
+                onChange={this.handleInputChange}
+            />
             {add_date &&
             <div className="row">
                 Added on {add_date.substring(0, 10)}, last updated on {upd_date.substring(0, 10)}
             </div>
             }
             <div className="row align_right">
-                {isChanged &&
+                {changed &&
                 <Icon id={`reset-cust`} name="undo"
                       onClick={this.onClickReset} title="Reset Customer details"
                 />
                 }
-                {(customerInState || isChanged) &&
+                {(changed) &&
                 <Icon id={`accept-cust`} name="check" disabled={!isValid}
                       onClick={isValid && this.validateCustomerDataAndSave} title="Confirm Customer changes"/>
                 }
-                {customerInState &&
+                {id &&
                 <Icon id={`delete-customer`} name="delete"
                       onClick={this.onClickDelete}
                       title="Delete Customer"/>

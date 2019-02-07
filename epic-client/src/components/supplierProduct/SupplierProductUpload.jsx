@@ -4,7 +4,7 @@ import {doesFieldMatchPartType} from "../framework/helpers/framework";
 import {colourStyles} from "../../helpers/constants";
 import UploadMappingPartTypes from "../app/upload/UploadMappingPartTypes";
 import UploadMappingSuppliers from "../app/upload/UploadMappingSuppliers";
-import {buildSupplierProductForApi} from "../part/helpers/part_helper";
+import {buildSupplierProductForApi} from "./helpers/supplierProduct";
 import BrandPrompt from "../brand/BrandPrompt";
 import SupplierProductUploadReview from "./SupplierProductUploadReview";
 import {doWeHaveObjects, updateObject} from "../../helpers/utils";

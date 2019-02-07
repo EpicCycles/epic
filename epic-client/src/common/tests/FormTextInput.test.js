@@ -14,7 +14,8 @@ test('renders the form numeric input correctly', () => {
             id="1234"
             label="Test"
             placeholder="Please enter your loyalty number"
-            onChange={() => {}}
+            onChange={() => {
+            }}
             dataType="number"
         />
     );

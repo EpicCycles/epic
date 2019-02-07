@@ -74,15 +74,15 @@ const bike = (state = initialState, action) => {
             return {
                 ...state,
                 bikeId: action.payload.bikeId,
-                bike: {},
-                parts: [],
-                isLoading: true
+                // bike: {},
+                // parts: [],
+                // isLoading: true
             };
         case BIKE_REVIEW_OK:
             return {
                 ...state,
-                bike: action.payload.bike,
-                parts: action.payload.parts,
+                // bike: action.payload.bike,
+                // parts: action.payload.parts,
                 isLoading: false
             };
         case FRAME_SAVE_REQUESTED:
@@ -111,7 +111,9 @@ const bike = (state = initialState, action) => {
         case FRAME_LIST_OK:
             return {
                 ...state,
-                frames: action.payload,
+                frames: action.payload.frames,
+                bikes: action.payload.bikes,
+                bikeParts: action.payload.bikeParts,
                 isLoading: false,
             };
         case BIKE_REVIEW_ERROR:

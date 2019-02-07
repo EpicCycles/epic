@@ -162,9 +162,9 @@ export const getFrameList = (searchCriteria) => ({
     type: FRAME_LIST_REQUESTED,
     payload: searchCriteria
 });
-export const getFrameListOK = (frames) => ({
+export const getFrameListOK = (apiData) => ({
     type: FRAME_LIST_OK,
-    payload: frames
+    payload: apiData
 });
 export const getFrameListError = (error) => ({
     type: FRAME_LIST_ERROR,

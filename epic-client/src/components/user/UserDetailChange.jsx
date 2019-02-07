@@ -69,7 +69,7 @@ class UserDetailChange  extends React.Component {
 
 UserDetailChange.propTypes = {
     user: PropTypes.object,
-    changeUserData: PropTypes.func.required,
+    changeUserData: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 

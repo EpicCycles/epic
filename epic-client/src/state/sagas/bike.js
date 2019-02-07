@@ -143,20 +143,20 @@ export function* watchForReviewBikeStart() {
 }
 
 export function* reviewBikeParts(action) {
-    try {
-        const token = yield select(selectors.token);
-        if (token) {
-            const completePayload = updateObject(action.payload, { token });
-            const responseBike = yield call(bike.getBike, completePayload);
-            const responseParts = yield call(bike.getBikeParts, completePayload);
-            yield put(reviewBikeOK(responseBike.data, responseParts.data));
-        } else {
-            yield call(history.push, "/login");
-        }
-    } catch (error) {
-        logError(error);
-        yield put(reviewBikeError("Get Bike for Review failed"));
-    }
+    // try {
+    //     const token = yield select(selectors.token);
+    //     if (token) {
+    //         const completePayload = updateObject(action.payload, { token });
+    //         const responseBike = yield call(bike.getBike, completePayload);
+    //         const responseParts = yield call(bike.getBikeParts, completePayload);
+    //         yield put(reviewBikeOK(responseBike.data, responseParts.data));
+    //     } else {
+    //         yield call(history.push, "/login");
+    //     }
+    // } catch (error) {
+    //     logError(error);
+    //     yield put(reviewBikeError("Get Bike for Review failed"));
+    // }
 }
 
 export function* watchForReviewBike() {

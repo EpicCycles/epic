@@ -148,7 +148,7 @@ class BikeReviewList extends React.Component {
 
     render() {
         const { brand, frameName, archived, frameArchiveList, bikeReviewList, bikeDeleteList, frameDeleteList } = this.state;
-        const { isLoading, brands, frames } = this.props;
+        const { isLoading, brands, frames, bikes } = this.props;
         const archivedFrames = frames ? frames.filter(frame => frame.archived) : [];
         const nonArchivedFrames = frames ? frames.filter(frame => (!frame.archived)) : [];
         let framesWidth = archived ? (window.innerWidth * 0.75) : window.innerWidth;
@@ -227,23 +227,27 @@ class BikeReviewList extends React.Component {
                                     <div className="grid-item--header">Sizes</div>
                                     <div className="grid-item--header">action</div>
                                 </div>
-                                {nonArchivedFrames.map((frame) =>
-                                    frame.bikes.map((bike, bikeIndex) =>
-                                        <div key={`detailRow${bike.id}`} className="grid-row">
+                                {nonArchivedFrames.map((frame, frameIndex) =>
+
+                                    bikes.filter(bike => (bike.frame === frame.id)).map((bike, bikeIndex) =>
+                                        <div
+                                            key={`detailRow${frameIndex}${bikeIndex}`}
+                                            className="grid-row"
+                                        >
                                             <div
                                                 className="grid-item grid-item--fixed-left"
-                                                key={`bikeRowFrame${bike.id}`}
+                                                key={`bikeRowFrame${frameIndex}${bikeIndex}`}
                                             >
                                                 {(bikeIndex === 0) && frame.frame_name}
                                             </div>
                                             <div
                                                 className="grid-item align_center"
-                                                key={`bikeRowArchive${bike.id}`}
+                                                key={`bikeRowArchive${frameIndex}${bikeIndex}`}
                                             >
                                                 {(bikeIndex === 0) &&
                                                 <Fragment>
                                                     <Icon
-                                                        key={`archive${frame.id}`}
+                                                        key={`archive${frameIndex}`}
                                                         name="archive"
                                                         className={frameArchiveList.includes(frame.id) && "red"}
                                                         onClick={() => (!frameDeleteList.includes(frame.id)) && this.changeFrameArchiveList(frame.id)}
@@ -251,7 +255,7 @@ class BikeReviewList extends React.Component {
                                                         title="Archive this frame and all related bikes"
                                                     />
                                                     <Icon
-                                                        key={`delete${frame.id}`}
+                                                        key={`delete${frameIndex}`}
                                                         name="delete"
                                                         className={frameDeleteList.includes(frame.id) && "red"}
                                                         onClick={() => (!frameArchiveList.includes(frame.id)) && this.changeFrameDeleteList(frame.id)}
@@ -263,34 +267,34 @@ class BikeReviewList extends React.Component {
                                             </div>
                                             <div
                                                 className="grid-item"
-                                                key={`bikeModel${bike.id}`}
+                                                key={`bikeModel${frameIndex}${bikeIndex}`}
                                             >
                                                 {bike.model_name}
                                             </div>
                                             <div
                                                 className="grid-item"
-                                                key={`bikeDescription${bike.id}`}
+                                                key={`bikeDescription${frameIndex}${bikeIndex}`}
                                             >
                                                 {bike.description}
                                             </div>
                                             <div
                                                 className="grid-item"
-                                                key={`bikeColours${bike.id}`}
+                                                key={`bikeColours${frameIndex}${bikeIndex}`}
                                             >
                                                 {bike.colours}
                                             </div>
                                             <div
                                                 className="grid-item"
-                                                key={`bikeSizes${bike.id}`}
+                                                key={`bikeSizes${frameIndex}${bikeIndex}`}
                                             >
                                                 {bike.sizes}
                                             </div>
                                             <div
                                                 className="grid-item align_center"
-                                                key={`bikeActions${bike.id}`}
+                                                key={`bikeActions${frameIndex}${bikeIndex}`}
                                             >
                                                 <Icon
-                                                    key={`delete${bike.id}`}
+                                                    key={`delete${frameIndex}${bikeIndex}`}
                                                     name="trash"
                                                     className={bikeDeleteList.includes(bike.id) && "red"}
                                                     onClick={() => (!bikeReviewList.includes(bike.id)) && this.changeBikeDeleteList(bike.id)}
@@ -298,7 +302,7 @@ class BikeReviewList extends React.Component {
                                                     title="Delete this bike"
                                                 />
                                                 <Icon
-                                                    key={`review${bike.id}`}
+                                                    key={`review${frameIndex}${bikeIndex}`}
                                                     name="edit outline"
                                                     className={bikeReviewList.includes(bike.id) && "red"}
                                                     onClick={() => (!bikeDeleteList.includes(bike.id)) && this.changeBikeReviewList(bike.id)}
@@ -329,26 +333,26 @@ class BikeReviewList extends React.Component {
                                 <div className="grid-item--header">Date Archived</div>
                                 <div className="grid-item--header">Undo</div>
                             </div>
-                            {archivedFrames.map(frame =>
-                                <div key={`archiveRow${frame.id}`} className="grid-row">
+                            {archivedFrames.map((frame, frameIndex) =>
+                                <div key={`archiveRow${frameIndex}`} className="grid-row">
                                     <div
                                         className="grid-item grid-item--fixed-left"
-                                        key={`archiveRowFrame${frame.id}`}
+                                        key={`archiveRowFrame${frameIndex}`}
                                     >
                                         {frame.frame_name}
                                     </div>
                                     <div
                                         className="grid-item"
-                                        key={`archiveRowDate${frame.id}`}
+                                        key={`archiveRowDate${frameIndex}`}
                                     >
                                         {frame.archived_date.substring(0, 10)}
                                     </div>
                                     <div
                                         className="grid-item align_center"
-                                        key={`archiveRowUndo${frame.id}`}
+                                        key={`archiveRowUndo${frameIndex}`}
                                     >
                                         <Icon
-                                            key={`undo${frame.id}`}
+                                            key={`undo${frameIndex}`}
                                             name="undo"
                                             className="red"
                                             onClick={() => this.restoreArchivedFrame(frame.id)}
