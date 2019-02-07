@@ -11,8 +11,6 @@ import {
     BIKE_PART_SAVE_OK,
     BIKE_PART_SAVE_REQUESTED,
     BIKE_REVIEW_BIKE,
-    BIKE_REVIEW_ERROR,
-    BIKE_REVIEW_OK,
     BIKE_REVIEW_REQUESTED,
     BIKE_SAVE_ERROR,
     BIKE_SAVE_OK,
@@ -67,8 +65,8 @@ const bike = (state = initialState, action) => {
         case BIKE_REVIEW_REQUESTED:
             // state should just be the list of bikes
             return {
+                ...state,
                 bikeReviewList: action.payload.bikeReviewList,
-                isLoading: true
             };
         case BIKE_REVIEW_BIKE:
             return {
@@ -77,13 +75,6 @@ const bike = (state = initialState, action) => {
                 // bike: {},
                 // parts: [],
                 // isLoading: true
-            };
-        case BIKE_REVIEW_OK:
-            return {
-                ...state,
-                // bike: action.payload.bike,
-                // parts: action.payload.parts,
-                isLoading: false
             };
         case FRAME_SAVE_REQUESTED:
         case FRAME_UPLOAD_REQUESTED:
@@ -116,7 +107,6 @@ const bike = (state = initialState, action) => {
                 bikeParts: action.payload.bikeParts,
                 isLoading: false,
             };
-        case BIKE_REVIEW_ERROR:
         case BIKE_DELETE_ERROR:
         case BIKE_SAVE_ERROR:
         case BIKE_ADD_PART_ERROR:

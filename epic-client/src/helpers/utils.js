@@ -80,7 +80,7 @@ export const findObjectWithId = (arrayOfObjects, objectId) => {
         // eslint-disable-next-line
         return arrayOfObjects.find(object => object.id == objectId);
     } else {
-        return -1;
+        return {};
     }
 };
 export const findIndexOfObjectWithId = (arrayOfObjects, objectId) => {

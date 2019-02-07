@@ -1,6 +1,6 @@
-import {bikeFullName} from "../../bike/helpers/bike_helpers";
+import {bikeFullName} from "../helpers/bike_helpers";
 
-export const frames = [
+const frames = [
     {
         "id": 14,
         "brand_name": "Haibike",
@@ -26,7 +26,7 @@ export const frames = [
         "brand": 4
     }
 ];
-export const brands = [
+const brands = [
     { brand_name: "Bianchi", link: "https://bianchi.co.uk", id: 8 },
     { brand_name: "Haibike", id: 3 },
 ];

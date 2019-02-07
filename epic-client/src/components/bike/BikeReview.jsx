@@ -4,7 +4,7 @@ import {bikeFields} from "../app/model/helpers/fields";
 import {Dimmer, Icon, Loader} from "semantic-ui-react";
 import EditModelField from "../app/model/EditModelField";
 import Pagination from "../../common/pagination";
-import {isItAnObject, updateObject} from "../../helpers/utils";
+import {updateObject} from "../../helpers/utils";
 import {Redirect} from "react-router";
 import {buildPartString} from "../part/helpers/part_helper";
 import PartEdit from "../part/PartEdit";
@@ -27,12 +27,6 @@ import {applyFieldValueToModel} from "../app/model/helpers/model";
 class BikeReview extends React.Component {
     constructor() {
         super();
-        this.state = {
-            showModal: false,
-            modalPart: undefined
-        };
-        this.handleOpenModal = this.handleOpenModal.bind(this);
-        this.handleCloseModal = this.handleCloseModal.bind(this);
     }
 
     componentDidMount() {
@@ -43,69 +37,10 @@ class BikeReview extends React.Component {
         this.checkPropsData();
     };
 
-    handleOpenModal(part) {
-        this.setState({ showModal: true, modalPart: part });
-    }
-
-
-    handleCloseModal() {
-        this.setState({ showModal: false, modalPart: undefined });
-    }
-
     checkPropsData = () => {
-        if (this.props.bikeReviewList && (this.props.bikeReviewList.length > 0)) {
-            if (!this.props.isLoading) {
-                this.getData();
-
-                if (isItAnObject(this.props.bike) &&
-                    (!isItAnObject(this.state.bike) || (this.props.bike.id !== this.state.bike.id))) {
-                    if (this.props.sections && (this.props.sections.length > 0) && this.props.brands && this.props.parts) {
-                        this.setStateForBike(this.props.bike, this.props.parts);
-                    }
-                } else if (this.props.parts && this.state.partRefresh) {
-                    this.setStateForBike(undefined, this.props.parts);
-                } else if (this.props.bike && this.state.bikeRefresh) {
-                    this.setStateForBike(this.props.bike);
-                }
-            }
+        if (!this.props.isLoading) {
+            this.getData();
         }
-    };
-    setStateForBike = (bike, parts) => {
-        let valuesForState = {};
-        if (bike) {
-            valuesForState.bike = bike;
-            valuesForState.bikeRefresh = false;
-        }
-        const sections = this.props.sections;
-        if (parts) {
-            const brands = this.props.brands;
-            const displayParts = [];
-            sections.forEach(section => {
-                const dummyPart = { section_name: section.name };
-                let sectionPos = 0;
-                section.partTypes.forEach(partType => {
-                    const bikePart = parts.filter((part) => (part.partType === partType.id))[0];
-                    if (bikePart) {
-                        displayParts.push(updateObject(
-                            dummyPart,
-                            bikePart,
-                            {
-                                sectionPos,
-                                partTypeName: partType.name,
-                                fullPartName: buildPartString(bikePart, brands)
-                            }));
-                        sectionPos++;
-                    }
-                });
-                if (sectionPos === 0) {
-                    displayParts.push(updateObject(dummyPart, { empty: true, sectionPos }));
-                }
-            });
-            valuesForState.displayParts = displayParts;
-            valuesForState.partRefresh = false;
-        }
-        const newState = updateObject(this.state, valuesForState);
-        this.setState(newState);
     };
     getData = () => {
         let brandsRequired = true;
@@ -313,14 +248,14 @@ class BikeReview extends React.Component {
                     className="Modal PartModal"
                 >
                     <PartEdit
-                    part={modalPart}
-                    partTypeEditable={!(modalPart && modalPart.id)}
-                    componentKey={(modalPart && modalPart.id) ? modalPart.id: NEW_ELEMENT_ID}
-                    sections={sections}
-                    brands={brands}
-                    savePart={this.saveOrAddPart}
-                    closeModal={this.handleCloseModal}
-                />
+                        part={modalPart}
+                        partTypeEditable={!(modalPart && modalPart.id)}
+                        componentKey={(modalPart && modalPart.id) ? modalPart.id : NEW_ELEMENT_ID}
+                        sections={sections}
+                        brands={brands}
+                        savePart={this.saveOrAddPart}
+                        closeModal={this.handleCloseModal}
+                    />
                 </ReactModal>}
             </Fragment>
             }

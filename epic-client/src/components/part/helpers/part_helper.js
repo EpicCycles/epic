@@ -1,5 +1,5 @@
 // look at state and decide whether to get a new part list for datalist.
-import {getBrandName} from "../../brand/helpers/brand_helper";
+import {getBrandName} from "../../brand/helpers/brand";
 import {getPartTypeName} from "../../framework/helpers/framework";
 
 export const getNewDataListRequired = (currentPartDataList, currentPartType, currentBrand) => {

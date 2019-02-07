@@ -624,7 +624,15 @@ export const VERSION_FIELD = {
 export const attributeOptionFields = [
     OPTION_NAME_FIELD
 ];
-export const bikeFields = [MODEL_NAME_FIELD, DESCRIPTION_FIELD, COLOURS_FIELD, SELL_PRICE_FIELD, EPIC_PRICE_FIELD, CLUB_PRICE_FIELD, SIZES_FIELD];
+export const bikeFields = [
+    MODEL_NAME_FIELD,
+    DESCRIPTION_FIELD,
+    COLOURS_FIELD,
+    SELL_PRICE_FIELD,
+    EPIC_PRICE_FIELD,
+    CLUB_PRICE_FIELD,
+    SIZES_FIELD
+];
 export const brandFields = [BRAND_NAME_FIELD, BIKE_BRAND_FIELD, LINK_FIELD, SUPPLIER_FIELD_OPTIONAL];
 export const bundleFields = [
     BUNDLE_NAME_FIELD,

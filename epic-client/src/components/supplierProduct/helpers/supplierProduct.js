@@ -1,5 +1,5 @@
 import {generateRandomCode, updateObjectInArray} from "../../../helpers/utils";
-import {buildBrandNameArray} from "../../brand/helpers/brand_helper";
+import {buildBrandNameArray} from "../../brand/helpers/brand";
 import {buildPartObject} from "../../part/helpers/part_helper";
 
 export const supplierProductHeaders = [

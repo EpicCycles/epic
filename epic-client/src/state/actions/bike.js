@@ -1,8 +1,6 @@
 export const CLEAR_FRAME = "bike/CLEAR_FRAME";
 export const BIKE_REVIEW_REQUESTED = "bike/BIKE_REVIEW_REQUESTED";
 export const BIKE_REVIEW_BIKE = "bike/BIKE_REVIEW_BIKE";
-export const BIKE_REVIEW_OK = "bike/BIKE_REVIEW_OK";
-export const BIKE_REVIEW_ERROR = "bike/BIKE_REVIEW_ERROR";
 export const BIKE_DELETE_REQUESTED = "bike/BIKE_DELETE_REQUESTED";
 export const BIKE_DELETE_OK = "bike/BIKE_DELETE_OK";
 export const BIKE_DELETE_ERROR = "bike/BIKE_DELETE_ERROR";
@@ -94,14 +92,7 @@ export const reviewBike = (bikeId) => ({
     type:BIKE_REVIEW_BIKE,
     payload: { bikeId }
 });
-export const reviewBikeError = (error) => ({
-    type: BIKE_REVIEW_ERROR,
-    payload: error
-});
-export const reviewBikeOK = (bike, parts) => ({
-    type: BIKE_REVIEW_OK,
-    payload: {bike, parts}
-});
+
 export const deleteBikes = (bikeDeleteList, searchCriteria) => ({
     type: BIKE_DELETE_REQUESTED,
     payload: { bikeDeleteList, searchCriteria }

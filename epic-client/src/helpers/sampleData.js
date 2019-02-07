@@ -16,6 +16,71 @@ export const sampleBrands = [
     { brand_name: "brand7", supplier: 12, id: 17 },
     { brand_name: "brand8", link: "https://bianchi.co.uk", id: 18 },
 ];
+export const sampleFrames = [
+    {
+        "id": 14,
+        "brand_name": "Haibike",
+        "frame_name": "Trekking",
+        "archived": false,
+        "archived_date": null,
+        "brand": 3
+    },
+    {
+        "id": 13,
+        "brand_name": "Haibike",
+        "frame_name": "Urban",
+        "archived": false,
+        "archived_date": null,
+        "brand": 3
+    },
+    {
+        "id": 27,
+        "brand_name": "Raleigh",
+        "frame_name": "Motus",
+        "archived": false,
+        "archived_date": null,
+        "brand": 4
+    }
+];
+
+export const sampleBikes =  [
+    {
+        "id": 58,
+        "frame_name": "Haibike: Trekking",
+        "model_name": "4",
+        "description": null,
+        "colours": "anthracite/black/lime",
+        "rrp": null,
+        "epic_price": null,
+        "club_price": "2249.00",
+        "sizes": null,
+        "frame": 14
+    },
+    {
+        "id": 59,
+        "frame_name": "Haibike: Trekking",
+        "model_name": "4 low-step",
+        "description": null,
+        "colours": "anthracite/black/lime",
+        "rrp": null,
+        "epic_price": null,
+        "club_price": "2249.00",
+        "sizes": null,
+        "frame": 14
+    },
+    {
+        "id": 60,
+        "frame_name": "Haibike: Trekking",
+        "model_name": "5",
+        "description": null,
+        "colours": "black/blue/white matt",
+        "rrp": null,
+        "epic_price": null,
+        "club_price": "2549.00",
+        "sizes": null,
+        "frame": 14
+    },
+    ];
 export const sampleSuppliers = [
     { supplier_name: "Supplier1", id: 1 },
     { supplier_name: "Supplier2fdg", id: 2 },

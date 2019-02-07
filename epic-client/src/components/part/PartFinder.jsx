@@ -11,10 +11,6 @@ import {partFields} from "../app/model/helpers/fields";
 import {getComponentKey, updateModelWithChanges} from "../app/model/helpers/model";
 import PartEditBlock from "./PartEditBlock";
 
-// TODO selected part shows values in part fields.
-// TODO changes saved option
-// TODO - actions and button labels for next - so for bike will just be use part, for quote could be replace existing part, add to quote
-// TODO - can instantiate with existing part - so part type and brand will be populated - part selection will be all parts with matching values - seelected part will be current value and those attributes will display.
 class PartFinder extends React.Component {
     componentWillMount() {
         this.setState(this.deriveStateFromProps());
@@ -84,13 +80,13 @@ class PartFinder extends React.Component {
         } else {
             nextAction(this.state.part);
         }
-    }
+    };
 
     render() {
         const { partTypeSelected, brandSelected, searchPartName, searchStandard, searchStocked, part, persistedPart } = this.state;
         const { sections, brands, parts, partActionPrimary, partActionPrimaryIcon, partActionPrimaryTitle, partActionSecondary, partActionSecondaryIcon, partActionSecondaryTitle } = this.props;
 
-        let partsForSelect = partType ? parts.filter(part => part.partType === partTypeSelected) : []
+        let partsForSelect = part ? parts.filter(part => part.partType === partTypeSelected) : []
         if (brandSelected) partsForSelect = partsForSelect.filter(part => part.brand === brandSelected);
         return <div className="grid-container">
             <h2>Find Part</h2>
@@ -174,7 +170,7 @@ class PartFinder extends React.Component {
                             name={'search'}
                             key={'runSearchIcon'}
                             onClick={() => this.findParts()}
-                            title={`Go to first ${pagingThingLower}`}/>
+                            title={`find parts matching selection`}/>
                         />
                     </div>
                 </div>
@@ -224,18 +220,16 @@ class PartFinder extends React.Component {
                 >
                     <div
                         className="grid-item--borderless field-label align_right"
-                        key={`selectStandard`}
                     >
                         Run Search
                     </div>
                     <div
-                        key={`fieldDiv${index}`}
                         className="grid-item--borderless field-label "
                     >
                         <Icon
                             name={'search'}
                             onClick={() => props.findParts(1)}
-                            title={`Go to first ${pagingThingLower}`}/>
+                            title={`find parts matching selection`}/>
                         />
                     </div>
                 </div>
@@ -250,7 +244,6 @@ class PartFinder extends React.Component {
                         Choose Part:
                     </div>
                     <div
-                        key={`fieldDiv${index}`}
                         className="grid-item--borderless field-label "
                     >
                         <PartSelect
@@ -267,10 +260,10 @@ class PartFinder extends React.Component {
                 componentKey={getComponentKey(part)}
                 part={part}
                 persistedPart={persistedPart}
-                partTypeEditable={!part.id}
+                partTypeEditable={!(part && part.id)}
                 sections={sections}
                 brands={brands}
-                onChange={this.updatePartFieldsInState()}
+                onChange={this.updatePartFieldsInState}
                 savePart={this.savePart}
                 resetPart={this.resetPart}
                 deletePart={this.deletePart}
@@ -295,10 +288,13 @@ class PartFinder extends React.Component {
     }
 
 }
-
+PartFinder.defaultProps = {
+    parts: [],
+}
 PartFinder.propTypes = {
-    sections: PropTypes.Array.isRequired,
-    parts: PropTypes.Array,
+    sections: PropTypes.array.isRequired,
+    brands: PropTypes.array.isRequired,
+    parts: PropTypes.array,
     partType: PropTypes.number,
     part: PropTypes.object,
     savePart: PropTypes.func.isRequired,
