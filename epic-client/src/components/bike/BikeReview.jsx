@@ -1,16 +1,11 @@
 import React, {Fragment} from 'react'
-
-import {bikeFields} from "../app/model/helpers/fields";
-import {Dimmer, Icon, Loader} from "semantic-ui-react";
-import EditModelField from "../app/model/EditModelField";
+import {Dimmer, Loader} from "semantic-ui-react";
 import Pagination from "../../common/pagination";
-import {updateObject} from "../../helpers/utils";
+import {findObjectWithId, updateObject} from "../../helpers/utils";
 import {Redirect} from "react-router";
-import {buildPartString} from "../part/helpers/part_helper";
-import PartEdit from "../part/PartEdit";
-import {NEW_ELEMENT_ID} from "../../helpers/constants";
-import ReactModal from "react-modal";
 import {applyFieldValueToModel} from "../app/model/helpers/model";
+import BikeEdit from "./BikeEdit";
+import * as PropTypes from "prop-types";
 
 // Review page for a single bike - needs: bike field entry section, table of parts with edit ability for each part
 
@@ -78,14 +73,8 @@ class BikeReview extends React.Component {
         }
     };
     reviewSelectedBike = (bikePage) => {
-        let changeBike = true;
-        if (this.state.bike.changed) {
-            changeBike = window.confirm("Are you sure? Changes may be lost.")
-        }
-        if (changeBike) {
-            const bikeIndex = bikePage - 1;
-            this.props.reviewBike(this.props.bikeReviewList[bikeIndex]);
-        }
+        const bikeIndex = bikePage - 1;
+        this.props.reviewBike(this.props.bikeReviewList[bikeIndex]);
     };
     deletePart = (partId) => {
         this.props.deleteBikePart(this.props.bike.id, partId);
@@ -110,155 +99,26 @@ class BikeReview extends React.Component {
     };
 
     render() {
-        const { bikeReviewList, isLoading, brands, sections } = this.props;
-        const { bike, displayParts, showModal, modalPart } = this.state;
-        const persistedBike = this.props.bike;
+        const {bikes, bikeParts, parts, bikeReviewList, isLoading, brands, frames, sections, saveBike, deleteBike , bikeId} = this.props;
         const selectedBikeIndex = bike && bikeReviewList.indexOf(bike.id);
+        const bike = selectedBikeIndex ? bikes[selectedBikeIndex] : undefined;
+        const partForBike = findPartsForBike(bike, bikeParts, parts);
         return <Fragment key={`bikeReview`}>
-            {!(bikeReviewList && (bikeReviewList.length > 0)) && <Redirect to="/bike-review-list" push/>}
-            {bike && <Fragment>
-                <h2>{bike.frame_name}</h2> // TODO frame_name not on bike
-                <div className="row">
-                    <div className="column grid"
-                         style={{
-                             width: "550px",
-                         }}
-                    >
-                        <div className="grid-row">
-                            <div className="grid-item--borderless"/>
-                            <div className="grid-item--borderless align_right">
-                                {bike.changed &&
-                                <Icon id={`reset-bike`} name="undo"
-                                      onClick={this.resetBikeData}
-                                      title="Reset Bike details"
-                                />
-                                }
-                                {(bike.changed) &&
-                                <Icon id={`accept-bike`} name="check"
-                                      onClick={this.saveBikeChanges}
-                                      title="Save Changes"
-                                />
-                                }
-                                <Icon id={`delete-bike`} name="trash"
-                                      onClick={this.deleteBike}
-                                      title="Delete Bike"
-                                />
-                            </div>
-                        </div>
-                        <Fragment>// TODO consider using EditModel fragment here.
-                            {bikeFields.map((field, index) => {
-                                return <EditModelField
-                                    key={`bikeFields${index}${bike.id}`}
-                                    field={field}
-                                    index={index}
-                                    model={bike}
-                                    persistedModel={persistedBike}
-                                    onChange={this.changeBikeField}
-                                />
-                            })
-                            }
-                        </Fragment>
-                    </div>
-                    <div
-                        className="column grid"
-                        style={{
-                            height: (window.innerHeight - 100) + "px",
-                            width: (window.innerWidth - 600) + "px",
-                            overflow: "auto"
-                        }}
-                    >
-                        <div key="partReviewHeaders" className="grid-row grid-row--header">
-                            <div
-                                className="grid-item--header grid-header--fixed-left"
-                            >
-                                Section
-                            </div>
-                            <div
-                                className="grid-item--header"
-                            >
-                                Part Type
-                            </div>
-                            <div
-                                className="grid-item--header"
-                            >
-                                Part
-                            </div>
-                            <div
-                                className="grid-item--header align_center"
-                            >
-                                Std
-                            </div>
-                            <div
-                                className="grid-item--header "
-                            >
-                                Stk
-                            </div>
-                            <div
-                                className="grid-item--header"
-                            />
-                        </div>
-                        {displayParts.map((displayPart, partIndex) => //TODO display including readolny fields can this be a separate fragment
-                            <div key={`detailRow${displayPart.id}`} className="grid-row">
-                                <div className="grid-item grid-item--fixed-left">
-                                    {(displayPart.sectionPos === 0) && displayPart.section_name}
-                                </div>
-                                <div className="grid-item">
-                                    {displayPart.empty ? "No Parts" : displayPart.partTypeName}
-                                </div>
-                                <div className="grid-item">
-                                    {displayPart.fullPartName && displayPart.fullPartName}
-                                </div>
-                                <div className="grid-item align_center">
-                                    {displayPart.standard && "Y"}
-                                </div>
-                                <div className="grid-item align_center">
-                                    {displayPart.stocked && "Y"}
-                                </div>
-                                <div className="grid-item align_center">
-                                    <Icon
-                                        key={`edit${partIndex}`}
-                                        name="edit"
-                                        title="Edit part "
-                                        onClick={() => (!displayPart.empty) && this.handleOpenModal(displayPart)}
-                                        disabled={displayPart.empty}
-                                    />
-                                    <Icon
-                                        key={`delete${partIndex}`}
-                                        name="trash"
-                                        title="Delete part "
-                                        onClick={() => (!displayPart.empty) && this.deletePart(displayPart.id)}
-                                        disabled={displayPart.empty}
-                                    />
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-                <Pagination
-                    type="Bike"
-                    getPage={this.reviewSelectedBike}
-                    lastPage={bikeReviewList.length}
-                    count={bikeReviewList.length}
-                    page={(selectedBikeIndex + 1)}
-                />
-                {showModal &&
-                <ReactModal
-                    isOpen={showModal}
-                    contentLabel={`Part`}
-                    className="Modal PartModal"
-                >
-                    <PartEdit
-                        part={modalPart}
-                        partTypeEditable={!(modalPart && modalPart.id)}
-                        componentKey={(modalPart && modalPart.id) ? modalPart.id : NEW_ELEMENT_ID}
-                        sections={sections}
-                        brands={brands}
-                        savePart={this.saveOrAddPart}
-                        closeModal={this.handleCloseModal}
-                    />
-                </ReactModal>}
-            </Fragment>
-            }
+            {!(bike) && <Redirect to="/bike-review-list" push/>}
+            <BikeEdit
+                bike={bike}
+                brands={brands}
+                frames={frames}
+                saveBike={saveBike}
+                deleteBike={deleteBike}
+            />
+            <Pagination
+                type="Bike"
+                getPage={this.reviewSelectedBike}
+                lastPage={bikeReviewList.length}
+                count={bikeReviewList.length}
+                page={(selectedBikeIndex + 1)}
+            />
             {isLoading &&
             <Dimmer active inverted>
                 <Loader content='Loading'/>
@@ -268,5 +128,16 @@ class BikeReview extends React.Component {
     }
 }
 
+BikeReview.propTypes = {
+    bikeId: PropTypes.object.isRequired,
+    bikeReviewList: PropTypes.array.isRequired,
+    bikeParts: PropTypes.array.isRequired,
+    brands: PropTypes.array.isRequired,
+    parts: PropTypes.array.isRequired,
+    frames: PropTypes.array.isRequired,
+    saveBike: PropTypes.func.isRequired,
+    deleteBike: PropTypes.func.isRequired,
+    reviewBike: PropTypes.func.isRequired,
+};
 export default BikeReview;
 

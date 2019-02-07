@@ -45,3 +45,10 @@ export const bikeFullName = (bike, frames, brands) => {
     if (!frame) return `${bike.model_name} (unknown brand and frame)`;
     return `${getBrandName(frame.brand, brands)}: ${frame.frame_name} ${bike.model_name}`
 };
+
+export const findPartsForBike = (bike, bikeParts, parts) => {
+    if (! (bike && bikeParts && parts)) return [];
+    return bikeParts.filter(bikePart => bikePart.bike === bike.id).map(bikePart => {
+        return findObjectWithId(parts, bikePart.part)
+    });
+};

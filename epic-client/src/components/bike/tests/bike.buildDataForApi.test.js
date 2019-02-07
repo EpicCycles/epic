@@ -1,4 +1,4 @@
-import {buildDataForApi} from "../helpers/bike_helpers";
+import {buildDataForApi} from "../helpers/bike";
 
 test("single bike, part and attribute set", () => {
     const brand = 1;

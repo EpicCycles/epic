@@ -7,7 +7,7 @@ import {bikeFields} from "../app/model/helpers/fields";
 import {validateData} from "../app/model/helpers/validators";
 import {Icon} from "semantic-ui-react";
 import EditModelPage from "../app/model/EditModelPage";
-import {bikeFullName} from "./helpers/bike_helpers";
+import {bikeFullName} from "./helpers/bike";
 
 class BikeEdit extends React.Component {
     state = {};

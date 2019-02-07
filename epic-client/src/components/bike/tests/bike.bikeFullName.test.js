@@ -1,4 +1,4 @@
-import {bikeFullName} from "../helpers/bike_helpers";
+import {bikeFullName} from "../helpers/bike";
 
 const frames = [
     {
