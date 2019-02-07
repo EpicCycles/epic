@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 
 import {getUpdatedObject, isItAnObject, updateObject} from "../../helpers/utils";
-import {addFieldToState} from "../app/model/helpers/model";
+import {addFieldToState, isModelValid} from "../app/model/helpers/model";
 import {bikeFields} from "../app/model/helpers/fields";
 import {validateData} from "../app/model/helpers/validators";
 import {Icon} from "semantic-ui-react";
@@ -18,7 +18,7 @@ class BikeEdit extends React.Component {
 
 
     deriveStateFromProps = () => {
-        let newState = updateObject(this.props.bike)
+        let newState = updateObject(this.props.bike);
         return newState;
     };
 
@@ -59,6 +59,7 @@ class BikeEdit extends React.Component {
     render() {
         const { bike, brands, frames } = this.props;
         const {changed} = this.state;
+        const isValid = isModelValid(this.state);
 
         return <Fragment>
             <h3>{bikeFullName(bike, frames, brands)}</h3>
@@ -75,18 +76,16 @@ class BikeEdit extends React.Component {
                       title="Reset Bike details"
                 />
                 }
-                {(isChanged && !isItAnObject(errors)) &&
+                {(changed && isValid) &&
                 <Icon id={`accept-bike`} name="check"
                       onClick={this.saveOrCreateBike}
                       title="Confirm Bike Change"
                 />
                 }
-                {deleteBike &&
                 <Icon id={`delete-bike`} name="trash"
                       onClick={this.deleteOrRemoveBike}
                       title="Delete Bike"
                 />
-                }
             </div>
         </Fragment>;
     }

@@ -290,7 +290,7 @@ class PartFinder extends React.Component {
 }
 PartFinder.defaultProps = {
     parts: [],
-}
+};
 PartFinder.propTypes = {
     sections: PropTypes.array.isRequired,
     brands: PropTypes.array.isRequired,

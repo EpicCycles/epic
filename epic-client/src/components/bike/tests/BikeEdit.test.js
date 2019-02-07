@@ -32,7 +32,7 @@ const brands = [
     { brand_name: "Bianchi", link: "https://bianchi.co.uk", id: 8 },
     { brand_name: "Haibike", id: 3 },
 ];
-xit('should show the bike name and bike edit page when rendered', () => {
+test('should show the bike name and bike edit page when rendered', () => {
     const bike = {
         "id": 58,
         "model_name": "4",
