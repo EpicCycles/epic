@@ -1,5 +1,5 @@
 import {NEW_ELEMENT_ID} from "../../../helpers/constants";
-import {partTypePartAndBrandString} from "../helpers/part_helper";
+import {partTypePartAndBrandString} from "../helpers/part";
 
 const brands = [
     {id:1, brand_name:"brand 1"},

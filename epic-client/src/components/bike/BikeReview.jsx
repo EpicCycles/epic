@@ -6,6 +6,8 @@ import {Redirect} from "react-router";
 import {applyFieldValueToModel} from "../app/model/helpers/model";
 import BikeEdit from "./BikeEdit";
 import * as PropTypes from "prop-types";
+import {findPartsForBike} from "./helpers/bike";
+import PartViewRow from "../part/PartViewRow";
 
 // Review page for a single bike - needs: bike field entry section, table of parts with edit ability for each part
 
@@ -102,7 +104,7 @@ class BikeReview extends React.Component {
         const {bikes, bikeParts, parts, bikeReviewList, isLoading, brands, frames, sections, saveBike, deleteBike , bikeId} = this.props;
         const selectedBikeIndex = bike && bikeReviewList.indexOf(bike.id);
         const bike = selectedBikeIndex ? bikes[selectedBikeIndex] : undefined;
-        const partForBike = findPartsForBike(bike, bikeParts, parts);
+        const partsForBike = findPartsForBike(bike, bikeParts, parts);
         return <Fragment key={`bikeReview`}>
             {!(bike) && <Redirect to="/bike-review-list" push/>}
             <BikeEdit
@@ -112,6 +114,20 @@ class BikeReview extends React.Component {
                 saveBike={saveBike}
                 deleteBike={deleteBike}
             />
+            {sections.map(section =>
+                <Fragment>
+                    <h3>{section.name}</h3>
+                    {section.partTypes.map(partType =>
+                        partsForBike.filter(bikePart => bikePart.partType === partType.id).map(part =>
+                            <PartViewRow
+                                brands={brands}
+                                part={part}
+                                sections={sections}
+                            />
+                        )
+                    )}
+                </Fragment>
+            )}
             <Pagination
                 type="Bike"
                 getPage={this.reviewSelectedBike}

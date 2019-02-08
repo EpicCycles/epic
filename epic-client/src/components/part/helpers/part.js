@@ -36,3 +36,17 @@ export const buildPartObject = (partType, partNameWithBrand, brandsLower, bikeBr
     return { partType, part_name, brand };
 };
 
+export const buildFrameWorkPartDisplay = (sections, parts, showEmptySections, showEmptyPartTypes) => {
+    const sectionsWithParts = sections.map(section => {
+        let partsForSection = [];
+        section.partTypes.map(partType => parts.filter(bikePart => bikePart.partType === partType.id)).forEach(partArray => partsForSection = partsForSection.concat(partArray));
+        return {
+            id: section.id,
+            name: section.name,
+            parts: partsForSection
+        }
+    });
+    if (showEmptySections) return sectionsWithParts;
+    return sectionsWithParts.filter(section => section.parts.length > 0);
+};
+

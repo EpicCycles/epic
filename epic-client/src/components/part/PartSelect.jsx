@@ -3,7 +3,7 @@ import React from "react";
 import SelectInput from "../../common/SelectInput";
 import * as PropTypes from "prop-types";
 import {getComponentKey} from "../app/model/helpers/model";
-import {buildPartString} from "./helpers/part_helper";
+import {buildPartString} from "./helpers/part";
 
 const PartSelect = (props) => {
     const { parts, brands, fieldName, onChange, partSelected, isEmptyAllowed, isMultiple, multipleSize } = props;

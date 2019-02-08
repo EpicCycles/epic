@@ -1,4 +1,4 @@
-import {buildPartObject} from "../../part/helpers/part_helper";
+import {buildPartObject} from "../../part/helpers/part";
 import {buildBrandNameArray, getBrandName} from "../../brand/helpers/brand";
 import {findObjectWithId} from "../../../helpers/utils";
 

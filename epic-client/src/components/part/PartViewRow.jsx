@@ -27,7 +27,7 @@ const PartViewRow = (props) => {
     </Fragment>
 };
 PartViewRow.propTypes = {
-    part: PropTypes.any,
+    part: PropTypes.object.isRequired,
     supplierProducts: PropTypes.array,
     lockFirstColumn: PropTypes.bool,
     sections: PropTypes.any,
