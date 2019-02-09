@@ -1,0 +1,676 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should display when passed an empty supplier product 1`] = `
+<React.Fragment>
+  <div
+    className="grid-item "
+    key="SupplierProductRowsuppliernew"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "error": "A supplier must be selected",
+          "fieldName": "supplier",
+          "header": "Supplier",
+          "required": true,
+          "synonyms": Array [
+            "supplier",
+          ],
+          "type": "supplier",
+        }
+      }
+      model={Object {}}
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowpartnew"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "error": "A part must be selected",
+          "fieldName": "part",
+          "header": "Part",
+          "required": true,
+          "synonyms": Array [
+            "part",
+          ],
+          "type": "part",
+        }
+      }
+      model={Object {}}
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowproduct_codenew"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "product_code",
+          "header": "Product Code",
+          "length": 30,
+          "synonyms": Array [
+            "product_code",
+          ],
+          "type": "text",
+        }
+      }
+      model={Object {}}
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowfitted_pricenew"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "fitted_price",
+          "header": "Fitted Price",
+          "length": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        }
+      }
+      model={Object {}}
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowticket_pricenew"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "ticket_price",
+          "header": "Ticket Price",
+          "length": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        }
+      }
+      model={Object {}}
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowrrpnew"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "rrp",
+          "header": "RRP",
+          "length": 10,
+          "synonyms": Array [
+            "price",
+            "selling price",
+            "srp",
+            "rrp",
+            "sell price",
+            "retail price",
+          ],
+          "type": "currency",
+        }
+      }
+      model={Object {}}
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowtrade_pricenew"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "trade_price",
+          "header": "Trade Price",
+          "length": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        }
+      }
+      model={Object {}}
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowclub_pricenew"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "club_price",
+          "header": "Club Price",
+          "length": 10,
+          "type": "currency",
+        }
+      }
+      model={Object {}}
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowcheck_datenew"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "check_date",
+          "header": "Date Checked",
+          "readonly": true,
+          "type": "date_time",
+        }
+      }
+      model={Object {}}
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+</React.Fragment>
+`;
+
+exports[`should display when passed supplier product 1`] = `
+<React.Fragment>
+  <div
+    className="grid-item "
+    key="SupplierProductRowsupplier121"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "error": "A supplier must be selected",
+          "fieldName": "supplier",
+          "header": "Supplier",
+          "required": true,
+          "synonyms": Array [
+            "supplier",
+          ],
+          "type": "supplier",
+        }
+      }
+      model={
+        Object {
+          "check_date": 2019-02-09T19:47:29.445Z,
+          "club_price": 22.99,
+          "fitted_price": 23.99,
+          "id": 121,
+          "part": 3,
+          "product_code": "PC101",
+          "rrp": 24.99,
+          "supplier": 12,
+          "ticket_price": 24.99,
+          "trade_price": 11,
+        }
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowpart121"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "error": "A part must be selected",
+          "fieldName": "part",
+          "header": "Part",
+          "required": true,
+          "synonyms": Array [
+            "part",
+          ],
+          "type": "part",
+        }
+      }
+      model={
+        Object {
+          "check_date": 2019-02-09T19:47:29.445Z,
+          "club_price": 22.99,
+          "fitted_price": 23.99,
+          "id": 121,
+          "part": 3,
+          "product_code": "PC101",
+          "rrp": 24.99,
+          "supplier": 12,
+          "ticket_price": 24.99,
+          "trade_price": 11,
+        }
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowproduct_code121"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "product_code",
+          "header": "Product Code",
+          "length": 30,
+          "synonyms": Array [
+            "product_code",
+          ],
+          "type": "text",
+        }
+      }
+      model={
+        Object {
+          "check_date": 2019-02-09T19:47:29.445Z,
+          "club_price": 22.99,
+          "fitted_price": 23.99,
+          "id": 121,
+          "part": 3,
+          "product_code": "PC101",
+          "rrp": 24.99,
+          "supplier": 12,
+          "ticket_price": 24.99,
+          "trade_price": 11,
+        }
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowfitted_price121"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "fitted_price",
+          "header": "Fitted Price",
+          "length": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        }
+      }
+      model={
+        Object {
+          "check_date": 2019-02-09T19:47:29.445Z,
+          "club_price": 22.99,
+          "fitted_price": 23.99,
+          "id": 121,
+          "part": 3,
+          "product_code": "PC101",
+          "rrp": 24.99,
+          "supplier": 12,
+          "ticket_price": 24.99,
+          "trade_price": 11,
+        }
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowticket_price121"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "ticket_price",
+          "header": "Ticket Price",
+          "length": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        }
+      }
+      model={
+        Object {
+          "check_date": 2019-02-09T19:47:29.445Z,
+          "club_price": 22.99,
+          "fitted_price": 23.99,
+          "id": 121,
+          "part": 3,
+          "product_code": "PC101",
+          "rrp": 24.99,
+          "supplier": 12,
+          "ticket_price": 24.99,
+          "trade_price": 11,
+        }
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowrrp121"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "rrp",
+          "header": "RRP",
+          "length": 10,
+          "synonyms": Array [
+            "price",
+            "selling price",
+            "srp",
+            "rrp",
+            "sell price",
+            "retail price",
+          ],
+          "type": "currency",
+        }
+      }
+      model={
+        Object {
+          "check_date": 2019-02-09T19:47:29.445Z,
+          "club_price": 22.99,
+          "fitted_price": 23.99,
+          "id": 121,
+          "part": 3,
+          "product_code": "PC101",
+          "rrp": 24.99,
+          "supplier": 12,
+          "ticket_price": 24.99,
+          "trade_price": 11,
+        }
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowtrade_price121"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "trade_price",
+          "header": "Trade Price",
+          "length": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        }
+      }
+      model={
+        Object {
+          "check_date": 2019-02-09T19:47:29.445Z,
+          "club_price": 22.99,
+          "fitted_price": 23.99,
+          "id": 121,
+          "part": 3,
+          "product_code": "PC101",
+          "rrp": 24.99,
+          "supplier": 12,
+          "ticket_price": 24.99,
+          "trade_price": 11,
+        }
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowclub_price121"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "club_price",
+          "header": "Club Price",
+          "length": 10,
+          "type": "currency",
+        }
+      }
+      model={
+        Object {
+          "check_date": 2019-02-09T19:47:29.445Z,
+          "club_price": 22.99,
+          "fitted_price": 23.99,
+          "id": 121,
+          "part": 3,
+          "product_code": "PC101",
+          "rrp": 24.99,
+          "supplier": 12,
+          "ticket_price": 24.99,
+          "trade_price": 11,
+        }
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="grid-item "
+    key="SupplierProductRowcheck_date121"
+  >
+    <ViewModelField
+      field={
+        Object {
+          "fieldName": "check_date",
+          "header": "Date Checked",
+          "readonly": true,
+          "type": "date_time",
+        }
+      }
+      model={
+        Object {
+          "check_date": 2019-02-09T19:47:29.445Z,
+          "club_price": 22.99,
+          "fitted_price": 23.99,
+          "id": 121,
+          "part": 3,
+          "product_code": "PC101",
+          "rrp": 24.99,
+          "supplier": 12,
+          "ticket_price": 24.99,
+          "trade_price": 11,
+        }
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 121,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+    />
+  </div>
+</React.Fragment>
+`;

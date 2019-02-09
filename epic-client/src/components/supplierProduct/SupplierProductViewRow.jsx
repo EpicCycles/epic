@@ -10,8 +10,9 @@ const SupplierProductViewRow = (props) => {
     const componentKey = getComponentKey(supplierProduct);
     return <Fragment>
         {supplierProductFields.map((field, index) => {
+            const fixed = ((index === 0) && lockFirstColumn) ? "grid-item--fixed-left" : "";
             return <div
-                className={`grid-item ${((index === 0) && lockFirstColumn) && "grid-item--fixed-left"}`}
+                className={`grid-item ${fixed}`}
                 key={`SupplierProductRow${field.fieldName}${componentKey}`}
             >
                 <ViewModelField
@@ -24,9 +25,9 @@ const SupplierProductViewRow = (props) => {
     </Fragment>
 };
 SupplierProductViewRow.propTypes = {
-    supplierProduct: PropTypes.any,
+    supplierProduct: PropTypes.object.isRequired,
     lockFirstColumn: PropTypes.bool,
-    suppliers: PropTypes.any,
+    suppliers: PropTypes.array.isRequired,
 };
 
 export default SupplierProductViewRow;

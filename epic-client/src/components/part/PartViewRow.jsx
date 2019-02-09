@@ -11,8 +11,10 @@ const PartViewRow = (props) => {
     const componentKey = getComponentKey(part);
     return <Fragment>
         {partFields.map((field, index) => {
+            const fixed = ((index === 0) && lockFirstColumn) ? "grid-item--fixed-left" : "";
+
             return <div
-                className={`grid-item ${((index === 0) && lockFirstColumn) && "grid-item--fixed-left"}`}
+                className={`grid-item ${fixed}`}
                 key={`partRow${field.fieldName}${componentKey}`}
                 style={{ gridRow: ` span ${rowSpan}` }}
             >

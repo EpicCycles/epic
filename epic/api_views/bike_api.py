@@ -7,9 +7,9 @@ from rest_framework.response import Response
 from epic.model_helpers.part_helper import find_or_create_part
 from epic.model_serializers.bike_serializer import FrameSerializer, BikeSerializer, FrameListSerializer, \
     BikePartSerializer
-from epic.model_serializers.part_serializer import PartSerializer
+from epic.model_serializers.part_serializer import PartSerializer, SupplierProductSerializer
 from epic.models.bike_models import Frame, BikePart, Bike
-from epic.models.brand_models import Brand, Part
+from epic.models.brand_models import Brand, Part, SupplierProduct
 from epic.models.framework_models import PartType
 from epic.models.quote_models import Quote
 
@@ -54,8 +54,13 @@ class Frames(generics.ListCreateAPIView):
         bike_part_part_ids = bike_part_list.values_list('part__pk', flat=True)
         part_list = Part.objects.filter(id__in=list(bike_part_part_ids))
         part_serializer = PartSerializer(part_list, many=True)
+        supplier_product_list = SupplierProduct.objects.filter(part__in=part_list)
+        supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
 
-        return Response({'parts': part_serializer.data, 'frames': frame_serializer.data, 'bikes': bike_serializer.data,
+        return Response({'parts': part_serializer.data,
+                         'supplierProducts': supplier_product_serializer.data,
+                         'frames': frame_serializer.data,
+                         'bikes': bike_serializer.data,
                          'bikeParts': bike_part_serializer.data})
 
     def patch(self, request, frame_id):

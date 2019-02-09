@@ -56,7 +56,8 @@ const part = (state = initialState, action) => {
         case FRAME_LIST_OK:
             return {
                 ...state,
-                parts: addItemsToArray(state.parts, action.payload.parts)
+                parts: addItemsToArray(state.parts, action.payload.parts),
+                supplierProducts: addItemsToArray(state.supplierProducts, action.payload.supplierProducts)
             }
         case UPDATE_PARTS:
             return {
