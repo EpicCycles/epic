@@ -1,15 +1,19 @@
 import React, {Fragment} from 'react'
 import {Dimmer, Loader} from "semantic-ui-react";
 import Pagination from "../../common/pagination";
-import {findObjectWithId, updateObject} from "../../helpers/utils";
+import {updateObject} from "../../helpers/utils";
 import {Redirect} from "react-router";
 import {applyFieldValueToModel} from "../app/model/helpers/model";
 import BikeEdit from "./BikeEdit";
 import * as PropTypes from "prop-types";
 import {findPartsForBike} from "./helpers/bike";
-import PartViewRow from "../part/PartViewRow";
 import PartDisplayGrid from "../part/PartDisplayGrid";
+import PartFinder from "../part/PartFinder";
 
+const initialState = {
+    showPartFinder: false,
+    partEditPart:{},
+}
 // Review page for a single bike - needs: bike field entry section, table of parts with edit ability for each part
 
 // TODO revise with new api structure
@@ -33,6 +37,7 @@ class BikeReview extends React.Component {
 
     componentDidUpdate(prevProps) {
         this.checkPropsData();
+        if (prevProps.bikeId !== props.bikeId) this.setState(initialState);
     };
 
     checkPropsData = () => {
@@ -55,33 +60,12 @@ class BikeReview extends React.Component {
             this.props.getFramework();
         }
     };
-
-    // note component key is also passed and ignored
-    changeBikeField = (fieldName, fieldValue) => {
-        const bike = applyFieldValueToModel(this.state.bike, fieldName, fieldValue);
-        this.setStateForBike(bike);
-    };
-
-    resetBikeData = () => {
-        this.setStateForBike(this.props.bike);
-    };
-
-    saveBikeChanges = () => {
-        this.props.saveBike(this.state.bike);
-        this.flagBikeRefresh();
-    };
-    deleteBike = () => {
-        if (window.confirm("Are you sure you want to delete this bike?")) {
-            this.props.deleteBikes([this.props.bike.id]);
-        }
-    };
     reviewSelectedBike = (bikePage) => {
         const bikeIndex = bikePage - 1;
         this.props.reviewBike(this.props.bikeReviewList[bikeIndex]);
     };
     deletePart = (partId) => {
         this.props.deleteBikePart(this.props.bike.id, partId);
-        this.flagPartRefresh();
     };
     saveOrAddPart = (part) => {
         const bikeId = this.props.bike.id;
@@ -90,24 +74,35 @@ class BikeReview extends React.Component {
         } else {
             this.props.addBikePart(bikeId, part);
         }
-        this.flagPartRefresh();
     };
-    flagBikeRefresh = () => {
-        const newState = updateObject(this.state, { bikeRefresh: true });
-        this.setState(newState);
+    showPartFinder = (part) => {
+        this.setState({partEditPart: part, partFinder: true});
     };
-    flagPartRefresh = () => {
-        const newState = updateObject(this.state, { partRefresh: true });
-        this.setState(newState);
+    closePartFinder = (part) => {
+        this.setState(initialState);
     };
-
     render() {
-        const {bikes, bikeParts, parts, bikeReviewList, isLoading, brands, frames, sections, saveBike, deleteBike , bikeId} = this.props;
+        const {bikes, bikeParts, parts, bikeReviewList, isLoading, brands, frames, sections, saveBike, deleteBike, bikeId, listParts} = this.props;
+        const {partEditPart, partFinder} = this.state;
         const selectedBikeIndex = bikeReviewList.indexOf(bikeId);
         const bike = selectedBikeIndex ? bikes[selectedBikeIndex] : undefined;
         const partsForBike = findPartsForBike(bike, bikeParts, parts);
         return <Fragment key={`bikeReview`}>
             {!(bike) && <Redirect to="/bike-review-list" push/>}
+            <section className="row">
+                {partFinder && <PartFinder
+                    sections={sections}
+                    brands={brands}
+                    savePart={this.saveOrAddPart}
+                    deletePart={this.deletePart}
+                    findParts={listParts}
+                    part={partEditPart}
+                    closeAction={this.closePartFinder}
+                    partActionPrimary={this.saveOrAddPart}
+                    partActionPrimaryIcon={'add'}
+                    partActionPrimaryTitle={'Update bike with part'}
+                />}
+            </section>
             <BikeEdit
                 bike={bike}
                 brands={brands}
@@ -116,9 +111,10 @@ class BikeReview extends React.Component {
                 deleteBike={deleteBike}
             />
             <PartDisplayGrid
-                parts={parts}
+                parts={partsForBike}
                 sections={sections}
                 brands={brands}
+                editPart={this.showPartFinder}
             />
             <Pagination
                 type="Bike"
@@ -141,11 +137,17 @@ BikeReview.propTypes = {
     bikeReviewList: PropTypes.array.isRequired,
     bikeParts: PropTypes.array.isRequired,
     brands: PropTypes.array.isRequired,
+    sections: PropTypes.array.isRequired,
     parts: PropTypes.array.isRequired,
     frames: PropTypes.array.isRequired,
     saveBike: PropTypes.func.isRequired,
     deleteBike: PropTypes.func.isRequired,
     reviewBike: PropTypes.func.isRequired,
+    addBikePart: PropTypes.func.isRequired,
+    saveBikePart: PropTypes.func.isRequired,
+    deleteBikePart: PropTypes.func.isRequired,
+    listParts: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool,
 };
 export default BikeReview;
 

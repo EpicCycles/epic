@@ -8,6 +8,7 @@ import {
     BIKE_DELETE_REQUESTED,
     BIKE_REVIEW_BIKE,
     BIKE_REVIEW_REQUESTED,
+    bikeDeleted,
     deleteBikesError,
     deleteBikesSuccess,
     deleteFramesError,
@@ -127,51 +128,16 @@ export function* watchForDeleteBikePart() {
     yield takeLatest(BIKE_PART_DELETE_REQUESTED, deleteBikePart);
 }
 
-export function* reviewBikeStart(action) {
-    const bikeIdsToReview = action.payload.bikeReviewList;
-    if (bikeIdsToReview && bikeIdsToReview.length > 0) {
-        yield put(reviewBike(bikeIdsToReview[0]));
-        yield call(history.push, "/bike-review");
-    } else{
-        yield put(reviewBikeError("No Bikes to Review"));
-    }
-
-}
-
-export function* watchForReviewBikeStart() {
-    yield takeLatest(BIKE_REVIEW_REQUESTED, reviewBikeStart);
-}
-
-export function* reviewBikeParts(action) {
-    // try {
-    //     const token = yield select(selectors.token);
-    //     if (token) {
-    //         const completePayload = updateObject(action.payload, { token });
-    //         const responseBike = yield call(bike.getBike, completePayload);
-    //         const responseParts = yield call(bike.getBikeParts, completePayload);
-    //         yield put(reviewBikeOK(responseBike.data, responseParts.data));
-    //     } else {
-    //         yield call(history.push, "/login");
-    //     }
-    // } catch (error) {
-    //     logError(error);
-    //     yield put(reviewBikeError("Get Bike for Review failed"));
-    // }
-}
-
-export function* watchForReviewBike() {
-    yield takeLatest(BIKE_REVIEW_BIKE, reviewBikeParts);
-}
-
 export function* deleteBikes(bikeIdsToDelete, token) {
     try {
         for (let i = 0; i < bikeIdsToDelete.length; i++) {
             yield call(bike.deleteBike, { bikeId: bikeIdsToDelete[i], token });
+            yield put(bikeDeleted(bikeIdsToDelete[i]));
         }
 
     } catch (error) {
         logError(error);
-        yield put(deleteBikesError("Delete Frames failed"));
+        yield put(deleteBikesError("Delete Bikes failed"));
     }
 }
 

@@ -76,7 +76,7 @@ class PartFinder extends React.Component {
     };
     checkAndContinue = (nextAction) => {
         if (this.state.part && this.state.part.changed) {
-            if (window.confirm("You have made changes to the part. If you want to keep then cancel and save the changes then continue?")) nextAction(this.state.part);
+            if (window.confirm("You have made changes to the part. If you want to keep them cancel and save the changes then continue.")) nextAction(this.state.part);
         } else {
             nextAction(this.state.part);
         }
@@ -84,12 +84,20 @@ class PartFinder extends React.Component {
 
     render() {
         const { partTypeSelected, brandSelected, searchPartName, searchStandard, searchStocked, part, persistedPart } = this.state;
-        const { sections, brands, parts, partActionPrimary, partActionPrimaryIcon, partActionPrimaryTitle, partActionSecondary, partActionSecondaryIcon, partActionSecondaryTitle } = this.props;
+        const { closeAction, sections, brands, parts, partActionPrimary, partActionPrimaryIcon, partActionPrimaryTitle, partActionSecondary, partActionSecondaryIcon, partActionSecondaryTitle } = this.props;
 
-        let partsForSelect = part ? parts.filter(part => part.partType === partTypeSelected) : []
+        let partsForSelect = part ? parts.filter(part => part.partType === partTypeSelected) : [];
         if (brandSelected) partsForSelect = partsForSelect.filter(part => part.brand === brandSelected);
         return <div className="grid-container">
             <h2>Find Part</h2>
+            {closeAction && <div style={{ width: "100%", textAlign: "right" }}>
+                <Icon
+                    name="remove"
+                    circular
+                    link
+                    onClick={() => this.checkAndContinue(closeAction)}
+                />
+            </div>}
             <div key="partFinderFields" className={`grid`}>
                 <div
                     className="grid-row"
@@ -272,15 +280,15 @@ class PartFinder extends React.Component {
                 <Icon
                     key="primaryAction"
                     name={partActionPrimaryIcon}
-                      onClick={this.checkAndContinue(partActionPrimary)}
-                      title={partActionPrimaryTitle}
+                    onClick={this.checkAndContinue(partActionPrimary)}
+                    title={partActionPrimaryTitle}
                 />
                 {partActionSecondary &&
                 <Icon
                     key="secondaryAction"
-                      name={partActionSecondaryIcon}
-                      onClick={this.checkAndContinue(partActionSecondary)}
-                      title={partActionSecondaryTitle}
+                    name={partActionSecondaryIcon}
+                    onClick={this.checkAndContinue(partActionSecondary)}
+                    title={partActionSecondaryTitle}
                 />
                 }
             </div>}
@@ -288,6 +296,7 @@ class PartFinder extends React.Component {
     }
 
 }
+
 PartFinder.defaultProps = {
     parts: [],
 };
@@ -300,6 +309,7 @@ PartFinder.propTypes = {
     savePart: PropTypes.func.isRequired,
     deletePart: PropTypes.func.isRequired,
     findParts: PropTypes.func.isRequired,
+    closeAction: PropTypes.func.isRequired,
     partActionPrimary: PropTypes.func.isRequired,
     partActionPrimaryIcon: PropTypes.string.isRequired,
     partActionPrimaryTitle: PropTypes.string.isRequired,

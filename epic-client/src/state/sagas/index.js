@@ -28,8 +28,6 @@ import {
     watchForDeleteBikes,
     watchForDeleteFrames,
     watchForGetFrames,
-    watchForReviewBike,
-    watchForReviewBikeStart,
     watchForSaveBike,
     watchForSaveBikePart,
     watchForSaveFrame,

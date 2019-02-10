@@ -3,7 +3,7 @@ import {
     BIKE_ADD_PART_ERROR,
     BIKE_ADD_PART_OK,
     BIKE_ADD_PART_REQUESTED,
-    BIKE_DELETE_ERROR,
+    BIKE_DELETE_ERROR, BIKE_DELETE_PROCESSED,
     BIKE_PART_DELETE_ERROR,
     BIKE_PART_DELETE_OK,
     BIKE_PART_DELETE_REQUESTED,
@@ -29,6 +29,8 @@ import {
     FRAME_UPLOAD_REQUESTED
 } from "../actions/bike";
 import {USER_LOGOUT} from "../actions/user";
+import {updateObjectInArray} from "../../helpers/utils";
+import {findNextBikeToReview, removeIdFromReviewList} from "../helpers/bike";
 
 const initialState = {
     isLoading: false
@@ -40,6 +42,14 @@ const bike = (state = initialState, action) => {
         case CLEAR_FRAME:
         case USER_LOGOUT:
             return initialState;
+        case BIKE_DELETE_PROCESSED:
+            return {
+                ...state,
+                bikes: state.bikes.filter(bike => bike.id !== bikeId),
+                bikeParts: state.bikeParts.filter(bikePart => bikePart.bike !== bikeId),
+                bikeId: findNextBikeToReview(state.bikeReviewList, bikeId),
+                bikeReviewList: removeIdFromReviewList(state.bikeReviewList, bikeId),
+            };
         case BIKE_SAVE_REQUESTED:
         case BIKE_PART_DELETE_REQUESTED:
         case BIKE_PART_SAVE_REQUESTED:
@@ -51,7 +61,7 @@ const bike = (state = initialState, action) => {
         case BIKE_SAVE_OK:
             return {
                 ...state,
-                bike: action.payload.bike,
+                bikes: updateObjectInArray(state.bikes, action.payload.bike, action.payload.bikeId),
                 isLoading: false
             };
         case BIKE_PART_SAVE_OK:

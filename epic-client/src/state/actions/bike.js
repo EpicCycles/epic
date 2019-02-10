@@ -2,6 +2,7 @@ export const CLEAR_FRAME = "bike/CLEAR_FRAME";
 export const BIKE_REVIEW_REQUESTED = "bike/BIKE_REVIEW_REQUESTED";
 export const BIKE_REVIEW_BIKE = "bike/BIKE_REVIEW_BIKE";
 export const BIKE_DELETE_REQUESTED = "bike/BIKE_DELETE_REQUESTED";
+export const BIKE_DELETE_PROCESSED = "bike/BIKE_DELETE_PROCESSED";
 export const BIKE_DELETE_OK = "bike/BIKE_DELETE_OK";
 export const BIKE_DELETE_ERROR = "bike/BIKE_DELETE_ERROR";
 export const BIKE_ADD_PART_REQUESTED = "bike/BIKE_ADD_PART_REQUESTED";
@@ -101,6 +102,9 @@ export const deleteBikesError = (error) => ({
     type: BIKE_DELETE_ERROR,
     payload: error
 });
+export const bikeDeleted = (bikeId) => ({
+    type: BIKE_DELETE_PROCESSED,
+    payload: { bikeId }});
 export const deleteBikesSuccess = () => ({
     type: BIKE_DELETE_OK
 });

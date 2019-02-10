@@ -162,17 +162,6 @@ class BikeMaintain(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = BikeSerializer
 
-    def get_object(self, bike_id):
-        try:
-            return Bike.objects.get(pk=bike_id)
-        except Bike.DoesNotExist:
-            raise Http404
-
-    def get(self, request, bike_id):
-        bike = self.get_object(bike_id)
-        serializer = BikeSerializer(bike)
-        return Response(serializer.data)
-
     def patch(self, request, bike_id):
         bike = self.get_object(bike_id)
         serializer = BikeSerializer(bike, data=request.data)

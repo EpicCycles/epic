@@ -45,8 +45,8 @@ urlpatterns = [
     path('api/frames/', Frames.as_view()),
     path('api/frames/<int:frame_id>/', Frames.as_view()),
     path('api/frame/upload/', FrameUpload.as_view()),
-    path('api/bike/<int:bike_id>/parts/', BikeParts.as_view()),
     path('api/bike/<int:bike_id>/', BikeMaintain.as_view()),
+    path('api/bike/<int:bike_id>/parts/', BikeParts.as_view()),
     path('api/bike/<int:bike_id>/parts/<int:part_id>/', BikeParts.as_view()),
     path('api/productsearch/', parts_and_supplier_parts),
 ]
