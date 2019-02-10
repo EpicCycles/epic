@@ -24,8 +24,12 @@ const SupplierProductViewRow = (props) => {
         })}
     </Fragment>
 };
+SupplierProductViewRow.defaultProps = {
+    supplierProduct: {},
+    lockFirstColumn: false,
+};
 SupplierProductViewRow.propTypes = {
-    supplierProduct: PropTypes.object.isRequired,
+    supplierProduct: PropTypes.object,
     lockFirstColumn: PropTypes.bool,
     suppliers: PropTypes.array.isRequired,
 };

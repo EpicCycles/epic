@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should display headers 1`] = `
+<React.Fragment>
+  <div
+    className="grid-item--header  "
+    key="partHeadsupplier"
+  >
+    Supplier
+  </div>
+  <div
+    className="grid-item--header  "
+    key="partHeadpart"
+  >
+    Part
+  </div>
+  <div
+    className="grid-item--header  "
+    key="partHeadproduct_code"
+  >
+    Product Code
+  </div>
+  <div
+    className="grid-item--header  "
+    key="partHeadfitted_price"
+  >
+    Fitted Price
+  </div>
+  <div
+    className="grid-item--header  "
+    key="partHeadticket_price"
+  >
+    Ticket Price
+  </div>
+  <div
+    className="grid-item--header  "
+    key="partHeadrrp"
+  >
+    RRP
+  </div>
+  <div
+    className="grid-item--header  "
+    key="partHeadtrade_price"
+  >
+    Trade Price
+  </div>
+  <div
+    className="grid-item--header  "
+    key="partHeadclub_price"
+  >
+    Club Price
+  </div>
+  <div
+    className="grid-item--header  "
+    key="partHeadcheck_date"
+  >
+    Date Checked
+  </div>
+  <ErrorHeader
+    className=""
+    lockedColumn={false}
+  />
+</React.Fragment>
+`;
+
+exports[`should display headers with locking, error and an extra class 1`] = `
+<React.Fragment>
+  <div
+    className="grid-item--header pink grid-header--fixed-left"
+    key="partHeadsupplier"
+  >
+    Supplier
+  </div>
+  <div
+    className="grid-item--header pink grid-header--fixed-left"
+    key="partHeadpart"
+  >
+    Part
+  </div>
+  <div
+    className="grid-item--header pink grid-header--fixed-left"
+    key="partHeadproduct_code"
+  >
+    Product Code
+  </div>
+  <div
+    className="grid-item--header pink grid-header--fixed-left"
+    key="partHeadfitted_price"
+  >
+    Fitted Price
+  </div>
+  <div
+    className="grid-item--header pink grid-header--fixed-left"
+    key="partHeadticket_price"
+  >
+    Ticket Price
+  </div>
+  <div
+    className="grid-item--header pink grid-header--fixed-left"
+    key="partHeadrrp"
+  >
+    RRP
+  </div>
+  <div
+    className="grid-item--header pink grid-header--fixed-left"
+    key="partHeadtrade_price"
+  >
+    Trade Price
+  </div>
+  <div
+    className="grid-item--header pink grid-header--fixed-left"
+    key="partHeadclub_price"
+  >
+    Club Price
+  </div>
+  <div
+    className="grid-item--header pink grid-header--fixed-left"
+    key="partHeadcheck_date"
+  >
+    Date Checked
+  </div>
+  <ErrorHeader
+    className=""
+    lockedColumn={false}
+  />
+</React.Fragment>
+`;

@@ -8,6 +8,7 @@ import BikeEdit from "./BikeEdit";
 import * as PropTypes from "prop-types";
 import {findPartsForBike} from "./helpers/bike";
 import PartViewRow from "../part/PartViewRow";
+import PartDisplayGrid from "../part/PartDisplayGrid";
 
 // Review page for a single bike - needs: bike field entry section, table of parts with edit ability for each part
 
@@ -30,7 +31,7 @@ class BikeReview extends React.Component {
         this.checkPropsData();
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         this.checkPropsData();
     };
 
@@ -102,7 +103,7 @@ class BikeReview extends React.Component {
 
     render() {
         const {bikes, bikeParts, parts, bikeReviewList, isLoading, brands, frames, sections, saveBike, deleteBike , bikeId} = this.props;
-        const selectedBikeIndex = bike && bikeReviewList.indexOf(bike.id);
+        const selectedBikeIndex = bikeReviewList.indexOf(bikeId);
         const bike = selectedBikeIndex ? bikes[selectedBikeIndex] : undefined;
         const partsForBike = findPartsForBike(bike, bikeParts, parts);
         return <Fragment key={`bikeReview`}>
@@ -114,20 +115,11 @@ class BikeReview extends React.Component {
                 saveBike={saveBike}
                 deleteBike={deleteBike}
             />
-            {sections.map(section =>
-                <Fragment>
-                    <h3>{section.name}</h3>
-                    {section.partTypes.map(partType =>
-                        partsForBike.filter(bikePart => bikePart.partType === partType.id).map(part =>
-                            <PartViewRow
-                                brands={brands}
-                                part={part}
-                                sections={sections}
-                            />
-                        )
-                    )}
-                </Fragment>
-            )}
+            <PartDisplayGrid
+                parts={parts}
+                sections={sections}
+                brands={brands}
+            />
             <Pagination
                 type="Bike"
                 getPage={this.reviewSelectedBike}
