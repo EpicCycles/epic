@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 
 import * as PropTypes from "prop-types";
 import EditModelPage from "../app/model/EditModelPage";
-import {partFields, STOCKED_FIELD} from "../app/model/helpers/fields";
+import {partFields, partFieldsNoPartType, STOCKED_FIELD} from "../app/model/helpers/fields";
 import {Icon} from "semantic-ui-react";
 import {isModelValid} from "../app/model/helpers/model";
 
