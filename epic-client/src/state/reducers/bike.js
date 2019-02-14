@@ -30,7 +30,7 @@ import {
 } from "../actions/bike";
 import {USER_LOGOUT} from "../actions/user";
 import {updateObjectInArray} from "../../helpers/utils";
-import {findNextBikeToReview, removeIdFromReviewList} from "../helpers/bike";
+import {findNextBikeToReview, removeIdFromReviewList, replaceBikeParts} from "../helpers/bike";
 
 const initialState = {
     isLoading: false
@@ -45,8 +45,8 @@ const bike = (state = initialState, action) => {
         case BIKE_DELETE_PROCESSED:
             return {
                 ...state,
-                bikes: state.bikes.filter(bike => bike.id !== bikeId),
-                bikeParts: state.bikeParts.filter(bikePart => bikePart.bike !== bikeId),
+                bikes: state.bikes.filter(bike => bike.id !== state.bikeId),
+                bikeParts: state.bikeParts.filter(bikePart => bikePart.bike !== state.bikeId),
                 bikeId: findNextBikeToReview(state.bikeReviewList, bikeId),
                 bikeReviewList: removeIdFromReviewList(state.bikeReviewList, bikeId),
             };
@@ -69,7 +69,7 @@ const bike = (state = initialState, action) => {
         case BIKE_ADD_PART_OK:
             return {
                 ...state,
-                parts: action.payload.parts,
+                bikeParts: replaceBikeParts(state.bikeId, action.payload.bikeParts, state.bikeParts),
                 isLoading: false
             };
         case BIKE_REVIEW_REQUESTED:

@@ -236,7 +236,7 @@ class PartFinder extends React.Component {
                     >
                         <Icon
                             name={'search'}
-                            onClick={() => props.findParts(1)}
+                            onClick={() => this.findParts()}
                             title={`find parts matching selection`}/>
                         />
                     </div>

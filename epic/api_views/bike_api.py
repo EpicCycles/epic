@@ -194,21 +194,29 @@ class BikeParts(generics.ListCreateAPIView):
         except BikePart.DoesNotExist:
             raise Http404
 
-    def get_queryset(self):
-        bike_id = self.kwargs['bike_id']
-        raw_sql_1 = 'select * from epic_part where id in ( '
-        raw_sql_2 = 'select part_id from epic_bikepart where bike_id = ' + str(bike_id)
-        raw_sql_3 = ')'
-        search_part_type = self.request.query_params.get('partType', None)
-
-        if search_part_type:
-            raw_sql_3 = ' and parttype_id = ' + str(search_part_type) + ')'
-        # return q
-        return Part.objects.raw(raw_sql_1 + raw_sql_2 + raw_sql_3)
+    def get_queryset(self, bike_id):
+        bike_part_list = BikePart.objects.filter(bike__id=bike_id)
+        bike_part_serializer = BikePartSerializer(bike_part_list, many=True)
+        bike_part_part_ids = bike_part_list.values_list('part__pk', flat=True)
+        part_list = Part.objects.filter(id__in=list(bike_part_part_ids))
+        part_serializer = PartSerializer(part_list, many=True)
+        supplier_product_list = SupplierProduct.objects.filter(part__in=part_list)
+        supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
+        return {'parts': part_serializer.data,
+                'supplierProducts': supplier_product_serializer.data,
+                'bikeParts': bike_part_serializer.data}
 
     def get(self, request, bike_id):
-        serializer = PartSerializer(self.get_queryset(), many=True)
-        return Response(serializer.data)
+
+        bike_part_list = BikePart.objects.filter(bike__id=bike_id)
+        bike_part_serializer = BikePartSerializer(bike_part_list, many=True)
+        bike_part_part_ids = bike_part_list.values_list('part__pk', flat=True)
+        part_list = Part.objects.filter(id__in=list(bike_part_part_ids))
+        part_serializer = PartSerializer(part_list, many=True)
+        supplier_product_list = SupplierProduct.objects.filter(part__in=part_list)
+        supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
+
+        return Response(self.get_queryset(bike_id))
 
     def post(self, request, bike_id):
         part_data = request.data
@@ -216,7 +224,10 @@ class BikeParts(generics.ListCreateAPIView):
         part_type = part_data.get('partType', None)
         part_name = part_data.get('part_name', None)
         part_brand = part_data.get('brand', None)
-        existing_bike = Bike.objects.get(id=bike_id)
+        existing_bike = Bike.objects.filter(bike_id=bike_id)
+        if not existing_bike:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
         if part_type and part_name and part_brand:
             try:
                 # get an existing part
@@ -226,7 +237,8 @@ class BikeParts(generics.ListCreateAPIView):
                 BikePart.objects.filter(bike=existing_bike, part__partType__id=part_type).delete()
                 bike_part = BikePart.objects.create(bike=existing_bike, part=part)
                 bike_part.save()
-                return Response(status=status.HTTP_202_ACCEPTED)
+                return Response(self.get_queryset(bike_id), status=status.HTTP_202_ACCEPTED)
+
             except Exception:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -235,7 +247,7 @@ class BikeParts(generics.ListCreateAPIView):
     def delete(self, request, bike_id, part_id):
         bike_part = self.get_object(bike_id, part_id)
         bike_part.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(self.get_queryset(bike_id), status=status.HTTP_204_NO_CONTENT)
 
     def put(self, request, bike_id, part_id):
         bike_part = self.get_object(bike_id, part_id)
@@ -259,7 +271,7 @@ class BikeParts(generics.ListCreateAPIView):
                 partSerializer = PartSerializer(part, part_data)
                 if partSerializer.is_valid():
                     partSerializer.save()
-                    return Response(status=status.HTTP_202_ACCEPTED)
+                    return Response(self.get_queryset(bike_id), status=status.HTTP_202_ACCEPTED)
 
                 return Response(partSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

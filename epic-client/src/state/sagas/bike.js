@@ -288,7 +288,6 @@ export function* uploadFrame(action) {
         if (token) {
             const completePayload = updateObject(action.payload, { token });
             const response = yield call(bike.uploadFrame, completePayload);
-            console.log("response from save",response)
             console.log(response.data);
             console.log(response.status);
             console.log(response.statusText);

@@ -77,9 +77,9 @@ export const deleteBikePart = (bikeId, partId) => ({
     type: BIKE_PART_DELETE_REQUESTED,
     payload: { bikeId, partId }
 });
-export const deleteBikePartOK = (parts) => ({
+export const deleteBikePartOK = (responseData) => ({
     type: BIKE_PART_DELETE_OK,
-    payload: { parts }
+    payload: { responseData }
 });
 export const deleteBikePartError = (error) => ({
     type: BIKE_PART_DELETE_ERROR,
