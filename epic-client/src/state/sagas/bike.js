@@ -5,46 +5,62 @@ import history from "../../history";
 import {
     archiveFramesError,
     archiveFramesSuccess,
-    BIKE_DELETE_REQUESTED,
-    BIKE_REVIEW_BIKE,
-    BIKE_REVIEW_REQUESTED,
+    BIKE_DELETE,
     bikeDeleted,
     deleteBikesError,
     deleteBikesSuccess,
     deleteFramesError,
     deleteFramesSuccess,
-    FRAME_ARCHIVE_REQUESTED,
-    FRAME_DELETE_REQUESTED,
-    FRAME_LIST_REQUESTED,
-    FRAME_SAVE_REQUESTED,
-    FRAME_UPLOAD_REQUESTED,
+    FRAME_ARCHIVE,
+    FRAME_DELETE,
+    FRAME_LIST,
+    FRAME_SAVE,
+    FRAME_UPLOAD,
     getFrameListError,
     getFrameListOK,
     saveFrameError,
     saveFrameSuccess,
     uploadFrameError,
     uploadFrameSuccess,
-    reviewBike,
-    reviewBikeError,
-    reviewBikeOK,
     saveBikeError,
     saveBikeOK,
-    BIKE_SAVE_REQUESTED,
+    BIKE_SAVE,
     saveBikePartOK,
     saveBikePartError,
-    BIKE_PART_SAVE_REQUESTED,
+    BIKE_PART_SAVE,
     deleteBikePartOK,
-    BIKE_PART_DELETE_REQUESTED,
+    BIKE_PART_DELETE,
     addBikePartOK,
     addBikePartError,
-    BIKE_ADD_PART_REQUESTED,
-    deleteBikePartError, getFrameList,
+    BIKE_ADD_PART,
+    deleteBikePartError,
+    getFrameList, GET_BIKE_PARTS, getBikePartsOK, getBikePartsError, getBikeOK, getBikeError, GET_BIKE,
 } from "../actions/bike";
 import {logError} from "../../helpers/api_error";
 import {addMessage} from "../actions/application";
 import {INFO_MESSAGE, UPLOAD_PARTIAL_SUCCESS, UPLOAD_SUCCESS, WARNING_MESSAGE} from "../../helpers/messages";
 import {updateObject} from "../../helpers/utils";
 
+
+export function* getBike(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = updateObject(action.payload, { token });
+            const response = yield call(bike.getBike, completePayload);
+            yield put(getBikeOK(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        logError(error);
+        yield put(getBikeError("Get Bike failed"));
+    }
+}
+
+export function* watchForGetBike() {
+    yield takeLatest(`${GET_BIKE}_REQUESTED`, getBike);
+}
 
 export function* saveBike(action) {
     try {
@@ -63,7 +79,27 @@ export function* saveBike(action) {
 }
 
 export function* watchForSaveBike() {
-    yield takeLatest(BIKE_SAVE_REQUESTED, saveBike);
+    yield takeLatest(`${BIKE_SAVE}_REQUESTED`, saveBike);
+}
+
+export function* getBikeParts(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = updateObject(action.payload, { token });
+            const response = yield call(bike.getBikeParts, completePayload);
+            yield put(getBikePartsOK(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        logError(error);
+        yield put(getBikePartsError("Get Bike Parts failed"));
+    }
+}
+
+export function* watchForGetBikeParts() {
+    yield takeLatest(`${GET_BIKE_PARTS}_REQUESTED`, getBikeParts);
 }
 
 export function* addBikePart(action) {
@@ -71,8 +107,8 @@ export function* addBikePart(action) {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
-            yield call(bike.addBikePart, completePayload);
-            const response = yield call(bike.getBikeParts, completePayload);
+            const response = yield call(bike.addBikePart, completePayload);
+            // const response = yield call(bike.getBikeParts, completePayload);
             yield put(addBikePartOK(response.data));
         } else {
             yield call(history.push, "/login");
@@ -84,15 +120,15 @@ export function* addBikePart(action) {
 }
 
 export function* watchForAddBikePart() {
-    yield takeLatest(BIKE_ADD_PART_REQUESTED, addBikePart);
+    yield takeLatest(`${BIKE_ADD_PART}_REQUESTED`, addBikePart);
 }
 export function* saveBikePart(action) {
     try {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
-            yield call(bike.saveBikePart, completePayload);
-            const response = yield call(bike.getBikeParts, completePayload);
+            const response = yield call(bike.saveBikePart, completePayload);
+            // const response = yield call(bike.getBikeParts, completePayload);
             yield put(saveBikePartOK(response.data));
         } else {
             yield call(history.push, "/login");
@@ -104,7 +140,7 @@ export function* saveBikePart(action) {
 }
 
 export function* watchForSaveBikePart() {
-    yield takeLatest(BIKE_PART_SAVE_REQUESTED, saveBikePart);
+    yield takeLatest(`${BIKE_PART_SAVE}_REQUESTED`, saveBikePart);
 }
 
 export function* deleteBikePart(action) {
@@ -112,8 +148,8 @@ export function* deleteBikePart(action) {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
-            yield call(bike.deleteBikePart, completePayload);
-            const response = yield call(bike.getBikeParts, completePayload);
+            const response = yield call(bike.deleteBikePart, completePayload);
+            // const response = yield call(bike.getBikeParts, completePayload);
             yield put(deleteBikePartOK(response.data));
         } else {
             yield call(history.push, "/login");
@@ -125,7 +161,7 @@ export function* deleteBikePart(action) {
 }
 
 export function* watchForDeleteBikePart() {
-    yield takeLatest(BIKE_PART_DELETE_REQUESTED, deleteBikePart);
+    yield takeLatest(`${BIKE_PART_DELETE}_REQUESTED`, deleteBikePart);
 }
 
 export function* deleteBikes(bikeIdsToDelete, token) {
@@ -169,7 +205,7 @@ export function* deleteBikesAndGetList(action) {
 }
 
 export function* watchForDeleteBikes() {
-    yield takeLatest(BIKE_DELETE_REQUESTED, deleteBikesAndGetList);
+    yield takeLatest(`${BIKE_DELETE}_REQUESTED`, deleteBikesAndGetList);
 }
 
 export function* deleteFrames(frameIdsToDelete, token) {
@@ -212,7 +248,7 @@ export function* deleteFramesAndGetList(action) {
 }
 
 export function* watchForDeleteFrames() {
-    yield takeLatest(FRAME_DELETE_REQUESTED, deleteFramesAndGetList);
+    yield takeLatest(`${FRAME_DELETE}_REQUESTED`, deleteFramesAndGetList);
 }
 export function* archiveFrames(frameIdsToArchive, token) {
     try {
@@ -253,7 +289,7 @@ export function* archiveFramesAndGetList(action) {
 }
 
 export function* watchForArchiveFrames() {
-    yield takeLatest(FRAME_ARCHIVE_REQUESTED, archiveFramesAndGetList);
+    yield takeLatest(`${FRAME_ARCHIVE}_REQUESTED`, archiveFramesAndGetList);
 }
 
 export function* saveFrame(action) {
@@ -279,7 +315,7 @@ export function* saveFrame(action) {
 }
 
 export function* watchForSaveFrame() {
-    yield takeLatest(FRAME_SAVE_REQUESTED, saveFrame);
+    yield takeLatest(`${FRAME_SAVE}_REQUESTED`, saveFrame);
 }
 
 export function* uploadFrame(action) {
@@ -288,10 +324,7 @@ export function* uploadFrame(action) {
         if (token) {
             const completePayload = updateObject(action.payload, { token });
             const response = yield call(bike.uploadFrame, completePayload);
-            console.log(response.data);
-            console.log(response.status);
-            console.log(response.statusText);
-            console.log(response.headers);
+
             if (response.status === 201) {
                 yield put(addMessage(UPLOAD_SUCCESS, INFO_MESSAGE));
             } else {
@@ -311,7 +344,7 @@ export function* uploadFrame(action) {
 }
 
 export function* watchForUploadFrame() {
-    yield takeLatest(FRAME_UPLOAD_REQUESTED, uploadFrame);
+    yield takeLatest(`${FRAME_UPLOAD}_REQUESTED`, uploadFrame);
 }
 
 export function* getFrames(action) {
@@ -330,5 +363,5 @@ export function* getFrames(action) {
 }
 
 export function* watchForGetFrames() {
-    yield takeLatest(FRAME_LIST_REQUESTED, getFrames);
+    yield takeLatest(`${FRAME_LIST}_REQUESTED`, getFrames);
 }

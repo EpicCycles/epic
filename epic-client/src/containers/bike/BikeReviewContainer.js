@@ -1,19 +1,30 @@
 import {connect} from 'react-redux'
 import {getBrandsAndSuppliers, saveBrands} from "../../state/actions/core";
 import {getFramework} from "../../state/actions/framework";
-import {deleteBikePart, reviewBike, saveBike, saveBikePart, deleteBikes, addBikePart} from "../../state/actions/bike";
+import {
+    deleteBikePart,
+    reviewBike,
+    saveBike,
+    saveBikePart,
+    deleteBikes,
+    addBikePart,
+    getBikeParts, getBike
+} from "../../state/actions/bike";
 import BikeReview from "../../components/bike/BikeReview";
-const mapStateToProps = ({core, framework, bike, part}) => {
+import {listParts} from "../../state/actions/part";
+
+const mapStateToProps = ({ core, framework, bike, part }) => {
     return {
-        brands: core.brands ,
-        suppliers: core.suppliers,
-        sections: framework.sections,
-        isLoading: (core.isLoading || bike.isLoading || framework.isLoading),
-        frames: bike.frames,
+        bikeId: bike.bikeId,
+        bikeReviewList: bike.bikeReviewList,
         bikes: bike.bikes,
         bikeParts: bike.bikeParts,
+        brands: core.brands,
+        suppliers: core.suppliers,
+        sections: framework.sections,
         parts: part.parts,
-        bikeReviewList: bike.bikeReviewList
+        frames: bike.frames,
+        isLoading: (core.isLoading || bike.isLoading || framework.isLoading),
     }
 };
 const mapDispatchToProps = {
@@ -23,9 +34,12 @@ const mapDispatchToProps = {
     reviewBike,
     saveBike,
     deleteBikes,
+    getBike,
+    getBikeParts,
     saveBikePart,
     deleteBikePart,
-    addBikePart
+    addBikePart,
+    listParts,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BikeReview)
 

@@ -42,15 +42,14 @@ import {
 import {FRAMEWORK_ERROR, FRAMEWORK_SAVE, FRAMEWORK_SAVE_ERROR} from "../actions/framework";
 import {BRANDS_SAVE_ERROR, BRANDS_SAVE_OK} from "../actions/core";
 import {
-    BIKE_ADD_PART_ERROR,
-    BIKE_DELETE_ERROR,
-    BIKE_PART_DELETE_ERROR,
-    FRAME_ARCHIVE_ERROR,
-    FRAME_ARCHIVE_OK,
-    FRAME_SAVE_ERROR,
-    FRAME_SAVE_OK,
-    FRAME_SAVE_REQUESTED,
-    FRAME_UPLOAD_ERROR
+    GET_BIKE,
+    GET_BIKE_PARTS,
+    BIKE_ADD_PART,
+    BIKE_DELETE,
+    BIKE_PART_DELETE,
+    FRAME_ARCHIVE,
+    FRAME_SAVE,
+    FRAME_UPLOAD,
 } from "../actions/bike";
 import {PART_UPLOAD_ERROR} from "../actions/part";
 
@@ -63,19 +62,19 @@ const application = (state = initialState, action) => {
     switch (action.type) {
         case FRAMEWORK_SAVE:
         case BRANDS_SAVE_OK:
-        case FRAME_SAVE_OK:
+        case `${FRAME_SAVE}_OK`:
             return {
                 ...state,
                 message: "Changes saved",
                 messageType: "I"
             };
-        case FRAME_ARCHIVE_OK:
+        case `${FRAME_ARCHIVE}_OK`:
             return {
                 ...state,
                 message: "Frames archived",
                 messageType: "I"
             };
-        case FRAME_ARCHIVE_ERROR:
+        case `${FRAME_ARCHIVE}_ERROR`:
             return {
                 ...state,
                 message: "Frame archive - error occurred",
@@ -136,7 +135,7 @@ const application = (state = initialState, action) => {
         case USER_LOGIN:
         case USER_LOGOUT:
         case CLEAR_ALL_STATE:
-        case FRAME_SAVE_REQUESTED:
+        case `${FRAME_SAVE}_REQUESTED`:
             return initialState;
         case CUSTOMER_LIST_ERROR:
         case CUSTOMER_CREATE_ERROR:
@@ -155,11 +154,13 @@ const application = (state = initialState, action) => {
         case FRAMEWORK_ERROR:
         case FRAMEWORK_SAVE_ERROR:
         case BRANDS_SAVE_ERROR:
-        case FRAME_SAVE_ERROR:
-        case FRAME_UPLOAD_ERROR:
-        case BIKE_ADD_PART_ERROR:
-        case BIKE_DELETE_ERROR:
-        case BIKE_PART_DELETE_ERROR:
+        case `${GET_BIKE}_ERROR`:
+        case `${GET_BIKE_PARTS}_ERROR`:
+        case `${FRAME_SAVE}_ERROR`:
+        case `${FRAME_UPLOAD}_ERROR`:
+        case `${BIKE_ADD_PART}_ERROR`:
+        case `${BIKE_DELETE}_ERROR`:
+        case `${BIKE_PART_DELETE}_ERROR`:
         case PART_UPLOAD_ERROR:
             return {
                 ...state,

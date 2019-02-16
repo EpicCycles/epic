@@ -48,7 +48,7 @@ class BikeEdit extends React.Component {
     };
     deleteOrRemoveBike = () => {
         if (this.state.id) {
-            this.props.deleteBike(this.state.id);
+            this.props.deleteBikes([this.state.id]);
         }
         this.setState({});
         if (this.props.closeModal) {
@@ -95,6 +95,6 @@ BikeEdit.propTypes = {
     brands: PropTypes.array.isRequired,
     frames: PropTypes.array.isRequired,
     saveBike: PropTypes.func.isRequired,
-    deleteBike: PropTypes.func.isRequired,
+    deleteBikes: PropTypes.func.isRequired,
 };
 export default BikeEdit;

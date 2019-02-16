@@ -1,7 +1,7 @@
 from django.urls import path
 
 from epic.api_views.attribute_option_api import AttributeOptions
-from epic.api_views.bike_api import Frames, FrameUpload, BikeParts, BikeMaintain
+from epic.api_views.bike_api import Frames, FrameUpload, BikeParts, Bikes
 from epic.api_views.brands_api import Brands
 from epic.api_views.customer_address_api import CustomerAddressList, CustomerAddressMaintain
 from epic.api_views.customer_api import CustomerList, CustomerMaintain
@@ -45,7 +45,7 @@ urlpatterns = [
     path('api/frames/', Frames.as_view()),
     path('api/frames/<int:frame_id>/', Frames.as_view()),
     path('api/frame/upload/', FrameUpload.as_view()),
-    path('api/bike/<int:bike_id>/', BikeMaintain.as_view()),
+    path('api/bike/<int:bike_id>/', Bikes.as_view()),
     path('api/bike/<int:bike_id>/parts/', BikeParts.as_view()),
     path('api/bike/<int:bike_id>/parts/<int:part_id>/', BikeParts.as_view()),
     path('api/productsearch/', parts_and_supplier_parts),

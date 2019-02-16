@@ -1,7 +1,7 @@
 import {colourStyles} from "./constants";
 import {getComponentKey} from "../components/app/model/helpers/model";
 
-export const addItemsToArray = (oldArray = [], listOfItems) => {
+export const addItemsToArray = (oldArray = [], listOfItems = []) => {
   let newArray = oldArray.slice();
   listOfItems.forEach(item => {
       let itemKey = getComponentKey(item);

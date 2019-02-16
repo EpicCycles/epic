@@ -23,6 +23,8 @@ import {
 } from "./core";
 import {
     watchForAddBikePart,
+    watchForGetBike,
+    watchForGetBikeParts,
     watchForArchiveFrames,
     watchForDeleteBikePart,
     watchForDeleteBikes,
@@ -71,6 +73,8 @@ export default function* rootSaga() {
         watchForSaveBike(),
         watchForSaveBikePart(),
         watchForDeleteBikePart(),
+        watchForGetBike(),
+        watchForGetBikeParts(),
         watchForAddBikePart(),
         watchForSavePart(),
         watchForDeletePart(),

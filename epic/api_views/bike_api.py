@@ -42,26 +42,15 @@ class Frames(generics.ListCreateAPIView):
 
         return q.filter(archived=False)
 
-    def get(self, request, format=None):
+    def get(self, request):
         frame_list = self.get_queryset()
         frame_serializer = FrameListSerializer(frame_list, many=True)
 
         bike_list = Bike.objects.filter(frame__in=frame_list)
         bike_serializer = BikeSerializer(bike_list, many=True)
 
-        bike_part_list = BikePart.objects.filter(bike__in=bike_list)
-        bike_part_serializer = BikePartSerializer(bike_part_list, many=True)
-        bike_part_part_ids = bike_part_list.values_list('part__pk', flat=True)
-        part_list = Part.objects.filter(id__in=list(bike_part_part_ids))
-        part_serializer = PartSerializer(part_list, many=True)
-        supplier_product_list = SupplierProduct.objects.filter(part__in=part_list)
-        supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
-
-        return Response({'parts': part_serializer.data,
-                         'supplierProducts': supplier_product_serializer.data,
-                         'frames': frame_serializer.data,
-                         'bikes': bike_serializer.data,
-                         'bikeParts': bike_part_serializer.data})
+        return Response({'frames': frame_serializer.data,
+                         'bikes': bike_serializer.data})
 
     def patch(self, request, frame_id):
         frame = self.get_object(frame_id)
@@ -98,29 +87,29 @@ class FrameUpload(generics.ListCreateAPIView):
         if existing_frame and existing_frame.archived_date:
             return Response(serializer.data, status=status.HTTP_409_CONFLICT)
 
-        savedFrameData = None
+        saved_frame_data = None
         if existing_frame:
-            savedFrameData = FrameSerializer(existing_frame).data
+            saved_frame_data = FrameSerializer(existing_frame).data
         elif serializer.is_valid():
             serializer.save()
-            savedFrameData = serializer.data
+            saved_frame_data = serializer.data
 
-        if savedFrameData:
-            frame_id = savedFrameData.get('id', None)
+        if saved_frame_data:
+            frame_id = saved_frame_data.get('id', None)
             bikes = post_data.get('bikes', [])
             persisted_bikes = []
             for bike in bikes:
                 bike['frame'] = frame_id
                 model_name = bike.get('model_name')
-                bikeSerializer = BikeSerializer(data=bike)
+                bike_serializer = BikeSerializer(data=bike)
                 existing_bike = Bike.objects.filter(frame__id=frame_id, model_name=model_name).first()
                 if existing_bike:
-                    bikeSerializer = BikeSerializer(existing_bike, data=bike)
+                    bike_serializer = BikeSerializer(existing_bike, data=bike)
                     BikePart.objects.filter(bike=existing_bike).delete()
 
-                if bikeSerializer.is_valid():
-                    bikeSerializer.save()
-                    persisted_bike = bikeSerializer.data
+                if bike_serializer.is_valid():
+                    bike_serializer.save()
+                    persisted_bike = bike_serializer.data
                     bike_id = persisted_bike.get('id', None)
                     parts = bike.get('parts', [])
                     persisted_parts = []
@@ -141,12 +130,12 @@ class FrameUpload(generics.ListCreateAPIView):
                 else:
                     bike['error'] = True
                     errors = True
-                    bike['error_detail'] = bikeSerializer.errors
+                    bike['error_detail'] = bike_serializer.errors
                     persisted_bikes.append(bike)
 
-            savedFrameData['bikes'] = persisted_bikes
+            saved_frame_data['bikes'] = persisted_bikes
             if errors:
-                savedFrameData['error'] = True
+                saved_frame_data['error'] = True
                 print("status 202 response")
                 return Response(status=status.HTTP_202_ACCEPTED)
 
@@ -157,10 +146,19 @@ class FrameUpload(generics.ListCreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class BikeMaintain(generics.GenericAPIView):
+class Bikes(generics.GenericAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     serializer_class = BikeSerializer
+
+    def get(self, bike_id):
+        bike_list = Bike.objects.filter(id=bike_id)
+        bike_serializer = BikeSerializer(bike_list, many=True)
+        bike_frame_ids = bike_list.values_list('frame__pk', flat=True)
+        frame_list = Frame.objects.filter(id__in=list(bike_frame_ids))
+        frame_serializer = FrameSerializer(frame_list, many=True)
+        return Response({'frames': frame_serializer.data,
+                         'bikes': bike_serializer.data})
 
     def patch(self, request, bike_id):
         bike = self.get_object(bike_id)
@@ -184,16 +182,6 @@ class BikeParts(generics.ListCreateAPIView):
     # permission_classes = (IsAuthenticated,)
     serializer_class = PartSerializer
 
-    def get_object(self, bike_id, part_id):
-        try:
-            bike_parts = BikePart.objects.filter(bike__id=bike_id, part__id=part_id)
-            if bike_parts.exists():
-                return bike_parts[0]
-            raise Http404
-
-        except BikePart.DoesNotExist:
-            raise Http404
-
     def get_queryset(self, bike_id):
         bike_part_list = BikePart.objects.filter(bike__id=bike_id)
         bike_part_serializer = BikePartSerializer(bike_part_list, many=True)
@@ -207,15 +195,6 @@ class BikeParts(generics.ListCreateAPIView):
                 'bikeParts': bike_part_serializer.data}
 
     def get(self, request, bike_id):
-
-        bike_part_list = BikePart.objects.filter(bike__id=bike_id)
-        bike_part_serializer = BikePartSerializer(bike_part_list, many=True)
-        bike_part_part_ids = bike_part_list.values_list('part__pk', flat=True)
-        part_list = Part.objects.filter(id__in=list(bike_part_part_ids))
-        part_serializer = PartSerializer(part_list, many=True)
-        supplier_product_list = SupplierProduct.objects.filter(part__in=part_list)
-        supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
-
         return Response(self.get_queryset(bike_id))
 
     def post(self, request, bike_id):
