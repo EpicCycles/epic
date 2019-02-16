@@ -68,8 +68,6 @@ export default function* rootSaga() {
         watchForGetFrames(),
         watchForDeleteFrames(),
         watchForDeleteBikes(),
-        watchForReviewBikeStart(),
-        watchForReviewBike(),
         watchForSaveBike(),
         watchForSaveBikePart(),
         watchForDeleteBikePart(),

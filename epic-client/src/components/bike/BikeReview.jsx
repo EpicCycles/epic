@@ -37,7 +37,7 @@ class BikeReview extends React.Component {
 
     componentDidUpdate(prevProps) {
         this.checkPropsData();
-        if (prevProps.bikeId !== props.bikeId) this.setState(initialState);
+        if (prevProps.bikeId !== this.props.bikeId) this.setState(initialState);
     };
 
     checkPropsData = () => {

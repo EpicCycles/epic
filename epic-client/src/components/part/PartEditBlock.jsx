@@ -37,7 +37,7 @@ const PartEditBlock = (props) => {
                   title="Confirm Part Change"
             />
             }
-            {(deletePart && (part.id || isChanged)) &&
+            {(deletePart && (part.id || part.changed)) &&
             <Icon id={`delete-part`} name="trash"
                   onClick={deletePart}
                   title="Delete Part"

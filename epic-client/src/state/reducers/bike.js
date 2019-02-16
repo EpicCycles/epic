@@ -47,8 +47,8 @@ const bike = (state = initialState, action) => {
                 ...state,
                 bikes: state.bikes.filter(bike => bike.id !== state.bikeId),
                 bikeParts: state.bikeParts.filter(bikePart => bikePart.bike !== state.bikeId),
-                bikeId: findNextBikeToReview(state.bikeReviewList, bikeId),
-                bikeReviewList: removeIdFromReviewList(state.bikeReviewList, bikeId),
+                bikeId: findNextBikeToReview(state.bikeReviewList, state.bikeId),
+                bikeReviewList: removeIdFromReviewList(state.bikeReviewList, state.bikeId),
             };
         case BIKE_SAVE_REQUESTED:
         case BIKE_PART_DELETE_REQUESTED:
