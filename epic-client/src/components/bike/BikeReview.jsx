@@ -109,6 +109,7 @@ class BikeReview extends React.Component {
                 frames={frames}
                 saveBike={saveBike}
                 deleteBikes={deleteBikes}
+                key={`editBike${bike.id}`}
             />
             <PartDisplayGrid
                 parts={partsForBike}

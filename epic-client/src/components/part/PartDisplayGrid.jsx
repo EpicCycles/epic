@@ -27,7 +27,7 @@ const PartDisplayGrid = (props) => {
                         >
                             <div
                                 className={`grid-item ${fixedDetailsClassname(lockFirstColumn)}`}
-                                style={{ gridRow: `span ${rowSpan};` }}
+                                style={{ gridRow: `span ${rowSpan}` }}
                             >
                                 {(typeIndex === 0) && section.name}
                             </div>

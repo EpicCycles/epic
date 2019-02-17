@@ -1,10 +1,9 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 
-import {getUpdatedObject, isItAnObject, updateObject} from "../../helpers/utils";
+import {updateObject} from "../../helpers/utils";
 import {addFieldToState, isModelValid} from "../app/model/helpers/model";
 import {bikeFields} from "../app/model/helpers/fields";
-import {validateData} from "../app/model/helpers/validators";
 import {Icon} from "semantic-ui-react";
 import EditModelPage from "../app/model/EditModelPage";
 import {bikeFullName} from "./helpers/bike";
@@ -16,6 +15,9 @@ class BikeEdit extends React.Component {
         this.setState(this.deriveStateFromProps());
     };
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.bike.id !== this.props.bike.id) this.setState(this.deriveStateFromProps());
+    };
 
     deriveStateFromProps = () => {
         let newState = updateObject(this.props.bike);
@@ -24,24 +26,16 @@ class BikeEdit extends React.Component {
 
     handleInputChange = (fieldName, input) => {
         let newState = addFieldToState(this.state, bikeFields, fieldName, input);
-
-        if (this.checkForChanges(newState)) {
-            newState.errors = validateData(bikeFields, newState);
-        }
-
-        this.checkBikeDataList(newState);
+        console.log(newState)
         this.setState(newState);
     };
 
     onClickReset = () => {
-        const resetState = this.deriveStateFromProps();
-        this.setState(resetState);
-        this.checkBikeDataList(resetState);
+        this.setState(this.deriveStateFromProps());
     };
 
     saveOrCreateBike = () => {
-        const updatedBike = getUpdatedObject(bikeFields, this.props.bike, this.state);
-        this.props.saveBike(updatedBike);
+        this.props.saveBike(this.state);
         if (this.props.closeModal) {
             this.props.closeModal();
         }
@@ -58,7 +52,7 @@ class BikeEdit extends React.Component {
 
     render() {
         const { bike, brands, frames } = this.props;
-        const {changed} = this.state;
+        const { changed } = this.state;
         const isValid = isModelValid(this.state);
 
         return <Fragment>
@@ -90,6 +84,7 @@ class BikeEdit extends React.Component {
         </Fragment>;
     }
 }
+
 BikeEdit.propTypes = {
     bike: PropTypes.object.isRequired,
     brands: PropTypes.array.isRequired,
