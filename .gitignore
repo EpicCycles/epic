@@ -8,7 +8,7 @@ db.sqlite3
 .idea
 .idea/
 epic/.idea/
-**/.idea/
+**/.idea
 /.idea/
 config.json
 migrations/
