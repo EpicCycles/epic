@@ -197,6 +197,11 @@ def get_part_list_for_bike(bike_id):
             'bikeParts': bike_part_serializer.data}
 
 
+def find_bike_part(bike_id, part_id):
+    return BikePart.objects.filter(bike__id=bike_id, part__id=part_id).first()
+
+
+
 class BikeParts(generics.ListCreateAPIView):
     # authentication_classes = (TokenAuthentication,)
     # permission_classes = (IsAuthenticated,)
@@ -232,12 +237,12 @@ class BikeParts(generics.ListCreateAPIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, bike_id, part_id):
-        bike_part = self.get_object(bike_id, part_id)
+        bike_part = find_bike_part(bike_id, part_id)
         bike_part.delete()
-        return Response(get_part_list_for_bike(bike_id), status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     def put(self, request, bike_id, part_id):
-        bike_part = self.get_object(bike_id, part_id)
+        bike_part = find_bike_part(bike_id, part_id)
         part_data = request.data
         part_type = part_data.get('partType', None)
         part_name = part_data.get('part_name', None)

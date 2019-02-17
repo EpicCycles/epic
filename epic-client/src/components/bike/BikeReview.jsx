@@ -36,8 +36,8 @@ class BikeReview extends React.Component {
         let frameworkRequired = true;
         let bikeRequired = true;
         let bikePartsRequired = true;
-        if (doWeHaveObjects(this.props.brands))brandsRequired = false;
-        if (doWeHaveObjects(this.props.sections))frameworkRequired = false;
+        if (doWeHaveObjects(this.props.brands)) brandsRequired = false;
+        if (doWeHaveObjects(this.props.sections)) frameworkRequired = false;
 
         if (doWeHaveObjects(this.props.bikeParts)) {
             const partsForCurrentBike = this.props.bikeParts.filter(bikePart => bikePart.bike === this.props.bikeId);
@@ -65,7 +65,7 @@ class BikeReview extends React.Component {
         this.props.deleteBikePart(this.props.bike.id, partId);
     };
     saveOrAddPart = (part) => {
-        const bikeId = this.props.bike.id;
+        const bikeId = this.props.bikeId;
         if (part.id) {
             this.props.saveBikePart(bikeId, part);
         } else {
@@ -73,16 +73,19 @@ class BikeReview extends React.Component {
         }
     };
     showPartFinder = (part) => {
-        this.setState({ partEditPart: part, partFinder: true });
+        this.setState({ partEditPart: part, showPartFinder: true });
     };
-    closePartFinder = (part) => {
+    closePartFinder = () => {
         this.setState(initialState);
+    };
+    deleteBikePart = (partId) => {
+        this.props.deleteBikePart(this.props.bikeId, partId);
     };
 
     render() {
         const { bikes, bikeParts, parts, bikeReviewList, isLoading, brands, frames, sections, saveBike, deleteBikes, bikeId, listParts } = this.props;
         if (!bikeId) return <Redirect to="/bike-review-list" push/>;
-        const { partEditPart, partFinder } = this.state;
+        const { partEditPart, showPartFinder } = this.state;
         const selectedBikeIndex = bikeReviewList.indexOf(bikeId);
         if (selectedBikeIndex < 0) return <Redirect to="/bike-review-list" push/>;
         const bike = findObjectWithId(bikes, bikeId);
@@ -90,7 +93,7 @@ class BikeReview extends React.Component {
 
         return <Fragment key={`bikeReview`}>
             <section className="row">
-                {partFinder && <PartFinder
+                {showPartFinder && <PartFinder
                     sections={sections}
                     brands={brands}
                     savePart={this.saveOrAddPart}
@@ -102,21 +105,26 @@ class BikeReview extends React.Component {
                     partActionPrimaryIcon={'add'}
                     partActionPrimaryTitle={'Update bike with part'}
                 />}
+                <div>
+                    <BikeEdit
+                        bike={bike}
+                        brands={brands}
+                        frames={frames}
+                        saveBike={saveBike}
+                        deleteBikes={deleteBikes}
+                        key={`editBike${bike.id}`}
+                    />
+                    <PartDisplayGrid
+                        parts={partsForBike}
+                        sections={sections}
+                        brands={brands}
+                        editPart={this.showPartFinder}
+                        deletePart={this.deleteBikePart}
+                              key={`partGrid${bike.id}`}
+              />
+                </div>
             </section>
-            <BikeEdit
-                bike={bike}
-                brands={brands}
-                frames={frames}
-                saveBike={saveBike}
-                deleteBikes={deleteBikes}
-                key={`editBike${bike.id}`}
-            />
-            <PartDisplayGrid
-                parts={partsForBike}
-                sections={sections}
-                brands={brands}
-                editPart={this.showPartFinder}
-            />
+
             <Pagination
                 type="Bike"
                 getPage={this.reviewSelectedBike}
@@ -132,8 +140,9 @@ class BikeReview extends React.Component {
         </Fragment>
     }
 }
+
 BikeReview.defaultProps = {
-     brands: [],
+    brands: [],
     sections: [],
     isLoading: false,
 };

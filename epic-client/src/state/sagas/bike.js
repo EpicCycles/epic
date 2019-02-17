@@ -148,8 +148,8 @@ export function* deleteBikePart(action) {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
-            const response = yield call(bike.deleteBikePart, completePayload);
-            // const response = yield call(bike.getBikeParts, completePayload);
+            yield call(bike.deleteBikePart, completePayload);
+            const response = yield call(bike.getBikeParts, completePayload);
             yield put(deleteBikePartOK(response.data));
         } else {
             yield call(history.push, "/login");

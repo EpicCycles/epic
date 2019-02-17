@@ -164,26 +164,6 @@ class PartFinder extends React.Component {
                 </div>
                 <div
                     className="grid-row"
-                    key={`partialPartNameRow`}
-                >
-                    <div
-                        className="grid-item--borderless field-label align_right"
-                    >
-                        Run Search
-                    </div>
-                    <div
-                        className="grid-item--borderless field-label "
-                    >
-                        <Icon
-                            name={'search'}
-                            key={'runSearchIcon'}
-                            onClick={() => this.findParts()}
-                            title={`find parts matching selection`}/>
-                        />
-                    </div>
-                </div>
-                <div
-                    className="grid-row"
                     key={`selectStandard`}
                 >
                     <div
@@ -237,7 +217,7 @@ class PartFinder extends React.Component {
                         <Icon
                             name={'search'}
                             onClick={() => this.findParts()}
-                            title={`find parts matching selection`}/>
+                            title={`find parts matching selection`}
                         />
                     </div>
                 </div>
@@ -280,14 +260,14 @@ class PartFinder extends React.Component {
                 <Icon
                     key="primaryAction"
                     name={partActionPrimaryIcon}
-                    onClick={this.checkAndContinue(partActionPrimary)}
+                    onClick={() => this.checkAndContinue(partActionPrimary)}
                     title={partActionPrimaryTitle}
                 />
                 {partActionSecondary &&
                 <Icon
                     key="secondaryAction"
                     name={partActionSecondaryIcon}
-                    onClick={this.checkAndContinue(partActionSecondary)}
+                    onClick={() => this.checkAndContinue(partActionSecondary)}
                     title={partActionSecondaryTitle}
                 />
                 }
