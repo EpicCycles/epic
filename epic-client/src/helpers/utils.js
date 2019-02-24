@@ -14,6 +14,14 @@ export const addItemsToArray = (oldArray = [], listOfItems = []) => {
   });
   return newArray;
 };
+export const flattenArrayOfArrays = (startArray) => {
+    let flatArray = [];
+    startArray.forEach(element => {
+        console.log(element)
+        if (Array.isArray(element)) flatArray = flatArray.concat(element); else flatArray.push(element);
+    });
+    return flatArray;
+};
 export const changeList = (oldList, checkObject) => {
     let newList = oldList.slice();
     if (newList.includes(checkObject)) {

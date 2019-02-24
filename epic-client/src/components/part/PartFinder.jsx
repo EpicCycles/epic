@@ -8,7 +8,7 @@ import FormTextInput from "../../common/FormTextInput";
 import Icon from "semantic-ui-react/dist/commonjs/elements/Icon/Icon";
 import PartSelect from "./PartSelect";
 import {partFields} from "../app/model/helpers/fields";
-import {getComponentKey, updateModelWithChanges} from "../app/model/helpers/model";
+import {addFieldToState, getComponentKey} from "../app/model/helpers/model";
 import PartEditBlock from "./PartEditBlock";
 
 class PartFinder extends React.Component {
@@ -37,7 +37,7 @@ class PartFinder extends React.Component {
     };
 
     updatePartFieldsInState = (fieldName, value) => {
-        const part = updateModelWithChanges(this.state.part, partFields, fieldName, value);
+        const part = addFieldToState(this.state.part, partFields, fieldName, value);
         this.updateStateWithSelectionChanges('part', part);
     };
 
@@ -88,6 +88,8 @@ class PartFinder extends React.Component {
 
         let partsForSelect = part ? parts.filter(part => part.partType === partTypeSelected) : [];
         if (brandSelected) partsForSelect = partsForSelect.filter(part => part.brand === brandSelected);
+        if (searchStandard) partsForSelect = partsForSelect.filter(part => part.standard);
+        if (searchStocked) partsForSelect = partsForSelect.filter(part => part.stocked);
         return <div className="grid-container">
             <h2>Find Part</h2>
             {closeAction && <div style={{ width: "100%", textAlign: "right" }}>

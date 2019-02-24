@@ -89,12 +89,13 @@ class BikeReview extends React.Component {
         const selectedBikeIndex = bikeReviewList.indexOf(bikeId);
         if (selectedBikeIndex < 0) return <Redirect to="/bike-review-list" push/>;
         const bike = findObjectWithId(bikes, bikeId);
-        const partsForBike = bike && findPartsForBike(bike, bikeParts, parts);
+        const partsForBike = bike ? findPartsForBike(bike, bikeParts, parts) : [];
 
         return <Fragment key={`bikeReview`}>
             <section className="row">
                 {showPartFinder && <PartFinder
                     sections={sections}
+                    parts={parts}
                     brands={brands}
                     savePart={this.saveOrAddPart}
                     deletePart={this.deletePart}

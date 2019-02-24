@@ -250,24 +250,42 @@ class BikeParts(generics.ListCreateAPIView):
         if part_type and part_name and part_brand:
             try:
                 # if a part already exists with a different id but these values then use that
-
+                print('bike part', bike_part)
                 part = find_or_create_part(Brand.objects.get(id=part_brand),
                                            PartType.objects.get(id=part_type),
                                            part_name, False)
+                print('after find and create')
+                print(part)
                 if part:
-                    bike_part.part = part
-                    bike_part.save()
+                    print('found part', part, bike_part)
                 else:
                     part = Part.objects.get(pk=part_id)
 
-                part_serializer = PartSerializer(part, part_data)
+                part_serializer = PartSerializer(part, data=part_data)
+                print('tryoing to save part')
+                print(part)
+                print(part_data)
                 if part_serializer.is_valid():
+                    print('part serializer valid')
                     part_serializer.save()
-                    return Response(get_part_list_for_bike(bike_id), status=status.HTTP_202_ACCEPTED)
+                else:
+                    print('errors are', part_serializer.errors)
+                    return Response(part_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-                return Response(part_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                if bike_part:
+                    bike_part.part = part
+                    bike_part.save()
+                else:
+                    BikePart.objects.filter(bike__id=bike_id, part__partType=part.partType).delete()
+                    bike_part = BikePart.objects.create(bike=Bike.objects.get(id=bike_id), part=part)
 
-            except Exception:
+                print('found part and saved to bike_part', part, bike_part)
+                return Response(get_part_list_for_bike(bike_id), status=status.HTTP_202_ACCEPTED)
+
+
+            except Exception as e:
+                print(type(e), e)
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        print('dono thave required data@')
         return Response(status=status.HTTP_400_BAD_REQUEST)

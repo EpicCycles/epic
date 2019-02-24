@@ -62,7 +62,7 @@ class BikePart(models.Model):
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.part.partType.shortName}: {str(self.part.brand)} {self.part.part_name}'
+        return f'{self.part.partType.name}: {str(self.part.brand)} {self.part.part_name}'
 
     def save(self, *args, **kwargs):
         if BikePart.objects.filter(bike=self.bike, part=self.part).exclude(id=self.id).exists():

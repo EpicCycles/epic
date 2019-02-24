@@ -58,9 +58,9 @@ export const saveBikePart = (bikeId, part) => ({
     type: `${BIKE_PART_SAVE}_REQUESTED`,
     payload: { bikeId, part }
 });
-export const saveBikePartOK = (parts) => ({
+export const saveBikePartOK = (responseData) => ({
     type: `${BIKE_PART_SAVE}_OK`,
-    payload: { parts }
+    payload: responseData
 });
 export const saveBikePartError = (error) => ({
     type: `${BIKE_PART_SAVE}_ERROR`,

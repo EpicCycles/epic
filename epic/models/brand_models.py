@@ -77,7 +77,7 @@ class Part(models.Model):
     objects = PartManager()
 
     def __str__(self):
-        return f'{self.partType.shortName}: {self.brand.brand_name} {self.part_name}'
+        return f'{self.partType.name}: {self.brand.brand_name} {self.part_name}'
 
     def save(self, *args, **kwargs):
         if self.part_name is None or self.part_name == '':

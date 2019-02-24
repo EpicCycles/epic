@@ -51,13 +51,13 @@ const part = (state = initialState, action) => {
                 isLoading: false,
             };
         case PART_UPLOAD_OK:
-        case PART_LIST_OK:
             return {
                 ...state,
                 isLoading: false,
                 parts: action.payload.parts,
                 supplierProducts: action.payload.supplierProducts,
             };
+        case PART_LIST_OK:
         case `${BIKE_PART_SAVE}_OK`:
         case `${BIKE_PART_DELETE}_OK`:
         case `${BIKE_ADD_PART}_OK`:
