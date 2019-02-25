@@ -9,7 +9,8 @@ import Icon from "semantic-ui-react/dist/commonjs/elements/Icon/Icon";
 import PartSelect from "./PartSelect";
 import {partFields} from "../app/model/helpers/fields";
 import {addFieldToState, getComponentKey} from "../app/model/helpers/model";
-import PartEditBlock from "./PartEditBlock";
+import {getModelFields} from "./helpers/part";
+import EditModelPage from "../app/model/EditModelPage";
 
 class PartFinder extends React.Component {
     componentWillMount() {
@@ -246,19 +247,21 @@ class PartFinder extends React.Component {
                     </div>
                 </div>}
             </div>
-            <PartEditBlock
-                componentKey={getComponentKey(part)}
-                part={part}
-                persistedPart={persistedPart}
-                partTypeEditable={!(part && part.id)}
+            <EditModelPage
+                modelFields={getModelFields(part, (!(part && part.id)))}
+                model={part}
+                persistedModel={persistedPart}
                 sections={sections}
                 brands={brands}
                 onChange={this.updatePartFieldsInState}
-                savePart={this.savePart}
-                resetPart={this.resetPart}
-                deletePart={this.deletePart}
             />
             {part && <div style={{ width: "100%", textAlign: "right" }}>
+                {part.changed &&
+                <Icon id={`reset-part`} name="undo"
+                      onClick={this.resetPart}
+                      title="Reset Part details"
+                />
+                }
                 <Icon
                     key="primaryAction"
                     name={partActionPrimaryIcon}
@@ -276,7 +279,6 @@ class PartFinder extends React.Component {
             </div>}
         </div>
     }
-
 }
 
 PartFinder.defaultProps = {
@@ -288,8 +290,6 @@ PartFinder.propTypes = {
     parts: PropTypes.array,
     partType: PropTypes.number,
     part: PropTypes.object,
-    savePart: PropTypes.func.isRequired,
-    deletePart: PropTypes.func.isRequired,
     findParts: PropTypes.func.isRequired,
     closeAction: PropTypes.func.isRequired,
     partActionPrimary: PropTypes.func.isRequired,

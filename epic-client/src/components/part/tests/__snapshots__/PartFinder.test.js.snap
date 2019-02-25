@@ -356,7 +356,7 @@ exports[`should render with maximum information 1`] = `
       </div>
     </div>
   </div>
-  <PartEditBlock
+  <EditModelPage
     brands={
       Array [
         Object {
@@ -409,10 +409,52 @@ exports[`should render with maximum information 1`] = `
         },
       ]
     }
-    componentKey={330}
-    deletePart={[Function]}
+    model={
+      Object {
+        "brand": 6,
+        "brand_name": "Shimano",
+        "id": 330,
+        "partType": 7,
+        "part_name": "Deore XT M8000 Shadow Plus 11 speed",
+        "standard": false,
+        "stocked": false,
+        "trade_in_price": null,
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "A brand must be selected",
+          "fieldName": "brand",
+          "header": "Brand",
+          "required": true,
+          "synonyms": Array [
+            "brand",
+            "manufacturer",
+          ],
+          "type": "brand",
+        },
+        Object {
+          "error": "A name is required for the part",
+          "fieldName": "part_name",
+          "header": "Part Name",
+          "required": true,
+        },
+        Object {
+          "fieldName": "trade_in_price",
+          "header": "Trade In £",
+          "length": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "standard",
+          "header": "Standard",
+          "type": "checkbox",
+        },
+      ]
+    }
     onChange={[Function]}
-    part={
+    persistedModel={
       Object {
         "brand": 6,
         "brand_name": "Shimano",
@@ -424,21 +466,6 @@ exports[`should render with maximum information 1`] = `
         "trade_in_price": null,
       }
     }
-    partTypeEditable={false}
-    persistedPart={
-      Object {
-        "brand": 6,
-        "brand_name": "Shimano",
-        "id": 330,
-        "partType": 7,
-        "part_name": "Deore XT M8000 Shadow Plus 11 speed",
-        "standard": false,
-        "stocked": false,
-        "trade_in_price": null,
-      }
-    }
-    resetPart={[Function]}
-    savePart={[Function]}
     sections={
       Array [
         Object {
@@ -781,7 +808,7 @@ exports[`should render with minimum information 1`] = `
       </div>
     </div>
   </div>
-  <PartEditBlock
+  <EditModelPage
     brands={
       Array [
         Object {
@@ -834,14 +861,46 @@ exports[`should render with minimum information 1`] = `
         },
       ]
     }
-    componentKey="new"
-    deletePart={[Function]}
+    modelFields={
+      Array [
+        Object {
+          "error": "A part type must be selected",
+          "fieldName": "partType",
+          "header": "Part Type",
+          "required": true,
+          "type": "partType",
+        },
+        Object {
+          "error": "A brand must be selected",
+          "fieldName": "brand",
+          "header": "Brand",
+          "required": true,
+          "synonyms": Array [
+            "brand",
+            "manufacturer",
+          ],
+          "type": "brand",
+        },
+        Object {
+          "error": "A name is required for the part",
+          "fieldName": "part_name",
+          "header": "Part Name",
+          "required": true,
+        },
+        Object {
+          "fieldName": "trade_in_price",
+          "header": "Trade In £",
+          "length": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "standard",
+          "header": "Standard",
+          "type": "checkbox",
+        },
+      ]
+    }
     onChange={[Function]}
-    part={Object {}}
-    partTypeEditable={true}
-    persistedPart={Object {}}
-    resetPart={[Function]}
-    savePart={[Function]}
     sections={
       Array [
         Object {

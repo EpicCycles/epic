@@ -23,7 +23,15 @@ class BikeReview extends React.Component {
 
     componentDidUpdate(prevProps) {
         this.checkPropsData();
-        if (prevProps.bikeId !== this.props.bikeId) this.setState(initialState);
+        if (prevProps.bikeId !== this.props.bikeId) {
+            this.setState(initialState);
+        } else if (this.state.partEditPart && ! this.state.showPartFinder) {
+            if (prevProps.part !== this.props.parts) {
+                this.closePartFinder();
+            } else {
+                this.showPartFinder(this.state.partEditPart);
+            }
+        }
     };
 
     checkPropsData = () => {
@@ -71,6 +79,7 @@ class BikeReview extends React.Component {
         } else {
             this.props.addBikePart(bikeId, part);
         }
+        this.setState({ partEditPart: part, showPartFinder: false });
     };
     showPartFinder = (part) => {
         this.setState({ partEditPart: part, showPartFinder: true });

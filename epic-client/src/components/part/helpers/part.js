@@ -1,7 +1,14 @@
 // look at state and decide whether to get a new part list for datalist.
 import {getBrandName} from "../../brand/helpers/brand";
 import {getPartTypeName} from "../../framework/helpers/framework";
+import {partFields, partFieldsNoPartType, STOCKED_FIELD} from "../../app/model/helpers/fields";
 
+export const getModelFields = (part, partTypeEditable) => {
+    let editFields = partFields;
+    if (part && ! partTypeEditable) editFields = partFieldsNoPartType;
+    if (part && (part.standard || part.stocked)) editFields.push(STOCKED_FIELD);
+    return editFields;
+}
 export const getNewDataListRequired = (currentPartDataList, currentPartType, currentBrand) => {
     if (!currentPartDataList) {
         return true;
