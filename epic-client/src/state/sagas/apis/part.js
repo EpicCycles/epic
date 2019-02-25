@@ -3,7 +3,7 @@ import api from '../api';
 const getParts = async (payload) => {
     api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
     const listCriteria = payload.listCriteria;
-    const partApi = `api/productsearch/?brand=${listCriteria.brand}&supplier=${listCriteria.supplier}&partName=${listCriteria.partName}&standard=${listCriteria.standard}}&stocked=${listCriteria.stocked}`;
+    const partApi = `api/productsearch/?brand=${listCriteria.brand || ''}&supplier=${listCriteria.supplier || ''}&partName=${listCriteria.partName || ''}&standard=${listCriteria.standard}}&stocked=${listCriteria.stocked}`;
     return await api.instance.get(partApi);
 };
 

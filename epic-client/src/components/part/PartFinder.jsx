@@ -8,7 +8,7 @@ import FormTextInput from "../../common/FormTextInput";
 import Icon from "semantic-ui-react/dist/commonjs/elements/Icon/Icon";
 import PartSelect from "./PartSelect";
 import {partFields} from "../app/model/helpers/fields";
-import {getComponentKey, updateModelWithChanges} from "../app/model/helpers/model";
+import {addFieldToState, getComponentKey} from "../app/model/helpers/model";
 import PartEditBlock from "./PartEditBlock";
 
 class PartFinder extends React.Component {
@@ -37,7 +37,7 @@ class PartFinder extends React.Component {
     };
 
     updatePartFieldsInState = (fieldName, value) => {
-        const part = updateModelWithChanges(this.state.part, partFields, fieldName, value);
+        const part = addFieldToState(this.state.part, partFields, fieldName, value);
         this.updateStateWithSelectionChanges('part', part);
     };
 
@@ -88,6 +88,8 @@ class PartFinder extends React.Component {
 
         let partsForSelect = part ? parts.filter(part => part.partType === partTypeSelected) : [];
         if (brandSelected) partsForSelect = partsForSelect.filter(part => part.brand === brandSelected);
+        if (searchStandard) partsForSelect = partsForSelect.filter(part => part.standard);
+        if (searchStocked) partsForSelect = partsForSelect.filter(part => part.stocked);
         return <div className="grid-container">
             <h2>Find Part</h2>
             {closeAction && <div style={{ width: "100%", textAlign: "right" }}>
@@ -164,26 +166,6 @@ class PartFinder extends React.Component {
                 </div>
                 <div
                     className="grid-row"
-                    key={`partialPartNameRow`}
-                >
-                    <div
-                        className="grid-item--borderless field-label align_right"
-                    >
-                        Run Search
-                    </div>
-                    <div
-                        className="grid-item--borderless field-label "
-                    >
-                        <Icon
-                            name={'search'}
-                            key={'runSearchIcon'}
-                            onClick={() => this.findParts()}
-                            title={`find parts matching selection`}/>
-                        />
-                    </div>
-                </div>
-                <div
-                    className="grid-row"
                     key={`selectStandard`}
                 >
                     <div
@@ -237,7 +219,7 @@ class PartFinder extends React.Component {
                         <Icon
                             name={'search'}
                             onClick={() => this.findParts()}
-                            title={`find parts matching selection`}/>
+                            title={`find parts matching selection`}
                         />
                     </div>
                 </div>
@@ -280,14 +262,14 @@ class PartFinder extends React.Component {
                 <Icon
                     key="primaryAction"
                     name={partActionPrimaryIcon}
-                    onClick={this.checkAndContinue(partActionPrimary)}
+                    onClick={() => this.checkAndContinue(partActionPrimary)}
                     title={partActionPrimaryTitle}
                 />
                 {partActionSecondary &&
                 <Icon
                     key="secondaryAction"
                     name={partActionSecondaryIcon}
-                    onClick={this.checkAndContinue(partActionSecondary)}
+                    onClick={() => this.checkAndContinue(partActionSecondary)}
                     title={partActionSecondaryTitle}
                 />
                 }

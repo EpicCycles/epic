@@ -19,18 +19,25 @@ const PartDisplayGridHeaders = (props) => {
             className={props.className}
             showErrors={props.showErrors}
         />}
+        {props.includeActions &&  <div
+            className={`grid-item--header ${props.className}`}
+        >
+            Actions
+        </div>}
     </div>;
 };
 PartDisplayGridHeaders.defaultProps = {
     lockFirstColumn: false,
     showSupplierProducts: false,
     showErrors: false,
+    includeActions: false,
     className: "",
 };
 PartDisplayGridHeaders.propTypes = {
     lockFirstColumn: PropTypes.bool,
     showSupplierProducts: PropTypes.bool,
     showErrors: PropTypes.bool,
+    includeActions: PropTypes.bool,
     className: PropTypes.string,
 };
 export default PartDisplayGridHeaders;

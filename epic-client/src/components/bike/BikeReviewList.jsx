@@ -2,6 +2,7 @@ import React, {Fragment} from 'react'
 import {changeList, removeKey, updateObject} from "../../helpers/utils";
 import {Button, Dimmer, Icon, Loader} from "semantic-ui-react";
 import BikeReviewListSelection from "./BikeReviewListSelection";
+import {Redirect} from "react-router-dom";
 
 class BikeReviewList extends React.Component {
     state = {
@@ -115,16 +116,27 @@ class BikeReviewList extends React.Component {
         const nonArchivedFrames = frames ? frames.filter(frame => (!frame.archived)) : [];
         let bikeReviewList = [];
         nonArchivedFrames.forEach(frame => {
-            frame.bikes.forEach(bike => bikeReviewList.push(bike.id));
+            this.props.bikes.filter(bike => (bike.frame === frame.id)).forEach(bike => bikeReviewList.push(bike.id));
         });
-        let newState = updateObject(
-            this.state,
-            { bikeReviewList }
-        );
-        if (!this.kickOffReview(bikeReviewList)) this.setState(newState);
+        if (this.kickOffReview(bikeReviewList)) {
+            this.setState(updateObject(
+                this.state,
+                { reviewFirstBike: true }
+            ));
+        } else {
+            this.setState(updateObject(
+                this.state,
+                { bikeReviewList, reviewFirstBike: false }
+            ));
+        }
     };
     startReview = () => {
-        this.kickOffReview(this.state.bikeReviewList);
+        if (this.kickOffReview(this.state.bikeReviewList)) {
+            this.setState(updateObject(
+                this.state,
+                { reviewFirstBike: true }
+            ));
+        }
     };
     kickOffReview = (bikeReviewList) => {
         const { frameArchiveList, frameDeleteList, bikeDeleteList } = this.state;
@@ -147,12 +159,13 @@ class BikeReviewList extends React.Component {
     };
 
     render() {
-        const { brand, frameName, archived, frameArchiveList, bikeReviewList, bikeDeleteList, frameDeleteList } = this.state;
+        const { reviewFirstBike, brand, frameName, archived, frameArchiveList, bikeReviewList, bikeDeleteList, frameDeleteList } = this.state;
         const { isLoading, brands, frames, bikes } = this.props;
         const archivedFrames = frames ? frames.filter(frame => frame.archived) : [];
         const nonArchivedFrames = frames ? frames.filter(frame => (!frame.archived)) : [];
         let framesWidth = archived ? (window.innerWidth * 0.75) : window.innerWidth;
         return <Fragment key="bikeUpload">
+            {reviewFirstBike && <Redirect to="/bike-review" push/>}
             {!frames ? <BikeReviewListSelection
                     brands={brands}
                     onChange={this.handleInputChange}

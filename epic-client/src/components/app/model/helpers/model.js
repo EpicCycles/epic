@@ -15,11 +15,7 @@ export const addFieldToState = (initialState, fieldList, fieldName, input) => {
     let finalState = initialState;
     fieldList.some(field => {
         if (fieldName.startsWith(field.fieldName)) {
-            if (input) {
-                finalState[field.fieldName] = input;
-            } else {
-                finalState = removeKey(finalState, field.fieldName);
-            }
+            finalState = applyFieldValueToModel(initialState, field, input);
             return true;
         }
         return false;

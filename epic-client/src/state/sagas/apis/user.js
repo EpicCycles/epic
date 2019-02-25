@@ -7,6 +7,12 @@ const loginUser = async (payload) => {
     return await api.instance.post(loginApi, payload);
 };
 
+
+const getUserToken = async (payload) => {
+    const tokenApi = `/rest-auth/api-token-auth/`;
+    return await api.instance.post(tokenApi, payload);
+};
+
 const getUser = async (payload) => {
     api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
     const getUserApi = `rest-auth/user/`;
@@ -32,6 +38,7 @@ const changeUserData = async (payload) => {
 };
 export default {
     loginUser,
+    getUserToken,
     getUser,
     logoutUser,
     changePassword,

@@ -199,28 +199,6 @@ exports[`should render with maximum information 1`] = `
     </div>
     <div
       className="grid-row"
-      key="partialPartNameRow"
-    >
-      <div
-        className="grid-item--borderless field-label align_right"
-      >
-        Run Search
-      </div>
-      <div
-        className="grid-item--borderless field-label "
-      >
-        <Icon
-          as="i"
-          key="runSearchIcon"
-          name="search"
-          onClick={[Function]}
-          title="find parts matching selection"
-        />
-        /&gt;
-      </div>
-    </div>
-    <div
-      className="grid-row"
       key="selectStandard"
     >
       <div
@@ -275,7 +253,6 @@ exports[`should render with maximum information 1`] = `
           onClick={[Function]}
           title="find parts matching selection"
         />
-        /&gt;
       </div>
     </div>
     <div
@@ -536,12 +513,14 @@ exports[`should render with maximum information 1`] = `
       as="i"
       key="primaryAction"
       name="meh"
+      onClick={[Function]}
       title="select"
     />
     <Icon
       as="i"
       key="secondaryAction"
       name="delete"
+      onClick={[Function]}
       title="Delete me"
     />
   </div>
@@ -745,28 +724,6 @@ exports[`should render with minimum information 1`] = `
     </div>
     <div
       className="grid-row"
-      key="partialPartNameRow"
-    >
-      <div
-        className="grid-item--borderless field-label align_right"
-      >
-        Run Search
-      </div>
-      <div
-        className="grid-item--borderless field-label "
-      >
-        <Icon
-          as="i"
-          key="runSearchIcon"
-          name="search"
-          onClick={[Function]}
-          title="find parts matching selection"
-        />
-        /&gt;
-      </div>
-    </div>
-    <div
-      className="grid-row"
       key="selectStandard"
     >
       <div
@@ -821,7 +778,6 @@ exports[`should render with minimum information 1`] = `
           onClick={[Function]}
           title="find parts matching selection"
         />
-        /&gt;
       </div>
     </div>
   </div>
