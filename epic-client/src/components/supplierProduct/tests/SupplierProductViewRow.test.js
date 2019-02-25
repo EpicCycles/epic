@@ -20,7 +20,7 @@ test('should display when passed supplier product', () => {
         rrp: 24.99,
         trade_price: 11,
         club_price: 22.99,
-        check_date: new Date(),
+        check_date: new Date("2015-03-25T12:00:00-06:30"),
     };
     const component = shallow(<SupplierProductViewRow supplierProduct={supplierProduct} suppliers={suppliers}/>);
     expect(component).toMatchSnapshot();

@@ -6,6 +6,7 @@ import SupplierProductViewRow from "../supplierProduct/SupplierProductViewRow";
 import PartDisplayGridHeaders from "./PartDisplayGridHeaders";
 import {fixedDetailsClassname} from "../app/model/helpers/display";
 import {Icon} from "semantic-ui-react";
+import {getComponentKey} from "../app/model/helpers/model";
 
 const PartDisplayGrid = (props) => {
     const { parts, supplierProducts, suppliers, showSupplierProducts, lockFirstColumn, brands, sections, editPart, deletePart } = props;
@@ -45,7 +46,7 @@ const PartDisplayGrid = (props) => {
                             {showSupplierProducts && <SupplierProductViewRow
                                 supplierProduct={firstSupplierProduct}
                                 suppliers={suppliers}
-                                key={`supplierProduct${firstSupplierProduct.id}`}
+                                key={`supplierProduct${getComponentKey(firstSupplierProduct)}`}
                             />}
                             {includeActions && <div
                                 className={`grid-item`}

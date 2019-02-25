@@ -300,7 +300,7 @@ exports[`should display when passed supplier product 1`] = `
       }
       model={
         Object {
-          "check_date": 2019-02-10T14:33:45.294Z,
+          "check_date": 2015-03-25T18:30:00.000Z,
           "club_price": 22.99,
           "fitted_price": 23.99,
           "id": 121,
@@ -345,7 +345,7 @@ exports[`should display when passed supplier product 1`] = `
       }
       model={
         Object {
-          "check_date": 2019-02-10T14:33:45.294Z,
+          "check_date": 2015-03-25T18:30:00.000Z,
           "club_price": 22.99,
           "fitted_price": 23.99,
           "id": 121,
@@ -389,7 +389,7 @@ exports[`should display when passed supplier product 1`] = `
       }
       model={
         Object {
-          "check_date": 2019-02-10T14:33:45.294Z,
+          "check_date": 2015-03-25T18:30:00.000Z,
           "club_price": 22.99,
           "fitted_price": 23.99,
           "id": 121,
@@ -431,7 +431,7 @@ exports[`should display when passed supplier product 1`] = `
       }
       model={
         Object {
-          "check_date": 2019-02-10T14:33:45.294Z,
+          "check_date": 2015-03-25T18:30:00.000Z,
           "club_price": 22.99,
           "fitted_price": 23.99,
           "id": 121,
@@ -473,7 +473,7 @@ exports[`should display when passed supplier product 1`] = `
       }
       model={
         Object {
-          "check_date": 2019-02-10T14:33:45.294Z,
+          "check_date": 2015-03-25T18:30:00.000Z,
           "club_price": 22.99,
           "fitted_price": 23.99,
           "id": 121,
@@ -522,7 +522,7 @@ exports[`should display when passed supplier product 1`] = `
       }
       model={
         Object {
-          "check_date": 2019-02-10T14:33:45.294Z,
+          "check_date": 2015-03-25T18:30:00.000Z,
           "club_price": 22.99,
           "fitted_price": 23.99,
           "id": 121,
@@ -564,7 +564,7 @@ exports[`should display when passed supplier product 1`] = `
       }
       model={
         Object {
-          "check_date": 2019-02-10T14:33:45.294Z,
+          "check_date": 2015-03-25T18:30:00.000Z,
           "club_price": 22.99,
           "fitted_price": 23.99,
           "id": 121,
@@ -605,7 +605,7 @@ exports[`should display when passed supplier product 1`] = `
       }
       model={
         Object {
-          "check_date": 2019-02-10T14:33:45.294Z,
+          "check_date": 2015-03-25T18:30:00.000Z,
           "club_price": 22.99,
           "fitted_price": 23.99,
           "id": 121,
@@ -646,7 +646,7 @@ exports[`should display when passed supplier product 1`] = `
       }
       model={
         Object {
-          "check_date": 2019-02-10T14:33:45.294Z,
+          "check_date": 2015-03-25T18:30:00.000Z,
           "club_price": 22.99,
           "fitted_price": 23.99,
           "id": 121,

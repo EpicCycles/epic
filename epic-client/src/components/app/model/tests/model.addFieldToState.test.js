@@ -19,6 +19,8 @@ test("field in field list updated in state", () => {
     initialState[BRAND_FIELD.fieldName] = "12";
     const finalState = Object.assign({}, initialState);
     finalState[BRAND_FIELD.fieldName] = "99";
+    finalState.changed = true;
+    finalState.error_detail = {};
     expect(addFieldToState(initialState, fieldListForTest, BRAND_FIELD.fieldName, '99')).toEqual(finalState);
 });
 test("field in field list added to state", () => {
@@ -29,6 +31,8 @@ test("field in field list added to state", () => {
     const finalState = Object.assign({}, initialState);
     finalState[BRAND_FIELD.fieldName] = "99";
     const fieldName = BRAND_FIELD.fieldName + '_find_me';
+    finalState.changed = true;
+    finalState.error_detail = {};
     expect(addFieldToState(initialState, fieldListForTest, fieldName, '99')).toEqual(finalState);
 });
 test("field in field list changed in returned state", () => {
@@ -40,5 +44,7 @@ test("field in field list changed in returned state", () => {
     const finalState = Object.assign({}, initialState);
     finalState[BRAND_FIELD.fieldName] = "99";
     const fieldName = BRAND_FIELD.fieldName + '_find_me';
+    finalState.changed = true;
+    finalState.error_detail = {};
     expect(addFieldToState(initialState, fieldListForTest, fieldName, '99')).toEqual(finalState);
 });
