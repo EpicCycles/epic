@@ -49,7 +49,7 @@ import {
     BIKE_PART_DELETE,
     FRAME_ARCHIVE,
     FRAME_SAVE,
-    FRAME_UPLOAD,
+    FRAME_UPLOAD, BIKE_PART_SAVE, BIKE_SAVE,
 } from "../actions/bike";
 import {PART_UPLOAD_ERROR} from "../actions/part";
 
@@ -63,6 +63,8 @@ const application = (state = initialState, action) => {
         case FRAMEWORK_SAVE:
         case BRANDS_SAVE_OK:
         case `${FRAME_SAVE}_OK`:
+        case `${BIKE_PART_SAVE}_OK`:
+        case `${BIKE_SAVE}_OK`:
             return {
                 ...state,
                 message: "Changes saved",
@@ -161,6 +163,8 @@ const application = (state = initialState, action) => {
         case `${BIKE_ADD_PART}_ERROR`:
         case `${BIKE_DELETE}_ERROR`:
         case `${BIKE_PART_DELETE}_ERROR`:
+        case `${BIKE_PART_SAVE}_ERROR`:
+        case `${BIKE_SAVE}_ERROR`:
         case PART_UPLOAD_ERROR:
             return {
                 ...state,

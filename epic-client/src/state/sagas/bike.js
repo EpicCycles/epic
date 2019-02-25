@@ -3,10 +3,18 @@ import * as selectors from "../selectors/user";
 import bike from "./apis/bike";
 import history from "../../history";
 import {
+    addBikePartError,
+    addBikePartOK,
     archiveFramesError,
     archiveFramesSuccess,
+    BIKE_ADD_PART,
     BIKE_DELETE,
+    BIKE_PART_DELETE,
+    BIKE_PART_SAVE,
+    BIKE_SAVE,
     bikeDeleted,
+    deleteBikePartError,
+    deleteBikePartOK,
     deleteBikesError,
     deleteBikesSuccess,
     deleteFramesError,
@@ -16,30 +24,28 @@ import {
     FRAME_LIST,
     FRAME_SAVE,
     FRAME_UPLOAD,
+    GET_BIKE,
+    GET_BIKE_PARTS,
+    getBikeError,
+    getBikeOK,
+    getBikePartsError,
+    getBikePartsOK,
+    getFrameList,
     getFrameListError,
     getFrameListOK,
+    saveBikeError,
+    saveBikeOK,
+    saveBikePartError,
+    saveBikePartOK,
     saveFrameError,
     saveFrameSuccess,
     uploadFrameError,
     uploadFrameSuccess,
-    saveBikeError,
-    saveBikeOK,
-    BIKE_SAVE,
-    saveBikePartOK,
-    saveBikePartError,
-    BIKE_PART_SAVE,
-    deleteBikePartOK,
-    BIKE_PART_DELETE,
-    addBikePartOK,
-    addBikePartError,
-    BIKE_ADD_PART,
-    deleteBikePartError,
-    getFrameList, GET_BIKE_PARTS, getBikePartsOK, getBikePartsError, getBikeOK, getBikeError, GET_BIKE,
 } from "../actions/bike";
 import {logError} from "../../helpers/api_error";
 import {addMessage} from "../actions/application";
 import {INFO_MESSAGE, UPLOAD_PARTIAL_SUCCESS, UPLOAD_SUCCESS, WARNING_MESSAGE} from "../../helpers/messages";
-import {updateObject} from "../../helpers/utils";
+import {doWeHaveObjects, updateObject} from "../../helpers/utils";
 
 
 export function* getBike(action) {
@@ -122,6 +128,7 @@ export function* addBikePart(action) {
 export function* watchForAddBikePart() {
     yield takeLatest(`${BIKE_ADD_PART}_REQUESTED`, addBikePart);
 }
+
 export function* saveBikePart(action) {
     try {
         const token = yield select(selectors.token);
@@ -250,6 +257,7 @@ export function* deleteFramesAndGetList(action) {
 export function* watchForDeleteFrames() {
     yield takeLatest(`${FRAME_DELETE}_REQUESTED`, deleteFramesAndGetList);
 }
+
 export function* archiveFrames(frameIdsToArchive, token) {
     try {
         for (let i = 0; i < frameIdsToArchive.length; i++) {
@@ -330,7 +338,11 @@ export function* uploadFrame(action) {
             } else {
                 yield put(addMessage(UPLOAD_PARTIAL_SUCCESS, WARNING_MESSAGE));
             }
-            const searchCriteria = {brand:action.payload.frame.brand, frameName: action.payload.frame.frame_name, archived: false};
+            const searchCriteria = {
+                brand: action.payload.frame.brand,
+                frameName: action.payload.frame.frame_name,
+                archived: false
+            };
             yield put(uploadFrameSuccess());
             yield put(getFrameList(searchCriteria));
             yield call(history.push, "/bike-review");
@@ -353,6 +365,7 @@ export function* getFrames(action) {
         if (token) {
             const completePayload = updateObject(action.payload, { token });
             const response = yield call(bike.getFrames, completePayload);
+            if (response.data && !doWeHaveObjects(response.data.frames)) yield put(addMessage('No matches found', 'I'));
             yield put(getFrameListOK(response.data));
         } else {
             yield call(history.push, "/login");

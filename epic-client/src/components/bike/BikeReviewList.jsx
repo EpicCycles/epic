@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react'
-import {changeList, removeKey, updateObject} from "../../helpers/utils";
+import {changeList, doWeHaveObjects, removeKey, updateObject} from "../../helpers/utils";
 import {Button, Dimmer, Icon, Loader} from "semantic-ui-react";
 import BikeReviewListSelection from "./BikeReviewListSelection";
 import {Redirect} from "react-router-dom";
@@ -164,9 +164,10 @@ class BikeReviewList extends React.Component {
         const archivedFrames = frames ? frames.filter(frame => frame.archived) : [];
         const nonArchivedFrames = frames ? frames.filter(frame => (!frame.archived)) : [];
         let framesWidth = archived ? (window.innerWidth * 0.75) : window.innerWidth;
+        const haveFrames = doWeHaveObjects(frames);
         return <Fragment key="bikeUpload">
             {reviewFirstBike && <Redirect to="/bike-review" push/>}
-            {!frames ? <BikeReviewListSelection
+            {!haveFrames ? <BikeReviewListSelection
                     brands={brands}
                     onChange={this.handleInputChange}
                     brandSelected={brand}
