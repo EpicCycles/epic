@@ -2,7 +2,17 @@
 import {getBrandName} from "../../brand/helpers/brand";
 import {getPartTypeName} from "../../framework/helpers/framework";
 import {partFields, partFieldsNoPartType, STOCKED_FIELD} from "../../app/model/helpers/fields";
+import {isModelValid} from "../../app/model/helpers/model";
+import {isItAnObject} from "../../../helpers/utils";
 
+export const partReadyToUse = (part, persistedPart) => {
+    if (!isModelValid(part)) return false;
+    if (part.changed) return true;
+    if (isItAnObject(part) && isItAnObject(persistedPart)) return Object.keys(persistedPart).some(key => {
+        return (persistedPart[key] !== part[key]);
+    });
+    return isItAnObject(part);
+}
 export const getModelFields = (part, partTypeEditable) => {
     let editFields = partFields;
     if (part && ! partTypeEditable) editFields = partFieldsNoPartType;

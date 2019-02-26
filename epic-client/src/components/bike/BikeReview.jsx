@@ -8,10 +8,10 @@ import * as PropTypes from "prop-types";
 import {findPartsForBike} from "./helpers/bike";
 import PartDisplayGrid from "../part/PartDisplayGrid";
 import PartFinder from "../part/PartFinder";
+import {getComponentKey} from "../app/model/helpers/model";
 
 const initialState = {
     showPartFinder: false,
-    partEditPart: {},
 };
 
 class BikeReview extends React.Component {
@@ -25,12 +25,12 @@ class BikeReview extends React.Component {
         this.checkPropsData();
         if (prevProps.bikeId !== this.props.bikeId) {
             this.setState(initialState);
-        } else if (this.state.partEditPart && ! this.state.showPartFinder) {
-            if (prevProps.part !== this.props.parts) {
-                this.closePartFinder();
-            } else {
-                this.showPartFinder(this.state.partEditPart);
-            }
+        // } else if (this.state.partEditPart && ! this.state.showPartFinder) {
+        //     if (prevProps.parts !== this.props.parts) {
+        //         this.closePartFinder();
+        //     } else {
+        //         this.showPartFinder(this.state.partEditPart);
+        //     }
         }
     };
 
@@ -114,6 +114,7 @@ class BikeReview extends React.Component {
                     partActionPrimary={this.saveOrAddPart}
                     partActionPrimaryIcon={'add'}
                     partActionPrimaryTitle={'Update bike with part'}
+                    key={`partFinder${getComponentKey(partEditPart)}`}
                 />}
                 <div>
                     <BikeEdit

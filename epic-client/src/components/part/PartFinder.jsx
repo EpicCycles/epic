@@ -9,7 +9,7 @@ import Icon from "semantic-ui-react/dist/commonjs/elements/Icon/Icon";
 import PartSelect from "./PartSelect";
 import {partFields} from "../app/model/helpers/fields";
 import {addFieldToState, getComponentKey} from "../app/model/helpers/model";
-import {getModelFields} from "./helpers/part";
+import {getModelFields, partReadyToUse} from "./helpers/part";
 import EditModelPage from "../app/model/EditModelPage";
 
 class PartFinder extends React.Component {
@@ -262,17 +262,19 @@ class PartFinder extends React.Component {
                       title="Reset Part details"
                 />
                 }
+                {partReadyToUse(part) &&
                 <Icon
                     key="primaryAction"
                     name={partActionPrimaryIcon}
-                    onClick={() => this.checkAndContinue(partActionPrimary)}
+                    onClick={() => partActionPrimary(part)}
                     title={partActionPrimaryTitle}
                 />
+                }
                 {partActionSecondary &&
                 <Icon
                     key="secondaryAction"
                     name={partActionSecondaryIcon}
-                    onClick={() => this.checkAndContinue(partActionSecondary)}
+                    onClick={() => partActionSecondary(part)}
                     title={partActionSecondaryTitle}
                 />
                 }
