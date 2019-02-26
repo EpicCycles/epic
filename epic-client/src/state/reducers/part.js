@@ -64,6 +64,7 @@ const part = (state = initialState, action) => {
         case  `${GET_BIKE_PARTS}_OK`:
             return {
                 ...state,
+                isLoading: false,
                 parts: addItemsToArray(state.parts, action.payload.parts),
                 supplierProducts: addItemsToArray(state.supplierProducts, action.payload.supplierProducts)
             };

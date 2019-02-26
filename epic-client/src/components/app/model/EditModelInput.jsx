@@ -11,10 +11,11 @@ import CountrySelect from "../../address/CountrySelect";
 // TODO add types for SELECT_ONE and FITTING
 class EditModelInput extends Component {
     validateOnChange = (fieldName, fieldValue) => {
-        if (fieldValue) {
-            this.props.onChange(this.props.field.fieldName, fieldValue, this.props.componentKey);
+        const { field, componentKey, onChange }  = this.props;
+        if (fieldValue || (field.type === CHECKBOX)) {
+            onChange(field.fieldName, fieldValue, componentKey);
         } else {
-            this.props.onChange(this.props.field.fieldName, "", this.props.componentKey);
+            onChange(field.fieldName, "", componentKey);
         }
     };
     resetField = fieldName => {
@@ -67,7 +68,7 @@ class EditModelInput extends Component {
                 />;
                 break;
             case CHECKBOX:
-                editComponent = <div className="ui toggle checkbox">
+                editComponent = <div>
                     <input type="checkbox"
                            name={fieldName}
                            onChange={() => this.validateOnChange(fieldName, !fieldValue)}

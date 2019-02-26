@@ -6,18 +6,13 @@ export const addItemsToArray = (oldArray = [], listOfItems = []) => {
   listOfItems.forEach(item => {
       let itemKey = getComponentKey(item);
       let existingIndex = findIndexOfObjectWithKey(newArray, itemKey);
-      if (existingIndex < 0) {
-          newArray.push(item);
-      } else {
-          newArray[existingIndex] = item;
-      }
+      if (existingIndex < 0) newArray.push(item); else newArray[existingIndex] = item;
   });
   return newArray;
 };
 export const flattenArrayOfArrays = (startArray) => {
     let flatArray = [];
     startArray.forEach(element => {
-        console.log(element)
         if (Array.isArray(element)) flatArray = flatArray.concat(element); else flatArray.push(element);
     });
     return flatArray;
