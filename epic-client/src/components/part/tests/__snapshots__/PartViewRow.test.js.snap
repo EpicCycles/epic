@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should display when multiple supplier products exist 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     className="grid-item "
     key="partRowpartType1"
@@ -1782,11 +1782,11 @@ exports[`should display when multiple supplier products exist 1`] = `
       }
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`should display when no part and no supplier products exist 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     className="grid-item "
     key="partRowpartTypenew"
@@ -3522,11 +3522,11 @@ exports[`should display when no part and no supplier products exist 1`] = `
       }
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`should display when no supplier products exist 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     className="grid-item "
     key="partRowpartType1"
@@ -5307,11 +5307,11 @@ exports[`should display when no supplier products exist 1`] = `
       }
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`should display when one supplier products exist 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     className="grid-item "
     key="partRowpartType1"
@@ -7092,5 +7092,5 @@ exports[`should display when one supplier products exist 1`] = `
       }
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component displays correctly with brands 1`] = `
-<React.Fragment>
+<Fragment>
   <Prompt
     message="You have made changes to brands. Cancel and Save if you do not want to lose them."
     when={true}
@@ -127,11 +127,11 @@ exports[`component displays correctly with brands 1`] = `
       </div>
     </div>
   </section>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`component displays correctly with no brands and fetch called 1`] = `
-<React.Fragment>
+<Fragment>
   <Prompt
     message="You have made changes to brands. Cancel and Save if you do not want to lose them."
     when={false}
@@ -173,5 +173,5 @@ exports[`component displays correctly with no brands and fetch called 1`] = `
       </div>
     </div>
   </section>
-</React.Fragment>
+</Fragment>
 `;

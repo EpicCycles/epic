@@ -12,3 +12,7 @@ export const assertComponentHasExpectedProps = (component, expectedProps) =>
             `${propName} should equal ${propValue}`
         ).to.eql(propValue);
     });
+
+export const findDataTest = (component, dataTest) => {
+    return component.find(`[data-test="${dataTest}"]`)
+};

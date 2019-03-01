@@ -4,25 +4,20 @@ import CustomerDetailEdit from "./CustomerDetailEdit";
 import NoteCreate from "../note/NoteCreate";
 import CustomerPhoneEdit from "./CustomerPhoneEdit";
 import CustomerAddressEdit from "./CustomerAddressEdit";
+import {updateObject} from "../../helpers/utils";
+import {NEW_ELEMENT_ID} from "../../helpers/constants";
 
 class CustomerEdit extends React.Component {
-    // add a key to state for each block to force reload on change
-    state = {
-        note_key: 0,
-        customer_key: 1
-    };
 
     saveOrCreateCustomerNote = (note_text, customer_visible) => {
         if (this.props.note && this.props.note.id) {
-            let noteToSave = this.props.note;
-            noteToSave.note_text = note_text;
-            noteToSave.customer_visible = customer_visible;
+            let noteToSave = updateObject(this.props.note, {note_text, customer_visible});
             this.props.saveNote(noteToSave);
         } else {
             const newNote = {
                 customer: this.props.customer.id,
-                note_text: note_text,
-                customer_visible: customer_visible
+                note_text,
+                customer_visible,
             };
             this.props.createNote(newNote);
         }
@@ -44,8 +39,8 @@ class CustomerEdit extends React.Component {
             deleteCustomerPhone, saveCustomerPhone,
             saveCustomerAddress, deleteCustomerAddress
         } = this.props;
-        const note_key = (note && note.id) ? note.id : 0;
-        const customer_key = (customer && customer.id) ? customer.id : 0;
+        const note_key = (note && note.id) ? note.id : NEW_ELEMENT_ID;
+        const customer_key = (customer && customer.id) ? customer.id : NEW_ELEMENT_ID;
         const newAddressKey = (customer && customer.newAddress && customer.newAddress.dummyKey) ? customer.newAddress.dummyKey : "new";
         const newPhoneKey = (customer && customer.newPhone && customer.newPhone.dummyKey) ? customer.newPhone.dummyKey : "new";
         return <div id="customer-edit">

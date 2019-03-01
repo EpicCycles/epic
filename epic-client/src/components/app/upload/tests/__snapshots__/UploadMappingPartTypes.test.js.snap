@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it renders 1`] = `
-<React.Fragment
+<Fragment
   key="bikeUploadMapping"
 >
   <section
@@ -39,157 +39,155 @@ exports[`it renders 1`] = `
           Upload field
         </div>
       </div>
-      <React.Fragment>
-        <UploadPartTypeMapping
-          allowDrop={[Function]}
-          assignToPartType={[Function]}
-          key="partList11"
-          partType={
-            Object {
-              "id": 11,
-              "includeInSection": 1,
-              "name": "id 11",
-            }
+      <UploadPartTypeMapping
+        allowDrop={[Function]}
+        assignToPartType={[Function]}
+        key="partList11"
+        partType={
+          Object {
+            "id": 11,
+            "includeInSection": 1,
+            "name": "id 11",
           }
-          partTypeIndex={0}
-          rowMappings={Array []}
-          section={
-            Object {
-              "id": 1,
-              "partTypes": Array [
-                Object {
-                  "id": 11,
-                  "includeInSection": 1,
-                  "name": "id 11",
-                },
-                Object {
-                  "id": 21,
-                  "includeInSection": 1,
-                  "name": "id 21",
-                },
-              ],
-            }
-          }
-          sectionIndex={0}
-          setUpPartTypeModalForPart={[Function]}
-          undoMapping={[Function]}
-        />
-        <UploadPartTypeMapping
-          allowDrop={[Function]}
-          assignToPartType={[Function]}
-          key="partList21"
-          partType={
-            Object {
-              "id": 21,
-              "includeInSection": 1,
-              "name": "id 21",
-            }
-          }
-          partTypeIndex={1}
-          rowMappings={Array []}
-          section={
-            Object {
-              "id": 1,
-              "partTypes": Array [
-                Object {
-                  "id": 11,
-                  "includeInSection": 1,
-                  "name": "id 11",
-                },
-                Object {
-                  "id": 21,
-                  "includeInSection": 1,
-                  "name": "id 21",
-                },
-              ],
-            }
-          }
-          sectionIndex={0}
-          setUpPartTypeModalForPart={[Function]}
-          undoMapping={[Function]}
-        />
-        <UploadPartTypeMapping
-          allowDrop={[Function]}
-          assignToPartType={[Function]}
-          key="partList2"
-          partType={
-            Object {
-              "id": 2,
-              "includeInSection": 2,
-              "name": "find me",
-            }
-          }
-          partTypeIndex={0}
-          rowMappings={
-            Array [
+        }
+        partTypeIndex={0}
+        rowMappings={Array []}
+        section={
+          Object {
+            "id": 1,
+            "partTypes": Array [
               Object {
-                "partType": 2,
-                "partTypeName": "find me",
-                "rowIndex": 1,
+                "id": 11,
+                "includeInSection": 1,
+                "name": "id 11",
               },
               Object {
-                "partType": 2,
-                "partTypeName": "find me",
-                "rowIndex": 11,
+                "id": 21,
+                "includeInSection": 1,
+                "name": "id 21",
               },
-            ]
+            ],
           }
-          section={
+        }
+        sectionIndex={0}
+        setUpPartTypeModalForPart={[Function]}
+        undoMapping={[Function]}
+      />
+      <UploadPartTypeMapping
+        allowDrop={[Function]}
+        assignToPartType={[Function]}
+        key="partList21"
+        partType={
+          Object {
+            "id": 21,
+            "includeInSection": 1,
+            "name": "id 21",
+          }
+        }
+        partTypeIndex={1}
+        rowMappings={Array []}
+        section={
+          Object {
+            "id": 1,
+            "partTypes": Array [
+              Object {
+                "id": 11,
+                "includeInSection": 1,
+                "name": "id 11",
+              },
+              Object {
+                "id": 21,
+                "includeInSection": 1,
+                "name": "id 21",
+              },
+            ],
+          }
+        }
+        sectionIndex={0}
+        setUpPartTypeModalForPart={[Function]}
+        undoMapping={[Function]}
+      />
+      <UploadPartTypeMapping
+        allowDrop={[Function]}
+        assignToPartType={[Function]}
+        key="partList2"
+        partType={
+          Object {
+            "id": 2,
+            "includeInSection": 2,
+            "name": "find me",
+          }
+        }
+        partTypeIndex={0}
+        rowMappings={
+          Array [
             Object {
-              "id": 2,
-              "partTypes": Array [
-                Object {
-                  "id": 2,
-                  "includeInSection": 2,
-                  "name": "find me",
-                },
-                Object {
-                  "id": 22,
-                  "includeInSection": 2,
-                  "name": "id 22",
-                },
-              ],
-            }
-          }
-          sectionIndex={1}
-          setUpPartTypeModalForPart={[Function]}
-          undoMapping={[Function]}
-        />
-        <UploadPartTypeMapping
-          allowDrop={[Function]}
-          assignToPartType={[Function]}
-          key="partList22"
-          partType={
+              "partType": 2,
+              "partTypeName": "find me",
+              "rowIndex": 1,
+            },
             Object {
-              "id": 22,
-              "includeInSection": 2,
-              "name": "id 22",
-            }
+              "partType": 2,
+              "partTypeName": "find me",
+              "rowIndex": 11,
+            },
+          ]
+        }
+        section={
+          Object {
+            "id": 2,
+            "partTypes": Array [
+              Object {
+                "id": 2,
+                "includeInSection": 2,
+                "name": "find me",
+              },
+              Object {
+                "id": 22,
+                "includeInSection": 2,
+                "name": "id 22",
+              },
+            ],
           }
-          partTypeIndex={1}
-          rowMappings={Array []}
-          section={
-            Object {
-              "id": 2,
-              "partTypes": Array [
-                Object {
-                  "id": 2,
-                  "includeInSection": 2,
-                  "name": "find me",
-                },
-                Object {
-                  "id": 22,
-                  "includeInSection": 2,
-                  "name": "id 22",
-                },
-              ],
-            }
+        }
+        sectionIndex={1}
+        setUpPartTypeModalForPart={[Function]}
+        undoMapping={[Function]}
+      />
+      <UploadPartTypeMapping
+        allowDrop={[Function]}
+        assignToPartType={[Function]}
+        key="partList22"
+        partType={
+          Object {
+            "id": 22,
+            "includeInSection": 2,
+            "name": "id 22",
           }
-          sectionIndex={1}
-          setUpPartTypeModalForPart={[Function]}
-          undoMapping={[Function]}
-        />
-      </React.Fragment>
+        }
+        partTypeIndex={1}
+        rowMappings={Array []}
+        section={
+          Object {
+            "id": 2,
+            "partTypes": Array [
+              Object {
+                "id": 2,
+                "includeInSection": 2,
+                "name": "find me",
+              },
+              Object {
+                "id": 22,
+                "includeInSection": 2,
+                "name": "id 22",
+              },
+            ],
+          }
+        }
+        sectionIndex={1}
+        setUpPartTypeModalForPart={[Function]}
+        undoMapping={[Function]}
+      />
     </div>
     <div>
       <div
@@ -283,5 +281,5 @@ exports[`it renders 1`] = `
       Continue ...
     </Button>
   </div>
-</React.Fragment>
+</Fragment>
 `;

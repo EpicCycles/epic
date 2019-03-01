@@ -11,6 +11,7 @@ import {partFields} from "../app/model/helpers/fields";
 import {addFieldToState, getComponentKey} from "../app/model/helpers/model";
 import {getModelFields, partReadyToUse} from "./helpers/part";
 import EditModelPage from "../app/model/EditModelPage";
+import PartSearch from "./PartSearch";
 
 class PartFinder extends React.Component {
     componentWillMount() {
@@ -102,6 +103,17 @@ class PartFinder extends React.Component {
                 />
             </div>}
             <div key="partFinderFields" className={`grid`}>
+                <PartSearch
+                    brands={brands}
+                    sections={sections}
+                    onChange={this.updateStateWithSelectionChanges}
+                    findParts={this.findParts}
+                    partTypeSelected={partTypeSelected}
+                    brandSelected={brandSelected}
+                    searchPartName={searchPartName}
+                    searchStandard={searchStandard}
+                    searchStocked={searchStocked}
+                />
                 <div
                     className="grid-row"
                     key={`findPartTypeRow`}

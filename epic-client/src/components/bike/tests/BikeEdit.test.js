@@ -49,7 +49,7 @@ test('should show the bike name and bike edit page when rendered', () => {
         brands,
         frames,
         saveBike:jest.fn(),
-        deleteBike:jest.fn(),
+        deleteBikes:jest.fn(),
     };
     const component = shallow(<BikeEdit
         {...props}

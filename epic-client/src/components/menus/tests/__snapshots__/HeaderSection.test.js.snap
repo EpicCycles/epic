@@ -5,10 +5,72 @@ Array [
   <li
     className="dropdown"
     key="navSectionundefined"
-  />,
+  >
+    <p
+      className="dropbtn"
+    >
+      Customer
+    </p>
+    <div
+      className="dropdown-content"
+    >
+      <div
+        className="dropdown-section"
+      >
+        Customer
+      </div>
+      <Link
+        className="dropbtn"
+        key="link1"
+        replace={false}
+        to="/customer-search"
+      >
+        Find Customer
+      </Link>
+      <Link
+        className="dropbtn"
+        key="link2"
+        replace={false}
+        to="/customer"
+      >
+        New Customer
+      </Link>
+    </div>
+  </li>,
   <li
     className="dropdown"
     key="navSectionundefined"
-  />,
+  >
+    <p
+      className="dropbtn"
+    >
+      Core Data
+    </p>
+    <div
+      className="dropdown-content"
+    >
+      <div
+        className="dropdown-section"
+      >
+        Core Data
+      </div>
+      <Link
+        className="dropbtn"
+        key="link3"
+        replace={false}
+        to="/framework"
+      >
+        Quote Sections
+      </Link>
+      <Link
+        className="dropbtn"
+        key="link4"
+        replace={false}
+        to="/brands"
+      >
+        Brands
+      </Link>
+    </div>
+  </li>,
 ]
 `;

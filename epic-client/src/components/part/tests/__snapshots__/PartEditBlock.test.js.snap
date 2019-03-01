@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should display all icons when a part is changed 1`] = `
-<React.Fragment>
+<Fragment>
   <h2>
     Selected
      Part
@@ -218,11 +218,11 @@ exports[`should display all icons when a part is changed 1`] = `
       title="Delete Part"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`should display delete and reset when a part is changed but has errors 1`] = `
-<React.Fragment>
+<Fragment>
   <h2>
     Selected
      Part
@@ -428,11 +428,11 @@ exports[`should display delete and reset when a part is changed but has errors 1
       title="Delete Part"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`should display just delete when a part is unchanged 1`] = `
-<React.Fragment>
+<Fragment>
   <h2>
     Selected
      Part
@@ -624,5 +624,5 @@ exports[`should display just delete when a part is unchanged 1`] = `
       title="Delete Part"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;

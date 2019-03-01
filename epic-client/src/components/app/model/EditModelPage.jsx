@@ -28,9 +28,12 @@ const EditModelPage = (props) => {
     </div>
 };
 
+EditModelPage.defaultProps = {
+    model: {},
+};
 
 EditModelPage.propTypes = {
-    model: PropTypes.object.isRequired,
+    model: PropTypes.object,
     modelFields: PropTypes.array.isRequired,
     persistedModel: PropTypes.object,
     className: PropTypes.string,

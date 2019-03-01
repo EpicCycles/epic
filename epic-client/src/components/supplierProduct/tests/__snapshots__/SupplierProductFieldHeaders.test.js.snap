@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should display headers 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     className="grid-item--header  "
     key="partHeadsupplier"
@@ -60,11 +60,11 @@ exports[`should display headers 1`] = `
     className=""
     lockedColumn={false}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`should display headers with locking, error and an extra class 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     className="grid-item--header pink grid-header--fixed-left"
     key="partHeadsupplier"
@@ -123,5 +123,5 @@ exports[`should display headers with locking, error and an extra class 1`] = `
     className=""
     lockedColumn={false}
   />
-</React.Fragment>
+</Fragment>
 `;

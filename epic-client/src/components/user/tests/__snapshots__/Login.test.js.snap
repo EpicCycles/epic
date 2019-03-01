@@ -1,81 +1,79 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`displays login fields when no user in session 1`] = `
-<React.Fragment>
-  <React.Fragment>
-    <h1>
-      Login
-    </h1>
-    <div
-      className="grid"
-      id="loginUser"
-      style={
-        Object {
-          "height": "400px",
-        }
+<Fragment>
+  <h1>
+    Login
+  </h1>
+  <div
+    className="grid"
+    id="loginUser"
+    style={
+      Object {
+        "height": "400px",
       }
+    }
+  >
+    <div
+      className="grid-row"
     >
       <div
-        className="grid-row"
+        className="grid-item--borderless field-label align_right"
       >
-        <div
-          className="grid-item--borderless field-label align_right"
-        >
-          Username
-        </div>
-        <div
-          className="grid-item--borderless"
-        >
-          <input
-            id="username"
-            onChange={[Function]}
-            type="text"
-          />
-        </div>
+        Username
       </div>
       <div
-        className="grid-row"
+        className="grid-item--borderless"
       >
-        <div
-          className="grid-item--borderless field-label align_right"
-        >
-          Password
-        </div>
-        <div
-          className="grid-item--borderless"
-        >
-          <input
-            id="password"
-            onChange={[Function]}
-            type="password"
-          />
-        </div>
-      </div>
-      <div
-        className="grid-row"
-      >
-        <div
-          className="grid-item--borderless field-label align_right"
-        >
-          sign in
-        </div>
-        <div
-          className="grid-item--borderless"
-        >
-          <Icon
-            as="i"
-            name="sign in"
-            onClick={[Function]}
-          />
-        </div>
+        <input
+          id="username"
+          onChange={[Function]}
+          type="text"
+        />
       </div>
     </div>
-  </React.Fragment>
-</React.Fragment>
+    <div
+      className="grid-row"
+    >
+      <div
+        className="grid-item--borderless field-label align_right"
+      >
+        Password
+      </div>
+      <div
+        className="grid-item--borderless"
+      >
+        <input
+          id="password"
+          onChange={[Function]}
+          type="password"
+        />
+      </div>
+    </div>
+    <div
+      className="grid-row"
+    >
+      <div
+        className="grid-item--borderless field-label align_right"
+      >
+        sign in
+      </div>
+      <div
+        className="grid-item--borderless"
+      >
+        <Icon
+          as="i"
+          name="sign in"
+          onClick={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+</Fragment>
 `;
 
 exports[`displays login fields when user in session 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     className="row"
   >
@@ -87,5 +85,5 @@ exports[`displays login fields when user in session 1`] = `
       onClick={[Function]}
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;

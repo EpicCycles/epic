@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it displays synonyms 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextInput
     className=""
     dataType="text"
@@ -53,5 +53,5 @@ exports[`it displays synonyms 1`] = `
       title="confirm new Synonym"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;

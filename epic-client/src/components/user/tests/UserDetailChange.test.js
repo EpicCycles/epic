@@ -2,7 +2,7 @@ import React from "react";
 import UserDetailChange from "../UserDetailChange";
 
 test("displays correctly", () => {
-    const component = shallow(<UserDetailChange />)
+    const component = shallow(<UserDetailChange changeUserData={jest.fn()} />)
     expect(component).toMatchSnapshot();
 });
 test("displays correctly with a user", () => {
@@ -13,6 +13,7 @@ test("displays correctly with a user", () => {
         email: 'fred@fred.jones.org'
     }}
     const component = shallow(<UserDetailChange
+        changeUserData={jest.fn()}
     user={user}/>);
     expect(component).toMatchSnapshot();
 });

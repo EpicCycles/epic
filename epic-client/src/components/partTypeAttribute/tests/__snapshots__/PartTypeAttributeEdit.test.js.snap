@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PartTypeAttributeEdit tests renders the component correctly with a new attribute 1`] = `
-<React.Fragment>
+<Fragment>
   <td>
     <FormTextInput
       className=""
@@ -77,11 +77,11 @@ exports[`PartTypeAttributeEdit tests renders the component correctly with a new 
     />
   </td>
   <td />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`PartTypeAttributeEdit tests renders the component correctly with an attribute 1`] = `
-<React.Fragment>
+<Fragment>
   <td>
     <FormTextInput
       className=""
@@ -157,5 +157,5 @@ exports[`PartTypeAttributeEdit tests renders the component correctly with an att
     />
   </td>
   <td />
-</React.Fragment>
+</Fragment>
 `;

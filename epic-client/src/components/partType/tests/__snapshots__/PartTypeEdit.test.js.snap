@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`displays the PartTypeEdit component for a new part type with no attributes 1`] = `
-<React.Fragment>
+<Fragment>
   <td>
     <Icon
       as="i"
@@ -25,11 +25,11 @@ exports[`displays the PartTypeEdit component for a new part type with no attribu
       }
     />
   </td>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`displays the PartTypeEdit component for an existing part type with attributes, detail hidden 1`] = `
-<React.Fragment>
+<Fragment>
   <td>
     <Icon
       as="i"
@@ -53,11 +53,11 @@ exports[`displays the PartTypeEdit component for an existing part type with attr
       }
     />
   </td>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`displays the PartTypeEdit component for an existing part type with attributes, detail shown 1`] = `
-<React.Fragment>
+<Fragment>
   <td>
     <Icon
       as="i"
@@ -85,5 +85,5 @@ exports[`displays the PartTypeEdit component for an existing part type with attr
       }
     />
   </td>
-</React.Fragment>
+</Fragment>
 `;

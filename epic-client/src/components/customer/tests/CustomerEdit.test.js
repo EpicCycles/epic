@@ -1,6 +1,9 @@
 import React from 'react';
 import CustomerEdit from "../CustomerEdit";
-
+const props = {
+    deleteCustomerAddress: jest.fn(),
+    saveCustomerAddress: jest.fn(),
+};
 it("displays a full customer with extras properly", () => {
     const fullCustomer = {
         id:23,
@@ -17,7 +20,7 @@ it("displays a full customer with extras properly", () => {
         customer: fullCustomer.id
     };
     const component = shallow(
-        <CustomerEdit customer={fullCustomer} note={note}/>
+        <CustomerEdit customer={fullCustomer} note={note} {...props}/>
     );
     expect(component).toMatchSnapshot();
 });
@@ -31,7 +34,7 @@ it("displays a new customer (no id) properly", () => {
     };
     const note={};
     const component = shallow(
-        <CustomerEdit customer={newCustomer} note={note}/>
+        <CustomerEdit customer={newCustomer} note={note} {...props}/>
     );
     expect(component).toMatchSnapshot();
 });
@@ -56,6 +59,7 @@ it("calls create customer when a new customer is saved", () => {
             note={note}
             createCustomer={createCustomer}
             saveCustomer={saveCustomer}
+            {...props}
         />
     );
     component.instance().saveOrCreateCustomer(fullCustomer);
@@ -87,6 +91,7 @@ it("calls save customer when an existing customer is saved", () => {
             note={note}
             createCustomer={createCustomer}
             saveCustomer={saveCustomer}
+            {...props}
         />
     );
     component.instance().saveOrCreateCustomer(fullCustomer);
@@ -117,6 +122,7 @@ it("calls create note when a new note is saved", () => {
             saveCustomer={saveCustomer}
             saveNote={saveNote}
             createNote={createNote}
+            {...props}
         />
     );
     component.instance().saveOrCreateCustomerNote("new note ext", false);
@@ -127,7 +133,7 @@ it("calls create note when a new note is saved", () => {
     expect(createNote.mock.calls[0][0].id).toBe(undefined);
     expect(createNote.mock.calls[0][0].note_text).toBe("new note ext");
     expect(createNote.mock.calls[0][0].customer_visible).toBe(false);
-    expect(createNote.mock.calls[0][0].customer).toBe(fullCustomer.id);
+    expect(createNote.mock.calls[0][0].customer).toBe(234);
 });
 
 it("calls save note when an existing note is saved", () => {
@@ -158,6 +164,7 @@ it("calls save note when an existing note is saved", () => {
             saveCustomer={saveCustomer}
             saveNote={saveNote}
             createNote={createNote}
+            {...props}
         />
     );
     component.instance().saveOrCreateCustomerNote("new note ext", false);

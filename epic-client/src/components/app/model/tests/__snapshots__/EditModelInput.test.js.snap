@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it renders a brand field that has data that is found 1`] = `
-<React.Fragment>
+<Fragment>
   <BrandSelect
     bikeOnly={false}
     brandSelected={2}
@@ -27,11 +27,11 @@ exports[`it renders a brand field that has data that is found 1`] = `
     isEmptyAllowed={true}
     onChange={[Function]}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a brand field that has data that is not found 1`] = `
-<React.Fragment>
+<Fragment>
   <BrandSelect
     bikeOnly={false}
     brandSelected={202}
@@ -57,11 +57,11 @@ exports[`it renders a brand field that has data that is not found 1`] = `
     isEmptyAllowed={true}
     onChange={[Function]}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a brand field that has no data 1`] = `
-<React.Fragment>
+<Fragment>
   <BrandSelect
     bikeOnly={false}
     brands={
@@ -86,11 +86,11 @@ exports[`it renders a brand field that has no data 1`] = `
     isEmptyAllowed={true}
     onChange={[Function]}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a checkbox field that has no data 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextInput
     className=""
     dataType="text"
@@ -105,11 +105,11 @@ exports[`it renders a checkbox field that has no data 1`] = `
     type="number"
     value=""
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a checkbox field that is false 1`] = `
-<React.Fragment>
+<Fragment>
   <div>
     <input
       checked={false}
@@ -119,11 +119,11 @@ exports[`it renders a checkbox field that is false 1`] = `
       type="checkbox"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a checkbox field that is true 1`] = `
-<React.Fragment>
+<Fragment>
   <div>
     <input
       checked={true}
@@ -133,32 +133,32 @@ exports[`it renders a checkbox field that is true 1`] = `
       type="checkbox"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a country field that has data 1`] = `
-<React.Fragment>
+<Fragment>
   <CountrySelect
     countrySelected="NZ"
     fieldName="data_field_120"
     isEmptyAllowed={true}
     onChange={[Function]}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a country field that has no data 1`] = `
-<React.Fragment>
+<Fragment>
   <CountrySelect
     fieldName="data_field_120"
     isEmptyAllowed={true}
     onChange={[Function]}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a currency field that has data 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextInput
     className=""
     dataType="text"
@@ -173,11 +173,11 @@ exports[`it renders a currency field that has data 1`] = `
     type="number"
     value={23.9}
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a currency field that has no data 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextInput
     className=""
     dataType="text"
@@ -192,11 +192,11 @@ exports[`it renders a currency field that has no data 1`] = `
     type="number"
     value=""
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a part Type field that has no data 1`] = `
-<React.Fragment>
+<Fragment>
   <PartTypeSelect
     disabled={false}
     error=""
@@ -234,11 +234,11 @@ exports[`it renders a part Type field that has no data 1`] = `
       ]
     }
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a part type field that has data that is found 1`] = `
-<React.Fragment>
+<Fragment>
   <PartTypeSelect
     disabled={false}
     error=""
@@ -277,11 +277,11 @@ exports[`it renders a part type field that has data that is found 1`] = `
       ]
     }
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a part type field that has data that is not found 1`] = `
-<React.Fragment>
+<Fragment>
   <PartTypeSelect
     disabled={false}
     error=""
@@ -320,11 +320,11 @@ exports[`it renders a part type field that has data that is not found 1`] = `
       ]
     }
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a supplier field that has data that is found 1`] = `
-<React.Fragment>
+<Fragment>
   <SupplierSelect
     disabled={false}
     error=""
@@ -349,11 +349,11 @@ exports[`it renders a supplier field that has data that is found 1`] = `
       ]
     }
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a supplier field that has data that is not found 1`] = `
-<React.Fragment>
+<Fragment>
   <SupplierSelect
     disabled={false}
     error=""
@@ -378,11 +378,11 @@ exports[`it renders a supplier field that has data that is not found 1`] = `
       ]
     }
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a supplier field that has no data 1`] = `
-<React.Fragment>
+<Fragment>
   <SupplierSelect
     disabled={false}
     error=""
@@ -406,11 +406,11 @@ exports[`it renders a supplier field that has no data 1`] = `
       ]
     }
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a text field that has data 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextInput
     className=""
     dataType="text"
@@ -424,11 +424,11 @@ exports[`it renders a text field that has data 1`] = `
     title=""
     value="SHow text"
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a text field that has no data 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextInput
     className=""
     dataType="text"
@@ -442,11 +442,11 @@ exports[`it renders a text field that has no data 1`] = `
     title=""
     value=""
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a textarea field that has data 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextAreaInput
     cols={100}
     error=""
@@ -455,11 +455,11 @@ exports[`it renders a textarea field that has data 1`] = `
     onClick={[Function]}
     value="SHow text"
   />
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`it renders a textarea field that has no data 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextAreaInput
     cols={100}
     error=""
@@ -468,5 +468,5 @@ exports[`it renders a textarea field that has no data 1`] = `
     onClick={[Function]}
     placeholder="put text here"
   />
-</React.Fragment>
+</Fragment>
 `;

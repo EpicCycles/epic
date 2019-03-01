@@ -97,7 +97,7 @@ class CustomerAddressEdit extends React.Component {
 }
 
 CustomerAddressEdit.propTypes = {
-    customerAddress: PropTypes.object.isRequired,
+    customerAddress: PropTypes.object,
     deleteCustomerAddress: PropTypes.func.isRequired,
     saveCustomerAddress: PropTypes.func.isRequired,
     customerId: PropTypes.oneOfType([

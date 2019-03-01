@@ -51,17 +51,23 @@ exports[`displays a full customer with extras properly 1`] = `
           <CustomerAddressEdit
             customerAddress={Object {}}
             customerId={23}
+            deleteCustomerAddress={[MockFunction]}
             key="editNewAddressnew"
+            saveCustomerAddress={[MockFunction]}
           />
           <CustomerAddressEdit
             customerAddress="1"
             customerId={23}
+            deleteCustomerAddress={[MockFunction]}
             key="editAddressundefined"
+            saveCustomerAddress={[MockFunction]}
           />
           <CustomerAddressEdit
             customerAddress="2"
             customerId={23}
+            deleteCustomerAddress={[MockFunction]}
             key="editAddressundefined"
+            saveCustomerAddress={[MockFunction]}
           />
         </div>
         <h3>
@@ -133,7 +139,7 @@ exports[`displays a new customer (no id) properly 1`] = `
             ],
           }
         }
-        key="detail0"
+        key="detailnew"
       />
     </div>
     <div />

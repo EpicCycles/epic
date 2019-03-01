@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should show the bike name and bike edit page when rendered 1`] = `
-<React.Fragment>
+<Fragment>
   <h3>
     Haibike: Trekking 4
   </h3>
@@ -124,5 +124,5 @@ exports[`should show the bike name and bike edit page when rendered 1`] = `
       title="Delete Bike"
     />
   </div>
-</React.Fragment>
+</Fragment>
 `;

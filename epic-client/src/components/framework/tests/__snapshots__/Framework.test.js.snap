@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Framework displays and getFramework is called 1`] = `
-<React.Fragment>
+<Fragment>
   <Prompt
     message="You have made changes to the framework. Cancel and Save if you do not want to lose them."
     when={false}
@@ -75,11 +75,11 @@ exports[`Framework displays and getFramework is called 1`] = `
       />
     </div>
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`Framework displays and getFramework is not called 1`] = `
-<React.Fragment>
+<Fragment>
   <Prompt
     message="You have made changes to the framework. Cancel and Save if you do not want to lose them."
     when={true}
@@ -280,5 +280,5 @@ exports[`Framework displays and getFramework is not called 1`] = `
       />
     </div>
   </div>
-</React.Fragment>
+</Fragment>
 `;

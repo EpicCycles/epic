@@ -5,7 +5,6 @@ import BrandSelect from "../brand/BrandSelect";
 import FormTextInput from "../../common/FormTextInput";
 import {Icon} from "semantic-ui-react";
 
-
 const PartSearch = props => {
     const { brands, sections, onChange, partTypeSelected, brandSelected, searchPartName, searchStandard, searchStocked, findParts } = props;
 
@@ -26,6 +25,7 @@ const PartSearch = props => {
                     fieldName={'partTypeSelected'}
                     onChange={onChange}
                     isEmptyAllowed={true}
+                    data-test="part-type-select"
                 />
             </div>
         </div>

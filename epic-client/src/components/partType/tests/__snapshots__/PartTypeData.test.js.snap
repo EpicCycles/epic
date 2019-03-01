@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`displays the PartTypeData component for a new part type with no attributes 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextInput
     className=""
     dataType="text"
@@ -50,22 +50,20 @@ exports[`displays the PartTypeData component for a new part type with no attribu
     onChange={[Function]}
     type="checkbox"
   />
-  <React.Fragment>
-    <PartTypeAttributes
-      attributes={Array []}
-      partTypeKey="new"
-    />
-    <PartTypeSynonyms
-      label="synonyms"
-      partTypeKey="new"
-      synonyms={Array []}
-    />
-  </React.Fragment>
-</React.Fragment>
+  <PartTypeAttributes
+    attributes={Array []}
+    partTypeKey="new"
+  />
+  <PartTypeSynonyms
+    label="synonyms"
+    partTypeKey="new"
+    synonyms={Array []}
+  />
+</Fragment>
 `;
 
 exports[`displays the PartTypeData component for an existing part type with attributes, detail hidden 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextInput
     className=""
     dataType="text"
@@ -118,11 +116,11 @@ exports[`displays the PartTypeData component for an existing part type with attr
     Attributes: 0
     Synonyms: 0
   </div>
-</React.Fragment>
+</Fragment>
 `;
 
 exports[`displays the PartTypeData component for an existing part type with attributes, detail shown 1`] = `
-<React.Fragment>
+<Fragment>
   <FormTextInput
     className=""
     dataType="text"
@@ -171,26 +169,24 @@ exports[`displays the PartTypeData component for an existing part type with attr
     onChange={[Function]}
     type="checkbox"
   />
-  <React.Fragment>
-    <PartTypeAttributes
-      attributes={
-        Array [
-          "attribute1",
-          "attribute2",
-        ]
-      }
-      partTypeKey="dummy2"
-    />
-    <PartTypeSynonyms
-      label="synonyms"
-      partTypeKey="dummy2"
-      synonyms={
-        Array [
-          "synonym1",
-          "synonym1",
-        ]
-      }
-    />
-  </React.Fragment>
-</React.Fragment>
+  <PartTypeAttributes
+    attributes={
+      Array [
+        "attribute1",
+        "attribute2",
+      ]
+    }
+    partTypeKey="dummy2"
+  />
+  <PartTypeSynonyms
+    label="synonyms"
+    partTypeKey="dummy2"
+    synonyms={
+      Array [
+        "synonym1",
+        "synonym1",
+      ]
+    }
+  />
+</Fragment>
 `;
