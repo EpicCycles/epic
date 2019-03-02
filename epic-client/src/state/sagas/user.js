@@ -1,6 +1,6 @@
 import {call, put, select, takeLatest} from 'redux-saga/effects';
 import history from '../../history.js'
-import user from "./apis/user";
+import * as userApis from "./apis/user";
 
 import {
     cancelActionForLogin,
@@ -25,16 +25,15 @@ import {clearAllState} from "../actions/application";
 export function* loginUser(action) {
     try {
         yield put(cancelActionForLogin());
-        const loginResponse = yield call(user.loginUser, action.payload);
-        const token = loginResponse.data.key;
-
-        const getUserPayload = updateObject(action.payload, { token });
-        const getUserResponse = yield call(user.getUser, getUserPayload);
-
-        yield put(loginUserSuccess(token, getUserResponse.data));
+        const loginResponse = yield call(userApis.loginUser, action.payload);
+        const token = loginResponse.data.token;
+        const user = loginResponse.data.user;
+        yield put(loginUserSuccess(token, user));
         yield call(history.goBack)
 
     } catch (error) {
+        logError(error);
+        console.log('why am I here')
         yield put(loginUserFailure(errorAsMessage(error, "Login was not successful")));
     }
 }
@@ -48,7 +47,7 @@ export function* logoutUser(action) {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
-            yield call(user.logoutUser, completePayload);
+            yield call(userApis.logoutUser, completePayload);
             yield put(logoutUserSuccess());
             yield put(clearAllState());
         }
@@ -67,7 +66,7 @@ export function* changePassword(action) {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
-            yield call(user.changePassword, completePayload);
+            yield call(userApis.changePassword, completePayload);
             yield put(changePasswordOK());
         } else {
             yield call(history.push, "/login");
@@ -86,7 +85,7 @@ export function* changeUserData(action) {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
-            const changeUserResponse =  yield call(user.changeUserData, completePayload);
+            const changeUserResponse = yield call(userApis.changeUserData, completePayload);
             yield put(changeUserDataOK(changeUserResponse.data));
         } else {
             yield call(history.push, "/login");

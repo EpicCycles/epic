@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react'
 import {Dimmer, Icon, Loader} from 'semantic-ui-react'
+import {Redirect} from "react-router-dom";
 
 class Login extends React.Component {
     state = {
@@ -36,6 +37,12 @@ class Login extends React.Component {
         const { username, password } = this.state;
         this.props.loginUser(username, password);
     };
+    handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            const { username, password } = this.state;
+            if (username && password) this.loginUser();
+        }
+    }
 
     render() {
         const { username, password } = this.state;
@@ -44,17 +51,11 @@ class Login extends React.Component {
         return (
             <Fragment>
                 {(user && user.username) ?
-                    <div className="row">
-                        Hi {user.first_name} {user.last_name}
-                        <Icon
-                            name="log out"
-                            onClick={() => logoutUser()}
-                        />
-                    </div>
+                    <Redirect to="/" push/>
                     :
                     <Fragment>
                         <h1>Login</h1>
-                        <div id="loginUser" className="grid" style={{height:"400px"}}>
+                        <div id="loginUser" className="grid" style={{ height: "400px" }}>
                             <div className="grid-row">
                                 <div className="grid-item--borderless field-label align_right">
                                     Username
@@ -64,7 +65,9 @@ class Login extends React.Component {
                                 >
                                     <input
                                         type="text" id="username"
-                                        onChange={e => this.setState({ username: e.target.value })}/>
+                                        onKeyPress={this.handleKeyPress}
+                                        onChange={e => this.setState({ username: e.target.value })}
+                                    />
                                     {username &&
                                     <Icon
                                         name="remove"
@@ -86,7 +89,9 @@ class Login extends React.Component {
                                 >
                                     <input
                                         type="password" id="password"
-                                        onChange={e => this.setState({ password: e.target.value })}/>
+                                        onChange={e => this.setState({ password: e.target.value })}
+                                        onKeyPress={this.handleKeyPress}
+                                    />
                                     {password &&
                                     <Icon
                                         name="remove"

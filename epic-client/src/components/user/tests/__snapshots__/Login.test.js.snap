@@ -28,6 +28,7 @@ exports[`displays login fields when no user in session 1`] = `
         <input
           id="username"
           onChange={[Function]}
+          onKeyPress={[Function]}
           type="text"
         />
       </div>
@@ -46,6 +47,7 @@ exports[`displays login fields when no user in session 1`] = `
         <input
           id="password"
           onChange={[Function]}
+          onKeyPress={[Function]}
           type="password"
         />
       </div>
@@ -74,16 +76,9 @@ exports[`displays login fields when no user in session 1`] = `
 
 exports[`displays login fields when user in session 1`] = `
 <Fragment>
-  <div
-    className="row"
-  >
-    Hi 
-     
-    <Icon
-      as="i"
-      name="log out"
-      onClick={[Function]}
-    />
-  </div>
+  <Redirect
+    push={true}
+    to="/"
+  />
 </Fragment>
 `;

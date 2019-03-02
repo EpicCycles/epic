@@ -13,7 +13,7 @@ from epic.api_views.part_type_api import PartType
 from epic.api_views.part_type_attribute_api import PartTypeAttribute
 from epic.api_views.section_api import PartSection
 from epic.api_views.supplier_api import Suppliers, MaintainSupplier
-from epic.api_views.user_api import UserMaintain
+from epic.api_views.user_api import CustomAuthToken
 
 # good explanation of patterns here https://tutorial.djangogirls.org/en/extend_your_application/
 urlpatterns = [
@@ -39,7 +39,7 @@ urlpatterns = [
     path('api/customeraddress/<int:pk>', CustomerAddressMaintain.as_view()),
     path('api/customerphone/', CustomerPhoneList.as_view()),
     path('api/customerphone/<int:pk>', CustomerPhoneMaintain.as_view()),
-    path('api/user/<str:username>', UserMaintain.as_view()),
+    path('api/api-token-auth/', CustomAuthToken.as_view()),
     path('api/parts/', Parts.as_view()),
     path('api/parts/<int:part_id>/', Parts.as_view()),
     path('api/frames/', Frames.as_view()),

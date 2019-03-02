@@ -10,9 +10,10 @@ import {Icon} from "semantic-ui-react";
 class Header extends React.Component {
     render() {
         const { user, application, removeMessage, logoutUser } = this.props;
+        const okToBeHere = user || window.location.pathname.startsWith('/login');
 
         return <Fragment key="header">
-            {(!user) && <Redirect to="/login" push/>}
+            {(!okToBeHere) && <Redirect to="/login" push/>}
 
             <div className="row full nav">
                 <Fragment key="nav">
