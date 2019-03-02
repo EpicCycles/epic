@@ -1,6 +1,7 @@
 import React from 'react';
-import PartDisplayGrid from "../PartDisplayGrid";
 import {NEW_ELEMENT_ID} from "../../../helpers/constants";
+import PartDisplayGridRow from "../PartDisplayGridRow";
+import {findDataTest} from "../../../../test/assert";
 
 const brands = [
     { id: 1, brand_name: "brand 1" },
@@ -21,6 +22,7 @@ const sections = [
             },
             {
                 id: 3,
+                can_be_substituted: true,
             },
         ]
     },
@@ -33,9 +35,12 @@ const sections = [
             },
             {
                 id: 12,
-            },
+                  can_be_substituted: true,
+               can_be_omitted: true,
+           },
             {
                 id: 14,
+                can_be_omitted: true,
             },
         ]
     },
@@ -49,14 +54,11 @@ const sections = [
         ]
     },
 ];
-const parts = [
-    { id: 11, partType: 1 },
-    { id: 13, partType: 3 },
-    { id: 214, partType: 14 },
-    { id: 212, partType: 12 },
-    { id: 29, partType: 9 },
-    { id: 3171, partType: 171 },
-];
+const partFixed = { id: 11, partType: 1 };
+const partEditable = { id: 13, partType: 3 };
+const partDeletable =  { id: 214, partType: 14 };
+const partAll = { id: 212, partType: 12 };
+
 const suppliers = [
     { id: 12, name: "supplier Name" },
     { id: 22, name: "supplier Name 2" },
@@ -99,25 +101,18 @@ const supplierProducts = [
         check_date: new Date("2015-03-25T12:00:00-06:30"),
     },
 ];
-test('should display just parts when supplier products not required', () => {
-    const component = shallow(<PartDisplayGrid
-        parts={parts}
+test('should display just part when supplier products not required', () => {
+    const component = shallow(<PartDisplayGridRow
+        part={partFixed}
         sections={sections}
-        brands={brands}
-    />);
-    expect(component).toMatchSnapshot();
-    expect(component.find('PartDisplayGridRow').length).toBe(6);
-});
-test('should display parts and supplier parts when supplier products are required', () => {
-    const component = shallow(<PartDisplayGrid
+        section={{id: 1, name: 'section 1 name',}}
         lockFirstColumn={true}
-        showSupplierProducts={true}
-        parts={parts}
-        sections={sections}
-        brands={brands}
+        typeIndex={1}
         supplierProducts={supplierProducts}
-        suppliers={suppliers}
+        brands={brands}
     />);
-    expect(component).toMatchSnapshot();
-    expect(component.find('PartDisplayGridRow').length).toBe(6);
+    expect(component.find('PartViewRow').length).toBe(1);
+    expect(component.find('SupplierProductViewRow').length).toBe(0);
+    expect(component.find('Icon').length).toBe(0);
+    expect(findDataTest(component, 'part-actions').length).toBe(0);
 });

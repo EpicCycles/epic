@@ -2,25 +2,28 @@ import React from "react";
 import {Icon} from "semantic-ui-react";
 import * as PropTypes from "prop-types";
 
-const FormTextInput = props => (
-    <div
-        id={props.id}
-        className={(props.className) + (props.error ? " error" : "")}>
-        {props.label && <label>{props.label}</label>}
-        <input
-            className={(props.error ? " error" : "")}
-            type={props.dataType}
-            autoComplete="off"
-            placeholder={props.placeholder}
-            title={`${props.title} ${props.error}`}
-            name={props.fieldName}
-            id={props.fieldName}
-            onChange={event => props.onChange(event.target.id, event.target.value)}
-            value={props.value}
-            size={props.size}
-        />
-        {(props.value && props.onClick) &&
-        <span className="clearInput">
+const FormTextInput = props => {
+    let value = props.value;
+    if (value === null) value = '';
+    return (
+        <div
+            id={props.id}
+            className={(props.className) + (props.error ? " error" : "")}>
+            {props.label && <label>{props.label}</label>}
+            <input
+                className={(props.error ? " error" : "")}
+                type={props.dataType}
+                autoComplete="off"
+                placeholder={props.placeholder}
+                title={`${props.title} ${props.error}`}
+                name={props.fieldName}
+                id={props.fieldName}
+                onChange={event => props.onChange(event.target.id, event.target.value)}
+                value={value}
+                size={props.size}
+            />
+            {(props.value && props.onClick) &&
+            <span className="clearInput">
             <Icon
                 name="remove"
                 id={"remove" + props.fieldName}
@@ -30,8 +33,9 @@ const FormTextInput = props => (
                 onClick={event => props.onClick(event.target.id)}
             />
         </span>}
-    </div>
-);
+        </div>
+    );
+};
 
 FormTextInput.defaultProps = {
     className: "",

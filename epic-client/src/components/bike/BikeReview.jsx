@@ -153,13 +153,17 @@ class BikeReview extends React.Component {
 }
 
 BikeReview.defaultProps = {
+    parts: [],
     brands: [],
     sections: [],
     isLoading: false,
 };
 
 BikeReview.propTypes = {
-    bikeId: PropTypes.object.isRequired,
+    bikeId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]).isRequired,
     bikeReviewList: PropTypes.array.isRequired,
     bikes: PropTypes.array.isRequired,
     bikeParts: PropTypes.array.isRequired,

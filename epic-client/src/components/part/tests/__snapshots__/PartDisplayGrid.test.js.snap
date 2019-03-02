@@ -3,6 +3,7 @@
 exports[`should display just parts when supplier products not required 1`] = `
 <div
   className="grid-container"
+  key="partBlockContainer"
 >
   <div
     className="grid"
@@ -10,714 +11,744 @@ exports[`should display just parts when supplier products not required 1`] = `
   >
     <PartDisplayGridHeaders
       className=""
-      includeActions={false}
+      key="partBlockHeaders"
       lockFirstColumn={false}
-      showErrors={false}
       showSupplierProducts={false}
     />
-    <div
-      className="grid-row"
-      key="partRow11"
-    >
-      <div
-        className="grid-item "
-        key="section_11"
-        style={
+    <PartDisplayGridRow
+      brands={
+        Array [
           Object {
-            "gridRow": "span 1",
-          }
-        }
-      >
-        section 1 name
-      </div>
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow11"
-        part={
+            "brand_name": "brand 1",
+            "id": 1,
+          },
           Object {
-            "id": 11,
-            "partType": 1,
-          }
-        }
-        sections={
-          Array [
-            Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
-            },
-            Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
-            },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
-        }
-        supplierProducts={Array []}
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="partRow13"
-    >
-      <div
-        className="grid-item "
-        key="section_13"
-        style={
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
           Object {
-            "gridRow": "span 1",
-          }
-        }
-      />
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow13"
-        part={
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
           Object {
-            "id": 13,
-            "partType": 3,
-          }
-        }
-        sections={
-          Array [
-            Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
-            },
-            Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
-            },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
-        }
-        supplierProducts={Array []}
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="partRow29"
-    >
-      <div
-        className="grid-item "
-        key="section_29"
-        style={
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
           Object {
-            "gridRow": "span 1",
-          }
-        }
-      >
-        Groupset
-      </div>
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow29"
-        part={
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
           Object {
-            "id": 29,
-            "partType": 9,
-          }
-        }
-        sections={
-          Array [
-            Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
-            },
-            Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
-            },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
-        }
-        supplierProducts={Array []}
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="partRow212"
-    >
-      <div
-        className="grid-item "
-        key="section_212"
-        style={
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
           Object {
-            "gridRow": "span 1",
-          }
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={false}
+      part={
+        Object {
+          "id": 11,
+          "partType": 1,
         }
-      />
-      <PartViewRow
-        brands={
-          Array [
+      }
+      section={
+        Object {
+          "id": 1,
+          "name": "section 1 name",
+          "parts": Array [
             Object {
-              "brand_name": "brand 1",
-              "id": 1,
+              "id": 11,
+              "partType": 1,
             },
             Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
+              "id": 13,
+              "partType": 3,
             },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
+          ],
         }
-        key="partViewRow212"
-        part={
+      }
+      sections={
+        Array [
           Object {
-            "id": 212,
-            "partType": 12,
-          }
-        }
-        sections={
-          Array [
-            Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
-            },
-            Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
-            },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
-        }
-        supplierProducts={Array []}
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="partRow214"
-    >
-      <div
-        className="grid-item "
-        key="section_214"
-        style={
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
           Object {
-            "gridRow": "span 1",
-          }
-        }
-      />
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow214"
-        part={
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
           Object {
-            "id": 214,
-            "partType": 14,
-          }
-        }
-        sections={
-          Array [
-            Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
-            },
-            Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
-            },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
-        }
-        supplierProducts={Array []}
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="partRow3171"
-    >
-      <div
-        className="grid-item "
-        key="section_3171"
-        style={
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={false}
+      supplierProducts={Array []}
+      suppliers={Array []}
+      typeIndex={0}
+    />
+    <PartDisplayGridRow
+      brands={
+        Array [
           Object {
-            "gridRow": "span 1",
-          }
-        }
-      >
-        section 3 name
-      </div>
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow3171"
-        part={
+            "brand_name": "brand 1",
+            "id": 1,
+          },
           Object {
-            "id": 3171,
-            "partType": 171,
-          }
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={false}
+      part={
+        Object {
+          "id": 13,
+          "partType": 3,
         }
-        sections={
-          Array [
+      }
+      section={
+        Object {
+          "id": 1,
+          "name": "section 1 name",
+          "parts": Array [
             Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
+              "id": 11,
+              "partType": 1,
             },
             Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
+              "id": 13,
+              "partType": 3,
             },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
+          ],
         }
-        supplierProducts={Array []}
-      />
-    </div>
-    )}
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={false}
+      supplierProducts={Array []}
+      suppliers={Array []}
+      typeIndex={1}
+    />
+    <PartDisplayGridRow
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={false}
+      part={
+        Object {
+          "id": 29,
+          "partType": 9,
+        }
+      }
+      section={
+        Object {
+          "id": 2,
+          "name": "Groupset",
+          "parts": Array [
+            Object {
+              "id": 29,
+              "partType": 9,
+            },
+            Object {
+              "id": 212,
+              "partType": 12,
+            },
+            Object {
+              "id": 214,
+              "partType": 14,
+            },
+          ],
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={false}
+      supplierProducts={Array []}
+      suppliers={Array []}
+      typeIndex={0}
+    />
+    <PartDisplayGridRow
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={false}
+      part={
+        Object {
+          "id": 212,
+          "partType": 12,
+        }
+      }
+      section={
+        Object {
+          "id": 2,
+          "name": "Groupset",
+          "parts": Array [
+            Object {
+              "id": 29,
+              "partType": 9,
+            },
+            Object {
+              "id": 212,
+              "partType": 12,
+            },
+            Object {
+              "id": 214,
+              "partType": 14,
+            },
+          ],
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={false}
+      supplierProducts={Array []}
+      suppliers={Array []}
+      typeIndex={1}
+    />
+    <PartDisplayGridRow
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={false}
+      part={
+        Object {
+          "id": 214,
+          "partType": 14,
+        }
+      }
+      section={
+        Object {
+          "id": 2,
+          "name": "Groupset",
+          "parts": Array [
+            Object {
+              "id": 29,
+              "partType": 9,
+            },
+            Object {
+              "id": 212,
+              "partType": 12,
+            },
+            Object {
+              "id": 214,
+              "partType": 14,
+            },
+          ],
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={false}
+      supplierProducts={Array []}
+      suppliers={Array []}
+      typeIndex={2}
+    />
+    <PartDisplayGridRow
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={false}
+      part={
+        Object {
+          "id": 3171,
+          "partType": 171,
+        }
+      }
+      section={
+        Object {
+          "id": 3,
+          "name": "section 3 name",
+          "parts": Array [
+            Object {
+              "id": 3171,
+              "partType": 171,
+            },
+          ],
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={false}
+      supplierProducts={Array []}
+      suppliers={Array []}
+      typeIndex={0}
+    />
   </div>
 </div>
 `;
@@ -725,6 +756,7 @@ exports[`should display just parts when supplier products not required 1`] = `
 exports[`should display parts and supplier parts when supplier products are required 1`] = `
 <div
   className="grid-container"
+  key="partBlockContainer"
 >
   <div
     className="grid"
@@ -732,280 +764,129 @@ exports[`should display parts and supplier parts when supplier products are requ
   >
     <PartDisplayGridHeaders
       className=""
-      includeActions={false}
+      key="partBlockHeaders"
       lockFirstColumn={true}
-      showErrors={false}
       showSupplierProducts={true}
     />
-    <div
-      className="grid-row"
-      key="partRow11"
-    >
-      <div
-        className="grid-item grid-item--fixed-left"
-        key="section_11"
-        style={
+    <PartDisplayGridRow
+      brands={
+        Array [
           Object {
-            "gridRow": "span 1",
-          }
-        }
-      >
-        section 1 name
-      </div>
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow11"
-        part={
+            "brand_name": "brand 1",
+            "id": 1,
+          },
           Object {
-            "id": 11,
-            "partType": 1,
-          }
-        }
-        sections={
-          Array [
-            Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
-            },
-            Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
-            },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
-        }
-        supplierProducts={Array []}
-      />
-      <SupplierProductViewRow
-        key="supplierProductnew"
-        lockFirstColumn={false}
-        supplierProduct={Object {}}
-        suppliers={
-          Array [
-            Object {
-              "id": 12,
-              "name": "supplier Name",
-            },
-            Object {
-              "id": 22,
-              "name": "supplier Name 2",
-            },
-          ]
-        }
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="partRow13"
-    >
-      <div
-        className="grid-item grid-item--fixed-left"
-        key="section_13"
-        style={
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
           Object {
-            "gridRow": "span 1",
-          }
-        }
-      />
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow13"
-        part={
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
           Object {
-            "id": 13,
-            "partType": 3,
-          }
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={true}
+      part={
+        Object {
+          "id": 11,
+          "partType": 1,
         }
-        sections={
-          Array [
+      }
+      section={
+        Object {
+          "id": 1,
+          "name": "section 1 name",
+          "parts": Array [
             Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
+              "id": 11,
+              "partType": 1,
             },
             Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
+              "id": 13,
+              "partType": 3,
             },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
+          ],
         }
-        supplierProducts={
-          Array [
-            Object {
-              "check_date": 2015-03-25T18:30:00.000Z,
-              "club_price": 22.99,
-              "fitted_price": 23.99,
-              "id": 121,
-              "part": 13,
-              "product_code": "PC101",
-              "rrp": 24.99,
-              "supplier": 12,
-              "ticket_price": 24.99,
-              "trade_price": 11,
-            },
-          ]
-        }
-      />
-      <SupplierProductViewRow
-        key="supplierProduct121"
-        lockFirstColumn={false}
-        supplierProduct={
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={true}
+      supplierProducts={
+        Array [
           Object {
             "check_date": 2015-03-25T18:30:00.000Z,
             "club_price": 22.99,
@@ -1017,30 +898,7 @@ exports[`should display parts and supplier parts when supplier products are requ
             "supplier": 12,
             "ticket_price": 24.99,
             "trade_price": 11,
-          }
-        }
-        suppliers={
-          Array [
-            Object {
-              "id": 12,
-              "name": "supplier Name",
-            },
-            Object {
-              "id": 22,
-              "name": "supplier Name 2",
-            },
-          ]
-        }
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="supplierProductRow121"
-    >
-      <SupplierProductViewRow
-        key="supplierProduct121"
-        lockFirstColumn={false}
-        supplierProduct={
+          },
           Object {
             "check_date": 2015-03-25T18:30:00.000Z,
             "club_price": 22.99,
@@ -1052,409 +910,7 @@ exports[`should display parts and supplier parts when supplier products are requ
             "supplier": 12,
             "ticket_price": 24.99,
             "trade_price": 11,
-          }
-        }
-        suppliers={
-          Array [
-            Object {
-              "id": 12,
-              "name": "supplier Name",
-            },
-            Object {
-              "id": 22,
-              "name": "supplier Name 2",
-            },
-          ]
-        }
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="partRow29"
-    >
-      <div
-        className="grid-item grid-item--fixed-left"
-        key="section_29"
-        style={
-          Object {
-            "gridRow": "span 1",
-          }
-        }
-      >
-        Groupset
-      </div>
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow29"
-        part={
-          Object {
-            "id": 29,
-            "partType": 9,
-          }
-        }
-        sections={
-          Array [
-            Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
-            },
-            Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
-            },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
-        }
-        supplierProducts={Array []}
-      />
-      <SupplierProductViewRow
-        key="supplierProductnew"
-        lockFirstColumn={false}
-        supplierProduct={Object {}}
-        suppliers={
-          Array [
-            Object {
-              "id": 12,
-              "name": "supplier Name",
-            },
-            Object {
-              "id": 22,
-              "name": "supplier Name 2",
-            },
-          ]
-        }
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="partRow212"
-    >
-      <div
-        className="grid-item grid-item--fixed-left"
-        key="section_212"
-        style={
-          Object {
-            "gridRow": "span 1",
-          }
-        }
-      />
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow212"
-        part={
-          Object {
-            "id": 212,
-            "partType": 12,
-          }
-        }
-        sections={
-          Array [
-            Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
-            },
-            Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
-            },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
-        }
-        supplierProducts={Array []}
-      />
-      <SupplierProductViewRow
-        key="supplierProductnew"
-        lockFirstColumn={false}
-        supplierProduct={Object {}}
-        suppliers={
-          Array [
-            Object {
-              "id": 12,
-              "name": "supplier Name",
-            },
-            Object {
-              "id": 22,
-              "name": "supplier Name 2",
-            },
-          ]
-        }
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="partRow214"
-    >
-      <div
-        className="grid-item grid-item--fixed-left"
-        key="section_214"
-        style={
-          Object {
-            "gridRow": "span 1",
-          }
-        }
-      />
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow214"
-        part={
-          Object {
-            "id": 214,
-            "partType": 14,
-          }
-        }
-        sections={
-          Array [
-            Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
-            },
-            Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
-            },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
-        }
-        supplierProducts={Array []}
-      />
-      <SupplierProductViewRow
-        key="supplierProduct121"
-        lockFirstColumn={false}
-        supplierProduct={
+          },
           Object {
             "check_date": 2015-03-25T18:30:00.000Z,
             "club_price": 22.99,
@@ -1466,158 +922,886 @@ exports[`should display parts and supplier parts when supplier products are requ
             "supplier": 12,
             "ticket_price": 24.99,
             "trade_price": 11,
-          }
-        }
-        suppliers={
-          Array [
-            Object {
-              "id": 12,
-              "name": "supplier Name",
-            },
-            Object {
-              "id": 22,
-              "name": "supplier Name 2",
-            },
-          ]
-        }
-      />
-    </div>
-    <div
-      className="grid-row"
-      key="partRow3171"
-    >
-      <div
-        className="grid-item grid-item--fixed-left"
-        key="section_3171"
-        style={
+          },
+        ]
+      }
+      suppliers={
+        Array [
           Object {
-            "gridRow": "span 1",
-          }
-        }
-      >
-        section 3 name
-      </div>
-      <PartViewRow
-        brands={
-          Array [
-            Object {
-              "brand_name": "brand 1",
-              "id": 1,
-            },
-            Object {
-              "brand_name": "brand 2",
-              "id": 2,
-              "supplier": Array [],
-              "supplier_names": Array [],
-            },
-            Object {
-              "brand_name": "brand 3",
-              "id": 3,
-              "supplier": Array [
-                1,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-              ],
-            },
-            Object {
-              "brand_name": "brand 4",
-              "delete": true,
-              "id": 4,
-            },
-            Object {
-              "brand_name": "brand 5",
-              "changed": true,
-              "id": 5,
-              "supplier": Array [
-                1,
-                3,
-              ],
-              "supplier_names": Array [
-                "supplier 1",
-                "supplier 3",
-              ],
-            },
-            Object {
-              "brand_name": "brand new",
-              "changed": true,
-              "dummyKey": "123ABC",
-            },
-            Object {
-              "brand_name": "brand new 2",
-              "changed": true,
-              "dummyKey": "new",
-            },
-          ]
-        }
-        key="partViewRow3171"
-        part={
+            "id": 12,
+            "name": "supplier Name",
+          },
           Object {
-            "id": 3171,
-            "partType": 171,
-          }
+            "id": 22,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+      typeIndex={0}
+    />
+    <PartDisplayGridRow
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={true}
+      part={
+        Object {
+          "id": 13,
+          "partType": 3,
         }
-        sections={
-          Array [
+      }
+      section={
+        Object {
+          "id": 1,
+          "name": "section 1 name",
+          "parts": Array [
             Object {
-              "id": 1,
-              "name": "section 1 name",
-              "partTypes": Array [
-                Object {
-                  "id": 1,
-                },
-                Object {
-                  "id": 3,
-                },
-              ],
+              "id": 11,
+              "partType": 1,
             },
             Object {
-              "id": 2,
-              "name": "Groupset",
-              "partTypes": Array [
-                Object {
-                  "id": 9,
-                },
-                Object {
-                  "id": 12,
-                },
-                Object {
-                  "id": 14,
-                },
-              ],
+              "id": 13,
+              "partType": 3,
             },
-            Object {
-              "id": 3,
-              "name": "section 3 name",
-              "partTypes": Array [
-                Object {
-                  "id": 171,
-                },
-              ],
-            },
-          ]
+          ],
         }
-        supplierProducts={Array []}
-      />
-      <SupplierProductViewRow
-        key="supplierProductnew"
-        lockFirstColumn={false}
-        supplierProduct={Object {}}
-        suppliers={
-          Array [
-            Object {
-              "id": 12,
-              "name": "supplier Name",
-            },
-            Object {
-              "id": 22,
-              "name": "supplier Name 2",
-            },
-          ]
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={true}
+      supplierProducts={
+        Array [
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 13,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 13,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 214,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 22,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+      typeIndex={1}
+    />
+    <PartDisplayGridRow
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={true}
+      part={
+        Object {
+          "id": 29,
+          "partType": 9,
         }
-      />
-    </div>
-    )}
+      }
+      section={
+        Object {
+          "id": 2,
+          "name": "Groupset",
+          "parts": Array [
+            Object {
+              "id": 29,
+              "partType": 9,
+            },
+            Object {
+              "id": 212,
+              "partType": 12,
+            },
+            Object {
+              "id": 214,
+              "partType": 14,
+            },
+          ],
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={true}
+      supplierProducts={
+        Array [
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 13,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 13,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 214,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 22,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+      typeIndex={0}
+    />
+    <PartDisplayGridRow
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={true}
+      part={
+        Object {
+          "id": 212,
+          "partType": 12,
+        }
+      }
+      section={
+        Object {
+          "id": 2,
+          "name": "Groupset",
+          "parts": Array [
+            Object {
+              "id": 29,
+              "partType": 9,
+            },
+            Object {
+              "id": 212,
+              "partType": 12,
+            },
+            Object {
+              "id": 214,
+              "partType": 14,
+            },
+          ],
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={true}
+      supplierProducts={
+        Array [
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 13,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 13,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 214,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 22,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+      typeIndex={1}
+    />
+    <PartDisplayGridRow
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={true}
+      part={
+        Object {
+          "id": 214,
+          "partType": 14,
+        }
+      }
+      section={
+        Object {
+          "id": 2,
+          "name": "Groupset",
+          "parts": Array [
+            Object {
+              "id": 29,
+              "partType": 9,
+            },
+            Object {
+              "id": 212,
+              "partType": 12,
+            },
+            Object {
+              "id": 214,
+              "partType": 14,
+            },
+          ],
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={true}
+      supplierProducts={
+        Array [
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 13,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 13,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 214,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 22,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+      typeIndex={2}
+    />
+    <PartDisplayGridRow
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+            "supplier_names": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+            "supplier_names": Array [
+              "supplier 1",
+              "supplier 3",
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      lockFirstColumn={true}
+      part={
+        Object {
+          "id": 3171,
+          "partType": 171,
+        }
+      }
+      section={
+        Object {
+          "id": 3,
+          "name": "section 3 name",
+          "parts": Array [
+            Object {
+              "id": 3171,
+              "partType": 171,
+            },
+          ],
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "section 1 name",
+            "partTypes": Array [
+              Object {
+                "id": 1,
+              },
+              Object {
+                "id": 3,
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "name": "Groupset",
+            "partTypes": Array [
+              Object {
+                "id": 9,
+              },
+              Object {
+                "id": 12,
+              },
+              Object {
+                "id": 14,
+              },
+            ],
+          },
+          Object {
+            "id": 3,
+            "name": "section 3 name",
+            "partTypes": Array [
+              Object {
+                "id": 171,
+              },
+            ],
+          },
+        ]
+      }
+      showSupplierProducts={true}
+      supplierProducts={
+        Array [
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 13,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 13,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+          Object {
+            "check_date": 2015-03-25T18:30:00.000Z,
+            "club_price": 22.99,
+            "fitted_price": 23.99,
+            "id": 121,
+            "part": 214,
+            "product_code": "PC101",
+            "rrp": 24.99,
+            "supplier": 12,
+            "ticket_price": 24.99,
+            "trade_price": 11,
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 12,
+            "name": "supplier Name",
+          },
+          Object {
+            "id": 22,
+            "name": "supplier Name 2",
+          },
+        ]
+      }
+      typeIndex={0}
+    />
   </div>
 </div>
 `;

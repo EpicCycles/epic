@@ -158,6 +158,10 @@ class BikeReviewList extends React.Component {
         this.setState(newState);
     };
 
+    classWhenOnList = (checkList, checkItem, className = "red") => {
+        if (checkList.includes(checkItem)) return className;
+        return ""
+    };
     render() {
         const { reviewFirstBike, brand, frameName, archived, frameArchiveList, bikeReviewList, bikeDeleteList, frameDeleteList } = this.state;
         const { isLoading, brands, frames, bikes } = this.props;
@@ -263,7 +267,7 @@ class BikeReviewList extends React.Component {
                                                     <Icon
                                                         key={`archive${frameIndex}`}
                                                         name="archive"
-                                                        className={frameArchiveList.includes(frame.id) && "red"}
+                                                        className={this.classWhenOnList(frameArchiveList, frame.id)}
                                                         onClick={() => (!frameDeleteList.includes(frame.id)) && this.changeFrameArchiveList(frame.id)}
                                                         disabled={(frameDeleteList.includes(frame.id))}
                                                         title="Archive this frame and all related bikes"
@@ -271,7 +275,7 @@ class BikeReviewList extends React.Component {
                                                     <Icon
                                                         key={`delete${frameIndex}`}
                                                         name="delete"
-                                                        className={frameDeleteList.includes(frame.id) && "red"}
+                                                        className={this.classWhenOnList(frameDeleteList, frame.id)}
                                                         onClick={() => (!frameArchiveList.includes(frame.id)) && this.changeFrameDeleteList(frame.id)}
                                                         disabled={(frameArchiveList.includes(frame.id))}
                                                         title="Delete this frame and all related bikes"
@@ -310,7 +314,7 @@ class BikeReviewList extends React.Component {
                                                 <Icon
                                                     key={`delete${frameIndex}${bikeIndex}`}
                                                     name="trash"
-                                                    className={bikeDeleteList.includes(bike.id) && "red"}
+                                                    className={this.classWhenOnList(bikeDeleteList, bike.id)}
                                                     onClick={() => (!bikeReviewList.includes(bike.id)) && this.changeBikeDeleteList(bike.id)}
                                                     disabled={(bikeReviewList.includes(bike.id))}
                                                     title="Delete this bike"
@@ -318,7 +322,7 @@ class BikeReviewList extends React.Component {
                                                 <Icon
                                                     key={`review${frameIndex}${bikeIndex}`}
                                                     name="edit outline"
-                                                    className={bikeReviewList.includes(bike.id) && "red"}
+                                                    className={this.classWhenOnList(bikeReviewList, bike.id)}
                                                     onClick={() => (!bikeDeleteList.includes(bike.id)) && this.changeBikeReviewList(bike.id)}
                                                     disabled={(bikeDeleteList.includes(bike.id))}
                                                     title="Review this bike"
@@ -388,6 +392,7 @@ class BikeReviewList extends React.Component {
             }
         </Fragment>
     }
+
 }
 
 export default BikeReviewList;

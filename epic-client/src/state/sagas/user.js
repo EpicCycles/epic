@@ -21,6 +21,8 @@ import {updateObject} from "../../helpers/utils";
 import {errorAsMessage, logError} from "../../helpers/api_error";
 import * as selectors from "../selectors/user";
 import {clearAllState} from "../actions/application";
+import {getBrandsAndSuppliers} from "../actions/core";
+import {getFramework} from "../actions/framework";
 
 export function* loginUser(action) {
     try {
@@ -29,11 +31,13 @@ export function* loginUser(action) {
         const token = loginResponse.data.token;
         const user = loginResponse.data.user;
         yield put(loginUserSuccess(token, user));
-        yield call(history.goBack)
+        yield call(history.goBack);
 
+        // start fetch of basic data
+        yield put(getBrandsAndSuppliers());
+        yield put(getFramework());
     } catch (error) {
         logError(error);
-        console.log('why am I here')
         yield put(loginUserFailure(errorAsMessage(error, "Login was not successful")));
     }
 }
