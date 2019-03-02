@@ -21,6 +21,7 @@ const PartDisplayGridRow = (props) => {
                 className={`grid-item ${fixedDetailsClassname(lockFirstColumn)}`}
                 style={{ gridRow: `span ${rowSpan}` }}
                 key={`section_${part.id}`}
+                data-test="section-cell"
             >
                 {(typeIndex === 0) && section.name}
             </div>
@@ -36,7 +37,7 @@ const PartDisplayGridRow = (props) => {
                 suppliers={suppliers}
                 key={`supplierProduct${getComponentKey(firstSupplierProduct)}`}
             />}
-            {(includeActions) && <div
+            {includeActions && <div
                 className={`grid-item`}
                 style={{ gridRow: `span ${rowSpan}` }}
                 key={`partActions${part.id}`}
@@ -46,11 +47,13 @@ const PartDisplayGridRow = (props) => {
                     key={`partEdit${part.id}`}
                     name="edit"
                     onClick={() => editPart(part)}
+                    data-test="edit-icon"
                 />}
                 {(deletePart && partCanBeOmitted(part, sections)) && <Icon
                     key={`partDelete${part.id}`}
                     name="delete"
                     onClick={() => deletePart(part.id)}
+                    data-test="delete-icon"
                 />}
             </div>
             }
@@ -60,7 +63,9 @@ const PartDisplayGridRow = (props) => {
             key={`supplierProductRow${supplierProduct.id}`}>
             <SupplierProductViewRow
                 key={`supplierProduct${supplierProduct.id}`}
-                supplierProduct={supplierProduct} suppliers={suppliers}/>
+                supplierProduct={supplierProduct}
+                suppliers={suppliers}
+            />
         </div>)}
     </Fragment>;
 };
