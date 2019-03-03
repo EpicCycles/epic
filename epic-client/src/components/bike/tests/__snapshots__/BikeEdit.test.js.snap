@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should show the bike name and bike edit page when rendered 1`] = `
+exports[`basic render should show the bike name and bike edit page when rendered 1`] = `
 <Fragment>
   <h3>
     Haibike: Trekking 4
@@ -8,10 +8,13 @@ exports[`should show the bike name and bike edit page when rendered 1`] = `
   <EditModelPage
     model={
       Object {
+        "changed": false,
         "club_price": "2249.00",
         "colours": "anthracite/black/lime",
         "description": null,
         "epic_price": null,
+        "error": "",
+        "error_detail": Object {},
         "frame": 14,
         "id": 58,
         "model_name": "4",
@@ -112,12 +115,12 @@ exports[`should show the bike name and bike edit page when rendered 1`] = `
     style={
       Object {
         "textAlign": "right",
-        "width": "100%",
       }
     }
   >
     <Icon
       as="i"
+      data-test="delete-bike"
       id="delete-bike"
       name="trash"
       onClick={[Function]}

@@ -25,12 +25,6 @@ class BikeReview extends React.Component {
         this.checkPropsData();
         if (prevProps.bikeId !== this.props.bikeId) {
             this.setState(initialState);
-        // } else if (this.state.partEditPart && ! this.state.showPartFinder) {
-        //     if (prevProps.parts !== this.props.parts) {
-        //         this.closePartFinder();
-        //     } else {
-        //         this.showPartFinder(this.state.partEditPart);
-        //     }
         }
     };
 
@@ -70,7 +64,7 @@ class BikeReview extends React.Component {
         this.props.reviewBike(this.props.bikeReviewList[bikeIndex]);
     };
     deletePart = (partId) => {
-        this.props.deleteBikePart(this.props.bike.id, partId);
+        this.props.deleteBikePart(this.props.bikeId, partId);
     };
     saveOrAddPart = (part) => {
         const bikeId = this.props.bikeId;
@@ -123,6 +117,7 @@ class BikeReview extends React.Component {
                         frames={frames}
                         saveBike={saveBike}
                         deleteBikes={deleteBikes}
+                     addPart={this.showPartFinder}
                         key={`editBike${bike.id}`}
                     />
                     <PartDisplayGrid

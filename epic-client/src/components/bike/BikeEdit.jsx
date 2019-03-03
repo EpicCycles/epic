@@ -21,12 +21,13 @@ class BikeEdit extends React.Component {
 
     deriveStateFromProps = () => {
         let newState = updateObject(this.props.bike);
+        newState.changed = false;
+        newState.error = '';
+        newState.error_detail = {};
         return newState;
     };
-
     handleInputChange = (fieldName, input) => {
         let newState = addFieldToState(this.state, bikeFields, fieldName, input);
-        console.log(newState)
         this.setState(newState);
     };
 
@@ -51,7 +52,7 @@ class BikeEdit extends React.Component {
     };
 
     render() {
-        const { bike, brands, frames } = this.props;
+        const { bike, brands, frames, addPart } = this.props;
         const { changed } = this.state;
         const isValid = isModelValid(this.state);
 
@@ -63,23 +64,31 @@ class BikeEdit extends React.Component {
                 onChange={this.handleInputChange}
                 persistedModel={bike}
             />
-            <div style={{ width: "100%", textAlign: "right" }}>
+            <div style={{ textAlign: "right" }}>
                 {changed &&
                 <Icon id={`reset-bike`} name="undo"
                       onClick={this.onClickReset}
                       title="Reset Bike details"
+                      data-test="reset-bike"
                 />
                 }
                 {(changed && isValid) &&
                 <Icon id={`accept-bike`} name="check"
                       onClick={this.saveOrCreateBike}
                       title="Confirm Bike Change"
+                      data-test="save-bike"
                 />
                 }
                 <Icon id={`delete-bike`} name="trash"
                       onClick={this.deleteOrRemoveBike}
                       title="Delete Bike"
+                      data-test="delete-bike"
                 />
+                {addPart && <Icon id={`add-part`} name="add"
+                                  onClick={() => addPart()}
+                                  title="Add part to bike"
+                                 data-test="add-bike-part"
+     />}
             </div>
         </Fragment>;
     }
@@ -90,6 +99,7 @@ BikeEdit.propTypes = {
     brands: PropTypes.array.isRequired,
     frames: PropTypes.array.isRequired,
     saveBike: PropTypes.func.isRequired,
+    addPart: PropTypes.func,
     deleteBikes: PropTypes.func.isRequired,
 };
 export default BikeEdit;
