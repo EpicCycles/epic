@@ -1,14 +1,11 @@
 import React from 'react'
 import * as PropTypes from "prop-types";
 
-import PartTypeSelect from "../partType/PartTypeSelect";
 import {findObjectWithKey, updateObject, updateObjectWithSelectionChanges} from "../../helpers/utils";
-import BrandSelect from "../brand/BrandSelect";
-import FormTextInput from "../../common/FormTextInput";
 import Icon from "semantic-ui-react/dist/commonjs/elements/Icon/Icon";
 import PartSelect from "./PartSelect";
-import {partFields} from "../app/model/helpers/fields";
-import {addFieldToState, getComponentKey} from "../app/model/helpers/model";
+import {partFieldsComplete} from "../app/model/helpers/fields";
+import {addFieldToState} from "../app/model/helpers/model";
 import {getModelFields, partReadyToUse} from "./helpers/part";
 import EditModelPage from "../app/model/EditModelPage";
 import PartSearch from "./PartSearch";
@@ -39,7 +36,7 @@ class PartFinder extends React.Component {
     };
 
     updatePartFieldsInState = (fieldName, value) => {
-        const part = addFieldToState(this.state.part, partFields, fieldName, value);
+        const part = addFieldToState(this.state.part, partFieldsComplete, fieldName, value);
         this.updateStateWithSelectionChanges('part', part);
     };
 

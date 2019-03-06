@@ -1,6 +1,7 @@
 import React from "react";
 import {BRAND, CHECKBOX, COUNTRY, CURRENCY, PART_TYPE, SUPPLIER, TEXT, TEXT_AREA} from "../helpers/fields";
 import EditModelInput from "../EditModelInput";
+import {findDataTest} from "../../../../../test/assert";
 
 const foundName = "find me";
 const sections = [
@@ -178,16 +179,21 @@ test("it renders a checkbox field that is false", () => {
 test("it renders a checkbox field that has no data", () => {
     const field = {
         fieldName: "data_field",
-        type: CURRENCY,
+        type: CHECKBOX,
         length: 10
     };
-    expect(shallow(<EditModelInput
+    const onChange = jest.fn();
+    const component = shallow(<EditModelInput
         field={field}
         model={emptyModel}
         componentKey={componentKey}
         index={0}
-        onChange={jest.fn()}
-    />)).toMatchSnapshot();
+        onChange={onChange}
+    />);
+    expect(component).toMatchSnapshot();
+    findDataTest(component, 'model-checkbox').simulate('change');
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(field.fieldName, true, componentKey);
 });
 test("it renders a part type field that has data that is found", () => {
     const field = {

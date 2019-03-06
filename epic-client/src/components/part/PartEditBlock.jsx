@@ -10,7 +10,7 @@ const PartEditBlock = (props) => {
     const { part, partTypeEditable, brands, sections, componentKey, onChange, savePart, deletePart, resetPart, persistedPart } = props;
     let editFields = partFieldsNoPartType;
     if (partTypeEditable) editFields = partFields;
-    if (part.standard || part.stocked) editFields.push(STOCKED_FIELD);
+    if (part.standard || part.stocked) editFields.slice().push(STOCKED_FIELD);
     const isValid = isModelValid(part);
 
     return <Fragment>

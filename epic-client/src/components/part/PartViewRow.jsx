@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import {getComponentKey} from "../app/model/helpers/model";
-import {partFields} from "../app/model/helpers/fields";
+import {partFieldsComplete} from "../app/model/helpers/fields";
 import ViewModelField from "../app/model/ViewModelField";
 
 
@@ -10,7 +10,7 @@ const PartViewRow = (props) => {
     const rowSpan = supplierProducts ? supplierProducts.length : 1;
     const componentKey = getComponentKey(part);
     return <Fragment>
-        {partFields.map((field, index) => {
+        {partFieldsComplete.map((field, index) => {
             const fixed = ((index === 0) && lockFirstColumn) ? "grid-item--fixed-left" : "";
 
             return <div

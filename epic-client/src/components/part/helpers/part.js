@@ -20,8 +20,8 @@ export const partReadyToUse = (part, persistedPart) => {
     return isItAnObject(part);
 };
 export const getModelFields = (part, partTypeEditable) => {
-    let editFields = partFields;
-    if (part && ! partTypeEditable) editFields = partFieldsNoPartType;
+    let editFields = partFields.slice();
+    if (part && ! partTypeEditable) editFields = partFieldsNoPartType.slice();
     if (part && (part.standard || part.stocked)) editFields.push(STOCKED_FIELD);
     return editFields;
 };

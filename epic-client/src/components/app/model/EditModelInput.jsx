@@ -68,13 +68,15 @@ class EditModelInput extends Component {
                 />;
                 break;
             case CHECKBOX:
+                const checked = fieldValue ? true : false;
                 editComponent = <div>
                     <input type="checkbox"
                            name={fieldName}
-                           onChange={() => this.validateOnChange(fieldName, !fieldValue)}
-                           checked={fieldValue}
+                           onChange={() => this.validateOnChange(fieldName, !checked)}
+                           checked={checked}
                            className={error ? "red" : ""}
                            title={error ? `${field.title} red` : field.title}
+                           data-test="model-checkbox"
                     /></div>;
                 break;
             case PART_TYPE:

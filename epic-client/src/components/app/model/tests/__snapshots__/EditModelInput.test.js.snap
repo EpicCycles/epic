@@ -91,20 +91,16 @@ exports[`it renders a brand field that has no data 1`] = `
 
 exports[`it renders a checkbox field that has no data 1`] = `
 <Fragment>
-  <FormTextInput
-    className=""
-    dataType="text"
-    error=""
-    fieldName="data_field_120"
-    label=""
-    onChange={[Function]}
-    onClick={[Function]}
-    placeholder=""
-    size={30}
-    title=""
-    type="number"
-    value=""
-  />
+  <div>
+    <input
+      checked={false}
+      className=""
+      data-test="model-checkbox"
+      name="data_field_120"
+      onChange={[Function]}
+      type="checkbox"
+    />
+  </div>
 </Fragment>
 `;
 
@@ -114,6 +110,7 @@ exports[`it renders a checkbox field that is false 1`] = `
     <input
       checked={false}
       className=""
+      data-test="model-checkbox"
       name="data_field_120"
       onChange={[Function]}
       type="checkbox"
@@ -128,6 +125,7 @@ exports[`it renders a checkbox field that is true 1`] = `
     <input
       checked={true}
       className=""
+      data-test="model-checkbox"
       name="data_field_120"
       onChange={[Function]}
       type="checkbox"

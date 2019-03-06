@@ -13,7 +13,7 @@ const EditModelPage = (props) => {
         <div key="modelFields" className={`grid ${className}`}>
 
             {eliminateReadOnlyFields(modelFields).map((field, index) => <EditModelPageRow
-                key={`EditModelPageRow${index}`}
+                key={`EditModelPageRow${field.fieldName}`}
                 field={field}
                 model={model}
                 persistedModel={persistedModel}

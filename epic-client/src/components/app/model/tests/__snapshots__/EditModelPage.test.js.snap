@@ -21,7 +21,7 @@ exports[`it renders 1`] = `
         }
       }
       index={0}
-      key="EditModelPageRow0"
+      key="EditModelPageRowaddress1"
       model={Object {}}
       onChange={[MockFunction]}
     />
@@ -36,7 +36,7 @@ exports[`it renders 1`] = `
         }
       }
       index={1}
-      key="EditModelPageRow1"
+      key="EditModelPageRowaddress2"
       model={Object {}}
       onChange={[MockFunction]}
     />
@@ -51,7 +51,7 @@ exports[`it renders 1`] = `
         }
       }
       index={2}
-      key="EditModelPageRow2"
+      key="EditModelPageRowaddress3"
       model={Object {}}
       onChange={[MockFunction]}
     />
@@ -66,7 +66,7 @@ exports[`it renders 1`] = `
         }
       }
       index={3}
-      key="EditModelPageRow3"
+      key="EditModelPageRowaddress4"
       model={Object {}}
       onChange={[MockFunction]}
     />
@@ -1081,7 +1081,7 @@ exports[`it renders 1`] = `
         }
       }
       index={4}
-      key="EditModelPageRow4"
+      key="EditModelPageRowcountry"
       model={Object {}}
       onChange={[MockFunction]}
     />
@@ -1100,7 +1100,7 @@ exports[`it renders 1`] = `
         }
       }
       index={5}
-      key="EditModelPageRow5"
+      key="EditModelPageRowpostcode"
       model={Object {}}
       onChange={[MockFunction]}
     />
@@ -1145,7 +1145,7 @@ exports[`it renders with data 1`] = `
         }
       }
       index={0}
-      key="EditModelPageRow0"
+      key="EditModelPageRowaddress1"
       model={
         Object {
           "address1": "line one",
@@ -1243,7 +1243,7 @@ exports[`it renders with data 1`] = `
         }
       }
       index={1}
-      key="EditModelPageRow1"
+      key="EditModelPageRowaddress2"
       model={
         Object {
           "address1": "line one",
@@ -1341,7 +1341,7 @@ exports[`it renders with data 1`] = `
         }
       }
       index={2}
-      key="EditModelPageRow2"
+      key="EditModelPageRowaddress3"
       model={
         Object {
           "address1": "line one",
@@ -1439,7 +1439,7 @@ exports[`it renders with data 1`] = `
         }
       }
       index={3}
-      key="EditModelPageRow3"
+      key="EditModelPageRowaddress4"
       model={
         Object {
           "address1": "line one",
@@ -2537,7 +2537,7 @@ exports[`it renders with data 1`] = `
         }
       }
       index={4}
-      key="EditModelPageRow4"
+      key="EditModelPageRowcountry"
       model={
         Object {
           "address1": "line one",
@@ -2639,7 +2639,7 @@ exports[`it renders with data 1`] = `
         }
       }
       index={5}
-      key="EditModelPageRow5"
+      key="EditModelPageRowpostcode"
       model={
         Object {
           "address1": "line one",

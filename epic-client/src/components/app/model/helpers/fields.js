@@ -650,6 +650,14 @@ export const frameFields = [BRAND, FRAME_NAME];
 export const fittingFields = [
     FITTING_TYPE_FIELD, BAR_HEIGHT_FIELD, SADDLE_HEIGHT_FIELD, REACH_FIELD, NOTE_TEXT_FIELD, ADD_DATE_FIELD, UPD_DATE_FIELD
 ];
+export const partFieldsComplete = [
+    PART_TYPE_FIELD,
+    BRAND_FIELD,
+    PART_NAME_FIELD,
+    TRADE_IN_FIELD,
+    STANDARD_FIELD,
+    STOCKED_FIELD,
+];
 export const partFields = [
     PART_TYPE_FIELD,
     BRAND_FIELD,

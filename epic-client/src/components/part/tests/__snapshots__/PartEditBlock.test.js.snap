@@ -102,16 +102,6 @@ exports[`should display all icons when a part is changed 1`] = `
           "header": "Standard",
           "type": "checkbox",
         },
-        Object {
-          "fieldName": "stocked",
-          "header": "Stocked",
-          "type": "checkbox",
-        },
-        Object {
-          "fieldName": "stocked",
-          "header": "Stocked",
-          "type": "checkbox",
-        },
       ]
     }
     onChange={[MockFunction]}
@@ -322,11 +312,6 @@ exports[`should display delete and reset when a part is changed but has errors 1
         Object {
           "fieldName": "standard",
           "header": "Standard",
-          "type": "checkbox",
-        },
-        Object {
-          "fieldName": "stocked",
-          "header": "Stocked",
           "type": "checkbox",
         },
       ]
