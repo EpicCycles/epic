@@ -1,14 +1,36 @@
 import {colourStyles} from "./constants";
 import {getComponentKey} from "../components/app/model/helpers/model";
 
+export const sortObjectsByAttribute = (initialArray, attributeName = 'id') => {
+    return initialArray.sort((a, b) => {
+        const compareA = a[attributeName];
+        const compareB = b[attributeName];
+
+        if (typeof compareA === "string") return compareString(compareA, compareB)
+        return (compareA - compareB);
+    });
+};
+export const compareString = (a, b) => {
+  const nameA = a.toUpperCase(); // ignore upper and lowercase
+  const nameB = b.toUpperCase(); // ignore upper and lowercase
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+
+  // names must be equal
+  return 0;
+};
 export const addItemsToArray = (oldArray = [], listOfItems = []) => {
-  let newArray = oldArray.slice();
-  listOfItems.forEach(item => {
-      let itemKey = getComponentKey(item);
-      let existingIndex = findIndexOfObjectWithKey(newArray, itemKey);
-      if (existingIndex < 0) newArray.push(item); else newArray[existingIndex] = item;
-  });
-  return newArray;
+    let newArray = oldArray.slice();
+    listOfItems.forEach(item => {
+        let itemKey = getComponentKey(item);
+        let existingIndex = findIndexOfObjectWithKey(newArray, itemKey);
+        if (existingIndex < 0) newArray.push(item); else newArray[existingIndex] = item;
+    });
+    return newArray;
 };
 export const flattenArrayOfArrays = (startArray) => {
     let flatArray = [];

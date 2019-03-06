@@ -114,7 +114,6 @@ export function* addBikePart(action) {
         if (token) {
             const completePayload = updateObject(action.payload, { token });
             const response = yield call(bike.addBikePart, completePayload);
-            // const response = yield call(bike.getBikeParts, completePayload);
             yield put(addBikePartOK(response.data));
         } else {
             yield call(history.push, "/login");

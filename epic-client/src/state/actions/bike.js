@@ -70,9 +70,9 @@ export const addBikePart = (bikeId, part) => ({
     type: `${BIKE_ADD_PART}_REQUESTED`,
     payload: { bikeId, part }
 });
-export const addBikePartOK = (parts) => ({
+export const addBikePartOK = (responseData) => ({
     type: `${BIKE_ADD_PART}_OK`,
-    payload: { parts }
+    payload: responseData
 });
 export const addBikePartError = (error) => ({
     type: `${BIKE_ADD_PART}_ERROR`,
