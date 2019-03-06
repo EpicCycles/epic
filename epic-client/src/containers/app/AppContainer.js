@@ -17,6 +17,7 @@ import SupplierProductReviewContainer from "../supplierProduct/SupplierProductRe
 import Login from "../user/LoginContainer";
 import UserDetailChangeContainer from "../user/UserDetailChangeContainer";
 import PasswordChangeContainer from "../user/PasswordChangeContainer";
+import QuoteManagerContainer from "../quote/QuoteManagerContainer";
 
 ReactModal.setAppElement('#root');
 const App = () => (
@@ -38,6 +39,7 @@ const App = () => (
             <Route exact path="/bike-review" component={BikeReviewContainer}/>
             <Route exact path="/product-upload" component={SupplierProductUploadContainer}/>
             <Route exact path="/product-review" component={SupplierProductReviewContainer}/>
+            <Route exact path="/quote" component={QuoteManagerContainer}/>
         </main>
     </div>
 );

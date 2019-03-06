@@ -12,7 +12,7 @@ test('it selects the first tab if none passed', () => {
     const component = shallow(<TabbedView
         tabs={tabs}
         changeTab={jest.fn()}
-    />)
+    />);
     expect(component).toMatchSnapshot();
 });
 test('it selects the first tab if none passed', () => {

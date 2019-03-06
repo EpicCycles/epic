@@ -16,27 +16,10 @@ export const menuStructure = [
         sectionPos: 2,
         sectionContents: [
             {
-                groupHeader: "Bikes",
+                groupHeader: "Quotes",
                 groupPos: 20,
                 groupLinks: [
-                    {displayText: "Bike Upload", linkRoute: "/bike-upload", linkNumber: 201},
-                    {displayText: "Bike Review", linkRoute: "/bike-review-list", linkNumber: 202},
-                ]
-            },
-            {
-                groupHeader: "Core Data",
-                groupPos: 21,
-                groupLinks: [
-                    {displayText: "Quote Sections", linkRoute: "/framework", linkNumber: 211},
-                    {displayText: "Brands", linkRoute: "/brands", linkNumber: 212},
-                ]
-            },
-            {
-                groupHeader: "Products",
-                groupPos: 22,
-                groupLinks: [
-                    { displayText: "Product Upload", linkRoute: "/product-upload", linkNumber: 221 },
-                    { displayText: "Product Review", linkRoute: "/product-review", linkNumber: 222 },
+                    {displayText: "Quote manager", linkRoute: "/quote", linkNumber: 201},
                 ]
             },
         ]
@@ -45,12 +28,41 @@ export const menuStructure = [
         sectionPos: 3,
         sectionContents: [
             {
-                groupHeader: "User",
+                groupHeader: "Bikes",
                 groupPos: 30,
                 groupLinks: [
-                    {displayText: "Edit User", linkRoute: "/change-user-detail", linkNumber: 301},
-                    {displayText: "Change Password", linkRoute: "/change-password", linkNumber: 302},
-                    {displayText: "Login", linkRoute: "/login", linkNumber: 303},
+                    {displayText: "Bike Upload", linkRoute: "/bike-upload", linkNumber: 301},
+                    {displayText: "Bike Review", linkRoute: "/bike-review-list", linkNumber: 302},
+                ]
+            },
+            {
+                groupHeader: "Core Data",
+                groupPos: 31,
+                groupLinks: [
+                    {displayText: "Quote Sections", linkRoute: "/framework", linkNumber: 311},
+                    {displayText: "Brands", linkRoute: "/brands", linkNumber: 312},
+                ]
+            },
+            {
+                groupHeader: "Products",
+                groupPos: 32,
+                groupLinks: [
+                    { displayText: "Product Upload", linkRoute: "/product-upload", linkNumber: 321 },
+                    { displayText: "Product Review", linkRoute: "/product-review", linkNumber: 322 },
+                ]
+            },
+        ]
+    },
+    {
+        sectionPos: 4,
+        sectionContents: [
+            {
+                groupHeader: "User",
+                groupPos: 40,
+                groupLinks: [
+                    {displayText: "Edit User", linkRoute: "/change-user-detail", linkNumber: 401},
+                    {displayText: "Change Password", linkRoute: "/change-password", linkNumber: 402},
+                    {displayText: "Login", linkRoute: "/login", linkNumber: 403},
                 ]
             },
         ]

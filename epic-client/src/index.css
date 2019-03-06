@@ -880,6 +880,7 @@ ui.toggle.checkbox input[type="radio"]:checked {
     height: 37px;
     overflow: hidden;
     font-size: 12px;
+    display: inline-flex;
 }
 
 .tabrow:after {
