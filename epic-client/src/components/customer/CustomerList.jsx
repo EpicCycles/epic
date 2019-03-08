@@ -4,7 +4,8 @@ import Pagination from "../../common/pagination";
 import FormTextInput from "../../common/FormTextInput";
 import CustomerRow from "./CustomerRow";
 import ErrorDismissibleBlock from "../../common/ErrorDismissibleBlock";
-import {Link} from "react-router-dom";
+import {Redirect} from "react-router-dom";
+import CustomerAddLink from "./CustomerAddLink";
 
 
 class CustomerList extends React.Component {
@@ -52,10 +53,15 @@ class CustomerList extends React.Component {
         const { firstName, lastName, email } = this.state;
         this.props.getCustomerList(firstName, lastName, email);
     };
+    goToAddCustomer = () => {
+        props.clearCustomerState();
+        this.setState({redirect: '/customer'});
+    };
 
     render() {
-        const { firstName, lastName, email } = this.state;
+        const { firstName, lastName, email, redirect } = this.state;
         const { getCustomerListPage, getCustomer, removeCustomerError, clearCustomerState, isLoading, customers, count, next, previous, error } = this.props;
+        if (redirect) return <Redirect to={redirect} />;
 
         return (
             <div id="customer-list">
@@ -123,9 +129,7 @@ class CustomerList extends React.Component {
                                 next={next}
                                 count={count}
                                 getPage={getCustomerListPage}/>
-                            <Link className="" to="/customer" title="Add a new customer"
-                                  onClick={() => clearCustomerState()}><Icon name='add' className="red"/> </Link>
-
+                            <CustomerAddLink addNewCustomer={this.goToAddCustomer()}/>
                         </div>
                     </div>
                     :

@@ -14,6 +14,7 @@ const props = {
     getBrandsAndSuppliers: jest.fn(),
     saveBrands: jest.fn(),
     getFramework: jest.fn(),
+    getFrameList: jest.fn(),
     listParts: jest.fn(),
     getCustomerList: jest.fn(),
     getCustomerListPage: jest.fn(),

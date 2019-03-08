@@ -4,15 +4,16 @@ import * as PropTypes from "prop-types";
 import {doWeHaveObjects} from "../../helpers/utils";
 
 const tabs = [
-    "Customer" ,
-    "Bike" ,
-    "Quote List" ,
-    "Quote detail" ,
+    "Customer",
+    "Bike",
+    "Quote List",
+    "Quote detail",
 ];
 const initialState = {
     tab: 0,
 };
-class QuoteManager  extends React.Component {
+
+class QuoteManager extends React.Component {
     state = initialState;
 
     componentDidMount() {
@@ -29,7 +30,7 @@ class QuoteManager  extends React.Component {
         if (doWeHaveObjects(this.props.brands)) brandsRequired = false;
         if (doWeHaveObjects(this.props.sections)) frameworkRequired = false;
 
-          if (brandsRequired) {
+        if (brandsRequired) {
             this.props.getBrandsAndSuppliers();
         }
         if (frameworkRequired) {
@@ -37,17 +38,18 @@ class QuoteManager  extends React.Component {
         }
     };
     changeCurrentTab = (newTab) => {
-        if (newTab !== this.state.tab) this.setState({tab: newTab})
+        if (newTab !== this.state.tab) this.setState({ tab: newTab })
     };
+
     render() {
         const { tab } = this.state;
-        return <Fragment>
+        return <div>
             <TabbedView tabs={tabs} changeTab={this.changeCurrentTab} currentTab={tab}/>
-            {(tab === 0) && <h1 data-test="customer-tab">Customer</h1> }
-            {(tab === 1) && <h1 data-test="bike-tab">Customer</h1> }
-            {(tab === 2) && <h1 data-test="quote-list-tab">Customer</h1> }
-            {(tab === 3) && <h1 data-test="quote-detail-tab">Customer</h1> }
-        </Fragment>
+            {(tab === 0) && <h1 data-test="customer-tab">Customer</h1>}
+            {(tab === 1) && <h1 data-test="bike-tab">Customer</h1>}
+            {(tab === 2) && <h1 data-test="quote-list-tab">Customer</h1>}
+            {(tab === 3) && <h1 data-test="quote-detail-tab">Customer</h1>}
+        </div>
     };
 }
 
@@ -77,15 +79,16 @@ QuoteManager.propTypes = {
     parts: PropTypes.array,
     frames: PropTypes.array,
     customers: PropTypes.array,
+    searchParams: PropTypes.object,
     notes: PropTypes.array,
     customer: PropTypes.object,
-     quotes: PropTypes.array,
-     quoteParts: PropTypes.array,
-   getBrandsAndSuppliers: PropTypes.func.isRequired,
+    quotes: PropTypes.array,
+    quoteParts: PropTypes.array,
+    getBrandsAndSuppliers: PropTypes.func.isRequired,
     saveBrands: PropTypes.func.isRequired,
     getFramework: PropTypes.func.isRequired,
     getFrameList: PropTypes.func.isRequired,
-   listParts: PropTypes.func.isRequired,
+    listParts: PropTypes.func.isRequired,
     getCustomerList: PropTypes.func.isRequired,
     getCustomerListPage: PropTypes.func.isRequired,
     getCustomer: PropTypes.func.isRequired,
@@ -98,7 +101,7 @@ QuoteManager.propTypes = {
     saveNote: PropTypes.func.isRequired,
     removeNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
-        saveCustomerPhone: PropTypes.func.isRequired,
+    saveCustomerPhone: PropTypes.func.isRequired,
     deleteCustomerPhone: PropTypes.func.isRequired,
     saveCustomerAddress: PropTypes.func.isRequired,
     deleteCustomerAddress: PropTypes.func.isRequired,

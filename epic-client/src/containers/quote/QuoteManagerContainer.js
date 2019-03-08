@@ -22,6 +22,7 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
         sections: framework.sections,
         parts: part.parts,
         frames: bike.frames,
+        searchParams: customer.searchParams,
         customers: customer.customers,
         customer: customer.customer,
         notes: note.notes,
