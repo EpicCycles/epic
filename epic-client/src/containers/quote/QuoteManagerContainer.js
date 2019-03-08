@@ -11,6 +11,7 @@ import {
 } from "../../state/actions/customer";
 import {createNote, deleteNote, removeNote, saveNote} from "../../state/actions/note";
 import QuoteManager from "../../components/quote/QuoteManager";
+import {listParts} from "../../state/actions/part";
 
 const mapStateToProps = ({ bike, core, customer, framework, note, part, quote }) => {
     return {
@@ -36,6 +37,7 @@ const mapDispatchToProps = {
     saveBrands,
     getFramework,
     getFrameList,
+    listParts,
     getCustomerList,
     getCustomerListPage,
     getCustomer,
