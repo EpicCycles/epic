@@ -6,6 +6,8 @@ import CustomerRow from "./CustomerRow";
 import ErrorDismissibleBlock from "../../common/ErrorDismissibleBlock";
 import {Redirect} from "react-router-dom";
 import CustomerAddLink from "./CustomerAddLink";
+import CustomerSearch from "./CustomerSearch";
+import {searchParams} from "../../state/selectors/customer";
 
 
 class CustomerList extends React.Component {
@@ -60,49 +62,12 @@ class CustomerList extends React.Component {
 
     render() {
         const { firstName, lastName, email, redirect } = this.state;
-        const { getCustomerListPage, getCustomer, removeCustomerError, clearCustomerState, isLoading, customers, count, next, previous, error } = this.props;
+        const { getCustomerList, getCustomerListPage, getCustomer, removeCustomerError, isLoading, customers, count, next, previous, error } = this.props;
         if (redirect) return <Redirect to={redirect} />;
 
         return (
             <div id="customer-list">
-                <form onSubmit={this.onSubmit}>
-                    <h2>Find Customer</h2>
-                    <div className="row vertical-middle">
-                        <div>First name like:</div>
-                        <FormTextInput
-                            placeholder="First Name"
-                            id="first-name-input"
-                            className="column "
-                            fieldName="firstName"
-                            value={firstName}
-                            onChange={this.handleInputChange}
-                            onClick={this.handleInputClear}
-                        />
-                        <div> Last name like:</div>
-                        <FormTextInput
-                            placeholder="Last Name"
-                            id="last-name-input"
-                            className="column "
-                            fieldName="lastName"
-                            onChange={this.handleInputChange}
-                            onClick={this.handleInputClear}
-                            value={lastName}
-                        />
-                        <div> email like:</div>
-                        <FormTextInput
-                            placeholder="bod@gmail.com"
-                            id="email-input"
-                            className="column "
-                            fieldName="email"
-                            onChange={this.handleInputChange}
-                            onClick={this.handleInputClear}
-                            value={email}
-                        />
-                        <div>
-                            <Button type="submit" disabled={isLoading}>Find Customers</Button>
-                        </div>
-                    </div>
-                </form>
+                <CustomerSearch getCustomerList={getCustomerList} searchParams={searchParams} isLoading={isLoading}/>
                 {count > 0 ?
                     <div style={{ width: '100%', height: '400px' }}>
                         <table className="fixed_headers">

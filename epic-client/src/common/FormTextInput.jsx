@@ -8,7 +8,7 @@ const FormTextInput = props => {
     return (
         <div
             id={props.id}
-            className={(props.className) + (props.error ? " error" : "")}>
+            className={"row " + (props.className) + (props.error ? " error" : "")}>
             {props.label && <label>{props.label}</label>}
             <input
                 className={(props.error ? " error" : "")}
@@ -18,7 +18,7 @@ const FormTextInput = props => {
                 title={`${props.title} ${props.error}`}
                 name={props.fieldName}
                 id={props.fieldName}
-                onChange={event => props.onChange(event.target.id, event.target.value)}
+                onChange={event => props.onChange(props.fieldName, event.target.value)}
                 value={value}
                 size={props.size}
             />
@@ -30,7 +30,7 @@ const FormTextInput = props => {
                 size="small"
                 circular
                 link
-                onClick={event => props.onClick(event.target.id)}
+                onClick={event => props.onClick(props.fieldName)}
             />
         </span>}
         </div>

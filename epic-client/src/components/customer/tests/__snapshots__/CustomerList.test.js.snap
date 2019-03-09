@@ -4,78 +4,27 @@ exports[`CustomerList.index tests renders the CustomerList correctly 1`] = `
 <div
   id="customer-list"
 >
-  <form
-    onSubmit={[Function]}
-  >
-    <h2>
-      Find Customer
-    </h2>
-    <div
-      className="row vertical-middle"
-    >
-      <div>
-        First name like:
-      </div>
-      <FormTextInput
-        className="column "
-        dataType="text"
-        error=""
-        fieldName="firstName"
-        id="first-name-input"
-        label=""
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="First Name"
-        size={30}
-        title=""
-        value=""
-      />
-      <div>
-         Last name like:
-      </div>
-      <FormTextInput
-        className="column "
-        dataType="text"
-        error=""
-        fieldName="lastName"
-        id="last-name-input"
-        label=""
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="Last Name"
-        size={30}
-        title=""
-        value=""
-      />
-      <div>
-         email like:
-      </div>
-      <FormTextInput
-        className="column "
-        dataType="text"
-        error=""
-        fieldName="email"
-        id="email-input"
-        label=""
-        onChange={[Function]}
-        onClick={[Function]}
-        placeholder="bod@gmail.com"
-        size={30}
-        title=""
-        value=""
-      />
-      <div>
-        <Button
-          as="button"
-          disabled={false}
-          role="button"
-          type="submit"
-        >
-          Find Customers
-        </Button>
-      </div>
-    </div>
-  </form>
+  <CustomerSearch
+    getCustomerList={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            "",
+            "",
+            "",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      }
+    }
+    isLoading={false}
+    searchParams={[Function]}
+  />
   <p>
     Set criteria and search.
   </p>
