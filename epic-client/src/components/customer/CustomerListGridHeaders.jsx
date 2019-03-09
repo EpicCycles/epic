@@ -3,7 +3,7 @@ import * as PropTypes from "prop-types";
 import SupplierProductFieldHeaders from "../supplierProduct/SupplierProductFieldHeaders";
 import {fixedHeaderClassname} from "../app/model/helpers/display";
 import {customerFields, partFields} from "../app/model/helpers/fields";
-import ErrorHeader from "../app/model/ErrorHeader";
+import AdditionalHeader from "../app/model/AdditionalHeader";
 import ModelTableHeaders from "../app/model/ModelTableHeaders";
 
 const CustomerListGridHeaders = (props) => {
@@ -14,14 +14,17 @@ const CustomerListGridHeaders = (props) => {
             className={props.className}
             data-test="customer-field-headers"
         />
-        {props.includeActions && <div
-            className={`grid-item--header ${props.className}`}
+        {props.includeActions && <AdditionalHeader
+            className={props.className}
             key="part-display-grid-header-actions"
             data-test="customer-actions"
-        >
-            Actions
-        </div>}
-        {props.showErrors && <ErrorHeader data-test="customer-errors" />}
+            headerText={'Actions'}
+        />}
+        {props.showErrors && <AdditionalHeader
+            data-test="customer-errors"
+            className={props.className}
+            headerText={'Errors'}
+        />}
     </div>;
 };
 CustomerListGridHeaders.defaultProps = {

@@ -2,19 +2,13 @@ import React, {Fragment} from "react";
 import {supplierProductFields} from "../app/model/helpers/fields";
 import * as PropTypes from "prop-types";
 import {fixedHeaderClassname} from "../app/model/helpers/display";
-import ErrorHeader from "../app/model/ErrorHeader";
+import AdditionalHeader from "../app/model/AdditionalHeader";
+import ModelTableHeaders from "../app/model/ModelTableHeaders";
 
 const SupplierProductFieldHeaders = (props) => {
     return <Fragment>
-        {supplierProductFields.map(field => {
-            return <div
-                className={`grid-item--header ${props.className} ${fixedHeaderClassname(props.lockFirstColumn)}`}
-                key={`partHead${field.fieldName}`}
-            >
-                {field.header}
-            </div>;
-        })}
-        <ErrorHeader/>
+        <ModelTableHeaders modelFields={supplierProductFields} className={props.className} lockFirstColumn={props.lockFirstColumn}/>
+        {props.showErrors && <AdditionalHeader headerText={'Errors'} className={props.className}/>}
     </Fragment>;
 };
 SupplierProductFieldHeaders.defaultProps = {

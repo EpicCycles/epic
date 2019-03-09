@@ -2,17 +2,18 @@ import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import {fixedHeaderClassname, gridHeaderClass} from "./helpers/display";
 
-const ErrorHeader = (props) => {
+const AdditionalHeader = (props) => {
     return <div className={gridHeaderClass(props.className, 0, props.lockedColumn)}>
-        Errors
+        {props.headerText}
     </div>;
 };
-ErrorHeader.defaultProps = {
+AdditionalHeader.defaultProps = {
     lockedColumn: false,
     className: "",
 };
-ErrorHeader.propTypes = {
+AdditionalHeader.propTypes = {
     lockedColumn: PropTypes.bool,
     className: PropTypes.string,
+    headerText: PropTypes.string.isRequired,
 };
-export default ErrorHeader;
+export default AdditionalHeader;
