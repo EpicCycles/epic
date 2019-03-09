@@ -1,6 +1,6 @@
-import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
-import {generateRandomCode} from "../../../../helpers/utils";
-import {getComponentKey} from "../helpers/model";
+import {NEW_ELEMENT_ID} from "../../../../../helpers/constants";
+import {generateRandomCode} from "../../../../../helpers/utils";
+import {getComponentKey} from "../model";
 
 test('no model returns new element id', () => {
     expect(getComponentKey()).toBe(NEW_ELEMENT_ID);

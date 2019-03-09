@@ -6,7 +6,7 @@ import {customerFields} from "../../app/model/helpers/fields";
 describe('CustomerListGridHeaders', () => {
     it('should show just fields when no other parts are requested', () => {
         const component = shallow(<CustomerListGridHeaders/>);
-        expect(findDataTest(component, "customer-field-header")).toHaveLength(customerFields.length);
+        expect(findDataTest(component, "customer-field-headers")).toHaveLength(1);
         expect(findDataTest(component, "customer-actions")).toHaveLength(0);
         expect(findDataTest(component, "customer-errors")).toHaveLength(0);
     });
@@ -14,7 +14,7 @@ describe('CustomerListGridHeaders', () => {
         const component = shallow(<CustomerListGridHeaders
             showErrors={true}
         />);
-        expect(findDataTest(component, "customer-field-header")).toHaveLength(customerFields.length);
+        expect(findDataTest(component, "customer-field-headers")).toHaveLength(1);
         expect(findDataTest(component, "customer-actions")).toHaveLength(0);
         expect(findDataTest(component, "customer-errors")).toHaveLength(1);
     });
@@ -22,7 +22,7 @@ describe('CustomerListGridHeaders', () => {
         const component = shallow(<CustomerListGridHeaders
             includeActions={true}
         />);
-        expect(findDataTest(component, "customer-field-header")).toHaveLength(customerFields.length);
+        expect(findDataTest(component, "customer-field-headers")).toHaveLength(1);
         expect(findDataTest(component, "customer-actions")).toHaveLength(1);
         expect(findDataTest(component, "customer-errors")).toHaveLength(0);
     });
@@ -31,7 +31,7 @@ describe('CustomerListGridHeaders', () => {
             includeActions={true}
             showErrors={true}
         />);
-        expect(findDataTest(component, "customer-field-header")).toHaveLength(customerFields.length);
+        expect(findDataTest(component, "customer-field-headers")).toHaveLength(1);
         expect(findDataTest(component, "customer-actions")).toHaveLength(1);
         expect(findDataTest(component, "customer-errors")).toHaveLength(1);
     });

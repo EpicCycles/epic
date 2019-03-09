@@ -1,4 +1,4 @@
-import {validatePostcodeAndReturnError} from "../helpers/validators";
+import {validatePostcodeAndReturnError} from "../validators";
 
 test('a country that has a postcode map returns an error if the postcode is not found', () => {
     const result = validatePostcodeAndReturnError('', {country: 'GB'});

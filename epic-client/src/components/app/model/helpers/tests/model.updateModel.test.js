@@ -1,5 +1,5 @@
-import {customerAddressFields} from "../helpers/fields";
-import {updateModel} from "../helpers/model";
+import {customerAddressFields} from "../fields";
+import {updateModel} from "../model";
 
 test('field added to model', () => {
     const model = {

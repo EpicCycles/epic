@@ -1,5 +1,5 @@
-import {ADDRESS_MISSING} from "../helpers/error";
-import {isModelValid} from "../helpers/model";
+import {ADDRESS_MISSING} from "../error";
+import {isModelValid} from "../model";
 
 test('no error or error detail is valid', () => {
     const model = {

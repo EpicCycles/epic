@@ -1,5 +1,5 @@
-import {BRAND_FIELD, DESCRIPTION_FIELD, FRAME_NAME_FIELD, SELL_PRICE_FIELD} from "../helpers/fields";
-import {checkForChanges} from "../helpers/model";
+import {BRAND_FIELD, DESCRIPTION_FIELD, FRAME_NAME_FIELD, SELL_PRICE_FIELD} from "../fields";
+import {checkForChanges} from "../model";
 const fieldListForTest = [BRAND_FIELD, SELL_PRICE_FIELD, DESCRIPTION_FIELD, FRAME_NAME_FIELD];
 
 test("no field values returns false", () => {

@@ -1,5 +1,5 @@
-import {ADDRESS1, ADDRESS1_FIELD, customerAddressFields} from "../helpers/fields";
-import {getAttribute} from "../helpers/model";
+import {ADDRESS1, ADDRESS1_FIELD, customerAddressFields} from "../fields";
+import {getAttribute} from "../model";
 
 test('if a field is found it is returned', () => {
    const field = getAttribute(customerAddressFields, "address1_1234_23");

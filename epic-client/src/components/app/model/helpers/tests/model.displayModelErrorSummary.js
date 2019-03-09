@@ -1,5 +1,5 @@
-import {customerAddressFields} from "../helpers/fields";
-import {displayModelErrorSummary} from "../helpers/model";
+import {customerAddressFields} from "../fields";
+import {displayModelErrorSummary} from "../model";
 
 test('if no error or error_detail undefined returned', () => {
     const model = {

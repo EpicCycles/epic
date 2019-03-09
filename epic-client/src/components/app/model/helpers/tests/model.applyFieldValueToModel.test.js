@@ -1,6 +1,6 @@
-import {ADDRESS1_FIELD, ADDRESS2_FIELD, POSTCODE_FIELD} from "../helpers/fields";
-import {ADDRESS_MISSING} from "../helpers/error";
-import {applyFieldValueToModel} from "../helpers/model";
+import {ADDRESS1_FIELD, ADDRESS2_FIELD, POSTCODE_FIELD} from "../fields";
+import {ADDRESS_MISSING} from "../error";
+import {applyFieldValueToModel} from "../model";
 
 test('missing field not required or validated added to model', () => {
     const model = {

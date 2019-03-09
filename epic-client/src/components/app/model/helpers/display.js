@@ -6,3 +6,7 @@ export const fixedDetailsClassname = (lockColumn) => {
     if (lockColumn) return "grid-item--fixed-left";
     return "";
 };
+export const gridHeaderClass = (baseClassName = "", fieldIndex, firstColumnLocked) => {
+  const shouldLock = firstColumnLocked && (fieldIndex === 0);
+    return `${baseClassName} grid-item--header ${fixedHeaderClassname(shouldLock)}`;
+}

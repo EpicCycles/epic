@@ -1,5 +1,5 @@
-import {BRAND_FIELD, DESCRIPTION_FIELD, FRAME_NAME_FIELD, SELL_PRICE_FIELD} from "../helpers/fields";
-import {addFieldToState} from "../helpers/model";
+import {BRAND_FIELD, DESCRIPTION_FIELD, FRAME_NAME_FIELD, SELL_PRICE_FIELD} from "../fields";
+import {addFieldToState} from "../model";
 
 const fieldListForTest = [BRAND_FIELD, SELL_PRICE_FIELD, DESCRIPTION_FIELD, FRAME_NAME_FIELD];
 test("field not in field list not added to state", () => {
