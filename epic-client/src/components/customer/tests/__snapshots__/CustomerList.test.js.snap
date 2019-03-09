@@ -9,8 +9,80 @@ exports[`CustomerList.index tests renders the CustomerList correctly 1`] = `
     isLoading={false}
     searchParams={[Function]}
   />
-  <p>
-    Set criteria and search.
-  </p>
+  <div
+    className="row align-left"
+  >
+    <div>
+      No Customer to show, set new criteria and search, or
+    </div>
+    <CustomerAddLink />
+  </div>
+</div>
+`;
+
+exports[`CustomerList.index tests renders the CustomerList correctly when there are customers 1`] = `
+<div
+  id="customer-list"
+>
+  <CustomerSearch
+    getCustomerList={[MockFunction]}
+    isLoading={false}
+    searchParams={[Function]}
+  />
+  <div
+    className="grid-container"
+    key="customer-list-container"
+    style={
+      Object {
+        "height": "400px",
+        "width": "100%",
+      }
+    }
+  >
+    <CustomerListGridHeaders
+      className=""
+      includeActions={true}
+      lockFirstColumn={true}
+    />
+    <CustomerListGridRow
+      customer={
+        Object {
+          "add_date": "2018-07-04T13:02:09.988286+01:00",
+          "email": "anna.weaver@johnlewis.co.uk",
+          "first_name": "Anna",
+          "id": 16,
+          "last_name": "Weaver",
+          "upd_date": "2018-07-04T13:02:09.988343+01:00",
+        }
+      }
+      getCustomer={[MockFunction]}
+      key="cust-16"
+      lockFirstColumn={true}
+    />
+    <CustomerListGridRow
+      customer={
+        Object {
+          "add_date": "2018-07-04T13:02:09.988286+01:00",
+          "first_name": "dfds",
+          "id": 26,
+          "last_name": "Weasdfdsfver",
+          "upd_date": "2018-07-04T13:02:09.988343+01:00",
+        }
+      }
+      getCustomer={[MockFunction]}
+      key="cust-26"
+      lockFirstColumn={true}
+    />
+  </div>
+  <div
+    className="row align-left"
+  >
+    <Pagination
+      count={6}
+      getPage={[MockFunction]}
+      id="customer-pagination"
+    />
+    <CustomerAddLink />
+  </div>
 </div>
 `;
