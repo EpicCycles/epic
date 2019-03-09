@@ -1,9 +1,9 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {fixedHeaderClassname} from "./helpers/display";
+import {fixedHeaderClassname, gridHeaderClass} from "./helpers/display";
 
 const ErrorHeader = (props) => {
-    return <div className={`grid-item--header ${fixedHeaderClassname(props.lockedColumn)} ${props.className}`}>
+    return <div className={gridHeaderClass(props.className, 0, props.lockedColumn)}>
         Errors
     </div>;
 };
