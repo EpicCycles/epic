@@ -9,4 +9,8 @@ export const fixedDetailsClassname = (lockColumn) => {
 export const gridHeaderClass = (baseClassName = "", fieldIndex, firstColumnLocked) => {
   const shouldLock = firstColumnLocked && (fieldIndex === 0);
     return `${baseClassName} grid-item--header ${fixedHeaderClassname(shouldLock)}`;
-}
+};
+export const gridItemClass = (baseClassName = "", fieldIndex, firstColumnLocked) => {
+  const shouldLock = firstColumnLocked && (fieldIndex === 0);
+    return `${baseClassName} grid-item ${fixedDetailsClassname(shouldLock)}`;
+};
