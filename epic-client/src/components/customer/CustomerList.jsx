@@ -26,8 +26,11 @@ class CustomerList extends React.Component {
         return (
             <div id="customer-list">
                 <CustomerSearch getCustomerList={getCustomerList} searchParams={searchParams} isLoading={isLoading}/>
-                {count > 0 ?
-                    <div style={{ width: '100%', height: '400px' }}>
+                {count > 0 ? <div
+                    className="grid-container"
+                    key="customer-list-container"
+                    style={{ width: '100%', height: '400px' }}
+                    >
                         <table className="fixed_headers">
                             <thead>
                             <tr>
