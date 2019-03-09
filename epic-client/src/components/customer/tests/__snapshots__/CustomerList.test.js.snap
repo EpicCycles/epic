@@ -5,23 +5,7 @@ exports[`CustomerList.index tests renders the CustomerList correctly 1`] = `
   id="customer-list"
 >
   <CustomerSearch
-    getCustomerList={
-      [MockFunction] {
-        "calls": Array [
-          Array [
-            "",
-            "",
-            "",
-          ],
-        ],
-        "results": Array [
-          Object {
-            "isThrow": false,
-            "value": undefined,
-          },
-        ],
-      }
-    }
+    getCustomerList={[MockFunction]}
     isLoading={false}
     searchParams={[Function]}
   />

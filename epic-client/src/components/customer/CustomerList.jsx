@@ -11,59 +11,17 @@ import {searchParams} from "../../state/selectors/customer";
 
 
 class CustomerList extends React.Component {
-    state = {
-        firstName: '',
-        lastName: '',
-        email: '',
-    };
+    state = {};
 
-    componentWillMount() {
-        if (this.props.searchParams &&
-            (this.props.searchParams.firstName || this.props.searchParams.lastName || this.props.searchParams.email)) {
-            this.setState({
-                firstName: this.props.searchParams.firstName,
-                lastName: this.props.searchParams.lastName,
-                email: this.props.searchParams.email
-            });
-        } else if (this.props.customers.length === 0) {
-            this.props.getCustomerList("", "", "");
-        }
-    };
-
-    handleInputChange = (fieldName, input) => {
-        if (fieldName === 'firstName') {
-            this.setState({ firstName: input });
-        } else if (fieldName === 'lastName') {
-            this.setState({ lastName: input });
-        } else if (fieldName === 'email') {
-            this.setState({ email: input });
-        }
-    };
-    handleInputClear = (fieldName) => {
-        if (fieldName === 'removefirstName') {
-            this.setState({ firstName: "" });
-        } else if (fieldName === 'removelastName') {
-            this.setState({ lastName: "" });
-        } else if (fieldName === 'removeemail') {
-            this.setState({ email: "" });
-        }
-    };
-
-    onSubmit = (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const { firstName, lastName, email } = this.state;
-        this.props.getCustomerList(firstName, lastName, email);
-    };
     goToAddCustomer = () => {
         props.clearCustomerState();
-        this.setState({redirect: '/customer'});
+        this.setState({ redirect: '/customer' });
     };
 
     render() {
-        const { firstName, lastName, email, redirect } = this.state;
+        const { redirect } = this.state;
         const { getCustomerList, getCustomerListPage, getCustomer, removeCustomerError, isLoading, customers, count, next, previous, error } = this.props;
-        if (redirect) return <Redirect to={redirect} />;
+        if (redirect) return <Redirect to={redirect}/>;
 
         return (
             <div id="customer-list">
