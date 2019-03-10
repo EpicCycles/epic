@@ -44,7 +44,7 @@ class CustomerDetailEdit extends React.Component {
     onClickDelete = () => {
         const { customer, deleteCustomer, removeCustomer } = this.props;
         if (customer && customer.id) {
-            deleteCustomer(customer);
+            deleteCustomer(customer.id);
         } else {
             removeCustomer();
         }

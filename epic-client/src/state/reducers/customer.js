@@ -43,7 +43,11 @@ const customer = (state = initialState, action) => {
         case CUSTOMER_REMOVE:
             return {
                 ...state,
-                customer: {}
+                customers: removeObjectWithId(state.customers, state.customerId),
+                addresses: [],
+                phones: [],
+                fittings: [],
+                customerId: undefined
             };
         case CUSTOMER_PAGE:
         case `${CUSTOMER_DELETE}_REQUESTED`:

@@ -42,9 +42,9 @@ export const getCustomer =  customerId  => ({
     payload: { customerId }
 });
 
-export const getCustomerSuccess = customer => ({
+export const getCustomerSuccess = responseData => ({
     type: CUSTOMER,
-    payload: customer
+    payload: responseData
 });
 
 export const getCustomerFailure = error => ({
@@ -56,9 +56,9 @@ export const createCustomer =  customer  => ({
     payload: { customer }
 });
 
-export const createCustomerSuccess = customers => ({
+export const createCustomerSuccess = customer => ({
     type: CUSTOMER_CREATE,
-    payload: customers
+    payload: { customer }
 });
 
 export const createCustomerFailure = error => ({
@@ -73,7 +73,7 @@ export const saveCustomer =  customer  => ({
 
 export const saveCustomerSuccess = customer => ({
     type: CUSTOMER_SAVE,
-    payload: customer
+    payload: { customer }
 });
 
 export const saveCustomerFailure = error => ({
@@ -81,9 +81,9 @@ export const saveCustomerFailure = error => ({
     payload: error
 });
 
-export const deleteCustomer =  customer  => ({
+export const deleteCustomer =  customerId  => ({
     type: `${CUSTOMER_DELETE}_REQUESTED`,
-    payload: {customerId: customer.id}
+    payload: {customerId: customerId}
 });
 
 export const deleteCustomerSuccess = () => ({

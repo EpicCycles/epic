@@ -5,10 +5,13 @@ from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from epic.model_serializers.bike_serializer import FrameSerializer, BikeSerializer
 from epic.model_serializers.customer_serializer import CustomerSerializer, PaginatedCustomerSerializer, \
-    CustomerEditSerializer
-from epic.models.customer_models import Customer
+    CustomerAddressSerializer, CustomerPhoneSerializer, FittingSerializer
+from epic.model_serializers.note_serializer import CustomerNoteSerializer
+from epic.model_serializers.quote_serializer import QuoteSerializer
+from epic.models.customer_models import Customer, CustomerPhone, CustomerAddress, Fitting
+from epic.models.note_models import CustomerNote
+from epic.models.quote_models import Quote
 
 
 class CustomerList(generics.ListCreateAPIView):
@@ -39,7 +42,7 @@ class CustomerList(generics.ListCreateAPIView):
         objects = Customer.objects.filter(where_filter).order_by('last_name', 'first_name', 'id')
         return objects
 
-    def get(self, request, format=None):
+    def get(self, request):
         """
         Returns a JSON response with a listing of course objects
         """
@@ -48,10 +51,10 @@ class CustomerList(generics.ListCreateAPIView):
         return Response(serializer.data)
 
 
-
 class CustomerMaintain(generics.GenericAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
+
     # serializer_class = CustomerSerializer
 
     def get_object(self, pk):
@@ -60,12 +63,20 @@ class CustomerMaintain(generics.GenericAPIView):
         except Customer.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
+    def get(self, request, pk):
         customer = self.get_object(pk)
-        serializer = CustomerEditSerializer(customer)
-        return Response(serializer.data)
+        serializer = CustomerSerializer(customer)
 
-    def post(self, request, pk, format=None):
+        return Response({"customer": serializer.data,
+                         "addresses": CustomerAddressSerializer(CustomerAddress.objects.filter(customer=customer),
+                                                                many=True),
+                         "phones": CustomerPhoneSerializer(CustomerPhone.objects.filter(customer=customer), many=True),
+                         "fittings": FittingSerializer(Fitting.objects.filter(customer=customer), many=True),
+                         "notes": CustomerNoteSerializer(CustomerNote.objects.filter(customer=customer), many=True),
+                         "quotes": QuoteSerializer(Quote.objects.filter(customer=customer, archived=False), many=True),
+                         })
+
+    def post(self, request, pk):
         customer = self.get_object(pk)
         serializer = CustomerSerializer(customer, data=request.data)
         if serializer.is_valid():
@@ -73,8 +84,7 @@ class CustomerMaintain(generics.GenericAPIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
+    def delete(self, request, pk):
         customer = self.get_object(pk)
         customer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-

@@ -82,16 +82,3 @@ class FittingSerializer(serializers.ModelSerializer):
         if value:
             return value
         raise serializers.ValidationError("Missing reach")
-
-
-# whole Customer serializer
-class CustomerEditSerializer(serializers.ModelSerializer):
-    addresses = CustomerAddressSerializer(many=True, read_only=True)
-    phones = CustomerPhoneSerializer(many=True, read_only=True)
-    notes = CustomerNoteSerializer(many=True, read_only=True)
-    fittings = FittingSerializer(many=True, read_only=True)
-    quotes = QuoteSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Customer
-        fields = ('id', 'first_name', 'last_name', 'email', 'addresses', 'phones', 'notes', 'fittings', 'quotes')

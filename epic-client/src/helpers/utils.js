@@ -11,17 +11,17 @@ export const sortObjectsByAttribute = (initialArray, attributeName = 'id') => {
     });
 };
 export const compareString = (a, b) => {
-  const nameA = a.toUpperCase(); // ignore upper and lowercase
-  const nameB = b.toUpperCase(); // ignore upper and lowercase
-  if (nameA < nameB) {
-    return -1;
-  }
-  if (nameA > nameB) {
-    return 1;
-  }
+    const nameA = a.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+        return -1;
+    }
+    if (nameA > nameB) {
+        return 1;
+    }
 
-  // names must be equal
-  return 0;
+    // names must be equal
+    return 0;
 };
 export const addItemsToArray = (oldArray = [], listOfItems = []) => {
     let newArray = oldArray.slice();
@@ -31,6 +31,13 @@ export const addItemsToArray = (oldArray = [], listOfItems = []) => {
         if (existingIndex < 0) newArray.push(item); else newArray[existingIndex] = item;
     });
     return newArray;
+};
+export const removeItemFromArray = (oldArray = [], idToRemove) => {
+    let existingIndex = findIndexOfObjectWithKey(oldArray, idToRemove);
+    if (existingIndex < 0) return oldArray;
+    let newList = oldArray.slice();
+    newList.splice(existingIndex, 1);
+    return newList;
 };
 export const flattenArrayOfArrays = (startArray) => {
     let flatArray = [];
