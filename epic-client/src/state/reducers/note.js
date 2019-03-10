@@ -8,6 +8,7 @@ import {
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_LOGOUT, USER_NOT_VALIDATED} from "../actions/user";
 import {removeKey} from "../../helpers/utils";
+import {CUSTOMER} from "../actions/customer";
 
 const initialState = {
     count: 0,
@@ -27,6 +28,12 @@ const note = (state = initialState, action) => {
         case CLEAR_ALL_STATE:
         case USER_LOGOUT:
             return initialState;
+                    case CUSTOMER:
+        case CUSTOMER:
+                return {
+                ...state,
+                notes: action.payload.notes,
+            };
         case NOTE_REMOVE:
             return removeKey(state, 'note')
         case `${NOTE_LIST}_REQUESTED`:

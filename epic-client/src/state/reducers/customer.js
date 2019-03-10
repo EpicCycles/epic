@@ -18,7 +18,7 @@ import {
 } from "../helpers/customer";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_LOGOUT, USER_NOT_VALIDATED} from "../actions/user";
-import {addItemsToArray} from "../../helpers/utils";
+import {addItemsToArray, removeItemFromArray} from "../../helpers/utils";
 
 const initialState = {
     isLoading: false,
@@ -43,7 +43,7 @@ const customer = (state = initialState, action) => {
         case CUSTOMER_REMOVE:
             return {
                 ...state,
-                customers: removeObjectWithId(state.customers, state.customerId),
+                customers: removeItemFromArray(state.customers, state.customerId),
                 addresses: [],
                 phones: [],
                 fittings: [],
@@ -139,7 +139,15 @@ const customer = (state = initialState, action) => {
                 isLoading: !state.isLoading,
             };
         case CUSTOMER:
-        case CUSTOMER_CREATE:
+                return {
+                ...state,
+                isLoading: false,
+                customerId: action.payload.id,
+                customers: addItemsToArray(state.customers, [action.payload.customer]),
+                    addresses: action.payload.addresses,
+                    phones: action.payload.phones,
+            };
+    case CUSTOMER_CREATE:
         case CUSTOMER_SAVE:
             return {
                 ...state,
