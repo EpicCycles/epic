@@ -1,5 +1,5 @@
 import React from 'react';
-import {updateCustomerBasic} from "../helpers/customer";
+import {updateCustomerBasic} from "../customer";
 
 
 describe("customer updateCustomerBasic tests", () => {
