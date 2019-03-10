@@ -1,5 +1,6 @@
 import {
-    FRAMEWORK_REQUESTED, FRAMEWORK_SAVE_REQUESTED, getFrameworkFailure,
+    FRAMEWORK, FRAMEWORK_SAVE,
+    getFrameworkFailure,
     getFrameworkSuccess, saveFrameworkFailure, saveFrameworkSuccess
 } from "../actions/framework";
 import {call, put, select, takeLatest} from "redux-saga/effects";
@@ -26,7 +27,7 @@ export function* getFramework(action) {
 }
 
 export function* watchForGetFramework() {
-    yield takeLatest(FRAMEWORK_REQUESTED, getFramework);
+    yield takeLatest(`${FRAMEWORK}_REQUESTED`, getFramework);
 }
 
 export function* saveFramework(action) {
@@ -46,5 +47,5 @@ export function* saveFramework(action) {
 }
 
 export function* watchForSaveFramework() {
-    yield takeLatest(FRAMEWORK_SAVE_REQUESTED, saveFramework);
+    yield takeLatest(`${FRAMEWORK_SAVE}_REQUESTED`, saveFramework);
 }

@@ -1,46 +1,25 @@
 import {ADD_MESSAGE, CLEAR_ALL_STATE, REMOVE_MESSAGE} from "../actions/application";
 import {
-    CUSTOMER_ADDRESS_DELETE,
-    CUSTOMER_ADDRESS_DELETE_ERROR,
-    CUSTOMER_ADDRESS_DELETE_REQUEST,
-    CUSTOMER_ADDRESS_SAVE_ERROR,
-    CUSTOMER_ADDRESS_SAVE_REQUEST,
-    CUSTOMER_CREATE_ERROR,
-    CUSTOMER_CREATE_REQUESTED,
+    CUSTOMER_ADDRESS_DELETE, CUSTOMER_ADDRESS_SAVE,
+    CUSTOMER_CREATE,
     CUSTOMER_DELETE,
-    CUSTOMER_DELETE_ERROR,
-    CUSTOMER_DELETE_REQUESTED,
-    CUSTOMER_LIST_ERROR,
-    CUSTOMER_LIST_REQUESTED,
-    CUSTOMER_PHONE_DELETE,
-    CUSTOMER_PHONE_DELETE_ERROR,
-    CUSTOMER_PHONE_DELETE_REQUEST,
-    CUSTOMER_PHONE_SAVE_ERROR,
-    CUSTOMER_PHONE_SAVE_REQUEST,
-    CUSTOMER_REQUESTED,
-    CUSTOMER_SAVE_ERROR,
-    CUSTOMER_SAVE_REQUESTED
+    CUSTOMER_LIST,
+    CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE, CUSTOMER_SAVE,
 } from "../actions/customer";
 import {
-    NOTE_CREATE_ERROR,
-    NOTE_CREATE_REQUESTED,
-    NOTE_DELETE_ERROR,
-    NOTE_DELETE_REQUESTED,
-    NOTE_LIST_ERROR,
-    NOTE_LIST_REQUESTED,
+    NOTE_CREATE,
+    NOTE_DELETE,
+    NOTE_LIST,
     NOTE_REMOVE,
-    NOTE_SAVE_ERROR,
-    NOTE_SAVE_REQUESTED
+    NOTE_SAVE
 } from "../actions/note";
 import {
-    CHANGE_PASSWORD_FAILURE, CHANGE_PASSWORD_SUCCESS, CHANGE_USER_DATA_FAILURE, CHANGE_USER_DATA_SUCCESS,
+    CHANGE_PASSWORD, CHANGE_USER_DATA,
     USER_LOGIN,
-    USER_LOGIN_ERROR,
-    USER_LOGIN_REQUESTED, USER_LOGOUT,
-    USER_LOGOUT_ERROR
+    USER_LOGOUT,
 } from "../actions/user";
-import {FRAMEWORK_ERROR, FRAMEWORK_SAVE, FRAMEWORK_SAVE_ERROR} from "../actions/framework";
-import {BRANDS_SAVE_ERROR, BRANDS_SAVE_OK} from "../actions/core";
+import {FRAMEWORK, FRAMEWORK_SAVE} from "../actions/framework";
+import {BRANDS_SAVE} from "../actions/core";
 import {
     GET_BIKE,
     GET_BIKE_PARTS,
@@ -51,7 +30,8 @@ import {
     FRAME_SAVE,
     FRAME_UPLOAD, BIKE_PART_SAVE, BIKE_SAVE,
 } from "../actions/bike";
-import {PART_UPLOAD_ERROR} from "../actions/part";
+import {PART_UPLOAD} from "../actions/part";
+import {CUSTOMER} from "../../components/app/model/helpers/fields";
 
 const initialState = {
     message: "",
@@ -61,7 +41,7 @@ const initialState = {
 const application = (state = initialState, action) => {
     switch (action.type) {
         case FRAMEWORK_SAVE:
-        case BRANDS_SAVE_OK:
+        case `${BRANDS_SAVE}_OK`:
         case `${FRAME_SAVE}_OK`:
         case `${BIKE_PART_SAVE}_OK`:
         case `${BIKE_SAVE}_OK`:
@@ -100,13 +80,13 @@ const application = (state = initialState, action) => {
                 message: "Customer Address deleted",
                 messageType: "I"
             };
-        case CHANGE_PASSWORD_SUCCESS:
+        case `${CHANGE_PASSWORD}_SUCCESS`:
             return {
                 ...state,
                 message: "Password Changed",
                 messageType: "I"
             };
-        case CHANGE_USER_DATA_SUCCESS:
+        case `${CHANGE_USER_DATA}_SUCCESS`:
             return {
                 ...state,
                 message: "Details Changed",
@@ -118,44 +98,44 @@ const application = (state = initialState, action) => {
                 message: action.payload.messageText,
                 messageType: action.payload.messageType
             };
-        case CUSTOMER_CREATE_REQUESTED:
-        case CUSTOMER_DELETE_REQUESTED:
-        case CUSTOMER_LIST_REQUESTED:
-        case CUSTOMER_REQUESTED:
-        case CUSTOMER_SAVE_REQUESTED:
-        case CUSTOMER_PHONE_DELETE_REQUEST:
-        case CUSTOMER_PHONE_SAVE_REQUEST:
-        case CUSTOMER_ADDRESS_DELETE_REQUEST:
-        case CUSTOMER_ADDRESS_SAVE_REQUEST:
-        case NOTE_CREATE_REQUESTED:
-        case NOTE_SAVE_REQUESTED:
-        case NOTE_DELETE_REQUESTED:
-        case NOTE_LIST_REQUESTED:
+        case `${CUSTOMER_CREATE}_REQUESTED`:
+        case `${CUSTOMER_DELETE}_REQUESTED`:
+        case `${CUSTOMER_LIST}_REQUESTED`:
+        case `${CUSTOMER}_REQUESTED`:
+        case `${CUSTOMER_SAVE}_REQUESTED`:
+        case `${CUSTOMER_PHONE_DELETE}_REQUEST`:
+        case `${CUSTOMER_PHONE_SAVE}_REQUEST`:
+        case `${CUSTOMER_ADDRESS_DELETE}_REQUEST`:
+        case `${CUSTOMER_ADDRESS_SAVE}_REQUEST`:
+        case `${NOTE_CREATE}_REQUESTED`:
+        case `${NOTE_SAVE}_REQUESTED`:
+        case `${NOTE_DELETE}_REQUESTED`:
+        case `${NOTE_LIST}_REQUESTED`:
         case NOTE_REMOVE:
         case REMOVE_MESSAGE:
-        case USER_LOGIN_REQUESTED:
+        case `${USER_LOGIN}_REQUESTED`:
         case USER_LOGIN:
         case USER_LOGOUT:
         case CLEAR_ALL_STATE:
         case `${FRAME_SAVE}_REQUESTED`:
             return initialState;
-        case CUSTOMER_LIST_ERROR:
-        case CUSTOMER_CREATE_ERROR:
-        case CUSTOMER_DELETE_ERROR:
-        case CUSTOMER_SAVE_ERROR:
-        case CUSTOMER_PHONE_DELETE_ERROR:
-        case CUSTOMER_ADDRESS_DELETE_ERROR:
-        case NOTE_LIST_ERROR:
-        case NOTE_SAVE_ERROR:
-        case NOTE_CREATE_ERROR:
-        case NOTE_DELETE_ERROR:
-        case USER_LOGIN_ERROR:
-        case USER_LOGOUT_ERROR:
-        case CHANGE_PASSWORD_FAILURE:
-        case CHANGE_USER_DATA_FAILURE:
-        case FRAMEWORK_ERROR:
-        case FRAMEWORK_SAVE_ERROR:
-        case BRANDS_SAVE_ERROR:
+        case `${CUSTOMER_LIST}_ERROR`:
+        case `${CUSTOMER_CREATE}_ERROR`:
+        case `${CUSTOMER_DELETE}_ERROR`:
+        case `${CUSTOMER_SAVE}_ERROR`:
+        case `${CUSTOMER_PHONE_DELETE}_ERROR`:
+        case `${CUSTOMER_ADDRESS_DELETE}_ERROR`:
+        case `${NOTE_LIST}_ERROR`:
+        case `${NOTE_SAVE}_ERROR`:
+        case `${NOTE_CREATE}_ERROR`:
+        case `${NOTE_DELETE}_ERROR`:
+        case `${USER_LOGIN}_ERROR`:
+        case `${USER_LOGOUT}_ERROR`:
+        case `${CHANGE_PASSWORD}_FAILURE`:
+        case `${CHANGE_USER_DATA}_FAILURE`:
+        case `${FRAMEWORK}_ERROR`:
+        case `${FRAMEWORK_SAVE}_ERROR`:
+        case `${BRANDS_SAVE}_ERROR`:
         case `${GET_BIKE}_ERROR`:
         case `${GET_BIKE_PARTS}_ERROR`:
         case `${FRAME_SAVE}_ERROR`:
@@ -165,14 +145,14 @@ const application = (state = initialState, action) => {
         case `${BIKE_PART_DELETE}_ERROR`:
         case `${BIKE_PART_SAVE}_ERROR`:
         case `${BIKE_SAVE}_ERROR`:
-        case PART_UPLOAD_ERROR:
+        case `${PART_UPLOAD}_ERROR`:
             return {
                 ...state,
                 message: action.payload,
                 messageType: "E"
             };
-        case CUSTOMER_ADDRESS_SAVE_ERROR:
-        case CUSTOMER_PHONE_SAVE_ERROR:
+        case `${CUSTOMER_ADDRESS_SAVE}_ERROR`:
+        case `${CUSTOMER_PHONE_SAVE}_ERROR`:
             return {
                 ...state,
                 message: action.payload.error,

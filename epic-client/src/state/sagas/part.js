@@ -7,10 +7,10 @@ import {
     deletePartOK,
     listPartsError,
     listPartsOK,
-    PART_DELETE_REQUESTED,
-    PART_LIST_REQUESTED,
-    PART_SAVE_REQUESTED,
-    PART_UPLOAD_REQUESTED,
+    PART_DELETE,
+    PART_LIST,
+    PART_SAVE,
+    PART_UPLOAD,
     savePartError,
     savePartOK,
     uploadPartsError,
@@ -37,7 +37,7 @@ export function* savePart(action) {
 }
 
 export function* watchForSavePart() {
-    yield takeLatest(PART_SAVE_REQUESTED, savePart);
+    yield takeLatest(`${PART_SAVE}_REQUESTED`, savePart);
 }
 
 
@@ -66,7 +66,7 @@ export function* deletePart(action) {
 }
 
 export function* watchForDeletePart() {
-    yield takeLatest(PART_DELETE_REQUESTED, deletePart);
+    yield takeLatest(`${PART_DELETE}_REQUESTED`, deletePart);
 }
 
 
@@ -88,7 +88,7 @@ export function* uploadParts(action) {
 }
 
 export function* watchForUploadParts() {
-    yield takeLatest(PART_UPLOAD_REQUESTED, uploadParts);
+    yield takeLatest(`${PART_UPLOAD}_REQUESTED`, uploadParts);
 }
 
 export function* getParts(action) {
@@ -108,5 +108,5 @@ export function* getParts(action) {
 }
 
 export function* watchForGetParts() {
-    yield takeLatest(PART_LIST_REQUESTED, getParts);
+    yield takeLatest(`${PART_LIST}_REQUESTED`, getParts);
 }

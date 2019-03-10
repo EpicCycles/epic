@@ -1,11 +1,7 @@
 import {
-    CHANGE_PASSWORD_FAILURE,
-    CHANGE_PASSWORD_REQUESTED, CHANGE_PASSWORD_SUCCESS, CHANGE_USER_DATA_FAILURE, CHANGE_USER_DATA_REQUESTED,
-    CHANGE_USER_DATA_SUCCESS,
+    CHANGE_PASSWORD, CHANGE_USER_DATA,
     USER_LOGIN,
-    USER_LOGIN_ERROR,
-    USER_LOGIN_REQUESTED, USER_LOGOUT, USER_LOGOUT_ERROR,
-    USER_LOGOUT_REQUESTED
+    USER_LOGOUT
 } from "../actions/user";
 
 const initialState = {
@@ -19,14 +15,14 @@ const user = (state = initialState, action) => {
     switch (action.type) {
         case USER_LOGOUT:
             return initialState;
-        case USER_LOGOUT_REQUESTED:
-        case CHANGE_PASSWORD_REQUESTED:
-        case CHANGE_USER_DATA_REQUESTED:
+        case `${USER_LOGOUT}_REQUESTED`:
+        case `${CHANGE_PASSWORD}_REQUESTED`:
+        case `${CHANGE_USER_DATA}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
             };
-        case USER_LOGIN_REQUESTED:
+        case `${USER_LOGIN}_REQUESTED`:
             return {
                 ...state,
                 username: action.payload.username,
@@ -34,16 +30,16 @@ const user = (state = initialState, action) => {
                 isLoading: true,
                 isAuthenticated: false,
             };
-        case USER_LOGIN_ERROR:
+        case `${USER_LOGIN}_ERROR`:
             return {
                 ...state,
                 isLoading: false,
                 isAuthenticated: false,
             };
-        case USER_LOGOUT_ERROR:
-        case CHANGE_PASSWORD_FAILURE:
-        case CHANGE_USER_DATA_FAILURE:
-        case CHANGE_PASSWORD_SUCCESS:
+        case `${USER_LOGOUT}_ERROR`:
+        case `${CHANGE_PASSWORD}_FAILURE`:
+        case `${CHANGE_USER_DATA}_FAILURE`:
+        case `${CHANGE_PASSWORD}_SUCCESS`:
             return {
                 ...state,
                 isLoading: false,
@@ -56,7 +52,7 @@ const user = (state = initialState, action) => {
                 isLoading: false,
                 isAuthenticated: true,
             };
-        case CHANGE_USER_DATA_SUCCESS:
+        case `${CHANGE_USER_DATA}_SUCCESS`:
             return {
                 ...state,
                 user: action.payload.user,

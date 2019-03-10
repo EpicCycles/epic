@@ -6,10 +6,10 @@ import {
     deleteNoteSuccess,
     getNoteListFailure,
     getNoteListSuccess,
-    NOTE_CREATE_REQUESTED,
-    NOTE_DELETE_REQUESTED,
-    NOTE_LIST_REQUESTED,
-    NOTE_SAVE_REQUESTED,
+    NOTE_CREATE,
+    NOTE_DELETE,
+    NOTE_LIST,
+    NOTE_SAVE,
     saveNoteFailure,
     saveNoteSuccess
 } from "../actions/note";
@@ -35,7 +35,7 @@ export function* getNoteList(action) {
 }
 
 export function* watchForGetNoteList() {
-    yield takeLatest(NOTE_LIST_REQUESTED, getNoteList);
+    yield takeLatest(`${NOTE_LIST}_REQUESTED`, getNoteList);
 }
 
 export function* createNote(action) {
@@ -56,7 +56,7 @@ export function* createNote(action) {
 }
 
 export function* watchForCreateNote() {
-    yield takeLatest(NOTE_CREATE_REQUESTED, createNote);
+    yield takeLatest(`${NOTE_CREATE}_REQUESTED`, createNote);
 }
 
 export function* saveNote(action) {
@@ -76,7 +76,7 @@ export function* saveNote(action) {
 }
 
 export function* watchForSaveNote() {
-    yield takeLatest(NOTE_SAVE_REQUESTED, saveNote);
+    yield takeLatest(`${NOTE_SAVE}_REQUESTED`, saveNote);
 }
 
 export function* deleteNote(action) {
@@ -95,5 +95,5 @@ export function* deleteNote(action) {
 }
 
 export function* watchForDeleteNote() {
-    yield takeLatest(NOTE_DELETE_REQUESTED, deleteNote);
+    yield takeLatest(`${NOTE_DELETE}_REQUESTED`, deleteNote);
 }

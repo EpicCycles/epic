@@ -1,18 +1,10 @@
 import {
     NOTE_CREATE,
-    NOTE_CREATE_ERROR,
-    NOTE_CREATE_REQUESTED,
-    NOTE_DELETE,
-    NOTE_DELETE_ERROR,
-    NOTE_DELETE_REQUESTED,
+     NOTE_DELETE,
     NOTE_LIST,
-    NOTE_LIST_ERROR,
-    NOTE_LIST_REQUESTED,
-    NOTE_REMOVE,
+     NOTE_REMOVE,
     NOTE_SAVE,
-    NOTE_SAVE_ERROR,
-    NOTE_SAVE_REQUESTED
-} from "../actions/note";
+ } from "../actions/note";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_LOGOUT, USER_NOT_VALIDATED} from "../actions/user";
 import {removeKey} from "../../helpers/utils";
@@ -37,32 +29,32 @@ const note = (state = initialState, action) => {
             return initialState;
         case NOTE_REMOVE:
             return removeKey(state, 'note')
-        case NOTE_LIST_REQUESTED:
+        case `${NOTE_LIST}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
                 notes: [],
                 totalPages: 0
             };
-        case NOTE_CREATE_REQUESTED:
-        case NOTE_SAVE_REQUESTED:
-        case NOTE_DELETE_REQUESTED:
+        case `${NOTE_CREATE}_REQUESTED`:
+        case `${NOTE_SAVE}_REQUESTED`:
+        case `${NOTE_DELETE}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
             };
 
-        case NOTE_LIST_ERROR:
+        case `${NOTE_LIST}_ERROR`:
             return {
                 ...state,
                 isLoading: false,
                 notes: [],
                 totalPages: 0
             };
-        case NOTE_SAVE_ERROR:
+        case `${NOTE_SAVE}_ERROR`:
         case USER_NOT_VALIDATED:
-        case NOTE_CREATE_ERROR:
-        case NOTE_DELETE_ERROR:
+        case `${NOTE_CREATE}_ERROR`:
+        case `${NOTE_DELETE}_ERROR`:
             return {
                 ...state,
                 isLoading: false

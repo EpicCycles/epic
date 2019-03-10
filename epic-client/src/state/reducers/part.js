@@ -1,18 +1,6 @@
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {
-    PART_CLEAR,
-    PART_DELETE_ERROR,
-    PART_DELETE_OK,
-    PART_DELETE_REQUESTED,
-    PART_LIST_ERROR,
-    PART_LIST_OK,
-    PART_LIST_REQUESTED,
-    PART_SAVE_ERROR,
-    PART_SAVE_OK,
-    PART_SAVE_REQUESTED,
-    PART_UPLOAD_ERROR,
-    PART_UPLOAD_OK,
-    PART_UPLOAD_REQUESTED,
+    PART_CLEAR, PART_DELETE, PART_LIST, PART_SAVE, PART_UPLOAD,
     UPDATE_PARTS,
     UPDATE_SUPPLIER_PRODUCTS
 } from "../actions/part";
@@ -34,30 +22,30 @@ const part = (state = initialState, action) => {
         case PART_CLEAR:
         case USER_LOGOUT:
             return initialState;
-        case PART_SAVE_REQUESTED:
-        case PART_DELETE_REQUESTED:
-        case PART_UPLOAD_REQUESTED:
-        case PART_LIST_REQUESTED:
+        case `${PART_SAVE}_REQUESTED`:
+        case `${PART_DELETE}_REQUESTED`:
+        case `${PART_UPLOAD}_REQUESTED`:
+        case `${PART_LIST}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
             };
-        case PART_DELETE_ERROR:
-        case PART_UPLOAD_ERROR:
-        case PART_SAVE_ERROR:
-        case PART_LIST_ERROR:
+        case `${PART_DELETE}_ERROR`:
+        case `${PART_UPLOAD}_ERROR`:
+        case `${PART_SAVE}_ERROR`:
+        case `${PART_LIST}_ERROR`:
             return {
                 ...state,
                 isLoading: false,
             };
-        case PART_UPLOAD_OK:
+        case `${PART_UPLOAD}_OK`:
             return {
                 ...state,
                 isLoading: false,
                 parts: action.payload.parts,
                 supplierProducts: action.payload.supplierProducts,
             };
-        case PART_LIST_OK:
+        case `${PART_LIST}_OK`:
         case `${BIKE_PART_SAVE}_OK`:
         case `${BIKE_PART_DELETE}_OK`:
         case `${BIKE_ADD_PART}_OK`:
@@ -78,13 +66,13 @@ const part = (state = initialState, action) => {
                 ...state,
                 supplierProducts: action.payload,
             };
-        case PART_SAVE_OK:
+        case `${PART_SAVE}_OK`:
             return {
                 ...state,
                 isLoading: false,
                 part: action.payload.part,
             };
-        case PART_DELETE_OK:
+        case `${PART_DELETE}_OK`:
             return {
                 ...state,
                 isLoading: false,

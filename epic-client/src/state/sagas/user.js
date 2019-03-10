@@ -4,8 +4,8 @@ import * as userApis from "./apis/user";
 
 import {
     cancelActionForLogin,
-    CHANGE_PASSWORD_REQUESTED,
-    CHANGE_USER_DATA_REQUESTED,
+    CHANGE_PASSWORD,
+    CHANGE_USER_DATA,
     changePasswordError,
     changePasswordOK,
     changeUserDataError,
@@ -14,8 +14,8 @@ import {
     loginUserSuccess,
     logoutUserFailure,
     logoutUserSuccess,
-    USER_LOGIN_REQUESTED,
-    USER_LOGOUT_REQUESTED
+    USER_LOGIN,
+    USER_LOGOUT,
 } from "../actions/user";
 import {updateObject} from "../../helpers/utils";
 import {errorAsMessage, logError} from "../../helpers/api_error";
@@ -43,7 +43,7 @@ export function* loginUser(action) {
 }
 
 export function* watchForLoginUser() {
-    yield takeLatest(USER_LOGIN_REQUESTED, loginUser);
+    yield takeLatest(`${USER_LOGIN}_REQUESTED`, loginUser);
 }
 
 export function* logoutUser(action) {
@@ -62,7 +62,7 @@ export function* logoutUser(action) {
 }
 
 export function* watchForLogoutUser() {
-    yield takeLatest(USER_LOGOUT_REQUESTED, logoutUser);
+    yield takeLatest(`${USER_LOGOUT}_REQUESTED`, logoutUser);
 }
 
 export function* changePassword(action) {
@@ -81,7 +81,7 @@ export function* changePassword(action) {
 }
 
 export function* watchForChangePassword() {
-    yield takeLatest(CHANGE_PASSWORD_REQUESTED, changePassword);
+    yield takeLatest(`${CHANGE_PASSWORD}_REQUESTED`, changePassword);
 }
 
 export function* changeUserData(action) {
@@ -101,5 +101,5 @@ export function* changeUserData(action) {
 }
 
 export function* watchForChangeUserData() {
-    yield takeLatest(CHANGE_USER_DATA_REQUESTED, changeUserData);
+    yield takeLatest(`${CHANGE_USER_DATA}_REQUESTED`, changeUserData);
 }

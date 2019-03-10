@@ -1,91 +1,81 @@
-export const BRANDS_AND_SUPPLIERS_REQUESTED = 'core/BRANDS_AND_SUPPLIERS_REQUESTED';
-export const BRANDS_AND_SUPPLIERS_ERROR = 'core/BRANDS_AND_SUPPLIERS_ERROR';
-export const BRANDS_AND_SUPPLIERS_OK = 'core/BRANDS_AND_SUPPLIERS_OK';
-export const BRANDS_REQUESTED = 'core/BRANDS_REQUESTED';
-export const BRANDS_ERROR = 'core/BRANDS_ERROR';
-export const BRANDS_OK = 'core/BRANDS_OK';
-export const BRANDS_SAVE_REQUESTED = 'core/BRANDS_SAVE_REQUESTED';
-export const BRANDS_SAVE_ERROR = 'core/BRANDS_SAVE_ERROR';
-export const BRANDS_SAVE_OK = 'core/BRANDS_SAVE_OK';
+export const BRANDS_AND_SUPPLIERS = 'core/BRANDS_AND_SUPPLIERS';
+export const BRANDS = 'core/BRANDS';
+export const BRANDS_SAVE = 'core/BRANDS_SAVE';
 export const BRANDS_UPDATE = 'core/BRANDS_UPDATE';
-export const SUPPLIER_SAVE_REQUESTED = 'core/SUPPLIER_SAVE_REQUESTED';
-export const SUPPLIER_SAVE_ERROR = 'core/SUPPLIER_SAVE_ERROR';
-export const SUPPLIER_SAVE_OK = 'core/SUPPLIER_SAVE_OK';
-export const SUPPLIER_DELETE_REQUESTED = 'core/SUPPLIER_DELETE_REQUESTED';
-export const SUPPLIER_DELETE_ERROR = 'core/SUPPLIER_DELETE_ERROR';
-export const SUPPLIER_DELETE_OK = 'core/SUPPLIER_DELETE_OK';
+export const SUPPLIER_SAVE = 'core/SUPPLIER_SAVE';
+export const SUPPLIER_DELETE = 'core/SUPPLIER_DELETE';
 export const getBrandsAndSuppliers = () => ({
-    type: BRANDS_AND_SUPPLIERS_REQUESTED,
+    type: `${BRANDS_AND_SUPPLIERS}_REQUESTED`,
     payload: {}
 });
 
 export const getBrandsAndSuppliersSuccess = (brands, suppliers) => ({
-    type: BRANDS_AND_SUPPLIERS_OK,
+    type: `${BRANDS_AND_SUPPLIERS}_OK`,
     payload: { brands, suppliers }
 });
 
 export const getBrandsAndSuppliersFailure = error => ({
-    type: BRANDS_AND_SUPPLIERS_ERROR,
+    type: `${BRANDS_AND_SUPPLIERS}_ERROR`,
     payload: error
 });
 export const getBrands = () => ({
-    type: BRANDS_REQUESTED,
+    type: `${BRANDS}_REQUESTED`,
     payload: {}
 });
 
 export const getBrandsSuccess = (brands) => ({
-    type: BRANDS_OK,
+    type: `${BRANDS}_OK`,
     payload: { brands }
 });
 
 export const getBrandsFailure = error => ({
-    type: BRANDS_AND_SUPPLIERS_ERROR,
+    type: `${BRANDS_AND_SUPPLIERS}_ERROR`,
     payload: error
 });
 
 export const updateBrands = brands => ({
-    type: BRANDS_UPDATE,
+    type: `${BRANDS}_UPDATE`,
     payload: brands
 });
 
 export const saveBrands = brands => ({
-    type: BRANDS_SAVE_REQUESTED,
+    type: `${BRANDS_SAVE}_REQUESTED`,
     payload: brands
 });
 
 export const saveBrandsSuccess = brands => ({
-    type: BRANDS_SAVE_OK,
+    type:`${BRANDS_SAVE}_OK`,
     payload: brands
 });
 
 export const saveBrandsFailure = error => ({
-    type: BRANDS_SAVE_ERROR,
+    type: `${BRANDS_SAVE}_ERROR`,
     payload: error
 });
 
 export const saveSupplier = supplier => ({
-    type: SUPPLIER_SAVE_REQUESTED,
+    type: `${SUPPLIER_SAVE}_REQUESTED`,
     payload: { supplier }
 });
 export const saveSupplierSuccess = suppliers => ({
-    type: SUPPLIER_SAVE_OK,
+    type: `${SUPPLIER_SAVE}_OK`,
     payload: suppliers
 });
 
 export const saveSupplierFailure = error => ({
-    type: SUPPLIER_SAVE_ERROR,
+    type: `${SUPPLIER_SAVE}_ERROR`,
     payload: error
 });
 export const deleteSupplier = supplierId => ({
-    type: SUPPLIER_DELETE_REQUESTED,
+    type: `${SUPPLIER_DELETE}_REQUESTED`,
     payload: { supplierId }
 });
 export const deleteSupplierSuccess = suppliers => ({
-    type: SUPPLIER_DELETE_OK,
+    type: `${SUPPLIER_DELETE}_OK`,
     payload: suppliers
 });
 
 export const deleteSupplierFailure = error => ({
-    type: SUPPLIER_DELETE_ERROR,
+    type: `${SUPPLIER_DELETE}_ERROR`,
     payload: error
 });

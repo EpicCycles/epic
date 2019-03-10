@@ -1,23 +1,10 @@
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {
-    BRANDS_AND_SUPPLIERS_ERROR,
-    BRANDS_AND_SUPPLIERS_OK,
-    BRANDS_AND_SUPPLIERS_REQUESTED,
-    BRANDS_ERROR,
-    BRANDS_OK,
-    BRANDS_REQUESTED,
-    BRANDS_SAVE_ERROR,
-    BRANDS_SAVE_OK,
-    BRANDS_SAVE_REQUESTED,
-    BRANDS_UPDATE,
-    SUPPLIER_DELETE_ERROR,
-    SUPPLIER_DELETE_OK,
-    SUPPLIER_DELETE_REQUESTED,
-    SUPPLIER_SAVE_ERROR,
-    SUPPLIER_SAVE_OK,
-    SUPPLIER_SAVE_REQUESTED
+    BRANDS,
+    BRANDS_AND_SUPPLIERS, BRANDS_SAVE,
+    BRANDS_UPDATE, SUPPLIER_DELETE, SUPPLIER_SAVE,
 } from "../actions/core";
-import {USER_LOGIN_REQUESTED, USER_LOGOUT} from "../actions/user";
+import {USER_LOGIN, USER_LOGOUT} from "../actions/user";
 
 const initialState = {
     isLoading: false,
@@ -26,45 +13,45 @@ const initialState = {
 const core = (state = initialState, action) => {
     switch (action.type) {
         case CLEAR_ALL_STATE:
-        case USER_LOGIN_REQUESTED:
+        case `${USER_LOGIN}_REQUESTED`:
         case USER_LOGOUT:
             return initialState;
-        case SUPPLIER_SAVE_REQUESTED:
-        case SUPPLIER_DELETE_REQUESTED:
+        case `${SUPPLIER_SAVE}_REQUESTED`:
+        case `${SUPPLIER_DELETE}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
             };
-        case BRANDS_AND_SUPPLIERS_REQUESTED:
+        case `${BRANDS_AND_SUPPLIERS}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
                 brands: [],
                 suppliers: [],
             };
-        case BRANDS_REQUESTED:
+        case `${BRANDS}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
                 brands: [],
             };
-        case BRANDS_SAVE_REQUESTED:
+        case `${BRANDS_SAVE}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
             };
 
-        case BRANDS_AND_SUPPLIERS_ERROR:
-        case BRANDS_ERROR:
-        case BRANDS_SAVE_ERROR:
-        case SUPPLIER_SAVE_ERROR:
-        case SUPPLIER_DELETE_ERROR:
+        case `${BRANDS_AND_SUPPLIERS}_ERROR`:
+        case `${BRANDS}_ERROR`:
+        case `${BRANDS_SAVE}_ERROR`:
+        case `${SUPPLIER_SAVE}_ERROR`:
+        case `${SUPPLIER_DELETE}_ERROR`:
             return {
                 ...state,
                 isLoading: false,
             };
 
-        case BRANDS_SAVE_OK:
+        case `${BRANDS_SAVE}_OK`:
         case BRANDS_UPDATE:
             return {
                 ...state,
@@ -72,21 +59,21 @@ const core = (state = initialState, action) => {
                 isLoading: false,
             };
 
-        case BRANDS_AND_SUPPLIERS_OK:
+        case `${BRANDS_AND_SUPPLIERS}_OK`:
             return {
                 ...state,
                 brands: action.payload.brands,
                 suppliers: action.payload.suppliers,
                 isLoading: false,
             };
-        case BRANDS_OK:
+        case `${BRANDS}_OK`:
             return {
                 ...state,
                 brands: action.payload.brands,
                 isLoading: false,
             };
-        case SUPPLIER_SAVE_OK:
-        case SUPPLIER_DELETE_OK:
+        case `${SUPPLIER_SAVE}_OK`:
+        case `${SUPPLIER_DELETE}_OK`:
             return {
                 ...state,
                 suppliers: action.payload,

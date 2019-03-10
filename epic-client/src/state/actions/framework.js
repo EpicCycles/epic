@@ -1,13 +1,9 @@
-export const FRAMEWORK_REQUESTED = 'framework/FRAMEWORK_REQUESTED';
-export const FRAMEWORK_ERROR = 'framework/FRAMEWORK_ERROR';
 export const FRAMEWORK = 'framework/FRAMEWORK';
-export const FRAMEWORK_SAVE_REQUESTED = 'framework/FRAMEWORK_SAVE_REQUESTED';
-export const FRAMEWORK_SAVE_ERROR = 'framework/FRAMEWORK_SAVE_ERROR';
 export const FRAMEWORK_SAVE = 'framework/FRAMEWORK_SAVE';
 export const FRAMEWORK_UPDATE = 'framework/FRAMEWORK_UPDATE';
 
 export const getFramework =  ()  => ({
-    type: FRAMEWORK_REQUESTED,
+    type: `${FRAMEWORK}_REQUESTED`,
     payload: { }
 });
 
@@ -17,12 +13,12 @@ export const getFrameworkSuccess = sections => ({
 });
 
 export const getFrameworkFailure = error => ({
-    type: FRAMEWORK_ERROR,
+    type: `${FRAMEWORK}_ERROR`,
     payload: error
 });
 
 export const saveFramework =  sections  => ({
-    type: FRAMEWORK_SAVE_REQUESTED,
+    type: `${FRAMEWORK_SAVE}_REQUESTED`,
     payload: { sections }
 });
 
@@ -32,7 +28,7 @@ export const saveFrameworkSuccess = sections => ({
 });
 
 export const saveFrameworkFailure = error => ({
-    type: FRAMEWORK_SAVE_ERROR,
+    type: `${FRAMEWORK_SAVE}_ERROR`,
     payload: error
 });
 

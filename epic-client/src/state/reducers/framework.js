@@ -1,19 +1,11 @@
 import {
     FRAMEWORK,
-    FRAMEWORK_ERROR,
-    FRAMEWORK_REQUESTED,
-    FRAMEWORK_SAVE,
-    FRAMEWORK_SAVE_ERROR,
-    FRAMEWORK_SAVE_REQUESTED,
-    FRAMEWORK_UPDATE
+     FRAMEWORK_SAVE,
+     FRAMEWORK_UPDATE
 } from "../actions/framework";
 import {CLEAR_ALL_STATE} from "../actions/application";
-import {USER_LOGIN_REQUESTED, USER_LOGOUT} from "../actions/user";
+import {USER_LOGIN, USER_LOGOUT} from "../actions/user";
 
-// const initialState = {
-//     isLoading: false,
-//     sections: [],
-// };
 const initialState = {
     isLoading: false,
 };
@@ -22,24 +14,24 @@ const initialState = {
 const framework = (state = initialState, action) => {
     switch (action.type) {
         case CLEAR_ALL_STATE:
-        case USER_LOGIN_REQUESTED:
+        case `${USER_LOGIN}_REQUESTED`:
         case USER_LOGOUT:
             return initialState;
-        case FRAMEWORK_REQUESTED:
+        case `${FRAMEWORK}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
                 sections: [],
             };
-        case FRAMEWORK_SAVE_REQUESTED:
+        case `${FRAMEWORK_SAVE}_REQUESTED`:
             return {
                 ...state,
                 sections: action.payload.sections,
                 isLoading: true,
             };
 
-        case FRAMEWORK_ERROR:
-        case FRAMEWORK_SAVE_ERROR:
+        case `${FRAMEWORK}_ERROR`:
+        case `${FRAMEWORK_SAVE}_ERROR`:
             return {
                 ...state,
                 isLoading: false,

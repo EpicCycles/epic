@@ -1,28 +1,14 @@
 import {
     CUSTOMER,
     CUSTOMER_CREATE,
-    CUSTOMER_CREATE_ERROR,
-    CUSTOMER_CREATE_REQUESTED,
-    CUSTOMER_DELETE,
-    CUSTOMER_DELETE_ERROR,
-    CUSTOMER_DELETE_REQUESTED,
-    CUSTOMER_ERROR,
-    CUSTOMER_LIST,
-    CUSTOMER_LIST_ERROR,
-    CUSTOMER_LIST_REQUESTED,
+     CUSTOMER_DELETE,
+     CUSTOMER_LIST,
     CUSTOMER_REMOVE,
-    CUSTOMER_REQUESTED,
-    CUSTOMER_SAVE,
-    CUSTOMER_SAVE_ERROR,
-    CUSTOMER_SAVE_REQUESTED,
-    CUSTOMER_CLEAR_STATE,
+     CUSTOMER_SAVE,
+     CUSTOMER_CLEAR_STATE,
     CUSTOMER_PAGE,
-    CUSTOMER_PHONE_DELETE_REQUEST,
-    CUSTOMER_PHONE_SAVE_REQUEST,
-    CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE, CUSTOMER_PHONE_SAVE_ERROR, CUSTOMER_PHONE_DELETE_ERROR,
-    CUSTOMER_ADDRESS_DELETE_REQUEST,
-    CUSTOMER_ADDRESS_SAVE_REQUEST,
-    CUSTOMER_ADDRESS_DELETE, CUSTOMER_ADDRESS_SAVE, CUSTOMER_ADDRESS_SAVE_ERROR, CUSTOMER_ADDRESS_DELETE_ERROR
+     CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE,
+    CUSTOMER_ADDRESS_DELETE, CUSTOMER_ADDRESS_SAVE,
 } from "../actions/customer";
 import {
     updateCustomerBasic,
@@ -59,16 +45,16 @@ const customer = (state = initialState, action) => {
                 customer: {}
             };
         case CUSTOMER_PAGE:
-        case CUSTOMER_DELETE_REQUESTED:
-        case CUSTOMER_ADDRESS_DELETE_REQUEST:
-        case CUSTOMER_PHONE_DELETE_REQUEST:
-        case CUSTOMER_PHONE_SAVE_REQUEST:
-        case CUSTOMER_ADDRESS_SAVE_REQUEST:
+        case `${CUSTOMER_DELETE}_REQUESTED`:
+        case `${CUSTOMER_ADDRESS_DELETE}_REQUEST`:
+        case `${CUSTOMER_PHONE_DELETE}_REQUEST`:
+        case `${CUSTOMER_PHONE_SAVE}_REQUEST`:
+        case `${CUSTOMER_ADDRESS_SAVE}_REQUEST`:
             return {
                 ...state,
                 isLoading: true,
             };
-        case CUSTOMER_LIST_REQUESTED:
+        case `${CUSTOMER_LIST}_REQUESTED`:
             return {
                 ...state,
                 searchParams: {
@@ -82,26 +68,26 @@ const customer = (state = initialState, action) => {
                 previous: '',
                 next: '',
             };
-        case CUSTOMER_CREATE_REQUESTED:
+        case `${CUSTOMER_CREATE}_REQUESTED`:
             return {
                 ...state,
                 customer: updateCustomerBasic(state.customer, action.payload.customer),
                 isLoading: true,
             };
-        case CUSTOMER_SAVE_REQUESTED:
+        case `${CUSTOMER_SAVE}_REQUESTED`:
             return {
                 ...state,
                 customer: updateCustomerBasic(state.customer, action.payload.customer),
                 isLoading: true,
             };
-        case CUSTOMER_REQUESTED:
+        case `${CUSTOMER}_REQUESTED`:
             return {
                 ...state,
                 customer: {},
                 isLoading: true,
             };
 
-        case CUSTOMER_LIST_ERROR:
+        case `${CUSTOMER_LIST}_ERROR`:
             return {
                 ...state,
                 isLoading: false,
@@ -111,30 +97,30 @@ const customer = (state = initialState, action) => {
                 next: '',
             };
 
-        case CUSTOMER_ERROR:
+        case `${CUSTOMER}_ERROR`:
             return {
                 ...state,
                 isLoading: false,
                 customer: {},
                 totalPages: 0
             };
-        case CUSTOMER_SAVE_ERROR:
-        case CUSTOMER_CREATE_ERROR:
-        case CUSTOMER_DELETE_ERROR:
-        case CUSTOMER_PHONE_DELETE_ERROR:
-        case CUSTOMER_ADDRESS_DELETE_ERROR:
+        case `${CUSTOMER_SAVE}_ERROR`:
+        case `${CUSTOMER_CREATE}_ERROR`:
+        case `${CUSTOMER_DELETE}_ERROR`:
+        case `${CUSTOMER_PHONE_DELETE}_ERROR`:
+        case `${CUSTOMER_ADDRESS_DELETE}_ERROR`:
         case USER_NOT_VALIDATED:
             return {
                 ...state,
                 isLoading: false
             };
-        case CUSTOMER_ADDRESS_SAVE_ERROR:
+        case `${CUSTOMER_ADDRESS_SAVE}_ERROR`:
             return {
                 ...state,
                 isLoading: false,
                 customer: customerAddErrorForAddress(state.customer, action.payload.customerAddress)
             };
-        case CUSTOMER_PHONE_SAVE_ERROR:
+        case `${CUSTOMER_PHONE_SAVE}_ERROR`:
             return {
                 ...state,
                 isLoading: false,

@@ -3,11 +3,7 @@ import history from '../../history.js'
 import {
     createCustomerFailure,
     createCustomerSuccess,
-    CUSTOMER_CREATE_REQUESTED,
-    CUSTOMER_DELETE_REQUESTED,
-    CUSTOMER_LIST_REQUESTED, CUSTOMER_PAGE,
-    CUSTOMER_REQUESTED,
-    CUSTOMER_SAVE_REQUESTED,
+    CUSTOMER_PAGE,
     deleteCustomerFailure,
     deleteCustomerSuccess,
     getCustomerFailure,
@@ -19,17 +15,25 @@ import {
     saveCustomerPhoneSuccess,
     saveCustomerPhoneFailure,
     deleteCustomerPhoneSuccess,
-    deleteCustomerPhoneFailure, CUSTOMER_PHONE_SAVE_REQUEST, CUSTOMER_PHONE_DELETE_REQUEST,
+    deleteCustomerPhoneFailure,
     saveCustomerAddressSuccess,
     saveCustomerAddressFailure,
     deleteCustomerAddressSuccess,
-    deleteCustomerAddressFailure, CUSTOMER_ADDRESS_SAVE_REQUEST, CUSTOMER_ADDRESS_DELETE_REQUEST,
+    deleteCustomerAddressFailure,
+    CUSTOMER_LIST,
+    CUSTOMER_DELETE,
+    CUSTOMER_CREATE,
+    CUSTOMER_SAVE,
+    CUSTOMER_PHONE_DELETE,
+    CUSTOMER_PHONE_SAVE,
+    CUSTOMER_ADDRESS_DELETE, CUSTOMER_ADDRESS_SAVE,
 } from "../actions/customer";
 
 import api from './api';
 import * as selectors from '../selectors/user.js';
 import * as customerSelectors from '../selectors/customer.js';
 import {updateObject} from "../../helpers/utils";
+import {CUSTOMER} from "../../components/app/model/helpers/fields";
 
 export function* getCustomerList(action) {
     try {
@@ -47,7 +51,7 @@ export function* getCustomerList(action) {
 }
 
 export function* watchForGetCustomerList() {
-    yield takeLatest(CUSTOMER_LIST_REQUESTED, getCustomerList);
+    yield takeLatest(`${CUSTOMER_LIST}_REQUESTED`, getCustomerList);
 }
 
 export function* getCustomerListPage(action) {
@@ -88,7 +92,7 @@ export function* getCustomer(action) {
 }
 
 export function* watchForGetCustomer() {
-    yield takeLatest(CUSTOMER_REQUESTED, getCustomer);
+    yield takeLatest(`${CUSTOMER}_REQUESTED`, getCustomer);
 }
 
 export function* createCustomer(action) {
@@ -109,7 +113,7 @@ export function* createCustomer(action) {
 }
 
 export function* watchForCreateCustomer() {
-    yield takeLatest(CUSTOMER_CREATE_REQUESTED, createCustomer);
+    yield takeLatest(`${CUSTOMER_CREATE}_REQUESTED`, createCustomer);
 }
 
 export function* saveCustomer(action) {
@@ -128,7 +132,7 @@ export function* saveCustomer(action) {
 }
 
 export function* watchForSaveCustomer() {
-    yield takeLatest(CUSTOMER_SAVE_REQUESTED, saveCustomer);
+    yield takeLatest(`${CUSTOMER_SAVE}_REQUESTED`, saveCustomer);
 }
 
 export function* deleteCustomer(action) {
@@ -148,7 +152,7 @@ export function* deleteCustomer(action) {
 }
 
 export function* watchForDeleteCustomer() {
-    yield takeLatest(CUSTOMER_DELETE_REQUESTED, deleteCustomer);
+    yield takeLatest(`${CUSTOMER_DELETE}_REQUESTED`, deleteCustomer);
 }
 
 export function* deleteCustomerPhone(action) {
@@ -167,7 +171,7 @@ export function* deleteCustomerPhone(action) {
 }
 
 export function* watchForDeleteCustomerPhone() {
-    yield takeLatest(CUSTOMER_PHONE_DELETE_REQUEST, deleteCustomerPhone);
+    yield takeLatest(`${CUSTOMER_PHONE_DELETE}_REQUEST`, deleteCustomerPhone);
 }
 
 export function* saveCustomerPhone(action) {
@@ -191,7 +195,7 @@ export function* saveCustomerPhone(action) {
 }
 
 export function* watchForSaveCustomerPhone() {
-    yield takeLatest(CUSTOMER_PHONE_SAVE_REQUEST, saveCustomerPhone);
+    yield takeLatest(`${CUSTOMER_PHONE_SAVE}_REQUEST`, saveCustomerPhone);
 }
 
 
@@ -211,7 +215,7 @@ export function* deleteCustomerAddress(action) {
 }
 
 export function* watchForDeleteCustomerAddress() {
-    yield takeLatest(CUSTOMER_ADDRESS_DELETE_REQUEST, deleteCustomerAddress);
+    yield takeLatest(`${CUSTOMER_ADDRESS_DELETE}_REQUEST`, deleteCustomerAddress);
 }
 
 export function* saveCustomerAddress(action) {
@@ -235,7 +239,7 @@ export function* saveCustomerAddress(action) {
 }
 
 export function* watchForSaveCustomerAddress() {
-    yield takeLatest(CUSTOMER_ADDRESS_SAVE_REQUEST, saveCustomerAddress);
+    yield takeLatest(`${CUSTOMER_ADDRESS_SAVE}_REQUEST`, saveCustomerAddress);
 }
 
 

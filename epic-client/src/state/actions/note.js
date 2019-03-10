@@ -1,22 +1,14 @@
-export const NOTE_LIST_REQUESTED = 'note/NOTE_LIST_REQUESTED';
-export const NOTE_LIST_ERROR = 'note/NOTE_LIST_ERROR';
 export const NOTE_LIST = 'note/NOTE_LIST';
-export const NOTE_CREATE_REQUESTED = 'note/NOTE_CREATE_REQUESTED';
-export const NOTE_CREATE_ERROR = 'note/NOTE_CREATE_ERROR';
 export const NOTE_CREATE = 'note/NOTE_CREATE';
-export const NOTE_SAVE_REQUESTED = 'note/NOTE_SAVE_REQUESTED';
-export const NOTE_SAVE_ERROR = 'note/NOTE_SAVE_ERROR';
 export const NOTE_SAVE = 'note/NOTE_SAVE';
 export const NOTE_REMOVE = 'note/NOTE_REMOVE';
-export const NOTE_DELETE_REQUESTED = 'note/NOTE_DELETE_REQUESTED';
-export const NOTE_DELETE_ERROR = 'note/NOTE_DELETE_ERROR';
 export const NOTE_DELETE = 'note/NOTE_DELETE';
 
 export const removeNote = () => ({
     type: NOTE_REMOVE
 });
 export const getNoteList = (customerId, customerVisible, quoteId) => ({
-    type: NOTE_LIST_REQUESTED,
+    type: `${NOTE_LIST}_REQUESTED`,
     payload: { customerId, customerVisible, quoteId }
 });
 
@@ -26,12 +18,12 @@ export const getNoteListSuccess = notes => ({
 });
 
 export const getNoteListFailure = error => ({
-    type: NOTE_LIST_ERROR,
+    type: `${NOTE_LIST}_ERROR`,
     payload: error
 });
 
 export const createNote = note => ({
-    type: NOTE_CREATE_REQUESTED,
+    type: `${NOTE_CREATE}_REQUESTED`,
     payload: { note }
 });
 
@@ -41,12 +33,12 @@ export const createNoteSuccess = notes => ({
 });
 
 export const createNoteFailure = error => ({
-    type: NOTE_CREATE_ERROR,
+    type: `${NOTE_CREATE}_ERROR`,
     payload: error
 });
 
 export const saveNote = note => ({
-    type: NOTE_SAVE_REQUESTED,
+    type: `${NOTE_SAVE}_REQUESTED`,
     payload: { note }
 });
 
@@ -56,12 +48,12 @@ export const saveNoteSuccess = note => ({
 });
 
 export const saveNoteFailure = error => ({
-    type: NOTE_SAVE_ERROR,
+    type: `${NOTE_SAVE}_ERROR`,
     payload: error
 });
 
 export const deleteNote = note => ({
-    type: NOTE_DELETE_REQUESTED,
+    type: `${NOTE_DELETE}_REQUESTED`,
     payload: { noteId: note.id }
 });
 
@@ -70,6 +62,6 @@ export const deleteNoteSuccess = () => ({
 });
 
 export const deleteNoteFailure = error => ({
-    type: NOTE_DELETE_ERROR,
+    type: `${NOTE_DELETE}_ERROR`,
     payload: error
 });

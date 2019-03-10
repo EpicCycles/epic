@@ -3,9 +3,6 @@ import * as selectors from "../selectors/user";
 import brand from "./apis/brand";
 import supplier from "./apis/supplier";
 import {
-    BRANDS_AND_SUPPLIERS_REQUESTED,
-    BRANDS_REQUESTED,
-    BRANDS_SAVE_REQUESTED,
     getBrandsAndSuppliersFailure,
     getBrandsFailure,
     getBrandsAndSuppliersSuccess,
@@ -14,7 +11,13 @@ import {
     saveBrandsSuccess,
     saveSupplierSuccess,
     saveSupplierFailure,
-    SUPPLIER_SAVE_REQUESTED, SUPPLIER_DELETE_REQUESTED, deleteSupplierSuccess, deleteSupplierFailure
+    deleteSupplierSuccess,
+    deleteSupplierFailure,
+    BRANDS,
+    BRANDS_AND_SUPPLIERS,
+    SUPPLIER_DELETE,
+    SUPPLIER_SAVE,
+    BRANDS_SAVE
 } from "../actions/core";
 import {call, put, select, takeLatest} from "redux-saga/effects";
 import {logError} from "../../helpers/api_error";
@@ -111,20 +114,20 @@ export function* deleteSupplier(action) {
 }
 
 export function* watchForGetBrandsAndSuppliers() {
-    yield takeLatest(BRANDS_AND_SUPPLIERS_REQUESTED, getBrandsAndSuppliers);
+    yield takeLatest(`${BRANDS_AND_SUPPLIERS}_REQUESTED`, getBrandsAndSuppliers);
 }
 export function* watchForGetBrands() {
-    yield takeLatest(BRANDS_REQUESTED, getBrands);
+    yield takeLatest(`${BRANDS}_REQUESTED`, getBrands);
 }
 
 export function* watchForSaveBrands() {
-    yield takeLatest(BRANDS_SAVE_REQUESTED, saveBrands);
+    yield takeLatest(`${BRANDS_SAVE}_REQUESTED`, saveBrands);
 }
 
 export function* watchForSaveSupplier() {
-    yield takeLatest(SUPPLIER_SAVE_REQUESTED, saveSupplier);
+    yield takeLatest(`${SUPPLIER_SAVE}_REQUESTED`, saveSupplier);
 }
 
 export function* watchForDeleteSupplier() {
-    yield takeLatest(SUPPLIER_DELETE_REQUESTED, deleteSupplier);
+    yield takeLatest(`${SUPPLIER_DELETE}_REQUESTED`, deleteSupplier);
 }
