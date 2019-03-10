@@ -5,12 +5,12 @@ import {gridItemClass} from "./helpers/display";
 import {getComponentKey} from "./helpers/model";
 
 const ModelViewRow = props => {
-    const { model, modelFields, rowSpan, brands, sections, suppliers, lockFirstColumn } = props;
+    const { model, modelFields, rowSpan, brands, sections, suppliers, lockFirstColumn, className } = props;
     const componentKey = getComponentKey(model);
     return <Fragment>
         {modelFields.map((field, index) => {
             return <div
-                className={gridItemClass('', index, lockFirstColumn)}
+                className={gridItemClass(className, index, lockFirstColumn)}
                 key={`modelRow${field.fieldName}${componentKey}`}
                 style={{ gridRow: ` span ${rowSpan}` }}
                 data-test="model-field-cell"
@@ -29,6 +29,7 @@ const ModelViewRow = props => {
 };
 
 ModelViewRow.defaultProps = {
+    className: '',
     sections: [],
     brands: [],
     suppliers: [],
@@ -39,6 +40,7 @@ ModelViewRow.propTypes = {
     modelFields: PropTypes.array.isRequired,
     model: PropTypes.object.isRequired,
     sections: PropTypes.array,
+    className: PropTypes.string,
     brands: PropTypes.array,
     suppliers: PropTypes.array,
     lockFirstColumn: PropTypes.bool,

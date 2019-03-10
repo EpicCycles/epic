@@ -26,7 +26,7 @@ exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch cor
     searchParams={[Function]}
   />
   <div
-    className="grid-container"
+    className="grid"
     key="customer-list-container"
     style={
       Object {

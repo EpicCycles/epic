@@ -7,6 +7,7 @@ import CustomerSearch from "./CustomerSearch";
 import {searchParams} from "../../state/selectors/customer";
 import CustomerListGridHeaders from "./CustomerListGridHeaders";
 import CustomerListGridRow from "./CustomerListGridRow";
+import CustomerListAndSearch from "./CustomerListAndSearch";
 
 
 class CustomerList extends React.Component {
@@ -19,46 +20,23 @@ class CustomerList extends React.Component {
 
     render() {
         const { redirect } = this.state;
-        const { getCustomerList, getCustomerListPage, getCustomer, removeCustomerError, isLoading, customers, count, next, previous, error } = this.props;
+        const { getCustomerList, getCustomerListPage, getCustomer, isLoading, customers, count, next, previous, searchParams } = this.props;
         if (redirect) return <Redirect to={redirect}/>;
 
         return (
-            <div id="customer-list">
-                <CustomerSearch getCustomerList={getCustomerList} searchParams={searchParams} isLoading={isLoading}/>
-                {count > 0 &&
-                <div
-                    className="grid-container"
-                    key="customer-list-container"
-                    style={{ width: '100%', height: '400px' }}
-                >
-                    <CustomerListGridHeaders
-                        lockFirstColumn={true}
-                        includeActions={true}
-                    />
-                    {customers.map(customer =>
-                        <CustomerListGridRow
-                            key={`cust-${customer.id}`}
-                            customer={customer}
-                            getCustomer={getCustomer}
-                            lockFirstColumn={true}
-                        />
-                    )}
-                </div>
-                }
-                <div className="row align-left">
-                    {count > 0 ? <Pagination
-                            id="customer-pagination"
-                            previous={previous}
-                            next={next}
-                            count={count}
-                            getPage={getCustomerListPage}/>
-                        :
-                        <div>
-                            No Customer to show, set new criteria and search, or
-                        </div>
-                    }
-                    <CustomerAddLink addNewCustomer={this.goToAddCustomer()}/>
-                </div>
+            <div id="customer-list" className="grid-container">
+                <CustomerListAndSearch
+                    addNewCustomer={this.goToAddCustomer}
+                    getCustomerList={getCustomerList}
+                    getCustomerListPage={getCustomerListPage}
+                    getCustomer={getCustomer}
+                    searchParams={searchParams}
+                    isLoading={isLoading}
+                    customers={customers}
+                    count={count}
+                    next={next}
+                    previous={previous}
+                />
                 {isLoading &&
                 <Dimmer active inverted>
                     <Loader content='Loading'/>

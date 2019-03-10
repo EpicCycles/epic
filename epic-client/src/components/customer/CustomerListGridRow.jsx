@@ -6,11 +6,11 @@ import ModelActions from "../app/model/ModelActions";
 
 const CustomerListGridRow = props => {
     const { customer, getCustomer, lockFirstColumn } = props;
-    const actionArray = {
+    const actionArray = [{
         iconName: 'edit',
         iconTitle: 'edit customer',
         iconAction: getCustomer,
-    };
+    }];
     return <div
         key={`customerRow${customer.id}`}
         className="grid-row"

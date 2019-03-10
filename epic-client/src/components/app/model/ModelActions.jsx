@@ -1,8 +1,14 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import {Icon} from "semantic-ui-react";
+import {gridItemClass} from "./helpers/display";
 
-const ModelActions = props => <Fragment>
+const ModelActions = props => <div
+    className={gridItemClass(props.className)}
+    key={`modelActions${props.componentKey}`}
+    style={{ gridRow: ` span ${props.rowSpan}` }}
+    data-test="model-field-cell"
+>
     {props.actions.map(action => <Icon
         name={action.iconName}
         title={action.iconTitle}
@@ -10,10 +16,11 @@ const ModelActions = props => <Fragment>
         key={`${action.iconName}-${props.componentKey}`}
         data-test="model-action"
     />)}
-</Fragment>;
+</div>;
 
 ModelActions.defaultProps = {
     className: '',
+    rowSpan: 1,
 };
 
 ModelActions.propTypes = {
@@ -27,6 +34,7 @@ ModelActions.propTypes = {
         PropTypes.number,
     ]).isRequired,
     className: PropTypes.string,
+    rowSpan: PropTypes.number,
     actionsDisabled: PropTypes.bool,
 };
 export default ModelActions;

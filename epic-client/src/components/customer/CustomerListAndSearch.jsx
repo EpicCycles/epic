@@ -13,7 +13,7 @@ const CustomerListAndSearch = (props) => {
         <CustomerSearch getCustomerList={getCustomerList} searchParams={searchParams} isLoading={isLoading}/>
         {count > 0 &&
         <div
-            className="grid-container"
+            className="grid"
             key="customer-list-container"
             style={{ width: '100%', height: '400px' }}
         >
