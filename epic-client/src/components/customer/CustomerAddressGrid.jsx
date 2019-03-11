@@ -38,7 +38,7 @@ class CustomerAddressGrid extends React.Component {
             >
                 <CustomerAddressEdit
                     key={`editNewAddress${newAddressKey}`}
-                    customerId={newAddressKey}
+                    customerId={customerId}
                     saveCustomerAddress={this.saveNewCustomerAddress}
                     deleteCustomerAddress={deleteCustomerAddress}
                     customerAddress={newAddress}
