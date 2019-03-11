@@ -13,7 +13,7 @@ export const eliminateReadOnlyFields = (fieldList) => {
 };
 
 export const checkForChanges = (fieldList, existingObject, newValues) => {
-    return fieldList.some(field => {
+    return eliminateReadOnlyFields(fieldList).some(field => {
         return existingObject[field.fieldName] !== newValues[field.fieldName];
     })
 };
@@ -175,5 +175,7 @@ export const createNewModelInstance = () => {
     return {dummyKey: generateRandomCode()};
 };
 export const matchesModel = (persistedModel, modelFields, modelToCheck) => {
-     return ! checkForChanges(modelFields, persistedModel, modelToCheck);
+     return eliminateReadOnlyFields(modelFields).every(field => {
+        return persistedModel[field.fieldName] !== modelToCheck[field.fieldName];
+    })
 };
