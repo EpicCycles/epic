@@ -7,6 +7,7 @@ import CustomerAddressEdit from "./CustomerAddressEdit";
 import {findObjectWithId, updateObject} from "../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import CustomerAddressGrid from "./CustomerAddressGrid";
+import {getModelKey} from "../app/model/helpers/model";
 
 class CustomerEdit extends React.Component {
 
@@ -43,8 +44,8 @@ class CustomerEdit extends React.Component {
             saveCustomer, createCustomer
         } = this.props;
         const customer = findObjectWithId(customers, customerId);
-        const note_key = getComponentKey(note);
-        const customer_key = getComponentKey(customer);
+        const note_key = getModelKey(note);
+        const customer_key = getModelKey(customer);
         const newPhoneKey = (customer && customer.newPhone && customer.newPhone.dummyKey) ? customer.newPhone.dummyKey : "new";
         return <div id="customer-edit">
             <h2>Customer</h2>

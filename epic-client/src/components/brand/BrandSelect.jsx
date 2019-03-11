@@ -2,14 +2,14 @@ import React from "react";
 import * as PropTypes from "prop-types";
 
 import SelectInput from "../../common/SelectInput";
-import {getComponentKey} from "../app/model/helpers/model";
+import {getModelKey} from "../app/model/helpers/model";
 
 const BrandSelect = (props) => {
     const { brands, fieldName, onChange, brandSelected, isEmptyAllowed, error, bikeOnly, disabled } = props;
     const brandsToUse = (brands && bikeOnly) ? brands.filter(brand => brand.bike_brand) : brands;
     const brandOptions = brandsToUse ? brandsToUse.map(brand => {
         return {
-            'value': String(getComponentKey(brand)),
+            'value': String(getModelKey(brand)),
             'name': brand.brand_name
         }
     }) : [];

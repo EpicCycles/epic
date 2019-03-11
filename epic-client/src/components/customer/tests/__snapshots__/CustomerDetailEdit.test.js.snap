@@ -136,6 +136,7 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
       ]
     }
     onChange={[Function]}
+    persistedModel={Object {}}
   />
   <div
     className="row align_right"

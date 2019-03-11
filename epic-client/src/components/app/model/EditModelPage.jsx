@@ -1,12 +1,12 @@
 import React from "react";
 
 import * as PropTypes from "prop-types";
-import {eliminateReadOnlyFields, getComponentKey} from "./helpers/model";
+import {eliminateReadOnlyFields, getModelKey} from "./helpers/model";
 import EditModelPageRow from "./EditModelPageRow";
 
 const EditModelPage = (props) => {
     const { model, modelFields, persistedModel, className = "", sections, brands, suppliers, onChange } = props;
-    const componentKey = getComponentKey(model);
+    const componentKey = getModelKey(model);
     return <div className="grid-container">
         {model.error && <div className="red">{model.error}</div>}
 

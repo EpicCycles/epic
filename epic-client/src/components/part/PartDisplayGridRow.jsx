@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import {partCanBeOmitted, partCanBeSubstituted} from "./helpers/part";
 import {fixedDetailsClassname} from "../app/model/helpers/display";
-import {getComponentKey} from "../app/model/helpers/model";
+import {getModelKey} from "../app/model/helpers/model";
 import PartViewRow from "./PartViewRow";
 import SupplierProductViewRow from "../supplierProduct/SupplierProductViewRow";
 import {Icon} from "semantic-ui-react";
@@ -35,7 +35,7 @@ const PartDisplayGridRow = (props) => {
             {showSupplierProducts && <SupplierProductViewRow
                 supplierProduct={firstSupplierProduct}
                 suppliers={suppliers}
-                key={`supplierProduct${getComponentKey(firstSupplierProduct)}`}
+                key={`supplierProduct${getModelKey(firstSupplierProduct)}`}
             />}
             {includeActions && <div
                 className={`grid-item`}

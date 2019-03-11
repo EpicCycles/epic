@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {getComponentKey} from "../app/model/helpers/model";
+import {getModelKey} from "../app/model/helpers/model";
 import {partFieldsComplete} from "../app/model/helpers/fields";
 import ViewModelField from "../app/model/ViewModelField";
 
@@ -8,7 +8,7 @@ import ViewModelField from "../app/model/ViewModelField";
 const PartViewRow = (props) => {
     const { part, supplierProducts, lockFirstColumn, brands, sections } = props;
     const rowSpan = supplierProducts ? supplierProducts.length : 1;
-    const componentKey = getComponentKey(part);
+    const componentKey = getModelKey(part);
     return <Fragment>
         {partFieldsComplete.map((field, index) => {
             const fixed = ((index === 0) && lockFirstColumn) ? "grid-item--fixed-left" : "";

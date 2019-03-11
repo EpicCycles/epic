@@ -1,13 +1,13 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {eliminateReadOnlyFields, getComponentKey} from "./helpers/model";
+import {eliminateReadOnlyFields, getModelKey} from "./helpers/model";
 import EditModelInput from "./EditModelInput";
 
 
 const EditModelRow = (props) => {
     const { model, modelFields, persistedModel, className, onChange, lockFirstColumn, brands, sections, suppliers, childModels } = props;
     const rowSpan = childModels ? childModels.length : 1;
-    const componentKey = getComponentKey(model);
+    const componentKey = getModelKey(model);
     return <Fragment>
         {eliminateReadOnlyFields(modelFields).map((field, index) => {
             let divClass = "grid-item";

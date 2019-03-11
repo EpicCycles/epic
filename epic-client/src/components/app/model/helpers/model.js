@@ -31,7 +31,7 @@ export const addFieldToState = (initialState, fieldList, fieldName, input) => {
 };
 
 
-export const getComponentKey = modelInstance => {
+export const getModelKey = modelInstance => {
     if (!modelInstance) return NEW_ELEMENT_ID;
     if (modelInstance.id) return modelInstance.id;
     if (modelInstance.dummyKey) return modelInstance.dummyKey;
@@ -176,6 +176,6 @@ export const createNewModelInstance = () => {
 };
 export const matchesModel = (persistedModel, modelFields, modelToCheck) => {
      return eliminateReadOnlyFields(modelFields).every(field => {
-        return persistedModel[field.fieldName] !== modelToCheck[field.fieldName];
+        return persistedModel[field.fieldName] === modelToCheck[field.fieldName];
     })
 };

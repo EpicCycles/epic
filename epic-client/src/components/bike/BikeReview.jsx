@@ -8,7 +8,7 @@ import * as PropTypes from "prop-types";
 import {findPartsForBike} from "./helpers/bike";
 import PartDisplayGrid from "../part/PartDisplayGrid";
 import PartFinder from "../part/PartFinder";
-import {getComponentKey} from "../app/model/helpers/model";
+import {getModelKey} from "../app/model/helpers/model";
 
 const initialState = {
     showPartFinder: false,
@@ -108,7 +108,7 @@ class BikeReview extends React.Component {
                     partActionPrimary={this.saveOrAddPart}
                     partActionPrimaryIcon={'add'}
                     partActionPrimaryTitle={'Update bike with part'}
-                    key={`partFinder${getComponentKey(partEditPart)}`}
+                    key={`partFinder${getModelKey(partEditPart)}`}
                 />}
                 <div>
                     <BikeEdit

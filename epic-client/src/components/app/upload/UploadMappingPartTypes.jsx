@@ -6,7 +6,7 @@ import PartTypeModal from "../../partType/PartTypeModal";
 import {doesFieldMatchPartType, renumberAll} from "../../framework/helpers/framework";
 import {generateRandomCode, removeKey, updateObject, updateObjectInArray} from "../../../helpers/utils";
 import * as PropTypes from "prop-types";
-import {getComponentKey} from "../model/helpers/model";
+import {getModelKey} from "../model/helpers/model";
 
 class UploadMappingPartTypes extends React.Component {
     constructor(props) {
@@ -132,7 +132,7 @@ class UploadMappingPartTypes extends React.Component {
         const updatedSections = this.props.sections.map(section => {
             // eslint-disable-next-line
             if (section.id == partType.includeInSection) {
-                return updateObject(section, {partTypes: updateObjectInArray(section.partTypes, partType, getComponentKey(partType))});
+                return updateObject(section, {partTypes: updateObjectInArray(section.partTypes, partType, getModelKey(partType))});
             }
             return section;
         });

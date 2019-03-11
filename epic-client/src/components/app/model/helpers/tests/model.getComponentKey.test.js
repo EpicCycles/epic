@@ -1,19 +1,19 @@
 import {NEW_ELEMENT_ID} from "../../../../../helpers/constants";
 import {generateRandomCode} from "../../../../../helpers/utils";
-import {getComponentKey} from "../model";
+import {getModelKey} from "../model";
 
 test('no model returns new element id', () => {
-    expect(getComponentKey()).toBe(NEW_ELEMENT_ID);
+    expect(getModelKey()).toBe(NEW_ELEMENT_ID);
 });
 test('empty model returns new element id', () => {
-    expect(getComponentKey({})).toBe(NEW_ELEMENT_ID);
+    expect(getModelKey({})).toBe(NEW_ELEMENT_ID);
 });
 test('model with only id returns that', () => {
     const modelInstance = {
         id: 23,
         field: 'another field'
     };
-    expect(getComponentKey(modelInstance)).toBe(23);
+    expect(getModelKey(modelInstance)).toBe(23);
 });
 test('model with id and dummy key returns id', () => {
     const modelInstance = {
@@ -21,7 +21,7 @@ test('model with id and dummy key returns id', () => {
         field: 'another field',
         dummyKey: generateRandomCode()
     };
-    expect(getComponentKey(modelInstance)).toBe(23);
+    expect(getModelKey(modelInstance)).toBe(23);
 });
 test('model with dummy key only returns dummyKey', () => {
     const modelInstance = {
@@ -29,5 +29,5 @@ test('model with dummy key only returns dummyKey', () => {
         field: 'another field',
         dummyKey: generateRandomCode()
     };
-    expect(getComponentKey(modelInstance)).toBe(modelInstance.dummyKey);
+    expect(getModelKey(modelInstance)).toBe(modelInstance.dummyKey);
 });

@@ -2,12 +2,12 @@ import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import EditModelInput from "../app/model/EditModelInput";
 import {supplierProductFields} from "../app/model/helpers/fields";
-import {getComponentKey} from "../app/model/helpers/model";
+import {getModelKey} from "../app/model/helpers/model";
 
 
 const SupplierProductEditRow = (props) => {
     const { supplierProduct, persistedSupplierProduct, onChange, lockFirstColumn, suppliers } = props;
-    const componentKey = getComponentKey(supplierProduct);
+    const componentKey = getModelKey(supplierProduct);
     return <Fragment>
         {supplierProductFields.map((field, index) => {
             return <div

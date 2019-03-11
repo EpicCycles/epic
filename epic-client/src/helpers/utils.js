@@ -1,5 +1,5 @@
 import {colourStyles} from "./constants";
-import {getComponentKey} from "../components/app/model/helpers/model";
+import {getModelKey} from "../components/app/model/helpers/model";
 
 export const sortObjectsByAttribute = (initialArray, attributeName = 'id') => {
     return initialArray.sort((a, b) => {
@@ -26,7 +26,7 @@ export const compareString = (a, b) => {
 export const addItemsToArray = (oldArray = [], listOfItems = []) => {
     let newArray = oldArray.slice();
     listOfItems.forEach(item => {
-        let itemKey = getComponentKey(item);
+        let itemKey = getModelKey(item);
         let existingIndex = findIndexOfObjectWithKey(newArray, itemKey);
         if (existingIndex < 0) newArray.push(item); else newArray[existingIndex] = item;
     });

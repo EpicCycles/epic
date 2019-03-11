@@ -1,6 +1,6 @@
 import React from "react";
 import {Icon} from "semantic-ui-react";
-import { getComponentKey, isModelValid, updateModel} from "../app/model/helpers/model";
+import { getModelKey, isModelValid, updateModel} from "../app/model/helpers/model";
 import {customerAddressFields} from "../app/model/helpers/fields";
 import EditModelRow from "../app/model/EditModelRow";
 import * as PropTypes from "prop-types";
@@ -53,7 +53,7 @@ class CustomerAddressEdit extends React.Component {
 
     render() {
         const { customerAddress } = this.state;
-        const keyValue = getComponentKey(customerAddress);
+        const keyValue = getModelKey(customerAddress);
         const isValid = isModelValid(customerAddress);
         const componentContext = keyValue;
         const rowClass = (customerAddress && customerAddress.error) ? "grid-row error" : "grid-row";

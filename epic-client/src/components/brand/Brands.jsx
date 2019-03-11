@@ -7,7 +7,7 @@ import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import BrandEdit from "./BrandEdit";
 import SupplierBlob from "../supplier/SupplierBlob";
 import SupplierModal from "../supplier/SupplierModal";
-import {getComponentKey} from "../app/model/helpers/model";
+import {getModelKey} from "../app/model/helpers/model";
 
 class Brands extends React.Component {
     constructor() {
@@ -121,7 +121,7 @@ class Brands extends React.Component {
                         Save
                     </Button>
                     {brandsToUse.map(brand => {
-                        const componentKey = getComponentKey(brand);
+                        const componentKey = getModelKey(brand);
                         return <BrandEdit
                             key={`brandEdit${componentKey}`}
                             brand={brand}
@@ -151,7 +151,7 @@ class Brands extends React.Component {
                         />}
                     </div>
                     {suppliersToUse && suppliersToUse.map(supplier => {
-                        const componentKey = getComponentKey(supplier);
+                        const componentKey = getModelKey(supplier);
                         return <div
                             key={`droppablediv${componentKey}`}
                             onDragOver={event => this.allowDrop(event)}

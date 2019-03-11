@@ -24,17 +24,17 @@ describe("CustomerDetailEdit tests", () => {
         expect(input).toMatchSnapshot();
     });
     it('shows the buttons when changes are present', () => {
-        const acceptChanges = jest.fn();
+        const saveCustomer = jest.fn();
 
         const input = shallow(
-            <CustomerDetailEdit customer={customer} acceptCustomerChanges={acceptChanges}/>
+            <CustomerDetailEdit customer={customer} saveCustomer={saveCustomer}/>
         );
         input.setState({changed: true});
         expect(input.find("#accept-cust").prop("disabled")).toEqual(false);
         expect(input.find(Icon).length).toBe(3);
 
         input.find("#accept-cust").at(0).simulate("click");
-        expect(acceptChanges.mock.calls.length).toBe(1);
+        expect(saveCustomer.mock.calls.length).toBe(1);
         input.setState({error: "missing a field"});
 
         expect(input.find("#accept-cust").prop("disabled")).toEqual(true);

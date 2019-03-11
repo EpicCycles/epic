@@ -12,7 +12,7 @@ import {findIndexOfObjectWithKey} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
 import {Prompt} from "react-router";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
-import {getComponentKey} from "../app/model/helpers/model";
+import {getModelKey} from "../app/model/helpers/model";
 
 class Framework extends React.Component {
     componentWillMount() {
@@ -80,7 +80,7 @@ class Framework extends React.Component {
                     </Button></div>
                 </div>
                 {sectionsToUse.map((section) => {
-                    const componentKey = getComponentKey(section);
+                    const componentKey = getModelKey(section);
                     const className = section.error ? "error" : "";
                     const rowTitle = section.error ? section.error_detail : "";
                     return (

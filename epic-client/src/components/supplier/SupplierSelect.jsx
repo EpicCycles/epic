@@ -2,13 +2,13 @@ import React from "react";
 
 import SelectInput from "../../common/SelectInput";
 import * as PropTypes from "prop-types";
-import {getComponentKey} from "../app/model/helpers/model";
+import {getModelKey} from "../app/model/helpers/model";
 
 const SupplierSelect = (props) => {
     const { suppliers, fieldName, onChange, supplierSelected, isEmptyAllowed, isMultiple, multipleSize } = props;
     const supplierOptions = suppliers ? suppliers.map(supplier => {
         return {
-            value: String(getComponentKey(supplier)),
+            value: String(getModelKey(supplier)),
             name: supplier.supplier_name
         }
     }) : [];

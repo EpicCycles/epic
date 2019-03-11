@@ -2,21 +2,21 @@ import React from "react";
 
 import SelectInput from "../../common/SelectInput";
 import * as PropTypes from "prop-types";
-import {getComponentKey} from "../app/model/helpers/model";
+import {getModelKey} from "../app/model/helpers/model";
 import {buildPartString} from "./helpers/part";
 
 const PartSelect = (props) => {
     const { parts, brands, fieldName, onChange, partSelected, isEmptyAllowed, isMultiple, multipleSize } = props;
     const partOptions = parts ? parts.map(part => {
         return {
-            value: String(getComponentKey(part)),
+            value: String(getModelKey(part)),
             name: buildPartString(part, brands)
         }
     }) : [];
     return <SelectInput
         fieldName={fieldName}
         onChange={onChange}
-        value={getComponentKey(partSelected)}
+        value={getModelKey(partSelected)}
         options={partOptions}
         isEmptyAllowed={isEmptyAllowed}
         isMultiple={isMultiple}

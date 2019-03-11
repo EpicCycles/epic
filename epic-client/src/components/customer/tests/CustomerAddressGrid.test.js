@@ -25,7 +25,7 @@ describe('CustomerAddressGrid', () => {
         />);
         expect(findDataTest(component, "existing-address")).toHaveLength(3);
         expect(findDataTest(component, "new-address")).toHaveLength(1);
-        expect(component.state('new-address').address1).toEqual(undefined);
+        expect(component.state('newAddress').address1).toEqual(undefined);
 
     });
     it('should replace the new address component when the props change to include a new address', () => {
@@ -34,30 +34,30 @@ describe('CustomerAddressGrid', () => {
             { id: 2, address1: 'FirstLine 2' },
             { id: 3, address1: 'FirstLine 3' },
         ];
-        const addressesWithNewAddress = [
+              const newAddressToSave = { address1: 'New Line 1', dummyKey: 'dummyKey' };
+  const addressesWithNewAddress = [
             { id: 1, address1: 'FirstLine 1' },
             { id: 2, address1: 'FirstLine 2' },
             { id: 3, address1: 'FirstLine 3' },
-            { id: 4, address1: 'New Line 1' },
+            newAddressToSave,
         ];
         const component = shallow(<CustomerAddressGrid
             deleteCustomerAddress={jest.fn()}
             saveCustomerAddress={jest.fn()}
             addresses={addresses}
         />);
-        const newAddressToSave = { address1: 'New Line 1 not this', dummyKey: 'dummyKey' };
         component.instance().saveNewCustomerAddress(newAddressToSave);
         component.update();
-        expect(component.state('new-address')).toEqual(newAddressToSave);
+        expect(component.state('newAddress')).toEqual(newAddressToSave);
 
         expect(findDataTest(component, "existing-address")).toHaveLength(3);
         expect(findDataTest(component, "new-address")).toHaveLength(1);
         component.setProps({ addresses: addressesWithNewAddress });
-        component.update();
+        // component.update();
 
         expect(findDataTest(component, "existing-address")).toHaveLength(4);
         expect(findDataTest(component, "new-address")).toHaveLength(1);
-        expect(component.state('new-address')).toNotEqual(newAddressToSave);
+        expect(component.state('newAddress')).not.toEqual(newAddressToSave);
 
     });
     it('should not replace the new address component when the props change to include a new address that is not this one', () => {
@@ -79,7 +79,7 @@ describe('CustomerAddressGrid', () => {
         const newAddressToSave = { address1: 'New Line 1 not this', dummyKey: 'dummyKey' };
         component.instance().saveNewCustomerAddress(newAddressToSave);
         component.update();
-        expect(component.state('new-address')).toEqual(newAddressToSave);
+        expect(component.state('newAddress')).toEqual(newAddressToSave);
 
         expect(findDataTest(component, "existing-address")).toHaveLength(3);
         expect(findDataTest(component, "new-address")).toHaveLength(1);
@@ -88,7 +88,7 @@ describe('CustomerAddressGrid', () => {
 
         expect(findDataTest(component, "existing-address")).toHaveLength(3);
         expect(findDataTest(component, "new-address")).toHaveLength(1);
-        expect(component.state('new-address')).toEqual(newAddressToSave);
+        expect(component.state('newAddress')).toEqual(newAddressToSave);
 
     });
 });
