@@ -1,4 +1,11 @@
-import {findObjectWithKey, isItAnObject, removeKey, updateObject, updateObjectInArray} from "../../../../helpers/utils";
+import {
+    findObjectWithKey,
+    generateRandomCode,
+    isItAnObject,
+    removeKey,
+    updateObject,
+    updateObjectInArray
+} from "../../../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
 
 export const eliminateReadOnlyFields = (fieldList) => {
@@ -162,4 +169,11 @@ export const addErrorDetail = (error_detail = {}, field, error) => {
   }
   updated_error_detail[field].push(error);
   return updated_error_detail;
+};
+
+export const createNewModelInstance = () => {
+    return {dummyKey: generateRandomCode()};
+};
+export const matchesModel = (persistedModel, modelFields, modelToCheck) => {
+     return ! checkForChanges(modelFields, persistedModel, modelToCheck);
 };

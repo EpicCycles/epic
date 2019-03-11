@@ -96,6 +96,9 @@ class CustomerAddressEdit extends React.Component {
     }
 }
 
+CustomerAddressEdit.defaultProps = {
+    customerAddress: {},
+};
 CustomerAddressEdit.propTypes = {
     customerAddress: PropTypes.object,
     deleteCustomerAddress: PropTypes.func.isRequired,
@@ -104,6 +107,6 @@ CustomerAddressEdit.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ])
-}
+};
 export default CustomerAddressEdit;
 

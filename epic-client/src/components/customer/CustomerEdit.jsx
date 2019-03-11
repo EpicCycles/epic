@@ -4,8 +4,9 @@ import CustomerDetailEdit from "./CustomerDetailEdit";
 import NoteCreate from "../note/NoteCreate";
 import CustomerPhoneEdit from "./CustomerPhoneEdit";
 import CustomerAddressEdit from "./CustomerAddressEdit";
-import {updateObject} from "../../helpers/utils";
+import {findObjectWithId, updateObject} from "../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
+import CustomerAddressGrid from "./CustomerAddressGrid";
 
 class CustomerEdit extends React.Component {
 
@@ -33,55 +34,39 @@ class CustomerEdit extends React.Component {
 
     render() {
         const {
+            addresses, phones, notes, quotes, customers,
             deleteCustomer, removeCustomer,
-            isLoading, customer,
+            isLoading, customerId,
             note, removeNote, deleteNote,
             deleteCustomerPhone, saveCustomerPhone,
-            saveCustomerAddress, deleteCustomerAddress
+            saveCustomerAddress, deleteCustomerAddress,
+            saveCustomer, createCustomer
         } = this.props;
-        const note_key = (note && note.id) ? note.id : NEW_ELEMENT_ID;
-        const customer_key = (customer && customer.id) ? customer.id : NEW_ELEMENT_ID;
-        const newAddressKey = (customer && customer.newAddress && customer.newAddress.dummyKey) ? customer.newAddress.dummyKey : "new";
+        const customer = findObjectWithId(customers, customerId);
+        const note_key = getComponentKey(note);
+        const customer_key = getComponentKey(customer);
         const newPhoneKey = (customer && customer.newPhone && customer.newPhone.dummyKey) ? customer.newPhone.dummyKey : "new";
         return <div id="customer-edit">
             <h2>Customer</h2>
             <section className="row">
                 <div>
-                    <CustomerDetailEdit customer={customer ? customer : {}}
-                                        acceptCustomerChanges={this.saveOrCreateCustomer}
+                    <CustomerDetailEdit
+                        customer={customer }
+                                        saveCustomer={saveCustomer}
+                                        createCustomer={createCustomer}
                                         removeCustomer={removeCustomer}
                                         deleteCustomer={deleteCustomer}
+                        componentKey={customer_key}
                                         key={`detail${customer_key}`}
                     />
                     {(customer && customer.id) &&
                     <div className="grid-container">
-                        <h3>Customer Addresses</h3>
-                        <div
-                            key='customerAddressGrid'
-                            className="grid"
-                            style={{
-                                height: (window.innerHeight * 0.4) + "px",
-                                width: (window.innerWidth - 200) + "px",
-                                overflow: "scroll"
-                            }}
-                        >
-                            <CustomerAddressEdit
-                                key={`editNewAddress${newAddressKey}`}
-                                customerAddress={customer.newAddress ? customer.newAddress : {}}
-                                customerId={customer.id}
-                                saveCustomerAddress={saveCustomerAddress}
-                                deleteCustomerAddress={deleteCustomerAddress}
-                            />
-                            {customer.addresses && customer.addresses.map((address) => {
-                                return <CustomerAddressEdit
-                                    key={`editAddress${address.id}`}
-                                    customerId={customer.id}
-                                    saveCustomerAddress={saveCustomerAddress}
-                                    deleteCustomerAddress={deleteCustomerAddress}
-                                    customerAddress={address}
-                                />
-                            })}
-                        </div>
+                         <CustomerAddressGrid
+                            deleteCustomerAddress={deleteCustomerAddress}
+                            saveCustomerAddress={saveCustomerAddress}
+                            addresses={addresses}
+                            customerId={customer.id}
+                        />
                         <h3>Customer Phone</h3>
                         <table>
                             <tbody>

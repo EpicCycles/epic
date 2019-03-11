@@ -6,6 +6,7 @@ add_date(pin): '2018-07-04T13:02:09.988286+01:00'
 upd_date(pin): '2018-07-04T13:02:09.988343+01:00'
  */
 import React from "react";
+import * as PropTypes from "prop-types";
 import {Icon} from "semantic-ui-react";
 import {updateObject} from "../../helpers/utils";
 import {isModelValid, updateModel} from "../app/model/helpers/model";
@@ -29,9 +30,15 @@ class CustomerDetailEdit extends React.Component {
     validateCustomerDataAndSave = () => {
         const isValid = isModelValid(this.state);
 
-        isValid && this.props.acceptCustomerChanges(this.state);
+        isValid && this.saveOrCreateCustomer(this.state);
     };
-
+    saveOrCreateCustomer = (customer) => {
+        if (customer.id) {
+            this.props.saveCustomer(customer);
+        } else {
+            this.props.createCustomer(customer);
+        }
+    };
     handleInputChange = (fieldName, input) => {
         const newState = updateModel(this.state, customerFields, fieldName, input);
         this.setState(newState);
@@ -85,5 +92,19 @@ class CustomerDetailEdit extends React.Component {
     }
 }
 
+CustomerDetailEdit.defaultProps = {
+    customer: {}
+};
+CustomerDetailEdit.propTypes = {
+    customer: PropTypes.array,
+    createCustomer: PropTypes.func.isRequired,
+    removeCustomer: PropTypes.func.isRequired,
+    deleteCustomer: PropTypes.func.isRequired,
+    saveCustomer: PropTypes.func.isRequired,
+    componentKey: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+};
 export default CustomerDetailEdit;
 

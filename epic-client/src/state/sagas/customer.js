@@ -81,7 +81,7 @@ export function* getCustomer(action) {
             const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.getCustomer, completePayload);
             yield put(getCustomerSuccess(response.data));
-            yield call(history.push, "/customer");
+            // yield call(history.push, "/customer");
         } else {
             yield call(history.push, "/login");
         }
