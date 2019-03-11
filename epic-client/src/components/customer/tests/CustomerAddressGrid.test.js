@@ -34,8 +34,8 @@ describe('CustomerAddressGrid', () => {
             { id: 2, address1: 'FirstLine 2' },
             { id: 3, address1: 'FirstLine 3' },
         ];
-              const newAddressToSave = { address1: 'New Line 1', dummyKey: 'dummyKey' };
-  const addressesWithNewAddress = [
+        const newAddressToSave = { address1: 'New Line 1', dummyKey: 'dummyKey' };
+        const addressesWithNewAddress = [
             { id: 1, address1: 'FirstLine 1' },
             { id: 2, address1: 'FirstLine 2' },
             { id: 3, address1: 'FirstLine 3' },
@@ -91,4 +91,19 @@ describe('CustomerAddressGrid', () => {
         expect(component.state('newAddress')).toEqual(newAddressToSave);
 
     });
+    it('saves a customer address with the customer Id when a new address is saved', () => {
+        const saveCustomerAddress = jest.fn();
+        const component = shallow(<CustomerAddressGrid
+            deleteCustomerAddress={jest.fn()}
+            saveCustomerAddress={saveCustomerAddress}
+            customerId={23}
+        />);
+        const newAddressToSave = { address1: 'New Line 1 not this', dummyKey: 'dummyKey' };
+        component.instance().saveNewCustomerAddress(newAddressToSave);
+        expect(saveCustomerAddress).toHaveBeenCalledWith({
+            customer: 23,
+            address1: 'New Line 1 not this',
+            dummyKey: 'dummyKey'
+        })
+    })
 });

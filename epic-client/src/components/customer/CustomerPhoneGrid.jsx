@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 import {createNewModelInstance, matchesModel} from "../app/model/helpers/model";
 import {customerPhoneFields} from "../app/model/helpers/fields";
 import CustomerPhoneEdit from "./CustomerPhoneEdit";
+import {updateObject} from "../../helpers/utils";
 
 class CustomerPhoneGrid extends React.Component {
     state = {
@@ -17,28 +18,23 @@ class CustomerPhoneGrid extends React.Component {
     }
 
     saveNewCustomerPhone = (phone) => {
-        this.setState({ newPhone: phone });
-        this.props.saveCustomerPhone(phone);
+        const phoneToSave = updateObject(phone, {customer: this.props.customerId})
+        this.setState({ newPhone: phoneToSave });
+        this.props.saveCustomerPhone(phoneToSave);
     };
 
     render() {
-        const { phones, customerId, saveCustomerPhone, deleteCustomerPhone } = this.props;
+        const { phones, saveCustomerPhone, deleteCustomerPhone } = this.props;
         const { newPhone } = this.state;
         const newPhoneKey = newPhone.dummyKey;
         return <Fragment>
-            <h3>Customer Phone Numberss</h3>
+            <h3>Customer Phone</h3>
             <div
                 key='customerPhoneGrid'
                 className="grid"
-                style={{
-                    height: (window.innerHeight * 0.4) + "px",
-                    width: (window.innerWidth - 200) + "px",
-                    overflow: "scroll"
-                }}
             >
                 <CustomerPhoneEdit
                     key={`editNewPhone${newPhoneKey}`}
-                    customerId={customerId}
                     saveCustomerPhone={this.saveNewCustomerPhone}
                     deleteCustomerPhone={deleteCustomerPhone}
                     customerPhone={newPhone}
@@ -47,7 +43,6 @@ class CustomerPhoneGrid extends React.Component {
                 {phones.map((phone) => {
                     return <CustomerPhoneEdit
                         key={`editPhone${phone.id}`}
-                        customerId={customerId}
                         saveCustomerPhone={saveCustomerPhone}
                         deleteCustomerPhone={deleteCustomerPhone}
                         customerPhone={phone}

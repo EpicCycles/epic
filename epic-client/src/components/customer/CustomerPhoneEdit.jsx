@@ -2,141 +2,65 @@ import React from "react";
 import {Icon} from "semantic-ui-react";
 import FormTextInput from "../../common/FormTextInput";
 import SelectInput from "../../common/SelectInput";
-const initialState = {
-        number_type: 'H',
-        telephone: '',
-        isChanged: false,
-        isValid: true,
-        options: [
-            { value: 'H', text: 'Home', isDefault: true },
-            { value: 'M', text: 'Mobile' },
-            { value: 'W', text: 'Work' }
-        ]
-    };
+import {updateObject} from "../../helpers/utils";
+import {addFieldToState, getModelKey, isModelValid} from "../app/model/helpers/model";
+import {bikeFields, customerAddressFields, customerPhoneFields} from "../app/model/helpers/fields";
+import EditModelRow from "../app/model/EditModelRow";
+
+const newCustomerPhone = {
+    number_type: 'H',
+    telephone: '',
+};
+const initialState = {};
+
 class CustomerPhoneEdit extends React.Component {
     state = initialState;
 
     componentWillMount() {
-        if (this.props.customerPhone) {
-            this.setState({
-                number_type: this.props.customerPhone.number_type,
-                telephone: this.props.customerPhone.telephone
-            });
-        }
-    };
-
-    validateCustomerPhoneData = (number_type, telephone) => {
-        let isChanged = false;
-        let isValid = true;
-        let telephoneError = "";
-
-        if (this.props.customerPhone) {
-            if (this.props.customerPhone.number_type !== number_type
-                || this.props.customerPhone.telephone !== telephone) {
-                isChanged = true;
-            }
-            if (!(telephone)) telephoneError = "Phone Number must be provided";
-        } else {
-            isChanged = !!telephone;
-        }
-
-
-        if (telephoneError) isValid = false;
         this.setState({
-            number_type: number_type,
-            telephone: telephone,
-            isChanged: isChanged,
-            telephoneError: telephoneError,
-            isValid: isValid
+            customerPhone: updateObject(this.props.customerPhone)
         });
     };
 
     handleInputChange = (fieldName, input) => {
-        if (fieldName.startsWith('telephone')) {
-            this.validateCustomerPhoneData(this.state.number_type, input);
-        }
-        else {
-            this.validateCustomerPhoneData(input, this.state.telephone);
-        }
+        const updatedCustomerPhone = addFieldToState(this.state.customerPhone, customerPhoneFields, fieldName, input);
+        this.setState({ customerPhone: updatedCustomerPhone });
     };
 
     onClickReset = () => {
         this.setState({
-            telephone: this.props.customerPhone ? this.props.customerPhone.telephone : '',
-            telephoneError: '',
-            number_type: this.props.customerPhone ? this.props.customerPhone.number_type : 'H',
-            isChanged: false,
-            isValid: true
+            customerPhone: updateObject(this.props.customerPhone)
         });
     };
 
     saveOrCreateCustomerPhone = () => {
-        if (this.props.customerPhone &&this.props.customerPhone.id) {
-            let phoneToSave = this.props.customerPhone;
-            phoneToSave.telephone = this.state.telephone;
-            phoneToSave.number_type = this.state.number_type;
-            this.props.saveCustomerPhone(phoneToSave);
-        }
-        else {
-            const newPhone = {
-                customer: this.props.customerId,
-                telephone: this.state.telephone,
-                number_type: this.state.number_type
-            };
-            this.props.saveCustomerPhone(newPhone);
-        }
-        this.setState({saveInProgress:true})
+        this.props.saveCustomerPhone(this.state.customerPhone);
     };
 
     onClickDelete = () => {
-        if (this.props.customerPhone && this.props.customerPhone.id) {
-            let phoneToSave = this.props.customerPhone;
-            this.props.deleteCustomerPhone(phoneToSave.id);
+        if (this.props.customerPhone.id) {
+            this.props.deleteCustomerPhone(this.props.customerPhone.id);
         } else {
-            this.setState({
-                telephone: '',
-                telephoneError: '',
-                number_type: 'H',
-                isChanged: false,
-                isValid: true
-            });
+            this.setState({customerPhone:newCustomerPhone});
         }
     };
 
     render() {
-        const { telephone, number_type, isChanged, isValid, telephoneError, options } = this.state;
-        const { customerPhone } = this.props;
-        const keyValue = (customerPhone && customerPhone.id) ? customerPhone.id : "new";
-        const componentContext = customerPhone ? customerPhone.id : 'newPhone';
-        const type_value = [number_type];
+        const { customerPhone } = this.state;
+        const { telephone, isChanged, } = customerPhone;
+        const keyValue = getModelKey(customerPhone);
+        const componentContext = keyValue;
         const rowClass = (customerPhone && customerPhone.error) ? "error" : "";
-        return <tr id={componentContext} className={rowClass}>
-            <td id={`td1_${componentContext}`}>
-                <SelectInput
-                    fieldName={`number_type_${componentContext}`}
-                    options={options}
-                    onChange={this.handleInputChange}
-                    value={type_value}
-                />
-            </td>
-            <td id={`td2_${componentContext}`}>
-                <FormTextInput
-                    placeholder="Phone Number"
-                    id={`telephone-input_${componentContext}`}
-                    className="column full"
-                    value={telephone}
-                    fieldName={`telephone_${componentContext}`}
-                    onChange={this.handleInputChange}
-                    error={telephoneError}
-                />
-            </td>
-            <td id={`td3_${componentContext}`}>
-                {(customerPhone && customerPhone.add_date) ?
-                    <span id={`spancomment_${componentContext}`}>Added on {customerPhone.add_date.substring(0, 10)}, last updated on {customerPhone.upd_date.substring(0, 10)}</span>
-                    : <span id={`spancomment_${componentContext}`}>Add a new number</span>
-                }
-            </td>
-            <td id={`td4_${componentContext}`}>
+        const isValid = isModelValid(customerPhone);
+
+        return <div className={rowClass} key={`row${componentContext}`}>
+            <EditModelRow
+                model={customerPhone}
+                persistedModel={this.props.customerPhone}
+                modelFields={customerPhoneFields}
+                onChange={this.handleInputChange}
+            />
+            <div id={`actions_${componentContext}`}>
                   <span id={`actions${keyValue}`}>
                       {isChanged &&
                       <Icon id={`reset-phone${keyValue}`} name="undo"
@@ -154,10 +78,13 @@ class CustomerPhoneEdit extends React.Component {
                             title="Delete Phone Number"/>
                       }
                 </span>
-            </td>
-        </tr>;
+            </div>
+        </div>;
     }
 }
 
+CustomerPhoneEdit.defaultProps = {
+    customerPhone: newCustomerPhone,
+};
 export default CustomerPhoneEdit;
 

@@ -2,10 +2,7 @@ import React from 'react'
 import {Dimmer, Loader} from 'semantic-ui-react'
 import CustomerDetailEdit from "./CustomerDetailEdit";
 import NoteCreate from "../note/NoteCreate";
-import CustomerPhoneEdit from "./CustomerPhoneEdit";
-import CustomerAddressEdit from "./CustomerAddressEdit";
 import {findObjectWithId, updateObject} from "../../helpers/utils";
-import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import CustomerAddressGrid from "./CustomerAddressGrid";
 import {getModelKey} from "../app/model/helpers/model";
 import CustomerPhoneGrid from "./CustomerPhoneGrid";
@@ -47,7 +44,6 @@ class CustomerEdit extends React.Component {
         const customer = findObjectWithId(customers, customerId);
         const note_key = getModelKey(note);
         const customer_key = getModelKey(customer);
-        const newPhoneKey = (customer && customer.newPhone && customer.newPhone.dummyKey) ? customer.newPhone.dummyKey : "new";
         return <div id="customer-edit">
             <h2>Customer</h2>
             <section className="row">

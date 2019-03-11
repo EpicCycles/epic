@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 import {createNewModelInstance, matchesModel} from "../app/model/helpers/model";
 import {customerAddressFields} from "../app/model/helpers/fields";
 import CustomerAddressEdit from "./CustomerAddressEdit";
+import {updateObject} from "../../helpers/utils";
 
 class CustomerAddressGrid extends React.Component {
     state = {
@@ -17,8 +18,9 @@ class CustomerAddressGrid extends React.Component {
     }
 
     saveNewCustomerAddress = (address) => {
-        this.setState({newAddress: address});
-        this.props.saveCustomerAddress(address);
+        const addressToSave = updateObject(address, {customer:this.props.customerId});
+        this.setState({newAddress: addressToSave});
+        this.props.saveCustomerAddress(addressToSave);
     };
 
     render() {

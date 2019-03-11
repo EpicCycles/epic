@@ -1,68 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`displays a passed customerPhone object correctly 1`] = `
-<tr
+<div
   className=""
-  id={12}
+  key="row12"
 >
-  <td
-    id="td1_12"
-  >
-    <SelectInput
-      fieldName="number_type_12"
-      onChange={[Function]}
-      options={
-        Array [
-          Object {
-            "isDefault": true,
-            "text": "Home",
-            "value": "H",
-          },
-          Object {
-            "text": "Mobile",
-            "value": "M",
-          },
-          Object {
-            "text": "Work",
-            "value": "W",
-          },
-        ]
+  <EditModelRow
+    model={
+      Object {
+        "id": 12,
+        "number_type": "H",
+        "telephone": "78736",
       }
-      value={
-        Array [
-          "H",
-        ]
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "Please select an option.",
+          "fieldName": "number_type",
+          "header": "Type",
+          "required": true,
+          "selectList": Array [
+            Object {
+              "name": "Home",
+              "value": "H",
+            },
+            Object {
+              "name": "Work",
+              "value": "M",
+            },
+            Object {
+              "name": "Mobile",
+              "value": "W",
+            },
+          ],
+          "type": "select_one",
+        },
+        Object {
+          "error": "A value is required.",
+          "fieldName": "telephone",
+          "header": "Telephone",
+          "length": 60,
+          "required": true,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "upd_date",
+          "header": "Date Updated",
+          "readonly": true,
+          "type": "date_time",
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={
+      Object {
+        "id": 12,
+        "number_type": "H",
+        "telephone": "78736",
       }
-    />
-  </td>
-  <td
-    id="td2_12"
-  >
-    <FormTextInput
-      className="column full"
-      dataType="text"
-      error=""
-      fieldName="telephone_12"
-      id="telephone-input_12"
-      label=""
-      onChange={[Function]}
-      placeholder="Phone Number"
-      size={30}
-      title=""
-      value="78736"
-    />
-  </td>
-  <td
-    id="td3_12"
-  >
-    <span
-      id="spancomment_12"
-    >
-      Add a new number
-    </span>
-  </td>
-  <td
-    id="td4_12"
+    }
+  />
+  <div
+    id="actions_12"
   >
     <span
       id="actions12"
@@ -75,73 +75,75 @@ exports[`displays a passed customerPhone object correctly 1`] = `
         title="Delete Phone Number"
       />
     </span>
-  </td>
-</tr>
+  </div>
+</div>
 `;
 
 exports[`displays a passed customerPhone object correctly when an error is present 1`] = `
-<tr
+<div
   className="error"
-  id={12}
+  key="row12"
 >
-  <td
-    id="td1_12"
-  >
-    <SelectInput
-      fieldName="number_type_12"
-      onChange={[Function]}
-      options={
-        Array [
-          Object {
-            "isDefault": true,
-            "text": "Home",
-            "value": "H",
-          },
-          Object {
-            "text": "Mobile",
-            "value": "M",
-          },
-          Object {
-            "text": "Work",
-            "value": "W",
-          },
-        ]
+  <EditModelRow
+    model={
+      Object {
+        "error": true,
+        "id": 12,
+        "number_type": "H",
+        "telephone": "78736",
       }
-      value={
-        Array [
-          "H",
-        ]
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "Please select an option.",
+          "fieldName": "number_type",
+          "header": "Type",
+          "required": true,
+          "selectList": Array [
+            Object {
+              "name": "Home",
+              "value": "H",
+            },
+            Object {
+              "name": "Work",
+              "value": "M",
+            },
+            Object {
+              "name": "Mobile",
+              "value": "W",
+            },
+          ],
+          "type": "select_one",
+        },
+        Object {
+          "error": "A value is required.",
+          "fieldName": "telephone",
+          "header": "Telephone",
+          "length": 60,
+          "required": true,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "upd_date",
+          "header": "Date Updated",
+          "readonly": true,
+          "type": "date_time",
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={
+      Object {
+        "error": true,
+        "id": 12,
+        "number_type": "H",
+        "telephone": "78736",
       }
-    />
-  </td>
-  <td
-    id="td2_12"
-  >
-    <FormTextInput
-      className="column full"
-      dataType="text"
-      error=""
-      fieldName="telephone_12"
-      id="telephone-input_12"
-      label=""
-      onChange={[Function]}
-      placeholder="Phone Number"
-      size={30}
-      title=""
-      value="78736"
-    />
-  </td>
-  <td
-    id="td3_12"
-  >
-    <span
-      id="spancomment_12"
-    >
-      Add a new number
-    </span>
-  </td>
-  <td
-    id="td4_12"
+    }
+  />
+  <div
+    id="actions_12"
   >
     <span
       id="actions12"
@@ -154,6 +156,6 @@ exports[`displays a passed customerPhone object correctly when an error is prese
         title="Delete Phone Number"
       />
     </span>
-  </td>
-</tr>
+  </div>
+</div>
 `;

@@ -91,4 +91,19 @@ describe('CustomerPhoneGrid', () => {
         expect(component.state('newPhone')).toEqual(newPhoneToSave);
 
     });
+      it('saves a customer address with the customer Id when a new address is saved', () => {
+        const saveCustomerPhone = jest.fn();
+        const component = shallow(<CustomerPhoneGrid
+            deleteCustomerPhone={jest.fn()}
+            saveCustomerPhone={saveCustomerPhone}
+            customerId={23}
+        />);
+        const newPhoneToSave = { telehone: 'New Line 1 not this', dummyKey: 'dummyKey' };
+        component.instance().saveNewCustomerPhone(newPhoneToSave);
+        expect(saveCustomerPhone).toHaveBeenCalledWith({
+            customer: 23,
+            telehone: 'New Line 1 not this',
+            dummyKey: 'dummyKey'
+        })
+    })
 });
