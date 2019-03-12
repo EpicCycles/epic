@@ -1,4 +1,5 @@
 import {
+    doWeHaveObjects,
     findObjectWithKey,
     generateRandomCode,
     isItAnObject,
