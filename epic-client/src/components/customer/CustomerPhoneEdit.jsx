@@ -47,7 +47,7 @@ class CustomerPhoneEdit extends React.Component {
 
     render() {
         const { customerPhone } = this.state;
-        const { telephone, isChanged, } = customerPhone;
+        const { telephone, changed, } = customerPhone;
         const keyValue = getModelKey(customerPhone);
         const componentContext = keyValue;
         const rowClass = (customerPhone && customerPhone.error) ? "error" : "";
@@ -62,12 +62,12 @@ class CustomerPhoneEdit extends React.Component {
             />
             <div id={`actions_${componentContext}`}>
                   <span id={`actions${keyValue}`}>
-                      {isChanged &&
+                      {changed &&
                       <Icon id={`reset-phone${keyValue}`} name="undo"
                             onClick={this.onClickReset} title="Reset Phone details"
                       />
                       }
-                      {isChanged &&
+                      {changed &&
                       <Icon id={`accept-phone${keyValue}`} name="check" disabled={!isValid}
                             onClick={isValid && this.saveOrCreateCustomerPhone}
                             title="Confirm changes"/>

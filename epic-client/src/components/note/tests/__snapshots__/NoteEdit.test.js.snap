@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NoteEdit tests renders the form text correctly with no note 1`] = `
+<div>
+  <EditModelPage
+    model={Object {}}
+    modelFields={
+      Array [
+        Object {
+          "fieldName": "note_text",
+          "header": "Note",
+          "length": 400,
+          "type": "textArea",
+        },
+        Object {
+          "fieldName": "customer_visible",
+          "header": "Customer View",
+          "readonly": true,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "created_date",
+          "header": "Date Created",
+          "readonly": true,
+          "type": "date_time",
+        },
+        Object {
+          "fieldName": "created_by",
+          "header": "Created By",
+          "readonly": true,
+          "type": "text",
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={Object {}}
+  />
+  <div
+    className="row align_right"
+  />
+</div>
+`;
+
+exports[`NoteEdit tests renders the form text correctly with note 1`] = `
+<div>
+  <EditModelPage
+    model={
+      Object {
+        "customer_visible": true,
+        "id": 23,
+        "note_text": "note text here",
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "fieldName": "note_text",
+          "header": "Note",
+          "length": 400,
+          "type": "textArea",
+        },
+        Object {
+          "fieldName": "customer_visible",
+          "header": "Customer View",
+          "readonly": true,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "created_date",
+          "header": "Date Created",
+          "readonly": true,
+          "type": "date_time",
+        },
+        Object {
+          "fieldName": "created_by",
+          "header": "Created By",
+          "readonly": true,
+          "type": "text",
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={
+      Object {
+        "customer_visible": true,
+        "id": 23,
+        "note_text": "note text here",
+      }
+    }
+  />
+  <div
+    className="row align_right"
+  >
+    <Icon
+      as="i"
+      id="delete-note"
+      name="delete"
+      onClick={[Function]}
+      title="Delete Note"
+    />
+  </div>
+</div>
+`;
+
+exports[`NoteEdit tests renders the form text correctly with note and error 1`] = `
+<div>
+  <EditModelPage
+    model={
+      Object {
+        "customer_visible": true,
+        "id": 23,
+        "note_text": "note text here",
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "fieldName": "note_text",
+          "header": "Note",
+          "length": 400,
+          "type": "textArea",
+        },
+        Object {
+          "fieldName": "customer_visible",
+          "header": "Customer View",
+          "readonly": true,
+          "type": "text",
+        },
+        Object {
+          "fieldName": "created_date",
+          "header": "Date Created",
+          "readonly": true,
+          "type": "date_time",
+        },
+        Object {
+          "fieldName": "created_by",
+          "header": "Created By",
+          "readonly": true,
+          "type": "text",
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={
+      Object {
+        "customer_visible": true,
+        "id": 23,
+        "note_text": "note text here",
+      }
+    }
+  />
+  <div
+    className="row align_right"
+  >
+    <Icon
+      as="i"
+      id="delete-note"
+      name="delete"
+      onClick={[Function]}
+      title="Delete Note"
+    />
+  </div>
+</div>
+`;

@@ -3,7 +3,6 @@ export const CUSTOMER_PAGE = 'customer/CUSTOMER_PAGE';
 export const CUSTOMER = 'customer/CUSTOMER';
 export const CUSTOMER_CREATE = 'customer/CUSTOMER_CREATE';
 export const CUSTOMER_SAVE = 'customer/CUSTOMER_SAVE';
-export const CUSTOMER_REMOVE = 'customer/CUSTOMER_REMOVE';
 export const CUSTOMER_DELETE = 'customer/CUSTOMER_DELETE';
 export const CUSTOMER_CLEAR_STATE = 'customer/CUSTOMER_CLEAR_STATE';
 export const CUSTOMER_PHONE_SAVE = 'customer/CUSTOMER_PHONE_SAVE';
@@ -11,9 +10,6 @@ export const CUSTOMER_PHONE_DELETE = 'customer/CUSTOMER_PHONE_DELETE';
 export const CUSTOMER_ADDRESS_SAVE = 'customer/CUSTOMER_ADDRESS_SAVE';
 export const CUSTOMER_ADDRESS_DELETE = 'customer/CUSTOMER_ADDRESS_DELETE';
 
-export const removeCustomer = () => ({
-    type: CUSTOMER_REMOVE
-});
 export const clearCustomerState = () => ({
     type: CUSTOMER_CLEAR_STATE
 });

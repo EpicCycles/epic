@@ -2,13 +2,12 @@ import {
     NOTE_CREATE,
      NOTE_DELETE,
     NOTE_LIST,
-     NOTE_REMOVE,
     NOTE_SAVE,
  } from "../actions/note";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_LOGOUT, USER_NOT_VALIDATED} from "../actions/user";
-import {removeKey} from "../../helpers/utils";
 import {CUSTOMER} from "../actions/customer";
+import {addItemsToArray, removeItemFromArray} from "../../helpers/utils";
 
 const initialState = {
     count: 0,
@@ -28,14 +27,11 @@ const note = (state = initialState, action) => {
         case CLEAR_ALL_STATE:
         case USER_LOGOUT:
             return initialState;
-                    case CUSTOMER:
         case CUSTOMER:
                 return {
                 ...state,
                 notes: action.payload.notes,
             };
-        case NOTE_REMOVE:
-            return removeKey(state, 'note')
         case `${NOTE_LIST}_REQUESTED`:
             return {
                 ...state,
@@ -44,11 +40,16 @@ const note = (state = initialState, action) => {
                 totalPages: 0
             };
         case `${NOTE_CREATE}_REQUESTED`:
-        case `${NOTE_SAVE}_REQUESTED`:
+             return {
+                ...state,
+                isLoading: true,
+            };
+       case `${NOTE_SAVE}_REQUESTED`:
         case `${NOTE_DELETE}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
+                noteId: action.payload,
             };
 
         case `${NOTE_LIST}_ERROR`:
@@ -71,21 +72,21 @@ const note = (state = initialState, action) => {
                 ...state,
                 notes: action.payload,
                 isLoading: !state.isLoading,
-                page: 1,
-                totalPages: Math.floor(action.payload.length / state.perPage) + 1
             };
         case NOTE_CREATE:
         case NOTE_SAVE:
             return {
                 ...state,
                 isLoading: false,
-                note: action.payload
+                notes: addItemsToArray(state.notes, action.payload),
+                noteId: undefined,
             };
         case NOTE_DELETE:
             return {
                 ...state,
                 isLoading: false,
-                note: {}
+                notes: removeItemFromArray(state.notes, state.noteId),
+                noteId: undefined,
             };
 
         default:

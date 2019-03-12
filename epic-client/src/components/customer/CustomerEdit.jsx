@@ -1,42 +1,39 @@
 import React from 'react'
 import {Dimmer, Loader} from 'semantic-ui-react'
 import CustomerDetailEdit from "./CustomerDetailEdit";
-import NoteCreate from "../note/NoteCreate";
+import NoteEdit from "../note/NoteEdit";
 import {findObjectWithId, updateObject} from "../../helpers/utils";
 import CustomerAddressGrid from "./CustomerAddressGrid";
-import {getModelKey} from "../app/model/helpers/model";
+import {createNewModelInstance, getModelKey, matchesModel} from "../app/model/helpers/model";
 import CustomerPhoneGrid from "./CustomerPhoneGrid";
+import {customerAddressFields, customerNoteFields} from "../app/model/helpers/fields";
 
 class CustomerEdit extends React.Component {
+    state = { note: createNewModelInstance() };
 
-    saveOrCreateCustomerNote = (note_text, customer_visible) => {
-        if (this.props.note && this.props.note.id) {
-            let noteToSave = updateObject(this.props.note, { note_text, customer_visible });
-            this.props.saveNote(noteToSave);
-        } else {
-            const newNote = {
-                customer: this.props.customer.id,
-                note_text,
-                customer_visible,
-            };
-            this.props.createNote(newNote);
+    componentDidUpdate(prevProps) {
+        if (this.props.notes !== prevProps.notes) {
+            const newNoteIsOnList = this.props.notes.some(note => matchesModel(note, customerNoteFields, this.state.note));
+            if (newNoteIsOnList) this.setState({ note: createNewModelInstance() })
         }
-    };
+    }
 
-    saveOrCreateCustomer = (customer) => {
-        if (customer.id) {
-            this.props.saveCustomer(customer);
+    saveOrCreateCustomerNote = (note) => {
+        if (note.id) {
+            this.props.saveNote(note);
         } else {
-            this.props.createCustomer(customer);
+            const noteToSave = updateObject(note, { customer: this.props.customerId });
+            this.props.createNote(noteToSave);
         }
     };
 
     render() {
+        const { note } = this.state;
         const {
             addresses, phones, notes, quotes, customers,
             deleteCustomer, removeCustomer,
             isLoading, customerId,
-            note, removeNote, deleteNote,
+            deleteNote,
             deleteCustomerPhone, saveCustomerPhone,
             saveCustomerAddress, deleteCustomerAddress,
             saveCustomer, createCustomer
@@ -56,29 +53,34 @@ class CustomerEdit extends React.Component {
                         deleteCustomer={deleteCustomer}
                         componentKey={customer_key}
                         key={`detail${customer_key}`}
+                        data-test="edit-customer"
                     />
-                    {(customer && customer.id) &&
+                    {(customerId) &&
                     <div className="grid-container">
                         <CustomerAddressGrid
                             deleteCustomerAddress={deleteCustomerAddress}
                             saveCustomerAddress={saveCustomerAddress}
                             addresses={addresses}
-                            customerId={customer.id}
+                            customerId={customerId}
+                            data-test="edit-customer-addresses"
                         />
                         <CustomerPhoneGrid
                             deleteCustomerPhone={deleteCustomerPhone}
                             saveCustomerPhone={saveCustomerPhone}
-                            customerId={customer.id}
+                            customerId={customerId}
                             phones={phones}
+                            data-test="edit-customer-phones"
                         />
                     </div>}
                 </div>
                 <div>
-                    {(customer && customer.id) &&
-                    <NoteCreate saveNote={this.saveOrCreateCustomerNote} note={note}
-                                key={`detail${note_key}`}
-                                removeNote={removeNote} deleteNote={deleteNote}
-                                updateNoteKey={this.updateNoteKey}
+                    {(customerId) &&
+                    <NoteEdit
+                        saveNote={this.saveOrCreateCustomerNote}
+                        key={`detail${note_key}`}
+                        note={note}
+                        deleteNote={deleteNote}
+                        data-test="add-customer-note"
                     />}
                 </div>
             </section>

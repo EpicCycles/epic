@@ -40,15 +40,7 @@ const customer = (state = initialState, action) => {
         case CUSTOMER_CLEAR_STATE:
         case USER_LOGOUT:
             return initialState;
-        case CUSTOMER_REMOVE:
-            return {
-                ...state,
-                customers: removeItemFromArray(state.customers, state.customerId),
-                addresses: [],
-                phones: [],
-                fittings: [],
-                customerId: undefined
-            };
+
         case CUSTOMER_PAGE:
         case `${CUSTOMER_DELETE}_REQUESTED`:
         case `${CUSTOMER_ADDRESS_DELETE}_REQUEST`:

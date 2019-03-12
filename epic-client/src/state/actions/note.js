@@ -4,9 +4,6 @@ export const NOTE_SAVE = 'note/NOTE_SAVE';
 export const NOTE_REMOVE = 'note/NOTE_REMOVE';
 export const NOTE_DELETE = 'note/NOTE_DELETE';
 
-export const removeNote = () => ({
-    type: NOTE_REMOVE
-});
 export const getNoteList = (customerId, customerVisible, quoteId) => ({
     type: `${NOTE_LIST}_REQUESTED`,
     payload: { customerId, customerVisible, quoteId }

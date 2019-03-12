@@ -61,14 +61,14 @@ class CustomerNoteMaintain(generics.GenericAPIView):
     def get(self, request, pk, format=None):
         customerNote = self.get_object(pk)
         serializer = CustomerNoteSerializer(customerNote)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, pk, format=None):
         customerNote = self.get_object(pk)
         serializer = CustomerNoteSerializer(customerNote, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):

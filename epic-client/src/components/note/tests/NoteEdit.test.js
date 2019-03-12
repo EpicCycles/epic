@@ -1,8 +1,8 @@
 import React from 'react';
-import NoteCreate from "../NoteCreate";
+import NoteEdit from "../NoteEdit";
 import {Icon} from "semantic-ui-react";
 
-describe("NoteCreate tests", () => {
+describe("NoteEdit tests", () => {
     const note = {
         id: 23,
         note_text: "note text here",
@@ -10,23 +10,24 @@ describe("NoteCreate tests", () => {
     };
     const noteNoId = {
         note_text: "note text here",
-        customer_visible: true
+        customer_visible: true,
+        changed: true
     };
     it('renders the form text correctly with no note', () => {
         const input = shallow(
-            <NoteCreate/>
+            <NoteEdit/>
         );
         expect(input).toMatchSnapshot();
     });
     it('renders the form text correctly with note', () => {
         const input = shallow(
-            <NoteCreate note={note}/>
+            <NoteEdit note={note}/>
         );
         expect(input).toMatchSnapshot();
     });
     it('renders the form text correctly with note and error', () => {
         const input = shallow(
-            <NoteCreate note={note} noteError={"Error with note"}/>
+            <NoteEdit note={note} noteError={"Error with note"}/>
         );
         expect(input).toMatchSnapshot();
     });
@@ -35,9 +36,9 @@ describe("NoteCreate tests", () => {
         const saveNote = jest.fn();
 
         let input = shallow(
-            <NoteCreate saveNote={saveNote}/>
+            <NoteEdit saveNote={saveNote}/>
         );
-        input.setState({note_text: "big note text", isChanged:true});
+        input.instance().handleInputChange('note_text', "big note text");
 
         expect(input.find(Icon).length).toBe(2);
 
@@ -50,12 +51,12 @@ describe("NoteCreate tests", () => {
         const removeNote = jest.fn();
 
         let input = shallow(
-            <NoteCreate saveNote={saveNote} note={note} deleteNote={deleteNote}
-                        removeNote={removeNote}/>
+            <NoteEdit saveNote={saveNote} note={note} deleteNote={deleteNote}
+                      removeNote={removeNote}/>
         );
-        expect(input.find(Icon).length).toBe(2);
+        expect(input.find(Icon).length).toBe(1);
+        input.instance().handleInputChange('note_text', "");
 
-        input.setState({note_text: "", isChanged:true});
         expect(input.find(Icon).length).toBe(3);
 
         input.find("#delete-note").at(0).simulate("click");
@@ -67,54 +68,45 @@ describe("NoteCreate tests", () => {
         const removeNote = jest.fn();
 
         let input = shallow(
-            <NoteCreate saveNote={saveNote} note={noteNoId} deleteNote={deleteNote}
-                        removeNote={removeNote}/>
+            <NoteEdit saveNote={saveNote} note={noteNoId} deleteNote={deleteNote}
+                      removeNote={removeNote}/>
         );
         expect(input.find(Icon).length).toBe(2);
 
-        input.setState({note_text: "", isChanged:true});
-        expect(input.find(Icon).length).toBe(3);
-
-        input.find("#delete-note").at(0).simulate("click");
-        expect(deleteNote.mock.calls.length).toBe(0);
-        expect(removeNote.mock.calls.length).toBe(1);
+        input.instance().handleInputChange('note_text', "");
+        expect(input.find(Icon).length).toBe(2);
     });
     it('clears data when no note and reset is clicked', () => {
         const saveNote = jest.fn();
 
         let input = shallow(
-            <NoteCreate saveNote={saveNote}/>
+            <NoteEdit saveNote={saveNote}/>
         );
         expect(input.find(Icon).length).toBe(0);
 
-        input.setState({note_text: "big note text", isChanged:true, customer_visible: true});
+        input.instance().handleInputChange('note_text', "big note text");
+        input.instance().handleInputChange('customer_visible', true);
         expect(input.find(Icon).length).toBe(2);
 
         input.find("#reset-note").at(0).simulate("click");
         expect(input.find(Icon).length).toBe(0);
-        expect(input.state('note_text')).toBe("");
-        expect(input.state('customer_visible')).toBe(false);
-        expect(input.state('isChanged')).toBeFalsy();
-
     });
     it('resets to passed data when note and reset is clicked', () => {
         const saveNote = jest.fn();
 
         let input = shallow(
-            <NoteCreate
+            <NoteEdit
                 note={note}
                 saveNote={saveNote}
             />
         );
-        expect(input.find(Icon).length).toBe(2);
+        expect(input.find(Icon).length).toBe(1);
 
-        input.setState({note_text: "big note text", isChanged:true, customer_visible: true});
+        input.instance().handleInputChange('note_text', "big note text");
+        input.instance().handleInputChange('customer_visible', true);
         expect(input.find(Icon).length).toBe(3);
 
         input.find("#reset-note").at(0).simulate("click");
-        expect(input.find(Icon).length).toBe(2);
-        expect(input.state('note_text')).toBe(note.note_text);
-        expect(input.state('customer_visible')).toBe(note.customer_visible);
-        expect(input.state('isChanged')).toBeFalsy();
+        expect(input.find(Icon).length).toBe(1);
     });
 });
