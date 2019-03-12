@@ -38,7 +38,6 @@ class NoteEdit extends React.Component {
                 model={note}
                 persistedModel={this.props.note}
             />
-            {(note_text || note) &&
             <div className="row align_right">
                 {changed &&
                 <Icon id={`reset-note`} name="undo"
@@ -57,7 +56,6 @@ class NoteEdit extends React.Component {
                       title="Delete Note"/>
                 }
             </div>
-            }
         </div>
     }
 }
