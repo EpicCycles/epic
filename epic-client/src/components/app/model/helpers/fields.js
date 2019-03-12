@@ -17,7 +17,7 @@ import {COUNTRIES, NUMBER_TYPE_CHOICES} from "../../../address/helpers/address";
 import {QUOTE_STATUS_CHOICES} from "../../../quote/helpers/quote";
 import {updateObject} from "../../../../helpers/utils";
 
-export const overrideReadonly = { readonly: false };
+export const overrideReadonly = { readOnly: false };
 export const CHECKBOX = "checkbox";
 export const RADIO = "radio";
 export const DATE_TIME = "date_time";
@@ -108,13 +108,13 @@ export const ADD_DATE_FIELD = {
     fieldName: ADD_DATE,
     type: DATE_TIME,
     header: "Date Added",
-    readonly: true
+    readOnly: true
 };
 export const ARCHIVED_DATE_FIELD = {
     fieldName: ARCHIVED_DATE,
     type: DATE_TIME,
     header: "Date Archived",
-    readonly: true
+    readOnly: true
 };
 export const ARCHIVED_FIELD = {
     fieldName: ARCHIVED,
@@ -191,7 +191,7 @@ export const BAR_HEIGHT_FIELD = {
 export const BIKE_FIELD = {
     fieldName: BIKE,
     header: "Bike",
-    readonly: true,
+    readOnly: true,
     type: TEXT
 };
 export const BIKE_PRICE_FIELD = {
@@ -229,7 +229,7 @@ export const CHECK_DATE_FIELD = {
     fieldName: CHECK_DATE,
     type: DATE_TIME,
     header: "Date Checked",
-    readonly: true
+    readOnly: true
 };
 export const COLOUR_FIELD = {
     fieldName: COLOUR,
@@ -268,25 +268,25 @@ export const CREATED_BY_FIELD = {
     fieldName: CREATED_BY,
     type: TEXT,
     header: "Created By",
-    readonly: true
+    readOnly: true
 };
 export const CREATED_DATE_FIELD = {
     fieldName: CREATED_DATE,
     type: DATE_TIME,
     header: "Date Created",
-    readonly: true
+    readOnly: true
 };
 export const CUSTOMER_FIELD = {
     fieldName: CUSTOMER,
     type: TEXT,
     header: "Customer",
-    readonly: true
+    readOnly: true
 };
 export const CUSTOMER_VISIBLE_FIELD = {
     fieldName: CUSTOMER_VISIBLE,
     type: TEXT,
     header: "Customer View",
-    readonly: true
+    readOnly: true
 };
 export const CAN_BE_SUBSTITUTED_FIELD = {
     fieldName: CAN_BE_SUBSTITUTED,
@@ -375,7 +375,7 @@ export const ISSUED_DATE_FIELD = {
     fieldName: ISSUED_DATE,
     type: DATE_TIME,
     header: "Date Issued",
-    readonly: true
+    readOnly: true
 };
 export const LAST_NAME_FIELD = {
     fieldName: LAST_NAME,
@@ -459,7 +459,7 @@ export const QUOTE_DESC_FIELD = {
 export const QUOTE_STATUS_FIELD = {
     fieldName: QUOTE_STATUS,
     type: SELECT_ONE,
-    readonly: true,
+    readOnly: true,
     header: "Status",
     selectList: QUOTE_STATUS_CHOICES
 };
@@ -612,13 +612,13 @@ export const UPD_DATE_FIELD = {
     fieldName: UPD_DATE,
     type: DATE_TIME,
     header: "Date Updated",
-    readonly: true
+    readOnly: true
 };
 export const VERSION_FIELD = {
     fieldName: VERSION,
     type: NUMBER,
     header: "Version",
-    readonly: true
+    readOnly: true
 };
 // Model fields include only fields that are shown
 export const attributeOptionFields = [

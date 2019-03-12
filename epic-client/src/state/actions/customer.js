@@ -18,7 +18,7 @@ export const getCustomerListPage = page => ({
     payload: { page }
 });
 
-export const getCustomerList =  (firstName, lastName, email)  => ({
+export const getCustomerList = (firstName, lastName, email) => ({
     type: `${CUSTOMER_LIST}_REQUESTED`,
     payload: { firstName, lastName, email }
 });
@@ -33,7 +33,7 @@ export const getCustomerListFailure = error => ({
     payload: error
 });
 
-export const getCustomer =  customerId  => ({
+export const getCustomer = customerId => ({
     type: `${CUSTOMER}_REQUESTED`,
     payload: { customerId }
 });
@@ -47,7 +47,7 @@ export const getCustomerFailure = error => ({
     type: `${CUSTOMER}_ERROR`,
     payload: error
 });
-export const createCustomer =  customer  => ({
+export const createCustomer = customer => ({
     type: `${CUSTOMER_CREATE}_REQUESTED`,
     payload: { customer }
 });
@@ -62,7 +62,7 @@ export const createCustomerFailure = error => ({
     payload: error
 });
 
-export const saveCustomer =  customer  => ({
+export const saveCustomer = customer => ({
     type: `${CUSTOMER_SAVE}_REQUESTED`,
     payload: { customer }
 });
@@ -77,13 +77,14 @@ export const saveCustomerFailure = error => ({
     payload: error
 });
 
-export const deleteCustomer =  customerId  => ({
+export const deleteCustomer = customerId => ({
     type: `${CUSTOMER_DELETE}_REQUESTED`,
-    payload: {customerId: customerId}
+    payload: { customerId: customerId }
 });
 
-export const deleteCustomerSuccess = () => ({
-    type: CUSTOMER_DELETE
+export const deleteCustomerSuccess = (customerId) => ({
+    type: CUSTOMER_DELETE,
+    payload: { customerId: customerId }
 });
 
 export const deleteCustomerFailure = error => ({
@@ -93,7 +94,7 @@ export const deleteCustomerFailure = error => ({
 
 export const saveCustomerPhone = customerPhone => ({
     type: `${CUSTOMER_PHONE_SAVE}_REQUEST`,
-    payload: {customerPhone}
+    payload: { customerPhone }
 });
 export const saveCustomerPhoneSuccess = customerPhoneList => ({
     type: CUSTOMER_PHONE_SAVE,
@@ -105,7 +106,7 @@ export const saveCustomerPhoneFailure = payload => ({
 });
 export const deleteCustomerPhone = customerPhoneId => ({
     type: `${CUSTOMER_PHONE_DELETE}_REQUEST`,
-    payload: {customerPhoneId}
+    payload: { customerPhoneId }
 });
 export const deleteCustomerPhoneSuccess = customerPhoneList => ({
     type: CUSTOMER_PHONE_DELETE,
@@ -117,7 +118,7 @@ export const deleteCustomerPhoneFailure = error => ({
 });
 export const saveCustomerAddress = customerAddress => ({
     type: `${CUSTOMER_ADDRESS_SAVE}_REQUEST`,
-    payload: {customerAddress}
+    payload: { customerAddress }
 });
 export const saveCustomerAddressSuccess = customerAddressList => ({
     type: CUSTOMER_ADDRESS_SAVE,
@@ -129,7 +130,7 @@ export const saveCustomerAddressFailure = error => ({
 });
 export const deleteCustomerAddress = customerAddressId => ({
     type: `${CUSTOMER_ADDRESS_DELETE}_REQUEST`,
-    payload: {customerAddressId}
+    payload: { customerAddressId }
 });
 export const deleteCustomerAddressSuccess = customerAddressList => ({
     type: CUSTOMER_ADDRESS_DELETE,

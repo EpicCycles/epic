@@ -1,13 +1,13 @@
 import {
     CUSTOMER,
     CUSTOMER_CREATE,
-     CUSTOMER_DELETE,
-     CUSTOMER_LIST,
+    CUSTOMER_DELETE,
+    CUSTOMER_LIST,
     CUSTOMER_REMOVE,
-     CUSTOMER_SAVE,
-     CUSTOMER_CLEAR_STATE,
+    CUSTOMER_SAVE,
+    CUSTOMER_CLEAR_STATE,
     CUSTOMER_PAGE,
-     CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE,
+    CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE,
     CUSTOMER_ADDRESS_DELETE, CUSTOMER_ADDRESS_SAVE,
 } from "../actions/customer";
 import {
@@ -131,26 +131,27 @@ const customer = (state = initialState, action) => {
                 isLoading: !state.isLoading,
             };
         case CUSTOMER:
-                return {
-                ...state,
-                isLoading: false,
-                customerId: action.payload.id,
-                customers: addItemsToArray(state.customers, [action.payload.customer]),
-                    addresses: action.payload.addresses,
-                    phones: action.payload.phones,
-            };
-    case CUSTOMER_CREATE:
-        case CUSTOMER_SAVE:
             return {
                 ...state,
                 isLoading: false,
                 customerId: action.payload.id,
-                customers: addItemsToArray(state.customers, [action.payload])
+                customers: addItemsToArray(state.customers, [action.payload.customer]),
+                addresses: action.payload.addresses,
+                phones: action.payload.phones,
+            };
+        case CUSTOMER_CREATE:
+        case CUSTOMER_SAVE:
+            return {
+                ...state,
+                isLoading: false,
+                customerId: action.payload.customer.id,
+                customers: addItemsToArray(state.customers, [action.payload.customer])
             };
         case CUSTOMER_DELETE:
             return {
                 ...state,
                 isLoading: false,
+                customers: removeItemFromArray(state.customers, action.payload.customerId),
                 customerId: undefined,
             };
         case CUSTOMER_PHONE_DELETE:
@@ -158,14 +159,15 @@ const customer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                customers: updateCustomerPhoneList(state.customers, state.customerId, action.payload)
+                phones: action.payload
             };
+
         case CUSTOMER_ADDRESS_DELETE:
         case CUSTOMER_ADDRESS_SAVE:
             return {
                 ...state,
                 isLoading: false,
-                customers: updateCustomerAddressList(state.customers, state.customerId, action.payload)
+                addresses: action.payload
             };
         default:
             return state;

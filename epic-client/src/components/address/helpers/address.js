@@ -260,7 +260,7 @@ export const COUNTRIES = [
     }, { value: "ZM", name: "Zambia" }, { value: "ZW", name: "Zimbabwe" }
     ];
 export const NUMBER_TYPE_CHOICES = [
-    {name:'Home', value:'H'},
+    {name:'Home', value:'H', isDefault: true },
     {name:'Work', value:'M'},
     {name:'Mobile', value:"W"},
     ];

@@ -20,6 +20,7 @@ import {
     saveCustomerAddressFailure,
     deleteCustomerAddressSuccess,
     deleteCustomerAddressFailure,
+    CUSTOMER,
     CUSTOMER_LIST,
     CUSTOMER_DELETE,
     CUSTOMER_CREATE,
@@ -33,7 +34,6 @@ import api from './api';
 import * as selectors from '../selectors/user.js';
 import * as customerSelectors from '../selectors/customer.js';
 import {updateObject} from "../../helpers/utils";
-import {CUSTOMER} from "../../components/app/model/helpers/fields";
 
 export function* getCustomerList(action) {
     try {
@@ -141,7 +141,7 @@ export function* deleteCustomer(action) {
         if (token) {
             const completePayload = updateObject(action.payload, { token });
             const response = yield call(api.deleteCustomer, completePayload);
-            yield put(deleteCustomerSuccess(response.data));
+            yield put(deleteCustomerSuccess(action.payload.customerId));
             yield call(history.push, "/");
         } else {
             yield call(history.push, "/login");

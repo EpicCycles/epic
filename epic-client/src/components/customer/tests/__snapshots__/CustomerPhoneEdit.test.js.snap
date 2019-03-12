@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`displays a passed customerPhone object correctly 1`] = `
+exports[`CustomerPhoneEdit displays a passed customerPhone object correctly 1`] = `
 <div
   className=""
   key="row12"
@@ -22,6 +22,7 @@ exports[`displays a passed customerPhone object correctly 1`] = `
           "required": true,
           "selectList": Array [
             Object {
+              "isDefault": true,
               "name": "Home",
               "value": "H",
             },
@@ -47,7 +48,7 @@ exports[`displays a passed customerPhone object correctly 1`] = `
         Object {
           "fieldName": "upd_date",
           "header": "Date Updated",
-          "readonly": true,
+          "readOnly": true,
           "type": "date_time",
         },
       ]
@@ -80,7 +81,7 @@ exports[`displays a passed customerPhone object correctly 1`] = `
 </div>
 `;
 
-exports[`displays a passed customerPhone object correctly when an error is present 1`] = `
+exports[`CustomerPhoneEdit displays a passed customerPhone object correctly when an error is present 1`] = `
 <div
   className="error"
   key="row12"
@@ -103,6 +104,7 @@ exports[`displays a passed customerPhone object correctly when an error is prese
           "required": true,
           "selectList": Array [
             Object {
+              "isDefault": true,
               "name": "Home",
               "value": "H",
             },
@@ -128,7 +130,7 @@ exports[`displays a passed customerPhone object correctly when an error is prese
         Object {
           "fieldName": "upd_date",
           "header": "Date Updated",
-          "readonly": true,
+          "readOnly": true,
           "type": "date_time",
         },
       ]

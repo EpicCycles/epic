@@ -7,9 +7,9 @@ import {
     getCustomer,
     getCustomerList,
     getCustomerListPage,
-    removeCustomer, saveCustomer, saveCustomerAddress, saveCustomerPhone
+    saveCustomer, saveCustomerAddress, saveCustomerPhone
 } from "../../state/actions/customer";
-import {createNote, deleteNote, removeNote, saveNote} from "../../state/actions/note";
+import {createNote, deleteNote, saveNote} from "../../state/actions/note";
 import QuoteManager from "../../components/quote/QuoteManager";
 import {listParts} from "../../state/actions/part";
 
@@ -24,12 +24,12 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
         frames: bike.frames,
         searchParams: customer.searchParams,
         customers: customer.customers,
-        customer: customer.customer,
+        customerId: customer.customerId,
         notes: note.notes,
         quotes: quote.quotes,
         quoteId: quote.quoteId,
         quoteParts: quote.quoteParts,
-        isLoading: (customer.isLoading, core.isLoading || bike.isLoading || framework.isLoading, quote.isLoading)
+        isLoading: (customer.isLoading || core.isLoading || bike.isLoading || framework.isLoading || quote.isLoading)
     }
 };
 
@@ -43,8 +43,8 @@ const mapDispatchToProps = {
     getCustomerListPage,
     getCustomer,
     clearCustomerState,
-    createCustomer, saveCustomer, deleteCustomer, removeCustomer,
-    createNote, saveNote, removeNote, deleteNote,
+    createCustomer, saveCustomer, deleteCustomer,
+    createNote, saveNote, deleteNote,
     saveCustomerPhone, deleteCustomerPhone,
     saveCustomerAddress, deleteCustomerAddress
 };

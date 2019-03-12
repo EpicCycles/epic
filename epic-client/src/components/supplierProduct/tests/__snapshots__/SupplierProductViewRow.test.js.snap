@@ -257,7 +257,7 @@ exports[`should display when passed an empty supplier product 1`] = `
         Object {
           "fieldName": "check_date",
           "header": "Date Checked",
-          "readonly": true,
+          "readOnly": true,
           "type": "date_time",
         }
       }
@@ -640,7 +640,7 @@ exports[`should display when passed supplier product 1`] = `
         Object {
           "fieldName": "check_date",
           "header": "Date Checked",
-          "readonly": true,
+          "readOnly": true,
           "type": "date_time",
         }
       }

@@ -1,17 +1,18 @@
 import * as PropTypes from "prop-types";
 import React, {Component, Fragment} from "react";
-import {BRAND, CHECKBOX, COUNTRY, CURRENCY, NUMBER, PART_TYPE, SUPPLIER, TEXT_AREA} from "./helpers/fields";
+import {BRAND, CHECKBOX, COUNTRY, CURRENCY, NUMBER, PART_TYPE, SELECT_ONE, SUPPLIER, TEXT_AREA} from "./helpers/fields";
 import FormTextAreaInput from "../../../common/FormTextAreaInput";
 import FormTextInput from "../../../common/FormTextInput";
 import PartTypeSelect from "../../partType/PartTypeSelect";
 import BrandSelect from "../../brand/BrandSelect";
 import SupplierSelect from "../../supplier/SupplierSelect";
 import CountrySelect from "../../address/CountrySelect";
+import SelectInput from "../../../common/SelectInput";
 
 // TODO add types for SELECT_ONE and FITTING
 class EditModelInput extends Component {
     validateOnChange = (fieldName, fieldValue) => {
-        const { field, componentKey, onChange }  = this.props;
+        const { field, componentKey, onChange } = this.props;
         if (fieldValue || (field.type === CHECKBOX)) {
             onChange(field.fieldName, fieldValue, componentKey);
         } else {
@@ -31,8 +32,17 @@ class EditModelInput extends Component {
         const emptyAllowed = !(field.required && fieldValue);
         const error = model.error_detail ? model.error_detail[field.fieldName] : "";
 
-        // TODO country field may not be required - but select one is and also attribute value for use on a quote part.
         switch (field.type) {
+            case SELECT_ONE:
+                editComponent = <SelectInput
+                    className={className}
+                    fieldName={fieldName}
+                    value={fieldValue}
+                    onChange={this.validateOnChange}
+                    options={field.selectList}
+                    error={error}
+                />;
+                break;
             case TEXT_AREA:
                 editComponent = <FormTextAreaInput
                     className={className}

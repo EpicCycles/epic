@@ -80,7 +80,7 @@ exports[`should display headers 1`] = `
         Object {
           "fieldName": "check_date",
           "header": "Date Checked",
-          "readonly": true,
+          "readOnly": true,
           "type": "date_time",
         },
       ]
@@ -169,7 +169,7 @@ exports[`should display headers with locking, error and an extra class 1`] = `
         Object {
           "fieldName": "check_date",
           "header": "Date Checked",
-          "readonly": true,
+          "readOnly": true,
           "type": "date_time",
         },
       ]

@@ -8,6 +8,18 @@ import {
 } from "../../../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
 
+export const createEmptyModelWithDefaultFields = (fieldList) => {
+  let emptyModel = {dummyKey: generateRandomCode()};
+  fieldList.forEach(field => {
+      if (field.selectList && Array.isArray(field.selectList)) {
+          const defaultValue = field.selectList.filter(listitem => listitem.isDefault);
+          if (defaultValue.length > 0) emptyModel[field.fieldName] = defaultValue[0].value;
+      } else if (field.default) {
+          emptyModel[field.fieldName] = field.default;
+      }
+  });
+  return emptyModel;
+};
 export const eliminateReadOnlyFields = (fieldList) => {
     return fieldList.filter(field => (! field.readOnly));
 };

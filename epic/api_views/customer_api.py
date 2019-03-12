@@ -52,10 +52,10 @@ class CustomerList(generics.ListCreateAPIView):
 
 
 class CustomerMaintain(generics.GenericAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
 
-    # serializer_class = CustomerSerializer
+    serializer_class = CustomerSerializer
 
     def get_object(self, pk):
         try:
@@ -67,13 +67,19 @@ class CustomerMaintain(generics.GenericAPIView):
         customer = self.get_object(pk)
         serializer = CustomerSerializer(customer)
 
-        return Response({"customer": serializer.data,
-                         "addresses": CustomerAddressSerializer(CustomerAddress.objects.filter(customer=customer),
-                                                                many=True),
-                         "phones": CustomerPhoneSerializer(CustomerPhone.objects.filter(customer=customer), many=True),
-                         "fittings": FittingSerializer(Fitting.objects.filter(customer=customer), many=True),
-                         "notes": CustomerNoteSerializer(CustomerNote.objects.filter(customer=customer), many=True),
-                         "quotes": QuoteSerializer(Quote.objects.filter(customer=customer, archived=False), many=True),
+        address_list = CustomerAddress.objects.filter(customer=customer)
+        phone_list = CustomerPhone.objects.filter(customer=customer)
+        note_list = CustomerNote.objects.filter(customer=customer)
+        quote_list = Quote.objects.filter(customer=customer)
+        fitting_list = Fitting.objects.filter(customer=customer)
+
+
+        return Response({'customer': serializer.data,
+                         'addresses': CustomerAddressSerializer(address_list, many=True).data,
+                         'phones': CustomerPhoneSerializer(phone_list, many=True).data,
+                         'fittings': FittingSerializer(fitting_list, many=True).data,
+                         'notes': CustomerNoteSerializer(note_list, many=True).data,
+                         'quotes': QuoteSerializer(quote_list, many=True).data
                          })
 
     def post(self, request, pk):

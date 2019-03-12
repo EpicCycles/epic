@@ -44,13 +44,13 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
         Object {
           "fieldName": "add_date",
           "header": "Date Added",
-          "readonly": true,
+          "readOnly": true,
           "type": "date_time",
         },
         Object {
           "fieldName": "upd_date",
           "header": "Date Updated",
-          "readonly": true,
+          "readOnly": true,
           "type": "date_time",
         },
       ]
@@ -132,13 +132,13 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
         Object {
           "fieldName": "add_date",
           "header": "Date Added",
-          "readonly": true,
+          "readOnly": true,
           "type": "date_time",
         },
         Object {
           "fieldName": "upd_date",
           "header": "Date Updated",
-          "readonly": true,
+          "readOnly": true,
           "type": "date_time",
         },
       ]
