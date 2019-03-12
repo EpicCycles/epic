@@ -5,6 +5,7 @@ import {customerAddressFields} from "../app/model/helpers/fields";
 import EditModelRow from "../app/model/EditModelRow";
 import * as PropTypes from "prop-types";
 import {isItAnObject} from "../../helpers/utils";
+import ModelEditIcons from "../app/model/ModelEditIcons";
 
 const initialState = { customerAddress: {} };
 
@@ -37,60 +38,35 @@ class CustomerAddressEdit extends React.Component {
     onClickReset = () => {
         this.setState(this.deriveStateFromProps());
     };
-
-    saveOrCreateCustomerAddress = () => {
-        this.props.saveCustomerAddress(this.state.customerAddress);
-    };
-
-    onClickDelete = () => {
-        if (this.props.customerAddress.id) {
-            let addressToSave = this.props.customerAddress;
-            this.props.deleteCustomerAddress(addressToSave.id);
-        } else {
-            this.setState(initialState);
-        }
-    };
-
     render() {
         const { customerAddress } = this.state;
-        const keyValue = getModelKey(customerAddress);
-        const isValid = isModelValid(customerAddress);
-        const componentContext = keyValue;
+        const {saveCustomerAddress, deleteCustomerAddress} = this.props;
+        const componentKey = getModelKey(customerAddress);
         const rowClass = (customerAddress && customerAddress.error) ? "grid-row error" : "grid-row";
-        return <div className={rowClass} key={`row${componentContext}`}>
+        return <div className={rowClass} key={`row${componentKey}`}>
             <EditModelRow
                 model={customerAddress}
                 persistedModel={this.props.customerAddress}
                 modelFields={customerAddressFields}
                 onChange={this.handleInputChange}
             />
-            <div key={`date_${componentContext}`} className="grid-item">
+            <div key={`date_${componentKey}`} className="grid-item">
                 {(customerAddress && customerAddress.add_date) ?
-                    <nobr id={`comment_td_${componentContext}`}>Added on {customerAddress.add_date.substring(0, 10)}, last updated on {customerAddress.upd_date.substring(0, 10)}</nobr>
-                    : <nobr id={`comment_td_${componentContext}`}>Add a new address</nobr>
+                    <nobr id={`comment_td_${componentKey}`}>Added on {customerAddress.add_date.substring(0, 10)}, last updated on {customerAddress.upd_date.substring(0, 10)}</nobr>
+                    : <nobr id={`comment_td_${componentKey}`}>Add a new address</nobr>
                 }
             </div>
             <div
-                key={`actions_td_${componentContext}`}
+                key={`actions_td_${componentKey}`}
                 className="grid-item align_center"
             >
-                  <span id={`actions${keyValue}`}>
-                      {customerAddress.changed &&
-                      <Icon id={`reset-address${keyValue}`} name="undo"
-                            onClick={this.onClickReset} title="Reset Address details"
-                      />
-                      }
-                      {customerAddress.changed &&
-                      <Icon id={`accept-address${keyValue}`} name="check" disabled={!isValid}
-                            onClick={isValid && this.saveOrCreateCustomerAddress}
-                            title="Confirm changes"/>
-                      }
-                      {(customerAddress.changed || customerAddress.id) &&
-                      <Icon id={`delete-address${keyValue}`} name="delete"
-                            onClick={this.onClickDelete}
-                            title="Delete Address Number"/>
-                      }
-                </span>
+                 <ModelEditIcons
+                     componentKey={componentKey}
+                     model={customerAddress}
+                     modelSave={saveCustomerAddress}
+                     modelDelete={deleteCustomerAddress}
+                     modelReset={this.onClickReset()}
+                 />
             </div>
         </div>;
     }
