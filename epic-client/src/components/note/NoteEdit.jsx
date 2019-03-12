@@ -3,7 +3,8 @@ import {Icon} from "semantic-ui-react";
 import {updateObject} from "../../helpers/utils";
 import EditModelPage from "../app/model/EditModelPage";
 import {customerNoteFields} from "../app/model/helpers/fields";
-import {addFieldToState} from "../app/model/helpers/model";
+import {addFieldToState, getModelKey} from "../app/model/helpers/model";
+import ModelEditIcons from "../app/model/ModelEditIcons";
 
 class NoteEdit extends React.Component {
     state = {};
@@ -28,7 +29,6 @@ class NoteEdit extends React.Component {
 
     render() {
         const { note } = this.state;
-        const { note_text, changed } = note;
         const { saveNote, deleteNote } = this.props;
 
         return <div>
@@ -39,22 +39,13 @@ class NoteEdit extends React.Component {
                 persistedModel={this.props.note}
             />
             <div className="row align_right">
-                {changed &&
-                <Icon id={`reset-note`} name="undo"
-                      onClick={this.onClickReset}
-                      title="Reset Note details"
+                <ModelEditIcons
+                    componentKey={getModelKey(note)}
+                    model={note}
+                    modelDelete={deleteNote}
+                    modelReset={this.onClickReset}
+                    modelSave={saveNote}
                 />
-                }
-                {(changed) &&
-                <Icon id={`accept-note`} name="check"
-                      onClick={() => saveNote(note)}
-                      title="Confirm Note Change"/>
-                }
-                {(note.id) &&
-                <Icon id={`delete-note`} name="delete"
-                      onClick={() => deleteNote(note.id)}
-                      title="Delete Note"/>
-                }
             </div>
         </div>
     }
