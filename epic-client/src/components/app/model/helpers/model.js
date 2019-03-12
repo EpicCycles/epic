@@ -15,19 +15,19 @@ export const modelIsAlreadyInArray = (modelArray, modelToCheck, modelFields) => 
 };
 
 export const createEmptyModelWithDefaultFields = (fieldList) => {
-  let emptyModel = {dummyKey: generateRandomCode()};
-  fieldList.forEach(field => {
-      if (field.selectList && Array.isArray(field.selectList)) {
-          const defaultValue = field.selectList.filter(listitem => listitem.isDefault);
-          if (defaultValue.length > 0) emptyModel[field.fieldName] = defaultValue[0].value;
-      } else if (field.default) {
-          emptyModel[field.fieldName] = field.default;
-      }
-  });
-  return emptyModel;
+    let emptyModel = { dummyKey: generateRandomCode() };
+    fieldList.forEach(field => {
+        if (field.selectList && Array.isArray(field.selectList)) {
+            const defaultValue = field.selectList.filter(listitem => listitem.isDefault);
+            if (defaultValue.length > 0) emptyModel[field.fieldName] = defaultValue[0].value;
+        } else if (field.default) {
+            emptyModel[field.fieldName] = field.default;
+        }
+    });
+    return emptyModel;
 };
 export const eliminateReadOnlyFields = (fieldList) => {
-    return fieldList.filter(field => (! field.readOnly));
+    return fieldList.filter(field => (!field.readOnly));
 };
 
 export const checkForChanges = (fieldList, existingObject, newValues) => {
@@ -183,19 +183,19 @@ export const hasErrors = (model) => {
 };
 
 export const addErrorDetail = (error_detail = {}, field, error) => {
-      let updated_error_detail = updateObject(error_detail);
-  if (!Array.isArray(updated_error_detail[field])) {
-         updated_error_detail[field] = [];
-  }
-  updated_error_detail[field].push(error);
-  return updated_error_detail;
+    let updated_error_detail = updateObject(error_detail);
+    if (!Array.isArray(updated_error_detail[field])) {
+        updated_error_detail[field] = [];
+    }
+    updated_error_detail[field].push(error);
+    return updated_error_detail;
 };
 
 export const createNewModelInstance = () => {
-    return {dummyKey: generateRandomCode()};
+    return { dummyKey: generateRandomCode() };
 };
 export const matchesModel = (persistedModel, modelFields, modelToCheck) => {
-     return eliminateReadOnlyFields(modelFields).every(field => {
+    return eliminateReadOnlyFields(modelFields).every(field => {
         return persistedModel[field.fieldName] === modelToCheck[field.fieldName];
     })
 };

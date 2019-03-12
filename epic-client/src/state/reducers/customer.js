@@ -134,7 +134,7 @@ const customer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                customerId: action.payload.id,
+                customerId: action.payload.customer.id,
                 customers: addItemsToArray(state.customers, [action.payload.customer]),
                 addresses: action.payload.addresses,
                 phones: action.payload.phones,
