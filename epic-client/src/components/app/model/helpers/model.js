@@ -9,6 +9,7 @@ import {
 import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
 
 export const modelIsAlreadyInArray = (modelArray, modelToCheck, modelFields) => {
+    if (!doWeHaveObjects(modelArray)) return false;
     return modelArray.some(modelInstance => matchesModel(modelInstance, modelFields, modelToCheck));
 };
 
@@ -30,7 +31,9 @@ export const eliminateReadOnlyFields = (fieldList) => {
 
 export const checkForChanges = (fieldList, existingObject, newValues) => {
     return eliminateReadOnlyFields(fieldList).some(field => {
-        return existingObject[field.fieldName] !== newValues[field.fieldName];
+        if (existingObject[field.fieldName] || newValues[field.fieldName])
+            return existingObject[field.fieldName] !== newValues[field.fieldName];
+        return false;
     })
 };
 

@@ -1,4 +1,4 @@
-import {BRAND_FIELD, DESCRIPTION_FIELD, FRAME_NAME_FIELD, SELL_PRICE_FIELD} from "../fields";
+import {BRAND_FIELD, customerAddressFields, DESCRIPTION_FIELD, FRAME_NAME_FIELD, SELL_PRICE_FIELD} from "../fields";
 import {checkForChanges} from "../model";
 
 const fieldListForTest = [BRAND_FIELD, SELL_PRICE_FIELD, DESCRIPTION_FIELD, FRAME_NAME_FIELD];
@@ -49,13 +49,26 @@ describe('model.checkForChanges', () => {
         expect(checkForChanges(fieldListForTest, existingObject, newValues)).toBeFalsy();
     });
     it("should return false when a field is added with no content", () => {
-        const existingObject = {};
-        const newValues = {};
-        existingObject[BRAND_FIELD.fieldName] = "Brand 1;";
-        existingObject[DESCRIPTION_FIELD.fieldName] = "My description";
-        newValues[BRAND_FIELD.fieldName] = "Brand 1;";
-        newValues[SELL_PRICE_FIELD.fieldName] = "";
-        newValues[DESCRIPTION_FIELD.fieldName] = "My description";
-        expect(checkForChanges(fieldListForTest, existingObject, newValues)).toBeFalsy();
+        const existingObject = {
+            id: 19,
+            address1: '1 Mill Lane',
+            address2: '',
+            address3: '',
+            address4: '',
+            postcode: 'SY8 1EE',
+            country: 'GB',
+            add_date: '2019-03-12T14:11:24.900467Z',
+            upd_date: '2019-03-12T14:11:24.901461Z',
+            customer: 28
+        };
+        const newValues = {id: 19,
+            address1: '1 Mill Lane',
+            postcode: 'SY8 1EE',
+            country: 'GB',
+            add_date: '2019-02-12T14:11:24.900467Z',
+            upd_date: '2019-03-12T14:11:24.901461Z',
+        };
+        expect(checkForChanges(customerAddressFields, existingObject, newValues)).toBeFalsy();
     });
+
 });
