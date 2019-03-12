@@ -8,6 +8,10 @@ import {
 } from "../../../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
 
+export const modelIsAlreadyInArray = (modelArray, modelToCheck, modelFields) => {
+    return modelArray.some(modelInstance => matchesModel(modelInstance, modelFields, modelToCheck));
+};
+
 export const createEmptyModelWithDefaultFields = (fieldList) => {
   let emptyModel = {dummyKey: generateRandomCode()};
   fieldList.forEach(field => {

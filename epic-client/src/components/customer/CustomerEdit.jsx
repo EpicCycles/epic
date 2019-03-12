@@ -4,17 +4,21 @@ import CustomerDetailEdit from "./CustomerDetailEdit";
 import NoteEdit from "../note/NoteEdit";
 import {findObjectWithId, updateObject} from "../../helpers/utils";
 import CustomerAddressGrid from "./CustomerAddressGrid";
-import {createNewModelInstance, getModelKey, matchesModel} from "../app/model/helpers/model";
+import {
+    createEmptyModelWithDefaultFields,
+    getModelKey,
+    matchesModel
+} from "../app/model/helpers/model";
 import CustomerPhoneGrid from "./CustomerPhoneGrid";
 import {customerAddressFields, customerNoteFields} from "../app/model/helpers/fields";
 
 class CustomerEdit extends React.Component {
-    state = { note: createNewModelInstance() };
+    state = { note: createEmptyModelWithDefaultFields(customerNoteFields)};
 
     componentDidUpdate(prevProps) {
         if (this.props.notes !== prevProps.notes) {
             const newNoteIsOnList = this.props.notes.some(note => matchesModel(note, customerNoteFields, this.state.note));
-            if (newNoteIsOnList) this.setState({ note: createNewModelInstance() })
+            if (newNoteIsOnList) this.setState({ note: createEmptyModelWithDefaultFields(customerNoteFields) })
         }
     }
 

@@ -1,19 +1,19 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {createNewModelInstance, matchesModel} from "../app/model/helpers/model";
+import {createEmptyModelWithDefaultFields, matchesModel} from "../app/model/helpers/model";
 import {customerPhoneFields} from "../app/model/helpers/fields";
 import CustomerPhoneEdit from "./CustomerPhoneEdit";
 import {updateObject} from "../../helpers/utils";
 
 class CustomerPhoneGrid extends React.Component {
     state = {
-        newPhone: createNewModelInstance(),
+        newPhone: createEmptyModelWithDefaultFields(customerPhoneFields),
     };
 
     componentDidUpdate(prevProps) {
         if (this.props.phones !== prevProps.phones) {
             const newPhoneIsOnList = this.props.phones.some(phone => matchesModel(phone, customerPhoneFields, this.state.newPhone));
-            if (newPhoneIsOnList) this.setState({ newPhone: createNewModelInstance() })
+            if (newPhoneIsOnList) this.setState({ newPhone: createEmptyModelWithDefaultFields(customerPhoneFields) })
         }
     }
 

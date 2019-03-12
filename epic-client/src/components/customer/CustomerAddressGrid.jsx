@@ -1,19 +1,19 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {createNewModelInstance, matchesModel} from "../app/model/helpers/model";
+import {createEmptyModelWithDefaultFields, matchesModel} from "../app/model/helpers/model";
 import {customerAddressFields} from "../app/model/helpers/fields";
 import CustomerAddressEdit from "./CustomerAddressEdit";
 import {updateObject} from "../../helpers/utils";
 
 class CustomerAddressGrid extends React.Component {
     state = {
-        newAddress: createNewModelInstance(),
+        newAddress: createEmptyModelWithDefaultFields(customerAddressFields),
     };
 
     componentDidUpdate(prevProps) {
         if (this.props.addresses !== prevProps.addresses) {
             const newAddressIsOnList = this.props.addresses.some(address => matchesModel(address, customerAddressFields, this.state.newAddress));
-            if (newAddressIsOnList) this.setState({ newAddress: createNewModelInstance() })
+            if (newAddressIsOnList) this.setState({ newAddress: createEmptyModelWithDefaultFields(customerAddressFields) })
         }
     }
 
