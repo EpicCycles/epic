@@ -78,12 +78,20 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
   <div
     className="row align_right"
   >
-    <Icon
-      as="i"
-      id="delete-customer"
-      name="delete"
-      onClick={[Function]}
-      title="Delete Customer"
+    <ModelEditIcons
+      componentKey="new"
+      model={
+        Object {
+          "add_date": "2018-07-04T13:02:09.988286+01:00",
+          "email": "anna.weaver@johnlewis.co.uk",
+          "first_name": "Anna",
+          "id": 16,
+          "last_name": "Weaver",
+          "upd_date": "2018-07-04T13:02:09.988343+01:00",
+        }
+      }
+      modelReset={[Function]}
+      modelSave={[Function]}
     />
   </div>
 </div>
@@ -140,6 +148,13 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
   />
   <div
     className="row align_right"
-  />
+  >
+    <ModelEditIcons
+      componentKey="new"
+      model={Object {}}
+      modelReset={[Function]}
+      modelSave={[Function]}
+    />
+  </div>
 </div>
 `;

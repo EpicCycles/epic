@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly with a new customer address 1`] = `
+exports[`CustomerAddressEdit renders correctly with a new customer address 1`] = `
 <div
   className="grid-row"
   key="rownew"
@@ -1074,14 +1074,22 @@ exports[`renders correctly with a new customer address 1`] = `
     className="grid-item align_center"
     key="actions_td_new"
   >
-    <span
-      id="actionsnew"
+    <ModelEditIcons
+      componentKey="new"
+      model={
+        Object {
+          "customer": 12,
+        }
+      }
+      modelDelete={[MockFunction]}
+      modelReset={[Function]}
+      modelSave={[MockFunction]}
     />
   </div>
 </div>
 `;
 
-exports[`renders correctly with a passed customer address 1`] = `
+exports[`CustomerAddressEdit renders correctly with a passed customer address 1`] = `
 <div
   className="grid-row"
   key="row123"
@@ -2171,17 +2179,23 @@ exports[`renders correctly with a passed customer address 1`] = `
     className="grid-item align_center"
     key="actions_td_123"
   >
-    <span
-      id="actions123"
-    >
-      <Icon
-        as="i"
-        id="delete-address123"
-        name="delete"
-        onClick={[Function]}
-        title="Delete Address Number"
-      />
-    </span>
+    <ModelEditIcons
+      componentKey={123}
+      model={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      modelDelete={[MockFunction]}
+      modelReset={[Function]}
+      modelSave={[MockFunction]}
+    />
   </div>
 </div>
 `;

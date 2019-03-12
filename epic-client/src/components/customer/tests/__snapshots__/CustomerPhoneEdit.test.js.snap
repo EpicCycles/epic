@@ -63,18 +63,19 @@ exports[`displays a passed customerPhone object correctly 1`] = `
   />
   <div
     id="actions_12"
+    key="actions_12"
   >
-    <span
-      id="actions12"
-    >
-      <Icon
-        as="i"
-        id="delete-phone12"
-        name="delete"
-        onClick={[Function]}
-        title="Delete Phone Number"
-      />
-    </span>
+    <ModelEditIcons
+      componentKey={12}
+      model={
+        Object {
+          "id": 12,
+          "number_type": "H",
+          "telephone": "78736",
+        }
+      }
+      modelReset={[Function]}
+    />
   </div>
 </div>
 `;
@@ -144,18 +145,20 @@ exports[`displays a passed customerPhone object correctly when an error is prese
   />
   <div
     id="actions_12"
+    key="actions_12"
   >
-    <span
-      id="actions12"
-    >
-      <Icon
-        as="i"
-        id="delete-phone12"
-        name="delete"
-        onClick={[Function]}
-        title="Delete Phone Number"
-      />
-    </span>
+    <ModelEditIcons
+      componentKey={12}
+      model={
+        Object {
+          "error": true,
+          "id": 12,
+          "number_type": "H",
+          "telephone": "78736",
+        }
+      }
+      modelReset={[Function]}
+    />
   </div>
 </div>
 `;

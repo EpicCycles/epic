@@ -6,6 +6,7 @@ import {updateObject} from "../../helpers/utils";
 import {addFieldToState, getModelKey, isModelValid} from "../app/model/helpers/model";
 import {bikeFields, customerAddressFields, customerPhoneFields} from "../app/model/helpers/fields";
 import EditModelRow from "../app/model/EditModelRow";
+import ModelEditIcons from "../app/model/ModelEditIcons";
 
 const newCustomerPhone = {
     number_type: 'H',
@@ -33,51 +34,29 @@ class CustomerPhoneEdit extends React.Component {
         });
     };
 
-    saveOrCreateCustomerPhone = () => {
-        this.props.saveCustomerPhone(this.state.customerPhone);
-    };
-
-    onClickDelete = () => {
-        if (this.props.customerPhone.id) {
-            this.props.deleteCustomerPhone(this.props.customerPhone.id);
-        } else {
-            this.setState({customerPhone:newCustomerPhone});
-        }
-    };
-
     render() {
         const { customerPhone } = this.state;
-        const { telephone, changed, } = customerPhone;
-        const keyValue = getModelKey(customerPhone);
-        const componentContext = keyValue;
+        const componentKey = getModelKey(customerPhone);
         const rowClass = (customerPhone && customerPhone.error) ? "error" : "";
-        const isValid = isModelValid(customerPhone);
 
-        return <div className={rowClass} key={`row${componentContext}`}>
+        return <div className={rowClass} key={`row${componentKey}`}>
             <EditModelRow
                 model={customerPhone}
                 persistedModel={this.props.customerPhone}
                 modelFields={customerPhoneFields}
                 onChange={this.handleInputChange}
             />
-            <div id={`actions_${componentContext}`}>
-                  <span id={`actions${keyValue}`}>
-                      {changed &&
-                      <Icon id={`reset-phone${keyValue}`} name="undo"
-                            onClick={this.onClickReset} title="Reset Phone details"
-                      />
-                      }
-                      {changed &&
-                      <Icon id={`accept-phone${keyValue}`} name="check" disabled={!isValid}
-                            onClick={isValid && this.saveOrCreateCustomerPhone}
-                            title="Confirm changes"/>
-                      }
-                      {telephone &&
-                      <Icon id={`delete-phone${keyValue}`} name="delete"
-                            onClick={this.onClickDelete}
-                            title="Delete Phone Number"/>
-                      }
-                </span>
+            <div
+                id={`actions_${componentKey}`}
+                key={`actions_${componentKey}`}
+            >
+                 <ModelEditIcons
+                    componentKey={componentKey}
+                    model={customerPhone}
+                    modelSave={this.props.saveCustomerPhone}
+                    modelDelete={this.props.deleteCustomerPhone}
+                    modelReset={this.onClickReset}
+                />
             </div>
         </div>;
     }

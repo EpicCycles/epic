@@ -65,7 +65,7 @@ class CustomerAddressEdit extends React.Component {
                      model={customerAddress}
                      modelSave={saveCustomerAddress}
                      modelDelete={deleteCustomerAddress}
-                     modelReset={this.onClickReset()}
+                     modelReset={this.onClickReset}
                  />
             </div>
         </div>;
