@@ -26,7 +26,7 @@ export const validateURLAndReturnError = (url) => {
     return;
 
 };
-export const validatePostcodeAndReturnError = (postcode, model = {}) => {
+export const validatePostcodeAndReturnError = (postcode = '', model = {}) => {
     let error;
     const postcodeRule = POSTCODE_RULES.filter(rule => rule.countryCode === model.country);
     if (postcodeRule[0]) {

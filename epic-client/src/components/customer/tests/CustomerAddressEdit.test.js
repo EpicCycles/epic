@@ -1,10 +1,14 @@
 import React from 'react';
 import CustomerAddressEdit from "../CustomerAddressEdit";
 import {ADDRESS_MISSING} from "../../app/model/helpers/error";
-
+// import * as utils from
 describe('CustomerAddressEdit', () => {
-
-    it("renders correctly with a passed customer address", () => {
+    jest.mock( "../../../helpers/utils", () => ({
+  __esModule: true,
+  default: () => 'Blah',
+  generateRandomCode: () => 'generateddummykey',
+}));
+     it("renders correctly with a passed customer address", () => {
         const customerAddress = {
             id: 123,
             address1: "line one",
@@ -63,7 +67,7 @@ describe('CustomerAddressEdit', () => {
             address4: "line Four",
             postcode: "xxxyyy",
             customer: 6,
-            error_detail: {},
+            error_detail: {"country": "A country must be selected"},
             changed: true,
         };
         expect(component.state('customerAddress')).toEqual(customerAddressUpdated);
@@ -76,7 +80,7 @@ describe('CustomerAddressEdit', () => {
             address4: "line Four",
             postcode: "xxxyyy",
             customer: 6,
-            error_detail: { address1: ADDRESS_MISSING },
+            error_detail: { address1: ADDRESS_MISSING,country: "A country must be selected" },
             changed: true,
         };
         component.instance().handleInputChange("address1_123", '');
@@ -96,13 +100,14 @@ describe('CustomerAddressEdit', () => {
         component.instance().handleInputChange("address2_123", 'new line 22');
         component.instance().handleInputChange("address3_123", 'new line 23');
         component.instance().handleInputChange("address4_123", 'new line 24');
-        component.instance().handleInputChange("postcode_123", 'new postcode');
+        component.instance().handleInputChange("postcode_123", 'SY8 1EE');
         const customerAddressUpdated = {
             address1: "new line 21",
             address2: "new line 22",
             address3: "new line 23",
             address4: "new line 24",
-            postcode: "new postcode",
+            postcode: "SY8 1EE",
+            country: "GB",
             customer: 12,
             error_detail: {},
             changed: true,
@@ -156,7 +161,7 @@ describe('CustomerAddressEdit', () => {
         expect(component.state('customerAddress')).not.toEqual({});
 
         component.instance().onClickReset();
-        expect(component.state('customerAddress')).toEqual({ customer: 12 });
+        expect(component.state('customerAddress')).toEqual({ customer: 12, country: 'GB' });
     });
 });
 

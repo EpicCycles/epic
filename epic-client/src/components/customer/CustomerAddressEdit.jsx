@@ -1,13 +1,13 @@
 import React from "react";
 import {Icon} from "semantic-ui-react";
-import { getModelKey, isModelValid, updateModel} from "../app/model/helpers/model";
+import {createEmptyModelWithDefaultFields, getModelKey, isModelValid, updateModel} from "../app/model/helpers/model";
 import {customerAddressFields} from "../app/model/helpers/fields";
 import EditModelRow from "../app/model/EditModelRow";
 import * as PropTypes from "prop-types";
 import {isItAnObject} from "../../helpers/utils";
 import ModelEditIcons from "../app/model/ModelEditIcons";
 
-const initialState = { customerAddress: {} };
+const initialState = {};
 
 class CustomerAddressEdit extends React.Component {
     state = initialState;
@@ -21,13 +21,13 @@ class CustomerAddressEdit extends React.Component {
     }
 
     deriveStateFromProps = () => {
-        let newState = initialState;
         if (isItAnObject(this.props.customerAddress)) {
-            newState.customerAddress = this.props.customerAddress
+           return {customerAddress: this.props.customerAddress};
         } else {
-            newState.customerAddress = { customer: this.props.customerId }
+            let customerAddress =  createEmptyModelWithDefaultFields(customerAddressFields);
+            customerAddress.customer = this.props.customerId;
+            return { customerAddress }
         }
-        return newState;
     };
 
     handleInputChange = (fieldName, input) => {
