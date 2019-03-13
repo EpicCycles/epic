@@ -30,7 +30,7 @@ export const validatePostcodeAndReturnError = (postcode, model = {}) => {
     let error;
     const postcodeRule = POSTCODE_RULES.filter(rule => rule.countryCode === model.country);
     if (postcodeRule[0]) {
-        const OK = RegExp(postcodeRule[0].regex).exec(postcode);
+        const OK = RegExp(postcodeRule[0].regex).exec(postcode.toUpperCase());
         if (!OK) error = INVALID_POSTCODE + postcodeRule[0].display;
     }
     return error;

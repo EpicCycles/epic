@@ -170,6 +170,10 @@ export const updateObjectInArray = (initialArray, updatedObject, componentKey) =
 export const updateObject = (initialObject = {}, fieldList1 = {}, fieldList2 = {}) => {
     return Object.assign({}, initialObject, fieldList1, fieldList2);
 };
+export const updateObjectWithApiErrors = (object, actionPayload) => {
+    const {error, error_detail} = actionPayload;
+    return updateObject(object, {error, error_detail});
+};
 export const definedOrZero = (numericField) => (numericField || numericField === 0);
 
 export const updateObjectWithSelectionChanges = (object, fieldName, value) => {

@@ -11,7 +11,13 @@ import {
 } from "../actions/customer";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_LOGOUT, USER_NOT_VALIDATED} from "../actions/user";
-import {addItemsToArray, removeItemFromArray, updateObjectInArray} from "../../helpers/utils";
+import {
+    addItemsToArray,
+    removeItemFromArray,
+    updateObject,
+    updateObjectInArray,
+    updateObjectWithApiErrors
+} from "../../helpers/utils";
 
 const initialState = {
     isLoading: false,
@@ -103,10 +109,11 @@ const customer = (state = initialState, action) => {
                 isLoading: false
             };
         case `${CUSTOMER_ADDRESS_SAVE}_ERROR`:
+            const addressWithError = updateObjectWithApiErrors(action.payload.customerAddress, action.payload);
             return {
                 ...state,
                 isLoading: false,
-                addresses: updateObjectInArray(state.addresses, action.payload.customerAddress)
+                addresses: updateObjectInArray(state.addresses, addressWithError)
             };
         case `${CUSTOMER_PHONE_SAVE}_ERROR`:
             return {

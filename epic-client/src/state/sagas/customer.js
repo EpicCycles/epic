@@ -34,6 +34,7 @@ import api from './api';
 import * as selectors from '../selectors/user.js';
 import * as customerSelectors from '../selectors/customer.js';
 import {updateObject} from "../../helpers/utils";
+import {logError} from "../../helpers/api_error";
 
 export function* getCustomerList(action) {
     try {
@@ -175,12 +176,13 @@ export function* watchForDeleteCustomerPhone() {
 }
 
 export function* saveCustomerPhone(action) {
+    const customerPhone = action.payload.customerPhone;
     try {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
             let response;
-            if (action.payload.customerPhone.id) {
+            if (customerPhone.id) {
                 response = yield call(api.saveCustomerPhone, completePayload);
             } else {
                 response = yield call(api.createCustomerPhone, completePayload);
@@ -189,8 +191,14 @@ export function* saveCustomerPhone(action) {
         } else {
             yield call(history.push, "/login");
         }
-    } catch (error) {
-        yield put(saveCustomerPhoneFailure({customerPhone: action.payload.customerPhone, error:"Customer Phone save failed"}));
+    } catch (apiError) {
+        const error = 'Customer Phone save failed';
+        let error_detail;
+        logError(apiError);
+        if (apiError.response) {
+            error_detail = apiError.response.data;
+        }
+        yield put(saveCustomerPhoneFailure({ customerPhone, error, error_detail }));
     }
 }
 
@@ -219,12 +227,13 @@ export function* watchForDeleteCustomerAddress() {
 }
 
 export function* saveCustomerAddress(action) {
+    const customerAddress = action.payload.customerAddress;
     try {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
             let response;
-            if (action.payload.customerAddress.id) {
+            if (customerAddress.id) {
                 response = yield call(api.saveCustomerAddress, completePayload);
             } else {
                 response = yield call(api.createCustomerAddress, completePayload);
@@ -233,9 +242,16 @@ export function* saveCustomerAddress(action) {
         } else {
             yield call(history.push, "/login");
         }
-    } catch (error) {
-        yield put(saveCustomerAddressFailure({customerAddress: action.payload.customerAddress, error:"Customer Address save failed"}));
+    } catch (apiError) {
+        const error = 'Customer Address save failed';
+        let error_detail;
+        logError(apiError);
+        if (apiError.response) {
+            error_detail = apiError.response.data;
+        }
+        yield put(saveCustomerAddressFailure({ customerAddress, error, error_detail }));
     }
+
 }
 
 export function* watchForSaveCustomerAddress() {

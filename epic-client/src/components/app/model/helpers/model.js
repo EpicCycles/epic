@@ -11,7 +11,7 @@ import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
 
 export const modelIsAlreadyInArray = (modelArray, modelToCheck, modelFields) => {
     if (!doWeHaveObjects(modelArray)) return false;
-    return modelArray.some(modelInstance => ! checkForChanges(modelFields, modelInstance, modelToCheck));
+    return modelArray.some(modelInstance => !checkForChanges(modelFields, modelInstance, modelToCheck));
 };
 
 export const createEmptyModelWithDefaultFields = (fieldList) => {
@@ -80,6 +80,27 @@ export const applyFieldValueToModel = (modelInstance, field, value) => {
     updatedModelInstance.error_detail = removeKey(updatedModelInstance.error_detail, field.fieldName);
     return updatedModelInstance;
 };
+export const applyFieldValueToModelOnly = (modelInstance, field, value) => {
+    let updatedModelInstance = updateObject(modelInstance);
+    updatedModelInstance[field.fieldName] = value;
+    updatedModelInstance.changed = true;
+    return updatedModelInstance;
+};
+
+export const validateModelAndSetErrors = (modelInstance, modelFields) => {
+    let error_detail = {};
+    modelFields.forEach(field => {
+        if (field.required && !value) {
+            error_detail[field.fieldName] = field.error;
+        } else if (field.validator) {
+            const error = field.validator(value, modelInstance);
+            if (error) {
+                error_detail[field.fieldName] = error;
+            }
+        }
+    });
+    return error_detail;
+};
 
 export const getAttribute = (modelFields, fieldName) => {
     let attribute;
@@ -140,9 +161,13 @@ export const updateModelArrayWithChanges = (modelArray, modelFields, fieldName, 
     }
     return modelArray;
 };
-export const updateModel = (model, modelFields, fieldName, fieldValue, componentKey) => {
+export const updateModel = (model, modelFields, fieldName, fieldValue) => {
     const modelField = getField(modelFields, fieldName);
-    if (modelField) return applyFieldValueToModel(model, modelField, fieldValue);
+    if (modelField) {
+        const updatedModel = applyFieldValueToModelOnly(model, modelField, fieldValue);
+        updatedModel.error_detail =  validateModelAndSetErrors(updatedModel, modelFields);
+        return removeKey(updatedModel, 'error');
+    };
     return model;
 };
 
@@ -195,5 +220,5 @@ export const createNewModelInstance = () => {
     return { dummyKey: generateRandomCode() };
 };
 export const matchesModel = (persistedModel, modelFields, modelToCheck) => {
-    return ! checkForChanges(modelFields, persistedModel, modelToCheck);
+    return !checkForChanges(modelFields, persistedModel, modelToCheck);
 };
