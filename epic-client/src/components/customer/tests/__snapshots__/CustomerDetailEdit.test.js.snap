@@ -67,16 +67,14 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
       }
     }
   />
-  <div
-    className="row"
-  >
+  <div>
     Added on 
     2018-07-04
     , last updated on 
     2018-07-04
   </div>
   <div
-    className="row align_right"
+    className="align_right"
   >
     <ModelEditIcons
       componentKey="new"
@@ -147,7 +145,7 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
     persistedModel={Object {}}
   />
   <div
-    className="row align_right"
+    className="align_right"
   >
     <ModelEditIcons
       componentKey="new"

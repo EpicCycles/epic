@@ -1,11 +1,12 @@
 import React from "react";
 
 import * as PropTypes from "prop-types";
-import {eliminateReadOnlyFields, getModelKey} from "./helpers/model";
+import {eliminateReadOnlyFields, getModelKey, justReadOnlyFields} from "./helpers/model";
 import EditModelPageRow from "./EditModelPageRow";
+import EditModelPageViewOnlyRow from "./EditModelPageViewOnlyRow";
 
 const EditModelPage = (props) => {
-    const { model, modelFields, persistedModel, className = "", sections, brands, suppliers, onChange } = props;
+    const { model, modelFields, persistedModel, className = "", sections, brands, suppliers, onChange, showReadOnlyFields } = props;
     const componentKey = getModelKey(model);
     return <div className="grid-container">
         {model.error && <div className="red">{model.error}</div>}
@@ -20,6 +21,16 @@ const EditModelPage = (props) => {
                 componentKey={componentKey}
                 index={index}
                 onChange={onChange}
+                sections={sections}
+                brands={brands}
+                suppliers={suppliers}
+            />)}
+            {showReadOnlyFields && justReadOnlyFields(modelFields).map((field, index) => <EditModelPageViewOnlyRow
+                key={`EditModelPageRow${field.fieldName}`}
+                field={field}
+                model={model}
+                componentKey={componentKey}
+                index={index}
                 sections={sections}
                 brands={brands}
                 suppliers={suppliers}
@@ -40,6 +51,7 @@ EditModelPage.propTypes = {
     sections: PropTypes.array,
     brands: PropTypes.array,
     suppliers: PropTypes.array,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    showReadOnlyFields: PropTypes.bool,
 };
 export default EditModelPage;

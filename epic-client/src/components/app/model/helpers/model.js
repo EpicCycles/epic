@@ -30,6 +30,10 @@ export const eliminateReadOnlyFields = (fieldList) => {
     return fieldList.filter(field => (!field.readOnly));
 };
 
+export const justReadOnlyFields = (fieldList) => {
+    return fieldList.filter(field => (field.readOnly));
+};
+
 export const checkForChanges = (fieldList, existingObject, newValues) => {
     return eliminateReadOnlyFields(fieldList).some(field => {
         if (existingObject[field.fieldName] || newValues[field.fieldName])
