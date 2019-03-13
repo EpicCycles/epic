@@ -3,9 +3,11 @@
 exports[`it selects the first tab if none passed 1`] = `
 <ul
   className="tabrow"
+  data-test="tab-row"
 >
   <li
     className="tabSelected"
+    data-test="tab"
     id="tab0"
     key="tab0"
     onClick={[Function]}
@@ -14,6 +16,7 @@ exports[`it selects the first tab if none passed 1`] = `
   </li>
   <li
     className="tabUnselected"
+    data-test="tab"
     id="tab1"
     key="tab1"
     onClick={[Function]}
@@ -22,6 +25,7 @@ exports[`it selects the first tab if none passed 1`] = `
   </li>
   <li
     className="tabUnselected"
+    data-test="tab"
     id="tab2"
     key="tab2"
     onClick={[Function]}
@@ -30,6 +34,7 @@ exports[`it selects the first tab if none passed 1`] = `
   </li>
   <li
     className="tabUnselected"
+    data-test="tab"
     id="tab3"
     key="tab3"
     onClick={[Function]}
@@ -38,6 +43,7 @@ exports[`it selects the first tab if none passed 1`] = `
   </li>
   <li
     className="tabUnselected"
+    data-test="tab"
     id="tab4"
     key="tab4"
     onClick={[Function]}
@@ -50,9 +56,11 @@ exports[`it selects the first tab if none passed 1`] = `
 exports[`it selects the first tab if none passed 2`] = `
 <ul
   className="tabrow"
+  data-test="tab-row"
 >
   <li
     className="tabUnselected"
+    data-test="tab"
     id="tab0"
     key="tab0"
     onClick={[Function]}
@@ -61,6 +69,7 @@ exports[`it selects the first tab if none passed 2`] = `
   </li>
   <li
     className="tabUnselected"
+    data-test="tab"
     id="tab1"
     key="tab1"
     onClick={[Function]}
@@ -69,6 +78,7 @@ exports[`it selects the first tab if none passed 2`] = `
   </li>
   <li
     className="tabUnselected"
+    data-test="tab"
     id="tab2"
     key="tab2"
     onClick={[Function]}
@@ -77,6 +87,7 @@ exports[`it selects the first tab if none passed 2`] = `
   </li>
   <li
     className="tabSelected"
+    data-test="tab"
     id="tab3"
     key="tab3"
     onClick={[Function]}
@@ -85,6 +96,7 @@ exports[`it selects the first tab if none passed 2`] = `
   </li>
   <li
     className="tabUnselected"
+    data-test="tab"
     id="tab4"
     key="tab4"
     onClick={[Function]}

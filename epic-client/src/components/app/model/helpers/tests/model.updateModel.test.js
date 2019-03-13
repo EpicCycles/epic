@@ -10,7 +10,8 @@ describe('model.updateModel', () => {
             address2: "line Ywo",
             address3: "line Three",
             address4: "line Four",
-            postcode: "xxxyyy",
+            country: "GB",
+            postcode: "SY81EE",
             customer: 6
         };
         const updatedModel = {
@@ -19,7 +20,8 @@ describe('model.updateModel', () => {
             address2: "line two corrected",
             address3: "line Three",
             address4: "line Four",
-            postcode: "xxxyyy",
+            country: "GB",
+            postcode: "SY81EE",
             customer: 6,
             changed: true,
             error_detail: {}
@@ -36,7 +38,8 @@ describe('model.updateModel', () => {
             address4: "line Four",
             country: "GB",
             postcode: "SY81EE",
-            customer: 6
+            customer: 6,
+            error_detail: {}
         };
 
         const result = updateModel(model, customerAddressFields, "brand_componentKet", "line two corrected");
@@ -51,7 +54,8 @@ describe('model.updateModel', () => {
                 address2: "line Ywo",
                 address3: "line Three",
                 address4: "line Four",
-                postcode: "xxxyyy",
+                postcode: "SY8 1EE",
+                country: 'GB',
                 customer: 6,
                 error: 'remove me',
                 error_detail: { randomKey: 'remove this' },
@@ -62,7 +66,8 @@ describe('model.updateModel', () => {
                 address2: "line two corrected",
                 address3: "line Three",
                 address4: "line Four",
-                postcode: "xxxyyy",
+                postcode: "SY8 1EE",
+                country: 'GB',
                 customer: 6,
                 changed: true,
                 error_detail: {}
@@ -80,7 +85,7 @@ describe('model.updateModel', () => {
                 id: 123,
                 address2: "line two corrected",
                 changed: true,
-                error_detail: { address1: ADDRESS_MISSING, "country": "A country must be selected" }
+                error_detail: { address1: ADDRESS_MISSING, country: "A country must be selected" }
             };
             const result = updateModel(model, customerAddressFields, "address2_componentKet", "line two corrected");
             expect(result).toEqual(updatedModel);

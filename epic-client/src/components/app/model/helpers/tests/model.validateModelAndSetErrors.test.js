@@ -1,6 +1,6 @@
 import {validateModelAndSetErrors} from "../model";
 import {customerAddressFields} from "../fields";
-import {ADDRESS_MISSING, INVALID_POSTCODE} from "../error";
+import {ADDRESS_MISSING, COUNTRY_MISSING} from "../error";
 
 describe('validateModelAndSetErrors', () => {
     it('should return an empty object when there are no errors', () => {
@@ -11,11 +11,12 @@ describe('validateModelAndSetErrors', () => {
             address3: "line Three",
             address4: "line Four",
             postcode: "SY8 1EE",
+            country: 'GB',
             customer: 6
         };
         expect(validateModelAndSetErrors(model, customerAddressFields)).toEqual({});
     });
- it('should return all errors when there are errors', () => {
+    it('should return all errors when there are errors', () => {
         const model = {
             id: 123,
             address2: "line Ywo",
@@ -24,7 +25,7 @@ describe('validateModelAndSetErrors', () => {
             postcode: "aaabbb",
             customer: 6
         };
-        const expectedErrors = {address1: ADDRESS_MISSING, postcode: INVALID_POSTCODE};
+        const expectedErrors = { address1: ADDRESS_MISSING, country: COUNTRY_MISSING };
         expect(validateModelAndSetErrors(model, customerAddressFields)).toEqual(expectedErrors);
     });
 
