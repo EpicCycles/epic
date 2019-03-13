@@ -9,7 +9,7 @@ exports[`CustomerList.index tests renders the CustomerList correctly 1`] = `
     addNewCustomer={[Function]}
     count={0}
     customers={Array []}
-    getCustomer={[MockFunction]}
+    getCustomer={[Function]}
     getCustomerList={[MockFunction]}
     getCustomerListPage={[MockFunction]}
     isLoading={false}
@@ -44,7 +44,7 @@ exports[`CustomerList.index tests renders the CustomerList correctly when there 
         },
       ]
     }
-    getCustomer={[MockFunction]}
+    getCustomer={[Function]}
     getCustomerList={[MockFunction]}
     getCustomerListPage={[MockFunction]}
     isLoading={false}

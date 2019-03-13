@@ -67,6 +67,7 @@ describe('model.checkForChanges', () => {
             country: 'GB',
             add_date: '2019-02-12T14:11:24.900467Z',
             upd_date: '2019-03-12T14:11:24.901461Z',
+            dummyKey: 'jhgfkdsjfkadshfgasdf',
         };
         expect(checkForChanges(customerAddressFields, existingObject, newValues)).toBeFalsy();
     });

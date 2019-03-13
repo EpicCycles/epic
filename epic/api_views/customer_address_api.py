@@ -21,6 +21,13 @@ class CustomerAddressList(generics.ListCreateAPIView):
         return Response(customerAddressData(customerId))
 
     def post(self, request, format=None):
+        post_data = request.data
+        address1 = post_data.get('address1', None)
+        postcode = post_data.get('postcode', None)
+        existing_address = CustomerAddress.objects.filter(address1__upper=address1, postcode__upper=postcode).first()
+        if existing_address:
+            return Response(request.data, status=status.HTTP_409_CONFLICT)
+
         serializer = CustomerAddressSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

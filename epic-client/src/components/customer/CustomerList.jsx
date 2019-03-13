@@ -18,6 +18,11 @@ class CustomerList extends React.Component {
         this.setState({ redirect: '/customer' });
     };
 
+    goToEditCustomer = (customerId) => {
+        this.props.getCustomer(customerId);
+        this.setState({ redirect: '/customer' });
+    };
+
     render() {
         const { redirect } = this.state;
         const { getCustomerList, getCustomerListPage, getCustomer, isLoading, customers, count, next, previous, searchParams } = this.props;
@@ -29,7 +34,7 @@ class CustomerList extends React.Component {
                     addNewCustomer={this.goToAddCustomer}
                     getCustomerList={getCustomerList}
                     getCustomerListPage={getCustomerListPage}
-                    getCustomer={getCustomer}
+                    getCustomer={this.goToEditCustomer}
                     searchParams={searchParams}
                     isLoading={isLoading}
                     customers={customers}

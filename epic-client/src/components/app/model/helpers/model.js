@@ -11,7 +11,7 @@ import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
 
 export const modelIsAlreadyInArray = (modelArray, modelToCheck, modelFields) => {
     if (!doWeHaveObjects(modelArray)) return false;
-    return modelArray.some(modelInstance => matchesModel(modelInstance, modelFields, modelToCheck));
+    return modelArray.some(modelInstance => ! checkForChanges(modelFields, modelInstance, modelToCheck));
 };
 
 export const createEmptyModelWithDefaultFields = (fieldList) => {
@@ -195,7 +195,5 @@ export const createNewModelInstance = () => {
     return { dummyKey: generateRandomCode() };
 };
 export const matchesModel = (persistedModel, modelFields, modelToCheck) => {
-    return eliminateReadOnlyFields(modelFields).every(field => {
-        return persistedModel[field.fieldName] === modelToCheck[field.fieldName];
-    })
+    return ! checkForChanges(modelFields, persistedModel, modelToCheck);
 };
