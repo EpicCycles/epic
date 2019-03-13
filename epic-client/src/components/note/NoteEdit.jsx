@@ -1,5 +1,4 @@
 import React from "react";
-import {Icon} from "semantic-ui-react";
 import {updateObject} from "../../helpers/utils";
 import EditModelPage from "../app/model/EditModelPage";
 import {customerNoteFields} from "../app/model/helpers/fields";

@@ -46,7 +46,7 @@ class Login extends React.Component {
 
     render() {
         const { username, password } = this.state;
-        const { isLoading, user, logoutUser } = this.props;
+        const { isLoading, user } = this.props;
 
         return (
             <Fragment>

@@ -1,14 +1,7 @@
 import React from 'react'
 import {Dimmer, Loader} from 'semantic-ui-react'
-import Pagination from "../../common/pagination";
 import {Redirect} from "react-router-dom";
-import CustomerAddLink from "./CustomerAddLink";
-import CustomerSearch from "./CustomerSearch";
-import {searchParams} from "../../state/selectors/customer";
-import CustomerListGridHeaders from "./CustomerListGridHeaders";
-import CustomerListGridRow from "./CustomerListGridRow";
 import CustomerListAndSearch from "./CustomerListAndSearch";
-
 
 class CustomerList extends React.Component {
     state = {};

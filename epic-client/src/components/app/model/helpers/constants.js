@@ -37,7 +37,7 @@ export const POSTCODE_RULES = [
     { countryCode: 'SG', regex: /^\d{6}$/, display: 'NNNNNN' },
     { countryCode: 'SI', regex: /^\d{3}\s\d{2}$/, display: 'NNN NN' },
     { countryCode: 'SK', regex: /^\d{3}\s\d{2}$/, display: 'NNN NN' },
-    { countryCode: 'US', regex: /^(\d{5}([\-]\d{4})?)$/, display: 'NNNNN-NNNN or NNNNN' },
+    { countryCode: 'US', regex: /^(\d{5}([-]\d{4})?)$/, display: 'NNNNN-NNNN or NNNNN' },
     { countryCode: 'ZA', regex: /^\d{4}$/, display: 'NNNN' }
 ];
 

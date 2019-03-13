@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import TabbedView from "../../common/TabbedView";
 import * as PropTypes from "prop-types";
 import {doWeHaveObjects} from "../../helpers/utils";

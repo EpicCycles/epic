@@ -1,13 +1,11 @@
 import React from 'react';
 import CustomerAddressEdit from "../CustomerAddressEdit";
 import {ADDRESS_MISSING} from "../../app/model/helpers/error";
-// import * as utils from
+import * as utils from '../../../helpers/utils';
+
+utils.generateRandomCode = jest.fn(() => 'dkfjghdkjgdskghkd');
 describe('CustomerAddressEdit', () => {
-    jest.mock( "../../../helpers/utils", () => ({
-  __esModule: true,
-  default: () => 'Blah',
-  generateRandomCode: () => 'generateddummykey',
-}));
+
      it("renders correctly with a passed customer address", () => {
         const customerAddress = {
             id: 123,
@@ -47,7 +45,8 @@ describe('CustomerAddressEdit', () => {
             address2: "line Ywo",
             address3: "line Three",
             address4: "line Four",
-            postcode: "xxxyyy",
+            postcode: "SY8 1EE",
+            country: "GB",
             customer: 6
         };
         const component = shallow(
@@ -65,9 +64,9 @@ describe('CustomerAddressEdit', () => {
             address2: "line Ywo",
             address3: "line Three",
             address4: "line Four",
-            postcode: "xxxyyy",
+            postcode: "SY8 1EE",
             customer: 6,
-            error_detail: {"country": "A country must be selected"},
+            error_detail: {},
             changed: true,
         };
         expect(component.state('customerAddress')).toEqual(customerAddressUpdated);
@@ -78,9 +77,9 @@ describe('CustomerAddressEdit', () => {
             address2: "line Ywo",
             address3: "line Three",
             address4: "line Four",
-            postcode: "xxxyyy",
+            postcode: "SY8 1EE",
             customer: 6,
-            error_detail: { address1: ADDRESS_MISSING,country: "A country must be selected" },
+            error_detail: { address1: ADDRESS_MISSING, },
             changed: true,
         };
         component.instance().handleInputChange("address1_123", '');
@@ -145,6 +144,11 @@ describe('CustomerAddressEdit', () => {
     });
     it("resets back for new customer when requested", () => {
         const customerAddress = {};
+        const expectedStateAddress = {
+            customer: 12,
+            country: 'GB',
+            dummyKey: 'dkfjghdkjgdskghkd'
+        };
         const component = shallow(
             <CustomerAddressEdit
                 customerAddress={customerAddress}
@@ -161,7 +165,7 @@ describe('CustomerAddressEdit', () => {
         expect(component.state('customerAddress')).not.toEqual({});
 
         component.instance().onClickReset();
-        expect(component.state('customerAddress')).toEqual({ customer: 12, country: 'GB' });
+        expect(component.state('customerAddress')).toEqual(expectedStateAddress);
     });
 });
 

@@ -1,10 +1,7 @@
 import React from "react";
-import {Icon} from "semantic-ui-react";
-import FormTextInput from "../../common/FormTextInput";
-import SelectInput from "../../common/SelectInput";
 import {updateObject} from "../../helpers/utils";
-import {addFieldToState, getModelKey, isModelValid} from "../app/model/helpers/model";
-import {bikeFields, customerAddressFields, customerPhoneFields} from "../app/model/helpers/fields";
+import {addFieldToState, getModelKey} from "../app/model/helpers/model";
+import {customerPhoneFields} from "../app/model/helpers/fields";
 import EditModelRow from "../app/model/EditModelRow";
 import ModelEditIcons from "../app/model/ModelEditIcons";
 

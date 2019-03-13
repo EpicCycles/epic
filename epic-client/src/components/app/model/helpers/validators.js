@@ -20,7 +20,7 @@ export const validateEmailFormat = (email) => {
 };
 export const validateURLAndReturnError = (url) => {
     if (url) {
-        const urlPattern = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+        const urlPattern = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/g;
         if (!urlPattern.test(url)) return INVALID_URL;
     }
     return;

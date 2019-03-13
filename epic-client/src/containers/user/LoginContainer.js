@@ -8,5 +8,4 @@ export default connect(({user}) => ({
     isLoading: user.isLoading,
 }), {
     loginUser,
-    logoutUser,
 })(Login)

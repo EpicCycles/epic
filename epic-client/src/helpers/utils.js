@@ -146,9 +146,9 @@ export const findIndexOfObjectWithDummyKey = (arrayOfObjects, dummyKey) => {
     return arrayOfObjects.indexOf(findObjectWithDummyKey(arrayOfObjects, dummyKey));
 };
 
-export const generateRandomCode = () => {
+export function generateRandomCode()  {
     return Math.random().toString(36).replace('0.', '');
-};
+}
 
 export const removeObjectWithIndex = (initialArray, removeIndex) => {
     if (removeIndex < 0) return initialArray;
@@ -180,4 +180,7 @@ export const updateObjectWithSelectionChanges = (object, fieldName, value) => {
     let newObject = updateObject(object);
     newObject[fieldName] = value;
     return newObject;
+};
+export default {
+  generateRandomCode,
 };

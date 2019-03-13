@@ -1,6 +1,5 @@
 import React from "react";
-import {Icon} from "semantic-ui-react";
-import {createEmptyModelWithDefaultFields, getModelKey, isModelValid, updateModel} from "../app/model/helpers/model";
+import {createEmptyModelWithDefaultFields, getModelKey, updateModel} from "../app/model/helpers/model";
 import {customerAddressFields} from "../app/model/helpers/fields";
 import EditModelRow from "../app/model/EditModelRow";
 import * as PropTypes from "prop-types";

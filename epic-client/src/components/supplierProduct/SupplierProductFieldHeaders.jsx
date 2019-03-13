@@ -1,7 +1,6 @@
 import React, {Fragment} from "react";
 import {supplierProductFields} from "../app/model/helpers/fields";
 import * as PropTypes from "prop-types";
-import {fixedHeaderClassname} from "../app/model/helpers/display";
 import AdditionalHeader from "../app/model/AdditionalHeader";
 import ModelTableHeaders from "../app/model/ModelTableHeaders";
 

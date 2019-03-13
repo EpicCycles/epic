@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React from "react";
 import * as PropTypes from "prop-types";
 import {Icon} from "semantic-ui-react";
 import {gridItemClass} from "./helpers/display";

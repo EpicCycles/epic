@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import {updateObject} from "../../helpers/utils";
-import {hasErrors, checkForChanges, updateModel} from "../app/model/helpers/model";
+import {hasErrors, updateModel} from "../app/model/helpers/model";
 import { userFields} from "../app/model/helpers/fields";
 import EditModelPage from "../app/model/EditModelPage";
 import {Dimmer, Icon, Loader} from "semantic-ui-react";

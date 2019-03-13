@@ -1,6 +1,6 @@
-import React, {Fragment} from "react";
+import React from "react";
 import * as PropTypes from "prop-types";
-import {fixedHeaderClassname, gridHeaderClass} from "./helpers/display";
+import {gridHeaderClass} from "./helpers/display";
 
 const AdditionalHeader = (props) => {
     return <div className={gridHeaderClass(props.className, 0, props.lockedColumn)}>
