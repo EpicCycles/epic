@@ -157,7 +157,8 @@ export const removeObjectWithIndex = (initialArray, removeIndex) => {
 
 export const updateObjectInArray = (initialArray, updatedObject, componentKey) => {
     const arrayWithUpdates = initialArray.slice();
-    const objectToUpdateIndex = findIndexOfObjectWithKey(arrayWithUpdates, componentKey);
+    const checkKey = componentKey ? componentKey : getModelKey(updatedObject);
+    const objectToUpdateIndex = findIndexOfObjectWithKey(arrayWithUpdates, checkKey);
     if (objectToUpdateIndex > -1) {
         arrayWithUpdates[objectToUpdateIndex] = updatedObject;
     } else {

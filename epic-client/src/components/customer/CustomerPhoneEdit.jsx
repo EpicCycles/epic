@@ -49,8 +49,9 @@ class CustomerPhoneEdit extends React.Component {
             <div
                 id={`actions_${componentKey}`}
                 key={`actions_${componentKey}`}
+                className="grid-item align_center"
             >
-                 <ModelEditIcons
+                <ModelEditIcons
                     componentKey={componentKey}
                     model={customerPhone}
                     modelSave={this.props.saveCustomerPhone}

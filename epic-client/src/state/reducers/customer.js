@@ -3,22 +3,15 @@ import {
     CUSTOMER_CREATE,
     CUSTOMER_DELETE,
     CUSTOMER_LIST,
-    CUSTOMER_REMOVE,
     CUSTOMER_SAVE,
     CUSTOMER_CLEAR_STATE,
     CUSTOMER_PAGE,
     CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE,
     CUSTOMER_ADDRESS_DELETE, CUSTOMER_ADDRESS_SAVE,
 } from "../actions/customer";
-import {
-    updateCustomerBasic,
-    updateCustomerPhoneList,
-    updateCustomerAddressList,
-    customerAddErrorForPhone, customerAddErrorForAddress
-} from "../helpers/customer";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_LOGOUT, USER_NOT_VALIDATED} from "../actions/user";
-import {addItemsToArray, removeItemFromArray} from "../../helpers/utils";
+import {addItemsToArray, removeItemFromArray, updateObjectInArray} from "../../helpers/utils";
 
 const initialState = {
     isLoading: false,
@@ -113,13 +106,13 @@ const customer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                customers: customerAddErrorForAddress(state.customers, state.customerId, action.payload.customerAddress)
+                addresses: updateObjectInArray(state.addresses, action.payload.customerAddress)
             };
         case `${CUSTOMER_PHONE_SAVE}_ERROR`:
             return {
                 ...state,
                 isLoading: false,
-                customers: customerAddErrorForPhone(state.customers, state.customerId, action.payload.customerPhone)
+                phones: updateObjectInArray(state.phones,action.payload.customerPhone)
             };
         case CUSTOMER_LIST:
             return {
