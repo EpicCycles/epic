@@ -53,12 +53,8 @@ class CustomerAddressEdit extends React.Component {
                 persistedModel={this.props.customerAddress}
                 modelFields={customerAddressFields}
                 onChange={this.handleInputChange}
+                showReadOnlyFields={true}
             />
-            {(customerAddress && customerAddress.add_date) && <div key={`date_${componentKey}`}>
-                Added on {customerAddress.add_date.substring(0, 10)}, updated
-                on {customerAddress.upd_date.substring(0, 10)}
-            </div>
-            }
             <div
                 key={`actions_td_${componentKey}`}
                 className="align_right"

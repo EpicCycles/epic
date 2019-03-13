@@ -47,12 +47,8 @@ class CustomerDetailEdit extends React.Component {
                 persistedModel={this.props.customer}
                 modelFields={customerFields}
                 onChange={this.handleInputChange}
-            />
-            {add_date &&
-            <div>
-                Added on {add_date.substring(0, 10)}, last updated on {upd_date.substring(0, 10)}
-            </div>
-            }
+                     showReadOnlyFields={true}
+       />
             <div className="align_right">
                 <ModelEditIcons
                     componentKey={componentKey}

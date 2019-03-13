@@ -37,7 +37,7 @@ class NoteEdit extends React.Component {
                 model={note}
                 persistedModel={this.props.note}
             />
-            <div className="row align_right">
+            <div className="align_right">
                 <ModelEditIcons
                     componentKey={getModelKey(note)}
                     model={note}

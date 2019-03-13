@@ -31,7 +31,7 @@ class CustomerAddressGrid extends React.Component {
             <h3>Customer Addresses</h3>
             <div
                 key='customerAddressGrid'
-                className="grid-3"
+                className="grid-2"
              >
                 <CustomerAddressEdit
                     key={`editNewAddress${newAddressKey}`}
