@@ -63,6 +63,7 @@ exports[`CustomerPhoneEdit displays a passed customerPhone object correctly 1`] 
     }
   />
   <div
+    className="grid-item align_center"
     id="actions_12"
     key="actions_12"
   >
@@ -146,6 +147,7 @@ exports[`CustomerPhoneEdit displays a passed customerPhone object correctly when
     }
   />
   <div
+    className="grid-item align_center"
     id="actions_12"
     key="actions_12"
   >

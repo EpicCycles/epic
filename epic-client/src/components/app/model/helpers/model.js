@@ -90,10 +90,10 @@ export const applyFieldValueToModelOnly = (modelInstance, field, value) => {
 export const validateModelAndSetErrors = (modelInstance, modelFields) => {
     let error_detail = {};
     modelFields.forEach(field => {
-        if (field.required && !value) {
+        if (field.required && !modelInstance[field.fieldName]) {
             error_detail[field.fieldName] = field.error;
         } else if (field.validator) {
-            const error = field.validator(value, modelInstance);
+            const error = field.validator(modelInstance[field.fieldName], modelInstance);
             if (error) {
                 error_detail[field.fieldName] = error;
             }
