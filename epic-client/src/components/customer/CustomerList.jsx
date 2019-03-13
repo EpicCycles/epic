@@ -19,7 +19,7 @@ class CustomerList extends React.Component {
     render() {
         const { redirect } = this.state;
         const { getCustomerList, getCustomerListPage, isLoading, customers, count, next, previous, searchParams } = this.props;
-        if (redirect) return <Redirect to={redirect}/>;
+        if (redirect) return <Redirect to={redirect} push />;
 
         return (
             <div id="customer-list" className="grid-container">

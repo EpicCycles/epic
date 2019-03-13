@@ -8,19 +8,24 @@ import {isModelValid} from "./helpers/model";
 const ModelEditIcons = props => {
     const {model, componentKey, modelSave, modelDelete, modelReset} = props;
     const isValid = isModelValid(model);
+    const canReset = model.changed;
+    const canDelete = model.id;
+    const canSave = isValid && model.changed;
     return <Fragment>
-        {(modelReset && model.changed) &&
+        {modelReset &&
         <Icon id={`reset-model`}
               name="undo"
-              onClick={modelReset}
+              disabled={!canReset}
+              onClick={() => canReset && modelReset()}
               title="Reset"
               key={`resetIcon${componentKey}`}
         />
         }
-        {(modelSave && isValid && model.changed) &&
+        {modelSave&&
         <Icon id={`save-model`}
               name="check"
-              onClick={() => modelSave(model)}
+              disabled={!canSave}
+              onClick={() => canSave && modelSave(model)}
               title="Save changes"
               key={`saveIcon${componentKey}`}
         />
@@ -28,7 +33,8 @@ const ModelEditIcons = props => {
         {(modelDelete && model.id) &&
         <Icon id={`delete-model`}
               name="delete"
-              onClick={() => modelDelete(model.id)}
+              disabled={!canDelete}
+              onClick={() => canDelete && modelDelete(model.id)}
               title="Delete"
               key={`deleteIcon${componentKey}`}
         />

@@ -2,10 +2,10 @@
 
 exports[`CustomerAddressEdit renders correctly with a new customer address 1`] = `
 <div
-  className="grid-row"
   key="rowdkfjghdkjgdskghkd"
+  title=""
 >
-  <EditModelRow
+  <EditModelPage
     model={
       Object {
         "country": "GB",
@@ -1063,17 +1063,7 @@ exports[`CustomerAddressEdit renders correctly with a new customer address 1`] =
     persistedModel={Object {}}
   />
   <div
-    className="grid-item"
-    key="date_dkfjghdkjgdskghkd"
-  >
-    <nobr
-      id="comment_td_dkfjghdkjgdskghkd"
-    >
-      Add a new address
-    </nobr>
-  </div>
-  <div
-    className="grid-item align_center"
+    className="align_right"
     key="actions_td_dkfjghdkjgdskghkd"
   >
     <ModelEditIcons
@@ -1095,10 +1085,10 @@ exports[`CustomerAddressEdit renders correctly with a new customer address 1`] =
 
 exports[`CustomerAddressEdit renders correctly with a passed customer address 1`] = `
 <div
-  className="grid-row"
   key="row123"
+  title=""
 >
-  <EditModelRow
+  <EditModelPage
     model={
       Object {
         "address1": "line one",
@@ -2170,17 +2160,7 @@ exports[`CustomerAddressEdit renders correctly with a passed customer address 1`
     }
   />
   <div
-    className="grid-item"
-    key="date_123"
-  >
-    <nobr
-      id="comment_td_123"
-    >
-      Add a new address
-    </nobr>
-  </div>
-  <div
-    className="grid-item align_center"
+    className="align_right"
     key="actions_td_123"
   >
     <ModelEditIcons

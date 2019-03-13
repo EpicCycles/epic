@@ -2,6 +2,7 @@ import React from 'react';
 import ModelEditIcons from "../ModelEditIcons";
 import {Icon} from "semantic-ui-react";
 import {MODEL_NAME_MISSING} from "../helpers/error";
+import {assertComponentHasExpectedProps} from "../../../../../test/assert";
 
 describe("ModelEditIcons tests", () => {
     const model = {
@@ -34,7 +35,15 @@ describe("ModelEditIcons tests", () => {
         let input = shallow(
             <ModelEditIcons modelSave={modelSave}/>
         );
-        expect(input.find(Icon).length).toBe(0);
+        const saveIcon = input.find("#save-model");
+        const deleteIcon = input.find("#delete-model");
+        const resetIcon = input.find("#reset-model");
+        expect(saveIcon).toHaveLength(1);
+        expect(deleteIcon).toHaveLength(0);
+        expect(resetIcon).toHaveLength(0);
+        assertComponentHasExpectedProps(saveIcon, {
+            disabled: true,
+        });
     });
     it('shows the buttons when model with id and no changes are present', () => {
         const modelSave = jest.fn();
@@ -45,8 +54,22 @@ describe("ModelEditIcons tests", () => {
             <ModelEditIcons modelSave={modelSave} model={model} modelDelete={modelDelete}
                             modelReset={modelReset}/>
         );
-        expect(input.find(Icon).length).toBe(1);
-        expect(input.find("#delete-model").length).toBe(1);
+        expect(input.find(Icon).length).toBe(3);
+        const saveIcon = input.find("#save-model");
+        const deleteIcon = input.find("#delete-model");
+        const resetIcon = input.find("#reset-model");
+        expect(saveIcon).toHaveLength(1);
+        expect(deleteIcon).toHaveLength(1);
+        expect(resetIcon).toHaveLength(1);
+        assertComponentHasExpectedProps(saveIcon, {
+            disabled: true,
+        });
+        assertComponentHasExpectedProps(resetIcon, {
+            disabled: true,
+        });
+        assertComponentHasExpectedProps(deleteIcon, {
+            disabled: false,
+        });
         input.find("#delete-model").at(0).simulate("click");
         expect(modelDelete.mock.calls.length).toBe(1);
     });
@@ -60,10 +83,22 @@ describe("ModelEditIcons tests", () => {
                             modelReset={modelReset}/>
         );
         expect(input.find(Icon).length).toBe(3);
-        expect(input.find("#save-model").length).toBe(1);
-        expect(input.find("#reset-model").length).toBe(1);
-        expect(input.find("#delete-model").length).toBe(1);
-        input.find("#save-model").at(0).simulate("click");
+        const saveIcon = input.find("#save-model");
+        const deleteIcon = input.find("#delete-model");
+        const resetIcon = input.find("#reset-model");
+        expect(saveIcon).toHaveLength(1);
+        expect(deleteIcon).toHaveLength(1);
+        expect(resetIcon).toHaveLength(1);
+        assertComponentHasExpectedProps(saveIcon, {
+            disabled: false,
+        });
+        assertComponentHasExpectedProps(resetIcon, {
+            disabled: false,
+        });
+        assertComponentHasExpectedProps(deleteIcon, {
+            disabled: false,
+        });
+        saveIcon.at(0).simulate("click");
         expect(modelSave.mock.calls.length).toBe(1);
     });
     it('shows the buttons when model with id, errors and changes are present', () => {
@@ -75,10 +110,22 @@ describe("ModelEditIcons tests", () => {
             <ModelEditIcons modelSave={modelSave} model={modelWithChangesAndErrors} modelDelete={modelDelete}
                             modelReset={modelReset}/>
         );
-        expect(input.find(Icon).length).toBe(2);
-        expect(input.find("#save-model").length).toBe(0);
-        expect(input.find("#reset-model").length).toBe(1);
-        expect(input.find("#delete-model").length).toBe(1);
+        expect(input.find(Icon).length).toBe(3);
+        const saveIcon = input.find("#save-model");
+        const deleteIcon = input.find("#delete-model");
+        const resetIcon = input.find("#reset-model");
+        expect(saveIcon).toHaveLength(1);
+        expect(deleteIcon).toHaveLength(1);
+        expect(resetIcon).toHaveLength(1);
+        assertComponentHasExpectedProps(saveIcon, {
+            disabled: true,
+        });
+        assertComponentHasExpectedProps(resetIcon, {
+            disabled: false,
+        });
+        assertComponentHasExpectedProps(deleteIcon, {
+            disabled: false,
+        });
     });
     it('shows the buttons when model no id and changes are present', () => {
         const modelSave = jest.fn();
@@ -90,9 +137,19 @@ describe("ModelEditIcons tests", () => {
                             modelReset={modelReset}/>
         );
         expect(input.find(Icon).length).toBe(2);
-        expect(input.find("#save-model").length).toBe(1);
-        expect(input.find("#reset-model").length).toBe(1);
-        input.find("#reset-model").at(0).simulate("click");
+        const saveIcon = input.find("#save-model");
+        const deleteIcon = input.find("#delete-model");
+        const resetIcon = input.find("#reset-model");
+        expect(saveIcon).toHaveLength(1);
+        expect(deleteIcon).toHaveLength(0);
+        expect(resetIcon).toHaveLength(1);
+        assertComponentHasExpectedProps(saveIcon, {
+            disabled: false,
+        });
+        assertComponentHasExpectedProps(resetIcon, {
+            disabled: false,
+        });
+        resetIcon.at(0).simulate("click");
         expect(modelReset.mock.calls.length).toBe(1);
     });
 

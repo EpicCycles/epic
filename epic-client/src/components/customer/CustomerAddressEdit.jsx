@@ -1,10 +1,10 @@
 import React from "react";
 import {createEmptyModelWithDefaultFields, getModelKey, updateModel} from "../app/model/helpers/model";
 import {customerAddressFields} from "../app/model/helpers/fields";
-import EditModelRow from "../app/model/EditModelRow";
 import * as PropTypes from "prop-types";
 import {isItAnObject} from "../../helpers/utils";
 import ModelEditIcons from "../app/model/ModelEditIcons";
+import EditModelPage from "../app/model/EditModelPage";
 
 const initialState = {};
 
@@ -21,9 +21,9 @@ class CustomerAddressEdit extends React.Component {
 
     deriveStateFromProps = () => {
         if (isItAnObject(this.props.customerAddress)) {
-           return {customerAddress: this.props.customerAddress};
+            return { customerAddress: this.props.customerAddress };
         } else {
-            let customerAddress =  createEmptyModelWithDefaultFields(customerAddressFields);
+            let customerAddress = createEmptyModelWithDefaultFields(customerAddressFields);
             customerAddress.customer = this.props.customerId;
             return { customerAddress }
         }
@@ -37,35 +37,39 @@ class CustomerAddressEdit extends React.Component {
     onClickReset = () => {
         this.setState(this.deriveStateFromProps());
     };
+
     render() {
         const { customerAddress } = this.state;
-        const {saveCustomerAddress, deleteCustomerAddress} = this.props;
+        const { saveCustomerAddress, deleteCustomerAddress } = this.props;
         const componentKey = getModelKey(customerAddress);
-        const rowClass = (customerAddress && customerAddress.error) ? "grid-row error" : "grid-row";
-        return <div className={rowClass} key={`row${componentKey}`}>
-            <EditModelRow
+        const rowClass = (customerAddress && customerAddress.error) && "error";
+        return <div
+            className={rowClass}
+            key={`row${componentKey}`}
+            title={customerAddress.error || ''}
+        >
+            <EditModelPage
                 model={customerAddress}
                 persistedModel={this.props.customerAddress}
                 modelFields={customerAddressFields}
                 onChange={this.handleInputChange}
             />
-            <div key={`date_${componentKey}`} className="grid-item">
-                {(customerAddress && customerAddress.add_date) ?
-                    <nobr id={`comment_td_${componentKey}`}>Added on {customerAddress.add_date.substring(0, 10)}, last updated on {customerAddress.upd_date.substring(0, 10)}</nobr>
-                    : <nobr id={`comment_td_${componentKey}`}>Add a new address</nobr>
-                }
+            {(customerAddress && customerAddress.add_date) && <div key={`date_${componentKey}`}>
+                Added on {customerAddress.add_date.substring(0, 10)}, updated
+                on {customerAddress.upd_date.substring(0, 10)}
             </div>
+            }
             <div
                 key={`actions_td_${componentKey}`}
-                className="grid-item align_center"
+                className="align_right"
             >
-                 <ModelEditIcons
-                     componentKey={componentKey}
-                     model={customerAddress}
-                     modelSave={saveCustomerAddress}
-                     modelDelete={deleteCustomerAddress}
-                     modelReset={this.onClickReset}
-                 />
+                <ModelEditIcons
+                    componentKey={componentKey}
+                    model={customerAddress}
+                    modelSave={saveCustomerAddress}
+                    modelDelete={deleteCustomerAddress}
+                    modelReset={this.onClickReset}
+                />
             </div>
         </div>;
     }

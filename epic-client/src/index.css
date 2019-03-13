@@ -405,6 +405,17 @@ fieldset {
     padding: 10px;
 }
 
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
 .grid {
     display: table-column;
     flex-wrap: nowrap;
@@ -463,14 +474,9 @@ fieldset {
 
 .grid-item {
     border: 1px solid gray;
-    padding: 2px;
-    font-size: 1rem;
-    font-weight: normal;
-    vertical-align: top;
-    display: table-cell;
 }
 
-.grid-item--borderless {
+.grid-item--borderless, .grid-item  {
     padding: 2px;
     font-size: 1rem;
     font-weight: normal;

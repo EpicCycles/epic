@@ -4,7 +4,13 @@ exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch cor
 <Fragment>
   <CustomerSearch
     isLoading={false}
-    searchParams={[Function]}
+    searchParams={
+      Object {
+        "email": "",
+        "firstName": "",
+        "lastName": "",
+      }
+    }
   />
   <div
     className="row align-left"
@@ -23,22 +29,21 @@ exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch cor
 <Fragment>
   <CustomerSearch
     isLoading={false}
-    searchParams={[Function]}
+    searchParams={
+      Object {
+        "email": "",
+        "firstName": "",
+        "lastName": "",
+      }
+    }
   />
   <div
     className="grid"
     key="customer-list-container"
-    style={
-      Object {
-        "height": "400px",
-        "width": "100%",
-      }
-    }
   >
     <CustomerListGridHeaders
       className=""
       includeActions={true}
-      lockFirstColumn={true}
     />
     <CustomerListGridRow
       customer={
@@ -53,7 +58,6 @@ exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch cor
       }
       getCustomer={[MockFunction]}
       key="cust-16"
-      lockFirstColumn={true}
     />
     <CustomerListGridRow
       customer={
@@ -67,7 +71,6 @@ exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch cor
       }
       getCustomer={[MockFunction]}
       key="cust-26"
-      lockFirstColumn={true}
     />
   </div>
   <div

@@ -8,17 +8,15 @@ import Pagination from "../../common/pagination";
 import CustomerAddLink from "./CustomerAddLink";
 
 const CustomerListAndSearch = (props) => {
-    const { addNewCustomer, getCustomerList, getCustomerListPage, getCustomer, isLoading, customers, count, next, previous } = props;
+    const { addNewCustomer, getCustomerList, getCustomerListPage, getCustomer, isLoading, customers, count, next, previous, searchParams } = props;
     return <Fragment>
         <CustomerSearch getCustomerList={getCustomerList} searchParams={searchParams} isLoading={isLoading}/>
         {count > 0 &&
         <div
             className="grid"
             key="customer-list-container"
-            style={{ width: '100%', height: '400px' }}
         >
             <CustomerListGridHeaders
-                lockFirstColumn={true}
                 includeActions={true}
             />
             {customers.map(customer =>
@@ -26,7 +24,6 @@ const CustomerListAndSearch = (props) => {
                     key={`cust-${customer.id}`}
                     customer={customer}
                     getCustomer={getCustomer}
-                    lockFirstColumn={true}
                 />
             )}
         </div>
@@ -57,8 +54,17 @@ CustomerListAndSearch.propTypes = {
     getCustomer: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
     customers: PropTypes.array,
-    count: PropTypes.number,
-    next: PropTypes.number,
-    previous: PropTypes.number,
+    count: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    next: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    previous: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
 };
 export default CustomerListAndSearch;

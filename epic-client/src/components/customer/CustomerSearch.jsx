@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button} from 'semantic-ui-react'
+import {Icon} from 'semantic-ui-react'
 import FormTextInput from "../../common/FormTextInput";
 import {updateObject, updateObjectWithSelectionChanges} from "../../helpers/utils";
 import * as PropTypes from "prop-types";
@@ -73,13 +73,14 @@ class CustomerSearch extends React.Component {
                     value={email}
                 />
                 <div>
-                    <Button
-                        type="submit"
+                    <Icon
+                        name="search"
                         disabled={isLoading}
-                    data-test="find-button"
-                    >
-                        Find Customers
-                    </Button>
+                        onClick={() => (!isLoading) && this.onSubmit()}
+                        title={`Run serearch`}
+                        data-test="find-button"
+
+                    />
                 </div>
             </div>
         </form>;

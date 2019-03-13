@@ -31,13 +31,8 @@ class CustomerAddressGrid extends React.Component {
             <h3>Customer Addresses</h3>
             <div
                 key='customerAddressGrid'
-                className="grid"
-                style={{
-                    height: (window.innerHeight * 0.4) + "px",
-                    width: (window.innerWidth - 200) + "px",
-                    overflow: "scroll"
-                }}
-            >
+                className="grid-3"
+             >
                 <CustomerAddressEdit
                     key={`editNewAddress${newAddressKey}`}
                     customerId={customerId}

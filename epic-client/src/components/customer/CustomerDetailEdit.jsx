@@ -49,11 +49,11 @@ class CustomerDetailEdit extends React.Component {
                 onChange={this.handleInputChange}
             />
             {add_date &&
-            <div className="row">
+            <div>
                 Added on {add_date.substring(0, 10)}, last updated on {upd_date.substring(0, 10)}
             </div>
             }
-            <div className="row align_right">
+            <div className="align_right">
                 <ModelEditIcons
                     componentKey={componentKey}
                     model={customer}
@@ -70,9 +70,8 @@ CustomerDetailEdit.defaultProps = {
     customer: {}
 };
 CustomerDetailEdit.propTypes = {
-    customer: PropTypes.array,
+    customer: PropTypes.object,
     createCustomer: PropTypes.func.isRequired,
-    removeCustomer: PropTypes.func.isRequired,
     deleteCustomer: PropTypes.func.isRequired,
     saveCustomer: PropTypes.func.isRequired,
     componentKey: PropTypes.oneOfType([
