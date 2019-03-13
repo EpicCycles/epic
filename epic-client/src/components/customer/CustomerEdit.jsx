@@ -10,7 +10,7 @@ import {
     matchesModel
 } from "../app/model/helpers/model";
 import CustomerPhoneGrid from "./CustomerPhoneGrid";
-import {customerAddressFields, customerNoteFields} from "../app/model/helpers/fields";
+import {customerNoteFields} from "../app/model/helpers/fields";
 
 class CustomerEdit extends React.Component {
     state = { note: createEmptyModelWithDefaultFields(customerNoteFields)};

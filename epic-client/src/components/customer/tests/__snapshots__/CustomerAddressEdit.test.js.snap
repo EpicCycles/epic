@@ -3,12 +3,14 @@
 exports[`CustomerAddressEdit renders correctly with a new customer address 1`] = `
 <div
   className="grid-row"
-  key="rownew"
+  key="rowdkfjghdkjgdskghkd"
 >
   <EditModelRow
     model={
       Object {
+        "country": "GB",
         "customer": 12,
+        "dummyKey": "dkfjghdkjgdskghkd",
       }
     }
     modelFields={
@@ -1062,23 +1064,25 @@ exports[`CustomerAddressEdit renders correctly with a new customer address 1`] =
   />
   <div
     className="grid-item"
-    key="date_new"
+    key="date_dkfjghdkjgdskghkd"
   >
     <nobr
-      id="comment_td_new"
+      id="comment_td_dkfjghdkjgdskghkd"
     >
       Add a new address
     </nobr>
   </div>
   <div
     className="grid-item align_center"
-    key="actions_td_new"
+    key="actions_td_dkfjghdkjgdskghkd"
   >
     <ModelEditIcons
-      componentKey="new"
+      componentKey="dkfjghdkjgdskghkd"
       model={
         Object {
+          "country": "GB",
           "customer": 12,
+          "dummyKey": "dkfjghdkjgdskghkd",
         }
       }
       modelDelete={[MockFunction]}

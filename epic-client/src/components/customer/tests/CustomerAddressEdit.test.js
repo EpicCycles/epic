@@ -6,7 +6,7 @@ import * as utils from '../../../helpers/utils';
 utils.generateRandomCode = jest.fn(() => 'dkfjghdkjgdskghkd');
 describe('CustomerAddressEdit', () => {
 
-     it("renders correctly with a passed customer address", () => {
+    it("renders correctly with a passed customer address", () => {
         const customerAddress = {
             id: 123,
             address1: "line one",
@@ -65,6 +65,7 @@ describe('CustomerAddressEdit', () => {
             address3: "line Three",
             address4: "line Four",
             postcode: "SY8 1EE",
+            country: "GB",
             customer: 6,
             error_detail: {},
             changed: true,
@@ -78,6 +79,7 @@ describe('CustomerAddressEdit', () => {
             address3: "line Three",
             address4: "line Four",
             postcode: "SY8 1EE",
+            country: "GB",
             customer: 6,
             error_detail: { address1: ADDRESS_MISSING, },
             changed: true,
@@ -109,6 +111,7 @@ describe('CustomerAddressEdit', () => {
             country: "GB",
             customer: 12,
             error_detail: {},
+            dummyKey: 'dkfjghdkjgdskghkd',
             changed: true,
         };
         expect(component.state('customerAddress')).toEqual(customerAddressUpdated);

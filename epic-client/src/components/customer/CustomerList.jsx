@@ -18,7 +18,7 @@ class CustomerList extends React.Component {
 
     render() {
         const { redirect } = this.state;
-        const { getCustomerList, getCustomerListPage, getCustomer, isLoading, customers, count, next, previous, searchParams } = this.props;
+        const { getCustomerList, getCustomerListPage, isLoading, customers, count, next, previous, searchParams } = this.props;
         if (redirect) return <Redirect to={redirect}/>;
 
         return (

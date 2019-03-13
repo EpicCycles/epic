@@ -1,15 +1,7 @@
-/*  Data format
-first_name(pin): 'Anna'
-last_name(pin): 'Weaver'
-email(pin): 'anna.weaver@johnlewis.co.uk'
-add_date(pin): '2018-07-04T13:02:09.988286+01:00'
-upd_date(pin): '2018-07-04T13:02:09.988343+01:00'
- */
 import React from "react";
 import * as PropTypes from "prop-types";
-import {Icon} from "semantic-ui-react";
 import {updateObject} from "../../helpers/utils";
-import {isModelValid, updateModel} from "../app/model/helpers/model";
+import {updateModel} from "../app/model/helpers/model";
 import {customerFields} from "../app/model/helpers/fields";
 import EditModelPage from "../app/model/EditModelPage";
 import ModelEditIcons from "../app/model/ModelEditIcons";

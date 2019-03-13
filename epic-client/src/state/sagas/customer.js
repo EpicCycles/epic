@@ -141,7 +141,7 @@ export function* deleteCustomer(action) {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
-            const response = yield call(api.deleteCustomer, completePayload);
+            yield call(api.deleteCustomer, completePayload);
             yield put(deleteCustomerSuccess(action.payload.customerId));
             yield call(history.push, "/");
         } else {

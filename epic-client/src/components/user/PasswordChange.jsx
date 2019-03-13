@@ -144,7 +144,7 @@ class PasswordChange extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        // title= <div id="message">
+                        <div id="message">
                             <h3>Password must contain the following:</h3>
                             <p id="letter" >A <b>lowercase</b> letter</p>
                             <p id="capital">A <b>capital (uppercase)</b> letter</p>
