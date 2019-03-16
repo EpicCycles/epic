@@ -30,8 +30,8 @@ const EditModelPageViewOnlyRow = (props) => {
                 />
             </div>
         </div>
-    }else{
-        return undefined;
+    } else {
+        return null;
     }
 };
 

@@ -36,7 +36,7 @@ exports[`NoteEdit tests renders the form text correctly with no note 1`] = `
     persistedModel={Object {}}
   />
   <div
-    className="row align_right"
+    className="align_right"
   >
     <ModelEditIcons
       componentKey="new"
@@ -97,7 +97,7 @@ exports[`NoteEdit tests renders the form text correctly with note 1`] = `
     }
   />
   <div
-    className="row align_right"
+    className="align_right"
   >
     <ModelEditIcons
       componentKey={23}

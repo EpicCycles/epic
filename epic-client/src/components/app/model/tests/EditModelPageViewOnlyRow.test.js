@@ -49,7 +49,7 @@ describe('EditModelPageViewOnlyRow', () => {
             index={12}
             componentKey={NEW_ELEMENT_ID}
         />);
-        expect(component).toBe(undefined);
+        expect(component.type()).toEqual(null);
     });
     test("should show a field when it is there", () => {
         const component = shallow(<EditModelPageViewOnlyRow
@@ -75,6 +75,6 @@ describe('EditModelPageViewOnlyRow', () => {
             sections={sections}
             brands={brands}
         />);
-        expect(component).toBe(undefined);
+        expect(component.type()).toEqual(null);
     });
 });

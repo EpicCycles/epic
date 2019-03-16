@@ -66,13 +66,8 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
         "upd_date": "2018-07-04T13:02:09.988343+01:00",
       }
     }
+    showReadOnlyFields={true}
   />
-  <div>
-    Added on 
-    2018-07-04
-    , last updated on 
-    2018-07-04
-  </div>
   <div
     className="align_right"
   >
@@ -143,6 +138,7 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
     }
     onChange={[Function]}
     persistedModel={Object {}}
+    showReadOnlyFields={true}
   />
   <div
     className="align_right"

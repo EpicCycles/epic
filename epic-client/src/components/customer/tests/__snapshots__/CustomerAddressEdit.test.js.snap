@@ -1061,6 +1061,7 @@ exports[`CustomerAddressEdit renders correctly with a new customer address 1`] =
     }
     onChange={[Function]}
     persistedModel={Object {}}
+    showReadOnlyFields={true}
   />
   <div
     className="align_right"
@@ -2158,6 +2159,7 @@ exports[`CustomerAddressEdit renders correctly with a passed customer address 1`
         "postcode": "xxxyyy",
       }
     }
+    showReadOnlyFields={true}
   />
   <div
     className="align_right"
