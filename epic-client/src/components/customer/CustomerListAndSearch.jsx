@@ -1,6 +1,5 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {searchParams} from "../../state/selectors/customer";
 import CustomerSearch from "./CustomerSearch";
 import CustomerListGridHeaders from "./CustomerListGridHeaders";
 import CustomerListGridRow from "./CustomerListGridRow";
@@ -52,6 +51,7 @@ CustomerListAndSearch.propTypes = {
     getCustomerList: PropTypes.func.isRequired,
     getCustomerListPage: PropTypes.func.isRequired,
     getCustomer: PropTypes.func.isRequired,
+    searchParams: PropTypes.object,
     isLoading: PropTypes.bool,
     customers: PropTypes.array,
     count: PropTypes.oneOfType([

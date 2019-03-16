@@ -165,6 +165,10 @@ section {
     flex-direction: row;
 }
 
+div.fit-content {
+    width: fit-content;
+}
+
 section.flex-vertical {
     display: flex;
     flex-direction: column;
@@ -406,14 +410,15 @@ fieldset {
 }
 
 .grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
 }
+
 .grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
 }
 
 .grid {
@@ -476,7 +481,7 @@ fieldset {
     border: 1px solid gray;
 }
 
-.grid-item--borderless, .grid-item  {
+.grid-item--borderless, .grid-item {
     padding: 2px;
     font-size: 1rem;
     font-weight: normal;
@@ -911,8 +916,9 @@ ui.toggle.checkbox input[type="radio"]:checked {
     margin: 0 -5px;
     padding: 0 20px;
 }
+
 .tabrow li:hover {
-     background-color: var(--col-gray);
+    background-color: var(--col-gray);
 }
 
 .tabrow li:before {
@@ -930,6 +936,7 @@ ui.toggle.checkbox input[type="radio"]:checked {
     background-color: #ffffff;
     border-bottom-color: #FFF;
 }
+
 .tabrow li.tabSelected:hover {
     background-color: #ffffff;
 }

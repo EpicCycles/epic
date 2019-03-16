@@ -39,16 +39,15 @@ class CustomerDetailEdit extends React.Component {
 
     render() {
         const { customer } = this.state;
-        const { add_date, upd_date } = customer;
         const { componentKey } = this.props;
-        return <div id="customer-detail">
+        return <div id="customer-detail" className="fit-content">
             <EditModelPage
                 model={customer}
                 persistedModel={this.props.customer}
                 modelFields={customerFields}
                 onChange={this.handleInputChange}
-                     showReadOnlyFields={true}
-       />
+                showReadOnlyFields={true}
+            />
             <div className="align_right">
                 <ModelEditIcons
                     componentKey={componentKey}

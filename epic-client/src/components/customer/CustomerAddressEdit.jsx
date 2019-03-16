@@ -16,7 +16,7 @@ class CustomerAddressEdit extends React.Component {
     };
 
     componentDidUpdate(prevProps) {
-        if (this.props.customerAddress !== prevProps.customerAddress) this.deriveStateFromProps();
+        if (this.props.customerAddress !== prevProps.customerAddress)  this.setState(this.deriveStateFromProps());
     }
 
     deriveStateFromProps = () => {
