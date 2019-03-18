@@ -2,6 +2,8 @@
 
 exports[`should render the component with default props 1`] = `
 <SelectInput
+  className=""
+  error=""
   fieldName="field"
   isEmptyAllowed={true}
   isMultiple={false}

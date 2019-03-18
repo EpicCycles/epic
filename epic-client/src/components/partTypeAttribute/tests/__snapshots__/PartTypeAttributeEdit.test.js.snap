@@ -51,7 +51,10 @@ exports[`PartTypeAttributeEdit tests renders the component correctly with a new 
        Type: 
     </label>
     <SelectInput
+      className=""
+      error=""
       fieldName="attribute_type_new"
+      multipleSize={1}
       onChange={[Function]}
       options={
         Array [
@@ -131,7 +134,10 @@ exports[`PartTypeAttributeEdit tests renders the component correctly with an att
        Type: 
     </label>
     <SelectInput
+      className=""
+      error=""
       fieldName="attribute_type_new"
+      multipleSize={1}
       onChange={[Function]}
       options={
         Array [

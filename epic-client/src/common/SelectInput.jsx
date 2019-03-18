@@ -1,24 +1,6 @@
 import React, {Component} from "react";
+import * as PropTypes from "prop-types";
 
-/**
- * DIsplay generic select boc
- * @param props
- *  className - string optional
- *  error - string optional
- *  title - string optional
- *  label - string optional
- *  fieldName - String required
- *  onChange - function from container component
- *  isMultiple - boolean optional
- *  multipleSize - optional integer number shown - not used if isMultiple is not true
- *  value - Array of Strings for selected values optional
- *  isEmptyAllowed - boolean optional
- *  options - array:
- *      value - String - value for database
- *      name - String - value to be selected, optional value will be used if none passed
- *      isDefault - boolean optional
- *
- */
 class SelectInput extends Component {
     buildOptions = (options, isEmptyAllowed, value) => {
         let displayOptions = [];
@@ -110,4 +92,44 @@ class SelectInput extends Component {
     };
 }
 
+/**
+ * DIsplay generic select boc
+ * @param props
+ *  className - string optional
+ *  error - string optional
+ *  title - string optional
+ *  label - string optional
+ *  fieldName - String required
+ *  onChange - function from container component
+ *  isMultiple - boolean optional
+ *  multipleSize - optional integer number shown - not used if isMultiple is not true
+ *  value - Array of Strings for selected values optional
+ *  isEmptyAllowed - boolean optional
+ *  options - array:
+ *      value - String - value for database
+ *      name - String - value to be selected, optional value will be used if none passed
+ *      isDefault - boolean optional
+ *
+ */
+SelectInput.defaultProps = {
+   className: '',
+   error: '',
+   multipleSize: 1,
+};
+SelectInput.propTypes = {
+    className: PropTypes.string,
+    error: PropTypes.string,
+    title: PropTypes.string,
+    label: PropTypes.string,
+    fieldName: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    isMultiple: PropTypes.bool,
+    multipleSize: PropTypes.number,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    isEmptyAllowed: PropTypes.bool,
+    options: PropTypes.array,
+};
 export default SelectInput;

@@ -47,9 +47,11 @@ exports[`displays correctly with a new part 1`] = `
     <div>
       <SelectInput
         className=""
+        error=""
         fieldName="includeInSection"
         isEmptyAllowed={true}
         label="Section"
+        multipleSize={1}
         onChange={[Function]}
         options={
           Array [
@@ -129,9 +131,11 @@ exports[`displays correctly with a partial new part 1`] = `
     <div>
       <SelectInput
         className=""
+        error=""
         fieldName="includeInSection"
         isEmptyAllowed={true}
         label="Section"
+        multipleSize={1}
         onChange={[Function]}
         options={
           Array [
@@ -216,9 +220,11 @@ exports[`error when no includeInSection 1`] = `
     <div>
       <SelectInput
         className=""
+        error=""
         fieldName="includeInSection"
         isEmptyAllowed={true}
         label="Section"
+        multipleSize={1}
         onChange={[Function]}
         options={
           Array [
@@ -306,9 +312,11 @@ exports[`error when no short name 1`] = `
     <div>
       <SelectInput
         className=""
+        error=""
         fieldName="includeInSection"
         isEmptyAllowed={true}
         label="Section"
+        multipleSize={1}
         onChange={[Function]}
         options={
           Array [

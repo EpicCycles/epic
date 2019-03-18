@@ -2,7 +2,7 @@
 
 exports[`it renders a multiple select array if one is passed 1`] = `
 <div
-  className="undefined"
+  className=""
   id="containermyField"
   key="containermyField"
   title=""
@@ -13,6 +13,7 @@ exports[`it renders a multiple select array if one is passed 1`] = `
     multiple={true}
     name="myField"
     onChange={[Function]}
+    size={1}
     value={Array []}
   >
     <option
@@ -49,7 +50,7 @@ exports[`it renders a multiple select array if one is passed 1`] = `
 
 exports[`it renders a multiple select array if one is passed with correct size 1`] = `
 <div
-  className="undefined"
+  className=""
   id="containermyField"
   key="containermyField"
   title=""
@@ -90,7 +91,7 @@ exports[`it renders a multiple select array if one is passed with correct size 1
 
 exports[`it renders an empty option if one is allowed 1`] = `
 <div
-  className="undefined"
+  className=""
   id="containermyField"
   key="containermyField"
   title=""
@@ -100,6 +101,7 @@ exports[`it renders an empty option if one is allowed 1`] = `
     key="myField"
     name="myField"
     onChange={[Function]}
+    size={1}
   >
     <option
       id="myField_"
@@ -132,6 +134,7 @@ exports[`it renders an error, title and a passed class 1`] = `
     multiple={false}
     name="myField"
     onChange={[Function]}
+    size={1}
     title="show a title"
     value="A"
   >
@@ -162,7 +165,7 @@ exports[`it renders an error, title and a passed class 1`] = `
 
 exports[`it renders the default value as selected if no value is passed 1`] = `
 <div
-  className="undefined"
+  className=""
   id="containermyField"
   key="containermyField"
   title=""
@@ -173,6 +176,7 @@ exports[`it renders the default value as selected if no value is passed 1`] = `
     multiple={false}
     name="myField"
     onChange={[Function]}
+    size={1}
     value="A"
   >
     <option
@@ -202,7 +206,7 @@ exports[`it renders the default value as selected if no value is passed 1`] = `
 
 exports[`it renders with minimum data 1`] = `
 <div
-  className="undefined"
+  className=""
   id="containermyField"
   key="containermyField"
   title=""
@@ -212,6 +216,7 @@ exports[`it renders with minimum data 1`] = `
     key="myField"
     name="myField"
     onChange={[Function]}
+    size={1}
   >
     <option
       id="myField_H"
@@ -226,7 +231,7 @@ exports[`it renders with minimum data 1`] = `
 
 exports[`it sets a value to selected if it is in the array of selected values - multiple select 1`] = `
 <div
-  className="undefined"
+  className=""
   id="containermyField"
   key="containermyField"
   title=""
@@ -237,6 +242,7 @@ exports[`it sets a value to selected if it is in the array of selected values - 
     multiple={true}
     name="myField"
     onChange={[Function]}
+    size={1}
     value="[1,3]"
   >
     <option
@@ -266,7 +272,7 @@ exports[`it sets a value to selected if it is in the array of selected values - 
 
 exports[`it sets a value to selected if it is in the array of selected values - single select 1`] = `
 <div
-  className="undefined"
+  className=""
   id="containermyField"
   key="containermyField"
   title=""
@@ -277,6 +283,7 @@ exports[`it sets a value to selected if it is in the array of selected values - 
     multiple={true}
     name="myField"
     onChange={[Function]}
+    size={1}
     value="[\\"A\\"]"
   >
     <option

@@ -2,6 +2,9 @@
 
 exports[`it renders with GB selected as a default 1`] = `
 <SelectInput
+  className=""
+  error=""
+  multipleSize={1}
   onChange={[MockFunction]}
   options={
     Array [
@@ -1009,6 +1012,9 @@ exports[`it renders with GB selected as a default 1`] = `
 
 exports[`it renders with country selected 1`] = `
 <SelectInput
+  className=""
+  error=""
+  multipleSize={1}
   onChange={[MockFunction]}
   options={
     Array [

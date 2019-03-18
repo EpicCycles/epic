@@ -2,6 +2,7 @@
 
 exports[`CustomerDetailEdit tests renders the form text correctly with customer 1`] = `
 <div
+  className="fit-content"
   id="customer-detail"
 >
   <EditModelPage
@@ -92,6 +93,7 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
 
 exports[`CustomerDetailEdit tests renders the form text correctly with no customer 1`] = `
 <div
+  className="fit-content"
   id="customer-detail"
 >
   <EditModelPage

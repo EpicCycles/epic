@@ -2,10 +2,12 @@
 
 exports[`component displays correctly with brands 1`] = `
 <SelectInput
+  className=""
   disabled={false}
   error=""
   fieldName="brand"
   isEmptyAllowed={false}
+  multipleSize={1}
   options={
     Array [
       Object {

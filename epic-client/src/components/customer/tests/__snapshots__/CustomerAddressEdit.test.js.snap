@@ -1057,6 +1057,18 @@ exports[`CustomerAddressEdit renders correctly with a new customer address 1`] =
             "country",
           ],
         },
+        Object {
+          "fieldName": "add_date",
+          "header": "Date Added",
+          "readOnly": true,
+          "type": "date_time",
+        },
+        Object {
+          "fieldName": "upd_date",
+          "header": "Date Updated",
+          "readOnly": true,
+          "type": "date_time",
+        },
       ]
     }
     onChange={[Function]}
@@ -2144,6 +2156,18 @@ exports[`CustomerAddressEdit renders correctly with a passed customer address 1`
           "validatorAdditionalFields": Array [
             "country",
           ],
+        },
+        Object {
+          "fieldName": "add_date",
+          "header": "Date Added",
+          "readOnly": true,
+          "type": "date_time",
+        },
+        Object {
+          "fieldName": "upd_date",
+          "header": "Date Updated",
+          "readOnly": true,
+          "type": "date_time",
         },
       ]
     }

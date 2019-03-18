@@ -2,10 +2,12 @@
 
 exports[`it displays correctly 1`] = `
 <SelectInput
+  className=""
   disabled={false}
   error=""
   fieldName="name_of_field"
   isEmptyAllowed={false}
+  multipleSize={1}
   options={
     Array [
       Object {
