@@ -2,6 +2,7 @@ import React from 'react'
 import TabbedView from "../../common/TabbedView";
 import * as PropTypes from "prop-types";
 import {doWeHaveObjects} from "../../helpers/utils";
+import QuoteCustomer from "./QuoteCustomer";
 
 const tabs = [
     "Customer",
@@ -43,12 +44,57 @@ class QuoteManager extends React.Component {
 
     render() {
         const { tab } = this.state;
-        return <div>
+        const {
+            getCustomer,
+            getCustomerList,
+            getCustomerListPage,
+            isLoading,
+            customers,
+            customerId,
+            addresses,
+            phones,
+            count,
+            next,
+            previous,
+            searchParams,
+            deleteCustomer,
+            deleteNote,
+            saveNote,
+            createNote,
+            deleteCustomerPhone, saveCustomerPhone,
+            saveCustomerAddress, deleteCustomerAddress,
+            saveCustomer, createCustomer
+        } = this.props;
+        return <div className='page-content'>
             <TabbedView tabs={tabs} changeTab={this.changeCurrentTab} currentTab={tab}/>
-            {(tab === 0) && <h1 data-test="customer-tab">Customer</h1>}
-            {(tab === 1) && <h1 data-test="bike-tab">Customer</h1>}
-            {(tab === 2) && <h1 data-test="quote-list-tab">Customer</h1>}
-            {(tab === 3) && <h1 data-test="quote-detail-tab">Customer</h1>}
+            {(tab === 0) && <QuoteCustomer
+                getCustomerList={getCustomerList}
+                getCustomerListPage={getCustomerListPage}
+                getCustomer={getCustomer}
+                searchParams={searchParams}
+                isLoading={isLoading}
+                customers={customers}
+                count={count}
+                next={next}
+                previous={previous}
+                addresses={addresses}
+                phones={phones}
+                deleteCustomer={deleteCustomer}
+                customerId={customerId}
+                deleteNote={deleteNote}
+                saveNote={saveNote}
+                createNote={createNote}
+                deleteCustomerPhone={deleteCustomerPhone}
+                saveCustomerPhone={saveCustomerPhone}
+                saveCustomerAddress={saveCustomerAddress}
+                deleteCustomerAddress={deleteCustomerAddress}
+                saveCustomer={saveCustomer}
+                createCustomer={createCustomer}
+                data-test="customer-tab"
+            />}
+            {(tab === 1) && <h1 data-test="bike-tab">Bike</h1>}
+            {(tab === 2) && <h1 data-test="quote-list-tab">QUote List</h1>}
+            {(tab === 3) && <h1 data-test="quote-detail-tab">Quote detail</h1>}
         </div>
     };
 }
@@ -59,6 +105,8 @@ QuoteManager.defaultProps = {
     suppliers: [],
     frames: [],
     customers: [],
+    addresses: [],
+    phones: [],
     customer: {},
     notes: [],
     parts: [],
@@ -80,6 +128,24 @@ QuoteManager.propTypes = {
     frames: PropTypes.array,
     customers: PropTypes.array,
     searchParams: PropTypes.object,
+    count: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    next: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    previous: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    customerId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+    addresses: PropTypes.array,
+    phones: PropTypes.array,
     notes: PropTypes.array,
     customer: PropTypes.object,
     quotes: PropTypes.array,
@@ -96,10 +162,8 @@ QuoteManager.propTypes = {
     createCustomer: PropTypes.func.isRequired,
     saveCustomer: PropTypes.func.isRequired,
     deleteCustomer: PropTypes.func.isRequired,
-    removeCustomer: PropTypes.func.isRequired,
     createNote: PropTypes.func.isRequired,
     saveNote: PropTypes.func.isRequired,
-    removeNote: PropTypes.func.isRequired,
     deleteNote: PropTypes.func.isRequired,
     saveCustomerPhone: PropTypes.func.isRequired,
     deleteCustomerPhone: PropTypes.func.isRequired,

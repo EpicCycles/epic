@@ -35,7 +35,7 @@ class CustomerEdit extends React.Component {
         const { note } = this.state;
         const {
             addresses, phones, notes, quotes, customers,
-            deleteCustomer, removeCustomer,
+            deleteCustomer,
             isLoading, customerId,
             deleteNote,
             deleteCustomerPhone, saveCustomerPhone,
@@ -53,7 +53,6 @@ class CustomerEdit extends React.Component {
                         customer={customer}
                         saveCustomer={saveCustomer}
                         createCustomer={createCustomer}
-                        removeCustomer={removeCustomer}
                         deleteCustomer={deleteCustomer}
                         componentKey={customer_key}
                         key={`detail${customer_key}`}
