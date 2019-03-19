@@ -1,8 +1,8 @@
 import BrandSelect from "../brand/BrandSelect";
 import FormTextInput from "../../common/FormTextInput";
-import {Button} from "semantic-ui-react";
 import * as PropTypes from "prop-types";
 import React, {Fragment} from "react";
+import SearchButton from "../../common/SearchButton";
 
 const BikeSearch = (props) => {
     return <div className="row vertical-middle">
@@ -37,12 +37,12 @@ const BikeSearch = (props) => {
             />
         </Fragment>
         }
-        <Button
+        <SearchButton
             onClick={props.getFrameList}
             disabled={!props.brandSelected}
-        >
-            Find Bikes
-        </Button>
+            title={'find matching bikes'}
+            data-test="search"
+        />
     </div>;
 };
 BikeSearch.defaultProps = {

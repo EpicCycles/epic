@@ -2,6 +2,9 @@
 
 exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch correctly 1`] = `
 <Fragment>
+  <h2>
+    Find Customer
+  </h2>
   <CustomerSearch
     isLoading={false}
     searchParams={
@@ -27,6 +30,9 @@ exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch cor
 
 exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch correctly when there are customers 1`] = `
 <Fragment>
+  <h2>
+    Find Customer
+  </h2>
   <CustomerSearch
     isLoading={false}
     searchParams={

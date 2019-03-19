@@ -9,6 +9,7 @@ import CustomerAddLink from "./CustomerAddLink";
 const CustomerListAndSearch = (props) => {
     const { addNewCustomer, getCustomerList, getCustomerListPage, getCustomer, isLoading, customers, count, next, previous, searchParams } = props;
     return <Fragment>
+        <h2>Find Customer</h2>
         <CustomerSearch getCustomerList={getCustomerList} searchParams={searchParams} isLoading={isLoading}/>
         {count > 0 &&
         <div

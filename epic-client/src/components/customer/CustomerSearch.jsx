@@ -1,8 +1,8 @@
 import React from 'react'
-import {Icon} from 'semantic-ui-react'
 import FormTextInput from "../../common/FormTextInput";
 import {updateObject, updateObjectWithSelectionChanges} from "../../helpers/utils";
 import * as PropTypes from "prop-types";
+import SearchButton from "../../common/SearchButton";
 
 
 class CustomerSearch extends React.Component {
@@ -37,7 +37,6 @@ class CustomerSearch extends React.Component {
         const { firstName, lastName, email } = this.state;
         const { isLoading } = this.props;
         return <form onSubmit={this.onSubmit} data-test="search-form">
-            <h2>Find Customer</h2>
             <div className="row vertical-middle">
                 <div>First name like:</div>
                 <FormTextInput
@@ -72,16 +71,12 @@ class CustomerSearch extends React.Component {
                     onClick={this.handleInputClear}
                     value={email}
                 />
-                <div>
-                    <Icon
-                        name="search"
-                        disabled={isLoading}
-                        onClick={() => (!isLoading) && this.onSubmit()}
-                        title={`Run serearch`}
-                        data-test="find-button"
-
-                    />
-                </div>
+                <SearchButton
+                    onClick={this.onSubmit}
+                    title={`Find matching customers`}
+                    data-test="find-button"
+                    disabled={isLoading}
+                />
             </div>
         </form>;
 

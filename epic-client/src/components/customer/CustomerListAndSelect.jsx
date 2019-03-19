@@ -15,6 +15,7 @@ const CustomerListAndSelect = (props) => {
         }
     }) : [];
     return <Fragment>
+        <h2>Select Customer</h2>
         <CustomerSearch
             getCustomerList={getCustomerList}
             searchParams={searchParams}
@@ -32,14 +33,14 @@ const CustomerListAndSelect = (props) => {
         }
         <div className="row align-left">
             {count === 0 &&
-                <div data-test="start-message">
-                    No Customer to show, set new criteria and search, or
-                </div>
+            <div data-test="start-message">
+                No Customer to show, set new criteria and search, or
+            </div>
             }
             {next &&
-                <div data-test="search-message">
-                    Not all customers matching are shown, refine criteria and search, or
-                </div>
+            <div data-test="search-message">
+                Not all customers matching are shown, refine criteria and search, or
+            </div>
             }
             <CustomerAddLink addNewCustomer={addNewCustomer}/>
         </div>

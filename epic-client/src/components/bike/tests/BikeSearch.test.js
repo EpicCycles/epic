@@ -12,6 +12,7 @@ describe('BikeSearch', () => {
             brands={sampleBrands}
         />);
         expect(component.find('BrandSelect')).toHaveLength(1);
+        expect(findDataTest(component, 'search')).toHaveLength(1);
         expect(findDataTest(component, 'frame-name')).toHaveLength(1);
         assertComponentHasExpectedProps(component.find('BrandSelect'), {
             value: '',
@@ -32,6 +33,7 @@ describe('BikeSearch', () => {
             canSelectArchived={true}
         />);
         expect(component.find('BrandSelect')).toHaveLength(1);
+        expect(findDataTest(component, 'search')).toHaveLength(1);
         expect(component.find('FormTextInput')).toHaveLength(1);
         expect(findDataTest(component, 'archived-checkbox')).toHaveLength(1);
     });
@@ -47,6 +49,7 @@ describe('BikeSearch', () => {
             archved={true}
         />);
         expect(component.find('BrandSelect')).toHaveLength(1);
+        expect(findDataTest(component, 'search')).toHaveLength(1);
         expect(component.find('FormTextInput')).toHaveLength(1);
         expect(findDataTest(component, 'archived-checkbox')).toHaveLength(1);
         assertComponentHasExpectedProps(component.find('BrandSelect'), {
@@ -84,11 +87,11 @@ describe('BikeSearch', () => {
             expect(onChange.mock.calls.length).toBe(1);
         });
         it('should call onchange when frameName is changed', () => {
-           findDataTest(component, "frame-name").simulate("change");
+            findDataTest(component, "frame-name").simulate("change");
             expect(onChange.mock.calls.length).toBe(1);
         });
         it('should call onchange when archived is changed', () => {
-           findDataTest(component, "archived-checkbox").simulate("change");
+            findDataTest(component, "archived-checkbox").simulate("change");
             expect(onChange.mock.calls.length).toBe(1);
             expect(onChange).toBeCalledWith('archived', true);
         });
