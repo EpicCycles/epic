@@ -130,6 +130,6 @@ SelectInput.propTypes = {
         PropTypes.number,
     ]),
     isEmptyAllowed: PropTypes.bool,
-    options: PropTypes.array,
+    options: PropTypes.array.isRequired,
 };
 export default SelectInput;
