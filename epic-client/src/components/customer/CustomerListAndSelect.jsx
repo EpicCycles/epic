@@ -7,7 +7,7 @@ import {buildCustomerString} from "./helpers/customer";
 import SelectInput from "../../common/SelectInput";
 
 const CustomerListAndSelect = (props) => {
-    const { addNewCustomer, getCustomerList, selectCustomer, isLoading, customers, count, next, searchParams, customerId } = props;
+    const { addNewCustomer, getCustomerList, selectCustomer, isLoading, customers, count, next, searchParams, selectedCustomer } = props;
     const customerOptions = customers ? customers.map(customer => {
         return {
             value: String(getModelKey(customer)),
@@ -15,7 +15,7 @@ const CustomerListAndSelect = (props) => {
         }
     }) : [];
     return <Fragment>
-        <h2>Select Customer</h2>
+        <h2 data-test="list-and-search-heading">Select Customer</h2>
         <CustomerSearch
             getCustomerList={getCustomerList}
             searchParams={searchParams}
@@ -26,9 +26,10 @@ const CustomerListAndSelect = (props) => {
             title={'Select Customer'}
             label={'Select Customer'}
             onChange={selectCustomer}
-            value={customerId}
+            value={selectedCustomer}
             options={customerOptions}
             data-test="customer-block"
+            fieldName='selectedCustomer'
         />
         }
         <div className="row align-left">
@@ -65,7 +66,7 @@ CustomerListAndSelect.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
-    customerId: PropTypes.oneOfType([
+    selectedCustomer: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
     ]),
