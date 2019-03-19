@@ -62,10 +62,9 @@ class SelectInput extends Component {
         const selectedValue = this.findSelectedOptions(options, value, isMultiple);
 
         return <div
-            id={"container" + fieldName}
-            key={"container" + fieldName}
+            key={'select-container' + fieldName}
             className={className + (error ? " error" : "")}
-            title={error || ""}
+            title={error}
         >
             {label && <label>{label}</label>}
             <select
@@ -92,25 +91,6 @@ class SelectInput extends Component {
     };
 }
 
-/**
- * DIsplay generic select boc
- * @param props
- *  className - string optional
- *  error - string optional
- *  title - string optional
- *  label - string optional
- *  fieldName - String required
- *  onChange - function from container component
- *  isMultiple - boolean optional
- *  multipleSize - optional integer number shown - not used if isMultiple is not true
- *  value - Array of Strings for selected values optional
- *  isEmptyAllowed - boolean optional
- *  options - array:
- *      value - String - value for database
- *      name - String - value to be selected, optional value will be used if none passed
- *      isDefault - boolean optional
- *
- */
 SelectInput.defaultProps = {
    className: '',
    error: '',

@@ -3,8 +3,7 @@
 exports[`it renders a multiple select array if one is passed 1`] = `
 <div
   className=""
-  id="containermyField"
-  key="containermyField"
+  key="select-containermyField"
   title=""
 >
   <select
@@ -51,8 +50,7 @@ exports[`it renders a multiple select array if one is passed 1`] = `
 exports[`it renders a multiple select array if one is passed with correct size 1`] = `
 <div
   className=""
-  id="containermyField"
-  key="containermyField"
+  key="select-containermyField"
   title=""
 >
   <select
@@ -92,8 +90,7 @@ exports[`it renders a multiple select array if one is passed with correct size 1
 exports[`it renders an empty option if one is allowed 1`] = `
 <div
   className=""
-  id="containermyField"
-  key="containermyField"
+  key="select-containermyField"
   title=""
 >
   <select
@@ -124,8 +121,7 @@ exports[`it renders an empty option if one is allowed 1`] = `
 exports[`it renders an error, title and a passed class 1`] = `
 <div
   className="pink error"
-  id="containermyField"
-  key="containermyField"
+  key="select-containermyField"
   title="show an error"
 >
   <select
@@ -166,8 +162,7 @@ exports[`it renders an error, title and a passed class 1`] = `
 exports[`it renders the default value as selected if no value is passed 1`] = `
 <div
   className=""
-  id="containermyField"
-  key="containermyField"
+  key="select-containermyField"
   title=""
 >
   <select
@@ -207,8 +202,7 @@ exports[`it renders the default value as selected if no value is passed 1`] = `
 exports[`it renders with minimum data 1`] = `
 <div
   className=""
-  id="containermyField"
-  key="containermyField"
+  key="select-containermyField"
   title=""
 >
   <select
@@ -232,8 +226,7 @@ exports[`it renders with minimum data 1`] = `
 exports[`it sets a value to selected if it is in the array of selected values - multiple select 1`] = `
 <div
   className=""
-  id="containermyField"
-  key="containermyField"
+  key="select-containermyField"
   title=""
 >
   <select
@@ -273,8 +266,7 @@ exports[`it sets a value to selected if it is in the array of selected values - 
 exports[`it sets a value to selected if it is in the array of selected values - single select 1`] = `
 <div
   className=""
-  id="containermyField"
-  key="containermyField"
+  key="select-containermyField"
   title=""
 >
   <select
