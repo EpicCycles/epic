@@ -5,47 +5,45 @@ import * as PropTypes from "prop-types";
 import React, {Fragment} from "react";
 
 const BikeSearch = (props) => {
-    return <Fragment>
-        <div className="row vertical-middle">
-            <div className="field-label">Brand:</div>
-            <BrandSelect
-                brands={props.brands}
-                fieldName="brand"
-                onChange={props.onChange}
-                brandSelected={props.brandSelected}
-                isEmptyAllowed={true}
-                bikeOnly={true}
+    return <div className="row vertical-middle">
+        <div className="field-label">Brand:</div>
+        <BrandSelect
+            brands={props.brands}
+            fieldName="brand"
+            onChange={props.onChange}
+            brandSelected={props.brandSelected}
+            isEmptyAllowed={true}
+            bikeOnly={true}
+        />
+        <div className="field-label">Frame Name like:</div>
+        <FormTextInput
+            placeholder="Frame Name"
+            id="frame-name-input"
+            className="column "
+            fieldName="frameName"
+            onChange={props.onChange}
+            onClick={props.onClick}
+            value={props.frameName}
+            data-test="frame-name"
+        />
+        {props.canSelectArchived &&
+        <Fragment>
+            <div className="field-label">Include archived frames:</div>
+            <input type="checkbox"
+                   name="archived"
+                   onChange={() => props.onChange('archived', !props.archived)}
+                   checked={props.archived ? props.archived : false}
+                   data-test="archived-checkbox"
             />
-            <div className="field-label">Frame Name like:</div>
-            <FormTextInput
-                placeholder="Frame Name"
-                id="frame-name-input"
-                className="column "
-                fieldName="frameName"
-                onChange={props.onChange}
-                onClick={props.onClick}
-                value={props.frameName}
-                data-test="frame-name"
-            />
-            {props.canSelectArchived &&
-            <Fragment>
-                <div className="field-label">Include archived frames:</div>
-                <input type="checkbox"
-                       name="archived"
-                       onChange={() => props.onChange('archived', !props.archived)}
-                       checked={props.archived ? props.archived : false}
-                       data-test="archived-checkbox"
-                />
-            </Fragment>
-            }
-            <Button
-                onClick={props.getFrameList}
-                disabled={!props.brandSelected}
-            >
-                Find Bikes
-            </Button>
-        </div>
-    </Fragment>;
+        </Fragment>
+        }
+        <Button
+            onClick={props.getFrameList}
+            disabled={!props.brandSelected}
+        >
+            Find Bikes
+        </Button>
+    </div>;
 };
 BikeSearch.defaultProps = {
     brands: [],

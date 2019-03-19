@@ -14,16 +14,6 @@ class BikeReviewList extends React.Component {
         bikeReviewList: [],
         bikeDeleteList: []
     };
-
-    constructor(props) {
-        super();
-        if (!(props.brands && props.brands.length > 0)) {
-            if (!props.isLoading) {
-                props.getBrands();
-            }
-        }
-    }
-
     handleInputChange = (fieldName, input) => {
         let newState = updateObject(this.state);
         newState[fieldName] = input;
@@ -31,9 +21,6 @@ class BikeReviewList extends React.Component {
     };
     handleInputClear = (fieldName) => {
         removeKey(this.state, fieldName);
-    };
-    changeArchivedSelected = () => {
-        this.handleInputChange("archived", !this.state.archived);
     };
     buildSearchCriteria = () => {
         const { brand, frameName, archived } = this.state;
@@ -54,7 +41,6 @@ class BikeReviewList extends React.Component {
         this.setState(newState);
         this.props.clearFrame();
     };
-
     changeFrameArchiveList = (frameId) => {
         let newState = updateObject(
             this.state,
@@ -62,7 +48,6 @@ class BikeReviewList extends React.Component {
         );
         this.setState(newState);
     };
-
     changeFrameDeleteList = (frameId) => {
         let newState = updateObject(
             this.state,
@@ -92,7 +77,6 @@ class BikeReviewList extends React.Component {
         };
         this.props.saveFrame(frame, this.buildSearchCriteria());
     };
-
     archiveFrames = () => {
         this.props.archiveFrames(this.state.frameArchiveList, this.buildSearchCriteria());
         let newState = updateObject(
@@ -101,7 +85,6 @@ class BikeReviewList extends React.Component {
         );
         this.setState(newState);
     };
-
     deleteFrames = () => {
         this.props.deleteFrames(this.state.frameDeleteList, this.buildSearchCriteria());
         let newState = updateObject(
@@ -110,7 +93,6 @@ class BikeReviewList extends React.Component {
         );
         this.setState(newState);
     };
-
     reviewAll = () => {
         const { frames } = this.props;
         const nonArchivedFrames = frames ? frames.filter(frame => (!frame.archived)) : [];
@@ -148,7 +130,6 @@ class BikeReviewList extends React.Component {
         this.props.reviewBikes(bikeReviewList, this.buildSearchCriteria());
         return true;
     };
-
     deleteBikes = () => {
         this.props.deleteBikes(this.state.bikeDeleteList, this.buildSearchCriteria());
         let newState = updateObject(
@@ -157,11 +138,20 @@ class BikeReviewList extends React.Component {
         );
         this.setState(newState);
     };
-
     classWhenOnList = (checkList, checkItem, className = "red") => {
         if (checkList.includes(checkItem)) return className;
         return ""
     };
+
+    constructor(props) {
+        super();
+        if (!(props.brands && props.brands.length > 0)) {
+            if (!props.isLoading) {
+                props.getBrands();
+            }
+        }
+    }
+
     render() {
         const { reviewFirstBike, brand, frameName, archived, frameArchiveList, bikeReviewList, bikeDeleteList, frameDeleteList } = this.state;
         const { isLoading, brands, frames, bikes } = this.props;
@@ -177,7 +167,6 @@ class BikeReviewList extends React.Component {
                     brandSelected={brand}
                     onClick={this.handleInputClear}
                     frameName={frameName}
-                    changeArchivedSelected={this.changeArchivedSelected}
                     archived={archived}
                     getFrameList={this.getFrameList}/>
                 :
