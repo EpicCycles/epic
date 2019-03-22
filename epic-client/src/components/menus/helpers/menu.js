@@ -19,7 +19,7 @@ export const menuStructure = [
                 groupHeader: "Quotes",
                 groupPos: 20,
                 groupLinks: [
-                    {displayText: "Quote manager", linkRoute: "/quote", linkNumber: 201},
+                    {displayText: "New Quote", linkRoute: "/quote-create", linkNumber: 201},
                 ]
             },
         ]

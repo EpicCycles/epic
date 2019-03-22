@@ -5,6 +5,7 @@ import {getBrandName} from "../../brand/helpers/brand";
 import {getPartTypeName} from "../../framework/helpers/framework";
 import {getSupplierName} from "../../supplier/helpers/supplier";
 import {getCountryName} from "../../address/helpers/address";
+import {formattedDate} from "./helpers/display";
 
 class ViewModelField extends Component {
 
@@ -23,7 +24,7 @@ class ViewModelField extends Component {
                 viewData = fieldValue ? "Y" : "N";
                 break;
             case DATE_TIME:
-                viewData = fieldValue ? new Date(fieldValue).toLocaleString('en-GB', { timeZone: 'UTC' }) : "";
+                viewData = fieldValue ? formattedDate(new Date(fieldValue)) : "";
                 break;
             case PART_TYPE:
                 viewData = getPartTypeName(fieldValue, sections);
