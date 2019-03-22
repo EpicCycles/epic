@@ -23,22 +23,6 @@ class Customer(models.Model):
     add_date = models.DateTimeField('Date Added', auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
 
-    def save(self, *args, **kwargs):
-        # validate data.
-        if self.first_name is None or self.first_name == '':
-            raise ValueError('Missing first name')
-        if self.last_name is None or self.last_name == '':
-            raise ValueError('Missing last name')
-        if self.email and not self.email == '':
-            if not is_valid_email(self.email):
-                raise ValueError('Invalid email', self.email)
-
-        if Customer.objects.filter(first_name=self.first_name,
-                                   last_name=self.last_name, email=self.email).exclude(id=self.id).exists():
-            raise ValueError('Customer with these values already exists')
-
-        super(Customer, self).save(*args, **kwargs)
-
     def __str__(self):
         display_value = f'{self.first_name} {self.last_name}'
         if self.email:
@@ -56,25 +40,12 @@ class CustomerPhone(models.Model):
     customer = models.ForeignKey(Customer, related_name='phones', on_delete=models.CASCADE)
     number_type = models.CharField(max_length=1, choices=NUMBER_TYPE_CHOICES, default=HOME, )
     telephone = models.CharField(max_length=60)
+    preferred = models.BooleanField(default=False)
     add_date = models.DateTimeField('date added', auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
 
     def __str__(self):
         return f'{dict(NUMBER_TYPE_CHOICES).get(self.number_type)} {self.telephone}'
-
-    def save(self, *args, **kwargs):
-        if self.number_type is None or self.number_type == '':
-            raise ValueError('Missing number type')
-        if self.telephone is None or self.telephone == '':
-            raise ValueError('Missing telephone')
-        if self.number_type not in [HOME, WORK, MOBILE]:
-            raise ValueError('Number type must be Home, Work or Mobile')
-
-        if CustomerPhone.objects.filter(customer=self.customer,
-                                        telephone__upper=self.telephone).exclude(id=self.id).exists():
-            raise ValueError('Customer with these values already exists')
-
-        super(CustomerPhone, self).save(*args, **kwargs)
 
 
 class CustomerAddress(models.Model):
@@ -85,19 +56,20 @@ class CustomerAddress(models.Model):
     address4 = models.CharField(max_length=200, blank=True)
     postcode = models.CharField(max_length=20, blank=True)
     country = models.CharField(max_length=2, default='GB')
+    billing = models.BooleanField(default=False)
     add_date = models.DateTimeField('date added', auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
 
     def __str__(self):
-        returnAddress = self.address1
+        return_address = self.address1
         if self.address2:
-            returnAddress += f', {self.address2}'
+            return_address += f', {self.address2}'
         if self.address3:
-            returnAddress += f', {self.address3}'
+            return_address += f', {self.address3}'
         if self.address4:
-            returnAddress += f', {self.address4}'
-        returnAddress += f', {self.postcode}'
-        return returnAddress
+            return_address += f', {self.address4}'
+        return_address += f', {self.postcode}'
+        return return_address
 
     def save(self, *args, **kwargs):
         if self.address1 is None or self.address1 == '':

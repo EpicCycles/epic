@@ -13,33 +13,44 @@ class CustomerPhoneList(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CustomerPhoneSerializer
 
-    def get(self, request, format=None):
+    def get_queryset(self):
+        customer_id = self.request.query_params.get('customer_id', None)
+        return customer_phone_data(customer_id)
+
+    def get(self, request):
         """
         Returns a JSON response with a listing of course objects
         """
-        customerId = self.request.query_params.get('customerId', None)
-        return Response(customerPhoneData(customerId))
+        customer_id = self.request.query_params.get('customer_id', None)
+        return Response(self.get_queryset())
 
-    def post(self, request, format=None):
+    def post(self, request):
         serializer = CustomerPhoneSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            customerId = serializer.data['customer']
-            return Response(customerPhoneData(customerId), status=status.HTTP_201_CREATED)
+            customer_phone = serializer.save()
+            one_preferred_phone(customer_phone)
+            customer_id = serializer.data['customer']
+            return Response(customer_phone_data(customer_id), status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def customerPhoneData(customerId):
-    customerPhones = CustomerPhone.objects.filter(customer=customerId)
-    serializer = CustomerPhoneSerializer(customerPhones, many=True)
+def customer_phone_data(customer_id):
+    customer_phones = CustomerPhone.objects.filter(customer=customer_id)
+    serializer = CustomerPhoneSerializer(customer_phones, many=True)
     return serializer.data
+
+
+def one_preferred_phone(phone):
+    if phone.preferred:
+        CustomerPhone.objects.filter(customer=phone.customer) \
+            .exclude(id=phone.id).update(preferred=False)
 
 
 class CustomerPhoneMaintain(generics.GenericAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    # serializer_class = CustomerPhoneSerializer
+    serializer_class = CustomerPhoneSerializer
 
     def get_object(self, pk):
         try:
@@ -47,22 +58,23 @@ class CustomerPhoneMaintain(generics.GenericAPIView):
         except CustomerPhone.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
-        customerPhone = self.get_object(pk)
-        serializer = CustomerPhoneSerializer(customerPhone)
+    def get(self, request, pk):
+        customer_phone = self.get_object(pk)
+        serializer = CustomerPhoneSerializer(customer_phone)
         return Response(serializer.data)
 
-    def post(self, request, pk, format=None):
-        customerPhone = self.get_object(pk)
-        customerId = customerPhone.customer
-        serializer = CustomerPhoneSerializer(customerPhone, data=request.data)
+    def post(self, request, pk):
+        customer_phone = self.get_object(pk)
+        customer_id = customer_phone.customer
+        serializer = CustomerPhoneSerializer(customer_phone, data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(customerPhoneData(customerId))
+            customer_phone = serializer.save()
+            one_preferred_phone(customer_phone)
+            return Response(customer_phone_data(customer_id))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        customerPhone = self.get_object(pk)
-        customerId = customerPhone.customer
-        customerPhone.delete()
-        return Response(customerPhoneData(customerId))
+    def delete(self, request, pk):
+        customer_phone = self.get_object(pk)
+        customer_id = customer_phone.customer
+        customer_phone.delete()
+        return Response(customer_phone_data(customer_id))

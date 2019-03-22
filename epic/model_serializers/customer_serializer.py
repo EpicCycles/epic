@@ -1,7 +1,6 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from rest_framework import serializers
-from epic.model_serializers.note_serializer import CustomerNoteSerializer
-from epic.model_serializers.quote_serializer import QuoteSerializer
+from rest_framework.validators import UniqueTogetherValidator
 
 from epic.models.customer_models import *
 
@@ -10,8 +9,30 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = '__all__'
+        # Customer first name last name and email must not be repeated in same comboination.
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Customer.objects.all(),
+                fields=('first_name', 'last_name', 'email')
+            )
+        ]
 
-    def validate_email(self, value):
+    @staticmethod
+    def validate_first_name(value):
+        if value:
+            return value
+
+        raise serializers.ValidationError("First name must be provided")
+
+    @staticmethod
+    def validate_last_name(value):
+        if value:
+            return value
+
+        raise serializers.ValidationError("Last name must be provided")
+
+    @staticmethod
+    def validate_email(value):
         if value and not is_valid_email(value):
             raise serializers.ValidationError("Invalid Email")
         return value
@@ -30,29 +51,59 @@ class PaginatedCustomerSerializer():
         count = paginator.count
 
         previous = '' if not customers.has_previous() else customers.previous_page_number()
-        next = '' if not customers.has_next() else customers.next_page_number()
+        next_page = '' if not customers.has_next() else customers.next_page_number()
         serializer = CustomerSerializer(customers, many=True)
         self.data = {'count': count, 'previous': previous,
-                     'next': next, 'customers': serializer.data}
+                     'next': next_page, 'customers': serializer.data}
 
 
 class CustomerPhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerPhone
         fields = '__all__'
+        validators = [
+            UniqueTogetherValidator(
+                queryset=CustomerPhone.objects.all(),
+                fields=('customer', 'telephone'),
+                message='This phone number is already in use for the same customer'
+            )
+        ]
+
+    @staticmethod
+    def validate_number_type(value):
+        if value:
+            if value not in [HOME, WORK, MOBILE]:
+                raise serializers.ValidationError('Number type must be Home, Work or Mobile')
+            return value
+        raise serializers.ValidationError("Number Type must be given")
+
+    @staticmethod
+    def validate_telephone(value):
+        if value:
+            return value
+        raise serializers.ValidationError("Phone number must be given")
 
 
 class CustomerAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerAddress
         fields = '__all__'
+        validators = [
+            UniqueTogetherValidator(
+                queryset=CustomerPhone.objects.all(),
+                fields=('customer', 'address1', 'postcode'),
+                message='This address is already in use for the customer'
+            )
+        ]
 
-    def validate_address1(self, value):
+    @staticmethod
+    def validate_address1(value):
         if value:
             return value
         raise serializers.ValidationError("Missing Address 1")
 
-    def validate_postcode(self, value):
+    @staticmethod
+    def validate_postcode(value):
         if value:
             return value
         raise serializers.ValidationError("Missing postcode")
@@ -63,21 +114,25 @@ class FittingSerializer(serializers.ModelSerializer):
         model = Fitting
         fields = '__all__'
 
-    def validate_fitting_type(self, value):
+    @staticmethod
+    def validate_fitting_type(value):
         if value:
             return value
         raise serializers.ValidationError("Missing fitting_type")
 
+    @staticmethod
     def validate_saddle_height(self, value):
         if value:
             return value
         raise serializers.ValidationError("Missing saddle_height")
 
+    @staticmethod
     def validate_saddle_height(self, value):
         if value:
             return value
         raise serializers.ValidationError("Missing saddle_height")
 
+    @staticmethod
     def validate_reach(self, value):
         if value:
             return value

@@ -16,7 +16,7 @@ class QuotesApi(generics.ListCreateAPIView):
     serializer_class = QuoteSerializer
     
     def get_queryset(self):
-        search_customer = self.request.query_params.get('partType', None)
+        search_customer = self.request.query_params.get('customer', None)
         search_brand = self.request.query_params.get('brand', None)
         search_name = self.request.query_params.get('frameName', None)
         search_bike = self.request.query_params.get('bike', None)
@@ -48,3 +48,48 @@ class QuotesApi(generics.ListCreateAPIView):
         quotes = self.get_queryset()
         quote_serializer = QuoteSerializer(quotes, many=True)
         return Response(quote_serializer.data)
+
+    def post(self, request):
+        serializer = QuoteSerializer(data=request.data)
+        if serializer.is_valid():
+            quote = serializer.save()
+            customer = quote.customer
+            return Response(quoteData(quote))
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def quoteData(quote):
+    pass
+
+
+class QuoteMaintain(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    # serializer_class = QuoteSerializer
+
+    def get_object(self, pk):
+        try:
+            return Quote.objects.get(pk=pk)
+        except Quote.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        quote = self.get_object(pk)
+        serializer = QuoteSerializer(quote)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        quote = self.get_object(pk)
+        serializer = QuoteSerializer(quote, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(quoteData(quote))
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        quote = self.get_object(pk)
+        customerId = quote.customer.id
+        quote.delete()
+        return Response(quoteData(customerId))

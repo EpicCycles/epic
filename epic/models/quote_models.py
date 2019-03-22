@@ -1,20 +1,17 @@
-from decimal import Decimal
-
 from django.conf import settings
-from django.db import models, IntegrityError
+from django.db import models
 from django.db.models import CharField, TextField
 from django.utils import timezone
 
 from epic.model_helpers.lookup_helpers import UpperCase
-from epic.models.bike_models import Frame, Bike
-from epic.models.brand_models import Brand, Part
+from epic.models.bike_models import Bike
+from epic.models.brand_models import Part
 from epic.models.customer_models import Customer, Fitting
 from epic.models.framework_models import PartType, PartTypeAttribute
 
 CharField.register_lookup(UpperCase)
 TextField.register_lookup(UpperCase)
-BIKE = 'B'
-PART = 'P'
+
 INITIAL = '1'
 ISSUED = '2'
 ARCHIVED = '3'
@@ -25,7 +22,7 @@ QUOTE_STATUS_CHOICES = ((INITIAL, 'New'), (ISSUED, 'Issued'), (ARCHIVED, 'Archiv
 
 class Quote(models.Model):
     customer = models.ForeignKey(Customer, related_name='quotes', on_delete=models.CASCADE)
-    quote_desc = models.CharField(max_length=60)
+    quote_desc = models.CharField(max_length=120)
     version = models.PositiveSmallIntegerField(default=1, editable=False)
     created_date = models.DateTimeField(auto_now_add=True)
     issued_date = models.DateTimeField(null=True)

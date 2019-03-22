@@ -53,7 +53,6 @@ CustomerListAndSelect.defaultProps = {
 CustomerListAndSelect.propTypes = {
     addNewCustomer: PropTypes.func.isRequired,
     getCustomerList: PropTypes.func.isRequired,
-    getCustomerListPage: PropTypes.func.isRequired,
     selectCustomer: PropTypes.func.isRequired,
     searchParams: PropTypes.object,
     isLoading: PropTypes.bool,

@@ -13,42 +13,42 @@ class CustomerAddressList(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = CustomerAddressSerializer
 
-    def get(self, request, format=None):
+    def get(self, request):
         """
         Returns a JSON response with a listing of course objects
         """
-        customerId = self.request.query_params.get('customerId', None)
-        return Response(customerAddressData(customerId))
+        customer_id = self.request.query_params.get('customer_id', None)
+        return Response(customer_address_data(customer_id))
 
-    def post(self, request, format=None):
+    def post(self, request):
         post_data = request.data
-        customer = post_data.get('customer', None)
-        address1 = post_data.get('address1', None)
-        postcode = post_data.get('postcode', None)
-        existing_address = CustomerAddress.objects.filter(customer__id=customer, address1__upper=address1,
-                                                          postcode__upper=postcode).first()
-        if existing_address:
-            return Response(request.data, status=status.HTTP_409_CONFLICT)
 
         serializer = CustomerAddressSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            customerId = serializer.data['customer']
-            return Response(customerAddressData(customerId), status=status.HTTP_201_CREATED)
+            updated_address = serializer.save()
+            one_billing_address(updated_address)
+            customer_id = serializer.data['customer']
+            return Response(customer_address_data(customer_id), status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def customerAddressData(customerId):
-    customerAddresses = CustomerAddress.objects.filter(customer__pk=customerId)
-    serializer = CustomerAddressSerializer(customerAddresses, many=True)
+def customer_address_data(customer_id):
+    customer_addresses = CustomerAddress.objects.filter(customer__pk=customer_id)
+    serializer = CustomerAddressSerializer(customer_addresses, many=True)
     return serializer.data
+
+
+def one_billing_address(address):
+    if address.billing:
+        CustomerAddress.objects.filter(customer=address.customer)\
+            .exclude(id=address.id).update(billing=False)
 
 
 class CustomerAddressMaintain(generics.GenericAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
-    # serializer_class = CustomerAddressSerializer
+    serializer_class = CustomerAddressSerializer
 
     def get_object(self, pk):
         try:
@@ -56,22 +56,24 @@ class CustomerAddressMaintain(generics.GenericAPIView):
         except CustomerAddress.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
-        customerAddress = self.get_object(pk)
-        serializer = CustomerAddressSerializer(customerAddress)
+    def get(self, request, pk):
+        customer_address = self.get_object(pk)
+        serializer = CustomerAddressSerializer(customer_address)
         return Response(serializer.data)
 
-    def post(self, request, pk, format=None):
-        customerAddress = self.get_object(pk)
-        customerId = customerAddress.customer.id
-        serializer = CustomerAddressSerializer(customerAddress, data=request.data)
+    def post(self, request, pk):
+        customer_address = self.get_object(pk)
+        customer_id = customer_address.customer.id
+        serializer = CustomerAddressSerializer(customer_address, data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(customerAddressData(customerId))
+            new_address = serializer.save()
+            one_billing_address(new_address)
+
+            return Response(customer_address_data(customer_id))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        customerAddress = self.get_object(pk)
-        customerId = customerAddress.customer.id
-        customerAddress.delete()
-        return Response(customerAddressData(customerId))
+    def delete(self, request, pk):
+        customer_address = self.get_object(pk)
+        customer_id = customer_address.customer.id
+        customer_address.delete()
+        return Response(customer_address_data(customer_id))
