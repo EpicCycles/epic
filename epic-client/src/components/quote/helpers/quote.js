@@ -29,9 +29,9 @@ export const recalculatePrices = (quote, quote_parts = [], bike = {}) => {
     let club_price = 0;
 
     if (quote.bike) {
-        rrp += bike.rrp || 0;
-        epic_price += bike.epic_price || bike.rrp || 0;
-        club_price +=  bike.club_price || bike.epic_price || bike.rrp || 0;
+        rrp = bike.rrp || 0;
+        epic_price = bike.epic_price || bike.rrp || 0;
+        club_price =  bike.club_price || bike.epic_price || bike.rrp || 0;
     }
 
     quote_parts.forEach(quote_part => {
