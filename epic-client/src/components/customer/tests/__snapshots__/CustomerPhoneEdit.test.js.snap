@@ -46,6 +46,17 @@ exports[`CustomerPhoneEdit displays a passed customerPhone object correctly 1`] 
           "type": "text",
         },
         Object {
+          "fieldName": "preferred",
+          "header": "Preferred",
+          "type": "checkbox",
+        },
+        Object {
+          "fieldName": "add_date",
+          "header": "Date Added",
+          "readOnly": true,
+          "type": "date_time",
+        },
+        Object {
           "fieldName": "upd_date",
           "header": "Date Updated",
           "readOnly": true,
@@ -127,6 +138,17 @@ exports[`CustomerPhoneEdit displays a passed customerPhone object correctly when
           "length": 60,
           "required": true,
           "type": "text",
+        },
+        Object {
+          "fieldName": "preferred",
+          "header": "Preferred",
+          "type": "checkbox",
+        },
+        Object {
+          "fieldName": "add_date",
+          "header": "Date Added",
+          "readOnly": true,
+          "type": "date_time",
         },
         Object {
           "fieldName": "upd_date",

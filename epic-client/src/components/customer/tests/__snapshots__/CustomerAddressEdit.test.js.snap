@@ -1058,6 +1058,11 @@ exports[`CustomerAddressEdit renders correctly with a new customer address 1`] =
           ],
         },
         Object {
+          "fieldName": "billing",
+          "header": "Billing Address",
+          "type": "checkbox",
+        },
+        Object {
           "fieldName": "add_date",
           "header": "Date Added",
           "readOnly": true,
@@ -2156,6 +2161,11 @@ exports[`CustomerAddressEdit renders correctly with a passed customer address 1`
           "validatorAdditionalFields": Array [
             "country",
           ],
+        },
+        Object {
+          "fieldName": "billing",
+          "header": "Billing Address",
+          "type": "checkbox",
         },
         Object {
           "fieldName": "add_date",

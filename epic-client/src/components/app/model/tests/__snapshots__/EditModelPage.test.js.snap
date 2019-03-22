@@ -1104,6 +1104,20 @@ exports[`it renders 1`] = `
       model={Object {}}
       onChange={[MockFunction]}
     />
+    <EditModelPageRow
+      componentKey="new"
+      field={
+        Object {
+          "fieldName": "billing",
+          "header": "Billing Address",
+          "type": "checkbox",
+        }
+      }
+      index={6}
+      key="EditModelPageRowbilling"
+      model={Object {}}
+      onChange={[MockFunction]}
+    />
   </div>
 </div>
 `;
@@ -2640,6 +2654,103 @@ exports[`it renders with data 1`] = `
       }
       index={5}
       key="EditModelPageRowpostcode"
+      model={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      onChange={[MockFunction]}
+      persistedModel={
+        Object {
+          "address1": "line one",
+          "address2": "line Ywo",
+          "address3": "line Three",
+          "address4": "line Four",
+          "customer": 6,
+          "id": 123,
+          "postcode": "xxxyyy",
+        }
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "partTypes": Array [
+              Object {
+                "id": 11,
+                "name": "id 11",
+              },
+              Object {
+                "id": 21,
+                "name": "id 11",
+              },
+            ],
+          },
+          Object {
+            "id": 2,
+            "partTypes": Array [
+              Object {
+                "id": 2,
+                "name": "find me",
+              },
+              Object {
+                "id": 22,
+                "name": "id 11",
+              },
+            ],
+          },
+        ]
+      }
+      suppliers={
+        Array [
+          Object {
+            "id": 1,
+            "supplier_name": "id is 1",
+          },
+          Object {
+            "id": 2,
+            "supplier_name": "find me",
+          },
+          Object {
+            "id": 3,
+            "supplier_name": "id is 3",
+          },
+        ]
+      }
+    />
+    <EditModelPageRow
+      brands={
+        Array [
+          Object {
+            "brand_name": "id is 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "find me",
+            "id": 2,
+          },
+          Object {
+            "brand_name": "id is 3",
+            "id": 3,
+          },
+        ]
+      }
+      componentKey={123}
+      field={
+        Object {
+          "fieldName": "billing",
+          "header": "Billing Address",
+          "type": "checkbox",
+        }
+      }
+      index={6}
+      key="EditModelPageRowbilling"
       model={
         Object {
           "address1": "line one",

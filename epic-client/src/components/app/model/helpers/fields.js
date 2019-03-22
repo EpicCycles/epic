@@ -45,6 +45,7 @@ export const ATTRIBUTE_VALUE = "attribute_value";
 export const OPTION_NAME = "option_name";
 export const BAR_HEIGHT = "bar_height";
 export const BIKE = "bike_name";
+export const BILLING = "billing";
 export const BIKE_PRICE = "bike_price";
 export const BIKE_BRAND = "bike_brand";
 export const BRAND = "brand";
@@ -86,6 +87,7 @@ export const PART = "part";
 export const PART_NAME = "part_name";
 export const PART_TYPE = "partType";
 export const POSTCODE = "postcode";
+export const PREFERRED = "preferred";
 export const PREFERRED_SUPPLIER = "preferred_supplier";
 export const PRODUCT_CODE = "product_code";
 export const PRODUCTS = "products";
@@ -198,6 +200,11 @@ export const BIKE_FIELD = {
     header: "Bike",
     readOnly: true,
     type: TEXT
+};
+export const BILLING_FIELD = {
+    fieldName: BILLING,
+    header: "Billing Address",
+    type: CHECKBOX
 };
 export const BIKE_PRICE_FIELD = {
     fieldName: BIKE_PRICE,
@@ -443,6 +450,11 @@ export const MODEL_NAME_FIELD = {
     type: TEXT,
     length: 100
 };
+export const PREFERRED_FIELD = {
+    fieldName: PREFERRED,
+    type: CHECKBOX,
+    header: "Preferred",
+};
 export const PREFERRED_SUPPLIER_FIELD = {
     fieldName: PREFERRED_SUPPLIER,
     type: CHECKBOX,
@@ -655,11 +667,12 @@ export const customerAddressFields = [
     ADDRESS4_FIELD,
     COUNTRY_FIELD,
     POSTCODE_FIELD,
+    BILLING_FIELD,
     ADD_DATE_FIELD,
     UPD_DATE_FIELD
 ];
 
-export const customerPhoneFields = [NUMBER_TYPE_FIELD, TELEPHONE_FIELD, UPD_DATE_FIELD];
+export const customerPhoneFields = [NUMBER_TYPE_FIELD, TELEPHONE_FIELD, PREFERRED_FIELD, ADD_DATE_FIELD, UPD_DATE_FIELD];
 export const customerNoteFields = [NOTE_TEXT_FIELD, CUSTOMER_VISIBLE_FIELD, CREATED_DATE_FIELD, CREATED_BY_FIELD];
 export const frameFields = [BRAND, FRAME_NAME];
 export const fittingFields = [

@@ -8,12 +8,13 @@ import BikeListAndSelect from "../bike/BikeListAndSelect";
 import {bikeFullName} from "../bike/helpers/bike";
 import {recalculatePrices} from "./helpers/quote";
 
-class QuoteCreate extends React.Component {
-    state = {
+const initialState = {
         brand: '',
         frameName: '',
         archived: false,
     };
+class QuoteCreate extends React.Component {
+    state = initialState;
 
     componentDidMount() {
         this.setState(updateObject(initialState, {
