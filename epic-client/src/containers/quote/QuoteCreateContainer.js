@@ -10,9 +10,9 @@ import {
     saveCustomer, saveCustomerAddress, saveCustomerPhone
 } from "../../state/actions/customer";
 import {createNote, deleteNote, saveNote} from "../../state/actions/note";
-import QuoteManager from "../../components/quote/QuoteManager";
 import {listParts} from "../../state/actions/part";
 import QuoteCreate from "../../components/quote/QuoteCreate";
+import {createQuote} from "../../state/actions/quote";
 
 const mapStateToProps = ({ bike, core, customer, framework, note, part, quote }) => {
     return {
@@ -27,7 +27,6 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
     customers: customer.customers,
     next: customer.next,
     previous: customer.previous,
-    isLoading: customer.isLoading,
     searchParams: customer.searchParams,
         customerId: customer.customerId,
         notes: note.notes,
@@ -39,18 +38,8 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
 };
 
 const mapDispatchToProps = {
-    getBrandsAndSuppliers,
-    saveBrands,
-    getFramework,
     getFrameList,
-    listParts,
     getCustomerList,
-    getCustomerListPage,
-    getCustomer,
-    clearCustomerState,
-    createCustomer, saveCustomer, deleteCustomer,
-    createNote, saveNote, deleteNote,
-    saveCustomerPhone, deleteCustomerPhone,
-    saveCustomerAddress, deleteCustomerAddress
+    createQuote,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(QuoteCreate)

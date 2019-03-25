@@ -1,37 +1,33 @@
 import {ADD_MESSAGE, CLEAR_ALL_STATE, REMOVE_MESSAGE} from "../actions/application";
 import {
-    CUSTOMER_ADDRESS_DELETE, CUSTOMER_ADDRESS_SAVE,
+    CUSTOMER_ADDRESS_DELETE,
+    CUSTOMER_ADDRESS_SAVE,
     CUSTOMER_CREATE,
     CUSTOMER_DELETE,
     CUSTOMER_LIST,
-    CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE, CUSTOMER_SAVE,
+    CUSTOMER_PHONE_DELETE,
+    CUSTOMER_PHONE_SAVE,
+    CUSTOMER_SAVE,
 } from "../actions/customer";
-import {
-    NOTE_CREATE,
-    NOTE_DELETE,
-    NOTE_LIST,
-    NOTE_REMOVE,
-    NOTE_SAVE
-} from "../actions/note";
-import {
-    CHANGE_PASSWORD, CHANGE_USER_DATA,
-    USER_LOGIN,
-    USER_LOGOUT,
-} from "../actions/user";
+import {NOTE_CREATE, NOTE_DELETE, NOTE_LIST, NOTE_REMOVE, NOTE_SAVE} from "../actions/note";
+import {CHANGE_PASSWORD, CHANGE_USER_DATA, USER_LOGIN, USER_LOGOUT,} from "../actions/user";
 import {FRAMEWORK, FRAMEWORK_SAVE} from "../actions/framework";
 import {BRANDS_SAVE} from "../actions/core";
 import {
-    GET_BIKE,
-    GET_BIKE_PARTS,
     BIKE_ADD_PART,
     BIKE_DELETE,
     BIKE_PART_DELETE,
+    BIKE_PART_SAVE,
+    BIKE_SAVE,
     FRAME_ARCHIVE,
     FRAME_SAVE,
-    FRAME_UPLOAD, BIKE_PART_SAVE, BIKE_SAVE,
+    FRAME_UPLOAD,
+    GET_BIKE,
+    GET_BIKE_PARTS,
 } from "../actions/bike";
 import {PART_UPLOAD} from "../actions/part";
 import {CUSTOMER} from "../../components/app/model/helpers/fields";
+import {CREATE_QUOTE} from "../actions/quote";
 
 const initialState = {
     message: "",
@@ -45,6 +41,7 @@ const application = (state = initialState, action) => {
         case `${FRAME_SAVE}_OK`:
         case `${BIKE_PART_SAVE}_OK`:
         case `${BIKE_SAVE}_OK`:
+        case  `${CREATE_QUOTE}_OK`:
             return {
                 ...state,
                 message: "Changes saved",
@@ -146,6 +143,7 @@ const application = (state = initialState, action) => {
         case `${BIKE_PART_SAVE}_ERROR`:
         case `${BIKE_SAVE}_ERROR`:
         case `${PART_UPLOAD}_ERROR`:
+        case  `${CREATE_QUOTE}_ERROR`:
             return {
                 ...state,
                 message: action.payload,

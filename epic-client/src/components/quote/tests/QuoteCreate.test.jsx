@@ -8,22 +8,6 @@ const RealDate = Date;
 
 describe('QuoteCreate', () => {
 
-    beforeEach(() => {
-        global.Date = class extends RealDate {
-            constructor() {
-                super();
-                return new RealDate(isoDate)
-            }
-            toLocaleString() {
-                return super.toLocaleString('en-GB')
-            }
-        }
-    });
-
-    afterEach(() => {
-        global.Date = RealDate;
-    });
-
     it('should render with find customer and find bike components', () => {
         const component = shallow(<QuoteCreate
             getCustomerList={jest.fn()}

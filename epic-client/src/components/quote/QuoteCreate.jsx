@@ -5,9 +5,7 @@ import {findObjectWithId, removeKey, updateObject} from "../../helpers/utils";
 import * as PropTypes from "prop-types";
 import CustomerListAndSelect from "../customer/CustomerListAndSelect";
 import BikeListAndSelect from "../bike/BikeListAndSelect";
-import {bikeFullName} from "../bike/helpers/bike";
 import {quoteDescription, recalculatePrices} from "./helpers/quote";
-import {formattedDate} from "../app/model/helpers/display";
 
 const initialState = {
         brand: '',
