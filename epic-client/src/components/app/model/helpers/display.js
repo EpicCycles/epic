@@ -15,6 +15,6 @@ export const gridItemClass = (baseClassName = "", fieldIndex, firstColumnLocked)
     return `${baseClassName} grid-item ${fixedDetailsClassname(shouldLock)}`;
 };
 export const formattedDate = date => {
-    if (date) return date.toLocaleString('en-GB', { timeZone: 'UTC' });
+    if (date) return date.toLocaleString('en-GB');
     return "";
 };

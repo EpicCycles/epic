@@ -52,7 +52,7 @@ export const sampleBikes =  [
         "colours": "anthracite/black/lime",
         "rrp": null,
         "epic_price": null,
-        "club_price": "2249.00",
+        "club_price": 2249.00,
         "sizes": null,
         "frame": 14
     },
@@ -64,7 +64,7 @@ export const sampleBikes =  [
         "colours": "anthracite/black/lime",
         "rrp": null,
         "epic_price": null,
-        "club_price": "2249.00",
+        "club_price": 2249.00,
         "sizes": null,
         "frame": 14
     },
@@ -76,7 +76,7 @@ export const sampleBikes =  [
         "colours": "black/blue/white matt",
         "rrp": null,
         "epic_price": null,
-        "club_price": "2549.00",
+        "club_price": 2549.00,
         "sizes": null,
         "frame": 14
     },
