@@ -1,4 +1,4 @@
-import {getQuoteStatus} from "../helpers/quote";
+import {getQuoteStatus} from "../quote";
 
 test('found value returned', () => {
     expect(getQuoteStatus(2)).toEqual('Issued');

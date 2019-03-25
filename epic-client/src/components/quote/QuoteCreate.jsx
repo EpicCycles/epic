@@ -6,7 +6,8 @@ import * as PropTypes from "prop-types";
 import CustomerListAndSelect from "../customer/CustomerListAndSelect";
 import BikeListAndSelect from "../bike/BikeListAndSelect";
 import {bikeFullName} from "../bike/helpers/bike";
-import {recalculatePrices} from "./helpers/quote";
+import {quoteDescription, recalculatePrices} from "./helpers/quote";
+import {formattedDate} from "../app/model/helpers/display";
 
 const initialState = {
         brand: '',
@@ -46,23 +47,21 @@ class QuoteCreate extends React.Component {
     buildQuote = () => {
         const customer = this.state.selectedCustomer;
         const bike = this.state.selectedBike;
-        let quote = { customer, bike };
-        let quote_desc;
+        let quote = this.quoteStart(customer, bike);
+        this.props.createQuote(quote);
+        this.setState({ redirect: '/quote' })
+    };
+
+    quoteStart(customer, bike) {
+        const quote_desc = quoteDescription(bike, this.props.frames, this.props.bikes, this.props.brands);
+        let quote = { customer, bike, quote_desc };
         let bikeObject;
         if (bike) {
             bikeObject = findObjectWithId(this.props.bikes, bike);
         }
-        if (bikeObject) {
-            quote_desc = bikeFullName(bikeObject, this.props.frames, this.props.brands);
-        } else {
-            quote_desc = 'Parts only'
-        }
-        quote_desc += ` ${Date.now().toUTCString()}`;
-        quote.quote_desc = quote_desc;
         quote = recalculatePrices(quote, [], bikeObject);
-        this.props.createQuote(quote);
-        this.setState({ redirect: '/quote-create' })
-    };
+        return quote;
+    }
 
     render() {
         const { redirect } = this.state;
@@ -83,6 +82,7 @@ class QuoteCreate extends React.Component {
                     count={count}
                     next={next}
                     selectedCustomer={selectedCustomer}
+                    data-test="select-customer"
                 />
                 <BikeListAndSelect
                     onChange={this.handleInputChange}
@@ -96,10 +96,12 @@ class QuoteCreate extends React.Component {
                     canSelectArchived={true}
                     archived={archived}
                     selectedBike={selectedBike}
-                />
+                                  data-test="select-bike"
+  />
                 <Button
                     disabled={!selectedCustomer}
                     onClick={this.buildQuote}
+                    data-test="create-button"
                 >
                     Create Quote
                 </Button>

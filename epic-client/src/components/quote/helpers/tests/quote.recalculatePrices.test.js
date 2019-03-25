@@ -1,4 +1,4 @@
-import {recalculatePrices} from "../helpers/quote";
+import {recalculatePrices} from "../quote";
 
 const quoteItemAllPricesSingle = {
     part: 24,

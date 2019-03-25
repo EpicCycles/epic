@@ -1,4 +1,4 @@
-import {canBeReIssued} from "../helpers/quote";
+import {canBeReIssued} from "../quote";
 
 test('can not be reIssued', () => {
     const quote = {

@@ -1,6 +1,8 @@
 import {getNameForValue} from "../../app/model/helpers/model";
 import {completeQuotePart} from "../../quotePart/helpers/quotePart";
-import {updateObject} from "../../../helpers/utils";
+import {findObjectWithId, updateObject} from "../../../helpers/utils";
+import {formattedDate} from "../../app/model/helpers/display";
+import {bikeFullName} from "../../bike/helpers/bike";
 
 export const QUOTE_STATUS_CHOICES = [
     { value: 1, name: 'New' },
@@ -47,4 +49,18 @@ export const recalculatePrices = (quote, quote_parts = [], bike = {}) => {
         }
     });
     return updateObject(quote, { rrp, epic_price, club_price });
+};
+
+export const quoteDescription = (bike, frames, bikes, brands) => {
+    let quote_desc;
+    let bikeObject;
+    if (bike) {
+        bikeObject = findObjectWithId(bikes, bike);
+    }
+    if (bikeObject) {
+        quote_desc = bikeFullName(bikeObject, frames, brands);
+    } else {
+        quote_desc = 'Parts only'
+    }
+    return `${quote_desc} - ${formattedDate(new Date())}`;
 };

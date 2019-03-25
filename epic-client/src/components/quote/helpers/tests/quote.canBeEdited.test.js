@@ -1,4 +1,4 @@
-import {canBeEdited} from "../helpers/quote";
+import {canBeEdited} from "../quote";
 
 test('can be edited', () => {
     const quote = {

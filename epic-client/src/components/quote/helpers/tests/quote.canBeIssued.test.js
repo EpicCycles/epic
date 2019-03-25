@@ -1,4 +1,4 @@
-import {canBeIssued} from "../helpers/quote";
+import {canBeIssued} from "../quote";
 
 const sections = [
       {
