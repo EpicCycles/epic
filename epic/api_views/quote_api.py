@@ -1,7 +1,6 @@
 from django.http import Http404
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -16,8 +15,8 @@ from epic.models.quote_models import Quote, QuotePart
 
 
 class QuotesApi(generics.ListCreateAPIView):
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = QuoteSerializer
     
     def get_queryset(self):
@@ -68,8 +67,10 @@ class QuotesApi(generics.ListCreateAPIView):
 
 
 def quote_data(quote=None, customer=None):
+    quote_id = None
     if quote:
         customer = quote.customer
+        quote_id = quote.id
 
     quotes = Quote.objects.filter(customer=customer, quote_status__in=[1, 2, 4])
     quote_bike_ids = quotes.values_list('bike__id', flat=True)
@@ -94,7 +95,8 @@ def quote_data(quote=None, customer=None):
     supplier_product_list = SupplierProduct.objects.filter(part__in=parts_from_bikes)
     supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
 
-    return {'quotes': quote_serializer.data,
+    return {'quoteId': quote_id,
+            'quotes': quote_serializer.data,
             'quoteParts': quote_part_serializer.data,
             'bikes': bike_serializer.data,
             'parts': part_serializer.data,
@@ -103,8 +105,8 @@ def quote_data(quote=None, customer=None):
 
 
 class QuoteMaintain(generics.GenericAPIView):
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
 
     serializer_class = QuoteSerializer
 
@@ -132,9 +134,20 @@ class QuoteMaintain(generics.GenericAPIView):
         quote.delete()
         return Response(quote_data(None, customer))
 
-    # @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
-    @action(detail=True, methods=['post'])
-    def copy(self, request, pk):
+
+class QuoteCopy(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    serializer_class = QuoteSerializer
+
+    def get_object(self, pk):
+        try:
+            return Quote.objects.get(id=pk)
+        except Quote.DoesNotExist:
+            raise Http404
+
+    def post(self, request, pk):
         quote = self.get_object(pk)
         customer_id = self.request.query_params.get('customer', None)
         bike_id = self.request.query_params.get('bike', None)
@@ -148,5 +161,5 @@ class QuoteMaintain(generics.GenericAPIView):
             bike = Bike.objects.get(id=bike_id)
         
         new_quote = copy_quote_with_changes(quote, request, quote_desc, bike, customer)
-        return Response(quote_data(quote))
+        return Response(quote_data(new_quote))
 

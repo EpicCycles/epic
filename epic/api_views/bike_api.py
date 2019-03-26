@@ -239,9 +239,7 @@ class BikeParts(generics.ListCreateAPIView):
                 return Response(get_part_list_for_bike(bike_id), status=status.HTTP_202_ACCEPTED)
 
             except Exception as e:
-                print('failed ', e)
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-        print('no data read')
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, bike_id, part_id):

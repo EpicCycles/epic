@@ -11,7 +11,7 @@ from epic.api_views.note_api import CustomerNoteList, CustomerNoteMaintain
 from epic.api_views.part_api import Parts, parts_and_supplier_parts
 from epic.api_views.part_type_api import PartType
 from epic.api_views.part_type_attribute_api import PartTypeAttribute
-from epic.api_views.quote_api import QuotesApi, QuoteMaintain
+from epic.api_views.quote_api import QuotesApi, QuoteMaintain, QuoteCopy
 from epic.api_views.section_api import PartSection
 from epic.api_views.supplier_api import Suppliers, MaintainSupplier
 from epic.api_views.user_api import CustomAuthToken
@@ -52,5 +52,5 @@ urlpatterns = [
     path('api/productsearch/', parts_and_supplier_parts),
     path('api/quotes/', QuotesApi.as_view()),
     path('api/quote/<int:pk>', QuoteMaintain.as_view()),
-    path('api/quote/<int:pk>/copy/', QuoteMaintain.as_view()),
+    path('api/quote/<int:pk>/copy/', QuoteCopy.as_view()),
 ]
