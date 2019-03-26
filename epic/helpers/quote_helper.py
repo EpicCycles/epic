@@ -1,7 +1,8 @@
 from django.contrib import messages
 
 from epic.helpers.note_helper import create_note_for_requote, create_note_for_quote_archive
-from epic.models.quote_models import INITIAL, ARCHIVED, Quote, QuotePart, Customer, Frame
+from epic.models.bike_models import Bike
+from epic.models.quote_models import INITIAL, ARCHIVED, Quote, QuotePart, Customer
 
 
 def quote_requote(request, quote: Quote):
@@ -51,10 +52,11 @@ def quote_archive(request, quote):
 
 
 # create a new quote based on an existing quote
-def copy_quote_with_changes(old_quote, request, frame, customer):
+def copy_quote_with_changes(old_quote, request, quote_desc, bike, customer):
     # get the quote you are basing it on and create a copy_quote
     copy_customer = old_quote.customer
     copy_fitting = old_quote.fitting
+    copy_quote_desc = old_quote.quote_desc
     if customer:
         if type(customer) == Customer:
             copy_customer = customer
@@ -62,7 +64,10 @@ def copy_quote_with_changes(old_quote, request, frame, customer):
         else:
             raise TypeError('Customer object expected')
 
-    quote_same_name = Quote.objects.filter(customer=copy_customer, quote_desc=old_quote.quote_desc).count()
+    if quote_desc:
+        copy_quote_desc = quote_desc
+
+    quote_same_name = Quote.objects.filter(customer=copy_customer, quote_desc=copy_quote_desc).count()
     # copy quote details
     new_quote = Quote.objects.get(pk=old_quote.pk)
     new_quote.pk = None
@@ -71,19 +76,19 @@ def copy_quote_with_changes(old_quote, request, frame, customer):
     new_quote.version = quote_same_name + 1
     new_quote.quote_status = INITIAL
     new_quote.created_by = request.user
-    if frame:
+    new_quote.quote_desc = copy_quote_desc
+    if bike:
         if new_quote.is_bike():
-            if type(frame) == Frame:
-                new_quote.frame = frame
+            if type(bike) == Bike:
+                new_quote.frame = bike
                 new_quote.epic_price = None
-                new_quote.bike_price = frame.rrp
                 new_quote.colour = None
                 new_quote.colour_price = None
                 new_quote.frame_size = None
             else:
-                raise TypeError('Frame object expected')
+                raise TypeError('Bike object expected')
         else:
-            raise ValueError('Frame change requested for non Bike quote')
+            raise ValueError('Bike change requested for non Bike quote')
     # save creates all the parts required for a bike
     new_quote.save()
 

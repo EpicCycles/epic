@@ -1,4 +1,4 @@
-from epic.models.customer_models import CustomerNote
+from epic.models.note_models import CustomerNote
 
 
 def create_note_for_requote(quote, user):
@@ -10,9 +10,9 @@ def create_note_for_requote(quote, user):
 
 def create_note_for_quote_archive(quote, user):
     note_text = "Quote Archived"
-    customerNote = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,
-                                customer_visible=False)
-    customerNote.save()
+    customer_note = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,
+                                 customer_visible=False)
+    customer_note.save()
 
 
 def create_note_for_quote_order(quote, user):

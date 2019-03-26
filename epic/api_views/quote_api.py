@@ -1,13 +1,18 @@
 from django.http import Http404
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.decorators import api_view
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from epic.model_serializers.quote_serializer import QuoteSerializer
-from epic.models.bike_models import Frame
-from epic.models.quote_models import Quote
+from epic.helpers.quote_helper import copy_quote_with_changes
+from epic.model_serializers.bike_serializer import BikePartSerializer, BikeSerializer
+from epic.model_serializers.part_serializer import SupplierProductSerializer, PartSerializer
+from epic.model_serializers.quote_serializer import QuoteSerializer, QuotePartSerializer
+from epic.models.bike_models import Frame, Bike, BikePart
+from epic.models.brand_models import Part, SupplierProduct
+from epic.models.customer_models import Customer
+from epic.models.quote_models import Quote, QuotePart
 
 
 class QuotesApi(generics.ListCreateAPIView):
@@ -20,13 +25,14 @@ class QuotesApi(generics.ListCreateAPIView):
         search_brand = self.request.query_params.get('brand', None)
         search_name = self.request.query_params.get('frameName', None)
         search_bike = self.request.query_params.get('bike', None)
+        include_archived = self.request.query_params.get('archived', None)
         q = Quote.objects.all()
 
         if search_customer:
             q = q.filter(customer__id=search_customer)
         if search_bike:
             q = q.filter(bike__id=search_bike)
-        else:
+        elif search_name or search_brand:
             q_frames = Frame.objects.all()
             if search_brand:
                 q_frames = q_frames.filter(brand__id=search_brand)
@@ -41,6 +47,8 @@ class QuotesApi(generics.ListCreateAPIView):
         if search_name:
             q = q.filter(part_name__icontains=search_name)
 
+        if not include_archived:
+            q.exclude(quote_status=3)
         return q
 
     def get(self, request):
@@ -54,42 +62,91 @@ class QuotesApi(generics.ListCreateAPIView):
         if serializer.is_valid():
             quote = serializer.save()
             customer = quote.customer
-            return Response(quoteData(quote))
+            return Response(quote_data(quote))
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-def quoteData(quote):
-    pass
+def quote_data(quote=None, customer=None):
+    if quote:
+        customer = quote.customer
+
+    quotes = Quote.objects.filter(customer=customer, quote_status__in=[1, 2, 4])
+    quote_bike_ids = quotes.values_list('bike__id', flat=True)
+    quote_serializer = QuoteSerializer(quotes, many=True)
+
+    quote_parts = QuotePart.objects.filter(quote__in=quotes)
+    quote_part_part_ids = quote_parts.values_list('part__id', flat=True)
+    quote_part_serializer = QuotePartSerializer(quote_parts, many=True)
+
+    bikes = Bike.objects.filter(id__in=quote_bike_ids)
+    bike_serializer = BikeSerializer(bikes, many=True)
+
+    bike_parts = BikePart.objects.filter(bike__in=bikes)
+    bike_part_part_ids = bike_parts.values_list('part__id', flat=True)
+    bike_part_serializer = BikePartSerializer(bike_parts, many=True)
+
+    parts_from_quotes = Part.objects.filter(id__in=list(quote_part_part_ids))
+    parts_from_bikes = Part.objects.filter(id__in=list(bike_part_part_ids))
+    parts = parts_from_bikes.union(parts_from_quotes)
+    part_serializer = PartSerializer(parts, many=True)
+
+    supplier_product_list = SupplierProduct.objects.filter(part__in=parts_from_bikes)
+    supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
+
+    return {'quotes': quote_serializer.data,
+            'quoteParts': quote_part_serializer.data,
+            'bikes': bike_serializer.data,
+            'parts': part_serializer.data,
+            'supplierProducts': supplier_product_serializer.data,
+            'bikeParts': bike_part_serializer.data}
 
 
 class QuoteMaintain(generics.GenericAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
 
-    # serializer_class = QuoteSerializer
+    serializer_class = QuoteSerializer
 
     def get_object(self, pk):
         try:
-            return Quote.objects.get(pk=pk)
+            return Quote.objects.get(id=pk)
         except Quote.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
+    def get(self, request, pk):
         quote = self.get_object(pk)
-        serializer = QuoteSerializer(quote)
-        return Response(serializer.data)
+        return Response(quote_data(quote))
 
-    def put(self, request, pk, format=None):
+    def put(self, request, pk):
         quote = self.get_object(pk)
         serializer = QuoteSerializer(quote, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(quoteData(quote))
+            return Response(quote_data(quote))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
+    def delete(self, request, pk):
         quote = self.get_object(pk)
-        customerId = quote.customer.id
+        customer = quote.customer
         quote.delete()
-        return Response(quoteData(customerId))
+        return Response(quote_data(None, customer))
+
+    # @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    @action(detail=True, methods=['post'])
+    def copy(self, request, pk):
+        quote = self.get_object(pk)
+        customer_id = self.request.query_params.get('customer', None)
+        bike_id = self.request.query_params.get('bike', None)
+        quote_desc = self.request.query_params.get('quote_desc', None)
+        customer = None
+        bike = None
+        if customer_id:
+            customer = Customer.objects.get(id=customer_id)
+            
+        if bike_id:
+            bike = Bike.objects.get(id=bike_id)
+        
+        new_quote = copy_quote_with_changes(quote, request, quote_desc, bike, customer)
+        return Response(quote_data(quote))
+
