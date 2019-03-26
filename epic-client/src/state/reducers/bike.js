@@ -18,6 +18,7 @@ import {
     FRAME_SAVE,
     FRAME_UPLOAD,
 } from "../actions/bike";
+import {CREATE_QUOTE} from "../actions/quote";
 
 const initialState = {
     isLoading: false
@@ -100,6 +101,7 @@ const bike = (state = initialState, action) => {
                 isLoading: true,
             };
         case `${FRAME_LIST}_OK`:
+        case `${CREATE_QUOTE}_OK`:
             return {
                 ...state,
                 frames: action.payload.frames,

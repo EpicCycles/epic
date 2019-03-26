@@ -12,6 +12,7 @@ import {
     GET_BIKE_PARTS
 } from "../actions/bike";
 import {addItemsToArray} from "../../helpers/utils";
+import {CREATE_QUOTE} from "../actions/quote";
 
 const initialState = {
     isLoading: false
@@ -50,6 +51,7 @@ const part = (state = initialState, action) => {
         case `${BIKE_PART_DELETE}_OK`:
         case `${BIKE_ADD_PART}_OK`:
         case  `${GET_BIKE_PARTS}_OK`:
+        case `${CREATE_QUOTE}_OK`:
             return {
                 ...state,
                 isLoading: false,

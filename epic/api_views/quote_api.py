@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.helpers.quote_helper import copy_quote_with_changes
-from epic.model_serializers.bike_serializer import BikePartSerializer, BikeSerializer
+from epic.model_serializers.bike_serializer import BikePartSerializer, BikeSerializer, FrameSerializer
 from epic.model_serializers.part_serializer import SupplierProductSerializer, PartSerializer
 from epic.model_serializers.quote_serializer import QuoteSerializer, QuotePartSerializer
 from epic.models.bike_models import Frame, Bike, BikePart
@@ -85,7 +85,11 @@ def quote_data(quote=None, customer=None):
 
     bike_parts = BikePart.objects.filter(bike__in=bikes)
     bike_part_part_ids = bike_parts.values_list('part__id', flat=True)
+    bike_part_frame_ids = bike_parts.values_list('frame_id', flat=True)
     bike_part_serializer = BikePartSerializer(bike_parts, many=True)
+
+    frames = Frame.objects.filter(id__in=bike_part_frame_ids);
+    frame_serializer = FrameSerializer(frames, many=True)
 
     parts_from_quotes = Part.objects.filter(id__in=list(quote_part_part_ids))
     parts_from_bikes = Part.objects.filter(id__in=list(bike_part_part_ids))
@@ -98,6 +102,7 @@ def quote_data(quote=None, customer=None):
     return {'quoteId': quote_id,
             'quotes': quote_serializer.data,
             'quoteParts': quote_part_serializer.data,
+            'frames': frame_serializer.data,
             'bikes': bike_serializer.data,
             'parts': part_serializer.data,
             'supplierProducts': supplier_product_serializer.data,
