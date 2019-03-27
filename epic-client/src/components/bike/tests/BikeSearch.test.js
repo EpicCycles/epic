@@ -93,7 +93,6 @@ describe('BikeSearch', () => {
         it('should call onchange when archived is changed', () => {
             findDataTest(component, "archived-checkbox").simulate("change");
             expect(onChange.mock.calls.length).toBe(1);
-            expect(onChange).toBeCalledWith('archived', true);
         });
     })
 });

@@ -25,8 +25,8 @@ const BikeListAndSelect = (props) => {
             frameName={frameName}
             archived={archived}
             canSelectArchived={canSelectArchived}
-                      data-test="bikes-search"
-  />
+            data-test="bikes-search"
+        />
         {(bikeOptions.length > 0) ? <SelectInput
                 fieldName='selectedBike'
                 onChange={onChange}
@@ -35,6 +35,7 @@ const BikeListAndSelect = (props) => {
                 label={'Select Bike'}
                 value={selectedBike}
                 data-test="bikes-select"
+                isEmptyAllowed={true}
             />
             : <div data-test="start-message">
                 No bikes to show, set new criteria and search, or

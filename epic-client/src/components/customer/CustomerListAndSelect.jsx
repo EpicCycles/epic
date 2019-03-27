@@ -30,6 +30,7 @@ const CustomerListAndSelect = (props) => {
             options={customerOptions}
             data-test="customer-block"
             fieldName='selectedCustomer'
+            isEmptyAllowed={true}
         />
         }
         <div className="row align-left">

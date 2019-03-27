@@ -1,8 +1,9 @@
 import BrandSelect from "../brand/BrandSelect";
 import FormTextInput from "../../common/FormTextInput";
 import * as PropTypes from "prop-types";
-import React, {Fragment} from "react";
+import React from "react";
 import SearchButton from "../../common/SearchButton";
+import FormCheckbox from "../../common/FormCheckbox";
 
 const BikeSearch = (props) => {
     return <div className="row vertical-middle">
@@ -26,17 +27,14 @@ const BikeSearch = (props) => {
             value={props.frameName}
             data-test="frame-name"
         />
-        {props.canSelectArchived &&
-        <Fragment>
-            <div className="field-label">Include archived frames:</div>
-            <input type="checkbox"
-                   name="archived"
-                   onChange={() => props.onChange('archived', !props.archived)}
-                   checked={props.archived ? props.archived : false}
-                   data-test="archived-checkbox"
-            />
-        </Fragment>
-        }
+        {props.canSelectArchived && <FormCheckbox
+            onChange={props.onChange}
+            fieldName={'archived'}
+            fieldValue={props.archived}
+            fieldLabel='Include archived frames:'
+            data-test="archived-checkbox"
+            key='select-archived-for-bikes'
+        />}
         <SearchButton
             onClick={props.getFrameList}
             disabled={!props.brandSelected}
