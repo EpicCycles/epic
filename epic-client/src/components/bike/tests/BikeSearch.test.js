@@ -46,7 +46,7 @@ describe('BikeSearch', () => {
             canSelectArchived={true}
             brandSelected={'3'}
             frameName={'Caadx'}
-            archved={true}
+            archived={true}
         />);
         expect(component.find('BrandSelect')).toHaveLength(1);
         expect(findDataTest(component, 'search')).toHaveLength(1);
@@ -59,6 +59,10 @@ describe('BikeSearch', () => {
         assertComponentHasExpectedProps(findDataTest(component, "frame-name"), {
             value: 'Caadx',
             fieldName: 'frameName'
+        });
+        assertComponentHasExpectedProps(findDataTest(component, "archived-checkbox"), {
+            value: true,
+            fieldName: 'archived'
         });
     });
 
