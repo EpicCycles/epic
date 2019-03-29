@@ -61,7 +61,7 @@ export const COLOURS = "colours";
 export const COUNTRY = "country";
 export const CREATED_BY = "created_by";
 export const CREATED_DATE = "created_date";
-export const CUSTOMER = "customer_name";
+export const CUSTOMER = "customer";
 export const CUSTOMER_VISIBLE = "customer_visible";
 export const DESCRIPTION = "description";
 export const EMAIL = "email";
@@ -290,7 +290,7 @@ export const CREATED_DATE_FIELD = {
 };
 export const CUSTOMER_FIELD = {
     fieldName: CUSTOMER,
-    type: TEXT,
+    type: CUSTOMER,
     header: "Customer",
     readOnly: true
 };

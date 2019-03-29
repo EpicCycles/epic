@@ -6,11 +6,13 @@ import {getPartTypeName} from "../../framework/helpers/framework";
 import {getSupplierName} from "../../supplier/helpers/supplier";
 import {getCountryName} from "../../address/helpers/address";
 import {formattedDate} from "./helpers/display";
+import {CUSTOMER} from "../../../state/actions/customer";
+import {getCustomerName} from "../../customer/helpers/customer";
 
 class ViewModelField extends Component {
 
     render() {
-        const { field, model, sections, brands, suppliers } = this.props;
+        const { field, model, sections, brands, suppliers, customers } = this.props;
         let viewData;
         const fieldValue = model ? model[field.fieldName]  : undefined;
         switch (field.type) {
@@ -35,6 +37,9 @@ class ViewModelField extends Component {
             case SUPPLIER:
                 viewData = getSupplierName(fieldValue, suppliers);
                 break;
+            case CUSTOMER:
+                viewData = getCustomerName(fieldValue, customers);
+                break;
             default:
                 viewData = fieldValue
         }
@@ -49,5 +54,6 @@ ViewModelField.propTypes = {
     sections: PropTypes.array,
     brands: PropTypes.array,
     suppliers: PropTypes.array,
+    customers: PropTypes.array,
 };
 export default ViewModelField;

@@ -106,7 +106,6 @@ class QuoteFind extends React.Component {
 
 QuoteFind.defaultProps = {
     bikes: [],
-    suppliers: [],
     frames: [],
     customers: [],
     brands: [],
@@ -115,7 +114,6 @@ QuoteFind.defaultProps = {
 QuoteFind.propTypes = {
     bikes: PropTypes.array,
     brands: PropTypes.array,
-    suppliers: PropTypes.array,
     frames: PropTypes.array,
     customers: PropTypes.array,
     searchParams: PropTypes.object,
@@ -124,10 +122,6 @@ QuoteFind.propTypes = {
         PropTypes.number,
     ]),
     next: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-    ]),
-    previous: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
     ]),

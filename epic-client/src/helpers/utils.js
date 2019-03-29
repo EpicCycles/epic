@@ -60,7 +60,7 @@ export const isItAnObject = (thing) => {
     return (thing && (Object.keys(thing).length > 0));
 };
 export const doWeHaveObjects = (possibleArray) => {
-    return (possibleArray && possibleArray.length > 0);
+    return (Array.isArray(possibleArray) && possibleArray.length > 0);
 };
 
 
