@@ -464,11 +464,12 @@ fieldset {
 }
 
 .grid-header--fixed-left {
-    z-index: 9000;
+    background-color: var(--col-epic-red);
+    z-index: 9001;
 }
 
 .grid-col--fixed-left, .grid-item--fixed-left {
-    background: inherit;
+    background: white;
     z-index: 8000;
 }
 

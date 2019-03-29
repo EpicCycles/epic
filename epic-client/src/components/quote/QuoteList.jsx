@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import * as PropTypes from "prop-types";
 import QuoteFind from "./QuoteFind";
 import {doWeHaveObjects} from "../../helpers/utils";
-import {Button} from "semantic-ui-react";
+import {Button, Dimmer, Loader} from "semantic-ui-react";
 import ModelTableHeaders from "../app/model/ModelTableHeaders";
 import {quoteFields} from "../app/model/helpers/fields";
 import {getModelKey} from "../app/model/helpers/model";
@@ -10,24 +10,39 @@ import ModelViewRow from "../app/model/ModelViewRow";
 import ModelActions from "../app/model/ModelActions";
 
 class QuoteList extends React.Component {
-
+    archiveQuote = quoteId => {
+        alert('would archive');
+    };
     render() {
         const { clearQuoteState, searchParams, count, next, isLoading, getBrandsAndSuppliers, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes } = this.props;
         const haveQuotes = doWeHaveObjects(quotes);
         const actionArray = [
             {
-                iconName: 'view',
+                iconName: 'eye',
                 iconTitle: 'view quote',
                 iconAction: getQuote,
+            },
+            {
+                iconName: 'remove',
+                iconTitle: 'archive quote',
+                iconAction: this.archiveQuote,
             }
         ];
         return <Fragment>
-            <h1>Quotes</h1>
             {haveQuotes ? <Fragment>
-                    <div className="row full align_right">
+                    <div className="row full">
+                        <div style={{
+                            width: (window.innerWidth - 200) + "px",
+                        }}>
+                            <h1>Quotes</h1>
+                        </div>
                         <Button
                             key="newSearch"
                             onClick={clearQuoteState}
+                            style={{
+                                width: "200px",
+                                overflow: "auto"
+                            }}
                         >
                             New Search
                         </Button>
@@ -36,9 +51,9 @@ class QuoteList extends React.Component {
                         key='quotesGrid'
                         className="grid"
                         style={{
-                            height: (window.innerHeight - 100) + "px",
-                            width: "100%",
-                            overflow: "scroll"
+                            height: (window.innerHeight - 120) + "px",
+                            width: (window.innerWidth) + "px",
+                            overflow: "auto"
                         }}
                     >
                         <div key="bikeReviewHeaders" className="grid-row grid-row--header">
@@ -74,7 +89,11 @@ class QuoteList extends React.Component {
                     clearCustomerState={clearCustomerState}
                     getQuoteList={getQuoteList}
                 />}
-
+            {isLoading &&
+            <Dimmer active inverted>
+                <Loader content='Loading'/>
+            </Dimmer>
+            }
         </Fragment>
     }
 }

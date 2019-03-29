@@ -42,7 +42,7 @@ class ViewModelField extends Component {
             default:
                 viewData = fieldValue
         }
-        return <Fragment>{Array.isArray(viewData) ? viewData.join() : viewData}</Fragment>;
+        return <nobr>{Array.isArray(viewData) ? viewData.join() : viewData}</nobr>;
     };
 
 }

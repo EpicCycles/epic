@@ -51,6 +51,6 @@ urlpatterns = [
     path('api/bike/<int:bike_id>/parts/<int:part_id>/', BikeParts.as_view()),
     path('api/productsearch/', parts_and_supplier_parts),
     path('api/quotes/', QuotesApi.as_view()),
-    path('api/quote/<int:pk>', QuoteMaintain.as_view()),
-    path('api/quote/<int:pk>/copy/', QuoteCopy.as_view()),
+    path('api/quote/<int:quote_id>', QuoteMaintain.as_view()),
+    path('api/quote/<int:quote_id>/copy/', QuoteCopy.as_view()),
 ]

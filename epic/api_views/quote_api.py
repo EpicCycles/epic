@@ -19,7 +19,7 @@ class QuotesApi(generics.ListCreateAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
     serializer_class = QuoteSerializer
-    
+
     def get_queryset(self):
         search_customer = self.request.query_params.get('customer', None)
         search_brand = self.request.query_params.get('brand', None)
@@ -126,32 +126,34 @@ def quote_data(quote=None, customer=None):
             'bikeParts': bike_part_serializer.data}
 
 
+def get_quote_object(quote_id):
+    try:
+        print('in get_quote_object', quote_id)
+        return Quote.objects.get(pk=quote_id)
+    except Quote.DoesNotExist:
+        raise Http404
+
 class QuoteMaintain(generics.GenericAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
     serializer_class = QuoteSerializer
 
-    def get_object(self, pk):
-        try:
-            return Quote.objects.get(id=pk)
-        except Quote.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk):
-        quote = self.get_object(pk)
+    def get(self, quote_id):
+        print('in get for', quote_id)
+        quote = get_quote_object(quote_id)
         return Response(quote_data(quote))
 
-    def put(self, request, pk):
-        quote = self.get_object(pk)
+    def put(self, request, quote_id):
+        quote = self.get_object(quote_id)
         serializer = QuoteSerializer(quote, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(quote_data(quote))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk):
-        quote = self.get_object(pk)
+    def delete(self, request, quote_id):
+        quote = self.get_object(quote_id)
         customer = quote.customer
         quote.delete()
         return Response(quote_data(None, customer))
@@ -163,14 +165,15 @@ class QuoteCopy(generics.GenericAPIView):
 
     serializer_class = QuoteSerializer
 
-    def get_object(self, pk):
+    def get_object(self, quote_id):
         try:
-            return Quote.objects.get(id=pk)
+            print(quote_id)
+            return Quote.objects.get(id=quote_id)
         except Quote.DoesNotExist:
             raise Http404
 
-    def post(self, request, pk):
-        quote = self.get_object(pk)
+    def post(self, request, quote_id):
+        quote = self.get_object(quote_id)
         customer_id = self.request.query_params.get('customer', None)
         bike_id = self.request.query_params.get('bike', None)
         quote_desc = self.request.query_params.get('quote_desc', None)
@@ -178,10 +181,9 @@ class QuoteCopy(generics.GenericAPIView):
         bike = None
         if customer_id:
             customer = Customer.objects.get(id=customer_id)
-            
+
         if bike_id:
             bike = Bike.objects.get(id=bike_id)
-        
+
         new_quote = copy_quote_with_changes(quote, request, quote_desc, bike, customer)
         return Response(quote_data(new_quote))
-

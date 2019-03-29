@@ -716,6 +716,7 @@ export const quoteFieldsBike = [
     COLOUR_PRICE_FIELD
 ];
 export const quoteFieldsNoBike = [
+    QUOTE_DESC_FIELD,
     CUSTOMER_FIELD,
     QUOTE_STATUS_FIELD,
     QUOTE_DESC_FIELD,

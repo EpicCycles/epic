@@ -1,81 +1,81 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ViewModelField it renders a brand field that has data that is found 1`] = `
-<Fragment>
+<nobr>
   find me
-</Fragment>
+</nobr>
 `;
 
 exports[`ViewModelField it renders a brand field that has data that is not found 1`] = `
-<Fragment>
+<nobr>
   Unknown Brand
-</Fragment>
+</nobr>
 `;
 
-exports[`ViewModelField it renders a brand field that has no data 1`] = `<Fragment />`;
+exports[`ViewModelField it renders a brand field that has no data 1`] = `<nobr />`;
 
-exports[`ViewModelField it renders a checkbox field that has no data 1`] = `<Fragment />`;
+exports[`ViewModelField it renders a checkbox field that has no data 1`] = `<nobr />`;
 
 exports[`ViewModelField it renders a checkbox field that is false 1`] = `
-<Fragment>
+<nobr>
   N
-</Fragment>
+</nobr>
 `;
 
 exports[`ViewModelField it renders a checkbox field that is true 1`] = `
-<Fragment>
+<nobr>
   Y
-</Fragment>
+</nobr>
 `;
 
 exports[`ViewModelField it renders a country field that has data 1`] = `
-<Fragment>
+<nobr>
   Germany
-</Fragment>
+</nobr>
 `;
 
-exports[`ViewModelField it renders a country field that has no data 1`] = `<Fragment />`;
+exports[`ViewModelField it renders a country field that has no data 1`] = `<nobr />`;
 
 exports[`ViewModelField it renders a currency field that has data 1`] = `
-<Fragment>
+<nobr>
   £23.90
-</Fragment>
+</nobr>
 `;
 
-exports[`ViewModelField it renders a currency field that has no data 1`] = `<Fragment />`;
+exports[`ViewModelField it renders a currency field that has no data 1`] = `<nobr />`;
 
 exports[`ViewModelField it renders a date field that has data 1`] = `
-<Fragment>
+<nobr>
   12/20/2012, 3:00:00 AM
-</Fragment>
+</nobr>
 `;
 
-exports[`ViewModelField it renders a date field that has no data 1`] = `<Fragment />`;
+exports[`ViewModelField it renders a date field that has no data 1`] = `<nobr />`;
 
-exports[`ViewModelField it renders a part Type field that has no data 1`] = `<Fragment />`;
+exports[`ViewModelField it renders a part Type field that has no data 1`] = `<nobr />`;
 
 exports[`ViewModelField it renders a part type field that has data that is found 1`] = `
-<Fragment>
+<nobr>
   find me
-</Fragment>
+</nobr>
 `;
 
-exports[`ViewModelField it renders a part type field that has data that is not found 1`] = `<Fragment />`;
+exports[`ViewModelField it renders a part type field that has data that is not found 1`] = `<nobr />`;
 
 exports[`ViewModelField it renders a supplier field that has data that is found 1`] = `
-<Fragment>
+<nobr>
   find me
-</Fragment>
+</nobr>
 `;
 
-exports[`ViewModelField it renders a supplier field that has data that is not found 1`] = `<Fragment />`;
+exports[`ViewModelField it renders a supplier field that has data that is not found 1`] = `<nobr />`;
 
-exports[`ViewModelField it renders a supplier field that has no data 1`] = `<Fragment />`;
+exports[`ViewModelField it renders a supplier field that has no data 1`] = `<nobr />`;
 
 exports[`ViewModelField it renders a text field that has data 1`] = `
-<Fragment>
+<nobr>
   SHow text
-</Fragment>
+</nobr>
 `;
 
-exports[`ViewModelField it renders a text field that has no data 1`] = `<Fragment />`;
+exports[`ViewModelField it renders a text field that has no data 1`] = `<nobr />`;

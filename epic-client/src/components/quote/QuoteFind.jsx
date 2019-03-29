@@ -60,6 +60,8 @@ class QuoteFind extends React.Component {
         const { brands, bikes, frames, getFrameList, getCustomerList, searchParams, isLoading, customers, count, next } = this.props;
 
         return <Fragment>
+                        <h1>Find Quotes</h1>
+
             <CustomerListAndSelect
                 addNewCustomer={this.goToAddCustomer}
                 getCustomerList={getCustomerList}
@@ -84,6 +86,7 @@ class QuoteFind extends React.Component {
                 selectedBike={bike}
                 data-test="bike-select"
             />
+            <hr/>
             <div className='row'>
                 <FormCheckbox
                     onChange={this.handleInputChange}
