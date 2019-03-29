@@ -57,7 +57,7 @@ class QuotesApi(generics.ListCreateAPIView):
         quote_serializer = QuoteSerializer(quotes, many=True)
 
         quote_customers = quotes.values_list('customer__id', flat=True)
-        customers = Customer.object.filter(id__in=quote_customers)
+        customers = Customer.objects.filter(id__in=quote_customers)
         customer_serializer = CustomerSerializer(customers, many=True)
 
         quote_bike_ids = quotes.values_list('bike__id', flat=True)
@@ -116,6 +116,7 @@ def quote_data(quote=None, customer=None):
     supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
 
     return {'quoteId': quote_id,
+            'customerId': customer.id,
             'quotes': quote_serializer.data,
             'quoteParts': quote_part_serializer.data,
             'frames': frame_serializer.data,

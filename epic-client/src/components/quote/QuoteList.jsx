@@ -10,14 +10,15 @@ import ModelViewRow from "../app/model/ModelViewRow";
 import ModelActions from "../app/model/ModelActions";
 
 class QuoteList extends React.Component {
+
     render() {
         const { clearQuoteState, searchParams, count, next, isLoading, getBrandsAndSuppliers, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes } = this.props;
         const haveQuotes = doWeHaveObjects(quotes);
         const actionArray = [
             {
-        iconName: 'view',
-        iconTitle: 'view quote',
-        iconAction: getQuote,
+                iconName: 'view',
+                iconTitle: 'view quote',
+                iconAction: getQuote,
             }
         ];
         return <Fragment>
@@ -47,11 +48,13 @@ class QuoteList extends React.Component {
                         {quotes.map(quote => {
                             const modelKey = getModelKey(quote);
                             return <div
-                                            key={`quoteRow${modelKey}`}
-                                            className="grid-row"
-                                        >
-                                <ModelViewRow modelFields={quoteFields} model={quote} lockFirstColumn={true}/>
-                                <ModelActions actions={actionArray} componentKey={modelKey} actionsDisabled={(quote.quote_status > 2)}/>
+                                key={`quoteRow${modelKey}`}
+                                className="grid-row"
+                            >
+                                <ModelViewRow modelFields={quoteFields} model={quote} lockFirstColumn={true}
+                                              customers={customers}/>
+                                <ModelActions actions={actionArray} componentKey={modelKey}
+                                              actionsDisabled={(quote.quote_status > 2)}/>
                             </div>;
                         })}
                     </div>

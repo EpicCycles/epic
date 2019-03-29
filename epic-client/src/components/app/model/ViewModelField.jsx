@@ -1,12 +1,11 @@
 import * as PropTypes from "prop-types";
 import React, {Component, Fragment} from "react";
-import {BRAND, CHECKBOX, COUNTRY, CURRENCY, DATE_TIME, PART_TYPE, SUPPLIER} from "./helpers/fields";
+import {CUSTOMER, BRAND, CHECKBOX, COUNTRY, CURRENCY, DATE_TIME, PART_TYPE, SUPPLIER} from "./helpers/fields";
 import {getBrandName} from "../../brand/helpers/brand";
 import {getPartTypeName} from "../../framework/helpers/framework";
 import {getSupplierName} from "../../supplier/helpers/supplier";
 import {getCountryName} from "../../address/helpers/address";
 import {formattedDate} from "./helpers/display";
-import {CUSTOMER} from "../../../state/actions/customer";
 import {getCustomerName} from "../../customer/helpers/customer";
 
 class ViewModelField extends Component {

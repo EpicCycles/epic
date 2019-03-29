@@ -3,11 +3,17 @@ import {getFramework} from "../../state/actions/framework";
 import {getBrandsAndSuppliers, saveBrands} from "../../state/actions/core";
 import {getFrameList} from "../../state/actions/bike";
 import {
-    clearCustomerState, createCustomer, deleteCustomer, deleteCustomerAddress, deleteCustomerPhone,
+    clearCustomerState,
+    createCustomer,
+    deleteCustomer,
+    deleteCustomerAddress,
+    deleteCustomerPhone,
     getCustomer,
     getCustomerList,
     getCustomerListPage,
-    saveCustomer, saveCustomerAddress, saveCustomerPhone
+    saveCustomer,
+    saveCustomerAddress,
+    saveCustomerPhone
 } from "../../state/actions/customer";
 import {createNote, deleteNote, saveNote} from "../../state/actions/note";
 import QuoteManager from "../../components/quote/QuoteManager";
@@ -22,12 +28,11 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
         sections: framework.sections,
         parts: part.parts,
         frames: bike.frames,
-         count: customer.count,
-    customers: customer.customers,
-    next: customer.next,
-    previous: customer.previous,
-    isLoading: customer.isLoading,
-    searchParams: customer.searchParams,
+        count: customer.count,
+        customers: customer.customers,
+        next: customer.next,
+        previous: customer.previous,
+        searchParams: customer.searchParams,
         customerId: customer.customerId,
         notes: note.notes,
         quotes: quote.quotes,

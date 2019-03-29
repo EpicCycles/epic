@@ -1,17 +1,15 @@
 import {connect} from 'react-redux'
 import {getFrameList} from "../../state/actions/bike";
-import {getCustomerList,} from "../../state/actions/customer";
-import QuoteCreate from "../../components/quote/QuoteCreate";
-import {createQuote} from "../../state/actions/quote";
+import {clearCustomerState, getCustomerList} from "../../state/actions/customer";
+import {clearQuoteState, getQuote, getQuoteList} from "../../state/actions/quote";
+import QuoteList from "../../components/quote/QuoteList";
+import {getBrandsAndSuppliers} from "../../state/actions/core";
 
 const mapStateToProps = ({ bike, core, customer, framework, note, part, quote }) => {
     return {
         bikes: bike.bikes,
-        bikeParts: bike.bikeParts,
         brands: core.brands,
         suppliers: core.suppliers,
-        sections: framework.sections,
-        parts: part.parts,
         frames: bike.frames,
         count: customer.count,
         customers: customer.customers,
@@ -21,15 +19,17 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
         customerId: customer.customerId,
         notes: note.notes,
         quotes: quote.quotes,
-        quoteId: quote.quoteId,
-        quoteParts: quote.quoteParts,
-        isLoading: (customer.isLoading || core.isLoading || bike.isLoading || framework.isLoading || quote.isLoading)
+        isLoading: (customer.isLoading || core.isLoading || bike.isLoading || quote.isLoading)
     }
 };
 
 const mapDispatchToProps = {
+    getBrandsAndSuppliers,
     getFrameList,
     getCustomerList,
-    createQuote,
+    clearCustomerState,
+    clearQuoteState,
+    getQuoteList,
+    getQuote,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(QuoteCreate)
+export default connect(mapStateToProps, mapDispatchToProps)(QuoteList)

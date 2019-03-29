@@ -18,7 +18,7 @@ import {
     FRAME_SAVE,
     FRAME_UPLOAD,
 } from "../actions/bike";
-import {CREATE_QUOTE} from "../actions/quote";
+import {CREATE_QUOTE, FIND_QUOTES} from "../actions/quote";
 
 const initialState = {
     isLoading: false
@@ -108,6 +108,12 @@ const bike = (state = initialState, action) => {
                 bikes: action.payload.bikes,
                 bikeParts: action.payload.bikeParts,
                 isLoading: false,
+            };
+        case `${FIND_QUOTES}_OK`:
+            return {
+                ...state,
+                frames: action.payload.frames,
+                bikes: action.payload.bikes,
             };
         case `${BIKE_DELETE}_ERROR`:
         case `${BIKE_SAVE}_ERROR`:

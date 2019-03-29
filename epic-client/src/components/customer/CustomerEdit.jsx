@@ -34,7 +34,7 @@ class CustomerEdit extends React.Component {
     render() {
         const { note } = this.state;
         const {
-            addresses, phones, notes, quotes, customers,
+            addresses, phones, customers,
             deleteCustomer,
             isLoading, customerId,
             deleteNote,

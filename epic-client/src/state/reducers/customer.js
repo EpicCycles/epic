@@ -1,23 +1,25 @@
 import {
     CUSTOMER,
+    CUSTOMER_ADDRESS_DELETE,
+    CUSTOMER_ADDRESS_SAVE,
+    CUSTOMER_CLEAR_STATE,
     CUSTOMER_CREATE,
     CUSTOMER_DELETE,
     CUSTOMER_LIST,
-    CUSTOMER_SAVE,
-    CUSTOMER_CLEAR_STATE,
     CUSTOMER_PAGE,
-    CUSTOMER_PHONE_DELETE, CUSTOMER_PHONE_SAVE,
-    CUSTOMER_ADDRESS_DELETE, CUSTOMER_ADDRESS_SAVE,
+    CUSTOMER_PHONE_DELETE,
+    CUSTOMER_PHONE_SAVE,
+    CUSTOMER_SAVE,
 } from "../actions/customer";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_LOGOUT, USER_NOT_VALIDATED} from "../actions/user";
 import {
     addItemsToArray,
     removeItemFromArray,
-    updateObject,
     updateObjectInArray,
     updateObjectWithApiErrors
 } from "../../helpers/utils";
+import {FIND_QUOTES} from "../actions/quote";
 
 const initialState = {
     isLoading: false,
@@ -119,7 +121,7 @@ const customer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                phones: updateObjectInArray(state.phones,action.payload.customerPhone)
+                phones: updateObjectInArray(state.phones, action.payload.customerPhone)
             };
         case CUSTOMER_LIST:
             return {
@@ -168,6 +170,19 @@ const customer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 addresses: action.payload
+            };
+        case `${FIND_QUOTES}_OK`:
+            return {
+                ...state,
+                customers: action.payload.customers,
+                count: 0,
+                previous: '',
+                next: '',
+                searchParams: {
+                    firstName: "",
+                    lastName: "",
+                    email: ""
+                },
             };
         default:
             return state;

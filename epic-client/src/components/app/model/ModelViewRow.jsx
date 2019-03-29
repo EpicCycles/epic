@@ -5,7 +5,7 @@ import {gridItemClass} from "./helpers/display";
 import {getModelKey} from "./helpers/model";
 
 const ModelViewRow = props => {
-    const { model, modelFields, rowSpan, brands, sections, suppliers, lockFirstColumn, className } = props;
+    const { model, modelFields, rowSpan, brands,customers, sections, suppliers, lockFirstColumn, className } = props;
     const componentKey = getModelKey(model);
     return <Fragment>
         {modelFields.map((field, index) => {
@@ -21,6 +21,7 @@ const ModelViewRow = props => {
                     brands={brands}
                     sections={sections}
                     suppliers={suppliers}
+                    customers={customers}
                     key={`modelField${field.fieldName}${componentKey}`}
                 />
             </div>

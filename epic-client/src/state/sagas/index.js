@@ -36,7 +36,7 @@ import {
     watchForUploadFrame
 } from "./bike";
 import {watchForDeletePart, watchForGetParts, watchForSavePart, watchForUploadParts} from "./part";
-import {watchForCopyQuote, watchForCreateQuote} from "./quote";
+import {watchForCopyQuote, watchForCreateQuote, watchForGetQuote, watchForGetQuoteList} from "./quote";
 
 export default function* rootSaga() {
     yield all([
@@ -83,5 +83,7 @@ export default function* rootSaga() {
         watchForGetParts(),
         watchForCreateQuote(),
         watchForCopyQuote(),
+        watchForGetQuoteList(),
+        watchForGetQuote(),
     ]);
 }

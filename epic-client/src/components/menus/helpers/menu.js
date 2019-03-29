@@ -20,6 +20,7 @@ export const menuStructure = [
                 groupPos: 20,
                 groupLinks: [
                     {displayText: "New Quote", linkRoute: "/quote-create", linkNumber: 201},
+                    {displayText: "Find Quote", linkRoute: "/quote-list", linkNumber: 202},
                 ]
             },
         ]

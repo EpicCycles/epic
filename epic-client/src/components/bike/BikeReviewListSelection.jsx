@@ -1,6 +1,3 @@
-import BrandSelect from "../brand/BrandSelect";
-import FormTextInput from "../../common/FormTextInput";
-import {Button} from "semantic-ui-react";
 import * as PropTypes from "prop-types";
 import React, {Fragment} from "react";
 import BikeSearch from "./BikeSearch";
