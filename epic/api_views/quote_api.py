@@ -133,13 +133,15 @@ def get_quote_object(quote_id):
     except Quote.DoesNotExist:
         raise Http404
 
+
 class QuoteMaintain(generics.GenericAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
 
     serializer_class = QuoteSerializer
+    print('got to class')
 
-    def get(self, quote_id):
+    def get(self, request, quote_id):
         print('in get for', quote_id)
         quote = get_quote_object(quote_id)
         return Response(quote_data(quote))
