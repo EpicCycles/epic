@@ -66,7 +66,7 @@ CustomerDetailEdit.defaultProps = {
 };
 CustomerDetailEdit.propTypes = {
     customer: PropTypes.object,
-    createCustomer: PropTypes.func.isRequired,
+    createCustomer: PropTypes.func,
     deleteCustomer: PropTypes.func.isRequired,
     saveCustomer: PropTypes.func.isRequired,
     componentKey: PropTypes.oneOfType([

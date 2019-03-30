@@ -20,24 +20,18 @@ import QuoteManager from "../../components/quote/QuoteManager";
 import {listParts} from "../../state/actions/part";
 
 const mapStateToProps = ({ bike, core, customer, framework, note, part, quote }) => {
+    const {customers, customerId, addresses, phones } = customer;
+    const {bikes, bikeParts, frames} = bike;
+    const {brands, suppliers }= core;
+    const {notes} = note;
+    const{quoteId, quotes, quoteParts} = quote;
+    const {parts, supplierParts } = part;
     return {
-        bikes: bike.bikes,
-        bikeParts: bike.bikeParts,
-        brands: core.brands,
-        suppliers: core.suppliers,
-        sections: framework.sections,
-        parts: part.parts,
-        frames: bike.frames,
-        count: customer.count,
-        customers: customer.customers,
-        next: customer.next,
-        previous: customer.previous,
-        searchParams: customer.searchParams,
-        customerId: customer.customerId,
-        notes: note.notes,
-        quotes: quote.quotes,
-        quoteId: quote.quoteId,
-        quoteParts: quote.quoteParts,
+        customers, customerId, addresses, phones,
+        bikes, bikeParts, frames,
+        brands, suppliers,
+        quoteId, quotes, quoteParts,
+        parts, supplierParts,
         isLoading: (customer.isLoading || core.isLoading || bike.isLoading || framework.isLoading || quote.isLoading)
     }
 };

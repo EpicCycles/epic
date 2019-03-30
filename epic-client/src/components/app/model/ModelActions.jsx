@@ -4,7 +4,7 @@ import {Icon} from "semantic-ui-react";
 import {gridItemClass} from "./helpers/display";
 
 const ModelActions = props => <div
-    className={gridItemClass(props.className)}
+    className={`align_center ${gridItemClass(props.className)}`}
     key={`modelActions${props.componentKey}`}
     style={{ gridRow: ` span ${props.rowSpan}` }}
     data-test="model-field-cell"
@@ -12,7 +12,7 @@ const ModelActions = props => <div
     {props.actions.map(action => <Icon
         name={action.iconName}
         title={action.iconTitle}
-        onClick={() => (!props.actionsDisabled) && action.iconAction(props.componentKey)}
+        onClick={() => (!(props.actionsDisabled || action.iconDisabled)) && action.iconAction(props.componentKey)}
         key={`${action.iconName}-${props.componentKey}`}
         data-test="model-action"
     />)}
@@ -28,6 +28,7 @@ ModelActions.propTypes = {
         iconName: PropTypes.string.isRequired,
         iconTitle: PropTypes.string.isRequired,
         iconAction: PropTypes.func.isRequired,
+        iconDisabled: PropTypes.bool,
     })).isRequired,
     componentKey: PropTypes.oneOfType([
         PropTypes.string,

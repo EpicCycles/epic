@@ -90,7 +90,7 @@ class CustomerAddressSerializer(serializers.ModelSerializer):
         fields = '__all__'
         validators = [
             UniqueTogetherValidator(
-                queryset=CustomerPhone.objects.all(),
+                queryset=CustomerAddress.objects.all(),
                 fields=('customer', 'address1', 'postcode'),
                 message='This address is already in use for the customer'
             )

@@ -18,8 +18,8 @@ class CustomerAddressGrid extends React.Component {
     }
 
     saveNewCustomerAddress = (address) => {
-        const addressToSave = updateObject(address, {customer:this.props.customerId});
-        this.setState({newAddress: addressToSave});
+        const addressToSave = updateObject(address, { customer: this.props.customerId });
+        this.setState({ newAddress: addressToSave });
         this.props.saveCustomerAddress(addressToSave);
     };
 
@@ -32,7 +32,7 @@ class CustomerAddressGrid extends React.Component {
             <div
                 key='customerAddressGrid'
                 className="grid-2"
-             >
+            >
                 <CustomerAddressEdit
                     key={`editNewAddress${newAddressKey}`}
                     customerId={customerId}
@@ -48,13 +48,14 @@ class CustomerAddressGrid extends React.Component {
                         saveCustomerAddress={saveCustomerAddress}
                         deleteCustomerAddress={deleteCustomerAddress}
                         customerAddress={address}
-                                   data-test="existing-address"
-     />
+                        data-test="existing-address"
+                    />
                 })}
             </div>
         </Fragment>;
     };
 }
+
 CustomerAddressGrid.defaultProps = {
     addresses: [],
 };

@@ -10,24 +10,16 @@ import ModelViewRow from "../app/model/ModelViewRow";
 import ModelActions from "../app/model/ModelActions";
 
 class QuoteList extends React.Component {
+    unArchiveQuote = quoteId => {
+        alert('would un-archive');
+    };
     archiveQuote = quoteId => {
         alert('would archive');
     };
     render() {
         const { clearQuoteState, searchParams, count, next, isLoading, getBrandsAndSuppliers, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes } = this.props;
         const haveQuotes = doWeHaveObjects(quotes);
-        const actionArray = [
-            {
-                iconName: 'eye',
-                iconTitle: 'view quote',
-                iconAction: getQuote,
-            },
-            {
-                iconName: 'remove',
-                iconTitle: 'archive quote',
-                iconAction: this.archiveQuote,
-            }
-        ];
+
         return <Fragment>
             {haveQuotes ? <Fragment>
                     <div className="row full">
@@ -62,6 +54,26 @@ class QuoteList extends React.Component {
                         </div>
                         {quotes.map(quote => {
                             const modelKey = getModelKey(quote);
+                            const actionArray = [
+            {
+                iconName: 'eye',
+                iconTitle: 'view quote',
+                iconAction: getQuote,
+                iconDisabled: (quote.quote_status === 3),
+            },
+            {
+                iconName: 'remove',
+                iconTitle: 'archive quote',
+                iconAction: this.archiveQuote,
+                           iconDisabled: (quote.quote_status === 3),
+ },
+            {
+                iconName: 'undo',
+                iconTitle: 'un-archive quote',
+                iconAction: this.unArchiveQuote,
+                           iconDisabled: (quote.quote_status !== 3),
+ },
+        ];
                             return <div
                                 key={`quoteRow${modelKey}`}
                                 className="grid-row"

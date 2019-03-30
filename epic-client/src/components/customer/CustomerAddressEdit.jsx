@@ -2,7 +2,7 @@ import React from "react";
 import {createEmptyModelWithDefaultFields, getModelKey, updateModel} from "../app/model/helpers/model";
 import {customerAddressFields} from "../app/model/helpers/fields";
 import * as PropTypes from "prop-types";
-import {isItAnObject} from "../../helpers/utils";
+import {isItAnObject, updateObject} from "../../helpers/utils";
 import ModelEditIcons from "../app/model/ModelEditIcons";
 import EditModelPage from "../app/model/EditModelPage";
 
@@ -20,8 +20,9 @@ class CustomerAddressEdit extends React.Component {
     }
 
     deriveStateFromProps = () => {
-        if (isItAnObject(this.props.customerAddress)) {
-            return { customerAddress: this.props.customerAddress };
+        const propsAddress = this.props.customerAddress;
+        if (isItAnObject(propsAddress)) {
+            return { customerAddress: updateObject(propsAddress) };
         } else {
             let customerAddress = createEmptyModelWithDefaultFields(customerAddressFields);
             customerAddress.customer = this.props.customerId;
