@@ -730,7 +730,16 @@ export const quoteFieldsNoBike = [
     QUOTE_PRICE_FIELD,
 ];
 export const quoteFields = quoteFieldsNoBike.concat(quoteFieldsBike);
-
+export const quoteFieldsNoCustomer = [
+    QUOTE_DESC_FIELD,
+    QUOTE_STATUS_FIELD,
+    VERSION_FIELD,
+    BIKE_FIELD,
+    CREATED_BY_FIELD,
+    UPD_DATE_FIELD,
+    ISSUED_DATE_FIELD,
+    QUOTE_PRICE_FIELD,
+];
 export const quotePartFields = [
     PART_TYPE_FIELD,
     REPLACEMENT_PART_FIELD,

@@ -1,7 +1,7 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import ViewModelField from "./ViewModelField";
-import {gridItemClass} from "./helpers/display";
+import {fieldAlignment, gridItemClass} from "./helpers/display";
 import {getModelKey} from "./helpers/model";
 
 const ModelViewRow = props => {
@@ -10,7 +10,7 @@ const ModelViewRow = props => {
     return <Fragment>
         {modelFields.map((field, index) => {
             return <div
-                className={gridItemClass(className, index, lockFirstColumn)}
+                className={gridItemClass(`${className} ${fieldAlignment(field)}`, index, lockFirstColumn)}
                 key={`modelRow${field.fieldName}${componentKey}`}
                 style={{ gridRow: ` span ${rowSpan}` }}
                 data-test="model-field-cell"

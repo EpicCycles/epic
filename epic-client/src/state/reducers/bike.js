@@ -3,22 +3,23 @@ import {updateObjectInArray} from "../../helpers/utils";
 import {findNextBikeToReview, removeIdFromReviewList, replaceBikeParts} from "../helpers/bike";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {
-    BIKE_REVIEW_START,
-    BIKE_REVIEW_BIKE,
-    CLEAR_FRAME,
-    GET_BIKE_PARTS,
     BIKE_ADD_PART,
     BIKE_DELETE,
     BIKE_PART_DELETE,
     BIKE_PART_SAVE,
+    BIKE_REVIEW_BIKE,
+    BIKE_REVIEW_START,
     BIKE_SAVE,
+    CLEAR_FRAME,
     FRAME_ARCHIVE,
     FRAME_DELETE,
     FRAME_LIST,
     FRAME_SAVE,
     FRAME_UPLOAD,
+    GET_BIKE_PARTS,
 } from "../actions/bike";
 import {CREATE_QUOTE, FIND_QUOTES} from "../actions/quote";
+import {CUSTOMER} from "../actions/customer";
 
 const initialState = {
     isLoading: false
@@ -110,6 +111,7 @@ const bike = (state = initialState, action) => {
                 isLoading: false,
             };
         case `${FIND_QUOTES}_OK`:
+        case CUSTOMER:
             return {
                 ...state,
                 frames: action.payload.frames,

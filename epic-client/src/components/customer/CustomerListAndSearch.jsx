@@ -28,7 +28,7 @@ const CustomerListAndSearch = (props) => {
             )}
         </div>
         }
-        <div className="row align-left">
+        <div className="row align_left">
             {count > 0 ? <Pagination
                     id="customer-pagination"
                     previous={previous}

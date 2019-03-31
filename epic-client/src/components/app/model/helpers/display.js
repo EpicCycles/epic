@@ -1,3 +1,5 @@
+import {CHECKBOX, CURRENCY, NUMBER, RADIO} from "./fields";
+
 export const fixedHeaderClassname = (lockColumn) => {
     if (lockColumn) return "grid-header--fixed-left";
     return "";
@@ -17,4 +19,16 @@ export const gridItemClass = (baseClassName = "", fieldIndex, firstColumnLocked)
 export const formattedDate = date => {
     if (date) return date.toLocaleString('en-GB');
     return "";
+};
+export const fieldAlignment = field => {
+    switch (field.type) {
+        case NUMBER:
+        case CURRENCY:
+            return 'align_right';
+        case CHECKBOX:
+        case RADIO:
+            return 'align_center';
+        default:
+            return '';
+    }
 };

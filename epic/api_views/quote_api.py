@@ -21,7 +21,7 @@ class QuotesApi(generics.ListCreateAPIView):
     serializer_class = QuoteSerializer
 
     def get_queryset(self):
-        search_customer = self.request.query_params.get('customer', None)
+        search_customer = self.request.query_params.get('customerId', None)
         search_brand = self.request.query_params.get('brand', None)
         search_name = self.request.query_params.get('frameName', None)
         search_bike = self.request.query_params.get('bike', None)
@@ -128,7 +128,6 @@ def quote_data(quote=None, customer=None):
 
 def get_quote_object(quote_id):
     try:
-        print('in get_quote_object', quote_id)
         return Quote.objects.get(pk=quote_id)
     except Quote.DoesNotExist:
         raise Http404
@@ -139,10 +138,8 @@ class QuoteMaintain(generics.GenericAPIView):
     # permission_classes = (IsAuthenticated,)
 
     serializer_class = QuoteSerializer
-    print('got to class')
 
     def get(self, request, quote_id):
-        print('in get for', quote_id)
         quote = get_quote_object(quote_id)
         return Response(quote_data(quote))
 
@@ -169,7 +166,6 @@ class QuoteCopy(generics.GenericAPIView):
 
     def get_object(self, quote_id):
         try:
-            print(quote_id)
             return Quote.objects.get(id=quote_id)
         except Quote.DoesNotExist:
             raise Http404

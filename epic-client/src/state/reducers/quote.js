@@ -1,6 +1,7 @@
 import {USER_LOGOUT} from "../actions/user";
 import {CLEAR_QUOTE_DATA, COPY_QUOTE, CREATE_QUOTE, FIND_QUOTES, GET_QUOTE} from "../actions/quote";
 import {CLEAR_ALL_STATE} from "../actions/application";
+import {CUSTOMER} from "../actions/customer";
 
 const initialState = {};
 
@@ -18,13 +19,14 @@ const quote = (state = initialState, action) => {
                 quoteId: action.payload.quoteId,
                 quotes: action.payload.quotes,
                 quoteParts: action.payload.quoteParts,
-                isLoading:false,
+                isLoading: false,
             };
         case `${FIND_QUOTES}_OK`:
+        case CUSTOMER:
             return {
                 ...state,
                 quotes: action.payload.quotes,
-                isLoading:false,
+                isLoading: false,
             };
         case  `${CREATE_QUOTE}_REQUESTED`:
         case  `${COPY_QUOTE}_REQUESTED`:

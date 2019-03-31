@@ -16,7 +16,7 @@ exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch cor
     }
   />
   <div
-    className="row align-left"
+    className="row align_left"
   >
     <div>
       No Customer to show, set new criteria and search, or
@@ -80,7 +80,7 @@ exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch cor
     />
   </div>
   <div
-    className="row align-left"
+    className="row align_left"
   >
     <Pagination
       count={6}

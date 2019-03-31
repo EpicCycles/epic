@@ -3,11 +3,8 @@ import * as PropTypes from "prop-types";
 import QuoteFind from "./QuoteFind";
 import {doWeHaveObjects} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
-import ModelTableHeaders from "../app/model/ModelTableHeaders";
 import {quoteFields} from "../app/model/helpers/fields";
-import {getModelKey} from "../app/model/helpers/model";
-import ModelViewRow from "../app/model/ModelViewRow";
-import ModelActions from "../app/model/ModelActions";
+import QuoteGrid from "./QuoteGrid";
 
 class QuoteList extends React.Component {
     unArchiveQuote = quoteId => {
@@ -16,6 +13,7 @@ class QuoteList extends React.Component {
     archiveQuote = quoteId => {
         alert('would archive');
     };
+
     render() {
         const { clearQuoteState, searchParams, count, next, isLoading, getBrandsAndSuppliers, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes } = this.props;
         const haveQuotes = doWeHaveObjects(quotes);
@@ -39,52 +37,17 @@ class QuoteList extends React.Component {
                             New Search
                         </Button>
                     </div>
-                    <div
-                        key='quotesGrid'
-                        className="grid"
-                        style={{
-                            height: (window.innerHeight - 120) + "px",
-                            width: (window.innerWidth) + "px",
-                            overflow: "auto"
-                        }}
-                    >
-                        <div key="bikeReviewHeaders" className="grid-row grid-row--header">
-                            <ModelTableHeaders modelFields={quoteFields} lockFirstColumn={true}/>
-                            <div className="grid-item--header">action</div>
-                        </div>
-                        {quotes.map(quote => {
-                            const modelKey = getModelKey(quote);
-                            const actionArray = [
-            {
-                iconName: 'eye',
-                iconTitle: 'view quote',
-                iconAction: getQuote,
-                iconDisabled: (quote.quote_status === 3),
-            },
-            {
-                iconName: 'remove',
-                iconTitle: 'archive quote',
-                iconAction: this.archiveQuote,
-                           iconDisabled: (quote.quote_status === 3),
- },
-            {
-                iconName: 'undo',
-                iconTitle: 'un-archive quote',
-                iconAction: this.unArchiveQuote,
-                           iconDisabled: (quote.quote_status !== 3),
- },
-        ];
-                            return <div
-                                key={`quoteRow${modelKey}`}
-                                className="grid-row"
-                            >
-                                <ModelViewRow modelFields={quoteFields} model={quote} lockFirstColumn={true}
-                                              customers={customers}/>
-                                <ModelActions actions={actionArray} componentKey={modelKey}
-                                              actionsDisabled={(quote.quote_status > 2)}/>
-                            </div>;
-                        })}
-                    </div>
+                    <QuoteGrid
+                        displayFields={quoteFields}
+                        getQuote={getQuote}
+                        archiveQuote={this.archiveQuote}
+                        unArchiveQuote={this.unArchiveQuote}
+                        quotes={quotes}
+                        customers={customers}
+                        brands={brands}
+                        bikes={bikes}
+                        frames={frames}
+                    />
                 </Fragment>
                 : <QuoteFind
                     bikes={bikes}

@@ -1,6 +1,7 @@
 import {buildPartObject} from "../../part/helpers/part";
 import {buildBrandNameArray, getBrandName} from "../../brand/helpers/brand";
 import {findObjectWithId} from "../../../helpers/utils";
+import {buildCustomerString} from "../../customer/helpers/customer";
 
 export const buildDataForApi = (brand, frameName, rowMappings, uploadedHeaders, uploadedData, brands) => {
     const brandsLower = buildBrandNameArray(brands);
@@ -44,6 +45,12 @@ export const bikeFullName = (bike, frames, brands) => {
     const frame = findObjectWithId(frames, bike.frame);
     if (!frame) return `${bike.model_name} (unknown brand and frame)`;
     return `${getBrandName(frame.brand, brands)}: ${frame.frame_name} ${bike.model_name}`
+};
+
+export const getBikeName = (bikeId, bikes, frames, brands) => {
+        const bike = findObjectWithId(bikes, bikeId);
+        if (bike) return bikeFullName(bike, frames, brands);
+        return 'Unknown Bike'
 };
 
 export const findPartsForBike = (bike, bikeParts, parts) => {

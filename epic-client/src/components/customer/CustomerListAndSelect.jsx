@@ -33,7 +33,7 @@ const CustomerListAndSelect = (props) => {
             isEmptyAllowed={true}
         />
         }
-        <div className="row align-left">
+        <div className="row align_left">
             {count === 0 &&
             <div data-test="start-message">
                 No Customer to show, set new criteria and search, or
