@@ -607,7 +607,7 @@ div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
 /* Modal dialogs */
 .Modal {
     position: relative;
-    top: 10%;
+    top: 20%;
     left: 40px;
     right: 40px;
     background-color: var(--col-white);

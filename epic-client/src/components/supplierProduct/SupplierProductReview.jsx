@@ -4,7 +4,7 @@ import {Button, Dimmer, Loader} from "semantic-ui-react";
 import SupplierProductReviewListSelection from "./SupplierProductReviewListSelection";
 import PartEditRow from "../part/PartEditRow";
 import {partFields, supplierProductFields} from "../app/model/helpers/fields";
-import { updateModelArrayWithChanges} from "../app/model/helpers/model";
+import {updateModelArrayWithChanges} from "../app/model/helpers/model";
 import SupplierProductEditRow from "./SupplierProductEditRow";
 import SupplierProductHeaders from "./SupplierProductHeaders";
 import {findSupplierProducts} from "./helpers/supplierProduct";
@@ -66,8 +66,8 @@ class SupplierProductReviewList extends React.Component {
     };
     hasChanges = () => {
         if (!doWeHaveObjects(this.props.parts)) return false;
-        let changedParts = this.props.parts.filter(part => part.changed);
-        let changedSupplierProducts = this.props.supplierProducts.filter(supplierProduct => supplierProduct.changed);
+        let changedParts = this.props.parts.filter(part => isItAnObject(part.changes));
+        let changedSupplierProducts = this.props.supplierProducts.filter(supplierProduct => isItAnObject(supplierProduct.changes));
 
         return ((changedParts.length > 0) || (changedSupplierProducts.length > 0));
     };
@@ -89,7 +89,7 @@ class SupplierProductReviewList extends React.Component {
     };
     saveChanges = () => {
         let changedParts = this.props.parts.filter(part => isItAnObject(part.changes));
-        let changedSupplierProducts = this.props.supplierProducts.filter(supplierProduct => supplierProduct.changed);
+        let changedSupplierProducts = this.props.supplierProducts.filter(supplierProduct => isItAnObject(supplierProduct.changes));
 
         this.props.saveSupplierParts(changedParts, changedSupplierProducts);
     };
@@ -116,7 +116,6 @@ class SupplierProductReviewList extends React.Component {
                     supplierSelected={supplier}
                     onClick={this.handleInputClear}
                     partName={partName}
-                    changeArchivedSelected={this.changeArchivedSelected}
                     standard={standard}
                     stocked={stocked}
                     listParts={this.listParts}
