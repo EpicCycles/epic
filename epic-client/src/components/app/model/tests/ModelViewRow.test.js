@@ -2,7 +2,7 @@ import React from 'react';
 import ModelViewRow from "../ModelViewRow";
 import {frameFields} from "../helpers/fields";
 import {findDataTest} from "../../../../../test/assert";
-import ViewModelField from "../ViewModelField";
+import ModelViewRowField from "../ModelViewRowField";
 
 describe('ModelViewRow', () => {
     const model = {
@@ -19,6 +19,6 @@ describe('ModelViewRow', () => {
             model={model}
         />);
         expect(findDataTest(component, "model-field-cell")).toHaveLength(frameFields.length);
-        expect(component.find(ViewModelField)).toHaveLength(frameFields.length);
+        expect(component.find(ModelViewRowField)).toHaveLength(frameFields.length);
     })
 });

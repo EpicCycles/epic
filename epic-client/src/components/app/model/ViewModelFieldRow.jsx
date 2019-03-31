@@ -1,10 +1,10 @@
 import React from "react";
 
 import * as PropTypes from "prop-types";
-import ViewModelField from "./ViewModelField";
+import ModelViewRowField from "./ModelViewRowField";
 
-const EditModelPageViewOnlyRow = (props) => {
-    const { model, field, index, sections, brands, suppliers, componentKey } = props;
+const ViewModelFieldRow = (props) => {
+    const { model, field, index, sections, brands, suppliers, bikes, frames, customers, componentKey } = props;
     if (model[field.fieldName]) {
         return <div
             className="grid-row"
@@ -20,12 +20,15 @@ const EditModelPageViewOnlyRow = (props) => {
                 key={`fieldDiv${index}`}
                 className="grid-item--borderless field-label "
             >
-                <ViewModelField
+                <ModelViewRowField
                     field={field}
                     model={model}
                     brands={brands}
                     sections={sections}
                     suppliers={suppliers}
+                    bikes={bikes}
+                    frames={frames}
+                    customers={customers}
                     key={`modelField${field.fieldName}${componentKey}`}
                 />
             </div>
@@ -36,7 +39,7 @@ const EditModelPageViewOnlyRow = (props) => {
 };
 
 
-EditModelPageViewOnlyRow.propTypes = {
+ViewModelFieldRow.propTypes = {
     model: PropTypes.object.isRequired,
     field: PropTypes.object.isRequired,
     componentKey: PropTypes.oneOfType([
@@ -47,6 +50,9 @@ EditModelPageViewOnlyRow.propTypes = {
     className: PropTypes.string,
     sections: PropTypes.array,
     brands: PropTypes.array,
+    bikes: PropTypes.array,
+    frames: PropTypes.array,
     suppliers: PropTypes.array,
+    customers: PropTypes.array,
 };
-export default EditModelPageViewOnlyRow;
+export default ViewModelFieldRow;

@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import ViewModelField from "./ViewModelField";
+import ModelViewRowField from "./ModelViewRowField";
 import {fieldAlignment, gridItemClass} from "./helpers/display";
 import {getModelKey} from "./helpers/model";
 
@@ -15,7 +15,7 @@ const ModelViewRow = props => {
                 style={{ gridRow: ` span ${rowSpan}` }}
                 data-test="model-field-cell"
             >
-                <ViewModelField
+                <ModelViewRowField
                     field={field}
                     model={model}
                     brands={brands}

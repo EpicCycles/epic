@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EditModelPageViewOnlyRow should show a field when it is there 1`] = `
+exports[`ViewModelFieldRow should show a field when it is there 1`] = `
 <div
   className="grid-row"
   key="field-row2"
@@ -15,7 +15,7 @@ exports[`EditModelPageViewOnlyRow should show a field when it is there 1`] = `
     className="grid-item--borderless field-label "
     key="fieldDiv2"
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {

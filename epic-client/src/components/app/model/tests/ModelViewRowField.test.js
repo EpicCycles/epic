@@ -1,6 +1,6 @@
 import React from 'react';
 import {BRAND, CHECKBOX, COUNTRY, CURRENCY, DATE_TIME, PART_TYPE, SUPPLIER, TEXT} from "../helpers/fields";
-import ViewModelField from "../ViewModelField";
+import ModelViewRowField from "../ModelViewRowField";
 
 const foundName = "find me";
 const sections = [
@@ -29,7 +29,7 @@ const suppliers = [
     { id: 2, supplier_name: foundName },
     { id: 3, supplier_name: "id is 3" },
 ];
-describe('ViewModelField', () => {
+describe('ModelViewRowField', () => {
 
     test("it renders a date field that has data", () => {
         const field = {
@@ -37,7 +37,7 @@ describe('ViewModelField', () => {
             type: DATE_TIME,
         };
         const model = { data_field: new Date(Date.UTC(2012, 11, 20, 3, 0, 0)) };
-        expect(shallow(<ViewModelField field={field} model={model}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
     });
     test("it renders a date field that has no data", () => {
         const field = {
@@ -45,7 +45,7 @@ describe('ViewModelField', () => {
             type: CURRENCY,
             length: 10
         };
-        expect(shallow(<ViewModelField field={field}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field}/>)).toMatchSnapshot();
     });
     test("it renders a currency field that has data", () => {
         const field = {
@@ -54,7 +54,7 @@ describe('ViewModelField', () => {
             length: 10
         };
         const model = { data_field: 23.90 };
-        expect(shallow(<ViewModelField field={field} model={model}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
     });
     test("it renders a currency field that has no data", () => {
         const field = {
@@ -62,7 +62,7 @@ describe('ViewModelField', () => {
             type: CURRENCY,
             length: 10
         };
-        expect(shallow(<ViewModelField field={field}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field}/>)).toMatchSnapshot();
     });
     test("it renders a country field that has data", () => {
         const field = {
@@ -70,14 +70,14 @@ describe('ViewModelField', () => {
             type: COUNTRY,
         };
         const model = { data_field: "DE" };
-        expect(shallow(<ViewModelField field={field} model={model}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
     });
     test("it renders a country field that has no data", () => {
         const field = {
             fieldName: "data_field",
             type: COUNTRY,
         };
-        expect(shallow(<ViewModelField field={field}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field}/>)).toMatchSnapshot();
     });
     test("it renders a text field that has data", () => {
         const field = {
@@ -86,7 +86,7 @@ describe('ViewModelField', () => {
             length: 10
         };
         const model = { data_field: "SHow text" };
-        expect(shallow(<ViewModelField field={field} model={model}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
     });
     test("it renders a text field that has no data", () => {
         const field = {
@@ -94,7 +94,7 @@ describe('ViewModelField', () => {
             type: TEXT,
             length: 10
         };
-        expect(shallow(<ViewModelField field={field}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field}/>)).toMatchSnapshot();
     });
     test("it renders a checkbox field that is true", () => {
         const field = {
@@ -102,7 +102,7 @@ describe('ViewModelField', () => {
             type: CHECKBOX,
         };
         const model = { data_field: true };
-        expect(shallow(<ViewModelField field={field} model={model}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
     });
     test("it renders a checkbox field that is false", () => {
         const field = {
@@ -110,7 +110,7 @@ describe('ViewModelField', () => {
             type: CHECKBOX,
         };
         const model = { data_field: false };
-        expect(shallow(<ViewModelField field={field} model={model}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
     });
     test("it renders a checkbox field that has no data", () => {
         const field = {
@@ -118,7 +118,7 @@ describe('ViewModelField', () => {
             type: CURRENCY,
             length: 10
         };
-        expect(shallow(<ViewModelField field={field}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field}/>)).toMatchSnapshot();
     });
     test("it renders a part type field that has data that is found", () => {
         const field = {
@@ -127,7 +127,7 @@ describe('ViewModelField', () => {
             length: 10
         };
         const model = { data_field: 2 };
-        expect(shallow(<ViewModelField field={field} model={model} sections={sections}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model} sections={sections}/>)).toMatchSnapshot();
     });
     test("it renders a part type field that has data that is not found", () => {
         const field = {
@@ -137,7 +137,7 @@ describe('ViewModelField', () => {
         };
         const model = { data_field: 202 };
 
-        expect(shallow(<ViewModelField field={field} model={model} sections={sections}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model} sections={sections}/>)).toMatchSnapshot();
     });
     test("it renders a part Type field that has no data", () => {
         const field = {
@@ -145,7 +145,7 @@ describe('ViewModelField', () => {
             type: PART_TYPE,
             length: 10
         };
-        expect(shallow(<ViewModelField field={field} sections={sections}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} sections={sections}/>)).toMatchSnapshot();
     });
     test("it renders a brand field that has data that is found", () => {
         const field = {
@@ -154,7 +154,7 @@ describe('ViewModelField', () => {
             length: 10
         };
         const model = { data_field: 2 };
-        expect(shallow(<ViewModelField field={field} model={model} brands={brands}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model} brands={brands}/>)).toMatchSnapshot();
     });
     test("it renders a brand field that has data that is not found", () => {
         const field = {
@@ -163,14 +163,14 @@ describe('ViewModelField', () => {
         };
         const model = { data_field: 202 };
 
-        expect(shallow(<ViewModelField field={field} model={model} brands={brands}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model} brands={brands}/>)).toMatchSnapshot();
     });
     test("it renders a brand field that has no data", () => {
         const field = {
             fieldName: "data_field",
             type: BRAND,
         };
-        expect(shallow(<ViewModelField field={field} brands={brands}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} brands={brands}/>)).toMatchSnapshot();
     });
     test("it renders a supplier field that has data that is found", () => {
         const field = {
@@ -179,7 +179,7 @@ describe('ViewModelField', () => {
             length: 10
         };
         const model = { data_field: 2 };
-        expect(shallow(<ViewModelField field={field} model={model} suppliers={suppliers}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model} suppliers={suppliers}/>)).toMatchSnapshot();
     });
     test("it renders a supplier field that has data that is not found", () => {
         const field = {
@@ -188,13 +188,13 @@ describe('ViewModelField', () => {
         };
         const model = { data_field: 202 };
 
-        expect(shallow(<ViewModelField field={field} model={model} suppliers={suppliers}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} model={model} suppliers={suppliers}/>)).toMatchSnapshot();
     });
     test("it renders a supplier field that has no data", () => {
         const field = {
             fieldName: "data_field",
             type: SUPPLIER,
         };
-        expect(shallow(<ViewModelField field={field} suppliers={suppliers}/>)).toMatchSnapshot();
+        expect(shallow(<ModelViewRowField field={field} suppliers={suppliers}/>)).toMatchSnapshot();
     });
 });

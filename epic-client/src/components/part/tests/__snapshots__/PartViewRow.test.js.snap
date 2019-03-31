@@ -11,7 +11,7 @@ exports[`should display when multiple supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -367,7 +367,7 @@ exports[`should display when multiple supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -727,7 +727,7 @@ exports[`should display when multiple supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -1082,7 +1082,7 @@ exports[`should display when multiple supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -1437,7 +1437,7 @@ exports[`should display when multiple supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -1791,7 +1791,7 @@ exports[`should display when multiple supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -2150,7 +2150,7 @@ exports[`should display when no part and no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -2497,7 +2497,7 @@ exports[`should display when no part and no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -2848,7 +2848,7 @@ exports[`should display when no part and no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -3194,7 +3194,7 @@ exports[`should display when no part and no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -3540,7 +3540,7 @@ exports[`should display when no part and no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -3885,7 +3885,7 @@ exports[`should display when no part and no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -4235,7 +4235,7 @@ exports[`should display when no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -4591,7 +4591,7 @@ exports[`should display when no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -4951,7 +4951,7 @@ exports[`should display when no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -5306,7 +5306,7 @@ exports[`should display when no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -5661,7 +5661,7 @@ exports[`should display when no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -6015,7 +6015,7 @@ exports[`should display when no supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -6374,7 +6374,7 @@ exports[`should display when one supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -6730,7 +6730,7 @@ exports[`should display when one supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -7090,7 +7090,7 @@ exports[`should display when one supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -7445,7 +7445,7 @@ exports[`should display when one supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -7800,7 +7800,7 @@ exports[`should display when one supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {
@@ -8154,7 +8154,7 @@ exports[`should display when one supplier products exist 1`] = `
       }
     }
   >
-    <ViewModelField
+    <ModelViewRowField
       brands={
         Array [
           Object {

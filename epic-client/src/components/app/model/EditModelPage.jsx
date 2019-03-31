@@ -3,10 +3,10 @@ import React from "react";
 import * as PropTypes from "prop-types";
 import {eliminateReadOnlyFields, getModelKey, justReadOnlyFields} from "./helpers/model";
 import EditModelPageRow from "./EditModelPageRow";
-import EditModelPageViewOnlyRow from "./EditModelPageViewOnlyRow";
+import ViewModelFieldRow from "./ViewModelFieldRow";
 
 const EditModelPage = (props) => {
-    const { model, modelFields, persistedModel, className = "", sections, brands, suppliers, onChange, showReadOnlyFields } = props;
+    const { model, modelFields, persistedModel, className = "", sections, brands, suppliers, bikes, frames, customers, onChange, showReadOnlyFields } = props;
     const componentKey = getModelKey(model);
     return <div className="grid-container">
         {model.error && <div className="red">{model.error}</div>}
@@ -25,7 +25,7 @@ const EditModelPage = (props) => {
                 brands={brands}
                 suppliers={suppliers}
             />)}
-            {showReadOnlyFields && justReadOnlyFields(modelFields).map((field, index) => <EditModelPageViewOnlyRow
+            {showReadOnlyFields && justReadOnlyFields(modelFields).map((field, index) => <ViewModelFieldRow
                 key={`EditModelPageRow${field.fieldName}`}
                 field={field}
                 model={model}
@@ -33,6 +33,9 @@ const EditModelPage = (props) => {
                 index={index}
                 sections={sections}
                 brands={brands}
+                bikes={bikes}
+                frames={frames}
+                customers={customers}
                 suppliers={suppliers}
             />)}
         </div>
@@ -50,7 +53,10 @@ EditModelPage.propTypes = {
     className: PropTypes.string,
     sections: PropTypes.array,
     brands: PropTypes.array,
+    bikes: PropTypes.array,
+    frames: PropTypes.array,
     suppliers: PropTypes.array,
+    customers: PropTypes.array,
     onChange: PropTypes.func.isRequired,
     showReadOnlyFields: PropTypes.bool,
 };

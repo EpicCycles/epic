@@ -6,7 +6,7 @@ exports[`should display when passed an empty supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowsuppliernew"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "error": "A supplier must be selected",
@@ -38,7 +38,7 @@ exports[`should display when passed an empty supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowpartnew"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "error": "A part must be selected",
@@ -70,7 +70,7 @@ exports[`should display when passed an empty supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowproduct_codenew"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "product_code",
@@ -101,7 +101,7 @@ exports[`should display when passed an empty supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowfitted_pricenew"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "fitted_price",
@@ -130,7 +130,7 @@ exports[`should display when passed an empty supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowticket_pricenew"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "ticket_price",
@@ -159,7 +159,7 @@ exports[`should display when passed an empty supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowrrpnew"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "rrp",
@@ -195,7 +195,7 @@ exports[`should display when passed an empty supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowtrade_pricenew"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "trade_price",
@@ -224,7 +224,7 @@ exports[`should display when passed an empty supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowclub_pricenew"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "club_price",
@@ -252,7 +252,7 @@ exports[`should display when passed an empty supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowcheck_datenew"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "check_date",
@@ -285,7 +285,7 @@ exports[`should display when passed supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowsupplier121"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "error": "A supplier must be selected",
@@ -330,7 +330,7 @@ exports[`should display when passed supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowpart121"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "error": "A part must be selected",
@@ -375,7 +375,7 @@ exports[`should display when passed supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowproduct_code121"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "product_code",
@@ -419,7 +419,7 @@ exports[`should display when passed supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowfitted_price121"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "fitted_price",
@@ -461,7 +461,7 @@ exports[`should display when passed supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowticket_price121"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "ticket_price",
@@ -503,7 +503,7 @@ exports[`should display when passed supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowrrp121"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "rrp",
@@ -552,7 +552,7 @@ exports[`should display when passed supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowtrade_price121"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "trade_price",
@@ -594,7 +594,7 @@ exports[`should display when passed supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowclub_price121"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "club_price",
@@ -635,7 +635,7 @@ exports[`should display when passed supplier product 1`] = `
     className="grid-item "
     key="SupplierProductRowcheck_date121"
   >
-    <ViewModelField
+    <ModelViewRowField
       field={
         Object {
           "fieldName": "check_date",

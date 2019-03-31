@@ -1,5 +1,5 @@
 import React from "react";
-import EditModelPageViewOnlyRow from "../EditModelPageViewOnlyRow";
+import ViewModelFieldRow from "../ViewModelFieldRow";
 import {ADD_DATE_FIELD, ADDRESS1_FIELD} from "../helpers/fields";
 import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
 
@@ -40,10 +40,10 @@ const model = {
     postcode: "xxxyyy",
     customer: 6
 };
-describe('EditModelPageViewOnlyRow', () => {
+describe('ViewModelFieldRow', () => {
 
     test("should cope when there is no model", () => {
-        const component = shallow(<EditModelPageViewOnlyRow
+        const component = shallow(<ViewModelFieldRow
             model={emptyModel}
             field={ADDRESS1_FIELD}
             index={12}
@@ -52,7 +52,7 @@ describe('EditModelPageViewOnlyRow', () => {
         expect(component.type()).toEqual(null);
     });
     test("should show a field when it is there", () => {
-        const component = shallow(<EditModelPageViewOnlyRow
+        const component = shallow(<ViewModelFieldRow
             model={model}
             field={ADDRESS1_FIELD}
             componentKey={1}
@@ -65,7 +65,7 @@ describe('EditModelPageViewOnlyRow', () => {
         expect(component).toMatchSnapshot();
     });
     test("should show nothing if the field has no data", () => {
-        const component = shallow(<EditModelPageViewOnlyRow
+        const component = shallow(<ViewModelFieldRow
             model={model}
             field={ADD_DATE_FIELD}
             componentKey={1}

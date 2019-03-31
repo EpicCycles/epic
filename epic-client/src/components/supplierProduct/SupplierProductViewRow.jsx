@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
 import {getModelKey} from "../app/model/helpers/model";
 import {supplierProductFields} from "../app/model/helpers/fields";
-import ViewModelField from "../app/model/ViewModelField";
+import ModelViewRowField from "../app/model/ModelViewRowField";
 
 
 const SupplierProductViewRow = (props) => {
@@ -15,7 +15,7 @@ const SupplierProductViewRow = (props) => {
                 className={`grid-item ${fixed}`}
                 key={`SupplierProductRow${field.fieldName}${componentKey}`}
             >
-                <ViewModelField
+                <ModelViewRowField
                     field={field}
                     model={supplierProduct}
                     suppliers={suppliers}

@@ -9,7 +9,7 @@ import {formattedDate} from "./helpers/display";
 import {getCustomerName} from "../../customer/helpers/customer";
 import {getBikeName} from "../../bike/helpers/bike";
 
-class ViewModelField extends Component {
+class ModelViewRowField extends Component {
 
     render() {
         const { field, model, sections, brands, suppliers, customers, bikes, frames } = this.props;
@@ -50,7 +50,7 @@ class ViewModelField extends Component {
 
 }
 
-ViewModelField.propTypes = {
+ModelViewRowField.propTypes = {
     field: PropTypes.any.isRequired,
     model: PropTypes.any,
     sections: PropTypes.array,
@@ -60,4 +60,4 @@ ViewModelField.propTypes = {
     suppliers: PropTypes.array,
     customers: PropTypes.array,
 };
-export default ViewModelField;
+export default ModelViewRowField;
