@@ -47,7 +47,6 @@ class QuoteCreate extends React.Component {
         const bike = this.state.selectedBike;
         let quote = this.quoteStart(customer, bike);
         this.props.createQuote(quote);
-        this.setState({ redirect: '/quote' })
     };
 
     quoteStart(customer, bike) {

@@ -1,19 +1,17 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import {Dimmer, Loader} from 'semantic-ui-react'
 import CustomerDetailEdit from "./CustomerDetailEdit";
 import NoteEdit from "../note/NoteEdit";
-import {findObjectWithId, updateObject} from "../../helpers/utils";
+import {doWeHaveObjects, findObjectWithId, updateObject} from "../../helpers/utils";
 import CustomerAddressGrid from "./CustomerAddressGrid";
-import {
-    createEmptyModelWithDefaultFields,
-    getModelKey,
-    matchesModel
-} from "../app/model/helpers/model";
+import {createEmptyModelWithDefaultFields, getModelKey, matchesModel} from "../app/model/helpers/model";
 import CustomerPhoneGrid from "./CustomerPhoneGrid";
-import {customerNoteFields} from "../app/model/helpers/fields";
+import {customerNoteFields, quoteFieldsNoCustomer} from "../app/model/helpers/fields";
+import ViewModelBlock from "../app/model/ViewModelBlock";
+import QuoteGrid from "../quote/QuoteGrid";
 
 class CustomerEdit extends React.Component {
-    state = { note: createEmptyModelWithDefaultFields(customerNoteFields)};
+    state = { note: createEmptyModelWithDefaultFields(customerNoteFields) };
 
     componentDidUpdate(prevProps) {
         if (this.props.notes !== prevProps.notes) {
@@ -30,6 +28,12 @@ class CustomerEdit extends React.Component {
             this.props.createNote(noteToSave);
         }
     };
+    unArchiveQuote = quoteId => {
+        alert('would un-archive');
+    };
+    archiveQuote = quoteId => {
+        alert('would archive');
+    };
 
     render() {
         const { note } = this.state;
@@ -41,7 +45,7 @@ class CustomerEdit extends React.Component {
             deleteNote,
             deleteCustomerPhone, saveCustomerPhone,
             saveCustomerAddress, deleteCustomerAddress,
-            saveCustomer, createCustomer
+            saveCustomer, createCustomer, getQuote,
         } = this.props;
         const customer = findObjectWithId(customers, customerId);
         const note_key = getModelKey(note);
@@ -78,16 +82,34 @@ class CustomerEdit extends React.Component {
                     </div>}
                 </div>
                 <div>
-                    {(customerId) &&
-                    <NoteEdit
-                        saveNote={this.saveOrCreateCustomerNote}
-                        key={`detail${note_key}`}
-                        note={note}
-                        deleteNote={deleteNote}
-                        data-test="add-customer-note"
-                    />}
+                    {(customerId) && <Fragment>
+                        <NoteEdit
+                            saveNote={this.saveOrCreateCustomerNote}
+                            key={`detail${note_key}`}
+                            note={note}
+                            deleteNote={deleteNote}
+                            data-test="add-customer-note"
+                        />
+                        {notes && notes.map(oldNote => <ViewModelBlock
+                            modelFields={customerNoteFields}
+                            model={oldNote}
+                        />)}
+                    </Fragment>
+                    }
                 </div>
             </section>
+            {quotes && doWeHaveObjects(quotes) && <section>
+                <QuoteGrid
+                    displayFields={quoteFieldsNoCustomer}
+                    getQuote={getQuote}
+                    archiveQuote={this.archiveQuote}
+                    unArchiveQuote={this.unArchiveQuote}
+                    bikes={bikes}
+                    frames={frames}
+                    brands={brands}
+                    quotes={quotes}
+                />
+            </section>}
 
             {isLoading &&
             <Dimmer active inverted>

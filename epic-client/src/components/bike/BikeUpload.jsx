@@ -94,7 +94,7 @@ class BikeUpload extends React.Component {
             const partTypeNameLower = partTypeName.toLowerCase();
             const rowData = { rowIndex, partTypeName };
             const matchingField = bikeFields.some(field => {
-                if (field.synonyms.includes(partTypeNameLower)) {
+                if (field.synonyms && field.synonyms.includes(partTypeNameLower)) {
                     rowData.bikeAttribute = field.fieldName;
                     return true;
                 }

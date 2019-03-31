@@ -1,7 +1,6 @@
 import {buildPartObject} from "../../part/helpers/part";
 import {buildBrandNameArray, getBrandName} from "../../brand/helpers/brand";
 import {findObjectWithId} from "../../../helpers/utils";
-import {buildCustomerString} from "../../customer/helpers/customer";
 
 export const buildDataForApi = (brand, frameName, rowMappings, uploadedHeaders, uploadedData, brands) => {
     const brandsLower = buildBrandNameArray(brands);

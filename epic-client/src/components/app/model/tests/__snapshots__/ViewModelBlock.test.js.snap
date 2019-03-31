@@ -20,7 +20,6 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "text",
         }
       }
-      frames={[Window]}
       index={0}
       key="ViewModelFieldRowaddress1"
       model={Object {}}
@@ -35,7 +34,6 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "text",
         }
       }
-      frames={[Window]}
       index={1}
       key="ViewModelFieldRowaddress2"
       model={Object {}}
@@ -50,7 +48,6 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "text",
         }
       }
-      frames={[Window]}
       index={2}
       key="ViewModelFieldRowaddress3"
       model={Object {}}
@@ -65,7 +62,6 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "text",
         }
       }
-      frames={[Window]}
       index={3}
       key="ViewModelFieldRowaddress4"
       model={Object {}}
@@ -1080,7 +1076,6 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "select_one",
         }
       }
-      frames={[Window]}
       index={4}
       key="ViewModelFieldRowcountry"
       model={Object {}}
@@ -1099,7 +1094,6 @@ exports[`ViewModelBlock it renders 1`] = `
           ],
         }
       }
-      frames={[Window]}
       index={5}
       key="ViewModelFieldRowpostcode"
       model={Object {}}
@@ -1113,7 +1107,6 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "checkbox",
         }
       }
-      frames={[Window]}
       index={6}
       key="ViewModelFieldRowbilling"
       model={Object {}}
@@ -1128,7 +1121,6 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "date_time",
         }
       }
-      frames={[Window]}
       index={7}
       key="ViewModelFieldRowadd_date"
       model={Object {}}
@@ -1143,7 +1135,6 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "date_time",
         }
       }
-      frames={[Window]}
       index={8}
       key="ViewModelFieldRowupd_date"
       model={Object {}}
@@ -1188,7 +1179,6 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "text",
         }
       }
-      frames={[Window]}
       index={0}
       key="ViewModelFieldRowaddress1"
       model={
@@ -1275,7 +1265,6 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "text",
         }
       }
-      frames={[Window]}
       index={1}
       key="ViewModelFieldRowaddress2"
       model={
@@ -1362,7 +1351,6 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "text",
         }
       }
-      frames={[Window]}
       index={2}
       key="ViewModelFieldRowaddress3"
       model={
@@ -1449,7 +1437,6 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "text",
         }
       }
-      frames={[Window]}
       index={3}
       key="ViewModelFieldRowaddress4"
       model={
@@ -2536,7 +2523,6 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "select_one",
         }
       }
-      frames={[Window]}
       index={4}
       key="ViewModelFieldRowcountry"
       model={
@@ -2627,7 +2613,6 @@ exports[`ViewModelBlock it renders with data 1`] = `
           ],
         }
       }
-      frames={[Window]}
       index={5}
       key="ViewModelFieldRowpostcode"
       model={
@@ -2713,7 +2698,6 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "checkbox",
         }
       }
-      frames={[Window]}
       index={6}
       key="ViewModelFieldRowbilling"
       model={
@@ -2800,7 +2784,6 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "date_time",
         }
       }
-      frames={[Window]}
       index={7}
       key="ViewModelFieldRowadd_date"
       model={
@@ -2887,7 +2870,6 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "date_time",
         }
       }
-      frames={[Window]}
       index={8}
       key="ViewModelFieldRowupd_date"
       model={

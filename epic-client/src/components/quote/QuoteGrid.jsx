@@ -19,7 +19,7 @@ const QuoteGrid = props => {
         }}
     >
         <div key="bikeReviewHeaders" className="grid-row grid-row--header">
-            <ModelTableHeaders modelFields={quoteFields} lockFirstColumn={true}/>
+            <ModelTableHeaders modelFields={displayFields} lockFirstColumn={true}/>
             <div className="grid-item--header">action</div>
         </div>
         {quotes.map(quote => {
@@ -29,7 +29,7 @@ const QuoteGrid = props => {
                     iconName: 'eye',
                     iconTitle: 'view quote',
                     iconAction: getQuote,
-                    iconDisabled: (quote.quote_status !== 3),
+                    iconDisabled: (quote.quote_status === 3),
                 },
                 {
                     iconName: 'remove',
@@ -69,6 +69,7 @@ const QuoteGrid = props => {
 
 QuoteGrid.defaultProps = {
     displayFields: quoteFields,
+    quotes:[],
 };
 
 QuoteGrid.propTypes = {

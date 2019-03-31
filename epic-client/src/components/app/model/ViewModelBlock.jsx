@@ -5,7 +5,7 @@ import {getModelKey} from "./helpers/model";
 import ViewModelFieldRow from "./ViewModelFieldRow";
 
 const ViewModelBlock = (props) => {
-    const { model, modelFields, className = "", sections, bikes, brands, suppliers, customers } = props;
+    const { model, modelFields, className = "", sections, bikes, frames, brands, suppliers, customers } = props;
     const componentKey = getModelKey(model);
     return <div className="grid-container">
         {model.error && <div className="red">{model.error}</div>}

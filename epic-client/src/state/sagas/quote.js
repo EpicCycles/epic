@@ -90,6 +90,8 @@ export function* createQuote(action) {
             const completePayload = updateObject(action.payload, { token });
             const response = yield call(quote.createQuote, completePayload);
             yield put(createQuoteOK(response.data));
+            yield put(getCustomer(response.data.customerId));
+            yield call(history.push, "/quote");
         } else {
             yield call(history.push, "/login");
         }
