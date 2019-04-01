@@ -1,6 +1,4 @@
-import {findObjectWithKey, updateObject} from "../../../helpers/utils";
-import {NEW_ELEMENT_ID} from "../../../helpers/constants";
-import {PART_TYPE_NAME_MISSING} from "../../app/model/helpers/error";
+import {findObjectWithKey} from "../../../helpers/utils";
 
 export const NEW_PART_TYPE = {
     attributes: [],
@@ -15,61 +13,13 @@ export const NEW_ATTRIBUTE = {
     mandatory: false,
     attribute_type: 1,
 };
-export const getPartTypeName = (partTypeId, sections) => {
-    if (! partTypeId) return undefined;
-    return getPartType(partTypeId, sections).name;
-};
 
-export const getPartType = (partTypeId, sections) => {
-if (! partTypeId) return undefined;
-    let partType = {};
-    sections.some(section => {
-        return section.partTypes.some(aPartType => {
-            if (aPartType.id === partTypeId) {
-                partType = aPartType;
-                return true;
-            }
-            return false;
-        });
-    });
-    return partType;
-};
-export const getPartTypeAttributeFields = (partTypeId, sections) => {
-    return getPartType(partTypeId, sections).attributes || [];
-};
 
-export const processPartTypeValueChanges = (partType, componentKey, fieldName, input) => {
-    const updatedPartType = updateObject(partType);
-    if (fieldName.startsWith('name')) updatedPartType.name = input;
-    if (!updatedPartType.name) {
-        updatedPartType.error = true;
-        updatedPartType.error_detail = PART_TYPE_NAME_MISSING;
-    } else {
-        updatedPartType.error = false;
-        updatedPartType.error_detail = "";
-    }
-    if (fieldName.startsWith('description')) updatedPartType.description = input;
-    if (fieldName.startsWith('can_be_substituted')) updatedPartType.can_be_substituted = input;
-    if (fieldName.startsWith('can_be_omitted')) updatedPartType.can_be_omitted = input;
-    if (fieldName.startsWith('customer_visible')) updatedPartType.customer_visible = input;
-    if (fieldName.startsWith('attributes')) updatedPartType.attributes = input;
-    if (fieldName.startsWith('synonyms')) updatedPartType.synonyms = input;
-    if (fieldName.startsWith('detail')) updatedPartType._detail = input;
-    if (componentKey === NEW_ELEMENT_ID) updatedPartType.dummyKey = NEW_ELEMENT_ID;
 
-    updatedPartType.changed = true;
-    return updatedPartType;
-};
-export const doesFieldMatchPartType = (partType, fieldName) => {
-    const fieldNameLower = fieldName.toLowerCase();
-    if (partType.name.toLowerCase() === fieldNameLower) {
-        return true;
-    } else {
-        return partType.synonyms.some(synonym => {
-            return (synonym.name.toLowerCase() === fieldNameLower);
-        });
-    }
-};
+
+
+
+
 export const attributeSummary = (attribute) => {
     let attributeDetail = [attribute.attribute_name];
     if (attribute.in_use) attributeDetail.push(" in use");

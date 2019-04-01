@@ -1,5 +1,5 @@
 import React from 'react';
-import {moveObjectToTop} from '../helpers/framework';
+import {moveObjectToTop} from '../framework';
 
 describe('moveObjectToTop tests', () => {
     it('does not fail if an id is not found', () => {

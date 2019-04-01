@@ -1,5 +1,5 @@
 import React from 'react';
-import { renumberAll } from '../helpers/framework';
+import { renumberAll } from '../framework';
 
 describe('framework renumberAll tests', () => {
    it('sets a singe instance array to 10', () => {
@@ -57,7 +57,7 @@ describe('framework renumberAll tests', () => {
                placing: 4,
                  partTypes: [
                      {id: 1,
-                         shortName: 'Frame',
+                         name: 'Frame',
                          description: null,
                          placing: 1,}
                  ]
@@ -69,7 +69,7 @@ describe('framework renumberAll tests', () => {
                    {id: 1,
                        attributes: [
                        ],
-                       shortName: 'Frame',
+                       name: 'Frame',
                        description: null,
                        placing: 1,},
                    {id: 2,
@@ -102,7 +102,7 @@ describe('framework renumberAll tests', () => {
                                partType: 1
                            }
                        ],
-                       shortName: 'Frame',
+                       name: 'Frame',
                        description: null,
                        placing: 1,},
                    {id: 3,
@@ -117,7 +117,7 @@ describe('framework renumberAll tests', () => {
                                partType: 1
                            }
                        ],
-                       shortName: 'Frame',
+                       name: 'Frame',
                        description: null,
                        placing: 1,}
                ],

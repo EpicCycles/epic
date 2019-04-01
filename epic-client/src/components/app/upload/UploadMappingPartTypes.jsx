@@ -3,10 +3,11 @@ import {Button, Icon} from "semantic-ui-react";
 import {UploadPartTypeMapping} from "./UploadPartTypeMapping";
 import {NEW_ELEMENT_ID} from "../../../helpers/constants";
 import PartTypeModal from "../../partType/PartTypeModal";
-import {doesFieldMatchPartType, renumberAll} from "../../framework/helpers/framework";
+import {renumberAll} from "../../framework/helpers/framework";
 import {generateRandomCode, removeKey, updateObject, updateObjectInArray} from "../../../helpers/utils";
 import * as PropTypes from "prop-types";
 import {getModelKey} from "../model/helpers/model";
+import {doesFieldMatchPartType} from "../../framework/helpers/partType";
 
 class UploadMappingPartTypes extends React.Component {
     constructor(props) {

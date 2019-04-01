@@ -1,5 +1,5 @@
 import React from 'react';
-import {attributeSummary} from "../helpers/framework";
+import {attributeSummary} from "../framework";
 
 test('returns an attribute correctly with no options', () => {
     const attribute = {

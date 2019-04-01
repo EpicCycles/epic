@@ -1,4 +1,4 @@
-import {getPartTypeAttributeFields} from "../helpers/framework";
+import {getPartTypeAttributeFields} from "../partType";
 
 const sections = [
     {

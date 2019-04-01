@@ -3,7 +3,7 @@ import {generateRandomCode, updateObject} from "../../helpers/utils";
 import {Icon} from "semantic-ui-react";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import PartTypeData from "./PartTypeData";
-import {processPartTypeValueChanges} from "../framework/helpers/framework";
+import {processPartTypeValueChanges} from "../framework/helpers/partType";
 
 class PartTypeEdit extends React.Component {
     handlePartTypeValueChange = (fieldName, input) => {

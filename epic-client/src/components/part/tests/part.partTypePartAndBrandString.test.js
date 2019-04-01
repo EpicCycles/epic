@@ -292,7 +292,7 @@ test('should build a string containing unknown brand when brand is not found', (
         partType: 23,
         brand: 6
     };
-    const expectedPartName = "Unknown Type: Unknown Brand A-Head Tapered Cartridge aluminium";
+    const expectedPartName = "Unknown Part Type: Unknown Brand A-Head Tapered Cartridge aluminium";
     expect(partTypePartAndBrandString(part, sections, brands)).toEqual(expectedPartName)
 });
 test('should build a string containing brand when brand is found', () => {

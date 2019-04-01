@@ -5,7 +5,7 @@ import BikeUploadParts from "./BikeUploadParts";
 import BikeUploadReview from "./BikeUploadReview";
 import BikeUploadFrame from "./BikeUploadFrame";
 import UploadMappingPartTypes from "../app/upload/UploadMappingPartTypes";
-import {doesFieldMatchPartType} from "../framework/helpers/framework";
+import {doesFieldMatchPartType} from "../framework/helpers/partType";
 import {findObjectWithId, updateObject} from "../../helpers/utils";
 import BikeUploadMappingReview from "./BikeUploadMappingReview";
 import {Button} from "semantic-ui-react";

@@ -1,5 +1,5 @@
 import React from 'react';
-import {moveObjectDownOnePlace} from '../helpers/framework';
+import {moveObjectDownOnePlace} from '../framework';
 
 describe('moveObjectDownOnePlace tests', () => {
     it('does not fail if an id is not found', () => {

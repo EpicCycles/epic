@@ -1,7 +1,5 @@
 export const getSupplierName = (supplier, suppliers) => {
     if (! supplier) return undefined;
-    if (! (suppliers && Array.isArray(suppliers) && (suppliers.length > 0) )) return undefined;
-
     if (Array.isArray(supplier)) {
         const supplierNameArray = supplier.map(supplierId => {
             return findSupplierNameforId(supplierId, suppliers);
@@ -11,13 +9,16 @@ export const getSupplierName = (supplier, suppliers) => {
     return findSupplierNameforId(supplier, suppliers)
 };
 export const findSupplierNameforId = (supplierId, suppliers) => {
-    let supplierName;
-    suppliers.some(supplier => {
-        if (supplier.id == supplierId) {
-            supplierName = supplier.supplier_name;
-            return true;
-        }
-        return false;
-    });
+    if (!supplierId) return;
+    let supplierName = 'Unknown Supplier';
+    if (Array.isArray(suppliers)) {
+        suppliers.some(supplier => {
+            if (supplier.id == supplierId) {
+                supplierName = supplier.supplier_name;
+                return true;
+            }
+            return false;
+        });
+    }
     return supplierName;
 };

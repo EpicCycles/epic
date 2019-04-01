@@ -1,4 +1,4 @@
-import {getPartTypeAttributeFields} from "../../framework/helpers/framework";
+import {getPartTypeAttributeFields} from "../../framework/helpers/partType";
 import {doWeHaveObjects, updateObject} from "../../../helpers/utils";
 import {buildFieldForAttribute} from "../../partTypeAttribute/helpers/partTypeAttribute";
 

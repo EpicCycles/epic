@@ -1,5 +1,5 @@
 import React from 'react';
-import {moveObjectToBottom} from '../helpers/framework';
+import {moveObjectToBottom} from '../framework';
 
 describe('moveObjectToBottom tests', () => {
     it('does not fail if an id is not found', () => {

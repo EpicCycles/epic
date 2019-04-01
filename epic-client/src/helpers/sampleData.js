@@ -119,7 +119,7 @@ export const sampleSections = [
                     }
                 ],
                 "synonyms": [],
-                "shortName": "Frame",
+                "name": "Frame",
                 "placing": 10,
                 "can_be_substituted": true,
                 "can_be_omitted": false,
@@ -132,11 +132,11 @@ export const sampleSections = [
                 "synonyms": [
                     {
                         "id": 1,
-                        "shortName": "Front Fork",
+                        "name": "Front Fork",
                         "partType": 2
                     }
                 ],
-                "shortName": "Fork",
+                "name": "Fork",
                 "placing": 20,
                 "can_be_substituted": false,
                 "can_be_omitted": true,
@@ -147,7 +147,7 @@ export const sampleSections = [
                 "id": 3,
                 "attributes": [],
                 "synonyms": [],
-                "shortName": "Headset",
+                "name": "Headset",
                 "placing": 30,
                 "can_be_substituted": false,
                 "can_be_omitted": false,

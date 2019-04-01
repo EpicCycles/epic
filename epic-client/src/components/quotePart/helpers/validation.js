@@ -10,7 +10,6 @@ import {addErrorDetail} from "../../app/model/helpers/model";
 import {definedOrZero, updateObject} from "../../../helpers/utils";
 import {VALUE_MISSING} from "../../app/model/helpers/error";
 import {hasMandatoryAttributes} from "./quotePart";
-import {getPartType} from "../../framework/helpers/framework";
 
 const NOT_REPLACEMENT = 'No matching part on bike specification.';
 const NEED_TRADE_IN = "A trade in price must be keyed (can be zero).";
