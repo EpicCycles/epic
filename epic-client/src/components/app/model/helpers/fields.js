@@ -44,7 +44,7 @@ export const ATTRIBUTE_TYPE = "attribute_type";
 export const ATTRIBUTE_VALUE = "attribute_value";
 export const OPTION_NAME = "option_name";
 export const BAR_HEIGHT = "bar_height";
-export const BIKE = "bike_name";
+export const BIKE = "bike";
 export const BILLING = "billing";
 export const BIKE_PRICE = "bike_price";
 export const BIKE_BRAND = "bike_brand";
@@ -199,7 +199,7 @@ export const BIKE_FIELD = {
     fieldName: BIKE,
     header: "Bike",
     readOnly: true,
-    type: TEXT
+    type: BIKE
 };
 export const BILLING_FIELD = {
     fieldName: BILLING,
