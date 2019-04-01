@@ -2,7 +2,6 @@ import {
     BIKE,
     BRAND,
     CHECKBOX,
-    COUNTRY,
     CURRENCY,
     CUSTOMER,
     DATE_TIME,
@@ -69,13 +68,13 @@ export const fieldAlignment = field => {
                 viewData = fieldValue ? formattedDate(new Date(fieldValue)) : "";
                 break;
             case PART_TYPE:
-                viewData = getPartTypeName(fieldValue, sections);
+                viewData = fieldValue ? getPartTypeName(fieldValue, sections) : '';
                 break;
             case BRAND:
-                viewData = getBrandName(fieldValue, brands);
+                viewData = fieldValue ? getBrandName(fieldValue, brands) : '';
                 break;
             case SUPPLIER:
-                viewData = getSupplierName(fieldValue, suppliers);
+                viewData = fieldValue ? getSupplierName(fieldValue, suppliers) : '';
                 break;
             case CUSTOMER:
                 viewData = fieldValue ? getCustomerName(fieldValue, customers) : '';

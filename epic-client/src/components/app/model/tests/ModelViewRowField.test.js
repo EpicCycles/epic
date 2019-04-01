@@ -1,5 +1,5 @@
 import React from 'react';
-import {BRAND, CHECKBOX, COUNTRY, CURRENCY, DATE_TIME, PART_TYPE, SUPPLIER, TEXT} from "../helpers/fields";
+import {CURRENCY, DATE_TIME, TEXT} from "../helpers/fields";
 import ModelViewRowField from "../ModelViewRowField";
 
 const foundName = "find me";
@@ -31,7 +31,7 @@ const suppliers = [
 ];
 describe('ModelViewRowField', () => {
 
-    test("it renders a date field that has data", () => {
+    test("it should render when passed a field with data", () => {
         const field = {
             fieldName: "data_field",
             type: DATE_TIME,
@@ -39,7 +39,7 @@ describe('ModelViewRowField', () => {
         const model = { data_field: new Date(Date.UTC(2012, 11, 20, 3, 0, 0)) };
         expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
     });
-    test("it renders a date field that has no data", () => {
+    test("it renders when passed a field that has no data", () => {
         const field = {
             fieldName: "data_field",
             type: CURRENCY,
@@ -47,154 +47,14 @@ describe('ModelViewRowField', () => {
         };
         expect(shallow(<ModelViewRowField field={field}/>)).toMatchSnapshot();
     });
-    test("it renders a currency field that has data", () => {
-        const field = {
-            fieldName: "data_field",
-            type: CURRENCY,
-            length: 10
-        };
-        const model = { data_field: 23.90 };
-        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
-    });
-    test("it renders a currency field that has no data", () => {
-        const field = {
-            fieldName: "data_field",
-            type: CURRENCY,
-            length: 10
-        };
-        expect(shallow(<ModelViewRowField field={field}/>)).toMatchSnapshot();
-    });
-    test("it renders a country field that has data", () => {
-        const field = {
-            fieldName: "data_field",
-            type: COUNTRY,
-        };
-        const model = { data_field: "DE" };
-        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
-    });
-    test("it renders a country field that has no data", () => {
-        const field = {
-            fieldName: "data_field",
-            type: COUNTRY,
-        };
-        expect(shallow(<ModelViewRowField field={field}/>)).toMatchSnapshot();
-    });
-    test("it renders a text field that has data", () => {
+    test("it renders when passed a field that has multiple values", () => {
         const field = {
             fieldName: "data_field",
             type: TEXT,
             length: 10
         };
-        const model = { data_field: "SHow text" };
-        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
-    });
-    test("it renders a text field that has no data", () => {
-        const field = {
-            fieldName: "data_field",
-            type: TEXT,
-            length: 10
-        };
+        const model = { data_field: ['one', 'two', 'three'] };
         expect(shallow(<ModelViewRowField field={field}/>)).toMatchSnapshot();
     });
-    test("it renders a checkbox field that is true", () => {
-        const field = {
-            fieldName: "data_field",
-            type: CHECKBOX,
-        };
-        const model = { data_field: true };
-        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
-    });
-    test("it renders a checkbox field that is false", () => {
-        const field = {
-            fieldName: "data_field",
-            type: CHECKBOX,
-        };
-        const model = { data_field: false };
-        expect(shallow(<ModelViewRowField field={field} model={model}/>)).toMatchSnapshot();
-    });
-    test("it renders a checkbox field that has no data", () => {
-        const field = {
-            fieldName: "data_field",
-            type: CURRENCY,
-            length: 10
-        };
-        expect(shallow(<ModelViewRowField field={field}/>)).toMatchSnapshot();
-    });
-    test("it renders a part type field that has data that is found", () => {
-        const field = {
-            fieldName: "data_field",
-            type: PART_TYPE,
-            length: 10
-        };
-        const model = { data_field: 2 };
-        expect(shallow(<ModelViewRowField field={field} model={model} sections={sections}/>)).toMatchSnapshot();
-    });
-    test("it renders a part type field that has data that is not found", () => {
-        const field = {
-            fieldName: "data_field",
-            type: PART_TYPE,
-            length: 10
-        };
-        const model = { data_field: 202 };
 
-        expect(shallow(<ModelViewRowField field={field} model={model} sections={sections}/>)).toMatchSnapshot();
-    });
-    test("it renders a part Type field that has no data", () => {
-        const field = {
-            fieldName: "data_field",
-            type: PART_TYPE,
-            length: 10
-        };
-        expect(shallow(<ModelViewRowField field={field} sections={sections}/>)).toMatchSnapshot();
-    });
-    test("it renders a brand field that has data that is found", () => {
-        const field = {
-            fieldName: "data_field",
-            type: BRAND,
-            length: 10
-        };
-        const model = { data_field: 2 };
-        expect(shallow(<ModelViewRowField field={field} model={model} brands={brands}/>)).toMatchSnapshot();
-    });
-    test("it renders a brand field that has data that is not found", () => {
-        const field = {
-            fieldName: "data_field",
-            type: BRAND,
-        };
-        const model = { data_field: 202 };
-
-        expect(shallow(<ModelViewRowField field={field} model={model} brands={brands}/>)).toMatchSnapshot();
-    });
-    test("it renders a brand field that has no data", () => {
-        const field = {
-            fieldName: "data_field",
-            type: BRAND,
-        };
-        expect(shallow(<ModelViewRowField field={field} brands={brands}/>)).toMatchSnapshot();
-    });
-    test("it renders a supplier field that has data that is found", () => {
-        const field = {
-            fieldName: "data_field",
-            type: SUPPLIER,
-            length: 10
-        };
-        const model = { data_field: 2 };
-        expect(shallow(<ModelViewRowField field={field} model={model} suppliers={suppliers}/>)).toMatchSnapshot();
-    });
-    test("it renders a supplier field that has data that is not found", () => {
-        const field = {
-            fieldName: "data_field",
-            type: SUPPLIER,
-        };
-        const model = { data_field: 202 };
-
-        expect(shallow(<ModelViewRowField field={field} model={model} suppliers={suppliers}/>)).toMatchSnapshot();
-    });
-    test("it renders a supplier field that has no data", () => {
-        const field = {
-            fieldName: "data_field",
-            type: SUPPLIER,
-        };
-        expect(shallow(<ModelViewRowField field={field} suppliers={suppliers}/>)).toMatchSnapshot();
-    });
 });
