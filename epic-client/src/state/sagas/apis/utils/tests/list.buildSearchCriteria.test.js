@@ -1,6 +1,6 @@
 import {buildSearchCriteria} from "../list";
 
-dscribe('buildSearchCriteria', () => {
+describe('buildSearchCriteria', () => {
     it('should add no criteria when an empty object is passed', () => {
         expect(buildSearchCriteria({})).toBe('');
     })
