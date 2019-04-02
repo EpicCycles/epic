@@ -15,6 +15,7 @@ const ModelActions = props => <div
         onClick={() => (!(props.actionsDisabled || action.iconDisabled)) && action.iconAction(props.componentKey)}
         key={`${action.iconName}-${props.componentKey}`}
         data-test="model-action"
+        disabled={(props.actionsDisabled || action.iconDisabled)}
     />)}
 </div>;
 

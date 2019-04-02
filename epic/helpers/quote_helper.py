@@ -1,5 +1,3 @@
-from django.contrib import messages
-
 from epic.helpers.note_helper import create_note_for_requote, create_note_for_quote_archive
 from epic.models.bike_models import Bike
 from epic.models.quote_models import INITIAL, ARCHIVED, Quote, QuotePart, Customer
@@ -16,7 +14,6 @@ def quote_requote(request, quote: Quote):
     quote.save()
 
     create_note_for_requote(quote, request.user)
-    messages.info(request, f'Quote status reset to initial - {str(quote)}')
 
 
 def quote_requote_reset_prices(request, quote):
@@ -37,7 +34,6 @@ def quote_requote_reset_prices(request, quote):
     quote.save()
 
     create_note_for_requote(quote, request.user)
-    messages.info(request, f'Quote status reset to initial and all prices reset - {str(quote)}')
 
 
 def quote_archive(request, quote):
@@ -48,7 +44,6 @@ def quote_archive(request, quote):
         quote.save()
 
         create_note_for_quote_archive(quote, request.user)
-        messages.info(request, f'Quote archived - {str(quote)}')
 
 
 # create a new quote based on an existing quote

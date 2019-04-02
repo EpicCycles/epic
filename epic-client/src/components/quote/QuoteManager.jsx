@@ -1,14 +1,16 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import TabbedView from "../../common/TabbedView";
 import * as PropTypes from "prop-types";
 import {doWeHaveObjects} from "../../helpers/utils";
 import CustomerEdit from "../customer/CustomerEdit";
+import {quoteFields} from "../app/model/helpers/fields";
+import QuoteGrid from "./QuoteGrid";
 
 const tabs = [
     "Customer",
-    "Bike",
     "Quote List",
     "Quote detail",
+    "Bike Quotes"
 ];
 const initialState = {
     tab: 0,
@@ -42,6 +44,7 @@ class QuoteManager extends React.Component {
         if (newTab !== this.state.tab) this.setState({ tab: newTab })
     };
 
+
     render() {
         const { tab } = this.state;
         const {
@@ -56,30 +59,53 @@ class QuoteManager extends React.Component {
             createNote,
             deleteCustomerPhone, saveCustomerPhone,
             saveCustomerAddress, deleteCustomerAddress,
-            saveCustomer
+            saveCustomer,
+            quotes,
+            quoteId,
+            brands,
+            suppliers,
+            bikes,
+            frames,
+            archiveQuote,
+            unarchiveQuote,
+            changeQuote,
         } = this.props;
         return <div className='page-content'>
             <TabbedView tabs={tabs} changeTab={this.changeCurrentTab} currentTab={tab}/>
             {(tab === 0) && <CustomerEdit
-            addresses={addresses}
-            phones={phones}
-            customers={customers}
-            deleteCustomer={deleteCustomer}
-            isLoading={isLoading}
-            customerId={customerId}
-            deleteNote={deleteNote}
-            saveNote={saveNote}
-            createNote={createNote}
-            deleteCustomerPhone={deleteCustomerPhone}
-            saveCustomerPhone={saveCustomerPhone}
-            saveCustomerAddress={saveCustomerAddress}
-            deleteCustomerAddress={deleteCustomerAddress}
-            saveCustomer={saveCustomer}
-            data-test="customer-tab"
-        />}
-            {(tab === 1) && <h1 data-test="bike-tab">Bike</h1>}
-            {(tab === 2) && <h1 data-test="quote-list-tab">QUote List</h1>}
-            {(tab === 3) && <h1 data-test="quote-detail-tab">Quote detail</h1>}
+                addresses={addresses}
+                phones={phones}
+                customers={customers}
+                deleteCustomer={deleteCustomer}
+                isLoading={isLoading}
+                customerId={customerId}
+                deleteNote={deleteNote}
+                saveNote={saveNote}
+                createNote={createNote}
+                deleteCustomerPhone={deleteCustomerPhone}
+                saveCustomerPhone={saveCustomerPhone}
+                saveCustomerAddress={saveCustomerAddress}
+                deleteCustomerAddress={deleteCustomerAddress}
+                saveCustomer={saveCustomer}
+                data-test="customer-tab"
+            />}
+            {(tab === 1) && <Fragment>
+                <h1>Quote List</h1>
+                <QuoteGrid
+                    displayFields={quoteFields}
+                    getQuote={changeQuote}
+                    archiveQuote={archiveQuote}
+                    unarchiveQuote={unarchiveQuote}
+                    quotes={quotes}
+                    customers={customers}
+                    brands={brands}
+                    bikes={bikes}
+                    frames={frames}
+                    data-test="quote-list-tab"
+                />
+            </Fragment>}
+            {(tab === 2) && <h1 data-test="quote-detail-tab">Quote detail</h1>}
+            {(tab === 3) && <h1 data-test="bike-quotes-tab">Bike Quotes</h1>}
         </div>
     };
 }
@@ -116,6 +142,10 @@ QuoteManager.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
+    quoteId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+    ]),
     addresses: PropTypes.array,
     phones: PropTypes.array,
     notes: PropTypes.array,
@@ -137,6 +167,10 @@ QuoteManager.propTypes = {
     deleteCustomerPhone: PropTypes.func.isRequired,
     saveCustomerAddress: PropTypes.func.isRequired,
     deleteCustomerAddress: PropTypes.func.isRequired,
+    getQuote: PropTypes.func.isRequired,
+    archiveQuote: PropTypes.func.isRequired,
+    unarchiveQuote: PropTypes.func.isRequired,
+    changeQuote: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 

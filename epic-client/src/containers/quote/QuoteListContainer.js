@@ -1,7 +1,7 @@
 import {connect} from 'react-redux'
 import {getFrameList} from "../../state/actions/bike";
 import {clearCustomerState, getCustomerList} from "../../state/actions/customer";
-import {clearQuoteState, getQuote, getQuoteList} from "../../state/actions/quote";
+import {archiveQuote, clearQuoteState, getQuote, getQuoteList, unarchiveQuote} from "../../state/actions/quote";
 import QuoteList from "../../components/quote/QuoteList";
 import {getBrandsAndSuppliers} from "../../state/actions/core";
 
@@ -31,5 +31,7 @@ const mapDispatchToProps = {
     clearQuoteState,
     getQuoteList,
     getQuote,
+    archiveQuote,
+    unarchiveQuote,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(QuoteList)

@@ -8,6 +8,20 @@ def create_note_for_requote(quote, user):
     customer_note.save()
 
 
+def create_note_for_new_quote(quote, user):
+    note_text = "Quote created"
+    customer_note = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,
+                                 customer_visible=False)
+    customer_note.save()
+
+
+def create_note_for_saved_quote(quote, user):
+    note_text = "Quote updated"
+    customer_note = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,
+                                 customer_visible=False)
+    customer_note.save()
+
+
 def create_note_for_quote_archive(quote, user):
     note_text = "Quote Archived"
     customer_note = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,

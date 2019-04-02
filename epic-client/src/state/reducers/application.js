@@ -27,7 +27,7 @@ import {
 } from "../actions/bike";
 import {PART_UPLOAD} from "../actions/part";
 import {CUSTOMER} from "../../components/app/model/helpers/fields";
-import {COPY_QUOTE, CREATE_QUOTE, FIND_QUOTES, GET_QUOTE} from "../actions/quote";
+import {COPY_QUOTE, CREATE_QUOTE, FIND_QUOTES, GET_QUOTE, UPDATE_QUOTE} from "../actions/quote";
 
 const initialState = {
     message: "",
@@ -119,6 +119,7 @@ const application = (state = initialState, action) => {
         case  `${COPY_QUOTE}_REQUESTED`:
         case  `${FIND_QUOTES}_REQUESTED`:
         case  `${GET_QUOTE}_REQUESTED`:
+        case  `${UPDATE_QUOTE}_REQUESTED`:
             return initialState;
         case `${CUSTOMER_LIST}_ERROR`:
         case `${CUSTOMER_CREATE}_ERROR`:
@@ -151,6 +152,7 @@ const application = (state = initialState, action) => {
         case  `${COPY_QUOTE}_ERROR`:
         case  `${FIND_QUOTES}_ERROR`:
         case  `${GET_QUOTE}_ERROR`:
+        case  `${UPDATE_QUOTE}_ERROR`:
             return {
                 ...state,
                 message: action.payload,

@@ -4,6 +4,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from epic.helpers.note_helper import create_note_for_requote, create_note_for_new_quote
 from epic.helpers.quote_helper import copy_quote_with_changes
 from epic.model_serializers.bike_serializer import BikePartSerializer, BikeSerializer, FrameSerializer
 from epic.model_serializers.customer_serializer import CustomerSerializer
@@ -12,7 +13,7 @@ from epic.model_serializers.quote_serializer import QuoteSerializer, QuotePartSe
 from epic.models.bike_models import Frame, Bike, BikePart
 from epic.models.brand_models import Part, SupplierProduct
 from epic.models.customer_models import Customer
-from epic.models.quote_models import Quote, QuotePart
+from epic.models.quote_models import Quote, QuotePart, INITIAL, ARCHIVED, ISSUED
 
 
 class QuotesApi(generics.ListCreateAPIView):
@@ -21,17 +22,24 @@ class QuotesApi(generics.ListCreateAPIView):
     serializer_class = QuoteSerializer
 
     def get_queryset(self):
-        search_customer = self.request.query_params.get('customerId', None)
+        search_customer = self.request.query_params.get('selectedCustomer', None)
         search_brand = self.request.query_params.get('brand', None)
         search_name = self.request.query_params.get('frameName', None)
         search_bike = self.request.query_params.get('bike', None)
-        include_archived = self.request.query_params.get('archived', None)
+        include_archived = self.request.query_params.get('archived', False)
+
+        print('query params ', self.request.query_params)
         q = Quote.objects.all()
+
+        if not include_archived:
+            q = q.exclude(quote_status=ARCHIVED)
 
         if search_customer:
             q = q.filter(customer__id=search_customer)
+
         if search_bike:
             q = q.filter(bike__id=search_bike)
+
         elif search_name or search_brand:
             q_frames = Frame.objects.all()
             if search_brand:
@@ -43,12 +51,6 @@ class QuotesApi(generics.ListCreateAPIView):
 
             q = q.filter(bike__frame__in=q_frames)
 
-        # if filter added on name add it to query set
-        if search_name:
-            q = q.filter(part_name__icontains=search_name)
-
-        if not include_archived:
-            q.exclude(quote_status=3)
         return q
 
     def get(self, request):
@@ -74,9 +76,11 @@ class QuotesApi(generics.ListCreateAPIView):
                          'customers': customer_serializer.data})
 
     def post(self, request):
+        user = request.user
         serializer = QuoteSerializer(data=request.data)
         if serializer.is_valid():
-            quote = serializer.save()
+            quote = serializer.save(created_by=user)
+            create_note_for_new_quote(quote, user)
             return Response(quote_data(quote))
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -185,3 +189,47 @@ class QuoteCopy(generics.GenericAPIView):
 
         new_quote = copy_quote_with_changes(quote, request, quote_desc, bike, customer)
         return Response(quote_data(new_quote))
+
+
+class QuoteArchive(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    serializer_class = QuoteSerializer
+
+    def get_object(self, quote_id):
+        try:
+            return Quote.objects.get(id=quote_id)
+        except Quote.DoesNotExist:
+            raise Http404
+
+    def post(self, request, quote_id):
+        quote = self.get_object(quote_id)
+        if quote.quote_status is INITIAL or quote.quote_status is ISSUED:
+            quote.archive()
+            return Response(QuoteSerializer(quote).data)
+        else:
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
+
+
+class QuoteUnArchive(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    serializer_class = QuoteSerializer
+
+    def get_object(self, quote_id):
+        try:
+            return Quote.objects.get(id=quote_id)
+        except Quote.DoesNotExist:
+            raise Http404
+
+    def post(self, request, quote_id):
+        quote = self.get_object(quote_id)
+        if quote.quote_status is ARCHIVED:
+            quote.quote_status = INITIAL
+            quote.save()
+            create_note_for_requote(quote, request.user)
+            return Response(QuoteSerializer(quote).data)
+        else:
+            return Response(status=status.HTTP_304_NOT_MODIFIED)

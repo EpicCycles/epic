@@ -1,18 +1,17 @@
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {
-    PART_CLEAR, PART_DELETE, PART_LIST, PART_SAVE, PART_UPLOAD,
+    PART_CLEAR,
+    PART_DELETE,
+    PART_LIST,
+    PART_SAVE,
+    PART_UPLOAD,
     UPDATE_PARTS,
     UPDATE_SUPPLIER_PRODUCTS
 } from "../actions/part";
 import {USER_LOGOUT} from "../actions/user";
-import {
-    BIKE_ADD_PART,
-    BIKE_PART_DELETE,
-    BIKE_PART_SAVE,
-    GET_BIKE_PARTS
-} from "../actions/bike";
+import {BIKE_ADD_PART, BIKE_PART_DELETE, BIKE_PART_SAVE, GET_BIKE_PARTS} from "../actions/bike";
 import {addItemsToArray} from "../../helpers/utils";
-import {CREATE_QUOTE} from "../actions/quote";
+import {COPY_QUOTE, CREATE_QUOTE, GET_QUOTE, UPDATE_QUOTE} from "../actions/quote";
 
 const initialState = {
     isLoading: false
@@ -52,6 +51,9 @@ const part = (state = initialState, action) => {
         case `${BIKE_ADD_PART}_OK`:
         case  `${GET_BIKE_PARTS}_OK`:
         case `${CREATE_QUOTE}_OK`:
+        case `${GET_QUOTE}_OK`:
+        case `${COPY_QUOTE}_OK`:
+        case `${UPDATE_QUOTE}_OK`:
             return {
                 ...state,
                 isLoading: false,

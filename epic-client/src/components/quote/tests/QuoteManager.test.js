@@ -46,7 +46,7 @@ describe('QuoteManager', () => {
             });
 
             expect(findDataTest(component, "customer-tab")).toHaveLength(1);
-            expect(findDataTest(component, "bike-tab")).toHaveLength(0);
+            expect(findDataTest(component, "bike-quotes-tab")).toHaveLength(0);
             expect(findDataTest(component, "quote-list-tab")).toHaveLength(0);
             expect(findDataTest(component, "quote-detail-tab")).toHaveLength(0);
         });
@@ -73,8 +73,8 @@ describe('QuoteManager', () => {
             });
 
             expect(findDataTest(component, "customer-tab")).toHaveLength(0);
-            expect(findDataTest(component, "bike-tab")).toHaveLength(1);
-            expect(findDataTest(component, "quote-list-tab")).toHaveLength(0);
+            expect(findDataTest(component, "quote-list-tab")).toHaveLength(1);
+            expect(findDataTest(component, "bike-quotes-tab")).toHaveLength(0);
             expect(findDataTest(component, "quote-detail-tab")).toHaveLength(0);
         });
         test('should render with tab 2 and relevant components when third tab clicked', () => {
@@ -93,9 +93,9 @@ describe('QuoteManager', () => {
             });
 
             expect(findDataTest(component, "customer-tab")).toHaveLength(0);
-            expect(findDataTest(component, "bike-tab")).toHaveLength(0);
-            expect(findDataTest(component, "quote-list-tab")).toHaveLength(1);
-            expect(findDataTest(component, "quote-detail-tab")).toHaveLength(0);
+            expect(findDataTest(component, "bike-quotes-tab")).toHaveLength(0);
+            expect(findDataTest(component, "quote-detail-tab")).toHaveLength(1);
+            expect(findDataTest(component, "quote-list-tab")).toHaveLength(0);
         });
         test('should render with tab 3 and relevant components when fourth tab clicked', () => {
             let TabbedView = component.find('TabbedView');
@@ -113,9 +113,9 @@ describe('QuoteManager', () => {
             });
 
             expect(findDataTest(component, "customer-tab")).toHaveLength(0);
-            expect(findDataTest(component, "bike-tab")).toHaveLength(0);
             expect(findDataTest(component, "quote-list-tab")).toHaveLength(0);
-            expect(findDataTest(component, "quote-detail-tab")).toHaveLength(1);
+            expect(findDataTest(component, "quote-detail-tab")).toHaveLength(0);
+            expect(findDataTest(component, "bike-quotes-tab")).toHaveLength(1);
         });
     });
 });

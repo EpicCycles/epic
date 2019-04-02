@@ -8,7 +8,7 @@ import ModelViewRow from "../app/model/ModelViewRow";
 import ModelActions from "../app/model/ModelActions";
 
 const QuoteGrid = props => {
-    const { quotes, getQuote, archiveQuote, unArchiveQuote, customers, bikes, frames, brands, displayFields } = props;
+    const { quotes, getQuote, archiveQuote, unarchiveQuote, customers, bikes, frames, brands, displayFields } = props;
     return <div
         key='quotesGrid'
         className="grid"
@@ -29,19 +29,19 @@ const QuoteGrid = props => {
                     iconName: 'eye',
                     iconTitle: 'view quote',
                     iconAction: getQuote,
-                    iconDisabled: (quote.quote_status === 3),
+                    iconDisabled: (quote.quote_status === '3'),
                 },
                 {
                     iconName: 'remove',
                     iconTitle: 'archive quote',
                     iconAction: archiveQuote,
-                    iconDisabled: (quote.quote_status === 3),
+                    iconDisabled: (quote.quote_status === '3'),
                 },
                 {
                     iconName: 'undo',
                     iconTitle: 'un-archive quote',
-                    iconAction: unArchiveQuote,
-                    iconDisabled: (quote.quote_status !== 3),
+                    iconAction: unarchiveQuote,
+                    iconDisabled: (quote.quote_status !== '3'),
                 },
             ];
             return <div
@@ -60,7 +60,6 @@ const QuoteGrid = props => {
                 <ModelActions
                     actions={actionArray}
                     componentKey={modelKey}
-                    actionsDisabled={(quote.quote_status > 2)}
                 />
             </div>;
         })}
@@ -81,7 +80,7 @@ QuoteGrid.propTypes = {
     customers: PropTypes.array,
     getQuote: PropTypes.func.isRequired,
     archiveQuote: PropTypes.func.isRequired,
-    unArchiveQuote: PropTypes.func.isRequired,
+    unarchiveQuote: PropTypes.func.isRequired,
 };
 
 export default QuoteGrid;

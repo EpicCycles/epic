@@ -49,6 +49,10 @@ class Quote(models.Model):
         self.quote_status = ARCHIVED
         self.save()
 
+    def archive_reset(self):
+        self.quote_status = INITIAL
+        self.save()
+
     class Meta:
         # order most recent first
         ordering = ('-created_date', 'quote_desc')

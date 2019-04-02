@@ -18,7 +18,7 @@ import {
     FRAME_UPLOAD,
     GET_BIKE_PARTS,
 } from "../actions/bike";
-import {CREATE_QUOTE, FIND_QUOTES} from "../actions/quote";
+import {CREATE_QUOTE, FIND_QUOTES, GET_QUOTE, UPDATE_QUOTE, COPY_QUOTE} from "../actions/quote";
 import {CUSTOMER} from "../actions/customer";
 
 const initialState = {
@@ -103,6 +103,9 @@ const bike = (state = initialState, action) => {
             };
         case `${FRAME_LIST}_OK`:
         case `${CREATE_QUOTE}_OK`:
+        case `${GET_QUOTE}_OK`:
+        case `${COPY_QUOTE}_OK`:
+        case `${UPDATE_QUOTE}_OK`:
             return {
                 ...state,
                 frames: action.payload.frames,

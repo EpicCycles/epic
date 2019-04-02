@@ -5,7 +5,7 @@ import {fieldAlignment, gridItemClass} from "./helpers/display";
 import {getModelKey} from "./helpers/model";
 
 const ModelViewRow = props => {
-    const { model, modelFields, rowSpan, brands,customers, sections, suppliers, lockFirstColumn, className } = props;
+    const { model, modelFields, rowSpan, brands,customers, sections, suppliers, lockFirstColumn, className, bikes, frames } = props;
     const componentKey = getModelKey(model);
     return <Fragment>
         {modelFields.map((field, index) => {
@@ -19,6 +19,8 @@ const ModelViewRow = props => {
                     field={field}
                     model={model}
                     brands={brands}
+                    bikes={bikes}
+                    frames={frames}
                     sections={sections}
                     suppliers={suppliers}
                     customers={customers}
@@ -34,6 +36,9 @@ ModelViewRow.defaultProps = {
     sections: [],
     brands: [],
     suppliers: [],
+    customers: [],
+    bikes: [],
+    frames: [],
     rowSpan: 1,
 };
 
@@ -44,6 +49,9 @@ ModelViewRow.propTypes = {
     className: PropTypes.string,
     brands: PropTypes.array,
     suppliers: PropTypes.array,
+    customers: PropTypes.array,
+    bikes: PropTypes.array,
+    frames: PropTypes.array,
     lockFirstColumn: PropTypes.bool,
     rowSpan: PropTypes.number,
 };

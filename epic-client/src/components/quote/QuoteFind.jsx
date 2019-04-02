@@ -11,7 +11,7 @@ class QuoteFind extends React.Component {
     state = {
         brand: '',
         frameName: '',
-        customerId: '',
+        selectedCustomer: '',
         bike: '',
         archived: false,
     };
@@ -48,15 +48,16 @@ class QuoteFind extends React.Component {
         if (this.state.bike) return true;
         if (this.state.brand) return true;
         if (this.state.frameName) return true;
-        return !!this.state.customerId;
+        if (this.state.selectedCustomer) return true;
+        return false;
     };
     getQuoteList = () => {
-        const { brand, frameName, customerId, bike, archived } = this.state;
-        this.props.getQuoteList({ brand, frameName, customerId, bike, archived })
+        const { brand, frameName, selectedCustomer, bike, archived } = this.state;
+        this.props.getQuoteList({ brand, frameName, selectedCustomer, bike, archived })
     };
 
     render() {
-        const { brand, frameName, customerId, bike, archived } = this.state;
+        const { brand, frameName, selectedCustomer, bike, archived } = this.state;
         const { brands, bikes, frames, getFrameList, getCustomerList, searchParams, isLoading, customers, count, next } = this.props;
 
         return <Fragment>
@@ -66,7 +67,7 @@ class QuoteFind extends React.Component {
                 addNewCustomer={this.goToAddCustomer}
                 getCustomerList={getCustomerList}
                 selectCustomer={this.handleInputChange}
-                selectedCustomer={customerId}
+                selectedCustomer={selectedCustomer}
                 searchParams={searchParams}
                 isLoading={isLoading}
                 customers={customers}
@@ -98,7 +99,7 @@ class QuoteFind extends React.Component {
                 />
                 <SearchButton
                     onClick={this.getQuoteList}
-                    disabled={this.checkCriteriaForQuoteSearch()}
+                    disabled={!this.checkCriteriaForQuoteSearch()}
                     title={'find matching quotes'}
                     data-test="search"
                 />

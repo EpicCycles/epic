@@ -18,6 +18,7 @@ import {
 import {createNote, deleteNote, saveNote} from "../../state/actions/note";
 import QuoteManager from "../../components/quote/QuoteManager";
 import {listParts} from "../../state/actions/part";
+import {archiveQuote, changeQuote, unarchiveQuote} from "../../state/actions/quote";
 
 const mapStateToProps = ({ bike, core, customer, framework, note, part, quote }) => {
     const {customers, customerId, addresses, phones } = customer;
@@ -49,6 +50,9 @@ const mapDispatchToProps = {
     createCustomer, saveCustomer, deleteCustomer,
     createNote, saveNote, deleteNote,
     saveCustomerPhone, deleteCustomerPhone,
-    saveCustomerAddress, deleteCustomerAddress
+    saveCustomerAddress, deleteCustomerAddress,
+    archiveQuote,
+    unarchiveQuote,
+    changeQuote,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(QuoteManager)

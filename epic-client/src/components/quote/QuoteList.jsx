@@ -7,15 +7,9 @@ import {quoteFields} from "../app/model/helpers/fields";
 import QuoteGrid from "./QuoteGrid";
 
 class QuoteList extends React.Component {
-    unArchiveQuote = quoteId => {
-        alert('would un-archive');
-    };
-    archiveQuote = quoteId => {
-        alert('would archive');
-    };
 
     render() {
-        const { clearQuoteState, searchParams, count, next, isLoading, getBrandsAndSuppliers, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes } = this.props;
+        const { clearQuoteState, searchParams, count, next, isLoading, getBrandsAndSuppliers, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes, archiveQuote, unarchiveQuote } = this.props;
         const haveQuotes = doWeHaveObjects(quotes);
 
         return <Fragment>
@@ -40,8 +34,8 @@ class QuoteList extends React.Component {
                     <QuoteGrid
                         displayFields={quoteFields}
                         getQuote={getQuote}
-                        archiveQuote={this.archiveQuote}
-                        unArchiveQuote={this.unArchiveQuote}
+                        archiveQuote={archiveQuote}
+                        unarchiveQuote={unarchiveQuote}
                         quotes={quotes}
                         customers={customers}
                         brands={brands}
@@ -105,6 +99,8 @@ QuoteList.propTypes = {
     clearQuoteState: PropTypes.func.isRequired,
     getQuoteList: PropTypes.func.isRequired,
     getQuote: PropTypes.func.isRequired,
+    archiveQuote: PropTypes.func.isRequired,
+    unarchiveQuote: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 export default QuoteList;
