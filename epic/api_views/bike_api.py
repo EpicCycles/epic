@@ -84,7 +84,7 @@ class FrameUpload(generics.ListCreateAPIView):
         serializer = FrameSerializer(data=post_data)
         frame_brand = post_data.get('brand', None)
         frame_name = post_data.get('frame_name', None)
-        existing_frame = Frame.objects.filter(brand=frame_brand, frame_name__upper=frame_name, archived=False).first()
+        existing_frame = Frame.objects.filter(brand=frame_brand, frame_name__iexact=frame_name, archived=False).first()
         if existing_frame and existing_frame.archived_date:
             return Response(serializer.data, status=status.HTTP_409_CONFLICT)
 

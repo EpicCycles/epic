@@ -52,6 +52,14 @@ class CustomerList(generics.ListCreateAPIView):
         serializer = PaginatedCustomerSerializer(customers, request, 20)
         return Response(serializer.data)
 
+    def post(self, request):
+        serializer = CustomerSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CustomerMaintain(generics.GenericAPIView):
     # authentication_classes = (TokenAuthentication,)

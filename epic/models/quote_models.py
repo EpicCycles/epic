@@ -3,14 +3,10 @@ from django.db import models
 from django.db.models import CharField, TextField
 from django.utils import timezone
 
-from epic.model_helpers.lookup_helpers import UpperCase
 from epic.models.bike_models import Bike
 from epic.models.brand_models import Part
 from epic.models.customer_models import Customer, Fitting
 from epic.models.framework_models import PartType, PartTypeAttribute
-
-CharField.register_lookup(UpperCase)
-TextField.register_lookup(UpperCase)
 
 INITIAL = '1'
 ISSUED = '2'

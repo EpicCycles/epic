@@ -2,12 +2,8 @@ from django.db import models, IntegrityError
 from django.db.models import CharField, TextField
 from django.utils import timezone
 
-from epic.model_helpers.lookup_helpers import UpperCase
 from epic.models.brand_models import Brand, Part
 from epic.models.framework_models import PartType
-
-CharField.register_lookup(UpperCase)
-TextField.register_lookup(UpperCase)
 
 
 class Frame(models.Model):
@@ -30,7 +26,7 @@ class Frame(models.Model):
         if self.frame_name is None or self.frame_name == '':
             raise ValueError('Missing frame_name')
 
-        if Frame.objects.filter(frame_name__upper=self.frame_name,
+        if Frame.objects.filter(frame_name__iexact=self.frame_name,
                                 brand=self.brand).exclude(id=self.id).exists():
             raise IntegrityError('Frame with these values already exists')
         if self.archived:

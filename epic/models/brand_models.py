@@ -2,11 +2,7 @@ from django.db import models, IntegrityError
 from django.db.models import CharField, TextField
 
 from epic.helpers.validation_helper import is_valid_url
-from epic.model_helpers.lookup_helpers import UpperCase
 from epic.models.framework_models import PartType
-
-CharField.register_lookup(UpperCase)
-TextField.register_lookup(UpperCase)
 
 
 # suppliers  for bikes/parts etc
@@ -22,7 +18,7 @@ class Supplier(models.Model):
         if self.supplier_name is None or self.supplier_name == '':
             raise ValueError('Missing supplier name')
 
-        if Supplier.objects.filter(supplier_name__upper=self.supplier_name).exclude(id=self.id).exists():
+        if Supplier.objects.filter(supplier_name__iexact=self.supplier_name).exclude(id=self.id).exists():
             raise IntegrityError('Supplier exists with name ' + self.supplier_name)
 
         super(Supplier, self).save(*args, **kwargs)
@@ -45,7 +41,7 @@ class Brand(models.Model):
             if not is_valid_url(self.link):
                 raise ValueError('Invalid link', self.link)
 
-        if Brand.objects.filter(brand_name__upper=self.brand_name).exclude(id=self.id).exists():
+        if Brand.objects.filter(brand_name__iexact=self.brand_name).exclude(id=self.id).exists():
             raise IntegrityError('Brand already exists with name' + self.brand_name)
 
         super(Brand, self).save(*args, **kwargs)
@@ -83,7 +79,7 @@ class Part(models.Model):
         if self.part_name is None or self.part_name == '':
             raise ValueError('Missing part name')
 
-        if Part.objects.filter(part_name__upper=self.part_name, brand=self.brand, partType=self.partType).exclude(
+        if Part.objects.filter(part_name__iexact=self.part_name, brand=self.brand, partType=self.partType).exclude(
                 id=self.id).exists():
             raise IntegrityError('Part already exists with name for brand and type' + self.part_name)
 

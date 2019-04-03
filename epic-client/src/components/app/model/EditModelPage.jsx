@@ -4,6 +4,8 @@ import * as PropTypes from "prop-types";
 import {eliminateReadOnlyFields, getModelKey, justReadOnlyFields} from "./helpers/model";
 import EditModelPageRow from "./EditModelPageRow";
 import ViewModelFieldRow from "./ViewModelFieldRow";
+import NonFieldErrors from "./NonFieldErrors";
+import {isItAnObject} from "../../../helpers/utils";
 
 const EditModelPage = (props) => {
     const { model, modelFields, persistedModel, className = "", sections, brands, suppliers, bikes, frames, customers, onChange, showReadOnlyFields } = props;
@@ -24,6 +26,7 @@ const EditModelPage = (props) => {
                 sections={sections}
                 brands={brands}
                 suppliers={suppliers}
+                data-test='field-to-edit'
             />)}
             {showReadOnlyFields && justReadOnlyFields(modelFields).map((field, index) => <ViewModelFieldRow
                 key={`EditModelPageRow${field.fieldName}`}
@@ -37,7 +40,14 @@ const EditModelPage = (props) => {
                 frames={frames}
                 customers={customers}
                 suppliers={suppliers}
+                data-test='field-to-view'
             />)}
+            {isItAnObject(model.error_detail) && <NonFieldErrors
+                componentKey={componentKey}
+                error_detail={model.error_detail}
+                data-test='show-error-detail'
+            />
+            }
         </div>
     </div>
 };

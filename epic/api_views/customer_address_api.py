@@ -64,7 +64,7 @@ class CustomerAddressMaintain(generics.GenericAPIView):
     def post(self, request, pk):
         customer_address = self.get_object(pk)
         customer_id = customer_address.customer.id
-        serializer = CustomerAddressSerializer(customer_address, data=request.data)
+        serializer = CustomerAddressSerializer(initial=customer_address, data=request.data)
         if serializer.is_valid():
             new_address = serializer.save()
             one_billing_address(new_address)

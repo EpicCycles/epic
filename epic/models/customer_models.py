@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models import CharField, TextField
 
 from epic.helpers.validation_helper import is_valid_email
-from epic.model_helpers.lookup_helpers import UpperCase
 
 HOME = 'H'
 WORK = 'W'
@@ -11,9 +10,6 @@ CUST = 'C'
 EPIC = 'E'
 FITTING_TYPE_CHOICES = ((CUST, 'Customer'), (EPIC, 'Epic'),)
 NUMBER_TYPE_CHOICES = ((HOME, 'Home'), (WORK, 'Work'), (MOBILE, 'Mobile'),)
-
-CharField.register_lookup(UpperCase)
-TextField.register_lookup(UpperCase)
 
 
 class Customer(models.Model):

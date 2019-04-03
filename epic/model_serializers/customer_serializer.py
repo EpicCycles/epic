@@ -9,13 +9,24 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = '__all__'
-        # Customer first name last name and email must not be repeated in same comboination.
-        validators = [
-            UniqueTogetherValidator(
-                queryset=Customer.objects.all(),
-                fields=('first_name', 'last_name', 'email')
-            )
-        ]
+        validators = []  # Remove a default "unique together" constraint.
+
+    def validate(self, data):
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        email = data.get('email', '')
+        if self.instance:
+            if Customer.objects.filter(first_name__iexact=first_name, last_name__iexact=last_name, email__iexact=email) \
+                    .exclude(id=self.instance.id).exists():
+                raise serializers.ValidationError("A customer already exists with the same details")
+        else:
+            if Customer.objects.filter(first_name__iexact=first_name, last_name__iexact=last_name, email__iexact=email) \
+                    .exists():
+                raise serializers.ValidationError("A customer already exists with the same details")
+
+        return data
+
+        # Apply custom validation either here, or in the view.
 
     @staticmethod
     def validate_first_name(value):
@@ -38,7 +49,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         return value
 
 
-class PaginatedCustomerSerializer():
+class PaginatedCustomerSerializer:
     def __init__(self, customers, request, num):
         paginator = Paginator(customers, num)
         page = request.query_params.get('page')
@@ -61,13 +72,20 @@ class CustomerPhoneSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerPhone
         fields = '__all__'
-        validators = [
-            UniqueTogetherValidator(
-                queryset=CustomerPhone.objects.all(),
-                fields=('customer', 'telephone'),
-                message='This phone number is already in use for the same customer'
-            )
-        ]
+        validators = []
+
+    def validate(self, data):
+        telephone = data.get('telephone')
+        customer = data.get('customer')
+        if self.instance:
+            if CustomerPhone.objects.filter(customer=customer, telephone__iexact=telephone) \
+                    .exclude(id=self.instance.id).exists():
+                raise serializers.ValidationError('This phone number is already in use for the same customer')
+        else:
+            if CustomerPhone.objects.filter(customer=customer, telephone__iexact=telephone) \
+                    .exists():
+                raise serializers.ValidationError('This phone number is already in use for the same customer')
+        return data
 
     @staticmethod
     def validate_number_type(value):
@@ -88,13 +106,21 @@ class CustomerAddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerAddress
         fields = '__all__'
-        validators = [
-            UniqueTogetherValidator(
-                queryset=CustomerAddress.objects.all(),
-                fields=('customer', 'address1', 'postcode'),
-                message='This address is already in use for the customer'
-            )
-        ]
+        validators = []
+
+    def validate(self, data):
+        address1 = data.get('address1')
+        postcode = data.get('postcode')
+        customer = data.get('customer')
+        if self.instance:
+            if CustomerAddress.objects.filter(customer=customer, address1__iexact=address1, postcode__iexact=postcode) \
+                    .exclude(id=self.instance.id).exists():
+                raise serializers.ValidationError('This address is already in use for the same customer')
+        else:
+            if CustomerAddress.objects.filter(customer=customer, address1__iexact=address1, postcode__iexact=postcode) \
+                    .exists():
+                raise serializers.ValidationError('This address is already in use for the same customer')
+        return data
 
     @staticmethod
     def validate_address1(value):
