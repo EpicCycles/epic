@@ -3,10 +3,14 @@ import * as PropTypes from "prop-types";
 import QuoteFind from "./QuoteFind";
 import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
-import {quoteListFields} from "./helpers/display";
 import QuoteGrid from "./QuoteGrid";
 import QuoteSummary from "./QuoteSummary";
+import { QUOTE_DESC_FIELD, QUOTE_PRICE_FIELD} from "../app/model/helpers/fields";
 
+const quoteListFields = [
+    QUOTE_DESC_FIELD,
+    QUOTE_PRICE_FIELD,
+];
 class QuoteList extends React.Component {
 
     render() {
@@ -55,6 +59,8 @@ class QuoteList extends React.Component {
                             parts={parts}
                             bikeParts={bikeParts}
                             bikes={bikes}
+                            customers={customers}
+                            frames={frames}
                         />}
                     </div>
                 </Fragment>

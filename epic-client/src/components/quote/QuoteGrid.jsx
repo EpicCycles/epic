@@ -14,7 +14,6 @@ const QuoteGrid = props => {
         className="grid"
         style={{
             height: (window.innerHeight - 120) + "px",
-            width: (window.innerWidth) + "px",
             overflow: "auto"
         }}
     >
@@ -77,7 +76,7 @@ QuoteGrid.defaultProps = {
 };
 
 QuoteGrid.propTypes = {
-    displayFields: PropTypes.any.isRequired,
+    displayFields: PropTypes.array.isRequired,
     quotes: PropTypes.array,
     brands: PropTypes.array,
     bikes: PropTypes.array,

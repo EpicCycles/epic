@@ -8,9 +8,7 @@ const ViewModelBlock = (props) => {
     const { model, modelFields, className = "", sections, bikes, frames, brands, suppliers, customers } = props;
     const componentKey = getModelKey(model);
     return <div className="grid-container">
-        {model.error && <div className="red">{model.error}</div>}
-
-        <div key="modelFields" className={`grid ${className}`}>
+         <div key="modelFields" className={`grid ${className}`}>
             {modelFields.map((field, index) => <ViewModelFieldRow
                 key={`ViewModelFieldRow${field.fieldName}`}
                 field={field}
@@ -35,7 +33,6 @@ ViewModelBlock.defaultProps = {
 ViewModelBlock.propTypes = {
     model: PropTypes.object,
     modelFields: PropTypes.array.isRequired,
-    persistedModel: PropTypes.object,
     className: PropTypes.string,
     sections: PropTypes.array,
     brands: PropTypes.array,

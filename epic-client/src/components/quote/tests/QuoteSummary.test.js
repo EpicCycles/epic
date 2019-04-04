@@ -23,6 +23,7 @@ describe('QuoteSummary', () => {
             bikeParts={[]}
             bikes={[]}
         />);
+        expect(component.find('ViewModelBlock')).toHaveLength(1);
         expect(findDataTest(component, 'no-summary')).toHaveLength(1);
         expect(findDataTest(component, 'quote-summary-headers')).toHaveLength(0);
         expect(component.find('QuoteSummaryPartType')).toHaveLength(0);
@@ -37,6 +38,7 @@ describe('QuoteSummary', () => {
             bikeParts={[]}
             bikes={[]}
         />);
+        expect(component.find('ViewModelBlock')).toHaveLength(1);
         expect(findDataTest(component, 'no-summary')).toHaveLength(0);
         expect(findDataTest(component, 'quote-summary-headers')).toHaveLength(1);
         expect(component.find('QuoteSummaryPartType')).toHaveLength(1);
@@ -54,5 +56,6 @@ describe('QuoteSummary', () => {
         expect(findDataTest(component, 'no-summary')).toHaveLength(0);
         expect(findDataTest(component, 'quote-summary-headers')).toHaveLength(1);
         expect(component.find('QuoteSummaryPartType')).toHaveLength(2);
+        expect(component.find('ViewModelBlock')).toHaveLength(1);
     });
 });

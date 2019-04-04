@@ -50,7 +50,7 @@ class QuoteCreate extends React.Component {
     };
 
     quoteStart(customer, bike) {
-        const quote_desc = quoteDescription(bike, this.props.frames, this.props.bikes, this.props.brands);
+        const quote_desc = quoteDescription(customer, bike, this.props.customers, this.props.frames, this.props.bikes, this.props.brands);
         let quote = { customer, bike, quote_desc };
         let bikeObject;
         if (bike) {

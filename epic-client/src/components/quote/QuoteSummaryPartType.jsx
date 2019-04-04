@@ -1,17 +1,13 @@
 import React, {Fragment} from 'react';
 import * as PropTypes from "prop-types";
-import {QUANTITY_FIELD, SELL_PRICE_FIELD, TRADE_IN_FIELD} from "../app/model/helpers/fields";
+import {QUANTITY_FIELD, QUOTE_PRICE_FIELD} from "../app/model/helpers/fields";
 import ModelViewRow from "../app/model/ModelViewRow";
-import {bikePartOnQuote} from "./helpers/display";
+import {bikePartOnQuote, priceFields} from "./helpers/display";
 import {buildPartString} from "../part/helpers/part";
 import {findObjectWithId} from "../../helpers/utils";
 import {gridItemClass} from "../app/model/helpers/display";
 
-const priceFields = [
-    QUANTITY_FIELD,
-    SELL_PRICE_FIELD,
-    TRADE_IN_FIELD,
-];
+
 const QuoteSummaryPartType = props => {
     const { showPrices, partType, bikePart, quotePart, replacementPart, additionalParts, parts, brands } = props;
     return <Fragment>
