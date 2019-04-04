@@ -42,7 +42,6 @@ export const bikePartOnQuote = (bikePart, quotePart, replacementPart, brands) =>
 };
 export const quoteFieldsBike = [
     BIKE_FIELD,
-    FITTING_FIELD,
     FRAME_SIZE_FIELD,
     COLOUR_FIELD,
     COLOUR_PRICE_FIELD

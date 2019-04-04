@@ -25,7 +25,7 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
     const {bikes, bikeParts, frames} = bike;
     const {brands, suppliers }= core;
     const {notes} = note;
-    const{quoteId, quotes, quoteParts} = quote;
+    const {quoteId, quotes, quoteParts} = quote;
     const {parts, supplierParts } = part;
     return {
         customers, customerId, addresses, phones,

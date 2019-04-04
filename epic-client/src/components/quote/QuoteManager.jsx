@@ -5,6 +5,7 @@ import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
 import CustomerEdit from "../customer/CustomerEdit";
 import {quoteFields} from "./helpers/display";
 import QuoteGrid from "./QuoteGrid";
+import QuoteDetail from "./QuoteDetail";
 
 const tabs = [
     "Customer",
@@ -65,12 +66,19 @@ class QuoteManager extends React.Component {
             saveCustomer,
             quotes,
             quoteId,
+            quoteParts,
             brands,
             bikes,
+            bikeParts,
             frames,
+            parts,
+            sections,
             archiveQuote,
             unarchiveQuote,
             changeQuote,
+            saveQuotePart,
+            deleteQuotePart,
+            addQuotePart,
         } = this.props;
         let quote;
         if (quoteId) quote = findObjectWithId(quotes, quoteId);
@@ -96,21 +104,36 @@ class QuoteManager extends React.Component {
             {(tab === 1) && <Fragment>
                 <h1>Quote List</h1>
                 <div className='row'>
-                <QuoteGrid
-                    displayFields={quoteFields}
-                    getQuote={changeQuote}
-                    archiveQuote={archiveQuote}
-                    unarchiveQuote={unarchiveQuote}
-                    quotes={quotes}
-                    customers={customers}
-                    brands={brands}
-                    bikes={bikes}
-                    frames={frames}
-                    data-test="quote-list-tab"
-                />
+                    <QuoteGrid
+                        displayFields={quoteFields}
+                        getQuote={changeQuote}
+                        archiveQuote={archiveQuote}
+                        unarchiveQuote={unarchiveQuote}
+                        quotes={quotes}
+                        customers={customers}
+                        brands={brands}
+                        bikes={bikes}
+                        frames={frames}
+                        data-test="quote-list-tab"
+                    />
                 </div>
             </Fragment>}
-            {(tab === 2) && <h1 data-test="quote-detail-tab">Quote detail</h1>}
+            {(quote && tab === 2) && <QuoteDetail
+                quote={quote}
+                quoteParts={quoteParts}
+                bikeParts={bikeParts}
+                parts={parts}
+                frames={frames}
+                bikes={bikes}
+                customers={customers}
+                sections={sections}
+                saveQuote={changeQuote}
+                archiveQuote={archiveQuote}
+                saveQuotePart={saveQuotePart}
+                deleteQuotePart={deleteQuotePart}
+                addQuotePart={addQuotePart}
+                data-test="quote-detail-tab"
+            />}
             {(tab === 3) && <h1 data-test="bike-quotes-tab">Bike Quotes</h1>}
         </div>
     };
@@ -120,10 +143,8 @@ QuoteManager.defaultProps = {
     bikes: [],
     bikeParts: [],
     frames: [],
-    customers: [],
     addresses: [],
     phones: [],
-    customer: {},
     notes: [],
     parts: [],
     brands: [],
@@ -137,15 +158,15 @@ QuoteManager.defaultProps = {
 QuoteManager.propTypes = {
     bikes: PropTypes.array,
     bikeParts: PropTypes.array,
-    brands: PropTypes.array,
-    sections: PropTypes.array,
+    brands: PropTypes.array.isRequired,
+    sections: PropTypes.array.isRequired,
     parts: PropTypes.array,
     frames: PropTypes.array,
-    customers: PropTypes.array,
+    customers: PropTypes.array.isRequired,
     customerId: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
-    ]),
+    ]).isRequired,
     quoteId: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
@@ -175,6 +196,9 @@ QuoteManager.propTypes = {
     archiveQuote: PropTypes.func.isRequired,
     unarchiveQuote: PropTypes.func.isRequired,
     changeQuote: PropTypes.func.isRequired,
+    saveQuotePart: PropTypes.func.isRequired,
+    deleteQuotePart: PropTypes.func.isRequired,
+    addQuotePart: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 

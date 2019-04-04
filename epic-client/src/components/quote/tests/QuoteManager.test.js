@@ -12,6 +12,7 @@ const props = {
     parts: [],
     frames: [],
     quoteId: 2,
+    quotes: [{id:2}],
     getBrandsAndSuppliers: jest.fn(),
     saveBrands: jest.fn(),
     getFramework: jest.fn(),
@@ -96,6 +97,9 @@ describe('QuoteManager', () => {
             expect(findDataTest(component, "customer-tab")).toHaveLength(0);
             expect(findDataTest(component, "bike-quotes-tab")).toHaveLength(0);
             expect(findDataTest(component, "quote-detail-tab")).toHaveLength(1);
+            assertComponentHasExpectedProps(component.find('QuoteDetail'), {
+                quote: {id:2}
+            });
             expect(findDataTest(component, "quote-list-tab")).toHaveLength(0);
         });
         test('should render with tab 3 and relevant components when fourth tab clicked', () => {

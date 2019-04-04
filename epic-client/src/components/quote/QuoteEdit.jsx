@@ -32,8 +32,8 @@ class QuoteEdit extends React.Component {
 
     render() {
         const { quote } = this.state;
-        const { componentKey } = this.props;
-        return <div id="quote-detail" className="fit-content row">
+        const { componentKey, customers, bikes, frames, brands } = this.props;
+        return <div id="quote-detail" className="fit-content">
 
             <EditModelPage
                 model={quote}
@@ -41,6 +41,10 @@ class QuoteEdit extends React.Component {
                 modelFields={quoteFields}
                 onChange={this.handleInputChange}
                 showReadOnlyFields={true}
+                customers={customers}
+                bikes={bikes}
+                brands={brands}
+                frames={frames}
             />
             <div className="align_right">
                 <ModelEditIcons
@@ -67,6 +71,10 @@ QuoteEdit.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
+     bikes: PropTypes.array.isRequired,
+     brands: PropTypes.array.isRequired,
+    customers: PropTypes.array.isRequired,
+    frames: PropTypes.array.isRequired,
 };
 export default QuoteEdit;
 

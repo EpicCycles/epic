@@ -2,7 +2,7 @@
 
 exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
 <div
-  className="fit-content row"
+  className="fit-content"
   id="quote-detail"
 >
   <EditModelPage
@@ -90,11 +90,6 @@ exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
           "type": "bike",
         },
         Object {
-          "fieldName": "fitting",
-          "header": "Fitting",
-          "type": "fitting",
-        },
-        Object {
           "fieldName": "frame_size",
           "header": "Frame Size",
           "type": "text",
@@ -131,7 +126,7 @@ exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
 
 exports[`QuoteEdit tests renders the form text correctly with quote 1`] = `
 <div
-  className="fit-content row"
+  className="fit-content"
   id="quote-detail"
 >
   <EditModelPage
@@ -223,11 +218,6 @@ exports[`QuoteEdit tests renders the form text correctly with quote 1`] = `
           "header": "Bike",
           "readOnly": true,
           "type": "bike",
-        },
-        Object {
-          "fieldName": "fitting",
-          "header": "Fitting",
-          "type": "fitting",
         },
         Object {
           "fieldName": "frame_size",

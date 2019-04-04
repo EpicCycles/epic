@@ -26,6 +26,8 @@ const QuoteSummary = props => {
             frames={frames}
         />
         <QuoteSummaryParts
+            lockFirstColumn={true}
+            showPrices={showPrices}
             quoteParts={thisQuoteParts}
             brands={brands}
             sections={sections}
