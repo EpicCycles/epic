@@ -32,9 +32,7 @@ describe('QuoteCreate', () => {
         const expectedNewQuote = {
             customer: 1,
             bike: undefined,
-            rrp: 0,
-            epic_price: 0,
-            club_price: 0,
+            quote_price: 0,
         };
         findDataTest(component, "create-button").simulate('click');
         expect(createQuote).toHaveBeenCalledTimes(1);
@@ -53,9 +51,7 @@ describe('QuoteCreate', () => {
         const expectedNewQuote = {
             customer: 1,
             bike: 58,
-            rrp: 0,
-            epic_price: 0,
-            club_price: 2249.00,
+            quote_price: 0.00,
         };
         findDataTest(component, "create-button").simulate('click');
         expect(createQuote).toHaveBeenCalledTimes(1);

@@ -1,14 +1,14 @@
 import React from "react";
 import * as PropTypes from "prop-types";
 
-import {quoteFields} from "../app/model/helpers/fields";
+import {quoteFields} from "./helpers/display";
 import ModelTableHeaders from "../app/model/ModelTableHeaders";
 import {getModelKey} from "../app/model/helpers/model";
 import ModelViewRow from "../app/model/ModelViewRow";
 import ModelActions from "../app/model/ModelActions";
 
 const QuoteGrid = props => {
-    const { quotes, getQuote, archiveQuote, unarchiveQuote, customers, bikes, frames, brands, displayFields } = props;
+    const { quotes, getQuote, changeQuote, archiveQuote, unarchiveQuote, customers, bikes, frames, brands, displayFields } = props;
     return <div
         key='quotesGrid'
         className="grid"
@@ -24,26 +24,31 @@ const QuoteGrid = props => {
         </div>
         {quotes.map(quote => {
             const modelKey = getModelKey(quote);
-            const actionArray = [
-                {
-                    iconName: 'eye',
-                    iconTitle: 'view quote',
-                    iconAction: getQuote,
-                    iconDisabled: (quote.quote_status === '3'),
-                },
-                {
-                    iconName: 'remove',
-                    iconTitle: 'archive quote',
-                    iconAction: archiveQuote,
-                    iconDisabled: (quote.quote_status === '3'),
-                },
-                {
-                    iconName: 'undo',
-                    iconTitle: 'un-archive quote',
-                    iconAction: unarchiveQuote,
-                    iconDisabled: (quote.quote_status !== '3'),
-                },
-            ];
+            const actionArray = [];
+            if (changeQuote) actionArray.push({
+                iconName: 'eye',
+                iconTitle: 'view quote',
+                iconAction: changeQuote,
+                iconDisabled: (quote.quote_status === '3'),
+            });
+            if (getQuote) actionArray.push({
+                iconName: 'edit',
+                iconTitle: 'edit quote',
+                iconAction: getQuote,
+                iconDisabled: (quote.quote_status === '3'),
+            });
+            if (archiveQuote) actionArray.push({
+                iconName: 'remove',
+                iconTitle: 'archive quote',
+                iconAction: archiveQuote,
+                iconDisabled: (quote.quote_status === '3'),
+            });
+            if (unarchiveQuote) actionArray.push({
+                iconName: 'undo',
+                iconTitle: 'un-archive quote',
+                iconAction: unarchiveQuote,
+                iconDisabled: (quote.quote_status !== '3'),
+            });
             return <div
                 key={`quoteRow${modelKey}`}
                 className="grid-row"
@@ -68,7 +73,7 @@ const QuoteGrid = props => {
 
 QuoteGrid.defaultProps = {
     displayFields: quoteFields,
-    quotes:[],
+    quotes: [],
 };
 
 QuoteGrid.propTypes = {
@@ -79,6 +84,7 @@ QuoteGrid.propTypes = {
     frames: PropTypes.array,
     customers: PropTypes.array,
     getQuote: PropTypes.func.isRequired,
+    changeQuote: PropTypes.func.isRequired,
     archiveQuote: PropTypes.func.isRequired,
     unarchiveQuote: PropTypes.func.isRequired,
 };

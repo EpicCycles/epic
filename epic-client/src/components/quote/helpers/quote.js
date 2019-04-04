@@ -15,7 +15,7 @@ export const getQuoteStatus = quote_status => getNameForValue(quote_status, QUOT
 
 export const canBeIssued = (quote, quote_parts, sections) => {
     if (quote.quote_status > 1) return false;
-    if (!quote.epic_price) return false;
+    if (!quote.quote_price) return false;
     if (quote.bike && (!(quote.bike_price && quote.colour && (quote.colour_price || quote.colour_price === 0) && quote.frame_size))) return false;
     if ((!quote.bike) && (quote_parts.length === 0)) return false;
 
@@ -26,29 +26,18 @@ export const canBeReIssued = (quote) => (quote.quote_status > 1);
 export const canBeEdited = (quote) => (quote.quote_status === 1);
 
 export const recalculatePrices = (quote, quote_parts = [], bike = {}) => {
-    let rrp = 0;
-    let epic_price = 0;
-    let club_price = 0;
+    let quote_price = 0;
 
     if (quote.bike) {
-        rrp = bike.rrp || 0;
-        epic_price = bike.epic_price || bike.rrp || 0;
-        club_price =  bike.club_price || bike.epic_price || bike.rrp || 0;
+        quote_price = bike.epic_price || bike.rrp || 0;
     }
 
     quote_parts.forEach(quote_part => {
         if (quote_part.quantity) {
-            rrp += (quote_part.quantity * (quote_part.rrp || 0));
-            epic_price += (quote_part.quantity * (quote_part.epic_price|| quote_part.rrp || 0));
-            club_price += (quote_part.quantity * (quote_part.club_price || quote_part.epic_price|| quote_part.rrp || 0));
-        }
-        if (quote_part.trade_in_price) {
-            rrp -= quote_part.trade_in_price;
-            epic_price -= quote_part.trade_in_price;
-            club_price -= quote_part.trade_in_price;
+            quote_price += (quote_part.quantity * (quote_part.quote_price|| quote_part.rrp || 0));
         }
     });
-    return updateObject(quote, { rrp, epic_price, club_price });
+    return updateObject(quote, { quote_price });
 };
 
 export const quoteDescription = (bike, frames, bikes, brands) => {
@@ -63,4 +52,12 @@ export const quoteDescription = (bike, frames, bikes, brands) => {
         quote_desc = 'Parts only'
     }
     return `${quote_desc} - ${formattedDate(new Date())}`;
+};
+
+
+export const findPartsForQuote = (quote, quoteParts, parts) => {
+    if (! (quote && quoteParts && parts)) return [];
+    return quoteParts.filter(quotePart => quotePart.quote === quote.id).map(quotePart => {
+        return findObjectWithId(parts, quotePart.part)
+    });
 };

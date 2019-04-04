@@ -6,9 +6,7 @@ test('can not be reIssued', () => {
         quote_status: 1,
         partType: 1,
         quantity: 1,
-        rrp: 12.99,
-        epic_price: 11.50,
-        trade_in_price: 10.30,
+        quote_price: 11.50,
         replacement_part: true,
         quote_part_attributes: [],
     };
@@ -20,9 +18,7 @@ test('can be reIssued', () => {
         quote_status: 2,
         partType: 1,
         quantity: 1,
-        rrp: 12.99,
-        epic_price: 11.50,
-        trade_in_price: 10.30,
+        quote_price: 11.50,
         replacement_part: true,
         quote_part_attributes: [],
     };

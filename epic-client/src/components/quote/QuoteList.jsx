@@ -1,17 +1,19 @@
 import React, {Fragment} from 'react';
 import * as PropTypes from "prop-types";
 import QuoteFind from "./QuoteFind";
-import {doWeHaveObjects} from "../../helpers/utils";
+import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
-import {quoteFields} from "../app/model/helpers/fields";
+import {quoteListFields} from "./helpers/display";
 import QuoteGrid from "./QuoteGrid";
+import QuoteSummary from "./QuoteSummary";
 
 class QuoteList extends React.Component {
 
     render() {
-        const { clearQuoteState, searchParams, count, next, isLoading, getBrandsAndSuppliers, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes, archiveQuote, unarchiveQuote } = this.props;
+        const { changeQuote, quoteId, clearQuoteState, searchParams, count, next, isLoading, getBrandsAndSuppliers, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes, archiveQuote, unarchiveQuote, quoteParts, parts, bikeParts, sections } = this.props;
         const haveQuotes = doWeHaveObjects(quotes);
-
+        let quote;
+        if (quoteId) quote = findObjectWithId(quotes, quoteId);
         return <Fragment>
             {haveQuotes ? <Fragment>
                     <div className="row full">
@@ -31,17 +33,30 @@ class QuoteList extends React.Component {
                             New Search
                         </Button>
                     </div>
-                    <QuoteGrid
-                        displayFields={quoteFields}
-                        getQuote={getQuote}
-                        archiveQuote={archiveQuote}
-                        unarchiveQuote={unarchiveQuote}
-                        quotes={quotes}
-                        customers={customers}
-                        brands={brands}
-                        bikes={bikes}
-                        frames={frames}
-                    />
+                    <div className='row'>
+                        <QuoteGrid
+                            displayFields={quoteListFields}
+                            getQuote={getQuote}
+                            changeQuote={changeQuote}
+                            archiveQuote={archiveQuote}
+                            unarchiveQuote={unarchiveQuote}
+                            quotes={quotes}
+                            customers={customers}
+                            brands={brands}
+                            bikes={bikes}
+                            frames={frames}
+                        />
+                        {quote && <QuoteSummary
+                            showPrices={true}
+                            quote={quote}
+                            quoteParts={quoteParts}
+                            brands={brands}
+                            sections={sections}
+                            parts={parts}
+                            bikeParts={bikeParts}
+                            bikes={bikes}
+                        />}
+                    </div>
                 </Fragment>
                 : <QuoteFind
                     bikes={bikes}
@@ -78,11 +93,15 @@ QuoteList.defaultProps = {
 };
 QuoteList.propTypes = {
     bikes: PropTypes.array,
+    bikeParts: PropTypes.array,
     brands: PropTypes.array,
     suppliers: PropTypes.array,
     frames: PropTypes.array,
     customers: PropTypes.array,
     quotes: PropTypes.array,
+    quoteParts: PropTypes.array,
+    parts: PropTypes.array,
+    sections: PropTypes.array,
     searchParams: PropTypes.object,
     count: PropTypes.oneOfType([
         PropTypes.string,
@@ -98,9 +117,11 @@ QuoteList.propTypes = {
     clearCustomerState: PropTypes.func.isRequired,
     clearQuoteState: PropTypes.func.isRequired,
     getQuoteList: PropTypes.func.isRequired,
+    changeQuote: PropTypes.func.isRequired,
     getQuote: PropTypes.func.isRequired,
     archiveQuote: PropTypes.func.isRequired,
     unarchiveQuote: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
+    quoteId: PropTypes.number,
 };
 export default QuoteList;

@@ -277,7 +277,7 @@ const quoteItemIncomplete =  {
         part: 24,
         quantity: 1,
         rrp: 12.99,
-        epic_price: 11.50,
+        quote_price: 11.50,
         trade_in_price: "",
         replacement_part: false,
         quote_part_attributes: [
@@ -298,7 +298,7 @@ const quoteItemComplete = {
         partType: 1,
         quantity: 1,
         rrp: 12.99,
-        epic_price: 11.50,
+        quote_price: 11.50,
         trade_in_price: 10.30,
         replacement_part: true,
         quote_part_attributes: [],
@@ -306,7 +306,7 @@ const quoteItemComplete = {
 test("quote can be issued", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",
@@ -319,7 +319,7 @@ test("quote can be issued", () => {
 test("bike quote with no parts can be issued", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",
@@ -332,7 +332,7 @@ test("bike quote with no parts can be issued", () => {
 test("non bike quote can be issued without bike related fields", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
     };
     const quote_parts = [quoteItemComplete];
     expect(canBeIssued(quote, quote_parts, sections)).toBeTruthy();
@@ -340,7 +340,7 @@ test("non bike quote can be issued without bike related fields", () => {
 test("non bike quote with no parts cannot ne issued", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
     };
     const quote_parts = [];
     expect(canBeIssued(quote, quote_parts, sections)).toBeFalsy();
@@ -348,7 +348,7 @@ test("non bike quote with no parts cannot ne issued", () => {
 test("quote in wrong status can't be issued", () => {
     const quote = {
         quote_status: 2,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",
@@ -373,7 +373,7 @@ test("quote missing epic price can not be issued", () => {
 test("bike quote missing bike price can not be issued", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         colour: "red",
         colour_price: 0,
@@ -385,7 +385,7 @@ test("bike quote missing bike price can not be issued", () => {
 test("bike quote missing bike colour can not be issued", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour_price: 0,
@@ -397,7 +397,7 @@ test("bike quote missing bike colour can not be issued", () => {
 test("bike quote missing colour price can not be issued", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",
@@ -420,7 +420,7 @@ test("bike quote missing frame size can not be issued", () => {
 test("quote with incomplete parts can not be issued", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",

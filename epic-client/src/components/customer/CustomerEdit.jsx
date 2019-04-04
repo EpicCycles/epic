@@ -6,9 +6,10 @@ import {doWeHaveObjects, findObjectWithId, updateObject} from "../../helpers/uti
 import CustomerAddressGrid from "./CustomerAddressGrid";
 import {createEmptyModelWithDefaultFields, getModelKey, matchesModel} from "../app/model/helpers/model";
 import CustomerPhoneGrid from "./CustomerPhoneGrid";
-import {customerNoteFields, quoteFieldsNoCustomer} from "../app/model/helpers/fields";
+import {customerNoteFields} from "../app/model/helpers/fields";
 import ViewModelBlock from "../app/model/ViewModelBlock";
 import QuoteGrid from "../quote/QuoteGrid";
+import {quoteFieldsNoCustomer} from "../quote/helpers/display";
 
 class CustomerEdit extends React.Component {
     state = { note: createEmptyModelWithDefaultFields(customerNoteFields) };

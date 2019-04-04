@@ -19,11 +19,9 @@ def quote_requote(request, quote: Quote):
 def quote_requote_reset_prices(request, quote):
     quote_parts = quote.quotepart_set.all()
     for quote_part in quote_parts:
-        quote_part.trade_in_price = None
-        quote_part.rrp = None
+        quote_part.quote_price = None
         quote_part.save()
 
-    quote.epic_price = None
     if quote.bike:
         quote.bike_price = quote.bike.epic_price
 

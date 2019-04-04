@@ -3,34 +3,22 @@ import {recalculatePrices} from "../quote";
 const quoteItemAllPricesSingle = {
     part: 24,
     quantity: 1,
-    rrp: 12.99,
-    epic_price: 11.50,
-    club_price: 10.50,
-    trade_in_price: 5,
+    quote_price: 11.50,
 };
 const quoteItemAllPricesNoQty = {
     part: 24,
     quantity: undefined,
-    rrp: 12.99,
-    epic_price: 11.50,
-    club_price: 10.50,
-    trade_in_price: 5,
+    quote_price: 11.50,
 };
 const quoteItemNoClubPriceSingle = {
     part: 24,
     quantity: 1,
-    rrp: 12.99,
-    epic_price: 11.50,
-    club_price: undefined,
-    trade_in_price: 5,
+    quote_price: 11.50,
 };
 const quoteItemNoEpicPriceSingle = {
     part: 24,
     quantity: 1,
-    rrp: 12.99,
-    epic_price: undefined,
-    club_price: 10.50,
-    trade_in_price: 5,
+    quote_price: undefined,
 };
 const quoteItemNoPricesSingle = {
     part: 24,
@@ -39,9 +27,7 @@ const quoteItemNoPricesSingle = {
 const quoteItemAllPricesMultiple = {
     part: 24,
     quantity: 3,
-    rrp: 12.99,
-    epic_price: 11.50,
-    club_price: 10.50,
+    quote_price: 11.50,
 };
 
 const bike = {
@@ -59,7 +45,7 @@ const bikeNoEpicPrice = {
 test("Recalculate bike quote with no prices", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",
@@ -70,9 +56,7 @@ test("Recalculate bike quote with no prices", () => {
     const expectedQuote = Object.assign(
         quote,
         {
-            rrp: 1207.99,
-            epic_price: 1006.5,
-            club_price: 1006.5,
+            quote_price: 1011.5,
         }
     );
     expect(recalculatePrices(quote, quote_parts, bikeNoClubPrice)).toEqual(expectedQuote);
@@ -81,7 +65,7 @@ test("Recalculate bike quote with no prices", () => {
 test("Recalculate non bike quote with prices", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",
@@ -92,9 +76,7 @@ test("Recalculate non bike quote with prices", () => {
     const expectedQuote = Object.assign(
         quote,
         {
-            rrp: 38.97,
-            epic_price: 34.50,
-            club_price: 31.50,
+            quote_price: 34.50,
         }
     );
     expect(recalculatePrices(quote, quote_parts, undefined)).toEqual(expectedQuote);
@@ -102,7 +84,7 @@ test("Recalculate non bike quote with prices", () => {
 test("Recalculate bike quote with prices", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",
@@ -113,9 +95,7 @@ test("Recalculate bike quote with prices", () => {
     const expectedQuote = Object.assign(
         quote,
         {
-            rrp: 1251.96,
-            epic_price: 1046,
-            club_price: 1031.50,
+            quote_price: 1046,
         }
     );
     expect(recalculatePrices(quote, quote_parts, bike)).toEqual(expectedQuote);
@@ -123,7 +103,7 @@ test("Recalculate bike quote with prices", () => {
 test("Recalculate bike quote with prices bike missing club price", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",
@@ -134,9 +114,7 @@ test("Recalculate bike quote with prices bike missing club price", () => {
     const expectedQuote = Object.assign(
         quote,
         {
-            rrp: 1251.96,
-            epic_price: 1046,
-            club_price: 1043,
+            quote_price: 1046,
         }
     );
     expect(recalculatePrices(quote, quote_parts, bikeNoClubPrice)).toEqual(expectedQuote);
@@ -144,7 +122,7 @@ test("Recalculate bike quote with prices bike missing club price", () => {
 test("Recalculate bike quote with prices bike missing epic price", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",
@@ -155,9 +133,7 @@ test("Recalculate bike quote with prices bike missing epic price", () => {
     const expectedQuote = Object.assign(
         quote,
         {
-            rrp: 1251.96,
-            epic_price: 1247.49,
-            club_price: 1244.49,
+            quote_price: 1247.49,
         }
     );
     expect(recalculatePrices(quote, quote_parts, bikeNoEpicPrice)).toEqual(expectedQuote);
@@ -165,7 +141,7 @@ test("Recalculate bike quote with prices bike missing epic price", () => {
 test("Recalculate simple quote quote with no prices", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         colour: "red",
         colour_price: 10,
         frame_size: 54,
@@ -174,38 +150,15 @@ test("Recalculate simple quote quote with no prices", () => {
     const expectedQuote = Object.assign(
         quote,
         {
-            rrp: 0,
-            epic_price: 0,
-            club_price: 0,
+            quote_price: 0,
         }
     );
     expect(recalculatePrices(quote, quote_parts)).toEqual(expectedQuote);
 });
-test("Recalculate simple quote quote with no epic prices", () => {
-    const quote = {
-        quote_status: 1,
-        epic_price: 12.99,
-        bike: 2,
-        bike_price: 1234.99,
-        colour: "red",
-        colour_price: 10,
-        frame_size: 54,
-    };
-    const quote_parts = [quoteItemNoEpicPriceSingle];
-    const expectedQuote = Object.assign(
-        quote,
-        {
-            rrp: 7.99,
-            epic_price: 7.99,
-            club_price: 5.50,
-        }
-    );
-    expect(recalculatePrices(quote, quote_parts, {})).toEqual(expectedQuote);
-});
 test("Recalculate simple quote quote with no club prices", () => {
     const quote = {
         quote_status: 1,
-        epic_price: 12.99,
+        quote_price: 12.99,
         bike: 2,
         bike_price: 1234.99,
         colour: "red",
@@ -216,9 +169,7 @@ test("Recalculate simple quote quote with no club prices", () => {
     const expectedQuote = Object.assign(
         quote,
         {
-            rrp: 7.99,
-            epic_price: 6.50,
-            club_price: 6.50,
+            quote_price: 11.50,
         }
     );
     expect(recalculatePrices(quote, quote_parts, {})).toEqual(expectedQuote);

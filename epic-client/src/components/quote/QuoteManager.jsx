@@ -1,9 +1,9 @@
 import React, {Fragment} from 'react'
 import TabbedView from "../../common/TabbedView";
 import * as PropTypes from "prop-types";
-import {doWeHaveObjects} from "../../helpers/utils";
+import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
 import CustomerEdit from "../customer/CustomerEdit";
-import {quoteFields} from "../app/model/helpers/fields";
+import {quoteFields} from "./helpers/display";
 import QuoteGrid from "./QuoteGrid";
 
 const tabs = [
@@ -41,7 +41,10 @@ class QuoteManager extends React.Component {
         }
     };
     changeCurrentTab = (newTab) => {
-        if (newTab !== this.state.tab) this.setState({ tab: newTab })
+        if (newTab !== this.state.tab) {
+            if ((newTab === 2) && (!this.props.quoteId)) return;
+            this.setState({ tab: newTab });
+        }
     };
 
 
@@ -63,13 +66,14 @@ class QuoteManager extends React.Component {
             quotes,
             quoteId,
             brands,
-            suppliers,
             bikes,
             frames,
             archiveQuote,
             unarchiveQuote,
             changeQuote,
         } = this.props;
+        let quote;
+        if (quoteId) quote = findObjectWithId(quotes, quoteId);
         return <div className='page-content'>
             <TabbedView tabs={tabs} changeTab={this.changeCurrentTab} currentTab={tab}/>
             {(tab === 0) && <CustomerEdit
@@ -91,6 +95,7 @@ class QuoteManager extends React.Component {
             />}
             {(tab === 1) && <Fragment>
                 <h1>Quote List</h1>
+                <div className='row'>
                 <QuoteGrid
                     displayFields={quoteFields}
                     getQuote={changeQuote}
@@ -103,6 +108,7 @@ class QuoteManager extends React.Component {
                     frames={frames}
                     data-test="quote-list-tab"
                 />
+                </div>
             </Fragment>}
             {(tab === 2) && <h1 data-test="quote-detail-tab">Quote detail</h1>}
             {(tab === 3) && <h1 data-test="bike-quotes-tab">Bike Quotes</h1>}
@@ -113,7 +119,6 @@ class QuoteManager extends React.Component {
 QuoteManager.defaultProps = {
     bikes: [],
     bikeParts: [],
-    suppliers: [],
     frames: [],
     customers: [],
     addresses: [],
@@ -133,7 +138,6 @@ QuoteManager.propTypes = {
     bikes: PropTypes.array,
     bikeParts: PropTypes.array,
     brands: PropTypes.array,
-    suppliers: PropTypes.array,
     sections: PropTypes.array,
     parts: PropTypes.array,
     frames: PropTypes.array,

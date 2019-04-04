@@ -6,6 +6,7 @@ import {doWeHaveObjects} from "../../../helpers/utils";
 const NonFieldErrors = props => {
     const { error_detail, componentKey } = props;
     if (doWeHaveObjects(error_detail.non_field_errors)) {
+        const displayText = error_detail.non_field_errors.join(' ');
         return <div
             className="grid-row"
             key={`error-row${componentKey}`}
@@ -18,9 +19,9 @@ const NonFieldErrors = props => {
             <div
                 key={`error${componentKey}`}
                 className="grid-item--borderless field-label red"
-                data-test="error_detail"
+                data-test="error-detail-div"
             >
-                {error_detail.non_field_errors.join('<br>')}
+                {displayText}
             </div>
         </div>;
     }

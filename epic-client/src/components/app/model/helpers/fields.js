@@ -20,7 +20,6 @@ import {ATTRIBUTE_OPTION_TYPES} from "../../../partTypeAttribute/helpers/partTyp
 import {FITTING_TYPE_CHOICES} from "../../../fitting/helpers/fitting";
 import {COUNTRIES, NUMBER_TYPE_CHOICES} from "../../../address/helpers/address";
 import {QUOTE_STATUS_CHOICES} from "../../../quote/helpers/quote";
-import {updateObject} from "../../../../helpers/utils";
 
 export const overrideReadonly = { readOnly: false };
 export const CHECKBOX = "checkbox";
@@ -708,56 +707,13 @@ export const partTypeAttributeFields = [
     MANDATORY_FIELD,
 ];
 export const partTypeSynonymFields = [NAME_FIELD];
-export const quoteFieldsBike = [
-    BIKE_FIELD,
-    FITTING_FIELD,
-    FRAME_SIZE_FIELD,
-    COLOUR_FIELD,
-    COLOUR_PRICE_FIELD
-];
-export const quoteListFields = [
-        QUOTE_DESC_FIELD,
-    BIKE_FIELD,
-    CUSTOMER_FIELD,
-    QUOTE_PRICE_FIELD,
-];
-export const quoteFieldsNoBike = [
-    QUOTE_DESC_FIELD,
-    CUSTOMER_FIELD,
-    QUOTE_STATUS_FIELD,
-    VERSION_FIELD,
-    CREATED_BY_FIELD,
-    CREATED_DATE_FIELD,
-    UPD_DATE_FIELD,
-    ISSUED_DATE_FIELD,
-    updateObject(SELL_PRICE_FIELD, overrideReadonly),
-    updateObject(EPIC_PRICE_FIELD, overrideReadonly),
-    updateObject(CLUB_PRICE_FIELD, overrideReadonly),
-    QUOTE_PRICE_FIELD,
-];
-export const quoteFields = quoteFieldsNoBike.concat(quoteFieldsBike);
-export const quoteFieldsNoCustomer = [
-    QUOTE_DESC_FIELD,
-    QUOTE_STATUS_FIELD,
-    VERSION_FIELD,
-    BIKE_FIELD,
-    CREATED_BY_FIELD,
-    UPD_DATE_FIELD,
-    ISSUED_DATE_FIELD,
-    QUOTE_PRICE_FIELD,
-];
-export const quotePartFields = [
-    PART_TYPE_FIELD,
-    REPLACEMENT_PART_FIELD,
-    PART_FIELD,
-    QUANTITY_FIELD,
-    SELL_PRICE_FIELD,
-    EPIC_PRICE_FIELD,
-    CLUB_PRICE_FIELD
-];
-export const quotePartAttributeFields = [
-    ATTRIBUTE_VALUE_FIELD
-];
+
+
+
+
+
+
+
 export const supplierFields = [
     SUPPLIER_NAME_FIELD,
     PREFERRED_SUPPLIER_FIELD,

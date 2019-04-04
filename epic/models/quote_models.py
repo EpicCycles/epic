@@ -22,9 +22,6 @@ class Quote(models.Model):
     version = models.PositiveSmallIntegerField(default=1, editable=False)
     created_date = models.DateTimeField(auto_now_add=True)
     issued_date = models.DateTimeField(null=True)
-    rrp = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    epic_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    club_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     quote_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     bike = models.ForeignKey(Bike, on_delete=models.CASCADE, blank=True, null=True)
     colour = models.CharField(max_length=40, blank=True, null=True)
@@ -60,10 +57,7 @@ class QuotePart(models.Model):
     # part can be None if the part has not been selected
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=1, blank=True, null=True)
-    rrp = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    epic_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    club_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    quote_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     replacement_part = models.BooleanField(default=False)
 
 

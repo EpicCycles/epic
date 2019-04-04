@@ -11,6 +11,7 @@ const props = {
     suppliers: sampleSuppliers,
     parts: [],
     frames: [],
+    quoteId: 2,
     getBrandsAndSuppliers: jest.fn(),
     saveBrands: jest.fn(),
     getFramework: jest.fn(),
@@ -51,7 +52,7 @@ describe('QuoteManager', () => {
             expect(findDataTest(component, "quote-detail-tab")).toHaveLength(0);
         });
     });
-    describe('tab handling', () => {
+    describe('tab handling with data', () => {
         let component;
 
         beforeEach(() => {

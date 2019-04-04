@@ -6,9 +6,11 @@ import CustomerListAndSelect from "../customer/CustomerListAndSelect";
 import BikeListAndSelect from "../bike/BikeListAndSelect";
 import FormCheckbox from "../../common/FormCheckbox";
 import SearchButton from "../../common/SearchButton";
+import FormTextInput from "../../common/FormTextInput";
 
 class QuoteFind extends React.Component {
     state = {
+        quoteDesc: '',
         brand: '',
         frameName: '',
         selectedCustomer: '',
@@ -45,6 +47,7 @@ class QuoteFind extends React.Component {
         this.setState(newState);
     };
     checkCriteriaForQuoteSearch = () => {
+        if (this.state.quoteDesc) return true;
         if (this.state.bike) return true;
         if (this.state.brand) return true;
         if (this.state.frameName) return true;
@@ -52,17 +55,34 @@ class QuoteFind extends React.Component {
         return false;
     };
     getQuoteList = () => {
-        const { brand, frameName, selectedCustomer, bike, archived } = this.state;
-        this.props.getQuoteList({ brand, frameName, selectedCustomer, bike, archived })
+        const { quoteDesc, brand, frameName, selectedCustomer, bike, archived } = this.state;
+        this.props.getQuoteList({ quoteDesc, brand, frameName, selectedCustomer, bike, archived })
     };
 
     render() {
-        const { brand, frameName, selectedCustomer, bike, archived } = this.state;
+        const { quoteDesc, brand, frameName, selectedCustomer, bike, archived } = this.state;
         const { brands, bikes, frames, getFrameList, getCustomerList, searchParams, isLoading, customers, count, next } = this.props;
 
         return <Fragment>
                         <h1>Find Quotes</h1>
-
+            <div className="row vertical-middle" data-test="quoteDescription">
+                <div>Quote Description includes:</div>
+                <FormTextInput
+                    data-test="quote-desc-input"
+                    fieldName="quoteDesc"
+                    value={quoteDesc}
+                    onChange={this.handleInputChange}
+                    onClick={this.handleInputClear}
+                />
+                <FormCheckbox
+                    onChange={this.handleInputChange}
+                    fieldName={'archived'}
+                    fieldValue={archived}
+                    fieldLabel='Include archived quotes:'
+                    data-test="archived-checkbox"
+                    key='select-archived-for-quotes'
+                />
+            </div>
             <CustomerListAndSelect
                 addNewCustomer={this.goToAddCustomer}
                 getCustomerList={getCustomerList}
@@ -88,20 +108,14 @@ class QuoteFind extends React.Component {
                 data-test="bike-select"
             />
             <hr/>
-            <div className='row'>
-                <FormCheckbox
-                    onChange={this.handleInputChange}
-                    fieldName={'archived'}
-                    fieldValue={archived}
-                    fieldLabel='Include archived quotes:'
-                    data-test="archived-checkbox"
-                    key='select-archived-for-quotes'
-                />
+            <h2>Search</h2>
+            <div className='row align-right'>
                 <SearchButton
                     onClick={this.getQuoteList}
                     disabled={!this.checkCriteriaForQuoteSearch()}
                     title={'find matching quotes'}
                     data-test="search"
+                    className={'big'}
                 />
             </div>
         </Fragment>

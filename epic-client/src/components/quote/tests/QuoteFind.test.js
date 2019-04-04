@@ -54,10 +54,11 @@ describe('QuoteFind', () => {
         const expectedCallData = {
             brand: '',
             frameName: '',
-            customerId: '',
+            selectedCustomer: '',
             bike: 58,
-            archived: true
+            archived: true,
+            quoteDesc: '',
         };
         expect(getQuoteList).toHaveBeenCalledWith(expectedCallData);
-    })
+    });
 });
