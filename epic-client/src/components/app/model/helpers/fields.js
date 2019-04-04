@@ -715,6 +715,12 @@ export const quoteFieldsBike = [
     COLOUR_FIELD,
     COLOUR_PRICE_FIELD
 ];
+export const quoteListFields = [
+        QUOTE_DESC_FIELD,
+    BIKE_FIELD,
+    CUSTOMER_FIELD,
+    QUOTE_PRICE_FIELD,
+];
 export const quoteFieldsNoBike = [
     QUOTE_DESC_FIELD,
     CUSTOMER_FIELD,

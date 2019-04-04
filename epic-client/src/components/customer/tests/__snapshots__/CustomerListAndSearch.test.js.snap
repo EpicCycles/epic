@@ -6,6 +6,7 @@ exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch cor
     Find Customer
   </h2>
   <CustomerSearch
+    className="row"
     isLoading={false}
     searchParams={
       Object {
@@ -34,6 +35,7 @@ exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch cor
     Find Customer
   </h2>
   <CustomerSearch
+    className="row"
     isLoading={false}
     searchParams={
       Object {

@@ -7,7 +7,7 @@ import {buildCustomerString} from "./helpers/customer";
 import SelectInput from "../../common/SelectInput";
 
 const CustomerListAndSelect = (props) => {
-    const { addNewCustomer, getCustomerList, selectCustomer, isLoading, customers, count, next, searchParams, selectedCustomer } = props;
+    const { className, addNewCustomer, getCustomerList, selectCustomer, isLoading, customers, count, next, searchParams, selectedCustomer } = props;
     const customerOptions = customers ? customers.map(customer => {
         return {
             value: String(getModelKey(customer)),
@@ -16,23 +16,26 @@ const CustomerListAndSelect = (props) => {
     }) : [];
     return <Fragment>
         <h2 data-test="list-and-search-heading">Select Customer</h2>
-        <CustomerSearch
-            getCustomerList={getCustomerList}
-            searchParams={searchParams}
-            isLoading={isLoading}
-            data-test="search-block"
-        />
-        {count > 0 && <SelectInput
-            title={'Select Customer'}
-            label={'Select Customer'}
-            onChange={selectCustomer}
-            value={selectedCustomer}
-            options={customerOptions}
-            data-test="customer-block"
-            fieldName='selectedCustomer'
-            isEmptyAllowed={true}
-        />
-        }
+        <div className={className}>
+            <CustomerSearch
+                getCustomerList={getCustomerList}
+                searchParams={searchParams}
+                isLoading={isLoading}
+                className={className}
+                data-test="search-block"
+            />
+            {count > 0 && <SelectInput
+                title={'Select Customer'}
+                label={'Select Customer'}
+                onChange={selectCustomer}
+                value={selectedCustomer}
+                options={customerOptions}
+                data-test="customer-block"
+                fieldName='selectedCustomer'
+                isEmptyAllowed={true}
+            />
+            }
+        </div>
         <div className="row align_left">
             {count === 0 &&
             <div data-test="start-message">
@@ -50,6 +53,7 @@ const CustomerListAndSelect = (props) => {
 };
 CustomerListAndSelect.defaultProps = {
     count: 0,
+    className: 'row'
 };
 CustomerListAndSelect.propTypes = {
     addNewCustomer: PropTypes.func.isRequired,
@@ -70,5 +74,6 @@ CustomerListAndSelect.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
+    className: PropTypes.string,
 };
 export default CustomerListAndSelect;

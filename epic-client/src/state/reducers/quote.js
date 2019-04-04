@@ -1,11 +1,13 @@
 import {USER_LOGOUT} from "../actions/user";
 import {
-    ARCHIVE_QUOTE, CHANGE_QUOTE,
+    ARCHIVE_QUOTE,
+    CHANGE_QUOTE,
     CLEAR_QUOTE_DATA,
     COPY_QUOTE,
     CREATE_QUOTE,
     FIND_QUOTES,
-    GET_QUOTE, UNARCHIVE_QUOTE,
+    GET_QUOTE,
+    UNARCHIVE_QUOTE,
     UPDATE_QUOTE
 } from "../actions/quote";
 import {CLEAR_ALL_STATE} from "../actions/application";
@@ -29,6 +31,7 @@ const quote = (state = initialState, action) => {
         case `${COPY_QUOTE}_OK`:
         case `${GET_QUOTE}_OK`:
         case `${UPDATE_QUOTE}_OK`:
+        case `${FIND_QUOTES}_OK`:
             return {
                 ...state,
                 quoteId: action.payload.quoteId,
@@ -43,7 +46,6 @@ const quote = (state = initialState, action) => {
                 quotes: updateObjectInArray(state.quotes, action.payload),
                 isLoading: false,
             };
-        case `${FIND_QUOTES}_OK`:
         case CUSTOMER:
             return {
                 ...state,
@@ -78,7 +80,7 @@ const quote = (state = initialState, action) => {
                 isLoading: false,
                 quotes: updateObjectInArray(state.quotes, quoteWithError)
             };
-    default:
+        default:
             return state;
     }
 };

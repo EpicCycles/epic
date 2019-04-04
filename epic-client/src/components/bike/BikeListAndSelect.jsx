@@ -7,7 +7,7 @@ import {bikeFullName} from "./helpers/bike";
 import BikeSearch from "./BikeSearch";
 
 const BikeListAndSelect = (props) => {
-    const { brands, onChange, brandSelected, onClick, frameName, getFrameList, canSelectArchived, archived, bikes, frames, selectedBike } = props;
+    const { className, brands, onChange, brandSelected, onClick, frameName, getFrameList, canSelectArchived, archived, bikes, frames, selectedBike } = props;
     const bikeOptions = bikes.map(bike => {
         return {
             value: String(getModelKey(bike)),
@@ -16,36 +16,41 @@ const BikeListAndSelect = (props) => {
     });
     return <Fragment>
         <h2 data-test="list-and-search-heading">Select Bike</h2>
-        <BikeSearch
-            onChange={onChange}
-            onClick={onClick}
-            getFrameList={getFrameList}
-            brands={brands}
-            brandSelected={brandSelected}
-            frameName={frameName}
-            archived={archived}
-            canSelectArchived={canSelectArchived}
-            data-test="bikes-search"
-        />
-        {(bikeOptions.length > 0) ? <SelectInput
-                fieldName='selectedBike'
+        <div className={className}>
+            <BikeSearch
                 onChange={onChange}
-                options={bikeOptions}
-                title={'Select Bike'}
-                label={'Select Bike'}
-                value={selectedBike}
-                data-test="bikes-select"
-                isEmptyAllowed={true}
+                onClick={onClick}
+                getFrameList={getFrameList}
+                brands={brands}
+                brandSelected={brandSelected}
+                frameName={frameName}
+                archived={archived}
+                canSelectArchived={canSelectArchived}
+                data-test="bikes-search"
+                className={className}
             />
-            : <div data-test="start-message">
-                No bikes to show, set new criteria and search, or
-            </div>}
+            {(bikeOptions.length > 0) ? <SelectInput
+                    fieldName='selectedBike'
+                    onChange={onChange}
+                    options={bikeOptions}
+                    title={'Select Bike'}
+                    label={'Select Bike'}
+                    value={selectedBike}
+                    data-test="bikes-select"
+                    isEmptyAllowed={true}
+                />
+
+                : <div data-test="start-message">
+                    No bikes to show, set new criteria and search, or
+                </div>}
+        </div>
     </Fragment>;
 };
 BikeListAndSelect.defaultProps = {
     brands: [],
     bikes: [],
     frames: [],
+    className: 'row',
 };
 BikeListAndSelect.propTypes = {
     brands: PropTypes.array,
@@ -62,5 +67,6 @@ BikeListAndSelect.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
+    className: PropTypes.string,
 };
 export default BikeListAndSelect;

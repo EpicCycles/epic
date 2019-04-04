@@ -35,15 +35,14 @@ class CustomerSearch extends React.Component {
 
     render() {
         const { firstName, lastName, email } = this.state;
-        const { isLoading } = this.props;
+        const { isLoading, className } = this.props;
         return <form onSubmit={this.onSubmit} data-test="search-form">
-            <div className="row vertical-middle">
+            <div className={className}>
                 <div>First name like:</div>
                 <FormTextInput
                     placeholder="First Name"
                     id="first-name-input"
                     data-test="first-name-input"
-                    className="column "
                     fieldName="firstName"
                     value={firstName}
                     onChange={this.handleInputChange}
@@ -54,7 +53,6 @@ class CustomerSearch extends React.Component {
                     placeholder="Last Name"
                     id="last-name-input"
                     data-test="last-name-input"
-                    className="column "
                     fieldName="lastName"
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
@@ -65,7 +63,6 @@ class CustomerSearch extends React.Component {
                     placeholder="bod@gmail.com"
                     id="email-input"
                     data-test="email-input"
-                    className="column "
                     fieldName="email"
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
@@ -88,11 +85,13 @@ CustomerSearch.defaultProps = {
         firstName: '',
         lastName: '',
         email: '',
-    }
+    },
+    className: 'row',
 };
 CustomerSearch.propTypes = {
     isLoading: PropTypes.bool,
     searchParams: PropTypes.object,
     getCustomerList: PropTypes.func.isRequired,
+    className: PropTypes.string,
 };
 export default CustomerSearch;

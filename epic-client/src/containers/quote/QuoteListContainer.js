@@ -1,13 +1,21 @@
 import {connect} from 'react-redux'
 import {getFrameList} from "../../state/actions/bike";
 import {clearCustomerState, getCustomerList} from "../../state/actions/customer";
-import {archiveQuote, clearQuoteState, getQuote, getQuoteList, unarchiveQuote} from "../../state/actions/quote";
+import {
+    archiveQuote,
+    changeQuote,
+    clearQuoteState,
+    getQuote,
+    getQuoteList,
+    unarchiveQuote
+} from "../../state/actions/quote";
 import QuoteList from "../../components/quote/QuoteList";
 import {getBrandsAndSuppliers} from "../../state/actions/core";
 
-const mapStateToProps = ({ bike, core, customer, framework, note, part, quote }) => {
+const mapStateToProps = ({ bike, core, customer, framework, part, quote }) => {
     return {
         bikes: bike.bikes,
+        bikeParts: bike.bikeParts,
         brands: core.brands,
         suppliers: core.suppliers,
         frames: bike.frames,
@@ -17,8 +25,11 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
         previous: customer.previous,
         searchParams: customer.searchParams,
         customerId: customer.customerId,
-        notes: note.notes,
+        parts: part.parts,
         quotes: quote.quotes,
+        quoteParts: quote.quoteParts,
+        quoteId: quote.quoteId,
+        sections: framework.sections,
         isLoading: (customer.isLoading || core.isLoading || bike.isLoading || quote.isLoading)
     }
 };
@@ -30,6 +41,7 @@ const mapDispatchToProps = {
     clearCustomerState,
     clearQuoteState,
     getQuoteList,
+    changeQuote,
     getQuote,
     archiveQuote,
     unarchiveQuote,

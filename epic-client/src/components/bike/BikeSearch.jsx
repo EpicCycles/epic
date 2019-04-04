@@ -6,7 +6,7 @@ import SearchButton from "../../common/SearchButton";
 import FormCheckbox from "../../common/FormCheckbox";
 
 const BikeSearch = (props) => {
-    return <div className="row vertical-middle">
+    return <div className={props.className}>
         <div className="field-label">Brand:</div>
         <BrandSelect
             brands={props.brands}
@@ -45,11 +45,13 @@ const BikeSearch = (props) => {
 };
 BikeSearch.defaultProps = {
     brands: [],
+    className: 'row',
 };
 BikeSearch.propTypes = {
     brands: PropTypes.any,
     onChange: PropTypes.func.isRequired,
     brandSelected: PropTypes.string,
+    className: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     frameName: PropTypes.string,
     canSelectArchived: PropTypes.bool,

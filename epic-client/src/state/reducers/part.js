@@ -11,7 +11,7 @@ import {
 import {USER_LOGOUT} from "../actions/user";
 import {BIKE_ADD_PART, BIKE_PART_DELETE, BIKE_PART_SAVE, GET_BIKE_PARTS} from "../actions/bike";
 import {addItemsToArray} from "../../helpers/utils";
-import {COPY_QUOTE, CREATE_QUOTE, GET_QUOTE, UPDATE_QUOTE} from "../actions/quote";
+import {COPY_QUOTE, CREATE_QUOTE, FIND_QUOTES, GET_QUOTE, UPDATE_QUOTE} from "../actions/quote";
 
 const initialState = {
     isLoading: false
@@ -54,6 +54,7 @@ const part = (state = initialState, action) => {
         case `${GET_QUOTE}_OK`:
         case `${COPY_QUOTE}_OK`:
         case `${UPDATE_QUOTE}_OK`:
+        case `${FIND_QUOTES}_OK`:
             return {
                 ...state,
                 isLoading: false,

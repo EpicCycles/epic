@@ -20,9 +20,9 @@ const NonFieldErrors = props => {
                 className="grid-item--borderless field-label red"
                 data-test="error_detail"
             >
-                {props.error_detail.non_field_errors.join('<br>')}
+                {error_detail.non_field_errors.join('<br>')}
             </div>
-        </div>
+        </div>;
     }
     return null;
 };
