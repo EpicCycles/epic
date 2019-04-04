@@ -21,6 +21,7 @@ const QuoteSummaryParts = props => {
                 const displayData = displayForPartType(partType.id, quoteParts, bikeParts, parts);
                 if (displayData.bikePart || displayData.quotePart || doWeHaveObjects(displayData.additionalParts)) {
                     return <QuoteSummaryPartType
+                        key={`quote-part-type-${partType.id}`}
                         lockFirstColumn={lockFirstColumn}
                         showPrices={showPrices}
                         partType={partType}

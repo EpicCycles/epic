@@ -47,6 +47,10 @@ class QuoteManager extends React.Component {
             this.setState({ tab: newTab });
         }
     };
+    editQuote = (quoteId) => {
+        this.props.changeQuote(quoteId);
+        this.changeCurrentTab(2);
+    };
 
 
     render() {
@@ -106,7 +110,7 @@ class QuoteManager extends React.Component {
                 <div className='row'>
                     <QuoteGrid
                         displayFields={quoteFields}
-                        getQuote={changeQuote}
+                        getQuote={this.editQuote}
                         archiveQuote={archiveQuote}
                         unarchiveQuote={unarchiveQuote}
                         quotes={quotes}
@@ -180,8 +184,6 @@ QuoteManager.propTypes = {
     saveBrands: PropTypes.func.isRequired,
     getFramework: PropTypes.func.isRequired,
     getFrameList: PropTypes.func.isRequired,
-    listParts: PropTypes.func.isRequired,
-    getCustomer: PropTypes.func.isRequired,
     clearCustomerState: PropTypes.func.isRequired,
     saveCustomer: PropTypes.func.isRequired,
     deleteCustomer: PropTypes.func.isRequired,
@@ -196,9 +198,9 @@ QuoteManager.propTypes = {
     archiveQuote: PropTypes.func.isRequired,
     unarchiveQuote: PropTypes.func.isRequired,
     changeQuote: PropTypes.func.isRequired,
-    saveQuotePart: PropTypes.func.isRequired,
-    deleteQuotePart: PropTypes.func.isRequired,
-    addQuotePart: PropTypes.func.isRequired,
+    // saveQuotePart: PropTypes.func.isRequired,
+    // deleteQuotePart: PropTypes.func.isRequired,
+    // addQuotePart: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 

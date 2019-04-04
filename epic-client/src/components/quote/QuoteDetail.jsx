@@ -59,9 +59,9 @@ QuoteDetail.propTypes = {
     frames: PropTypes.array.isRequired,
     saveQuote: PropTypes.func.isRequired,
     archiveQuote: PropTypes.func.isRequired,
-    saveQuotePart: PropTypes.func.isRequired,
-    deleteQuotePart: PropTypes.func.isRequired,
-    addQuotePart: PropTypes.func.isRequired,
+    // saveQuotePart: PropTypes.func.isRequired,
+    // deleteQuotePart: PropTypes.func.isRequired,
+    // addQuotePart: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 export default QuoteDetail;

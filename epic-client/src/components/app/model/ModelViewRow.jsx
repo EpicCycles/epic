@@ -32,6 +32,7 @@ const ModelViewRow = props => {
 };
 
 ModelViewRow.defaultProps = {
+    model: {},
     className: '',
     sections: [],
     brands: [],
@@ -44,7 +45,7 @@ ModelViewRow.defaultProps = {
 
 ModelViewRow.propTypes = {
     modelFields: PropTypes.array.isRequired,
-    model: PropTypes.object.isRequired,
+    model: PropTypes.object,
     sections: PropTypes.array,
     className: PropTypes.string,
     brands: PropTypes.array,

@@ -23,6 +23,7 @@ import * as selectors from "../selectors/user";
 import {clearAllState} from "../actions/application";
 import {getBrandsAndSuppliers} from "../actions/core";
 import {getFramework} from "../actions/framework";
+import {listParts} from "../actions/part";
 
 export function* loginUser(action) {
     try {
@@ -36,6 +37,7 @@ export function* loginUser(action) {
         // start fetch of basic data
         yield put(getBrandsAndSuppliers());
         yield put(getFramework());
+        yield put(listParts({}))
     } catch (error) {
         logError(error);
         yield put(loginUserFailure(errorAsMessage(error, "Login was not successful")));

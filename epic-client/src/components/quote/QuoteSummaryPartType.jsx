@@ -23,7 +23,11 @@ const QuoteSummaryPartType = props => {
             >
                 {bikePartOnQuote(bikePart, quotePart, replacementPart, brands)}
             </div>
-            {showPrices && <ModelViewRow modelFields={priceFields} model={quotePart}/>}
+            {showPrices && <ModelViewRow
+                modelFields={priceFields}
+                model={quotePart}
+                key={`quote-part-view-${bikePart.id}`}
+            />}
         </div>}
         {additionalParts.map(quotePart => <div className="grid-row" key="part-display-grid-row">
             <div
@@ -38,7 +42,11 @@ const QuoteSummaryPartType = props => {
             >
                 **** {buildPartString(findObjectWithId(parts, quotePart.part), brands)} ****
             </div>
-            {showPrices && <ModelViewRow modelFields={priceFields} model={quotePart}/>}
+            {showPrices && <ModelViewRow
+                modelFields={priceFields}
+                model={quotePart}
+                key={`quote-part-view-${quotePart.id}`}
+            />}
         </div>)}
     </Fragment>
 };
