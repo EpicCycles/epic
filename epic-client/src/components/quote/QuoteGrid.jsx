@@ -6,6 +6,7 @@ import ModelTableHeaders from "../app/model/ModelTableHeaders";
 import {getModelKey} from "../app/model/helpers/model";
 import ModelViewRow from "../app/model/ModelViewRow";
 import ModelActions from "../app/model/ModelActions";
+import ModelTableActionHeader from "../app/model/ModelTableActionHeader";
 
 const QuoteGrid = props => {
     const { quotes, getQuote, changeQuote, archiveQuote, unarchiveQuote, customers, bikes, frames, brands, displayFields } = props;
@@ -20,7 +21,7 @@ const QuoteGrid = props => {
     >
         <div key="bikeReviewHeaders" className="grid-row grid-row--header">
             <ModelTableHeaders modelFields={displayFields} lockFirstColumn={true}/>
-            <div className="grid-item--header grid-header--fixed-right">action</div>
+            <ModelTableActionHeader/>
         </div>
         {quotes.map(quote => {
             const modelKey = getModelKey(quote);

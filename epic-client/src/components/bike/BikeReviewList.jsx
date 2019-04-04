@@ -3,6 +3,7 @@ import {changeList, doWeHaveObjects, removeKey, updateObject} from "../../helper
 import {Button, Dimmer, Icon, Loader} from "semantic-ui-react";
 import BikeReviewListSelection from "./BikeReviewListSelection";
 import {Redirect} from "react-router-dom";
+import ModelTableActionHeader from "../app/model/ModelTableActionHeader";
 
 class BikeReviewList extends React.Component {
     state = {
@@ -232,7 +233,7 @@ class BikeReviewList extends React.Component {
                                     <div className="grid-item--header">Description</div>
                                     <div className="grid-item--header">Sell Price</div>
                                     <div className="grid-item--header">Sizes</div>
-                                    <div className="grid-item--header">action</div>
+                                    <ModelTableActionHeader />
                                 </div>
                                 {nonArchivedFrames.map((frame, frameIndex) =>
 

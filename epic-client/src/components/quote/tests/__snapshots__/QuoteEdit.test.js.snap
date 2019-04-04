@@ -2,7 +2,7 @@
 
 exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
 <div
-  className="fit-content"
+  className="fit-content row"
   id="quote-detail"
 >
   <EditModelPage
@@ -131,7 +131,7 @@ exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
 
 exports[`QuoteEdit tests renders the form text correctly with quote 1`] = `
 <div
-  className="fit-content"
+  className="fit-content row"
   id="quote-detail"
 >
   <EditModelPage
