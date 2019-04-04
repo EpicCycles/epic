@@ -2,12 +2,13 @@ import React from 'react'
 import QuoteCreate from "../QuoteCreate";
 import {sampleBikes} from "../../../helpers/sampleData";
 import {findDataTest} from "../../../../test/assert";
-const isoDate = '2018-07-28T11:06:48';
 
-const RealDate = Date;
 
 describe('QuoteCreate', () => {
 
+    const customers = [
+        {id: 1, first_name:'Fred', last_name:'Smith'}
+    ];
     it('should render with find customer and find bike components', () => {
         const component = shallow(<QuoteCreate
             getCustomerList={jest.fn()}

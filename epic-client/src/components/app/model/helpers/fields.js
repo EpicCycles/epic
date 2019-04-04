@@ -21,7 +21,6 @@ import {FITTING_TYPE_CHOICES} from "../../../fitting/helpers/fitting";
 import {COUNTRIES, NUMBER_TYPE_CHOICES} from "../../../address/helpers/address";
 import {QUOTE_STATUS_CHOICES} from "../../../quote/helpers/quote";
 
-export const overrideReadonly = { readOnly: false };
 export const CHECKBOX = "checkbox";
 export const RADIO = "radio";
 export const DATE_TIME = "date_time";

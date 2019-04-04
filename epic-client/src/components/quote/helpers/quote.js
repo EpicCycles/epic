@@ -40,18 +40,22 @@ export const recalculatePrices = (quote, quote_parts = [], bike = {}) => {
     return updateObject(quote, { quote_price });
 };
 
-export const quoteDescription = (bike, frames, bikes, brands) => {
+export const quoteDescription = (customer, bike, customers, frames, bikes, brands) => {
     let quote_desc;
     let bikeObject;
+    const customerObject = findObjectWithId(customers, customer);
+    const customerName = customerObject ? `${customerObject.first_name} ${customerObject.last_name}/` : '';
     if (bike) {
         bikeObject = findObjectWithId(bikes, bike);
     }
     if (bikeObject) {
         quote_desc = bikeFullName(bikeObject, frames, brands);
-    } else {
+    } else if (bike) {
+        quote_desc = 'Bike'
+    }else {
         quote_desc = 'Parts only'
     }
-    return `${quote_desc} - ${formattedDate(new Date())}`;
+    return `${customerName}${quote_desc} - ${formattedDate(new Date())}`;
 };
 
 

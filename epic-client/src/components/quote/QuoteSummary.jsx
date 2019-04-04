@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react'
 import * as PropTypes from "prop-types";
-import {findObjectWithId} from "../../helpers/utils";
+import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
 import {findPartsForBike} from "../bike/helpers/bike";
 import {sectionHasDetail} from "../framework/helpers/display";
 import {displayForPartType} from "./helpers/display";
@@ -23,7 +23,7 @@ const QuoteSummary = props => {
             <QuoteSummaryHeaders showPrices={true} data-test='quote-summary-headers' />
             {usedSections.map(section => section.partTypes.map(partType => {
                 const displayData = displayForPartType(partType.id, thisQuoteParts, thisBikeParts, parts);
-                if (displayData.bikePart || displayData.quotePart || displayData.additionalParts) {
+                if (displayData.bikePart || displayData.quotePart || doWeHaveObjects(displayData.additionalParts)) {
                     return <QuoteSummaryPartType
                         showPrices={true}
                         partType={partType}

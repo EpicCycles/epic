@@ -36,6 +36,10 @@ export const gridItemClass = (baseClassName = "", fieldIndex, firstColumnLocked)
     return `${baseClassName} grid-item ${fixedDetailsClassname(shouldLock)}`;
 };
 export const formattedDate = date => {
+    if (date) return date.toLocaleDateString('en-GB');
+    return "";
+};
+export const formattedDateTime = date => {
     if (date) return date.toLocaleString('en-GB');
     return "";
 };
@@ -65,7 +69,7 @@ export const fieldAlignment = field => {
                 viewData = fieldValue ? "Y" : "N";
                 break;
             case DATE_TIME:
-                viewData = fieldValue ? formattedDate(new Date(fieldValue)) : "";
+                viewData = fieldValue ? formattedDateTime(new Date(fieldValue)) : "";
                 break;
             case PART_TYPE:
                 viewData = fieldValue ? getPartTypeName(fieldValue, sections) : '';
