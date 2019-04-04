@@ -14,12 +14,13 @@ const QuoteGrid = props => {
         className="grid"
         style={{
             height: (window.innerHeight - 120) + "px",
+            maxWidth: (window.innerWidth - 120) + "px",
             overflow: "auto"
         }}
     >
         <div key="bikeReviewHeaders" className="grid-row grid-row--header">
             <ModelTableHeaders modelFields={displayFields} lockFirstColumn={true}/>
-            <div className="grid-item--header">action</div>
+            <div className="grid-item--header grid-header--fixed-right">action</div>
         </div>
         {quotes.map(quote => {
             const modelKey = getModelKey(quote);

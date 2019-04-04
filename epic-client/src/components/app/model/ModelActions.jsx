@@ -4,7 +4,7 @@ import {Icon} from "semantic-ui-react";
 import {gridItemClass} from "./helpers/display";
 
 const ModelActions = props => <div
-    className={`align_center ${gridItemClass(props.className)}`}
+    className={`align_center ${gridItemClass(props.className)} grid-col--fixed-right`}
     key={`modelActions${props.componentKey}`}
     style={{ gridRow: ` span ${props.rowSpan}` }}
     data-test="model-field-cell"

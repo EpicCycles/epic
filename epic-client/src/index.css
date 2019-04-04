@@ -463,21 +463,20 @@ fieldset {
     left: 0;
 }
 
-.grid-header--fixed-left {
+.grid-header--fixed-left, .grid-header--fixed-right {
     background-color: var(--col-epic-red);
     z-index: 9001;
 }
 
-.grid-col--fixed-left, .grid-item--fixed-left {
-    background: white;
+.grid-col--fixed-left, .grid-item--fixed-left, .grid-col--fixed-right {
+    /*background: white;*/
+    background-color: white;
     z-index: 8000;
 }
 
-.grid-col--fixed-right {
+.grid-col--fixed-right, .grid-header--fixed-right  {
     position: sticky;
     right: 0;
-    z-index: 8000;
-    background: white;
 }
 
 .grid-item {
