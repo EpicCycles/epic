@@ -1,6 +1,5 @@
 import React, {Fragment} from 'react';
 import * as PropTypes from "prop-types";
-import {QUANTITY_FIELD, QUOTE_PRICE_FIELD} from "../app/model/helpers/fields";
 import ModelViewRow from "../app/model/ModelViewRow";
 import {bikePartOnQuote, priceFields} from "./helpers/display";
 import {buildPartString} from "../part/helpers/part";
@@ -9,16 +8,16 @@ import {gridItemClass} from "../app/model/helpers/display";
 
 
 const QuoteSummaryPartType = props => {
-    const { showPrices, partType, bikePart, quotePart, replacementPart, additionalParts, parts, brands } = props;
+    const { showPrices, lockFirstColumn, partType, bikePart, quotePart, replacementPart, additionalParts, parts, brands } = props;
     return <Fragment>
         {bikePart && <div className="grid-row" key="part-display-grid-row">
             <div
-                className={gridItemClass('', 0, true)}
+                className={gridItemClass('', 0, lockFirstColumn)}
                 key={`partType${bikePart.id}`}
                 data-test="bike-part-type-cell"
             >{partType.name}</div>
             <div
-                className={gridItemClass('', 1, true)}
+                className={gridItemClass('', 1, lockFirstColumn)}
                 key={`part${bikePart.id}`}
                 data-test="bike-part-cell"
             >
@@ -49,6 +48,7 @@ QuoteSummaryPartType.defaultProps = {
     parts: [],
 }
 QuoteSummaryPartType.propTypes = {
+    lockFirstColumn: PropTypes.bool,
     showPrices: PropTypes.bool,
     partType: PropTypes.object,
     bikePart: PropTypes.object,

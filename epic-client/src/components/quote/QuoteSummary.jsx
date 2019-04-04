@@ -7,6 +7,7 @@ import {displayForPartType, quoteFields} from "./helpers/display";
 import QuoteSummaryHeaders from "./QuoteSummaryHeaders";
 import QuoteSummaryPartType from "./QuoteSummaryPartType";
 import ViewModelBlock from "../app/model/ViewModelBlock";
+import QuoteSummaryParts from "./QuoteSummaryParts";
 
 const QuoteSummary = props => {
     const { showPrices, quote, quoteParts, brands, sections, parts, bikes, bikeParts, frames, customers } = props;
@@ -14,7 +15,6 @@ const QuoteSummary = props => {
     const thisQuoteParts = quoteParts.filter(quotePart => (quotePart.quote === quote.id));
     const bike = findObjectWithId(bikes, quote.bike);
     const thisBikeParts = findPartsForBike(bike, bikeParts, parts);
-    const usedSections = sections.filter(section => (sectionHasDetail(section, thisQuoteParts) || sectionHasDetail(section, thisBikeParts)));
     return <div
         className="grid-container"
     >
@@ -25,27 +25,13 @@ const QuoteSummary = props => {
             customers={customers}
             frames={frames}
         />
-        {(usedSections.length === 0) && <div data-test="no-summary">No Quote details</div>}
-        {(usedSections.length > 0) && <div className='grid'>
-            <QuoteSummaryHeaders showPrices={true} data-test='quote-summary-headers'/>
-            {usedSections.map(section => section.partTypes.map(partType => {
-                const displayData = displayForPartType(partType.id, thisQuoteParts, thisBikeParts, parts);
-                if (displayData.bikePart || displayData.quotePart || doWeHaveObjects(displayData.additionalParts)) {
-                    return <QuoteSummaryPartType
-                        showPrices={true}
-                        partType={partType}
-                        bikePart={displayData.bikePart}
-                        quotePart={displayData.quotePart}
-                        replacementPart={displayData.replacementPart}
-                        additionalParts={displayData.additionalParts}
-                        parts={parts}
-                        brands={brands}
-                    />
-                } else {
-                    return null;
-                }
-            }))}
-        </div>}
+        <QuoteSummaryParts
+            quoteParts={thisQuoteParts}
+            brands={brands}
+            sections={sections}
+            parts={parts}
+            bikeParts={thisBikeParts}
+        />
     </div>
 };
 

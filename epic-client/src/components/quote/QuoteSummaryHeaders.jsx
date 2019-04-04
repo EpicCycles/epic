@@ -5,15 +5,15 @@ import ModelTableHeaders from "../app/model/ModelTableHeaders";
 import {priceFields} from "./helpers/display";
 
 const QuoteSummaryHeaders = props => {
-    const { showPrices } = props;
+    const { showPrices, lockFirstColumn } = props;
     return <div className="grid-row grid-row--header " key="part-display-grid-header-row">
         <div
-            className={gridHeaderClass(undefined, 0, true)}
+            className={gridHeaderClass(undefined, 0, lockFirstColumn)}
             data-test="part-type-header"
         >Part Type
         </div>
         <div
-            className={gridHeaderClass(undefined, 1, true)}
+            className={gridHeaderClass(undefined, 1, lockFirstColumn)}
             data-test="part-header"
         >Part
         </div>
@@ -25,6 +25,7 @@ const QuoteSummaryHeaders = props => {
 
 QuoteSummaryHeaders.propTypes = {
     showPrices: PropTypes.bool,
+    lockFirstColumn: PropTypes.bool,
 };
 
 export default QuoteSummaryHeaders;

@@ -1,6 +1,6 @@
 import React from 'react';
 import QuoteSummary from "../QuoteSummary";
-import {findDataTest} from "../../../../test/assert";
+import {assertComponentHasExpectedProps, findDataTest} from "../../../../test/assert";
 
 describe('QuoteSummary', () => {
     const sections = [
@@ -24,14 +24,18 @@ describe('QuoteSummary', () => {
             bikes={[]}
         />);
         expect(component.find('ViewModelBlock')).toHaveLength(1);
-        expect(findDataTest(component, 'no-summary')).toHaveLength(1);
-        expect(findDataTest(component, 'quote-summary-headers')).toHaveLength(0);
-        expect(component.find('QuoteSummaryPartType')).toHaveLength(0);
+        const partData = component.find('QuoteSummaryParts');
+        expect(partData).toHaveLength(1);
+        assertComponentHasExpectedProps(partData, {
+            quoteParts: [],
+            bikeParts: [],
+            bikes: [],
+        })
     });
     it('should render headers and detail when there is part type data', () => {
         const component = shallow(<QuoteSummary
             quote={{ id: 1 }}
-            quoteParts={[{ quote: 1, partType: 1 }]}
+            quoteParts={[{ quote: 1, partType: 1 }, { quote: 2, partType: 1 }]}
             brands={[]}
             sections={sections}
             parts={[]}
@@ -39,9 +43,13 @@ describe('QuoteSummary', () => {
             bikes={[]}
         />);
         expect(component.find('ViewModelBlock')).toHaveLength(1);
-        expect(findDataTest(component, 'no-summary')).toHaveLength(0);
-        expect(findDataTest(component, 'quote-summary-headers')).toHaveLength(1);
-        expect(component.find('QuoteSummaryPartType')).toHaveLength(1);
+        const partData = component.find('QuoteSummaryParts');
+        expect(partData).toHaveLength(1);
+        assertComponentHasExpectedProps(partData, {
+            quoteParts: [{ quote: 1, partType: 1 }],
+            bikeParts: [],
+            bikes: [],
+        })
     });
     it('should render headers and all section detail when there is part type data', () => {
         const component = shallow(<QuoteSummary
@@ -53,9 +61,13 @@ describe('QuoteSummary', () => {
             bikeParts={[]}
             bikes={[]}
         />);
-        expect(findDataTest(component, 'no-summary')).toHaveLength(0);
-        expect(findDataTest(component, 'quote-summary-headers')).toHaveLength(1);
-        expect(component.find('QuoteSummaryPartType')).toHaveLength(2);
         expect(component.find('ViewModelBlock')).toHaveLength(1);
+        const partData = component.find('QuoteSummaryParts');
+        expect(partData).toHaveLength(1);
+        assertComponentHasExpectedProps(partData, {
+            quoteParts: [{ quote: 1, partType: 1 }, { quote: 1, partType: 22 }],
+            bikeParts: [],
+            bikes: [],
+        })
     });
 });
