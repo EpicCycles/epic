@@ -1,5 +1,4 @@
 import {getNameForValue} from "../../app/model/helpers/model";
-import {completeQuotePart} from "../../quotePart/helpers/quotePart";
 import {findObjectWithId, updateObject} from "../../../helpers/utils";
 import {formattedDate} from "../../app/model/helpers/display";
 import {bikeFullName} from "../../bike/helpers/bike";
@@ -18,8 +17,7 @@ export const canBeIssued = (quote, quote_parts, sections) => {
     if (!quote.quote_price) return false;
     if (quote.bike && (!(quote.bike_price && quote.colour && (quote.colour_price || quote.colour_price === 0) && quote.frame_size))) return false;
     if ((!quote.bike) && (quote_parts.length === 0)) return false;
-
-    return !quote_parts.some(quotePart => !completeQuotePart(quotePart, sections));
+    return true;
 };
 
 export const canBeReIssued = (quote) => (quote.quote_status > 1);

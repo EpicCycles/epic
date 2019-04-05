@@ -84,14 +84,17 @@ export const attributeSummary = (attribute) => {
     return attributeDetail.toString();
 };
 export const attributePlaceholder = (partType) => {
-     let attributePlaceholder = [];
+    let placeholder = [];
     if (partType.attributes) partType.attributes.forEach(attribute => {
-        attributePlaceholder.push(attribute.attribute_name);
-         if (attribute.options && attribute.options.length > 0) {
-        attributePlaceholder.push(`( ${attribute.options.map((option) => {
-            return option.option_name;
-        }).toString()})`);
-    }
+        if (attribute.in_use) {
+            if (attribute.options && attribute.options.length > 0) {
+                placeholder.push(`${attribute.attribute_name}(${attribute.options.map((option) => {
+                    return option.option_name;
+                }).toString()})`);
+            } else {
+                placeholder.push(attribute.attribute_name);
+            }
+        }
     });
-    return attributePlaceholder.join('/');
+    return placeholder.join(', ');
 };
