@@ -4,8 +4,8 @@ import {
     PART_TYPE_FIELD,
     STANDARD_FIELD, STOCKED_FIELD,
     TRADE_IN_FIELD
-} from "../../app/model/helpers/fields";
-import {getModelFields} from "../helpers/part";
+} from "../../../app/model/helpers/fields";
+import {getModelFields} from "../part";
 
 test('should return fields without stocked and part type when part is not standard', () => {
     const part = {

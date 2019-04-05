@@ -1,10 +1,9 @@
 // look at state and decide whether to get a new part list for datalist.
 import {getBrandName} from "../../brand/helpers/brand";
-import {getPartType} from "../../framework/helpers/partType";
+import {getPartType, getPartTypeName} from "../../framework/helpers/partType";
 import {partFields, partFieldsNoPartType, STOCKED_FIELD} from "../../app/model/helpers/fields";
 import {isModelValid} from "../../app/model/helpers/model";
 import {isItAnObject} from "../../../helpers/utils";
-import {getPartTypeName} from "../../framework/helpers/partType";
 
 export const partCanBeSubstituted = (part, sections) => {
       const partType = getPartType(part.partType, sections);
@@ -28,13 +27,7 @@ export const getModelFields = (part, partTypeEditable) => {
     if (part && (part.standard || part.stocked)) editFields.push(STOCKED_FIELD);
     return editFields;
 };
-export const getNewDataListRequired = (currentPartDataList, currentPartType, currentBrand) => {
-    if (!currentPartDataList) {
-        return true;
-    }
-    return !((currentPartDataList.partType === currentPartType) && (currentPartDataList.brand === currentBrand));
 
-};
 // builds a string for the part
 export const buildPartString = (part, brands) => {
     let brandName = "Unknown Brand";

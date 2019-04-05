@@ -10,7 +10,7 @@ import {
 } from "../actions/part";
 import {USER_LOGOUT} from "../actions/user";
 import {BIKE_ADD_PART, BIKE_PART_DELETE, BIKE_PART_SAVE, GET_BIKE_PARTS} from "../actions/bike";
-import {addItemsToArray} from "../../helpers/utils";
+import {addItemsToArray, removeItemFromArray} from "../../helpers/utils";
 import {COPY_QUOTE, CREATE_QUOTE, FIND_QUOTES, GET_QUOTE, UPDATE_QUOTE} from "../actions/quote";
 
 const initialState = {
@@ -39,12 +39,6 @@ const part = (state = initialState, action) => {
                 isLoading: false,
             };
         case `${PART_UPLOAD}_OK`:
-            return {
-                ...state,
-                isLoading: false,
-                parts: action.payload.parts,
-                supplierProducts: action.payload.supplierProducts,
-            };
         case `${PART_LIST}_OK`:
         case `${BIKE_PART_SAVE}_OK`:
         case `${BIKE_PART_DELETE}_OK`:
@@ -64,24 +58,26 @@ const part = (state = initialState, action) => {
         case UPDATE_PARTS:
             return {
                 ...state,
-                parts: action.payload,
+                parts: addItemsToArray(state.parts, action.payload),
             };
         case UPDATE_SUPPLIER_PRODUCTS:
             return {
                 ...state,
-                supplierProducts: action.payload,
+                supplierProducts: addItemsToArray(state.supplierProducts, action.payload),
             };
         case `${PART_SAVE}_OK`:
             return {
                 ...state,
                 isLoading: false,
                 part: action.payload.part,
+                parts: addItemsToArray(state.parts, [action.payload.part]),
             };
         case `${PART_DELETE}_OK`:
             return {
                 ...state,
                 isLoading: false,
                 part: undefined,
+                parts: removeItemFromArray(state.parts, action.payload.partId)
             };
         default:
             return state;

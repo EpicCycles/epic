@@ -10,7 +10,6 @@ import {
 } from "../../helpers/utils";
 import BrandSelect from "../brand/BrandSelect";
 import PartTypeSelect from "../partType/PartTypeSelect";
-import {getNewDataListRequired} from "./helpers/part";
 import PartDataList from "./PartDataList";
 import * as PropTypes from "prop-types";
 import {addFieldToState, checkForChanges} from "../app/model/helpers/model";

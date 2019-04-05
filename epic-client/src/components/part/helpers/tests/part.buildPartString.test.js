@@ -1,5 +1,5 @@
-import {NEW_ELEMENT_ID} from "../../../helpers/constants";
-import {buildPartString} from "../helpers/part";
+import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
+import {buildPartString} from "../part";
 
 const brands = [
     {id:1, brand_name:"brand 1"},

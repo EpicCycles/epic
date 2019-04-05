@@ -49,12 +49,11 @@ export function* deletePart(action) {
         if (token) {
             const completePayload = updateObject(action.payload, { token });
             yield call(part.deletePart, completePayload);
-            if (listCriteria) {
+        yield put(deletePartOK(action.payload.partId));
+        if (listCriteria) {
                 const searchPayload = { listCriteria, token };
                 const response = yield call(part.getParts, searchPayload);
                 yield put(listPartsOK(response.data));
-            } else {
-                yield put(deletePartOK());
             }
         } else {
             yield call(history.push, "/login");

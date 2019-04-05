@@ -1,4 +1,4 @@
-import {buildFrameWorkPartDisplay} from "../helpers/part";
+import {buildFrameWorkPartDisplay} from "../part";
 
 const sections = [
     {

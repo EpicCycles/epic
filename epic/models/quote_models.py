@@ -59,13 +59,4 @@ class QuotePart(models.Model):
     quantity = models.IntegerField(default=1, blank=True, null=True)
     quote_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     replacement_part = models.BooleanField(default=False)
-
-
-# PartTypeAttribute linked to quote parts
-class QuotePartAttribute(models.Model):
-    quotePart = models.ForeignKey(QuotePart, on_delete=models.CASCADE)
-    partTypeAttribute = models.ForeignKey(PartTypeAttribute, on_delete=models.CASCADE)
-    attribute_value = models.CharField(max_length=40, null=True)
-
-    class Meta:
-        indexes = [models.Index(fields=["quotePart", "partTypeAttribute"]), ]
+    additional_data = models.CharField(max_length=40, null=True)

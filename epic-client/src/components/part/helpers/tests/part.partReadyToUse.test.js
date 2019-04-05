@@ -1,4 +1,4 @@
-import {partReadyToUse} from "../helpers/part";
+import {partReadyToUse} from "../part";
 
 test('should return false when this is exactly the part we started with', () => {
     const part = {

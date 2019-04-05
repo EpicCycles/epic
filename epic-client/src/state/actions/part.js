@@ -34,8 +34,9 @@ export const deletePart = (partId) => ({
     type: `${PART_DELETE}_REQUESTED`,
     payload: { partId }
 });
-export const deletePartOK = () => ({
-    type: `${PART_DELETE}_OK`
+export const deletePartOK = (partId) => ({
+    type: `${PART_DELETE}_OK`,
+    payload: { partId }
 });
 export const deletePartError = (error) => ({
     type: `${PART_DELETE}_ERROR`,
