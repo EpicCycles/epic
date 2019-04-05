@@ -145,6 +145,7 @@ export const ATTRIBUTE_TYPE_FIELD = {
 export const ATTRIBUTE_VALUE_FIELD = {
     fieldName: ATTRIBUTE_VALUE,
     type: ATTRIBUTE_VALUE,
+    size: 20,
     length: 40,
     header: "Value",
     synonyms: [],
@@ -155,6 +156,7 @@ export const ADDRESS1_FIELD = {
     fieldName: ADDRESS1,
     type: TEXT,
     length: 100,
+    size: 30,
     header: "Address",
     required: true,
     error: ADDRESS_MISSING
@@ -163,24 +165,28 @@ export const ADDRESS2_FIELD = {
     fieldName: ADDRESS2,
     type: TEXT,
     length: 100,
+    size: 30,
     header: "Line 2",
 };
 export const ADDRESS3_FIELD = {
     fieldName: ADDRESS3,
     type: TEXT,
     length: 100,
+    size: 30,
     header: "Line 3",
 };
 export const ADDRESS4_FIELD = {
     fieldName: ADDRESS4,
     type: TEXT,
     length: 100,
+    size: 30,
     header: "Line 4",
 };
 export const POSTCODE_FIELD = {
     fieldName: POSTCODE,
     type: TEXT,
     length: 20,
+    size: 10,
     header: "Postcode",
     validator: validatePostcodeAndReturnError,
     validatorAdditionalFields: [COUNTRY]
@@ -189,6 +195,7 @@ export const BAR_HEIGHT_FIELD = {
     fieldName: BAR_HEIGHT,
     type: TEXT,
     length: 20,
+    size: 10,
     header: "Bar Height",
     required: true,
     error: VALUE_MISSING
@@ -208,7 +215,8 @@ export const BIKE_PRICE_FIELD = {
     fieldName: BIKE_PRICE,
     header: "Bike Price",
     type: CURRENCY,
-    length: 10
+    length: 10,
+    size: 10,
 };
 export const BIKE_BRAND_FIELD = {
     fieldName: BIKE_BRAND,
@@ -245,25 +253,29 @@ export const COLOUR_FIELD = {
     fieldName: COLOUR,
     header: "Colour",
     type: TEXT,
-    length: 100
+    length: 100,
+    size: 20,
 };
 export const COLOURS_FIELD = {
     fieldName: COLOURS,
     header: "Colours",
     synonyms: [COLOURS, "colour", "colors", "color"],
     type: TEXT,
-    length: 100
+    length: 100,
+    size: 30,
 };
 export const CLUB_PRICE_FIELD = {
     fieldName: CLUB_PRICE,
     header: "Club Price",
     type: CURRENCY,
-    length: 10
+    length: 10,
+    size: 10,
 };
 export const COLOUR_PRICE_FIELD = {
     fieldName: COLOUR_PRICE,
     header: "Colour Price",
     type: CURRENCY,
+    size: 10,
     length: 10
 };
 export const COUNTRY_FIELD = {
@@ -308,24 +320,26 @@ export const DESCRIPTION_FIELD = {
     header: "Description",
     synonyms: [DESCRIPTION, "desc"],
     type: TEXT_AREA,
-    length: 400
+    size: 400
 };
 export const EMAIL_FIELD = {
     fieldName: EMAIL,
     type: TEXT,
     header: "email",
     validator: validateEmailFormat,
-}
+};
 export const EPIC_PRICE_FIELD = {
     fieldName: EPIC_PRICE,
     header: "Epic Price",
     synonyms: [],
     type: CURRENCY,
+    size: 10,
     length: 10
 };
 export const FIRST_NAME_FIELD = {
     fieldName: FIRST_NAME,
     type: TEXT,
+    size: 20,
     length: 60,
     header: "First Name",
     synonyms: [],
@@ -337,6 +351,7 @@ export const FITTED_PRICE_FIELD = {
     header: "Fitted Price",
     synonyms: [],
     type: CURRENCY,
+    size: 10,
     length: 10
 };
 export const FITTING_FIELD = {
@@ -368,13 +383,11 @@ export const FRAME_NAME_FIELD = {
     required: true,
     error: FRAME_NAME_MISSING
 };
-// TODO way of making fields dependant on other fields being present
 export const FRAME_SIZE_FIELD = {
     fieldName: FRAME_SIZE,
     header: "Frame Size",
     type: TEXT,
 };
-// TODO set defaults for other boolean fields and create method with default setting for field for a new model
 export const IN_USE_FIELD = {
     fieldName: IN_USE,
     type: CHECKBOX,
@@ -390,6 +403,7 @@ export const ISSUED_DATE_FIELD = {
 export const LAST_NAME_FIELD = {
     fieldName: LAST_NAME,
     header: "Last Name",
+    size: 20,
     length: 60,
     type: TEXT,
     synonyms: [],
@@ -401,19 +415,20 @@ export const MANDATORY_FIELD = {
     type: CHECKBOX,
     header: "In Use",
 };
-// TODO lengths on text fields
 export const NAME_FIELD = {
     fieldName: NAME,
     header: "Name",
     synonyms: [],
     required: true,
-    error: VALUE_MISSING
+    error: VALUE_MISSING,
+    length: 60,
+    size: 20,
 };
 export const NOTE_TEXT_FIELD = {
     fieldName: NOTE_TEXT,
     header: "Note",
     type: TEXT_AREA,
-    length: 400
+    size: 400
 };
 export const NUMBER_TYPE_FIELD = {
     fieldName: NUMBER_TYPE,
@@ -423,20 +438,13 @@ export const NUMBER_TYPE_FIELD = {
     required: true,
     error: SELECT_ONE_MISSING
 };
-// TODO Edit model field based on section plus view
-export const SECTION_FIELD = {
-    fieldName: SECTION,
-    header: "Section",
-    required: true,
-    error: SELECT_ONE_MISSING,
-    type: SECTION
-};
-// TODO url validation rules
+
 export const LINK_FIELD = {
     fieldName: LINK,
     header: "URL",
     type: TEXT,
     length: 100,
+    size: 40,
     validator: validateURLAndReturnError
 };
 export const MODEL_NAME_FIELD = {
@@ -446,6 +454,7 @@ export const MODEL_NAME_FIELD = {
     required: true,
     error: MODEL_NAME_MISSING,
     type: TEXT,
+    size: 40,
     length: 100
 };
 export const PREFERRED_FIELD = {
@@ -458,7 +467,6 @@ export const PREFERRED_SUPPLIER_FIELD = {
     type: CHECKBOX,
     header: "Preferred",
 };
-// TODO validateion depening on whether this is an exclusion
 export const QUANTITY_FIELD = {
     fieldName: QUANTITY,
     type: NUMBER,
@@ -467,6 +475,7 @@ export const QUANTITY_FIELD = {
 export const QUOTE_DESC_FIELD = {
     fieldName: QUOTE_DESC,
     type: TEXT,
+    size: 40,
     length: 60,
     required: true,
     header: "Description"
@@ -483,6 +492,7 @@ export const REACH_FIELD = {
     type: TEXT,
     header: "Reach",
     required: true,
+    size: 10,
     length: 20
 };
 export const REPLACEMENT_PART_FIELD = {
@@ -511,6 +521,7 @@ export const OPTION_NAME_FIELD = {
     type: TEXT,
     required: true,
     error: VALUE_MISSING,
+    size: 20,
     length: 30
 };
 export const PART_FIELD = {
@@ -526,6 +537,7 @@ export const QUOTE_PRICE_FIELD = {
     header: "Quote Price",
     synonyms: [],
     type: CURRENCY,
+    size: 10,
     length: 10
 };
 export const BRAND_NAME_FIELD = {
@@ -533,6 +545,7 @@ export const BRAND_NAME_FIELD = {
     header: "Brand Name",
     synonyms: [],
     required: true,
+    size: 20,
     length: 50,
     error: BRAND_NAME_MISSING
 };
@@ -541,6 +554,7 @@ export const PRODUCT_CODE_FIELD = {
     header: "Product Code",
     synonyms: [PRODUCT_CODE],
     type: TEXT,
+    size: 10,
     length: 30
 };
 export const SELL_PRICE_FIELD = {
@@ -548,6 +562,7 @@ export const SELL_PRICE_FIELD = {
     header: "RRP",
     synonyms: ["price", "selling price", "srp", "rrp", "sell price", "retail price"],
     type: CURRENCY,
+    size: 10,
     length: 10
 };
 export const TRADE_PRICE_FIELD = {
@@ -555,6 +570,7 @@ export const TRADE_PRICE_FIELD = {
     header: "Trade Price",
     synonyms: [],
     type: CURRENCY,
+    size: 10,
     length: 10
 };
 export const TELEPHONE_FIELD = {
@@ -563,6 +579,7 @@ export const TELEPHONE_FIELD = {
     type: TEXT,
     required: true,
     error: VALUE_MISSING,
+    size: 20,
     length: 60
 };
 export const TICKET_PRICE_FIELD = {
@@ -570,12 +587,14 @@ export const TICKET_PRICE_FIELD = {
     header: "Ticket Price",
     synonyms: [],
     type: CURRENCY,
+    size: 10,
     length: 10
 };
 export const SADDLE_HEIGHT_FIELD = {
     fieldName: SADDLE_HEIGHT,
     header: "Saddle Height",
     type: TEXT,
+    size: 10,
     length: 20
 };
 export const SIZES_FIELD = {
@@ -583,6 +602,7 @@ export const SIZES_FIELD = {
     header: "Sizes",
     synonyms: [SIZES, "size", "frame sizes", "frame size"],
     type: TEXT,
+    size: 50,
     length: 100
 };
 export const PART_TYPE_FIELD = {
@@ -602,9 +622,9 @@ export const TRADE_IN_FIELD = {
     fieldName: TRADE_IN_PRICE,
     header: "Trade In £",
     type: CURRENCY,
+    size: 10,
     length: 10
 };
-// TODO add validation based on whether this is a standard field.
 export const STOCKED_FIELD = {
     fieldName: STOCKED,
     header: "Stocked",
@@ -619,6 +639,7 @@ export const SUPPLIER_NAME_FIELD = {
     fieldName: SUPPLIER_NAME,
     header: "Supplier",
     type: TEXT,
+    size: 20,
     length: 100,
     required: true,
     error: VALUE_MISSING
@@ -706,11 +727,6 @@ export const partTypeAttributeFields = [
     MANDATORY_FIELD,
 ];
 export const partTypeSynonymFields = [NAME_FIELD];
-
-
-
-
-
 
 
 export const supplierFields = [

@@ -21,6 +21,7 @@ const FormTextInput = props => {
                 onChange={event => props.onChange(props.fieldName, event.target.value)}
                 value={value}
                 size={props.size}
+                maxLength={props.maxLength ? props.maxLength : props.size}
             />
             {(props.value && props.onClick) &&
             <span className="clearInput">
@@ -59,5 +60,6 @@ FormTextInput.propsTypes = {
     fieldName: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     size: PropTypes.number,
+    maxLength: PropTypes.number,
 };
 export default FormTextInput;

@@ -76,6 +76,7 @@ exports[`should display when passed an empty supplier product 1`] = `
           "fieldName": "product_code",
           "header": "Product Code",
           "length": 30,
+          "size": 10,
           "synonyms": Array [
             "product_code",
           ],
@@ -107,6 +108,7 @@ exports[`should display when passed an empty supplier product 1`] = `
           "fieldName": "fitted_price",
           "header": "Fitted Price",
           "length": 10,
+          "size": 10,
           "synonyms": Array [],
           "type": "currency",
         }
@@ -136,6 +138,7 @@ exports[`should display when passed an empty supplier product 1`] = `
           "fieldName": "ticket_price",
           "header": "Ticket Price",
           "length": 10,
+          "size": 10,
           "synonyms": Array [],
           "type": "currency",
         }
@@ -165,6 +168,7 @@ exports[`should display when passed an empty supplier product 1`] = `
           "fieldName": "rrp",
           "header": "RRP",
           "length": 10,
+          "size": 10,
           "synonyms": Array [
             "price",
             "selling price",
@@ -201,6 +205,7 @@ exports[`should display when passed an empty supplier product 1`] = `
           "fieldName": "trade_price",
           "header": "Trade Price",
           "length": 10,
+          "size": 10,
           "synonyms": Array [],
           "type": "currency",
         }
@@ -230,6 +235,7 @@ exports[`should display when passed an empty supplier product 1`] = `
           "fieldName": "club_price",
           "header": "Club Price",
           "length": 10,
+          "size": 10,
           "type": "currency",
         }
       }
@@ -381,6 +387,7 @@ exports[`should display when passed supplier product 1`] = `
           "fieldName": "product_code",
           "header": "Product Code",
           "length": 30,
+          "size": 10,
           "synonyms": Array [
             "product_code",
           ],
@@ -425,6 +432,7 @@ exports[`should display when passed supplier product 1`] = `
           "fieldName": "fitted_price",
           "header": "Fitted Price",
           "length": 10,
+          "size": 10,
           "synonyms": Array [],
           "type": "currency",
         }
@@ -467,6 +475,7 @@ exports[`should display when passed supplier product 1`] = `
           "fieldName": "ticket_price",
           "header": "Ticket Price",
           "length": 10,
+          "size": 10,
           "synonyms": Array [],
           "type": "currency",
         }
@@ -509,6 +518,7 @@ exports[`should display when passed supplier product 1`] = `
           "fieldName": "rrp",
           "header": "RRP",
           "length": 10,
+          "size": 10,
           "synonyms": Array [
             "price",
             "selling price",
@@ -558,6 +568,7 @@ exports[`should display when passed supplier product 1`] = `
           "fieldName": "trade_price",
           "header": "Trade Price",
           "length": 10,
+          "size": 10,
           "synonyms": Array [],
           "type": "currency",
         }
@@ -600,6 +611,7 @@ exports[`should display when passed supplier product 1`] = `
           "fieldName": "club_price",
           "header": "Club Price",
           "length": 10,
+          "size": 10,
           "type": "currency",
         }
       }

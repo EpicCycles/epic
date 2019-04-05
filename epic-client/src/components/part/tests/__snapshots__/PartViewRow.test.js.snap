@@ -1140,6 +1140,7 @@ exports[`should display when multiple supplier products exist 1`] = `
           "fieldName": "trade_in_price",
           "header": "Trade In £",
           "length": 10,
+          "size": 10,
           "type": "currency",
         }
       }
@@ -3252,6 +3253,7 @@ exports[`should display when no part and no supplier products exist 1`] = `
           "fieldName": "trade_in_price",
           "header": "Trade In £",
           "length": 10,
+          "size": 10,
           "type": "currency",
         }
       }
@@ -5364,6 +5366,7 @@ exports[`should display when no supplier products exist 1`] = `
           "fieldName": "trade_in_price",
           "header": "Trade In £",
           "length": 10,
+          "size": 10,
           "type": "currency",
         }
       }
@@ -7503,6 +7506,7 @@ exports[`should display when one supplier products exist 1`] = `
           "fieldName": "trade_in_price",
           "header": "Trade In £",
           "length": 10,
+          "size": 10,
           "type": "currency",
         }
       }

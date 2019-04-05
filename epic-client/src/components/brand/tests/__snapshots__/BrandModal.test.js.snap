@@ -75,6 +75,7 @@ exports[`BrandModal displays correctly for a brand 1`] = `
             "header": "Brand Name",
             "length": 50,
             "required": true,
+            "size": 20,
             "synonyms": Array [],
           },
           Object {
@@ -86,6 +87,7 @@ exports[`BrandModal displays correctly for a brand 1`] = `
             "fieldName": "link",
             "header": "URL",
             "length": 100,
+            "size": 40,
             "type": "text",
             "validator": [Function],
           },
@@ -217,6 +219,7 @@ exports[`BrandModal displays correctly for a new brand 1`] = `
             "header": "Brand Name",
             "length": 50,
             "required": true,
+            "size": 20,
             "synonyms": Array [],
           },
           Object {
@@ -228,6 +231,7 @@ exports[`BrandModal displays correctly for a new brand 1`] = `
             "fieldName": "link",
             "header": "URL",
             "length": 100,
+            "size": 40,
             "type": "text",
             "validator": [Function],
           },

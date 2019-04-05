@@ -20,6 +20,7 @@ exports[`it renders 1`] = `
           "header": "Address",
           "length": 100,
           "required": true,
+          "size": 30,
           "type": "text",
         }
       }
@@ -44,6 +45,7 @@ exports[`it renders 1`] = `
           "fieldName": "address2",
           "header": "Line 2",
           "length": 100,
+          "size": 30,
           "type": "text",
         }
       }
@@ -68,6 +70,7 @@ exports[`it renders 1`] = `
           "fieldName": "address3",
           "header": "Line 3",
           "length": 100,
+          "size": 30,
           "type": "text",
         }
       }
@@ -92,6 +95,7 @@ exports[`it renders 1`] = `
           "fieldName": "address4",
           "header": "Line 4",
           "length": 100,
+          "size": 30,
           "type": "text",
         }
       }
@@ -1140,6 +1144,7 @@ exports[`it renders 1`] = `
           "fieldName": "postcode",
           "header": "Postcode",
           "length": 20,
+          "size": 10,
           "type": "text",
           "validator": [Function],
           "validatorAdditionalFields": Array [
@@ -1214,6 +1219,7 @@ exports[`it renders with data 1`] = `
           "header": "Address",
           "length": 100,
           "required": true,
+          "size": 30,
           "type": "text",
         }
       }
@@ -1321,6 +1327,7 @@ exports[`it renders with data 1`] = `
           "fieldName": "address2",
           "header": "Line 2",
           "length": 100,
+          "size": 30,
           "type": "text",
         }
       }
@@ -1428,6 +1435,7 @@ exports[`it renders with data 1`] = `
           "fieldName": "address3",
           "header": "Line 3",
           "length": 100,
+          "size": 30,
           "type": "text",
         }
       }
@@ -1535,6 +1543,7 @@ exports[`it renders with data 1`] = `
           "fieldName": "address4",
           "header": "Line 4",
           "length": 100,
+          "size": 30,
           "type": "text",
         }
       }
@@ -2749,6 +2758,7 @@ exports[`it renders with data 1`] = `
           "fieldName": "postcode",
           "header": "Postcode",
           "length": 20,
+          "size": 10,
           "type": "text",
           "validator": [Function],
           "validatorAdditionalFields": Array [

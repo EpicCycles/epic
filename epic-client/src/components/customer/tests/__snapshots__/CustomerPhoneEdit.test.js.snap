@@ -43,6 +43,7 @@ exports[`CustomerPhoneEdit displays a passed customerPhone object correctly 1`] 
           "header": "Telephone",
           "length": 60,
           "required": true,
+          "size": 20,
           "type": "text",
         },
         Object {
@@ -137,6 +138,7 @@ exports[`CustomerPhoneEdit displays a passed customerPhone object correctly when
           "header": "Telephone",
           "length": 60,
           "required": true,
+          "size": 20,
           "type": "text",
         },
         Object {

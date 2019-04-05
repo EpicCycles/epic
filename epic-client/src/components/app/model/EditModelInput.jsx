@@ -133,6 +133,7 @@ class EditModelInput extends Component {
                     value={fieldValue}
                     size={field.size}
                     onClick={this.validateOnChange}
+                    maxLength={field.length}
                 />;
         }
         return <Fragment>{editComponent}</Fragment>;

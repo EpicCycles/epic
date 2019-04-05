@@ -9,7 +9,7 @@ exports[`NoteEdit tests renders the form text correctly with no note 1`] = `
         Object {
           "fieldName": "note_text",
           "header": "Note",
-          "length": 400,
+          "size": 400,
           "type": "textArea",
         },
         Object {
@@ -64,7 +64,7 @@ exports[`NoteEdit tests renders the form text correctly with note 1`] = `
         Object {
           "fieldName": "note_text",
           "header": "Note",
-          "length": 400,
+          "size": 400,
           "type": "textArea",
         },
         Object {

@@ -95,6 +95,7 @@ exports[`should display all icons when a part is changed 1`] = `
           "fieldName": "trade_in_price",
           "header": "Trade In £",
           "length": 10,
+          "size": 10,
           "type": "currency",
         },
         Object {
@@ -307,6 +308,7 @@ exports[`should display delete and reset when a part is changed but has errors 1
           "fieldName": "trade_in_price",
           "header": "Trade In £",
           "length": 10,
+          "size": 10,
           "type": "currency",
         },
         Object {
@@ -510,6 +512,7 @@ exports[`should display just delete when a part is unchanged 1`] = `
           "fieldName": "trade_in_price",
           "header": "Trade In £",
           "length": 10,
+          "size": 10,
           "type": "currency",
         },
         Object {

@@ -335,6 +335,7 @@ exports[`should render with maximum information 1`] = `
           "fieldName": "trade_in_price",
           "header": "Trade In £",
           "length": 10,
+          "size": 10,
           "type": "currency",
         },
         Object {
@@ -674,6 +675,7 @@ exports[`should render with minimum information 1`] = `
           "fieldName": "trade_in_price",
           "header": "Trade In £",
           "length": 10,
+          "size": 10,
           "type": "currency",
         },
         Object {

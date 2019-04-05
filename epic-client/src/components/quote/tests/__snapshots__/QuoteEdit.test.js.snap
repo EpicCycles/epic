@@ -14,6 +14,7 @@ exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
           "header": "Description",
           "length": 60,
           "required": true,
+          "size": 40,
           "type": "text",
         },
         Object {
@@ -80,6 +81,7 @@ exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
           "fieldName": "quote_price",
           "header": "Quote Price",
           "length": 10,
+          "size": 10,
           "synonyms": Array [],
           "type": "currency",
         },
@@ -98,12 +100,14 @@ exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
           "fieldName": "colour",
           "header": "Colour",
           "length": 100,
+          "size": 20,
           "type": "text",
         },
         Object {
           "fieldName": "colour_price",
           "header": "Colour Price",
           "length": 10,
+          "size": 10,
           "type": "currency",
         },
       ]
@@ -144,6 +148,7 @@ exports[`QuoteEdit tests renders the form text correctly with quote 1`] = `
           "header": "Description",
           "length": 60,
           "required": true,
+          "size": 40,
           "type": "text",
         },
         Object {
@@ -210,6 +215,7 @@ exports[`QuoteEdit tests renders the form text correctly with quote 1`] = `
           "fieldName": "quote_price",
           "header": "Quote Price",
           "length": 10,
+          "size": 10,
           "synonyms": Array [],
           "type": "currency",
         },
@@ -228,12 +234,14 @@ exports[`QuoteEdit tests renders the form text correctly with quote 1`] = `
           "fieldName": "colour",
           "header": "Colour",
           "length": 100,
+          "size": 20,
           "type": "text",
         },
         Object {
           "fieldName": "colour_price",
           "header": "Colour Price",
           "length": 10,
+          "size": 10,
           "type": "currency",
         },
       ]
