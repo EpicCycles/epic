@@ -1,6 +1,6 @@
 import React, {Fragment} from "react";
 import SupplierProductUploadFile from "./SupplierProductUploadFile";
-import {doesFieldMatchPartType} from "../framework/helpers/partType";
+import {doesFieldMatchPartType} from "../partType/helpers/partType";
 import {colourStyles} from "../../helpers/constants";
 import UploadMappingPartTypes from "../app/upload/UploadMappingPartTypes";
 import UploadMappingSuppliers from "../app/upload/UploadMappingSuppliers";

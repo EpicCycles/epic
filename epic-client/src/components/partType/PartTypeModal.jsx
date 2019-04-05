@@ -6,7 +6,7 @@ import PartTypeData from "./PartTypeData";
 import {Icon} from "semantic-ui-react";
 import {SECTION_MISSING} from "../app/model/helpers/error";
 import SelectInput from "../../common/SelectInput";
-import {processPartTypeValueChanges} from "../framework/helpers/partType";
+import {processPartTypeValueChanges} from "./helpers/partType";
 
 class PartTypeModal extends React.Component {
     constructor(props) {

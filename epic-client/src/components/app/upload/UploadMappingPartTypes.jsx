@@ -7,7 +7,7 @@ import {renumberAll} from "../../framework/helpers/framework";
 import {generateRandomCode, removeKey, updateObject, updateObjectInArray} from "../../../helpers/utils";
 import * as PropTypes from "prop-types";
 import {getModelKey} from "../model/helpers/model";
-import {doesFieldMatchPartType} from "../../framework/helpers/partType";
+import {doesFieldMatchPartType} from "../../partType/helpers/partType";
 
 class UploadMappingPartTypes extends React.Component {
     constructor(props) {

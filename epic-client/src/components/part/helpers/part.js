@@ -1,6 +1,6 @@
 // look at state and decide whether to get a new part list for datalist.
 import {getBrandName} from "../../brand/helpers/brand";
-import {getPartType, getPartTypeName} from "../../framework/helpers/partType";
+import {getPartType, getPartTypeName} from "../../partType/helpers/partType";
 import {partFields, partFieldsNoPartType, STOCKED_FIELD} from "../../app/model/helpers/fields";
 import {isModelValid} from "../../app/model/helpers/model";
 import {isItAnObject} from "../../../helpers/utils";

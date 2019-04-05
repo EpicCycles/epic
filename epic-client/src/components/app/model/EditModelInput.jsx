@@ -46,7 +46,7 @@ class EditModelInput extends Component {
             case TEXT_AREA:
                 editComponent = <FormTextAreaInput
                     className={className}
-                    placeholder={field.header}
+                    placeholder={field.placeholder || field.header}
                     fieldName={fieldName}
                     value={fieldValue}
                     onChange={this.validateOnChange}
@@ -126,7 +126,7 @@ class EditModelInput extends Component {
             default:
                 editComponent = <FormTextInput
                     className={className}
-                    placeholder={field.header}
+                    placeholder={field.placeholder || field.header}
                     error={error}
                     onChange={this.validateOnChange}
                     fieldName={fieldName}
@@ -134,6 +134,7 @@ class EditModelInput extends Component {
                     size={field.size}
                     onClick={this.validateOnChange}
                     maxLength={field.length}
+                    title={field.title}
                 />;
         }
         return <Fragment>{editComponent}</Fragment>;

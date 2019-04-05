@@ -4,13 +4,12 @@ import {
     moveObjectDownOnePlace,
     moveObjectToBottom,
     moveObjectToTop,
-    moveObjectUpOnePlace,
-    NEW_ATTRIBUTE
-} from "../framework/helpers/framework";
+    moveObjectUpOnePlace} from "../framework/helpers/framework";
 import FrameworkMoves from "../framework/FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {getModelKey} from "../app/model/helpers/model";
+import {NEW_ATTRIBUTE} from "../partType/helpers/partType";
 
 class PartTypeAttributes extends React.Component {
     handleAttributeChange = (attributeKey, updatedAttribute) => {

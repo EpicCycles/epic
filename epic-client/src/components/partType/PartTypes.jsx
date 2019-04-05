@@ -4,13 +4,12 @@ import {
     moveObjectDownOnePlace,
     moveObjectToBottom,
     moveObjectToTop,
-    moveObjectUpOnePlace,
-    NEW_PART_TYPE
-} from "../framework/helpers/framework";
+    moveObjectUpOnePlace} from "../framework/helpers/framework";
 import FrameworkMoves from "../framework/FrameworkMoves";
 import {findIndexOfObjectWithKey} from "../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {getModelKey} from "../app/model/helpers/model";
+import {NEW_PART_TYPE} from "./helpers/partType";
 
 class PartTypes extends React.Component {
     updatePartType = (partTypeKey, updatedPartType) => {

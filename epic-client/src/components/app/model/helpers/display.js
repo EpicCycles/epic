@@ -16,7 +16,7 @@ import {getCountryName} from "../../../address/helpers/address";
 import {getBrandName} from "../../../brand/helpers/brand";
 import {getNameForValue} from "./model";
 import {getSupplierName} from "../../../supplier/helpers/supplier";
-import {getPartTypeName} from "../../../framework/helpers/partType";
+import {getPartTypeName} from "../../../partType/helpers/partType";
 import {getBikeName} from "../../../bike/helpers/bike";
 
 export const fixedHeaderClassname = (lockColumn) => {
