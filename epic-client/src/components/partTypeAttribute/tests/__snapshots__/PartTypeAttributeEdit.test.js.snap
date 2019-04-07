@@ -9,6 +9,7 @@ exports[`PartTypeAttributeEdit tests renders the component correctly with a new 
       error=""
       fieldName="attribute_name_new"
       label=""
+      list=""
       onChange={[Function]}
       onClick={[Function]}
       placeholder="add new"
@@ -92,6 +93,7 @@ exports[`PartTypeAttributeEdit tests renders the component correctly with an att
       error=""
       fieldName="attribute_name_new"
       label=""
+      list=""
       onChange={[Function]}
       onClick={[Function]}
       placeholder="add new"

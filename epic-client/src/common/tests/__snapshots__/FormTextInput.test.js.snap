@@ -11,6 +11,7 @@ exports[`renders an error when present 1`] = `
   <input
     autoComplete="off"
     className=" error"
+    list=""
     maxLength={30}
     onChange={[Function]}
     placeholder="Please enter your loyalty number"
@@ -33,6 +34,7 @@ exports[`renders the form numeric input correctly 1`] = `
   <input
     autoComplete="off"
     className=""
+    list=""
     maxLength={30}
     onChange={[Function]}
     placeholder="Please enter your loyalty number"
@@ -55,6 +57,7 @@ exports[`renders the form text input correctly 1`] = `
   <input
     autoComplete="off"
     className=""
+    list=""
     maxLength={30}
     onChange={[Function]}
     placeholder="Please enter your loyalty number"
@@ -74,6 +77,7 @@ exports[`should call onChange when an input is entered 1`] = `
     autoComplete="off"
     className=""
     id="email"
+    list=""
     maxLength={30}
     name="email"
     onChange={[Function]}

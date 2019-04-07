@@ -75,6 +75,7 @@ class EditModelInput extends Component {
                     onChange={this.validateOnChange}
                     size={field.size}
                     onClick={this.validateOnChange}
+                    list={field.listId}
                 />;
                 break;
             case CHECKBOX:

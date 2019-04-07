@@ -21,6 +21,7 @@ const FormTextInput = props => {
                 onChange={event => props.onChange(props.fieldName, event.target.value)}
                 value={value}
                 size={props.size}
+                list={props.list}
                 maxLength={props.maxLength ? props.maxLength : props.size}
             />
             {(props.value && props.onClick) &&
@@ -46,6 +47,7 @@ FormTextInput.defaultProps = {
     placeholder: "",
     title: "",
     value: "",
+    list: "",
     size: 30,
 };
 FormTextInput.propsTypes = {
@@ -57,6 +59,7 @@ FormTextInput.propsTypes = {
     placeholder: PropTypes.string,
     title: PropTypes.string,
     value: PropTypes.string,
+    list: PropTypes.string,
     fieldName: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     size: PropTypes.number,

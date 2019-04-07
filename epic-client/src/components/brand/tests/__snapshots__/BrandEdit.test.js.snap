@@ -18,6 +18,7 @@ exports[`BrandEdit shows new brand without supplier correctly 1`] = `
     error=""
     fieldName="brand_name_new"
     label=""
+    list=""
     onChange={[Function]}
     onClick={[Function]}
     placeholder="add new"

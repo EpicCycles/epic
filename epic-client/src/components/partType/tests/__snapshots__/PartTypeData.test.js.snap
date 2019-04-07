@@ -8,6 +8,7 @@ exports[`displays the PartTypeData component for a new part type with no attribu
     error=""
     fieldName="name_new"
     label=""
+    list=""
     onClick={[Function]}
     placeholder="add new"
     size={30}
@@ -70,6 +71,7 @@ exports[`displays the PartTypeData component for an existing part type with attr
     error=""
     fieldName="name_21"
     label=""
+    list=""
     onClick={[Function]}
     placeholder="add new"
     size={30}
@@ -127,6 +129,7 @@ exports[`displays the PartTypeData component for an existing part type with attr
     error=""
     fieldName="name_dummy2"
     label=""
+    list=""
     onClick={[Function]}
     placeholder="add new"
     size={30}
