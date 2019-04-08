@@ -91,7 +91,6 @@ class EditModelInput extends Component {
                            className={error ? "red" : ""}
                            title={error ? `${field.title} red` : field.title}
                            data-test="model-checkbox"
-                           disabled={field.disabled}
                     /></div>;
                 break;
             case PART_TYPE:

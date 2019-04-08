@@ -2,10 +2,11 @@ import React from "react";
 import * as PropTypes from "prop-types";
 import {updateObject} from "../../helpers/utils";
 import {updateModel} from "../app/model/helpers/model";
-import EditModelPage from "../app/model/EditModelPage";
 import ModelEditIcons from "../app/model/ModelEditIcons";
 import {buildPartString} from "../part/helpers/part";
 import {buildModelFields} from "./helpers/quotePart";
+import EditModelRow from "../app/model/EditModelRow";
+import {getPartType} from "../partType/helpers/partType";
 
 class QuotePartEdit extends React.Component {
     state = {};
@@ -15,7 +16,7 @@ class QuotePartEdit extends React.Component {
     };
 
     componentDidUpdate(prevProps) {
-        if (this.props.quote !== prevProps.quote) this.deriveStateFromProps();
+        if (this.props.quotePart !== prevProps.quotePart) this.deriveStateFromProps();
     }
 
     deriveStateFromProps = () => {
@@ -25,9 +26,15 @@ class QuotePartEdit extends React.Component {
         if (this.props.replacementPart)
             part_desc = buildPartString(this.props.replacementPart, this.props.parts);
 
-        const fields = buildModelFields(this.props.partType, this.props.quotePart, this.props.bikePart );
-        if (this.props.quotePart)
-            persistedQuotePart = updateObject(this.props.quotePart, {part_desc});
+        const fields = buildModelFields(this.props.partType, this.props.quotePart, this.props.bikePart);
+        if (this.props.quotePart) {
+            persistedQuotePart = updateObject(this.props.quotePart, { part_desc });
+        } else {
+            persistedQuotePart = {
+                quote: this.props.quoteId,
+            };
+            if (this.props.partType) persistedQuotePart.partType = this.props.partType.id;
+        }
 
         return { fields, persistedQuotePart, quotePart: updateObject(persistedQuotePart) };
     };
@@ -35,27 +42,31 @@ class QuotePartEdit extends React.Component {
     handleInputChange = (fieldName, input) => {
         const quotePart = updateModel(this.state.quotePart, this.state.fields, fieldName, input);
         // TODO add validation for whole model
-        this.setState({ quotePart });
+        let partType = this.props.partType;
+        if (!partType && quotePart.partType) partType = getPartType(quotePart.partType, this.props.sections);
+        const fields = buildModelFields(partType, quotePart, this.props.bikePart);
+        this.setState({ quotePart, fields });
     };
 
     onClickReset = () => {
         this.setState(this.deriveStateFromProps());
     };
 
+
     render() {
         const { fields, quotePart, persistedQuotePart } = this.state;
         const { componentKey, sections } = this.props;
-        return <div>
-            <EditModelPage
+        const rowClass = (quotePart && quotePart.error) ? "error" : "";
+
+        return <div className='grid-row' key={`row${componentKey}`}>
+            <EditModelRow
                 model={quotePart}
-                className={'row'}
                 persistedModel={persistedQuotePart}
                 modelFields={fields}
                 onChange={this.handleInputChange}
-                showReadOnlyFields={true}
                 sections={sections}
             />
-            <div className="align_right">
+            <div className="grid-col--fixed-right align_center">
                 <ModelEditIcons
                     componentKey={componentKey}
                     model={quotePart}
@@ -68,8 +79,7 @@ class QuotePartEdit extends React.Component {
     }
 }
 
-QuotePartEdit.defaultProps = {
-};
+QuotePartEdit.defaultProps = {};
 QuotePartEdit.propTypes = {
     quotePart: PropTypes.object,
     bikePart: PropTypes.object,
@@ -81,8 +91,9 @@ QuotePartEdit.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
-     brands: PropTypes.array.isRequired,
-     sections: PropTypes.array.isRequired,
+    quoteId: PropTypes.number.isRequired,
+    brands: PropTypes.array.isRequired,
+    sections: PropTypes.array.isRequired,
 };
 export default QuotePartEdit;
 

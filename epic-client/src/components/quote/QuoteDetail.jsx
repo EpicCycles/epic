@@ -45,7 +45,10 @@ const QuoteDetail = props => {
                 parts={parts}
                 bikeParts={thisBikeParts}
                 deleteQuotePart={deleteQuotePart}
-                saveQuotePart={saveQuotePart}/>
+                saveQuotePart={saveQuotePart}
+            quoteId={quote.id}
+            />
+
         </div>
     </div>;
 };

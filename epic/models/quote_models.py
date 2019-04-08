@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.db import models
-from django.db.models import CharField, TextField
 from django.utils import timezone
 
 from epic.models.bike_models import Bike

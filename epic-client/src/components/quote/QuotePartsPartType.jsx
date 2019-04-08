@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import * as PropTypes from "prop-types";
 import {findObjectWithId} from "../../helpers/utils";
 import QuotePartEdit from "./QuotePartEdit";
@@ -6,41 +6,43 @@ import {getModelKey} from "../app/model/helpers/model";
 import PartDataList from "../part/PartDataList";
 
 const QuotePartsPartType = props => {
-    const { brands, partType, bikePart, quotePart, replacementPart, additionalParts, deleteQuotePart, saveQuotePart, parts } = props;
-    return <div className='row'>
-        <div className='align_right label red'>{partType.name}</div>
-        <div>
-            {bikePart && <QuotePartEdit
+    const { quoteId, brands, sections, partType, bikePart, quotePart, replacementPart, additionalParts, deleteQuotePart, saveQuotePart, parts } = props;
+    return <Fragment>
+
+        {bikePart && <QuotePartEdit
+            deleteQuotePart={deleteQuotePart}
+            saveQuotePart={saveQuotePart}
+            partType={partType}
+            bikePart={bikePart}
+            quotePart={quotePart}
+            replacementPart={replacementPart}
+            componentKey={getModelKey(quotePart)}
+            brands={brands}
+            sections={sections}
+            quoteId={quoteId}
+        />}
+        {additionalParts.map(additionalQuotePart => {
+            const part = findObjectWithId(parts, quotePart.part);
+            return <QuotePartEdit
                 deleteQuotePart={deleteQuotePart}
                 saveQuotePart={saveQuotePart}
                 partType={partType}
-                bikePart={bikePart}
-                quotePart={quotePart}
-                replacementPart={replacementPart}
-                componentKey={getModelKey(quotePart)}
+                quotePart={additionalQuotePart}
+                replacementPart={part}
+                componentKey={getModelKey(additionalQuotePart)}
                 brands={brands}
-            />}
-            {additionalParts.map(additionalQuotePart => {
-                const part = findObjectWithId(parts, quotePart.part);
-                return <QuotePartEdit
-                    deleteQuotePart={deleteQuotePart}
-                    saveQuotePart={saveQuotePart}
-                    partType={partType}
-                    quotePart={additionalQuotePart}
-                    replacementPart={part}
-                    componentKey={getModelKey(additionalQuotePart)}
-                    brands={brands}
-                />
-            })
-            }
-            <PartDataList
-                dataListId={`parts-${partType.id}`}
-                parts={parts}
-                partType={partType.id}
-                brands={brands}
-            />
-        </div>
-    </div>
+                sections={sections}
+                   quoteId={quoteId}
+     />
+        })
+        }
+        <PartDataList
+            dataListId={`parts-${partType.id}`}
+            parts={parts}
+            partType={partType.id}
+            brands={brands}
+        />
+    </Fragment>
 };
 QuotePartsPartType.defaultProps = {
     additionalParts: [],
@@ -55,6 +57,8 @@ QuotePartsPartType.propTypes = {
     deleteQuotePart: PropTypes.func.isRequired,
     saveQuotePart: PropTypes.func.isRequired,
     brands: PropTypes.array.isRequired,
+    sections: PropTypes.array.isRequired,
+        quoteId: PropTypes.number.isRequired,
 };
 
 export default QuotePartsPartType;

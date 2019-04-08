@@ -13,7 +13,7 @@ import {
 } from "./quotePartFields";
 import {updateObject} from "../../../helpers/utils";
 
-const quotePartNew = [
+export const quotePartNew = [
     PART_TYPE_FIELD,
     NOT_REQUIRED_FIELD,
     updateObject(PART_DESC_FIELD, { listId: 'all-parts', }),
