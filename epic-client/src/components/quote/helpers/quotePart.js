@@ -1,82 +1,60 @@
-import {
-    CHECKBOX,
-    PART_TYPE_FIELD,
-    QUANTITY_FIELD,
-    QUOTE_PRICE_FIELD,
-    STOCKED,
-    TEXT
-} from "../../app/model/helpers/fields";
+import {PART_TYPE_FIELD, QUANTITY_FIELD, QUOTE_PRICE_FIELD} from "../../app/model/helpers/fields";
 import {attributePlaceholder} from "../../partType/helpers/partType";
+import {
+    ADDITIONAL_DATA_FIELD,
+    ADDITIONAL_DATA_FIELD_DISABLED,
+    NOT_REQUIRED_FIELD,
+    NOT_REQUIRED_FIELD_DISABLED,
+    PART_DESC_FIELD,
+    PART_DESC_FIELD_DISABLED,
+    PART_TYPE_FIELD_DISABLED,
+    QUANTITY_FIELD_DISABLED,
+    QUOTE_PRICE_FIELD_DISABLED
+} from "./quotePartFields";
+import {updateObject} from "../../../helpers/utils";
 
-export const REPLACEMENT_PART_FIELD = {
-    fieldName: 'part_desc',
-    header: "Replacement Part",
-    type: TEXT,
-    length: 100,
-    size: 20,
-    required: true,
-};
-export const NOT_REQUIRED_FIELD = {
-    fieldName: 'not_required',
-    header: "Not Required",
-    type: CHECKBOX
-};
-export const ADDITIONAL_PART_FIELD = {
-    fieldName: 'part_desc',
-    header: "Additional Part",
-    type: TEXT,
-    length: 100,
-    size: 20,
-};
-export const ADDITIONAL_DATA_FIELD = {
-    fieldName: 'additional_data',
-    header: "Attributes",
-    type: TEXT,
-    length: 100,
-    size: 20,
-};
 const quotePartNew = [
     PART_TYPE_FIELD,
-    ADDITIONAL_PART_FIELD,
-    QUANTITY_FIELD,
-    QUOTE_PRICE_FIELD,
-    ADDITIONAL_DATA_FIELD
-];
-const quotePartAdditional = [
-    ADDITIONAL_PART_FIELD,
-    QUANTITY_FIELD,
-    QUOTE_PRICE_FIELD,
-    ADDITIONAL_DATA_FIELD
-];
-const quotePartReplacement = [
     NOT_REQUIRED_FIELD,
-    REPLACEMENT_PART_FIELD,
+    updateObject(PART_DESC_FIELD, { listId: 'all-parts', }),
     QUANTITY_FIELD,
     QUOTE_PRICE_FIELD,
     ADDITIONAL_DATA_FIELD
 ];
+
 export const buildModelFields = (partType, quotePart, bikePart) => {
     if (!partType) return quotePartNew;
 
-    const attributes = attributePlaceholder(partType);
-    let otherData = [];
-    if (attributes) otherData.push({
-        fieldName: 'additional_data',
-        header: "Attributes",
-        type: TEXT,
-        length: 100,
-        size: 20,
-        placeholder: attributes,
-        title: attributes,
-    });
-    if (! partType.can_be_substituted) {
-        if (quotePart) return quotePartAdditional.concat(otherData);
-        return;
+    const fields = [];
+    if (quotePart && quotePart.id) {
+        fields.push(PART_TYPE_FIELD_DISABLED);
+    } else {
+        fields.push(PART_TYPE_FIELD);
     }
-    if (bikePart) {
-        if (! quotePart) return quotePartReplacement.concat(otherData);
-        if (quotePart.replacement_part) return quotePartReplacement.concat(otherData);
-        return quotePartAdditional.concat(otherData);
+
+    let required = (bikePart && (partType.can_be_omitted || partType.can_be_substituted));
+    let desc = true;
+    let quantity = !!quotePart;
+    let price = !!quotePart;
+    let info = (quotePart && quotePart.part);
+
+    if (bikePart && quotePart && quotePart.not_required) {
+        desc = partType.can_be_substituted;
+        quantity = false;
     }
-    return quotePartAdditional.concat(otherData);
+
+    required ? fields.push(NOT_REQUIRED_FIELD) : fields.push(NOT_REQUIRED_FIELD_DISABLED);
+    desc ? fields.push(updateObject(PART_DESC_FIELD, { listId: `parts-${partType.id}`, })) : fields.push(PART_DESC_FIELD_DISABLED);
+    quantity ? fields.push(QUANTITY_FIELD) : fields.push(QUANTITY_FIELD_DISABLED);
+    price ? fields.push(QUOTE_PRICE_FIELD) : fields.push(QUOTE_PRICE_FIELD_DISABLED);
+    if (info) {
+        const attributes = attributePlaceholder(partType);
+        const additionalDataField = updateObject(ADDITIONAL_DATA_FIELD,
+            { placeholder: attributes, title: attributes, });
+        fields.push(additionalDataField);
+    } else {
+        fields.push(ADDITIONAL_DATA_FIELD_DISABLED);
+    }
+
+    return fields;
 };
