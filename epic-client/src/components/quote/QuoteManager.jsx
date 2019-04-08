@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React, {Fragment} from 'react';
 import TabbedView from "../../common/TabbedView";
 import * as PropTypes from "prop-types";
 import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
@@ -73,6 +73,7 @@ class QuoteManager extends React.Component {
             quoteParts,
             brands,
             bikes,
+            notes,
             bikeParts,
             frames,
             parts,
@@ -82,7 +83,6 @@ class QuoteManager extends React.Component {
             changeQuote,
             saveQuotePart,
             deleteQuotePart,
-            addQuotePart,
         } = this.props;
         let quote;
         if (quoteId) quote = findObjectWithId(quotes, quoteId);
@@ -118,6 +118,7 @@ class QuoteManager extends React.Component {
                         brands={brands}
                         bikes={bikes}
                         frames={frames}
+                        sections={sections}
                         data-test="quote-list-tab"
                     />
                 </div>
@@ -130,12 +131,12 @@ class QuoteManager extends React.Component {
                 frames={frames}
                 bikes={bikes}
                 customers={customers}
+                brands={brands}
                 sections={sections}
                 saveQuote={changeQuote}
                 archiveQuote={archiveQuote}
                 saveQuotePart={saveQuotePart}
                 deleteQuotePart={deleteQuotePart}
-                addQuotePart={addQuotePart}
                 data-test="quote-detail-tab"
             />}
             {(tab === 3) && <h1 data-test="bike-quotes-tab">Bike Quotes</h1>}
@@ -184,7 +185,6 @@ QuoteManager.propTypes = {
     saveBrands: PropTypes.func.isRequired,
     getFramework: PropTypes.func.isRequired,
     getFrameList: PropTypes.func.isRequired,
-    clearCustomerState: PropTypes.func.isRequired,
     saveCustomer: PropTypes.func.isRequired,
     deleteCustomer: PropTypes.func.isRequired,
     createNote: PropTypes.func.isRequired,

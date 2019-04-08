@@ -57,7 +57,7 @@ class SelectInput extends Component {
 
     };
     render() {
-        const { className, fieldName, error, title, label, isMultiple, multipleSize, value, isEmptyAllowed, options } = this.props;
+        const { disabled, className, fieldName, error, title, label, isMultiple, multipleSize, value, isEmptyAllowed, options } = this.props;
         const displayOptions = this.buildOptions(options, isEmptyAllowed, value);
         const selectedValue = this.findSelectedOptions(options, value, isMultiple);
 
@@ -76,6 +76,7 @@ class SelectInput extends Component {
                 size={multipleSize}
                 onChange={event => this.handleChange(event)}
                 value={selectedValue}
+                disabled={disabled}
             >
                 {displayOptions.map((option) => {
                     return <option
@@ -110,6 +111,7 @@ SelectInput.propTypes = {
         PropTypes.number,
     ]),
     isEmptyAllowed: PropTypes.bool,
+    disabled: PropTypes.bool,
     options: PropTypes.array.isRequired,
 };
 export default SelectInput;

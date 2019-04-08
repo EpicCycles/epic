@@ -1,9 +1,9 @@
 import {buildPartString} from "./part";
 
 export const getDataList = (parts, brands, partType, brand) => {
-    const usableList = parts.filter(part =>
-        ((part.partType === partType)
-            && ((!brand) || (brand && (part.brand === brand))))
-);
-    return usableList.map(part => ({ id: part.id, dataValue: buildPartString(part, brands) }));
+    let partsToShow = parts;
+    if (partType) partsToShow = parts.filter(part => part.partType === partType);
+    if (brand) partsToShow = partsToShow.filter(part => part.brand === brand);
+
+    return partsToShow.map(part => ({ id: part.id, dataValue: buildPartString(part, brands) }));
 };

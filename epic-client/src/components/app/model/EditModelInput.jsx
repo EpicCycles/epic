@@ -41,6 +41,7 @@ class EditModelInput extends Component {
                     onChange={this.validateOnChange}
                     options={field.selectList}
                     error={error}
+                    disabled={field.disabled}
                 />;
                 break;
             case TEXT_AREA:
@@ -53,6 +54,7 @@ class EditModelInput extends Component {
                     cols={Math.ceil(field.size / 4)}
                     onClick={this.resetField}
                     error={error}
+                    disabled={field.disabled}
                 />;
                 break;
             case COUNTRY:
@@ -75,7 +77,7 @@ class EditModelInput extends Component {
                     onChange={this.validateOnChange}
                     size={field.size}
                     onClick={this.validateOnChange}
-                    list={field.listId}
+                    disabled={field.disabled}
                 />;
                 break;
             case CHECKBOX:
@@ -85,9 +87,11 @@ class EditModelInput extends Component {
                            name={fieldName}
                            onChange={() => this.validateOnChange(fieldName, !checked)}
                            checked={checked}
+                           disabled={field.disabled}
                            className={error ? "red" : ""}
                            title={error ? `${field.title} red` : field.title}
                            data-test="model-checkbox"
+                           disabled={field.disabled}
                     /></div>;
                 break;
             case PART_TYPE:
@@ -98,7 +102,7 @@ class EditModelInput extends Component {
                     partTypeSelected={fieldValue}
                     isEmptyAllowed={emptyAllowed}
                     error={error}
-                    disabled={false}
+                    disabled={field.disabled}
                 />;
                 break;
             case BRAND:
@@ -109,7 +113,7 @@ class EditModelInput extends Component {
                     brandSelected={fieldValue}
                     isEmptyAllowed={emptyAllowed}
                     error={error}
-                    disabled={false}
+                    disabled={field.disabled}
                     bikeOnly={field.bikeOnly}
                 />;
                 break;
@@ -121,7 +125,7 @@ class EditModelInput extends Component {
                     supplierSelected={fieldValue}
                     isEmptyAllowed={emptyAllowed}
                     error={error}
-                    disabled={false}
+                    disabled={field.disabled}
                 />;
                 break;
             default:
@@ -136,6 +140,8 @@ class EditModelInput extends Component {
                     onClick={this.validateOnChange}
                     maxLength={field.length}
                     title={field.title}
+                    list={field.listId}
+                    disabled={field.disabled}
                 />;
         }
         return <Fragment>{editComponent}</Fragment>;

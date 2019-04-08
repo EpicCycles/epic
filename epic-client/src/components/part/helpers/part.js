@@ -1,16 +1,16 @@
 // look at state and decide whether to get a new part list for datalist.
-import {getBrandName} from "../../brand/helpers/brand";
+import {buildBrandNameArray, getBrandName} from "../../brand/helpers/brand";
 import {getPartType, getPartTypeName} from "../../partType/helpers/partType";
 import {partFields, partFieldsNoPartType, STOCKED_FIELD} from "../../app/model/helpers/fields";
 import {isModelValid} from "../../app/model/helpers/model";
 import {isItAnObject} from "../../../helpers/utils";
 
 export const partCanBeSubstituted = (part, sections) => {
-      const partType = getPartType(part.partType, sections);
+    const partType = getPartType(part.partType, sections);
     if (partType) return partType.can_be_substituted;
 };
 export const partCanBeOmitted = (part, sections) => {
-     const partType = getPartType(part.partType, sections);
+    const partType = getPartType(part.partType, sections);
     if (partType) return partType.can_be_omitted;
 };
 export const partReadyToUse = (part, persistedPart) => {
@@ -23,7 +23,7 @@ export const partReadyToUse = (part, persistedPart) => {
 };
 export const getModelFields = (part, partTypeEditable) => {
     let editFields = partFields.slice();
-    if (part && ! partTypeEditable) editFields = partFieldsNoPartType.slice();
+    if (part && !partTypeEditable) editFields = partFieldsNoPartType.slice();
     if (part && (part.standard || part.stocked)) editFields.push(STOCKED_FIELD);
     return editFields;
 };
@@ -67,5 +67,25 @@ export const buildFrameWorkPartDisplay = (sections, parts, showEmptySections, sh
     });
     if (showEmptySections) return sectionsWithParts;
     return sectionsWithParts.filter(section => section.parts.length > 0);
+};
+
+export const findPartWithDescription = (part_desc, partType, parts, brands) => {
+    const partToConsider = parts.filter(part => part.partType === partType);
+
+    //first find an exact match
+    const exactPart = partToConsider.find(part => part.part_name.toLowerCase() === part_desc.toLowerCase());
+    if (exactPart) return exactPart;
+
+    // strip off the brand
+    const brandsLower = buildBrandNameArray(brands);
+    const proposedPart = buildPartObject(partType, part_desc, brandsLower);
+
+    const exactPartWithBrand = partToConsider.find(part =>
+        ((part.part_name.toLowerCase() === proposedPart.part_name.toLowerCase()) &&
+        part.brand === proposedPart.brand));
+
+    if (exactPartWithBrand) return exactPartWithBrand;
+
+    if (proposedPart.brand) return proposedPart;
 };
 

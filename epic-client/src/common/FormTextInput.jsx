@@ -22,6 +22,7 @@ const FormTextInput = props => {
                 value={value}
                 size={props.size}
                 list={props.list}
+                disabled={props.disabled}
                 maxLength={props.maxLength ? props.maxLength : props.size}
             />
             {(props.value && props.onClick) &&
@@ -64,5 +65,6 @@ FormTextInput.propsTypes = {
     onChange: PropTypes.func.isRequired,
     size: PropTypes.number,
     maxLength: PropTypes.number,
+    disabled:PropTypes.bool,
 };
 export default FormTextInput;

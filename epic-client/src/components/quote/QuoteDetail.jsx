@@ -4,9 +4,10 @@ import QuoteEdit from "./QuoteEdit";
 import * as PropTypes from "prop-types";
 import {findPartsForBike} from "../bike/helpers/bike";
 import QuoteSummaryParts from "./QuoteSummaryParts";
+import QuotePartGrid from "./QuotePartGrid";
 
 const QuoteDetail = props => {
-    const { quoteParts, parts, brands, sections, saveQuote, archiveQuote, quote, bikes, bikeParts, frames, customers } = props;
+    const { quoteParts, parts, brands, sections, saveQuote, archiveQuote, quote, bikes, bikeParts, frames, customers, deleteQuotePart, saveQuotePart } = props;
 
     const thisQuoteParts = quoteParts.filter(quotePart => (quotePart.quote === quote.id));
     const bike = findObjectWithId(bikes, quote.bike);
@@ -24,18 +25,27 @@ const QuoteDetail = props => {
                 archiveQuote={archiveQuote}
                 key={`editQuote${quote.id}`}
             />
-            <QuoteSummaryParts
-                lockFirstColumn={true}
-                showPrices={false}
+            <div className="grid-container">
+                <QuoteSummaryParts
+                    lockFirstColumn={true}
+                    showPrices={false}
+                    quoteParts={thisQuoteParts}
+                    brands={brands}
+                    sections={sections}
+                    parts={parts}
+                    bikeParts={thisBikeParts}
+                />
+            </div>
+        </div>
+        <div>
+            <QuotePartGrid
                 quoteParts={thisQuoteParts}
                 brands={brands}
                 sections={sections}
                 parts={parts}
                 bikeParts={thisBikeParts}
-            />
-        </div>
-        <div>
-
+                deleteQuotePart={deleteQuotePart}
+                saveQuotePart={saveQuotePart}/>
         </div>
     </div>;
 };
@@ -59,9 +69,8 @@ QuoteDetail.propTypes = {
     frames: PropTypes.array.isRequired,
     saveQuote: PropTypes.func.isRequired,
     archiveQuote: PropTypes.func.isRequired,
-    // saveQuotePart: PropTypes.func.isRequired,
-    // deleteQuotePart: PropTypes.func.isRequired,
-    // addQuotePart: PropTypes.func.isRequired,
+    deleteQuotePart: PropTypes.func.isRequired,
+    saveQuotePart: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 export default QuoteDetail;

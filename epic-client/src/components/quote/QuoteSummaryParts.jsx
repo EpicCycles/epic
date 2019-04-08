@@ -13,7 +13,7 @@ const QuoteSummaryParts = props => {
         {(usedSections.length === 0) && <div data-test="no-summary">No Quote details</div>}
         {(usedSections.length > 0) && <div className='grid'>
             <QuoteSummaryHeaders
-                showPrices={true}
+                showPrices={showPrices}
                 lockFirstColumn={lockFirstColumn}
                 data-test='quote-summary-headers'
             />

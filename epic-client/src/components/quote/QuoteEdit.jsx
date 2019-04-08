@@ -33,7 +33,7 @@ class QuoteEdit extends React.Component {
     render() {
         const { quote } = this.state;
         const { componentKey, customers, bikes, frames, brands } = this.props;
-        return <div id="quote-detail" className="fit-content">
+        return <div className="fit-content">
 
             <EditModelPage
                 model={quote}
