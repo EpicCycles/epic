@@ -56,6 +56,7 @@ class QuotePart(models.Model):
     # part can be None if the part has not been selected
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=1, blank=True, null=True)
-    quote_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    part_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     not_required = models.BooleanField(default=False)
     additional_data = models.CharField(max_length=40, null=True)

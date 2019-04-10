@@ -2,6 +2,7 @@ import history from "../../history";
 import {updateObject} from "../../helpers/utils";
 import * as selectors from "../selectors/user";
 import quote from "./apis/quote";
+
 import {
     ARCHIVE_QUOTE,
     archiveQuoteError,
@@ -12,15 +13,20 @@ import {
     CREATE_QUOTE,
     createQuoteError,
     createQuoteOK,
+    DELETE_QUOTE_PART,
+    deleteQuotePartError,
+    deleteQuotePartOK,
     FIND_QUOTES,
     GET_QUOTE,
     getQuoteError,
     getQuoteListError,
     getQuoteListOK,
     getQuoteOK,
-    saveQuote,
+    SAVE_QUOTE_PART,
     saveQuoteError,
     saveQuoteOK,
+    saveQuotePartError,
+    saveQuotePartOK,
     UNARCHIVE_QUOTE,
     unarchiveQuoteError,
     unarchiveQuoteOK,
@@ -28,7 +34,10 @@ import {
 } from "../actions/quote";
 import {call, put, select, takeLatest} from "redux-saga/effects";
 import {errorAsMessage, logError} from "../../helpers/api_error";
+
+import api from "./api";
 import {getCustomer} from "../actions/customer";
+import {savePartOK} from "../actions/part";
 
 export function* saveQuoteProcess(action) {
     const quote = action.payload.quote;
@@ -49,15 +58,16 @@ export function* saveQuoteProcess(action) {
         if (apiError.response) {
             error_detail = apiError.response.data;
         }
-        yield put(saveQuoteError({quote, error, error_detail}));
+        yield put(saveQuoteError({ quote, error, error_detail }));
     }
 }
+
 export function* watchForSaveQuote() {
     yield takeLatest(`${UPDATE_QUOTE}_REQUESTED`, saveQuoteProcess);
 }
 
 export function* archiveQuote(action) {
-      try {
+    try {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
@@ -71,12 +81,13 @@ export function* archiveQuote(action) {
         yield put(archiveQuoteError(errorAsMessage(error, "Archive Quote failed")));
     }
 }
+
 export function* watchForArchiveQuote() {
     yield takeLatest(`${ARCHIVE_QUOTE}_REQUESTED`, archiveQuote);
 }
 
 export function* unarchiveQuote(action) {
-     try {
+    try {
         const token = yield select(selectors.token);
         if (token) {
             const completePayload = updateObject(action.payload, { token });
@@ -90,6 +101,7 @@ export function* unarchiveQuote(action) {
         yield put(unarchiveQuoteError(errorAsMessage(error, "Quote restore failed")));
     }
 }
+
 export function* watchForUnarchiveQuote() {
     yield takeLatest(`${UNARCHIVE_QUOTE}_REQUESTED`, unarchiveQuote);
 }
@@ -176,4 +188,72 @@ export function* createQuote(action) {
 
 export function* watchForCreateQuote() {
     yield takeLatest(`${CREATE_QUOTE}_REQUESTED`, createQuote);
+}
+
+
+export function* saveQuotePart(action) {
+    let quotePart = updateObject(action.payload.quotePart);
+    const part = action.payload.part;
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            if (part) {
+                const partPayload = { part, token };
+                let partResponse;
+                if (part.id) {
+                    partResponse = yield call(part.savePart, partPayload);
+                } else {
+                    partResponse = yield call(part.createPart, partPayload);
+                }
+                const savedPart = partResponse.data;
+                quotePart.part = savedPart.id;
+                yield put(savePartOK(partResponse.data));
+
+            }
+            const quotePartPayload = { quotePart, token };
+            let response;
+            if (quotePart.id) {
+                response = yield call(api.updateQuotePart, quotePartPayload);
+            } else {
+                response = yield call(api.createQuotePart, quotePartPayload);
+            }
+            yield put(saveQuotePartOK(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (apiError) {
+        const error = 'Quote Part save failed';
+        let error_detail;
+        logError(apiError);
+        if (apiError.response) {
+            error_detail = apiError.response.data;
+        }
+        yield put(saveQuotePartError({ quotePart, error, error_detail }));
+    }
+}
+
+export function* watchForSaveQuotePart() {
+    yield takeLatest(`${SAVE_QUOTE_PART}_REQUEST`, saveQuotePart);
+}
+
+
+export function* deleteQuotePart(action) {
+    try {
+        const token = yield select(selectors.token);
+
+        if (token) {
+            const completePayload = updateObject(action.payload, { token });
+            yield call(quote.deleteQuotePart, completePayload);
+            yield put(deleteQuotePartOK(action.payload.quotePartId));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        logError(error);
+        yield put(deleteQuotePartError("Delete Quote Part failed"));
+    }
+}
+
+export function* watchForDeleteQuotePart() {
+    yield takeLatest(`${DELETE_QUOTE_PART}_REQUESTED`, deleteQuotePart);
 }

@@ -39,7 +39,21 @@ const getQuoteList = async payload => {
     const fullApiString = `/api/quotes/${buildSearchCriteria(searchCriteria)}`
     return await api.instance.get(fullApiString);
 };
-
+const createQuotePart= async payload => {
+    api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
+    const quotePart = payload.quotePart;
+    return await api.instance.post(`/api/quote-part/`, quotePart);
+};
+const updateQuotePart= async payload => {
+    api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
+    const quotePart = payload.quotePart;
+    return await api.instance.patch(`/api/quote-part/${quotePart.id}`, quotePart);
+};
+const deleteQuotePart= async payload => {
+    api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
+    const quotePartId = payload.quotePartId;
+    return await api.instance.delete(`/api/quote-part/${quotePartId}`);
+};
 export default {
     createQuote,
     copyQuote,
@@ -48,4 +62,7 @@ export default {
     saveQuote,
     archiveQuote,
     unarchiveQuote,
+    createQuotePart,
+    updateQuotePart,
+    deleteQuotePart,
 }

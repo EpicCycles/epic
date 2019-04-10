@@ -15,6 +15,10 @@ const savePart = async (payload) => {
     api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
     return await api.instance.patch(`api/parts/${payload.part.id}/`, payload.part);
 };
+const createPart = async (payload) => {
+    api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
+    return await api.instance.post(`api/part/`, payload.part);
+};
 const deletePart = async (payload) => {
     api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
     return await api.instance.delete(`api/parts/${payload.partId}/`);
@@ -25,4 +29,5 @@ export default {
     uploadParts,
     savePart,
     deletePart,
+    createPart,
 }

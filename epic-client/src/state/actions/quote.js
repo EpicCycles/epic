@@ -7,11 +7,37 @@ export const ARCHIVE_QUOTE = 'quote/QUOTE_ARCHIVE';
 export const UNARCHIVE_QUOTE = 'quote/QUOTE_UNARCHIVE';
 export const UPDATE_QUOTE = 'quote/QUOTE_PUT';
 export const CLEAR_QUOTE_DATA = 'quote/QUOTE_CLEAR';
+export const SAVE_QUOTE_PART = 'quote/SAVE_QUOTE_PART';
+export const DELETE_QUOTE_PART = 'quote/DELETE_QUOTE_PART';
 
 export const clearQuoteState = () =>  ({
     type: CLEAR_QUOTE_DATA,
 });
 
+export const saveQuotePart = (quotePart, part) => ({
+    type:`${SAVE_QUOTE_PART}_REQUESTED`,
+    payload: {quotePart, part}
+});
+export const saveQuotePartOK = (quotePart) => ({
+    type:  `${SAVE_QUOTE_PART}_OK`,
+    payload: {quotePart}
+});
+export const saveQuotePartError = (payload) => ({
+    type: `${SAVE_QUOTE_PART}_ERROR`,
+    payload
+});
+export const deleteQuotePart = (quotePartId) => ({
+    type:`${DELETE_QUOTE_PART}_REQUESTED`,
+    payload: {quotePartId}
+});
+export const deleteQuotePartOK = (quotePartId) => ({
+    type:  `${DELETE_QUOTE_PART}_OK`,
+    payload: {quotePartId}
+});
+export const deleteQuotePartError = (error) => ({
+    type: `${DELETE_QUOTE_PART}_ERROR`,
+    payload: error
+});
 export const createQuote = (quote) => ({
     type: `${CREATE_QUOTE}_REQUESTED`,
     payload: { quote }

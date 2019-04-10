@@ -5,14 +5,16 @@ import {
     CLEAR_QUOTE_DATA,
     COPY_QUOTE,
     CREATE_QUOTE,
+    DELETE_QUOTE_PART,
     FIND_QUOTES,
     GET_QUOTE,
+    SAVE_QUOTE_PART,
     UNARCHIVE_QUOTE,
-    UPDATE_QUOTE
+    UPDATE_QUOTE,
 } from "../actions/quote";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {CUSTOMER} from "../actions/customer";
-import {updateObjectInArray, updateObjectWithApiErrors} from "../../helpers/utils";
+import {removeItemFromArray, updateObjectInArray, updateObjectWithApiErrors} from "../../helpers/utils";
 
 const initialState = {};
 
@@ -26,6 +28,18 @@ const quote = (state = initialState, action) => {
             return {
                 ...state,
                 quoteId: action.payload.quoteId,
+            };
+        case `${SAVE_QUOTE_PART}_OK`:
+            return {
+                ...state,
+                quoteParts: updateObjectInArray(state.quoteParts, action.payload.quotePart),
+                isLoading: false,
+            };
+        case `${DELETE_QUOTE_PART}_OK`:
+            return {
+                ...state,
+                quoteParts: removeItemFromArray(state.quoteParts, action.payload.quotePartId),
+                isLoading: false,
             };
         case `${CREATE_QUOTE}_OK`:
         case `${COPY_QUOTE}_OK`:
@@ -59,6 +73,8 @@ const quote = (state = initialState, action) => {
         case  `${UPDATE_QUOTE}_REQUESTED`:
         case  `${ARCHIVE_QUOTE}_REQUESTED`:
         case  `${UNARCHIVE_QUOTE}_REQUESTED`:
+        case  `${SAVE_QUOTE_PART}_REQUESTED`:
+        case  `${DELETE_QUOTE_PART}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true
@@ -69,6 +85,7 @@ const quote = (state = initialState, action) => {
         case  `${GET_QUOTE}_ERROR`:
         case  `${ARCHIVE_QUOTE}_ERROR`:
         case  `${UNARCHIVE_QUOTE}_ERROR`:
+        case  `${DELETE_QUOTE_PART}_ERROR`:
             return {
                 ...state,
                 isLoading: false,
@@ -79,6 +96,13 @@ const quote = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 quotes: updateObjectInArray(state.quotes, quoteWithError)
+            };
+       case  `${SAVE_QUOTE_PART}_ERROR`:
+            const quotePartWithErrors = updateObjectWithApiErrors(action.payload.quotePart, action.payload);
+            return {
+                ...state,
+                isLoading: false,
+                quotes: updateObjectInArray(state.quoteParts, quotePartWithErrors)
             };
         default:
             return state;

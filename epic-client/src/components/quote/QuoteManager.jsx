@@ -198,9 +198,8 @@ QuoteManager.propTypes = {
     archiveQuote: PropTypes.func.isRequired,
     unarchiveQuote: PropTypes.func.isRequired,
     changeQuote: PropTypes.func.isRequired,
-    // saveQuotePart: PropTypes.func.isRequired,
-    // deleteQuotePart: PropTypes.func.isRequired,
-    // addQuotePart: PropTypes.func.isRequired,
+    saveQuotePart: PropTypes.func.isRequired,
+    deleteQuotePart: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 

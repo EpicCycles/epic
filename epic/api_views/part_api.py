@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from epic.model_serializers.part_serializer import PartSerializer, SupplierProductSerializer, BundleSerializer
 from epic.models.bike_models import BikePart
 from epic.models.brand_models import Part, SupplierProduct, Bundle
-from epic.models.quote_models import QuotePart
+from epic.models.quote_models import Part, QuotePart
 
 
 @api_view()
@@ -89,23 +89,6 @@ class Parts(generics.ListCreateAPIView):
         serializer = PartSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
 
-    def patch(self, request, part_id):
-        part = self.get_object(part_id)
-        serializer = PartSerializer(part, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, part_id):
-        part = self.get_object(part_id)
-        if not BikePart.objects.filter(part=part).exists() \
-                and not QuotePart.objects.filter(part=part).exists():
-            part.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-
-        return Response(status=status.HTTP_403_FORBIDDEN)
-
     # post
     def post(self, request, format=None):
         post_data = request.data
@@ -158,3 +141,41 @@ class Parts(generics.ListCreateAPIView):
             return Response(return_data, status=status.HTTP_202_ACCEPTED)
 
         return Response(return_data, status=status.HTTP_201_CREATED)
+
+
+class PartMaintain(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    serializer_class = PartSerializer
+
+    def get_object(self, part_id):
+        try:
+            return Part.objects.get(id=part_id)
+        except Part.DoesNotExist:
+            raise Http404
+
+    def post(self, request):
+        serializer = PartSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, part_id):
+        part = self.get_object(part_id)
+        serializer = PartSerializer(part, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, part_id):
+        part = self.get_object(part_id)
+        if not BikePart.objects.filter(part=part).exists() \
+                and not QuotePart.objects.filter(part=part).exists():
+            part.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(status=status.HTTP_403_FORBIDDEN)

@@ -16,24 +16,6 @@ def quote_requote(request, quote: Quote):
     create_note_for_requote(quote, request.user)
 
 
-def quote_requote_reset_prices(request, quote):
-    quote_parts = quote.quotepart_set.all()
-    for quote_part in quote_parts:
-        quote_part.quote_price = None
-        quote_part.save()
-
-    if quote.bike:
-        quote.bike_price = quote.bike.epic_price
-
-    else:
-        quote.bike_price = None
-
-    quote.quote_status = INITIAL
-    quote.save()
-
-    create_note_for_requote(quote, request.user)
-
-
 def quote_archive(request, quote):
     if quote.quote_status == ARCHIVED:
         pass

@@ -8,10 +8,11 @@ from epic.api_views.customer_api import CustomerList, CustomerMaintain
 from epic.api_views.customer_phone_api import CustomerPhoneList, CustomerPhoneMaintain
 from epic.api_views.framework_api import Framework
 from epic.api_views.note_api import CustomerNoteList, CustomerNoteMaintain
-from epic.api_views.part_api import Parts, parts_and_supplier_parts
+from epic.api_views.part_api import Parts, parts_and_supplier_parts, PartMaintain
 from epic.api_views.part_type_api import PartType
 from epic.api_views.part_type_attribute_api import PartTypeAttribute
 from epic.api_views.quote_api import QuotesApi, QuoteMaintain, QuoteCopy, QuoteArchive, QuoteUnArchive
+from epic.api_views.quote_part_api import QuotePartMaintain
 from epic.api_views.section_api import PartSection
 from epic.api_views.supplier_api import Suppliers, MaintainSupplier
 from epic.api_views.user_api import CustomAuthToken
@@ -42,7 +43,8 @@ urlpatterns = [
     path('api/customerphone/<int:pk>', CustomerPhoneMaintain.as_view()),
     path('api/api-token-auth/', CustomAuthToken.as_view()),
     path('api/parts/', Parts.as_view()),
-    path('api/parts/<int:part_id>/', Parts.as_view()),
+    path('api/part/', PartMaintain.as_view()),
+    path('api/part/<int:part_id>/', PartMaintain.as_view()),
     path('api/frames/', Frames.as_view()),
     path('api/frames/<int:frame_id>/', Frames.as_view()),
     path('api/frame/upload/', FrameUpload.as_view()),
@@ -55,4 +57,6 @@ urlpatterns = [
     path('api/quote/<int:quote_id>/copy/', QuoteCopy.as_view()),
     path('api/quote/<int:quote_id>/archive/', QuoteArchive.as_view()),
     path('api/quote/<int:quote_id>/unarchive/', QuoteUnArchive.as_view()),
+    path('api/quote-part/', QuotePartMaintain.as_view()),
+    path('api/quote-part/<int:quote_part_id>', QuotePartMaintain.as_view()),
 ]

@@ -23,7 +23,7 @@ class CustomerAddressList(generics.ListCreateAPIView):
     def post(self, request):
         post_data = request.data
 
-        serializer = CustomerAddressSerializer(data=request.data)
+        serializer = CustomerAddressSerializer(data=post_data)
         if serializer.is_valid():
             updated_address = serializer.save()
             one_billing_address(updated_address)
