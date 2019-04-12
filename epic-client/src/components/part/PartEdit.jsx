@@ -2,7 +2,7 @@ import React, {Fragment} from "react";
 import FormTextInput from "../../common/FormTextInput";
 import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {Icon} from "semantic-ui-react";
-import {BRAND_FIELD, PART_NAME_FIELD, PART_TYPE_FIELD, partFields, TRADE_IN_FIELD} from "../app/model/helpers/fields";
+import {BRAND_FIELD, PART_NAME_FIELD, PART_TYPE_FIELD, partFields, TRADE_IN_PRICE_FIELD} from "../app/model/helpers/fields";
 import {
     getUpdatedObject,
     isItAnObject,
@@ -161,15 +161,15 @@ class PartEdit extends React.Component {
                 </div>
                 <div className="grid-row">
                     <div className="grid-item--borderless field-label">
-                        {TRADE_IN_FIELD.header}
+                        {TRADE_IN_PRICE_FIELD.header}
                     </div>
                     <div className="grid-item--borderless">
                         <FormTextInput
-                            key={`${TRADE_IN_FIELD.fieldName}_${componentKey}`}
-                            fieldName={`${TRADE_IN_FIELD.fieldName}_${componentKey}`}
+                            key={`${TRADE_IN_PRICE_FIELD.fieldName}_${componentKey}`}
+                            fieldName={`${TRADE_IN_PRICE_FIELD.fieldName}_${componentKey}`}
                             value={trade_in_price}
                             onChange={this.handleInputChange}
-                            error={errors[TRADE_IN_FIELD.fieldName]}
+                            error={errors[TRADE_IN_PRICE_FIELD.fieldName]}
                             dataType="number"
                         />
                         <PartDataList

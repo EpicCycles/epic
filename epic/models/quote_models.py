@@ -59,4 +59,4 @@ class QuotePart(models.Model):
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     part_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     not_required = models.BooleanField(default=False)
-    additional_data = models.CharField(max_length=40, null=True)
+    additional_data = models.CharField(max_length=40, blank=True, null=True)

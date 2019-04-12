@@ -213,9 +213,9 @@ export function* saveQuotePart(action) {
             const quotePartPayload = { quotePart, token };
             let response;
             if (quotePart.id) {
-                response = yield call(api.updateQuotePart, quotePartPayload);
+                response = yield call(quote.updateQuotePart, quotePartPayload);
             } else {
-                response = yield call(api.createQuotePart, quotePartPayload);
+                response = yield call(quote.createQuotePart, quotePartPayload);
             }
             yield put(saveQuotePartOK(response.data));
         } else {
@@ -233,7 +233,7 @@ export function* saveQuotePart(action) {
 }
 
 export function* watchForSaveQuotePart() {
-    yield takeLatest(`${SAVE_QUOTE_PART}_REQUEST`, saveQuotePart);
+    yield takeLatest(`${SAVE_QUOTE_PART}_REQUESTED`, saveQuotePart);
 }
 
 

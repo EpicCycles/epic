@@ -7,6 +7,8 @@ import {buildPartString} from "../part/helpers/part";
 import {buildModelFields} from "./helpers/quotePart";
 import EditModelRow from "../app/model/EditModelRow";
 import {getPartType} from "../partType/helpers/partType";
+import {quotePartValidation} from "./helpers/validation";
+import {calculatePrice} from "../part/helpers/price";
 
 class QuotePartEdit extends React.Component {
     state = {};
@@ -40,12 +42,30 @@ class QuotePartEdit extends React.Component {
     };
 
     handleInputChange = (fieldName, input) => {
-        const quotePart = updateModel(this.state.quotePart, this.state.fields, fieldName, input);
-        // TODO add validation for whole model
-        let partType = this.props.partType;
-        if (!partType && quotePart.partType) partType = getPartType(quotePart.partType, this.props.sections);
-        const fields = buildModelFields(partType, quotePart, this.props.bikePart);
-        this.setState({ quotePart, fields });
+        let { quotePart, fields } = this.state;
+        let { partType, bikePart } = this.props.partType;
+        let updatedQuotePart = updateModel(quotePart, fields, fieldName, input);
+        if (!partType && updatedQuotePart.partType) partType = getPartType(quotePart.partType, this.props.sections);
+        updatedQuotePart = quotePartValidation(
+            updatedQuotePart,
+            bikePart,
+            partType,
+            this.props.brands,
+            this.props.parts
+        );
+        if (updatedQuotePart.part_desc !== quotePart.part_desc ||
+            updatedQuotePart.not_required !== quotePart.not_required) {
+            updatedQuotePart = updateObject(updatedQuotePart,
+                calculatePrice(
+                    (!!this.props.quote.bike),
+                    updatedQuotePart.not_required,
+                    updatedQuotePart.part,
+                    bikePart,
+                    this.props.supplierProducts
+                ));
+        }
+        fields = buildModelFields(partType, updatedQuotePart, this.props.bikePart);
+        this.setState({ quotePart: updatedQuotePart, fields });
     };
 
     onClickReset = () => {
@@ -91,9 +111,11 @@ QuotePartEdit.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
-    quoteId: PropTypes.number.isRequired,
+    quote: PropTypes.object.isRequired,
     brands: PropTypes.array.isRequired,
     sections: PropTypes.array.isRequired,
+    parts: PropTypes.array.isRequired,
+    supplierProducts: PropTypes.array.isRequired,
 };
 export default QuotePartEdit;
 

@@ -13,7 +13,7 @@ import ModelTableHeaders from "../app/model/ModelTableHeaders";
 import ModelTableActionHeader from "../app/model/ModelTableActionHeader";
 
 const QuotePartGrid = props => {
-    const { quoteParts, brands, sections, parts, bikeParts, deleteQuotePart, saveQuotePart } = props;
+    const { quote, quoteParts, brands, sections, parts, supplierProducts, bikeParts, deleteQuotePart, saveQuotePart } = props;
     const usedSections = sections.filter(section => (sectionHasDetail(section, quoteParts) || sectionHasDetail(section, bikeParts)));
 
     return <div className="grid-container">
@@ -33,10 +33,12 @@ const QuotePartGrid = props => {
                         replacementPart={displayData.replacementPart}
                         additionalParts={displayData.additionalParts}
                         parts={parts}
-                        brands={brands}
+                                      supplierProducts={supplierProducts}
+  brands={brands}
                         deleteQuotePart={deleteQuotePart}
                         saveQuotePart={saveQuotePart}
                         sections={sections}
+                        quote={quote}
                     />
                 } else {
                     return null;
@@ -49,7 +51,9 @@ const QuotePartGrid = props => {
                 componentKey={getModelKey()}
                 brands={brands}
                 parts={parts}
+                supplierProducts={supplierProducts}
                 sections={sections}
+                quote={quote}
             />
         </div>
         <PartDataList dataListId={'all-parts'} parts={parts} brands={brands}/>
@@ -60,10 +64,11 @@ QuotePartGrid.propTypes = {
     brands: PropTypes.array.isRequired,
     sections: PropTypes.array.isRequired,
     parts: PropTypes.array.isRequired,
+    supplierProducts: PropTypes.array.isRequired,
     bikeParts: PropTypes.array.isRequired,
     deleteQuotePart: PropTypes.func.isRequired,
     saveQuotePart: PropTypes.func.isRequired,
-    quoteId: PropTypes.number.isRequired,
+    quote: PropTypes.object.isRequired,
 };
 
 export default QuotePartGrid;

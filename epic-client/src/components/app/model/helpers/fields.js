@@ -565,14 +565,7 @@ export const SELL_PRICE_FIELD = {
     size: 10,
     length: 10
 };
-export const TRADE_PRICE_FIELD = {
-    fieldName: TRADE_PRICE,
-    header: "Trade Price",
-    synonyms: [],
-    type: CURRENCY,
-    size: 10,
-    length: 10
-};
+
 export const TELEPHONE_FIELD = {
     fieldName: TELEPHONE,
     header: "Telephone",
@@ -618,9 +611,16 @@ export const PART_NAME_FIELD = {
     required: true,
     error: PART_NAME_MISSING
 };
-export const TRADE_IN_FIELD = {
+export const TRADE_IN_PRICE_FIELD = {
     fieldName: TRADE_IN_PRICE,
     header: "Trade In £",
+    type: CURRENCY,
+    size: 10,
+    length: 10
+};
+export const TRADE_PRICE_FIELD = {
+    fieldName: TRADE_PRICE,
+    header: "Trade Price £",
     type: CURRENCY,
     size: 10,
     length: 10
@@ -701,7 +701,7 @@ export const partFieldsComplete = [
     PART_TYPE_FIELD,
     BRAND_FIELD,
     PART_NAME_FIELD,
-    TRADE_IN_FIELD,
+    TRADE_IN_PRICE_FIELD,
     STANDARD_FIELD,
     STOCKED_FIELD,
 ];
@@ -709,13 +709,13 @@ export const partFields = [
     PART_TYPE_FIELD,
     BRAND_FIELD,
     PART_NAME_FIELD,
-    TRADE_IN_FIELD,
+    TRADE_IN_PRICE_FIELD,
     STANDARD_FIELD,
 ];
 export const partFieldsNoPartType = [
     BRAND_FIELD,
     PART_NAME_FIELD,
-    TRADE_IN_FIELD,
+    TRADE_IN_PRICE_FIELD,
     STANDARD_FIELD,
 ];
 export const sectionFields = [NAME_FIELD];

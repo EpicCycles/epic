@@ -3,7 +3,7 @@ import {
     PART_NAME_FIELD,
     PART_TYPE_FIELD,
     STANDARD_FIELD, STOCKED_FIELD,
-    TRADE_IN_FIELD
+    TRADE_IN_PRICE_FIELD
 } from "../../../app/model/helpers/fields";
 import {getModelFields} from "../part";
 
@@ -20,7 +20,7 @@ test('should return fields without stocked and part type when part is not standa
     const expectedPartFields = [
         BRAND_FIELD,
         PART_NAME_FIELD,
-        TRADE_IN_FIELD,
+        TRADE_IN_PRICE_FIELD,
         STANDARD_FIELD,
     ];
     expect(getModelFields(part)).toEqual(expectedPartFields);
@@ -39,7 +39,7 @@ test('should return fields without stocked and with part type when part is not p
         PART_TYPE_FIELD,
         BRAND_FIELD,
         PART_NAME_FIELD,
-        TRADE_IN_FIELD,
+        TRADE_IN_PRICE_FIELD,
         STANDARD_FIELD,
     ];
     expect(getModelFields()).toEqual(expectedPartFields);
@@ -58,7 +58,7 @@ test('should return fields with part type when part type is editable', () => {
         PART_TYPE_FIELD,
         BRAND_FIELD,
         PART_NAME_FIELD,
-        TRADE_IN_FIELD,
+        TRADE_IN_PRICE_FIELD,
         STANDARD_FIELD,
     ];
     expect(getModelFields(part, true)).toEqual(expectedPartFields);
@@ -77,7 +77,7 @@ test('should return fields with stocked when part type is standard', () => {
         PART_TYPE_FIELD,
         BRAND_FIELD,
         PART_NAME_FIELD,
-        TRADE_IN_FIELD,
+        TRADE_IN_PRICE_FIELD,
         STANDARD_FIELD,
         STOCKED_FIELD
     ];

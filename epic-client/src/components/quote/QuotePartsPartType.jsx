@@ -6,7 +6,7 @@ import {getModelKey} from "../app/model/helpers/model";
 import PartDataList from "../part/PartDataList";
 
 const QuotePartsPartType = props => {
-    const { quoteId, brands, sections, partType, bikePart, quotePart, replacementPart, additionalParts, deleteQuotePart, saveQuotePart, parts } = props;
+    const { quote, brands, sections, partType, bikePart, quotePart, replacementPart, additionalParts, deleteQuotePart, saveQuotePart, parts, supplierProducts } = props;
     return <Fragment>
 
         {bikePart && <QuotePartEdit
@@ -18,8 +18,10 @@ const QuotePartsPartType = props => {
             replacementPart={replacementPart}
             componentKey={getModelKey(quotePart)}
             brands={brands}
+            parts={parts}
+            supplierProducts={supplierProducts}
             sections={sections}
-            quoteId={quoteId}
+            quote={quote}
         />}
         {additionalParts.map(additionalQuotePart => {
             const part = findObjectWithId(parts, quotePart.part);
@@ -32,8 +34,10 @@ const QuotePartsPartType = props => {
                 componentKey={getModelKey(additionalQuotePart)}
                 brands={brands}
                 sections={sections}
-                   quoteId={quoteId}
-     />
+                quote={quote}
+                parts={parts}
+                supplierProducts={supplierProducts}
+            />
         })
         }
         <PartDataList
@@ -54,11 +58,12 @@ QuotePartsPartType.propTypes = {
     replacementPart: PropTypes.object,
     additionalParts: PropTypes.array,
     parts: PropTypes.array,
+    supplierProducts: PropTypes.array,
     deleteQuotePart: PropTypes.func.isRequired,
     saveQuotePart: PropTypes.func.isRequired,
     brands: PropTypes.array.isRequired,
     sections: PropTypes.array.isRequired,
-        quoteId: PropTypes.number.isRequired,
+    quote: PropTypes.object.isRequired,
 };
 
 export default QuotePartsPartType;

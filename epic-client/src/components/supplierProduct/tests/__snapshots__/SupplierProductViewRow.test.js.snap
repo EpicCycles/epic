@@ -203,10 +203,9 @@ exports[`should display when passed an empty supplier product 1`] = `
       field={
         Object {
           "fieldName": "trade_price",
-          "header": "Trade Price",
+          "header": "Trade Price £",
           "length": 10,
           "size": 10,
-          "synonyms": Array [],
           "type": "currency",
         }
       }
@@ -566,10 +565,9 @@ exports[`should display when passed supplier product 1`] = `
       field={
         Object {
           "fieldName": "trade_price",
-          "header": "Trade Price",
+          "header": "Trade Price £",
           "length": 10,
           "size": 10,
-          "synonyms": Array [],
           "type": "currency",
         }
       }

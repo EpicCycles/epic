@@ -11,6 +11,7 @@ const tabs = [
     "Customer",
     "Quote List",
     "Quote detail",
+    "Quote history",
     "Bike Quotes"
 ];
 const initialState = {
@@ -25,21 +26,7 @@ class QuoteManager extends React.Component {
     };
 
     checkPropsData = () => {
-        if (!this.props.isLoading) this.getData();
-    };
-    getData = () => {
-        let brandsRequired = true;
-        let frameworkRequired = true;
-
-        if (doWeHaveObjects(this.props.brands)) brandsRequired = false;
-        if (doWeHaveObjects(this.props.sections)) frameworkRequired = false;
-
-        if (brandsRequired) {
-            this.props.getBrandsAndSuppliers();
-        }
-        if (frameworkRequired) {
-            this.props.getFramework();
-        }
+        if (this.props.quoteId) this.setState({tab:2});
     };
     changeCurrentTab = (newTab) => {
         if (newTab !== this.state.tab) {
@@ -77,6 +64,7 @@ class QuoteManager extends React.Component {
             bikeParts,
             frames,
             parts,
+            supplierProducts,
             sections,
             archiveQuote,
             unarchiveQuote,
@@ -128,6 +116,7 @@ class QuoteManager extends React.Component {
                 quoteParts={quoteParts}
                 bikeParts={bikeParts}
                 parts={parts}
+                supplierProducts={supplierProducts}
                 frames={frames}
                 bikes={bikes}
                 customers={customers}
@@ -139,7 +128,8 @@ class QuoteManager extends React.Component {
                 deleteQuotePart={deleteQuotePart}
                 data-test="quote-detail-tab"
             />}
-            {(tab === 3) && <h1 data-test="bike-quotes-tab">Bike Quotes</h1>}
+            {(tab === 3) && <h1 data-test="quote-history-tab">Quote History</h1>}
+            {(tab === 4) && <h1 data-test="bike-quotes-tab">Bike Quotes</h1>}
         </div>
     };
 }
@@ -152,6 +142,7 @@ QuoteManager.defaultProps = {
     phones: [],
     notes: [],
     parts: [],
+    supplierProducts: [],
     brands: [],
     sections: [],
     quotes: [],
@@ -166,6 +157,7 @@ QuoteManager.propTypes = {
     brands: PropTypes.array.isRequired,
     sections: PropTypes.array.isRequired,
     parts: PropTypes.array,
+    supplierProducts: PropTypes.array,
     frames: PropTypes.array,
     customers: PropTypes.array.isRequired,
     customerId: PropTypes.oneOfType([
