@@ -33,7 +33,7 @@ class QuotePartEdit extends React.Component {
             persistedQuotePart = updateObject(this.props.quotePart, { part_desc });
         } else {
             persistedQuotePart = {
-                quote: this.props.quoteId,
+                quote: this.props.quote.id,
             };
             if (this.props.partType) persistedQuotePart.partType = this.props.partType.id;
         }
@@ -72,10 +72,20 @@ class QuotePartEdit extends React.Component {
         this.setState(this.deriveStateFromProps());
     };
 
+    saveQuotePart = () => {
+        let quotePart = updateObject(this.state.quotePart);
+        const part = quotePart.part;
 
+        if (part && ! part.id) {
+            this.props.saveQuotePart(quotePart, part);
+        } else {
+            if (part) quotePart.part = part.id;
+            this.props.saveQuotePart(quotePart);
+        }
+    };
     render() {
         const { fields, quotePart, persistedQuotePart } = this.state;
-        const { componentKey, sections } = this.props;
+        const { componentKey, sections, deleteQuotePart } = this.props;
         const rowClass = (quotePart && quotePart.error) ? "error" : "";
 
         return <div className='grid-row' key={`row${componentKey}`}>
@@ -90,8 +100,8 @@ class QuotePartEdit extends React.Component {
                 <ModelEditIcons
                     componentKey={componentKey}
                     model={quotePart}
-                    modelSave={this.props.saveQuotePart}
-                    modelDelete={this.props.deleteQuotePart}
+                    modelSave={this.saveQuotePart}
+                    modelDelete={deleteQuotePart}
                     modelReset={this.onClickReset}
                 />
             </div>

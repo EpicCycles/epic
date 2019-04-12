@@ -24,7 +24,7 @@ const QuotePartsPartType = props => {
             quote={quote}
         />}
         {additionalParts.map(additionalQuotePart => {
-            const part = findObjectWithId(parts, quotePart.part);
+            const part = findObjectWithId(parts, additionalQuotePart.part);
             return <QuotePartEdit
                 deleteQuotePart={deleteQuotePart}
                 saveQuotePart={saveQuotePart}

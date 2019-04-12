@@ -33,8 +33,8 @@ const QuotePartGrid = props => {
                         replacementPart={displayData.replacementPart}
                         additionalParts={displayData.additionalParts}
                         parts={parts}
-                                      supplierProducts={supplierProducts}
-  brands={brands}
+                        supplierProducts={supplierProducts}
+                        brands={brands}
                         deleteQuotePart={deleteQuotePart}
                         saveQuotePart={saveQuotePart}
                         sections={sections}

@@ -102,7 +102,7 @@ const quote = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                quotes: updateObjectInArray(state.quoteParts, quotePartWithErrors)
+                quoteParts: updateObjectInArray(state.quoteParts, quotePartWithErrors)
             };
         default:
             return state;

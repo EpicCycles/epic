@@ -14,11 +14,11 @@ export const quotePartValidation = (quotePart={}, bikePart, partType, brands, pa
     // reset price if there is no part or this is not a replacement
 
     if (quotePart.not_required) {
-        validatedQuotePart.quantity = '';
-        if (!partType.can_be_substituted) validatedQuotePart.part_desc = '';
+        validatedQuotePart.quantity = undefined;
+        if (!partType.can_be_substituted) validatedQuotePart.part_desc = undefined;
         if (!quotePart.trade_in_price) error_detail['trade_in_price'] = 'Please specify a price (can be zero).';
     } else {
-        validatedQuotePart.trade_in_price = '';
+        validatedQuotePart.trade_in_price = undefined;
     }
 
     if (validatedQuotePart.part_desc) {
@@ -33,8 +33,8 @@ export const quotePartValidation = (quotePart={}, bikePart, partType, brands, pa
         if (!validatedQuotePart.part_price) error_detail['part_price'] = 'Please specify a price.';
         if (!quotePart.not_required && !validatedQuotePart.quantity) error_detail['quantity'] = 'Quantity is required for non replacement parts.';
     } else {
-        validatedQuotePart.quantity = '';
-        validatedQuotePart.additional_data = '';
+        validatedQuotePart.quantity = undefined;
+        validatedQuotePart.additional_data = undefined;
     }
 
     validatedQuotePart.error_detail = error_detail;
