@@ -7,7 +7,7 @@ const CUSTOMER_REQUIRED = "A customer should be selected";
 const QUOTE_PART_ERRORS = "Parts need amending before quote can be saved.";
 const MULTIPLE_REPLACEMENT_PARTS = "Multiple replacement parts - only one allowed per bike part";
 
-export const quotePartValidation = (quotePart, bikePart, partType, brands, parts) => {
+export const quotePartValidation = (quotePart={}, bikePart, partType, brands, parts) => {
     let validatedQuotePart = updateObject(quotePart);
     const error_detail = {};
 
@@ -16,6 +16,9 @@ export const quotePartValidation = (quotePart, bikePart, partType, brands, parts
     if (quotePart.not_required) {
         validatedQuotePart.quantity = '';
         if (!partType.can_be_substituted) validatedQuotePart.part_desc = '';
+        if (!quotePart.trade_in_price) error_detail['trade_in_price'] = 'Please specify a price (can be zero).';
+    } else {
+        validatedQuotePart.trade_in_price = '';
     }
 
     if (validatedQuotePart.part_desc) {
@@ -27,10 +30,9 @@ export const quotePartValidation = (quotePart, bikePart, partType, brands, parts
     }
 
     if (validatedQuotePart.part) {
-        if (!validatedQuotePart.quote_price) error_detail['quote_price'] = 'Please specify a price (can be negative).';
+        if (!validatedQuotePart.part_price) error_detail['part_price'] = 'Please specify a price.';
         if (!quotePart.not_required && !validatedQuotePart.quantity) error_detail['quantity'] = 'Quantity is required for non replacement parts.';
     } else {
-        if (quotePart.not_required && !validatedQuotePart.quote_price) error_detail['quote_price'] = 'Please specify a price (can be negative).';
         validatedQuotePart.quantity = '';
         validatedQuotePart.additional_data = '';
     }

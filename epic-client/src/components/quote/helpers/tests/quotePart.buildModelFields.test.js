@@ -1,4 +1,9 @@
-import {PART_TYPE_FIELD, QUANTITY_FIELD, QUOTE_PRICE_FIELD, TEXT} from "../../../app/model/helpers/fields";
+import {
+    PART_TYPE_FIELD,
+    QUANTITY_FIELD,
+    TEXT,
+    TRADE_IN_PRICE_FIELD
+} from "../../../app/model/helpers/fields";
 
 import {
     ADDITIONAL_DATA_FIELD,
@@ -6,9 +11,12 @@ import {
     NOT_REQUIRED_FIELD,
     NOT_REQUIRED_FIELD_DISABLED,
     PART_DESC_FIELD,
+    PART_DESC_FIELD_DISABLED,
+    PART_PRICE_FIELD,
+    PART_PRICE_FIELD_DISABLED,
     PART_TYPE_FIELD_DISABLED,
     QUANTITY_FIELD_DISABLED,
-    QUOTE_PRICE_FIELD_DISABLED
+    TRADE_IN_PRICE_FIELD_DISABLED
 } from "../quotePartFields";
 import {updateObject} from "../../../../helpers/utils";
 import {buildModelFields} from "../quotePart";
@@ -34,11 +42,12 @@ describe('buildModelFields', () => {
     it('should return part type and all quote fields when there is no data', () => {
         const expectedFields = [
             PART_TYPE_FIELD,
-            NOT_REQUIRED_FIELD,
-            updateObject(PART_DESC_FIELD, { listId: 'all-parts', }),
-            QUANTITY_FIELD,
-            QUOTE_PRICE_FIELD,
-            ADDITIONAL_DATA_FIELD
+            NOT_REQUIRED_FIELD_DISABLED,
+            TRADE_IN_PRICE_FIELD_DISABLED,
+            PART_DESC_FIELD_DISABLED,
+            QUANTITY_FIELD_DISABLED,
+            PART_PRICE_FIELD_DISABLED,
+            ADDITIONAL_DATA_FIELD_DISABLED
         ];
         expect(buildModelFields()).toEqual(expectedFields);
     });
@@ -47,9 +56,10 @@ describe('buildModelFields', () => {
         const result = buildModelFields(partType);
         expect(result).toContainEqual(PART_TYPE_FIELD);
         expect(result).toContainEqual(NOT_REQUIRED_FIELD_DISABLED);
+        expect(result).toContainEqual(TRADE_IN_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
-        expect(result).toContainEqual(QUOTE_PRICE_FIELD_DISABLED);
+        expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
         expect(result).not.toContainEqual(ADDITIONAL_DATA_FIELD);
     });
@@ -59,9 +69,10 @@ describe('buildModelFields', () => {
         const result = buildModelFields(partType, undefined, bikePart);
         expect(result).toContainEqual(PART_TYPE_FIELD);
         expect(result).toContainEqual(NOT_REQUIRED_FIELD_DISABLED);
+        expect(result).toContainEqual(TRADE_IN_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
-        expect(result).toContainEqual(QUOTE_PRICE_FIELD_DISABLED);
+        expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
     });
     it('should return additional part fields when there is a bike part and a quote part that is not a replacement', () => {
@@ -71,9 +82,10 @@ describe('buildModelFields', () => {
         const result = buildModelFields(partType, quotePart, bikePart);
         expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
         expect(result).toContainEqual(NOT_REQUIRED_FIELD);
+        expect(result).toContainEqual(TRADE_IN_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(partDescForType);
-        expect(result).toContainEqual(QUANTITY_FIELD);
-        expect(result).toContainEqual(QUOTE_PRICE_FIELD);
+        expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
+        expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
     });
     it('should return standard fields when there is a quote part but the part cannot be substituted', () => {
@@ -83,9 +95,10 @@ describe('buildModelFields', () => {
         const result = buildModelFields(partType, quotePart, undefined);
         expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
         expect(result).toContainEqual(NOT_REQUIRED_FIELD_DISABLED);
+        expect(result).toContainEqual(TRADE_IN_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(partDescForType);
-        expect(result).toContainEqual(QUANTITY_FIELD);
-        expect(result).toContainEqual(QUOTE_PRICE_FIELD);
+        expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
+        expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
     });
     it('should return replacement part fields when there is a replacable bike part and no quote part', () => {
@@ -94,9 +107,10 @@ describe('buildModelFields', () => {
         const result = buildModelFields(partType, undefined, bikePart);
         expect(result).toContainEqual(PART_TYPE_FIELD);
         expect(result).toContainEqual(NOT_REQUIRED_FIELD);
+        expect(result).toContainEqual(TRADE_IN_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
-        expect(result).toContainEqual(QUOTE_PRICE_FIELD_DISABLED);
+        expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
     });
     it('should return replacement part fields when there is a replacable bike part and a quote part', () => {
@@ -106,9 +120,10 @@ describe('buildModelFields', () => {
         const result = buildModelFields(partType, quotePart, bikePart);
         expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
         expect(result).toContainEqual(NOT_REQUIRED_FIELD);
+        expect(result).toContainEqual(TRADE_IN_PRICE_FIELD);
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
-        expect(result).toContainEqual(QUOTE_PRICE_FIELD);
+        expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
     });
     it('should return additional part fields when there is a bike part and a quote part that is not a replacement', () => {
@@ -118,9 +133,10 @@ describe('buildModelFields', () => {
         const result = buildModelFields(partType, quotePart, bikePart);
         expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
         expect(result).toContainEqual(NOT_REQUIRED_FIELD);
+        expect(result).toContainEqual(TRADE_IN_PRICE_FIELD_DISABLED);
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD);
-        expect(result).toContainEqual(QUOTE_PRICE_FIELD);
+        expect(result).toContainEqual(PART_PRICE_FIELD);
         expect(result).toContainEqual(attributesField);
     });
 });

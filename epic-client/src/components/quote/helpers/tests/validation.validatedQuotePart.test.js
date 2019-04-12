@@ -16,13 +16,14 @@ describe('validatedQuotePart', () => {
         const startPart = {
             part_desc: 'B1 Bike',
             quantity: 1,
-            quote_price: 12.99,
+            part_price: 12.99,
         };
         const validatedPart = {
             part_desc: 'B1 Bike',
             part: { id: 12, part_name: 'bike', brand: 1, partType: 16 },
             quantity: 1,
-            quote_price: 12.99,
+            part_price: 12.99,
+            trade_in_price: '',
             error: false,
             error_detail: {}
         };
@@ -32,14 +33,16 @@ describe('validatedQuotePart', () => {
         const startPart = {
             part_desc: 'B2 other',
             not_required: true,
-            quote_price: 12.99,
+            trade_in_price: 12.99,
+            part_price: 22.99,
         };
         const validatedPart = {
             part_desc: 'B2 other',
             not_required: true,
             quantity: '',
             part: { id: 13, part_name: 'other', brand: 2, partType: 16 },
-            quote_price: 12.99,
+            trade_in_price: 12.99,
+            part_price: 22.99,
             error: false,
             error_detail: {}
         };
@@ -48,13 +51,13 @@ describe('validatedQuotePart', () => {
     it('should return no errors when all fields are OK for an omitted part', () => {
         const startPart = {
             not_required: true,
-            quote_price: 12.99,
+            trade_in_price: 12.99,
         };
         const validatedPart = {
             not_required: true,
             part: undefined,
             quantity: '',
-            quote_price: 12.99,
+            trade_in_price: 12.99,
             additional_data: '',
             error: false,
             error_detail: {}
@@ -65,13 +68,14 @@ describe('validatedQuotePart', () => {
         const startPart = {
             part_desc: 'B3 Bike',
             quantity: 1,
-            quote_price: 12.99,
+            part_price: 12.99,
         };
         const validatedPart = {
             part_desc: 'B3 Bike',
             part: undefined,
             quantity: '',
-            quote_price: 12.99,
+            trade_in_price: '',
+            part_price: 12.99,
             additional_data: '',
             error: true,
             error_detail: { part_desc: 'Please include a brand in the part name to add this part.' }
@@ -86,10 +90,11 @@ describe('validatedQuotePart', () => {
         const validatedPart = {
             part_desc: 'B1 Bike',
             part: { id: 12, part_name: 'bike', brand: 1, partType: 16 },
+            trade_in_price: '',
             quantity: 1,
             error: true,
             error_detail: {
-                quote_price: 'Please specify a price (can be negative).',
+                part_price: 'Please specify a price.',
             }
         };
         expect(quotePartValidation(startPart, undefined, normalPartType, brands, parts)).toEqual(validatedPart);
@@ -106,7 +111,8 @@ describe('validatedQuotePart', () => {
             part: { id: 13, part_name: 'other', brand: 2, partType: 16 },
             error: true,
             error_detail: {
-                quote_price: 'Please specify a price (can be negative).',
+                trade_in_price: 'Please specify a price (can be zero).',
+                part_price: 'Please specify a price.',
             }
         };
         expect(quotePartValidation(startPart, undefined, normalPartType, brands, parts)).toEqual(validatedPart);
@@ -122,24 +128,25 @@ describe('validatedQuotePart', () => {
             additional_data: '',
             error: true,
             error_detail: {
-                quote_price: 'Please specify a price (can be negative).',
+                trade_in_price: 'Please specify a price (can be zero).',
             }
         };
         expect(quotePartValidation(startPart, undefined, normalPartType, brands, parts)).toEqual(validatedPart);
     });
-it('should return a quantity error when this is not a replacement part and there is no quantity', () => {
-    const startPart = {
+    it('should return a quantity error when this is not a replacement part and there is no quantity', () => {
+        const startPart = {
             part_desc: 'B1 Bike',
-            quote_price: 12.99,
+            part_price: 12.99,
         };
         const validatedPart = {
             part_desc: 'B1 Bike',
             part: { id: 12, part_name: 'bike', brand: 1, partType: 16 },
-            quote_price: 12.99,
+            part_price: 12.99,
+            trade_in_price: '',
             error: true,
-            error_detail: {quantity: 'Quantity is required for non replacement parts.'}
+            error_detail: { quantity: 'Quantity is required for non replacement parts.' }
         };
         expect(quotePartValidation(startPart, undefined, normalPartType, brands, parts)).toEqual(validatedPart);
 
-})
+    })
 });
