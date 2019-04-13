@@ -26,7 +26,7 @@ class QuotePartEdit extends React.Component {
         let part_desc;
 
         if (this.props.replacementPart)
-            part_desc = buildPartString(this.props.replacementPart, this.props.parts);
+            part_desc = buildPartString(this.props.replacementPart, this.props.brands);
 
         const fields = buildModelFields(this.props.partType, this.props.quotePart, this.props.bikePart);
         if (this.props.quotePart) {
@@ -43,28 +43,28 @@ class QuotePartEdit extends React.Component {
 
     handleInputChange = (fieldName, input) => {
         let { quotePart, fields } = this.state;
-        let { partType, bikePart } = this.props.partType;
+        let { partType, bikePart, brands, parts, sections, quote } = this.props;
         let updatedQuotePart = updateModel(quotePart, fields, fieldName, input);
-        if (!partType && updatedQuotePart.partType) partType = getPartType(quotePart.partType, this.props.sections);
+        if (!partType && updatedQuotePart.partType) partType = getPartType(updatedQuotePart.partType, sections);
         updatedQuotePart = quotePartValidation(
             updatedQuotePart,
             bikePart,
             partType,
-            this.props.brands,
-            this.props.parts
+            brands,
+            parts
         );
         if (updatedQuotePart.part_desc !== quotePart.part_desc ||
             updatedQuotePart.not_required !== quotePart.not_required) {
             updatedQuotePart = updateObject(updatedQuotePart,
                 calculatePrice(
-                    (!!this.props.quote.bike),
+                    (!!quote.bike),
                     updatedQuotePart.not_required,
                     updatedQuotePart.part,
                     bikePart,
                     this.props.supplierProducts
                 ));
         }
-        fields = buildModelFields(partType, updatedQuotePart, this.props.bikePart);
+        fields = buildModelFields(partType, updatedQuotePart, bikePart);
         this.setState({ quotePart: updatedQuotePart, fields });
     };
 

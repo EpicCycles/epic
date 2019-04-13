@@ -26,13 +26,13 @@ class QuotePartMaintain(generics.GenericAPIView):
         print(request.data)
         serializer = QuotePartSerializer(data=request.data)
         if serializer.is_valid():
-            quote_part = serializer.save(created_by=user)
+            quote_part = serializer.save()
             create_note_for_quote_part(quote_part, user, 'created')
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, quote_part_id):
+    def patch(self, request, quote_part_id):
         user = request.user
         quote_part = self.get_object(quote_part_id)
         serializer = QuotePartSerializer(quote_part, data=request.data)

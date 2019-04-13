@@ -15,7 +15,6 @@ class QuotePartSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, data):
-        print(data)
         quote = data.get('quote')
         part = data.get('part')
         quantity = data.get('quantity')
@@ -38,4 +37,5 @@ class QuotePartSerializer(serializers.ModelSerializer):
             if not (quantity and part_price):
                 raise serializers.ValidationError("Parts must have a price and a quantity")
 
+        return data
 

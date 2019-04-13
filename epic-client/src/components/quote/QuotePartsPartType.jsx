@@ -4,9 +4,11 @@ import {findObjectWithId} from "../../helpers/utils";
 import QuotePartEdit from "./QuotePartEdit";
 import {getModelKey} from "../app/model/helpers/model";
 import PartDataList from "../part/PartDataList";
+import {buildQuotePart} from "./helpers/quotePart";
 
 const QuotePartsPartType = props => {
     const { quote, brands, sections, partType, bikePart, quotePart, replacementPart, additionalParts, deleteQuotePart, saveQuotePart, parts, supplierProducts } = props;
+    const quotePartForBikePart = quotePart || buildQuotePart(quote.id, partType.id);
     return <Fragment>
 
         {bikePart && <QuotePartEdit
@@ -14,14 +16,15 @@ const QuotePartsPartType = props => {
             saveQuotePart={saveQuotePart}
             partType={partType}
             bikePart={bikePart}
-            quotePart={quotePart}
+            quotePart={quotePartForBikePart}
             replacementPart={replacementPart}
-            componentKey={getModelKey(quotePart)}
+            componentKey={getModelKey(quotePartForBikePart)}
             brands={brands}
             parts={parts}
             supplierProducts={supplierProducts}
             sections={sections}
             quote={quote}
+            key={`editPart${getModelKey(quotePartForBikePart)}`}
         />}
         {additionalParts.map(additionalQuotePart => {
             const part = findObjectWithId(parts, additionalQuotePart.part);
@@ -37,6 +40,7 @@ const QuotePartsPartType = props => {
                 quote={quote}
                 parts={parts}
                 supplierProducts={supplierProducts}
+                key={`editPart${getModelKey(additionalQuotePart)}`}
             />
         })
         }

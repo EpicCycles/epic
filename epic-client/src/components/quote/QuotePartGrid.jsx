@@ -8,13 +8,14 @@ import PartDataList from "../part/PartDataList";
 import QuotePartsPartType from "./QuotePartsPartType";
 import {getModelKey} from "../app/model/helpers/model";
 import QuotePartEdit from "./QuotePartEdit";
-import {quotePartNew} from "./helpers/quotePart";
+import {buildQuotePart, quotePartNew} from "./helpers/quotePart";
 import ModelTableHeaders from "../app/model/ModelTableHeaders";
 import ModelTableActionHeader from "../app/model/ModelTableActionHeader";
 
 const QuotePartGrid = props => {
     const { quote, quoteParts, brands, sections, parts, supplierProducts, bikeParts, deleteQuotePart, saveQuotePart } = props;
     const usedSections = sections.filter(section => (sectionHasDetail(section, quoteParts) || sectionHasDetail(section, bikeParts)));
+    const newQuotePart = buildQuotePart(quote.id);
 
     return <div className="grid-container">
         <div className='grid'>
@@ -48,12 +49,14 @@ const QuotePartGrid = props => {
             <QuotePartEdit
                 deleteQuotePart={deleteQuotePart}
                 saveQuotePart={saveQuotePart}
-                componentKey={getModelKey()}
+                componentKey={getModelKey(newQuotePart)}
                 brands={brands}
                 parts={parts}
                 supplierProducts={supplierProducts}
                 sections={sections}
                 quote={quote}
+                quotePart={newQuotePart}
+                key={newQuotePart.dummyKey}
             />
         </div>
         <PartDataList dataListId={'all-parts'} parts={parts} brands={brands}/>

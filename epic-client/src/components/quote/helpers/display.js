@@ -7,7 +7,6 @@ import {
     CREATED_BY_FIELD,
     CREATED_DATE_FIELD,
     CUSTOMER_FIELD,
-    FITTING_FIELD,
     FRAME_SIZE_FIELD,
     ISSUED_DATE_FIELD,
     PART_FIELD,
@@ -16,27 +15,32 @@ import {
     QUOTE_DESC_FIELD,
     QUOTE_PRICE_FIELD,
     QUOTE_STATUS_FIELD,
-    REPLACEMENT_PART_FIELD,
+    TRADE_IN_PRICE_FIELD,
     UPD_DATE_FIELD,
     VERSION_FIELD
 } from "../../app/model/helpers/fields";
+import {findObjectWithId} from "../../../helpers/utils";
+import {NOT_REQUIRED_FIELD, PART_PRICE_FIELD} from "./quotePartFields";
 
 export const displayForPartType = (partTypeId, quoteParts, bikeParts, parts) => {
     const bikePart = bikeParts.find(bp => bp.partType === partTypeId);
-    const additionalParts = quoteParts.filter(qp => ((qp.partType === partTypeId) && !qp.replacement_part));
-    const quotePart = bikePart && quoteParts.find(qp => ((qp.partType === partTypeId) && qp.replacement_part));
-    const replacementPart = (quotePart && quotePart.part) && parts.find(part => part.id === quotePart.part);
+    const additionalParts = quoteParts.filter(qp => ((qp.partType === partTypeId) && !qp.not_required));
+    const quotePart = bikePart && quoteParts.find(qp => ((qp.partType === partTypeId) && qp.not_required));
+    const replacementPart = (quotePart && quotePart.part) && findObjectWithId(parts, quotePart.part);
+    console.log(partTypeId, bikePart, quotePart, replacementPart, additionalParts)
     return { bikePart, quotePart, replacementPart, additionalParts };
 };
 
 export const bikePartOnQuote = (bikePart, quotePart, replacementPart, brands) => {
+    console.log(bikePart, quotePart, replacementPart, brands);
     if (quotePart) {
         if (replacementPart) {
             return `**** ${buildPartString(replacementPart, brands)} ****`
-        } else {
+        } else if (quotePart.not_required) {
             return '**** Not Required ****';
         }
-    } else if (bikePart) {
+    }
+    if (bikePart) {
         return buildPartString(bikePart, brands);
     }
 };
@@ -74,17 +78,8 @@ export const quoteFieldsNoCustomer = [
     ISSUED_DATE_FIELD,
     QUOTE_PRICE_FIELD,
 ];
-export const quotePartFields = [
-    PART_TYPE_FIELD,
-    REPLACEMENT_PART_FIELD,
-    PART_FIELD,
-    QUANTITY_FIELD,
-    QUOTE_PRICE_FIELD,
-];
-export const quotePartAttributeFields = [
-    ATTRIBUTE_VALUE_FIELD
-];
 export const priceFields = [
     QUANTITY_FIELD,
-    QUOTE_PRICE_FIELD,
+    PART_PRICE_FIELD,
+    TRADE_IN_PRICE_FIELD,
 ];

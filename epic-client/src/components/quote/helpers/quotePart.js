@@ -8,20 +8,21 @@ import {
     NOT_REQUIRED_FIELD_DISABLED,
     PART_DESC_FIELD,
     PART_DESC_FIELD_DISABLED,
-    PART_TYPE_FIELD_DISABLED,
-    QUANTITY_FIELD_DISABLED,
     PART_PRICE_FIELD,
     PART_PRICE_FIELD_DISABLED,
+    PART_TYPE_FIELD_DISABLED,
+    QUANTITY_FIELD_DISABLED,
     TRADE_IN_PRICE_FIELD_DISABLED
 } from "./quotePartFields";
+import {createEmptyModelWithDefaultFields} from "../../app/model/helpers/model";
 
 export const quotePartNew = [
     PART_TYPE_FIELD,
     NOT_REQUIRED_FIELD,
+    TRADE_IN_PRICE_FIELD_DISABLED,
     updateObject(PART_DESC_FIELD, { listId: 'all-parts', }),
     QUANTITY_FIELD,
     PART_PRICE_FIELD,
-    TRADE_IN_PRICE_FIELD_DISABLED,
     ADDITIONAL_DATA_FIELD
 ];
 
@@ -58,4 +59,11 @@ export const buildModelFields = (partType, quotePart, bikePart) => {
     }
 
     return fields;
+};
+
+export const buildQuotePart = (quoteId, partTypeId) => {
+    let quotePart = createEmptyModelWithDefaultFields([]);
+    quotePart.quote = quoteId;
+    quotePart.partType = partTypeId;
+    return quotePart;
 };

@@ -5,6 +5,6 @@ export const sectionHasDetail = (section, objectsToCheck) => {
     if (! doWeHaveObjects(objectsToCheck)) return false;
 
     return section.partTypes.some(partType => {
-        return objectsToCheck.some(objectToCheck => objectToCheck.partType = partType.id);
+        return objectsToCheck.some(objectToCheck => objectToCheck.partType === partType.id);
     })
 };
