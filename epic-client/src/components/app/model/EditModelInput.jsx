@@ -77,12 +77,13 @@ class EditModelInput extends Component {
                     onChange={this.validateOnChange}
                     size={field.size}
                     onClick={this.validateOnChange}
+                    maxLength={field.length}
                     disabled={field.disabled}
                 />;
                 break;
             case CHECKBOX:
                 const checked = fieldValue ? true : false;
-                editComponent = <div>
+                editComponent = <div className='align_center'>
                     <input type="checkbox"
                            name={fieldName}
                            onChange={() => this.validateOnChange(fieldName, !checked)}

@@ -23,6 +23,7 @@ class QuotePartMaintain(generics.GenericAPIView):
         
     def post(self, request):
         user = request.user
+        print(request.data)
         serializer = QuotePartSerializer(data=request.data)
         if serializer.is_valid():
             quote_part = serializer.save(created_by=user)

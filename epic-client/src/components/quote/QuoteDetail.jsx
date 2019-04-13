@@ -49,7 +49,6 @@ const QuoteDetail = props => {
                 saveQuotePart={saveQuotePart}
                 quote={quote}
             />
-
         </div>
     </div>;
 };

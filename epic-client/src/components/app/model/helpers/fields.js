@@ -470,7 +470,9 @@ export const PREFERRED_SUPPLIER_FIELD = {
 export const QUANTITY_FIELD = {
     fieldName: QUANTITY,
     type: NUMBER,
-    header: "Quantity"
+    header: "Quantity",
+     size: 8,
+    length: 6,
 };
 export const QUOTE_DESC_FIELD = {
     fieldName: QUOTE_DESC,

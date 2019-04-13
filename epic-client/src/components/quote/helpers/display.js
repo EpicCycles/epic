@@ -36,7 +36,7 @@ export const bikePartOnQuote = (bikePart, quotePart, replacementPart, brands) =>
         } else {
             return '**** Not Required ****';
         }
-    } else {
+    } else if (bikePart) {
         return buildPartString(bikePart, brands);
     }
 };

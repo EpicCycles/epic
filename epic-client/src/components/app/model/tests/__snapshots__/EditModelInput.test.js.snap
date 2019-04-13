@@ -91,7 +91,9 @@ exports[`it renders a brand field that has no data 1`] = `
 
 exports[`it renders a checkbox field that has no data 1`] = `
 <Fragment>
-  <div>
+  <div
+    className="align_center"
+  >
     <input
       checked={false}
       className=""
@@ -106,7 +108,9 @@ exports[`it renders a checkbox field that has no data 1`] = `
 
 exports[`it renders a checkbox field that is false 1`] = `
 <Fragment>
-  <div>
+  <div
+    className="align_center"
+  >
     <input
       checked={false}
       className=""
@@ -121,7 +125,9 @@ exports[`it renders a checkbox field that is false 1`] = `
 
 exports[`it renders a checkbox field that is true 1`] = `
 <Fragment>
-  <div>
+  <div
+    className="align_center"
+  >
     <input
       checked={true}
       className=""
@@ -164,6 +170,7 @@ exports[`it renders a currency field that has data 1`] = `
     fieldName="data_field_120"
     label=""
     list=""
+    maxLength={10}
     onChange={[Function]}
     onClick={[Function]}
     placeholder=""
@@ -184,6 +191,7 @@ exports[`it renders a currency field that has no data 1`] = `
     fieldName="data_field_120"
     label=""
     list=""
+    maxLength={10}
     onChange={[Function]}
     onClick={[Function]}
     placeholder=""
