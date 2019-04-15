@@ -13,24 +13,20 @@ from epic.models.quote_models import QuotePart
 def check_supplier_product(quote_part, user):
     if quote_part.part and quote_part.part_price and quote_part.supplier:
         supplier_product = SupplierProduct.objects.filter(part=quote_part.part, supplier=quote_part.supplier)
-        if supplier_product:
-            if quote_part.quote.bike:
-                if supplier_product.fitted_price is not quote_part.part_price:
-                    supplier_product.fitted_price = quote_part.part_price
-                    supplier_product.save()
-            else:
-                if supplier_product.ticket_price is not quote_part.part_price:
-                    supplier_product.ticket_price = quote_part.part_price
-                    supplier_product.save()
-        else:
+        if not supplier_product:
             supplier_product = SupplierProduct(part=quote_part.part, supplier=quote_part.supplier)
-            if quote_part.quote.bike:
-                if supplier_product.fitted_price is not quote_part.part_price:
-                    supplier_product.fitted_price = quote_part.part_price
-            else:
-                if supplier_product.ticket_price is not quote_part.part_price:
-                    supplier_product.ticket_price = quote_part.part_price
-            supplier_product.save()
+
+        if quote_part.quote.bike:
+            if supplier_product.fitted_price is not quote_part.part_price:
+                supplier_product.fitted_price = quote_part.part_price
+                supplier_product.save()
+        else:
+            if quote_part.ticket_price or quote_part.club_price:
+                if quote_part.club_price:
+                    supplier_product.club_price = quote_part.club_price
+                if quote_part.ticket_price:
+                    supplier_product.ticket_price = quote_part.ticket_price
+                supplier_product.save()
 
 
 class QuotePartMaintain(generics.GenericAPIView):
@@ -47,7 +43,6 @@ class QuotePartMaintain(generics.GenericAPIView):
         
     def post(self, request):
         user = request.user
-        print(request.data)
         serializer = QuotePartSerializer(data=request.data)
         if serializer.is_valid():
             quote_part = serializer.save()

@@ -69,7 +69,6 @@ class QuoteManager extends React.Component {
             sections,
             archiveQuote,
             unarchiveQuote,
-            changeQuote,
             saveQuote,
             saveQuotePart,
             deleteQuotePart,

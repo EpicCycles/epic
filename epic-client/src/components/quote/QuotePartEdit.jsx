@@ -51,7 +51,8 @@ class QuotePartEdit extends React.Component {
             bikePart,
             partType,
             brands,
-            parts
+            parts,
+            quote
         );
         if (updatedQuotePart.part_desc !== quotePart.part_desc ||
             updatedQuotePart.not_required !== quotePart.not_required) {

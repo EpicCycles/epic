@@ -7,9 +7,11 @@ const CUSTOMER_REQUIRED = "A customer should be selected";
 const QUOTE_PART_ERRORS = "Parts need amending before quote can be saved.";
 const MULTIPLE_REPLACEMENT_PARTS = "Multiple replacement parts - only one allowed per bike part";
 
-export const quotePartValidation = (quotePart={}, bikePart, partType, brands, parts) => {
+export const quotePartValidation = (quotePart = {}, bikePart, partType, brands, parts, quote) => {
     let validatedQuotePart = updateObject(quotePart);
     const error_detail = {};
+    const isBikeQuote = !!quote.bike;
+    const isClubMember = quote.club_member;
 
     // reset price if there is no part or this is not a replacement
 
@@ -30,10 +32,24 @@ export const quotePartValidation = (quotePart={}, bikePart, partType, brands, pa
     }
 
     if (validatedQuotePart.part) {
-        if (!validatedQuotePart.part_price) error_detail['part_price'] = 'Please specify a price.';
         if (!quotePart.not_required && !validatedQuotePart.quantity) error_detail['quantity'] = 'Quantity is required for non replacement parts.';
+        if (isBikeQuote) {
+            validatedQuotePart.ticket_price = undefined;
+            validatedQuotePart.club_price = undefined;
+            if (!validatedQuotePart.part_price) error_detail['part_price'] = 'Please provide a price.'
+        } else {
+            if (validatedQuotePart.ticket_price) {
+                validatedQuotePart.part_price = validatedQuotePart.ticket_price;
+            } else {
+                error_detail['ticket_price'] = 'Please provide a ticket price.'
+            }
+            if (isClubMember && validatedQuotePart.club_price) validatedQuotePart.part_price = validatedQuotePart.club_price;
+        }
     } else {
         validatedQuotePart.quantity = undefined;
+        validatedQuotePart.part_price = undefined;
+        validatedQuotePart.ticket_price = undefined;
+        validatedQuotePart.club_price = undefined;
         validatedQuotePart.additional_data = undefined;
     }
 
