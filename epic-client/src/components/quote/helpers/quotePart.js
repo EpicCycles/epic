@@ -1,4 +1,9 @@
-import {PART_TYPE_FIELD, QUANTITY_FIELD, TRADE_IN_PRICE_FIELD} from "../../app/model/helpers/fields";
+import {
+    PART_TYPE_FIELD,
+    QUANTITY_FIELD,
+    SUPPLIER_FIELD_OPTIONAL,
+    TRADE_IN_PRICE_FIELD
+} from "../../app/model/helpers/fields";
 import {attributePlaceholder} from "../../partType/helpers/partType";
 import {updateObject} from "../../../helpers/utils";
 import {
@@ -12,6 +17,7 @@ import {
     PART_PRICE_FIELD_DISABLED,
     PART_TYPE_FIELD_DISABLED,
     QUANTITY_FIELD_DISABLED,
+    SUPPLIER_FIELD_DISABLED,
     TRADE_IN_PRICE_FIELD_DISABLED
 } from "./quotePartFields";
 import {createEmptyModelWithDefaultFields} from "../../app/model/helpers/model";
@@ -51,10 +57,12 @@ export const buildModelFields = (partType, quotePart, bikePart) => {
             { placeholder: attributes, title: attributes, });
         fields.push(QUANTITY_FIELD);
         fields.push(PART_PRICE_FIELD);
+        fields.push(SUPPLIER_FIELD_OPTIONAL);
         fields.push(additionalDataField);
     } else {
         fields.push(QUANTITY_FIELD_DISABLED);
         fields.push(PART_PRICE_FIELD_DISABLED);
+        fields.push(SUPPLIER_FIELD_DISABLED);
         fields.push(ADDITIONAL_DATA_FIELD_DISABLED);
     }
 

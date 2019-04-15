@@ -6,7 +6,31 @@ from rest_framework.response import Response
 
 from epic.helpers.note_helper import create_note_for_quote_part
 from epic.model_serializers.quote_serializer import QuotePartSerializer
+from epic.models.brand_models import SupplierProduct
 from epic.models.quote_models import QuotePart
+
+
+def check_supplier_product(quote_part, user):
+    if quote_part.part and quote_part.part_price and quote_part.supplier:
+        supplier_product = SupplierProduct.objects.filter(part=quote_part.part, supplier=quote_part.supplier)
+        if supplier_product:
+            if quote_part.quote.bike:
+                if supplier_product.fitted_price is not quote_part.part_price:
+                    supplier_product.fitted_price = quote_part.part_price
+                    supplier_product.save()
+            else:
+                if supplier_product.ticket_price is not quote_part.part_price:
+                    supplier_product.ticket_price = quote_part.part_price
+                    supplier_product.save()
+        else:
+            supplier_product = SupplierProduct(part=quote_part.part, supplier=quote_part.supplier)
+            if quote_part.quote.bike:
+                if supplier_product.fitted_price is not quote_part.part_price:
+                    supplier_product.fitted_price = quote_part.part_price
+            else:
+                if supplier_product.ticket_price is not quote_part.part_price:
+                    supplier_product.ticket_price = quote_part.part_price
+            supplier_product.save()
 
 
 class QuotePartMaintain(generics.GenericAPIView):
@@ -14,7 +38,7 @@ class QuotePartMaintain(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
     serializer_class = QuotePartSerializer
-    
+
     def get_object(self, quote_part_id):
         try:
             return QuotePart.objects.get(id=quote_part_id)
@@ -28,6 +52,7 @@ class QuotePartMaintain(generics.GenericAPIView):
         if serializer.is_valid():
             quote_part = serializer.save()
             create_note_for_quote_part(quote_part, user, 'created')
+            check_supplier_product(quote_part, user)
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -39,6 +64,7 @@ class QuotePartMaintain(generics.GenericAPIView):
         if serializer.is_valid():
             quote_part = serializer.save()
             create_note_for_quote_part(quote_part, user, 'updated')
+            check_supplier_product(quote_part, user)
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

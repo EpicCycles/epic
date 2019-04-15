@@ -179,3 +179,33 @@ class PartMaintain(generics.GenericAPIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response(status=status.HTTP_403_FORBIDDEN)
+
+
+class SupplierProductMaintain(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    serializer_class = SupplierProductSerializer
+
+    def get_object(self, supplier_product_id):
+        try:
+            return SupplierProduct.objects.get(id=supplier_product_id)
+        except SupplierProduct.DoesNotExist:
+            raise Http404
+
+    def post(self, request):
+        serializer = SupplierProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, supplier_product_id):
+        supplier_product = self.get_object(supplier_product_id)
+        serializer = SupplierProductSerializer(supplier_product, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

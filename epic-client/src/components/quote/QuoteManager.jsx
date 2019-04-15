@@ -59,6 +59,7 @@ class QuoteManager extends React.Component {
             quoteId,
             quoteParts,
             brands,
+            suppliers,
             bikes,
             notes,
             bikeParts,
@@ -121,6 +122,7 @@ class QuoteManager extends React.Component {
                 bikes={bikes}
                 customers={customers}
                 brands={brands}
+                suppliers={suppliers}
                 sections={sections}
                 saveQuote={changeQuote}
                 archiveQuote={archiveQuote}
@@ -144,6 +146,7 @@ QuoteManager.defaultProps = {
     parts: [],
     supplierProducts: [],
     brands: [],
+    suppliers: [],
     sections: [],
     quotes: [],
     quoteParts: [],
@@ -155,6 +158,7 @@ QuoteManager.propTypes = {
     bikes: PropTypes.array,
     bikeParts: PropTypes.array,
     brands: PropTypes.array.isRequired,
+    suppliers: PropTypes.array.isRequired,
     sections: PropTypes.array.isRequired,
     parts: PropTypes.array,
     supplierProducts: PropTypes.array,

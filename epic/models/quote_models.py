@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 from epic.models.bike_models import Bike
-from epic.models.brand_models import Part
+from epic.models.brand_models import Part, Supplier
 from epic.models.customer_models import Customer, Fitting
 from epic.models.framework_models import PartType, PartTypeAttribute
 
@@ -53,6 +53,7 @@ class Quote(models.Model):
 class QuotePart(models.Model):
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
     partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, blank=True, null=True)
     # part can be None if the part has not been selected
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=1, blank=True, null=True)

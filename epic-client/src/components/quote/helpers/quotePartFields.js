@@ -1,7 +1,7 @@
 import {
     CHECKBOX, CURRENCY,
     PART_TYPE_FIELD,
-    QUANTITY_FIELD,
+    QUANTITY_FIELD, SUPPLIER_FIELD, SUPPLIER_FIELD_OPTIONAL,
     TEXT, TRADE_IN_PRICE_FIELD
 } from "../../app/model/helpers/fields";
 import {updateObject} from "../../../helpers/utils";
@@ -41,3 +41,4 @@ export const PART_TYPE_FIELD_DISABLED = updateObject(PART_TYPE_FIELD, disabledAt
 export const QUANTITY_FIELD_DISABLED = updateObject(QUANTITY_FIELD, disabledAttribute);
 export const PART_PRICE_FIELD_DISABLED = updateObject(PART_PRICE_FIELD, disabledAttribute);
 export const TRADE_IN_PRICE_FIELD_DISABLED = updateObject(TRADE_IN_PRICE_FIELD, disabledAttribute);
+export const SUPPLIER_FIELD_DISABLED = updateObject(SUPPLIER_FIELD_OPTIONAL, disabledAttribute);

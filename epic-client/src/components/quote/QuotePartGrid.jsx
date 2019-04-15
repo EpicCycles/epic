@@ -13,7 +13,7 @@ import ModelTableHeaders from "../app/model/ModelTableHeaders";
 import ModelTableActionHeader from "../app/model/ModelTableActionHeader";
 
 const QuotePartGrid = props => {
-    const { quote, quoteParts, brands, sections, parts, supplierProducts, bikeParts, deleteQuotePart, saveQuotePart } = props;
+    const { quote, quoteParts, brands, suppliers, sections, parts, supplierProducts, bikeParts, deleteQuotePart, saveQuotePart } = props;
     const usedSections = sections.filter(section => (sectionHasDetail(section, quoteParts) || sectionHasDetail(section, bikeParts)));
     const newQuotePart = buildQuotePart(quote.id);
 
@@ -36,6 +36,7 @@ const QuotePartGrid = props => {
                         parts={parts}
                         supplierProducts={supplierProducts}
                         brands={brands}
+                        suppliers={suppliers}
                         deleteQuotePart={deleteQuotePart}
                         saveQuotePart={saveQuotePart}
                         sections={sections}
@@ -51,7 +52,8 @@ const QuotePartGrid = props => {
                 saveQuotePart={saveQuotePart}
                 componentKey={getModelKey(newQuotePart)}
                 brands={brands}
-                parts={parts}
+                         suppliers={suppliers}
+               parts={parts}
                 supplierProducts={supplierProducts}
                 sections={sections}
                 quote={quote}
@@ -65,6 +67,7 @@ const QuotePartGrid = props => {
 QuotePartGrid.propTypes = {
     quoteParts: PropTypes.array.isRequired,
     brands: PropTypes.array.isRequired,
+    suppliers: PropTypes.array.isRequired,
     sections: PropTypes.array.isRequired,
     parts: PropTypes.array.isRequired,
     supplierProducts: PropTypes.array.isRequired,

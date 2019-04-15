@@ -1,6 +1,7 @@
 import {
     PART_TYPE_FIELD,
     QUANTITY_FIELD,
+    SUPPLIER_FIELD_OPTIONAL,
     TEXT,
     TRADE_IN_PRICE_FIELD
 } from "../../../app/model/helpers/fields";
@@ -16,6 +17,7 @@ import {
     PART_PRICE_FIELD_DISABLED,
     PART_TYPE_FIELD_DISABLED,
     QUANTITY_FIELD_DISABLED,
+    SUPPLIER_FIELD_DISABLED,
     TRADE_IN_PRICE_FIELD_DISABLED
 } from "../quotePartFields";
 import {updateObject} from "../../../../helpers/utils";
@@ -47,6 +49,7 @@ describe('buildModelFields', () => {
             PART_DESC_FIELD_DISABLED,
             QUANTITY_FIELD_DISABLED,
             PART_PRICE_FIELD_DISABLED,
+            SUPPLIER_FIELD_DISABLED,
             ADDITIONAL_DATA_FIELD_DISABLED
         ];
         expect(buildModelFields()).toEqual(expectedFields);
@@ -60,6 +63,7 @@ describe('buildModelFields', () => {
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
         expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
+        expect(result).toContainEqual(SUPPLIER_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
         expect(result).not.toContainEqual(ADDITIONAL_DATA_FIELD);
     });
@@ -73,6 +77,7 @@ describe('buildModelFields', () => {
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
         expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
+        expect(result).toContainEqual(SUPPLIER_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
     });
     it('should return additional part fields when there is a bike part and a quote part that is not a replacement', () => {
@@ -86,6 +91,7 @@ describe('buildModelFields', () => {
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
         expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
+        expect(result).toContainEqual(SUPPLIER_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
     });
     it('should return standard fields when there is a quote part but the part cannot be substituted', () => {
@@ -99,6 +105,7 @@ describe('buildModelFields', () => {
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
         expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
+        expect(result).toContainEqual(SUPPLIER_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
     });
     it('should return replacement part fields when there is a replacable bike part and no quote part', () => {
@@ -111,6 +118,7 @@ describe('buildModelFields', () => {
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
         expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
+        expect(result).toContainEqual(SUPPLIER_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
     });
     it('should return replacement part fields when there is a replacable bike part and a quote part', () => {
@@ -124,6 +132,7 @@ describe('buildModelFields', () => {
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
         expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
+        expect(result).toContainEqual(SUPPLIER_FIELD_DISABLED);
         expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
     });
     it('should return additional part fields when there is a bike part and a quote part that is not a replacement', () => {
@@ -137,6 +146,7 @@ describe('buildModelFields', () => {
         expect(result).toContainEqual(partDescForType);
         expect(result).toContainEqual(QUANTITY_FIELD);
         expect(result).toContainEqual(PART_PRICE_FIELD);
+        expect(result).toContainEqual(SUPPLIER_FIELD_OPTIONAL);
         expect(result).toContainEqual(attributesField);
     });
 });

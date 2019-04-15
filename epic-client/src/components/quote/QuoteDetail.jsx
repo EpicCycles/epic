@@ -7,7 +7,7 @@ import QuoteSummaryParts from "./QuoteSummaryParts";
 import QuotePartGrid from "./QuotePartGrid";
 
 const QuoteDetail = props => {
-    const { quoteParts, parts, supplierProducts, brands, sections, saveQuote, archiveQuote, quote, bikes, bikeParts, frames, customers, deleteQuotePart, saveQuotePart } = props;
+    const { quoteParts, parts, supplierProducts, brands, suppliers, sections, saveQuote, archiveQuote, quote, bikes, bikeParts, frames, customers, deleteQuotePart, saveQuotePart } = props;
 
     const thisQuoteParts = quoteParts.filter(quotePart => (quotePart.quote === quote.id));
     const bike = findObjectWithId(bikes, quote.bike);
@@ -41,6 +41,7 @@ const QuoteDetail = props => {
             <QuotePartGrid
                 quoteParts={thisQuoteParts}
                 brands={brands}
+                suppliers={suppliers}
                 sections={sections}
                 parts={parts}
                 supplierProducts={supplierProducts}
@@ -56,6 +57,7 @@ const QuoteDetail = props => {
 QuoteDetail.defaultProps = {
     parts: [],
     brands: [],
+    suppliers: [],
     sections: [],
     isLoading: false,
 };
@@ -66,6 +68,7 @@ QuoteDetail.propTypes = {
     bikes: PropTypes.array.isRequired,
     bikeParts: PropTypes.array.isRequired,
     brands: PropTypes.array,
+    suppliers: PropTypes.array,
     customers: PropTypes.array,
     sections: PropTypes.array,
     parts: PropTypes.array.isRequired,

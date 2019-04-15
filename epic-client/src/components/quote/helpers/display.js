@@ -1,6 +1,5 @@
 import {buildPartString} from "../../part/helpers/part";
 import {
-    ATTRIBUTE_VALUE_FIELD,
     BIKE_FIELD,
     COLOUR_FIELD,
     COLOUR_PRICE_FIELD,
@@ -9,8 +8,6 @@ import {
     CUSTOMER_FIELD,
     FRAME_SIZE_FIELD,
     ISSUED_DATE_FIELD,
-    PART_FIELD,
-    PART_TYPE_FIELD,
     QUANTITY_FIELD,
     QUOTE_DESC_FIELD,
     QUOTE_PRICE_FIELD,
@@ -20,19 +17,17 @@ import {
     VERSION_FIELD
 } from "../../app/model/helpers/fields";
 import {findObjectWithId} from "../../../helpers/utils";
-import {NOT_REQUIRED_FIELD, PART_PRICE_FIELD} from "./quotePartFields";
+import {PART_PRICE_FIELD} from "./quotePartFields";
 
 export const displayForPartType = (partTypeId, quoteParts, bikeParts, parts) => {
     const bikePart = bikeParts.find(bp => bp.partType === partTypeId);
     const additionalParts = quoteParts.filter(qp => ((qp.partType === partTypeId) && !qp.not_required));
     const quotePart = bikePart && quoteParts.find(qp => ((qp.partType === partTypeId) && qp.not_required));
     const replacementPart = (quotePart && quotePart.part) && findObjectWithId(parts, quotePart.part);
-    console.log(partTypeId, bikePart, quotePart, replacementPart, additionalParts)
     return { bikePart, quotePart, replacementPart, additionalParts };
 };
 
 export const bikePartOnQuote = (bikePart, quotePart, replacementPart, brands) => {
-    console.log(bikePart, quotePart, replacementPart, brands);
     if (quotePart) {
         if (replacementPart) {
             return `**** ${buildPartString(replacementPart, brands)} ****`

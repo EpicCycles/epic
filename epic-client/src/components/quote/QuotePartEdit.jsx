@@ -85,16 +85,17 @@ class QuotePartEdit extends React.Component {
     };
     render() {
         const { fields, quotePart, persistedQuotePart } = this.state;
-        const { componentKey, sections, deleteQuotePart } = this.props;
+        const { componentKey, sections, deleteQuotePart, suppliers } = this.props;
         const rowClass = (quotePart && quotePart.error) ? "error" : "";
 
-        return <div className='grid-row' key={`row${componentKey}`}>
+        return <div className={`grid-row ${rowClass}`} key={`row${componentKey}`}>
             <EditModelRow
                 model={quotePart}
                 persistedModel={persistedQuotePart}
                 modelFields={fields}
                 onChange={this.handleInputChange}
                 sections={sections}
+                suppliers={suppliers}
             />
             <div className="grid-col--fixed-right align_center">
                 <ModelEditIcons
@@ -123,6 +124,7 @@ QuotePartEdit.propTypes = {
     ]),
     quote: PropTypes.object.isRequired,
     brands: PropTypes.array.isRequired,
+    suppliers: PropTypes.array.isRequired,
     sections: PropTypes.array.isRequired,
     parts: PropTypes.array.isRequired,
     supplierProducts: PropTypes.array.isRequired,
