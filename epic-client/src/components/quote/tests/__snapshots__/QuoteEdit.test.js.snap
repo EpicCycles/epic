@@ -47,6 +47,11 @@ exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
           "type": "select_one",
         },
         Object {
+          "fieldName": "club_member",
+          "header": "CLub Member?",
+          "type": "checkbox",
+        },
+        Object {
           "fieldName": "version",
           "header": "Version",
           "readOnly": true,
@@ -178,6 +183,11 @@ exports[`QuoteEdit tests renders the form text correctly with quote 1`] = `
             },
           ],
           "type": "select_one",
+        },
+        Object {
+          "fieldName": "club_member",
+          "header": "CLub Member?",
+          "type": "checkbox",
         },
         Object {
           "fieldName": "version",

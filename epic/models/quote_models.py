@@ -30,6 +30,7 @@ class Quote(models.Model):
     quote_status = models.CharField(max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
+    club_member = models.BooleanField(default=False)
 
     # set issuedDate whe quote is issued to a customer
     def issue(self):

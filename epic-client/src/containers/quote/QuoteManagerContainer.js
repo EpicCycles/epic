@@ -13,7 +13,14 @@ import {
 } from "../../state/actions/customer";
 import {createNote, deleteNote, saveNote} from "../../state/actions/note";
 import QuoteManager from "../../components/quote/QuoteManager";
-import {archiveQuote, changeQuote, deleteQuotePart, saveQuotePart, unarchiveQuote} from "../../state/actions/quote";
+import {
+    archiveQuote,
+    changeQuote,
+    deleteQuotePart,
+    saveQuote,
+    saveQuotePart,
+    unarchiveQuote
+} from "../../state/actions/quote";
 
 const mapStateToProps = ({ bike, core, customer, framework, note, part, quote }) => {
     const {customers, customerId, addresses, phones } = customer;
@@ -46,6 +53,7 @@ const mapDispatchToProps = {
     archiveQuote,
     unarchiveQuote,
     changeQuote,
+    saveQuote,
     saveQuotePart,
     deleteQuotePart,
 };

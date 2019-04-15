@@ -1,6 +1,6 @@
 import {buildPartString} from "../../part/helpers/part";
 import {
-    BIKE_FIELD,
+    BIKE_FIELD, CLUB_MEMBER_FIELD,
     COLOUR_FIELD,
     COLOUR_PRICE_FIELD,
     CREATED_BY_FIELD,
@@ -55,6 +55,7 @@ export const quoteFieldsNoBike = [
     QUOTE_DESC_FIELD,
     CUSTOMER_FIELD,
     QUOTE_STATUS_FIELD,
+    CLUB_MEMBER_FIELD,
     VERSION_FIELD,
     CREATED_BY_FIELD,
     CREATED_DATE_FIELD,

@@ -28,7 +28,7 @@ class QuotePartEdit extends React.Component {
         if (this.props.replacementPart)
             part_desc = buildPartString(this.props.replacementPart, this.props.brands);
 
-        const fields = buildModelFields(this.props.partType, this.props.quotePart, this.props.bikePart);
+        const fields = buildModelFields(this.props.partType, this.props.quotePart, this.props.bikePart, this.props.quote);
         if (this.props.quotePart) {
             persistedQuotePart = updateObject(this.props.quotePart, { part_desc });
         } else {
@@ -64,7 +64,7 @@ class QuotePartEdit extends React.Component {
                     this.props.supplierProducts
                 ));
         }
-        fields = buildModelFields(partType, updatedQuotePart, bikePart);
+        fields = buildModelFields(partType, updatedQuotePart, bikePart, quote);
         this.setState({ quotePart: updatedQuotePart, fields });
     };
 

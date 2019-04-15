@@ -53,6 +53,7 @@ export const CAN_BE_OMITTED = "can_be_omitted";
 export const CAN_BE_SUBSTITUTED = "can_be_substituted";
 export const CHECK_DATE = "check_date";
 export const CLUB_PRICE = "club_price";
+export const CLUB_MEMBER = "club_member";
 export const COLOUR = "colour";
 export const COLOUR_PRICE = "colour_price";
 export const COLOURS = "colours";
@@ -270,6 +271,11 @@ export const CLUB_PRICE_FIELD = {
     type: CURRENCY,
     length: 10,
     size: 10,
+};
+export const CLUB_MEMBER_FIELD = {
+    fieldName: CLUB_MEMBER,
+    header: 'CLub Member?',
+    type: CHECKBOX
 };
 export const COLOUR_PRICE_FIELD = {
     fieldName: COLOUR_PRICE,
@@ -497,11 +503,6 @@ export const REACH_FIELD = {
     size: 10,
     length: 20
 };
-export const REPLACEMENT_PART_FIELD = {
-    fieldName: REPLACEMENT_PART,
-    type: CHECKBOX,
-    header: "Replacement",
-};
 
 export const SUPPLIER_FIELD = {
     fieldName: SUPPLIER,
@@ -659,9 +660,7 @@ export const VERSION_FIELD = {
     readOnly: true
 };
 // Model fields include only fields that are shown
-export const attributeOptionFields = [
-    OPTION_NAME_FIELD
-];
+
 export const bikeFields = [
     MODEL_NAME_FIELD,
     DESCRIPTION_FIELD,
@@ -672,12 +671,6 @@ export const bikeFields = [
     SIZES_FIELD
 ];
 export const brandFields = [BRAND_NAME_FIELD, BIKE_BRAND_FIELD, LINK_FIELD, SUPPLIER_FIELD_OPTIONAL];
-export const bundleFields = [
-    BUNDLE_NAME_FIELD,
-    PRODUCTS_FIELD,
-    FITTED_PRICE_FIELD,
-    TICKET_PRICE_FIELD,
-];
 export const customerFields = [
     FIRST_NAME_FIELD, LAST_NAME_FIELD, EMAIL_FIELD, ADD_DATE_FIELD, UPD_DATE_FIELD,
 ];

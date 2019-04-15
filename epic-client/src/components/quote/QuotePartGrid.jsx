@@ -20,7 +20,7 @@ const QuotePartGrid = props => {
     return <div className="grid-container">
         <div className='grid'>
             <div key="bikeReviewHeaders" className="grid-row grid-row--header">
-                <ModelTableHeaders modelFields={quotePartNew} lockFirstColumn={true}/>
+                <ModelTableHeaders modelFields={quotePartNew(quote)} lockFirstColumn={true}/>
                 <ModelTableActionHeader/>
             </div>
             {usedSections.map(section => section.partTypes.map(partType => {
@@ -52,8 +52,8 @@ const QuotePartGrid = props => {
                 saveQuotePart={saveQuotePart}
                 componentKey={getModelKey(newQuotePart)}
                 brands={brands}
-                         suppliers={suppliers}
-               parts={parts}
+                suppliers={suppliers}
+                parts={parts}
                 supplierProducts={supplierProducts}
                 sections={sections}
                 quote={quote}

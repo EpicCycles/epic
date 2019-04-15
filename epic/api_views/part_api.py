@@ -5,10 +5,10 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from epic.model_serializers.part_serializer import PartSerializer, SupplierProductSerializer, BundleSerializer
+from epic.model_serializers.part_serializer import PartSerializer, SupplierProductSerializer
 from epic.models.bike_models import BikePart
-from epic.models.brand_models import Part, SupplierProduct, Bundle
-from epic.models.quote_models import Part, QuotePart
+from epic.models.brand_models import Part, SupplierProduct
+from epic.models.quote_models import QuotePart
 
 
 @api_view()
@@ -44,11 +44,9 @@ def parts_and_supplier_parts(request):
 
     # now filter supplier parts based on remaining parts
     q_supplier_products = q_supplier_products.filter(part__in=q_parts)
-    q_bundles = Bundle.objects.filter(products__in=q_supplier_products)
 
     return Response({"parts": PartSerializer(q_parts, many=True).data,
-                     "supplierProducts": SupplierProductSerializer(q_supplier_products, many=True).data,
-                     "bundles": BundleSerializer(q_bundles, many=True).data})
+                     "supplierProducts": SupplierProductSerializer(q_supplier_products, many=True).data})
 
 
 class Parts(generics.ListCreateAPIView):

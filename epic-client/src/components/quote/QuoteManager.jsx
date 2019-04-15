@@ -70,6 +70,7 @@ class QuoteManager extends React.Component {
             archiveQuote,
             unarchiveQuote,
             changeQuote,
+            saveQuote,
             saveQuotePart,
             deleteQuotePart,
         } = this.props;
@@ -124,7 +125,7 @@ class QuoteManager extends React.Component {
                 brands={brands}
                 suppliers={suppliers}
                 sections={sections}
-                saveQuote={changeQuote}
+                saveQuote={saveQuote}
                 archiveQuote={archiveQuote}
                 saveQuotePart={saveQuotePart}
                 deleteQuotePart={deleteQuotePart}
@@ -195,6 +196,7 @@ QuoteManager.propTypes = {
     unarchiveQuote: PropTypes.func.isRequired,
     changeQuote: PropTypes.func.isRequired,
     saveQuotePart: PropTypes.func.isRequired,
+    saveQuote: PropTypes.func.isRequired,
     deleteQuotePart: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
