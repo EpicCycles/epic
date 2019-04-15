@@ -141,6 +141,9 @@ class QuoteMaintain(generics.GenericAPIView):
 
     serializer_class = QuoteSerializer
 
+    def get_object(self, quote_id):
+        return get_quote_object(quote_id);
+
     def get(self, request, quote_id):
         quote = get_quote_object(quote_id)
         return Response(quote_data_for_quote_or_customer(quote))
@@ -167,10 +170,7 @@ class QuoteCopy(generics.GenericAPIView):
     serializer_class = QuoteSerializer
 
     def get_object(self, quote_id):
-        try:
-            return Quote.objects.get(id=quote_id)
-        except Quote.DoesNotExist:
-            raise Http404
+        return get_quote_object(quote_id)
 
     def post(self, request, quote_id):
         quote = self.get_object(quote_id)
@@ -196,10 +196,7 @@ class QuoteArchive(generics.GenericAPIView):
     serializer_class = QuoteSerializer
 
     def get_object(self, quote_id):
-        try:
-            return Quote.objects.get(id=quote_id)
-        except Quote.DoesNotExist:
-            raise Http404
+        return get_quote_object(quote_id)
 
     def post(self, request, quote_id):
         quote = self.get_object(quote_id)

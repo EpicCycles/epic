@@ -35,16 +35,15 @@ import {
 import {call, put, select, takeLatest} from "redux-saga/effects";
 import {errorAsMessage, logError} from "../../helpers/api_error";
 
-import api from "./api";
 import {getCustomer} from "../actions/customer";
 import {savePartOK} from "../actions/part";
 
 export function* saveQuoteProcess(action) {
-    const quote = action.payload.quote;
+    const quoteToSave = action.payload.quote;
     try {
         const token = yield select(selectors.token);
         if (token) {
-            const completePayload = { quote, token };
+            const completePayload = { quote: quoteToSave, token };
             const response = yield call(quote.saveQuote, completePayload);
             yield put(saveQuoteOK(response.data));
         } else {
@@ -58,7 +57,7 @@ export function* saveQuoteProcess(action) {
         if (apiError.response) {
             error_detail = apiError.response.data;
         }
-        yield put(saveQuoteError({ quote, error, error_detail }));
+        yield put(saveQuoteError({ quoteToSave, error, error_detail }));
     }
 }
 
