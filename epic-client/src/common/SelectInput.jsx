@@ -2,7 +2,26 @@ import React, {Component} from "react";
 import * as PropTypes from "prop-types";
 
 class SelectInput extends Component {
-    buildOptions = (options, isEmptyAllowed, value) => {
+    makeValueStrings = () => {
+        const { value } = this.props;
+        if (Array.isArray(value) && value.length > 0) {
+            if (this.props.isMultiple) {
+                return value.map(inputValue => inputValue.toString())
+            } else {
+                return value[0].toString();
+            }
+        } else if (value && (value.length > 0)) {
+            if (this.props.isMultiple) {
+                return [value.toString()]
+            } else {
+                return value.toString();
+            }
+        }
+    };
+
+    buildOptions = (value) => {
+        const { options, isEmptyAllowed } = this.props;
+
         let displayOptions = [];
         let selectedValues = value ? value : [];
         isEmptyAllowed && displayOptions.push({ value: "", name: "None", selected: (!value) });
@@ -14,27 +33,13 @@ class SelectInput extends Component {
         return displayOptions;
     };
 
-    findSelectedOptions = (options, value, isMultiple) => {
-        if (Array.isArray(value) && value.length > 0) {
-            if (isMultiple) {
-                return JSON.stringify(value)
-            } else {
-                return value[0].toString();
-            }
-        } else if (value && (value.length > 0)) {
-            if (isMultiple) {
-                return [value]
-            } else {
-                return value;
-            }
-        }
+    findDefaultSelections = () => {
 
-        // no selected value found
         let defaultValue = [];
-        options.forEach((option) => {
-            if (option.isDefault) defaultValue.push(option.value);
+        this.props.options.forEach((option) => {
+            if (option.isDefault) defaultValue.push(option.value.toString());
         });
-        if (isMultiple) {
+        if (this.props.isMultiple) {
             return defaultValue;
         } else {
             return defaultValue[0];
@@ -56,10 +61,11 @@ class SelectInput extends Component {
         }
 
     };
+
     render() {
-        const { disabled, className, fieldName, error, title, label, isMultiple, multipleSize, value, isEmptyAllowed, options } = this.props;
-        const displayOptions = this.buildOptions(options, isEmptyAllowed, value);
-        const selectedValue = this.findSelectedOptions(options, value, isMultiple);
+        const { disabled, className, fieldName, error, title, label, isMultiple, multipleSize } = this.props;
+        const selectedValue = this.makeValueStrings() || this.findDefaultSelections();
+        const displayOptions = this.buildOptions(selectedValue);
 
         return <div
             key={'select-container' + fieldName}
@@ -93,9 +99,9 @@ class SelectInput extends Component {
 }
 
 SelectInput.defaultProps = {
-   className: '',
-   error: '',
-   multipleSize: 1,
+    className: '',
+    error: '',
+    multipleSize: 1,
 };
 SelectInput.propTypes = {
     className: PropTypes.string,

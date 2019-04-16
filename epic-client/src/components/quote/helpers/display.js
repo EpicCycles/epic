@@ -21,7 +21,8 @@ import {PART_PRICE_FIELD} from "./quotePartFields";
 
 export const displayForPartType = (partTypeId, quoteParts, bikeParts, parts) => {
     const bikePart = bikeParts.find(bp => bp.partType === partTypeId);
-    const additionalParts = quoteParts.filter(qp => ((qp.partType === partTypeId) && qp.part && !qp.not_required));
+    const additionalParts = quoteParts.filter(qp =>
+        ((qp.partType === partTypeId) && !qp.not_required));
     const quotePart = bikePart && quoteParts.find(qp => ((qp.partType === partTypeId) && qp.not_required));
     const replacementPart = (quotePart && quotePart.part) && findObjectWithId(parts, quotePart.part);
     return { bikePart, quotePart, replacementPart, additionalParts };

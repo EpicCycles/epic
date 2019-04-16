@@ -12,15 +12,36 @@ describe('validatedQuotePart', () => {
         { id: 1, brand_name: 'B1' },
         { id: 2, brand_name: 'B2' },
     ];
+    describe('for a new line', () => {
+        it('should expect a part when a part type is selected', () => {
+            const startPart = { partType: 1 };
+            const validatedPart = {
+                partType: 1,
+                part: undefined,
+                quantity: undefined,
+                trade_in_price: undefined,
+                part_price: undefined,
+                additional_data: undefined,
+                ticket_price: undefined,
+                club_price: undefined,
+                error: true,
+                error_detail: { part_desc: 'Please enter part details' }
+            };
+            expect(quotePartValidation(startPart, undefined, undefined, brands, parts, {})).toEqual(validatedPart);
+
+        })
+    });
     describe('for a bike quote', () => {
         const quote = { id: 23, bike: 58 };
         it('should return no errors when all fields are OK', () => {
             const startPart = {
+                partType: normalPartType.id,
                 part_desc: 'B1 Bike',
                 quantity: 1,
                 part_price: 12.99,
             };
             const validatedPart = {
+                partType: normalPartType.id,
                 part_desc: 'B1 Bike',
                 part: { id: 12, part_name: 'bike', brand: 1, partType: 16 },
                 quantity: 1,
@@ -101,7 +122,7 @@ describe('validatedQuotePart', () => {
                 ticket_price: undefined,
                 club_price: undefined,
                 error: true,
-                error_detail: {part_price: 'Please provide a price.'}
+                error_detail: { part_price: 'Please provide a price.' }
             };
             expect(quotePartValidation(startPart, undefined, normalPartType, brands, parts, quote)).toEqual(validatedPart);
         });
@@ -235,7 +256,7 @@ describe('validatedQuotePart', () => {
             expect(quotePartValidation(startPart, undefined, normalPartType, brands, parts, quote)).toEqual(validatedPart);
 
         });
-               it('should set part_price to club price when present', () => {
+        it('should set part_price to club price when present', () => {
             const startPart = {
                 part_desc: 'B1 Bike',
                 ticket_price: 12.99,

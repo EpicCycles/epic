@@ -334,6 +334,7 @@ exports[`it renders a part type field that has data that is not found 1`] = `
 exports[`it renders a supplier field that has data that is found 1`] = `
 <Fragment>
   <SupplierSelect
+    disabled={false}
     error=""
     fieldName="data_field_120"
     isEmptyAllowed={true}
@@ -362,6 +363,7 @@ exports[`it renders a supplier field that has data that is found 1`] = `
 exports[`it renders a supplier field that has data that is not found 1`] = `
 <Fragment>
   <SupplierSelect
+    disabled={false}
     error=""
     fieldName="data_field_120"
     isEmptyAllowed={true}
@@ -390,6 +392,7 @@ exports[`it renders a supplier field that has data that is not found 1`] = `
 exports[`it renders a supplier field that has no data 1`] = `
 <Fragment>
   <SupplierSelect
+    disabled={false}
     error=""
     fieldName="data_field_120"
     isEmptyAllowed={true}

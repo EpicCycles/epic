@@ -32,7 +32,7 @@ export const quotePartNew = (quote) => {
             PART_TYPE_FIELD,
             NOT_REQUIRED_FIELD,
             TRADE_IN_PRICE_FIELD_DISABLED,
-            updateObject(PART_DESC_FIELD, { listId: 'all-parts', }),
+            updateObject(PART_DESC_FIELD, { listId: 'parts-all', }),
             QUANTITY_FIELD,
             PART_PRICE_FIELD,
             SUPPLIER_FIELD_DISABLED,
@@ -41,7 +41,7 @@ export const quotePartNew = (quote) => {
     } else if (quote.club_member) {
         return [
             PART_TYPE_FIELD,
-            updateObject(PART_DESC_FIELD, { listId: 'all-parts', }),
+            updateObject(PART_DESC_FIELD, { listId: 'parts-all', }),
             QUANTITY_FIELD,
             TICKET_PRICE_FIELD,
             CLUB_PRICE_FIELD,
@@ -51,7 +51,7 @@ export const quotePartNew = (quote) => {
     } else {
         return [
             PART_TYPE_FIELD,
-            updateObject(PART_DESC_FIELD, { listId: 'all-parts', }),
+            updateObject(PART_DESC_FIELD, { listId: 'parts-all', }),
             QUANTITY_FIELD,
             TICKET_PRICE_FIELD,
             SUPPLIER_FIELD_DISABLED,
@@ -62,7 +62,7 @@ export const quotePartNew = (quote) => {
 
 export const buildModelFields = (partType, quotePart, bikePart, quote) => {
     const fields = [];
-    if (quotePart && quotePart.id) {
+    if (bikePart || (quotePart && quotePart.id)) {
         fields.push(PART_TYPE_FIELD_DISABLED);
     } else {
         fields.push(PART_TYPE_FIELD);

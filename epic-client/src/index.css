@@ -254,7 +254,7 @@ input:focus:invalid {
     outline: none;
 }
 
-input:disabled {
+input:disabled, select:disabled {
     background-color: var(--col-gray);
 }
 

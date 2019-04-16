@@ -6,6 +6,7 @@ describe('displayForPartType', () => {
         { id: 12, partType: 231 },
         { id: 92, part: 192, partType: 91 },
         { id: 9331, part: 19331, partType: 91 },
+        { dummyKey: 'adummy', partType: 34, error_detail: { part: 'part is required' } }
     ];
     const bikeParts = [
         { id: 11, partType: 231 },
@@ -26,6 +27,18 @@ describe('displayForPartType', () => {
             quotePart: { id: 11, partType: 231, part: 1, not_required: true },
             replacementPart: { id: 1, partType: 231 },
             additionalParts: [],
+        };
+        expect(displayForPartType(partTypeId, quoteParts, bikeParts, parts)).toEqual(expectedResult);
+    });
+    it('should return replacement parts when they have a dummy key only', () => {
+        const partTypeId = 34;
+        const expectedResult = {
+            undefined,
+            undefined,
+            undefined,
+            additionalParts: [
+                { dummyKey: 'adummy', partType: 34, error_detail: { part: 'part is required' } }
+            ],
         };
         expect(displayForPartType(partTypeId, quoteParts, bikeParts, parts)).toEqual(expectedResult);
     });

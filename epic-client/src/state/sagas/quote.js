@@ -2,6 +2,7 @@ import history from "../../history";
 import {updateObject} from "../../helpers/utils";
 import * as selectors from "../selectors/user";
 import quote from "./apis/quote";
+import part from "./apis/part";
 
 import {
     ARCHIVE_QUOTE,
@@ -192,14 +193,14 @@ export function* watchForCreateQuote() {
 
 export function* saveQuotePart(action) {
     let quotePart = updateObject(action.payload.quotePart);
-    const part = action.payload.part;
+    const partToSave = action.payload.part;
     try {
         const token = yield select(selectors.token);
         if (token) {
-            if (part) {
-                const partPayload = { part, token };
+            if (partToSave) {
+                const partPayload = { part: partToSave, token };
                 let partResponse;
-                if (part.id) {
+                if (partToSave.id) {
                     partResponse = yield call(part.savePart, partPayload);
                 } else {
                     partResponse = yield call(part.createPart, partPayload);

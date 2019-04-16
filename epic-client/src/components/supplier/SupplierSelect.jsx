@@ -5,7 +5,7 @@ import * as PropTypes from "prop-types";
 import {getModelKey} from "../app/model/helpers/model";
 
 const SupplierSelect = (props) => {
-    const { suppliers, fieldName, onChange, supplierSelected, isEmptyAllowed, isMultiple, multipleSize } = props;
+    const { suppliers, fieldName, onChange, supplierSelected, isEmptyAllowed, isMultiple, multipleSize, error, disabled } = props;
     const supplierOptions = suppliers ? suppliers.map(supplier => {
         return {
             value: String(getModelKey(supplier)),
@@ -15,12 +15,21 @@ const SupplierSelect = (props) => {
     return <SelectInput
         fieldName={fieldName}
         onChange={onChange}
-        value={supplierSelected || []}
+        value={supplierSelected}
         options={supplierOptions}
         isEmptyAllowed={isEmptyAllowed}
         isMultiple={isMultiple}
         multipleSize={multipleSize}
+        error={error}
+        disabled={disabled}
     />;
+};
+SupplierSelect.defaultProps = {
+    suppliers: [],
+    fieldName: 'supplier',
+    isEmptyAllowed: false,
+    error: "",
+    disabled: false,
 };
 SupplierSelect.propTypes = {
     fieldName: PropTypes.string,
@@ -34,5 +43,7 @@ SupplierSelect.propTypes = {
     isEmptyAllowed: PropTypes.bool,
     isMultiple: PropTypes.bool,
     multipleSize: PropTypes.number,
+    error: PropTypes.string,
+    disabled: PropTypes.bool,
 };
 export default SupplierSelect;

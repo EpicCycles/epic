@@ -3,7 +3,6 @@ import * as PropTypes from "prop-types";
 import {findObjectWithId} from "../../helpers/utils";
 import QuotePartEdit from "./QuotePartEdit";
 import {getModelKey} from "../app/model/helpers/model";
-import PartDataList from "../part/PartDataList";
 import {buildQuotePart} from "./helpers/quotePart";
 
 const QuotePartsPartType = props => {
@@ -46,12 +45,6 @@ const QuotePartsPartType = props => {
             />
         })
         }
-        <PartDataList
-            dataListId={`parts-${partType.id}`}
-            parts={parts}
-            partType={partType.id}
-            brands={brands}
-        />
     </Fragment>
 };
 QuotePartsPartType.defaultProps = {

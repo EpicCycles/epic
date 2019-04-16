@@ -76,7 +76,7 @@ describe('buildModelFields', () => {
             const partType = { id: 12, can_be_substituted: false };
             const bikePart = { id: 23 };
             const result = buildModelFields(partType, undefined, bikePart, quote);
-            expect(result).toContainEqual(PART_TYPE_FIELD);
+            expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
             expect(result).toContainEqual(NOT_REQUIRED_FIELD_DISABLED);
             expect(result).toContainEqual(TRADE_IN_PRICE_FIELD_DISABLED);
             expect(result).toContainEqual(partDescForType);
@@ -117,7 +117,7 @@ describe('buildModelFields', () => {
             const partType = { id: 12, can_be_substituted: true };
             const bikePart = { id: 23 };
             const result = buildModelFields(partType, undefined, bikePart, quote);
-            expect(result).toContainEqual(PART_TYPE_FIELD);
+            expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
             expect(result).toContainEqual(NOT_REQUIRED_FIELD);
             expect(result).toContainEqual(TRADE_IN_PRICE_FIELD_DISABLED);
             expect(result).toContainEqual(partDescForType);

@@ -20,6 +20,7 @@ export const quotePartValidation = (quotePart = {}, bikePart, partType, brands, 
         if (!partType.can_be_substituted) validatedQuotePart.part_desc = undefined;
         if (!quotePart.trade_in_price) error_detail['trade_in_price'] = 'Please specify a price (can be zero).';
     } else {
+        if (quotePart.partType && !quotePart.part_desc) error_detail['part_desc'] = 'Please enter part details';
         validatedQuotePart.trade_in_price = undefined;
     }
 

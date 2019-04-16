@@ -17,10 +17,8 @@ class QuotePartSerializer(serializers.ModelSerializer):
     def validate(self, data):
         quote = data.get('quote')
         part = data.get('part')
-        quantity = data.get('quantity')
-        part_price = data.get('part_price')
-        trade_in_price = data.get('trade_in_price')
         not_required = data.get('not_required')
+        quantity = data.get('quantity')
 
         # if self.instance:
         #     if not quote:
@@ -29,13 +27,11 @@ class QuotePartSerializer(serializers.ModelSerializer):
         if quote.quote_status is '2':
             raise serializers.ValidationError("Quote part must be part of a current quote")
 
-        if not_required is 'true':
-            if not trade_in_price:
-                raise serializers.ValidationError("A trade in price must be entered, can be zero.")
-
+        if not (part or not_required):
+            raise serializers.ValidationError("Quote part must either be a replacement part or include part details")
         if part:
-            if not (quantity and part_price):
-                raise serializers.ValidationError("Parts must have a price and a quantity")
+            if not quantity:
+                raise serializers.ValidationError("Parts must have a quantity")
 
         return data
 

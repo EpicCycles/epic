@@ -59,6 +59,8 @@ class QuotePart(models.Model):
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=1, blank=True, null=True)
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    ticket_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    club_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     part_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     not_required = models.BooleanField(default=False)
     additional_data = models.CharField(max_length=40, blank=True, null=True)

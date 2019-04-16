@@ -11,6 +11,7 @@ import QuotePartEdit from "./QuotePartEdit";
 import {buildQuotePart, quotePartNew} from "./helpers/quotePart";
 import ModelTableHeaders from "../app/model/ModelTableHeaders";
 import ModelTableActionHeader from "../app/model/ModelTableActionHeader";
+import PartDataListComplete from "../part/PartDataListComplete";
 
 const QuotePartGrid = props => {
     const { quote, quoteParts, brands, suppliers, sections, parts, supplierProducts, bikeParts, deleteQuotePart, saveQuotePart } = props;
@@ -61,7 +62,7 @@ const QuotePartGrid = props => {
                 key={newQuotePart.dummyKey}
             />
         </div>
-        <PartDataList dataListId={'all-parts'} parts={parts} brands={brands}/>
+        <PartDataListComplete sections={sections} parts={parts} brands={brands}/>
     </div>;
 };
 QuotePartGrid.propTypes = {
