@@ -43,9 +43,9 @@ class QuotePartEdit extends React.Component {
 
     handleInputChange = (fieldName, input) => {
         let { quotePart, fields } = this.state;
-        let { partType, bikePart, brands, parts, sections, quote } = this.props;
+        let { partType, bikePart, brands, parts, sections, quote, supplierProducts } = this.props;
         let updatedQuotePart = updateModel(quotePart, fields, fieldName, input);
-        if (!partType && updatedQuotePart.partType) partType = getPartType(updatedQuotePart.partType, sections);
+        if (updatedQuotePart.partType) partType = getPartType(updatedQuotePart.partType, sections);
         updatedQuotePart = quotePartValidation(
             updatedQuotePart,
             bikePart,
@@ -62,9 +62,10 @@ class QuotePartEdit extends React.Component {
                     updatedQuotePart.not_required,
                     updatedQuotePart.part,
                     bikePart,
-                    this.props.supplierProducts
+                    supplierProducts
                 ));
         }
+        console.log(partType, updatedQuotePart, bikePart, quote)
         fields = buildModelFields(partType, updatedQuotePart, bikePart, quote);
         this.setState({ quotePart: updatedQuotePart, fields });
     };

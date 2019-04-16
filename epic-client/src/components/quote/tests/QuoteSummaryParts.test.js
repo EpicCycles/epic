@@ -27,7 +27,7 @@ describe('QuoteSummaryParts', () => {
     });
     it('should render headers and detail when there is part type data', () => {
         const component = shallow(<QuoteSummaryParts
-            quoteParts={[{ quote: 1, partType: 1 }]}
+            quoteParts={[{ quote: 1, partType: 1, part: 16 }]}
             brands={[]}
             sections={sections}
             parts={[]}
@@ -39,7 +39,7 @@ describe('QuoteSummaryParts', () => {
     });
     it('should render headers and all section detail when there is part type data', () => {
         const component = shallow(<QuoteSummaryParts
-            quoteParts={[{ quote: 1, partType: 1 }, { quote: 1, partType: 22 }]}
+            quoteParts={[{ quote: 1, partType: 1, part:16 }, { quote: 1, partType: 22, part:26 }]}
             brands={[]}
             sections={sections}
             parts={[]}

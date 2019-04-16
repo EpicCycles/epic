@@ -2,9 +2,10 @@ import {displayForPartType} from "../display";
 
 describe('displayForPartType', () => {
     const quoteParts = [
-        { id: 11, partType: 231, part:1, not_required: true },
-        { id: 92, partType: 91 },
-        { id: 9331, partType: 91 },
+        { id: 11, partType: 231, part: 1, not_required: true },
+        { id: 12, partType: 231 },
+        { id: 92, part: 192, partType: 91 },
+        { id: 9331, part: 19331, partType: 91 },
     ];
     const bikeParts = [
         { id: 11, partType: 231 },
@@ -15,14 +16,14 @@ describe('displayForPartType', () => {
         { id: 1, partType: 231 },
         { id: 2, partType: 331 },
         { id: 331, partType: 331 },
-        { id: 92, partType: 91 },
-        { id: 9331, partType: 91 },
+        { id: 192, partType: 91 },
+        { id: 19331, partType: 91 },
     ];
     it('should return all a replacement part', () => {
         const partTypeId = 231;
         const expectedResult = {
             bikePart: { id: 11, partType: 231 },
-            quotePart:  { id: 11, partType: 231, part:1, not_required: true },
+            quotePart: { id: 11, partType: 231, part: 1, not_required: true },
             replacementPart: { id: 1, partType: 231 },
             additionalParts: [],
         };
@@ -55,8 +56,8 @@ describe('displayForPartType', () => {
             quotePart: undefined,
             replacementPart: undefined,
             additionalParts: [
-                { id: 92, partType: 91 },
-                { id: 9331, partType: 91 },],
+                { id: 92, part: 192, partType: 91 },
+                { id: 9331, part: 19331, partType: 91 },],
         };
         expect(displayForPartType(partTypeId, quoteParts, bikeParts, parts)).toEqual(expectedResult);
     });

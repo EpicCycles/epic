@@ -8,8 +8,9 @@ export const getPartTypeName = (partTypeId, sections) => {
     if (partType) return partType.name;
     return 'Unknown Part Type';
 };
-export const getPartType = (partTypeId, sections) => {
-    if (!partTypeId) return undefined;
+export const getPartType = (partTypeToFind, sections) => {
+    if (Number.isNaN(partTypeToFind)) return undefined;
+    const partTypeId = Number(partTypeToFind);
     let partType;
     sections.some(section => {
         return section.partTypes.some(aPartType => {

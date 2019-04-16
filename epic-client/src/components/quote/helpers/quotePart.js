@@ -35,6 +35,7 @@ export const quotePartNew = (quote) => {
             updateObject(PART_DESC_FIELD, { listId: 'all-parts', }),
             QUANTITY_FIELD,
             PART_PRICE_FIELD,
+            SUPPLIER_FIELD_DISABLED,
             ADDITIONAL_DATA_FIELD
         ];
     } else if (quote.club_member) {
@@ -44,6 +45,7 @@ export const quotePartNew = (quote) => {
             QUANTITY_FIELD,
             TICKET_PRICE_FIELD,
             CLUB_PRICE_FIELD,
+            SUPPLIER_FIELD_DISABLED,
             ADDITIONAL_DATA_FIELD
         ];
     } else {
@@ -52,6 +54,7 @@ export const quotePartNew = (quote) => {
             updateObject(PART_DESC_FIELD, { listId: 'all-parts', }),
             QUANTITY_FIELD,
             TICKET_PRICE_FIELD,
+            SUPPLIER_FIELD_DISABLED,
             ADDITIONAL_DATA_FIELD
         ];
     }

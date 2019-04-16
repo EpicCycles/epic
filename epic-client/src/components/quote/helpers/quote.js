@@ -55,11 +55,3 @@ export const quoteDescription = (customer, bike, customers, frames, bikes, brand
     }
     return `${customerName}${quote_desc} - ${formattedDate(new Date())}`;
 };
-
-
-export const findPartsForQuote = (quote, quoteParts, parts) => {
-    if (! (quote && quoteParts && parts)) return [];
-    return quoteParts.filter(quotePart => quotePart.quote === quote.id).map(quotePart => {
-        return findObjectWithId(parts, quotePart.part)
-    });
-};
