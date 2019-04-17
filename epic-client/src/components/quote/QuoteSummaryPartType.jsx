@@ -40,7 +40,7 @@ const QuoteSummaryPartType = props => {
                 key={`part${quotePart.id}`}
                 data-test="additional-part-cell"
             >
-                **** {buildPartString(findObjectWithId(parts, quotePart.part), brands)} ****
+                {quotePart.part ? `**** ${buildPartString(findObjectWithId(parts, quotePart.part), brands)} ****` : 'No Part'}
             </div>
             {showPrices && <ModelViewRow
                 modelFields={priceFields}

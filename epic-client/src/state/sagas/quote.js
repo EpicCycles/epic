@@ -38,6 +38,7 @@ import {errorAsMessage, logError} from "../../helpers/api_error";
 
 import {getCustomer} from "../actions/customer";
 import {savePartOK} from "../actions/part";
+import {getModelKey} from "../../components/app/model/helpers/model";
 
 export function* saveQuoteProcess(action) {
     const quoteToSave = action.payload.quote;
@@ -217,7 +218,7 @@ export function* saveQuotePart(action) {
             } else {
                 response = yield call(quote.createQuotePart, quotePartPayload);
             }
-            yield put(saveQuotePartOK(response.data));
+            yield put(saveQuotePartOK(response.data, getModelKey(partToSave)));
         } else {
             yield call(history.push, "/login");
         }

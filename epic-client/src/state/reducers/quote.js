@@ -32,7 +32,7 @@ const quote = (state = initialState, action) => {
         case `${SAVE_QUOTE_PART}_OK`:
             return {
                 ...state,
-                quoteParts: updateObjectInArray(state.quoteParts, action.payload.quotePart),
+                quoteParts: updateObjectInArray(state.quoteParts, action.payload.quotePart, action.payload.existingKey),
                 isLoading: false,
             };
         case `${DELETE_QUOTE_PART}_OK`:

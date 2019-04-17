@@ -18,9 +18,9 @@ export const saveQuotePart = (quotePart, part) => ({
     type:`${SAVE_QUOTE_PART}_REQUESTED`,
     payload: {quotePart, part}
 });
-export const saveQuotePartOK = (quotePart) => ({
+export const saveQuotePartOK = (quotePart, existingKey) => ({
     type:  `${SAVE_QUOTE_PART}_OK`,
-    payload: {quotePart}
+    payload: {quotePart, existingKey}
 });
 export const saveQuotePartError = (payload) => ({
     type: `${SAVE_QUOTE_PART}_ERROR`,
