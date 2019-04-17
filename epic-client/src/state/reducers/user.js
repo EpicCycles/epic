@@ -1,8 +1,5 @@
-import {
-    CHANGE_PASSWORD, CHANGE_USER_DATA,
-    USER_LOGIN,
-    USER_LOGOUT
-} from "../actions/user";
+import {CHANGE_PASSWORD, CHANGE_USER_DATA, USER_LOGIN, USER_LOGOUT} from "../actions/user";
+import {GET_LOCAL_STATE} from "../actions/application";
 
 const initialState = {
     username: "",
@@ -13,6 +10,7 @@ const initialState = {
 
 const user = (state = initialState, action) => {
     switch (action.type) {
+
         case USER_LOGOUT:
             return initialState;
         case `${USER_LOGOUT}_REQUESTED`:
@@ -45,6 +43,7 @@ const user = (state = initialState, action) => {
                 isLoading: false,
             };
         case USER_LOGIN:
+        case GET_LOCAL_STATE:
             return {
                 ...state,
                 token: action.payload.token,

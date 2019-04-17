@@ -3,10 +3,6 @@ import MenuSection from "./MenuSection";
 import {menuStructure} from "./helpers/menu";
 
 class Home  extends React.Component {
-    componentDidMount() {
-        this.props.clearAllState();
-
-    }
     render() {
         return <div className=" full content">
             <h1>Epic Cycles</h1>
