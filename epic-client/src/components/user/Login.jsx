@@ -16,23 +16,6 @@ class Login extends React.Component {
         }
     }
 
-
-    onUsernameChanged = input => {
-        this.setState({ username: input });
-    };
-
-    onPasswordChanged = input => {
-        this.setState({ lastName: input });
-    };
-
-    onClearUsername = () => {
-        this.setState({ password: '' });
-    };
-
-    onClearPassword = () => {
-        this.setState({ password: '' });
-    };
-
     loginUser = () => {
         const { username, password } = this.state;
         this.props.loginUser(username, password);
@@ -42,7 +25,7 @@ class Login extends React.Component {
             const { username, password } = this.state;
             if (username && password) this.loginUser();
         }
-    }
+    };
 
     render() {
         const { username, password } = this.state;

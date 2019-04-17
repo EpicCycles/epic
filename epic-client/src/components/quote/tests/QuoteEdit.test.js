@@ -1,6 +1,5 @@
 import React from 'react';
 import QuoteEdit from "../QuoteEdit";
-import {Icon} from "semantic-ui-react";
 
 describe("QuoteEdit tests", () => {
     const quote = {

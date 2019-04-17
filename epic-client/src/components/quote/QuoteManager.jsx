@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import TabbedView from "../../common/TabbedView";
 import * as PropTypes from "prop-types";
-import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
+import {findObjectWithId} from "../../helpers/utils";
 import CustomerEdit from "../customer/CustomerEdit";
 import {quoteFields} from "./helpers/display";
 import QuoteGrid from "./QuoteGrid";

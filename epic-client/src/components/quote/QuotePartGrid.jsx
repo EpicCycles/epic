@@ -4,7 +4,6 @@ import * as PropTypes from "prop-types";
 import {sectionHasDetail} from "../framework/helpers/display";
 import {displayForPartType} from "./helpers/display";
 import {doWeHaveObjects} from "../../helpers/utils";
-import PartDataList from "../part/PartDataList";
 import QuotePartsPartType from "./QuotePartsPartType";
 import {getModelKey} from "../app/model/helpers/model";
 import QuotePartEdit from "./QuotePartEdit";

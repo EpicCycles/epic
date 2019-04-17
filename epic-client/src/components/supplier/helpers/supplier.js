@@ -13,7 +13,7 @@ export const findSupplierNameforId = (supplierId, suppliers) => {
     let supplierName = 'Unknown Supplier';
     if (Array.isArray(suppliers)) {
         suppliers.some(supplier => {
-            if (supplier.id == supplierId) {
+            if (supplier.id.toString() === supplierId.toString()) {
                 supplierName = supplier.supplier_name;
                 return true;
             }

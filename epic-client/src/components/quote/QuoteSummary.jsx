@@ -1,11 +1,8 @@
 import React from 'react'
 import * as PropTypes from "prop-types";
-import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
+import {findObjectWithId} from "../../helpers/utils";
 import {findPartsForBike} from "../bike/helpers/bike";
-import {sectionHasDetail} from "../framework/helpers/display";
-import {displayForPartType, quoteFields} from "./helpers/display";
-import QuoteSummaryHeaders from "./QuoteSummaryHeaders";
-import QuoteSummaryPartType from "./QuoteSummaryPartType";
+import { quoteFields} from "./helpers/display";
 import ViewModelBlock from "../app/model/ViewModelBlock";
 import QuoteSummaryParts from "./QuoteSummaryParts";
 

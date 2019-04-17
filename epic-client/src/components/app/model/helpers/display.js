@@ -12,7 +12,6 @@ import {
     SUPPLIER
 } from "./fields";
 import {getCustomerName} from "../../../customer/helpers/customer";
-import {getCountryName} from "../../../address/helpers/address";
 import {getBrandName} from "../../../brand/helpers/brand";
 import {getNameForValue} from "./model";
 import {getSupplierName} from "../../../supplier/helpers/supplier";
