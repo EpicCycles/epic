@@ -1,6 +1,5 @@
 import React, {Fragment} from "react";
 import * as PropTypes from "prop-types";
-import {getDataList} from "./helpers/partList";
 import PartDataList from "./PartDataList";
 
 const PartDataListComplete = (props) => {
@@ -15,7 +14,7 @@ const PartDataListComplete = (props) => {
             dataListId={`${dataListPrefix}-${partType.id}`}
             parts={parts.filter(part => part.partType === partType.id)}
             brands={brands}
-        />))};
+        />))}
     </Fragment>
 };
 PartDataListComplete.defaultProps = {

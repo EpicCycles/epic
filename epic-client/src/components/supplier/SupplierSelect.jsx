@@ -8,14 +8,14 @@ const SupplierSelect = (props) => {
     const { suppliers, fieldName, onChange, supplierSelected, isEmptyAllowed, isMultiple, multipleSize, error, disabled } = props;
     const supplierOptions = suppliers ? suppliers.map(supplier => {
         return {
-            value: String(getModelKey(supplier)),
+            value: getModelKey(supplier).toString(),
             name: supplier.supplier_name
         }
     }) : [];
     return <SelectInput
         fieldName={fieldName}
         onChange={onChange}
-        value={supplierSelected}
+        value={supplierSelected ? supplierSelected.toString() : ''}
         options={supplierOptions}
         isEmptyAllowed={isEmptyAllowed}
         isMultiple={isMultiple}

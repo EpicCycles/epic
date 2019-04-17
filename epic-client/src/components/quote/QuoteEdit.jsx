@@ -2,7 +2,7 @@ import React from "react";
 import * as PropTypes from "prop-types";
 import {updateObject} from "../../helpers/utils";
 import {updateModel} from "../app/model/helpers/model";
-import {quoteFields} from "./helpers/display";
+import {quoteFields, quoteFieldsNoBike} from "./helpers/display";
 import EditModelPage from "../app/model/EditModelPage";
 import ModelEditIcons from "../app/model/ModelEditIcons";
 
@@ -32,13 +32,14 @@ class QuoteEdit extends React.Component {
 
     render() {
         const { quote } = this.state;
+        const fields = quote.bike ? quoteFields : quoteFieldsNoBike;
         const { componentKey, customers, bikes, frames, brands } = this.props;
         return <div className="fit-content">
 
             <EditModelPage
                 model={quote}
                 persistedModel={this.props.quote}
-                modelFields={quoteFields}
+                modelFields={fields}
                 onChange={this.handleInputChange}
                 showReadOnlyFields={true}
                 customers={customers}

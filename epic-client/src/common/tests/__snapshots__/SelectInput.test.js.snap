@@ -246,21 +246,21 @@ exports[`it sets a value to selected if it is in the array of selected values - 
     <option
       id="myField_1"
       key="myField_1"
-      value={1}
+      value="1"
     >
       Home
     </option>
     <option
       id="myField_2"
       key="myField_2"
-      value={2}
+      value="2"
     >
       Away
     </option>
     <option
       id="myField_3"
       key="myField_3"
-      value={3}
+      value="3"
     >
       Other
     </option>

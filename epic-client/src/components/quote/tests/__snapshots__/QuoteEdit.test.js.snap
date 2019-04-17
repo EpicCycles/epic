@@ -89,31 +89,6 @@ exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
           "synonyms": Array [],
           "type": "currency",
         },
-        Object {
-          "fieldName": "bike",
-          "header": "Bike",
-          "readOnly": true,
-          "type": "bike",
-        },
-        Object {
-          "fieldName": "frame_size",
-          "header": "Frame Size",
-          "type": "text",
-        },
-        Object {
-          "fieldName": "colour",
-          "header": "Colour",
-          "length": 100,
-          "size": 20,
-          "type": "text",
-        },
-        Object {
-          "fieldName": "colour_price",
-          "header": "Colour Price",
-          "length": 10,
-          "size": 10,
-          "type": "currency",
-        },
       ]
     }
     onChange={[Function]}
@@ -225,31 +200,6 @@ exports[`QuoteEdit tests renders the form text correctly with quote 1`] = `
           "length": 10,
           "size": 10,
           "synonyms": Array [],
-          "type": "currency",
-        },
-        Object {
-          "fieldName": "bike",
-          "header": "Bike",
-          "readOnly": true,
-          "type": "bike",
-        },
-        Object {
-          "fieldName": "frame_size",
-          "header": "Frame Size",
-          "type": "text",
-        },
-        Object {
-          "fieldName": "colour",
-          "header": "Colour",
-          "length": 100,
-          "size": 20,
-          "type": "text",
-        },
-        Object {
-          "fieldName": "colour_price",
-          "header": "Colour Price",
-          "length": 10,
-          "size": 10,
           "type": "currency",
         },
       ]

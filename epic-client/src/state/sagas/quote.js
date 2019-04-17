@@ -218,7 +218,7 @@ export function* saveQuotePart(action) {
             } else {
                 response = yield call(quote.createQuotePart, quotePartPayload);
             }
-            yield put(saveQuotePartOK(response.data, getModelKey(partToSave)));
+            yield put(saveQuotePartOK(response.data, getModelKey(quotePart)));
         } else {
             yield call(history.push, "/login");
         }

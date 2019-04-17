@@ -28,7 +28,7 @@ class SelectInput extends Component {
         options.forEach((option) => {
             const displayName = option.name ? option.name : option.value;
             const displaySelected = selectedValues.length > 0 ? selectedValues.includes(option.value) : option.isDefault;
-            displayOptions.push({ value: option.value, name: displayName, selected: displaySelected });
+            displayOptions.push({ value: option.value.toString(), name: displayName, selected: displaySelected });
         });
         return displayOptions;
     };
