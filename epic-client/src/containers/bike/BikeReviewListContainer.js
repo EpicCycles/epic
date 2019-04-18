@@ -1,7 +1,6 @@
 import {connect} from 'react-redux'
 // import {sampleBrands, sampleSections} from "../../helpers/sampleData";
 import {getBrands} from "../../state/actions/core";
-import {getFramework} from "../../state/actions/framework";
 import {
     archiveFrames,
     clearFrame,
@@ -23,7 +22,6 @@ const mapStateToProps = ({core, framework, bike}) => {
 };
 const mapDispatchToProps = {
     getBrands,
-    getFramework,
     getFrameList,
     clearFrame,
     reviewBikes,

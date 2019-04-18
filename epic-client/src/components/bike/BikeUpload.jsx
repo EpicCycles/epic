@@ -30,16 +30,6 @@ const initialState = {
 class BikeUpload extends React.Component {
     state = initialState;
 
-    componentDidMount() {
-        this.getDataForUpload();
-    };
-
-    componentDidUpdate() {
-        if (!this.props.isLoading) {
-            this.getDataForUpload();
-        }
-    };
-
     onChangeField = (fieldName, fieldValue) => {
         let newState = this.state;
         newState[fieldName] = fieldValue;
@@ -49,21 +39,7 @@ class BikeUpload extends React.Component {
         }
         this.setState(newState);
     };
-    getDataForUpload = () => {
-        let brandsRequired = true;
-        let frameworkRequired = true;
-        if (this.props.brands && this.props.brands.length > 0) {
-            brandsRequired = false;
-        }
-        if (this.props.sections && this.props.sections.length > 0) {
-            frameworkRequired = false;
-        }
-        if (brandsRequired) {
-            this.props.getBrandsAndSuppliers();
-        } else if (frameworkRequired) {
-            this.props.getFramework();
-        }
-    };
+
     addDataAndProceed = (dataForState) => {
         let nextStep = this.state.step + 1;
 

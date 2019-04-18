@@ -1,8 +1,8 @@
 import {connect} from 'react-redux'
 import BikeUpload from "../../components/bike/BikeUpload";
 // import {sampleBrands, sampleSections} from "../../helpers/sampleData";
-import {getBrandsAndSuppliers, saveBrands} from "../../state/actions/core";
-import {getFramework, saveFramework} from "../../state/actions/framework";
+import {saveBrands} from "../../state/actions/core";
+import { saveFramework} from "../../state/actions/framework";
 import {clearFrame, uploadFrame} from "../../state/actions/bike";
 const mapStateToProps = ({core, framework, bike}) => {
     return {
@@ -14,9 +14,7 @@ const mapStateToProps = ({core, framework, bike}) => {
     }
 };
 const mapDispatchToProps = {
-    getBrandsAndSuppliers,
     saveBrands,
-    getFramework,
     saveFramework,
     uploadFrame,
     clearFrame

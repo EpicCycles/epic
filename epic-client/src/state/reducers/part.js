@@ -18,7 +18,6 @@ const initialState = {
 };
 const part = (state = initialState, action) => {
     switch (action.type) {
-        case CLEAR_ALL_STATE:
         case PART_CLEAR:
         case USER_LOGOUT:
             return initialState;

@@ -16,7 +16,7 @@ export const clearAllState = () => ({
 export const saveStateToLocalStorage = () => ({
     type: SAVE_STATE_LOCALLY
 });
-export const getStateFromLocalStorage = (user, token) => ({
+export const setStateFromLocalStorage = (user, token) => ({
     type: GET_LOCAL_STATE,
     payload: {user, token}
 });

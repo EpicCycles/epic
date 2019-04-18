@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import * as PropTypes from "prop-types";
 
-import {doWeHaveObjects, updateObject} from "../../helpers/utils";
+import {updateObject} from "../../helpers/utils";
 import CustomerListAndSelect from "../customer/CustomerListAndSelect";
 import BikeListAndSelect from "../bike/BikeListAndSelect";
 import FormCheckbox from "../../common/FormCheckbox";
@@ -17,25 +17,6 @@ class QuoteFind extends React.Component {
         bike: '',
         archived: false,
     };
-
-    componentDidMount() {
-        this.checkPropsData();
-    };
-
-    checkPropsData = () => {
-        if (!this.props.isLoading) this.getData();
-    };
-    getData = () => {
-        let brandsRequired = true;
-
-        if (doWeHaveObjects(this.props.brands)) brandsRequired = false;
-
-        if (brandsRequired) {
-            this.props.getBrandsAndSuppliers();
-        }
-
-    };
-
     goToAddCustomer = () => {
         this.props.clearCustomerState();
         this.setState({ redirect: '/customer' });
@@ -143,7 +124,6 @@ QuoteFind.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
-    getBrandsAndSuppliers: PropTypes.func.isRequired,
     getFrameList: PropTypes.func.isRequired,
     getCustomerList: PropTypes.func.isRequired,
     clearCustomerState: PropTypes.func.isRequired,

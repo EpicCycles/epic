@@ -12,7 +12,6 @@ const initialState = {
 // this seemd to be the bit that is in reducers in loyalty code
 const core = (state = initialState, action) => {
     switch (action.type) {
-        case CLEAR_ALL_STATE:
         case `${USER_LOGIN}_REQUESTED`:
         case USER_LOGOUT:
             return initialState;

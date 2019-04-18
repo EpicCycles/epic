@@ -10,7 +10,6 @@ import {
     unarchiveQuote
 } from "../../state/actions/quote";
 import QuoteList from "../../components/quote/QuoteList";
-import {getBrandsAndSuppliers} from "../../state/actions/core";
 
 const mapStateToProps = ({ bike, core, customer, framework, part, quote }) => {
     return {
@@ -35,7 +34,6 @@ const mapStateToProps = ({ bike, core, customer, framework, part, quote }) => {
 };
 
 const mapDispatchToProps = {
-    getBrandsAndSuppliers,
     getFrameList,
     getCustomerList,
     clearCustomerState,

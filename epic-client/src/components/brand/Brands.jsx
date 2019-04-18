@@ -20,13 +20,6 @@ class Brands extends React.Component {
         this.handleCloseModal = this.handleCloseModal.bind(this);
     }
 
-    componentWillMount() {
-        if (!(this.props.brands && this.props.brands.length > 0)) {
-            this.props.getBrandsAndSuppliers();
-        }
-    };
-
-
     handleOpenModal(supplierId) {
         if (supplierId) {
             this.setState({ showModal: true, supplierId });

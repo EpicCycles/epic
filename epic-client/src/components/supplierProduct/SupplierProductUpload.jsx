@@ -26,37 +26,13 @@ const initialState = {
 class SupplierProductUpload extends React.Component {
     state = initialState;
 
-    componentDidMount() {
-        this.getDataForUpload();
-    };
-
-    componentDidUpdate(prevProps) {
-        if (!this.props.isLoading) {
-            this.getDataForUpload();
-        }
-    };
-
     onChangeField = (fieldName, fieldValue) => {
         let newState = this.state;
         newState[fieldName] = fieldValue;
 
         this.setState(newState);
     };
-    getDataForUpload = () => {
-        let brandsRequired = true;
-        let frameworkRequired = true;
-        if (doWeHaveObjects(this.props.brands) && doWeHaveObjects(this.props.suppliers)) {
-            brandsRequired = false;
-        }
-        if (doWeHaveObjects(this.props.sections)) {
-            frameworkRequired = false;
-        }
-        if (brandsRequired) {
-            this.props.getBrandsAndSuppliers();
-        } else if (frameworkRequired) {
-            this.props.getFramework();
-        }
-    };
+
     addDataAndProceed = (dataForState) => {
         let nextStep = this.state.step + 1;
 

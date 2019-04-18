@@ -34,12 +34,8 @@ class BikeReview extends React.Component {
         }
     };
     getData = () => {
-        let brandsRequired = true;
-        let frameworkRequired = true;
         let bikeRequired = true;
         let bikePartsRequired = true;
-        if (doWeHaveObjects(this.props.brands)) brandsRequired = false;
-        if (doWeHaveObjects(this.props.sections)) frameworkRequired = false;
 
         if (doWeHaveObjects(this.props.bikeParts)) {
             const partsForCurrentBike = this.props.bikeParts.filter(bikePart => bikePart.bike === this.props.bikeId);
@@ -49,11 +45,7 @@ class BikeReview extends React.Component {
             const currentBike = this.props.bikes.filter(bike => bike.id === this.props.bikeId);
             if (currentBike.length) bikeRequired = false;
         }
-        if (brandsRequired) {
-            this.props.getBrandsAndSuppliers();
-        } else if (frameworkRequired) {
-            this.props.getFramework();
-        } else if (bikeRequired) {
+        if (bikeRequired) {
             this.props.getBike(this.props.bikeId);
         } else if (bikePartsRequired) {
             this.props.getBikeParts(this.props.bikeId);
@@ -117,7 +109,7 @@ class BikeReview extends React.Component {
                         frames={frames}
                         saveBike={saveBike}
                         deleteBikes={deleteBikes}
-                     addPart={this.showPartFinder}
+                        addPart={this.showPartFinder}
                         key={`editBike${bike.id}`}
                     />
                     <PartDisplayGrid
@@ -126,8 +118,8 @@ class BikeReview extends React.Component {
                         brands={brands}
                         editPart={this.showPartFinder}
                         deletePart={this.deleteBikePart}
-                              key={`partGrid${bike.id}`}
-              />
+                        key={`partGrid${bike.id}`}
+                    />
                 </div>
             </section>
 
@@ -166,9 +158,7 @@ BikeReview.propTypes = {
     sections: PropTypes.array,
     parts: PropTypes.array.isRequired,
     frames: PropTypes.array.isRequired,
-    getBrandsAndSuppliers: PropTypes.func.isRequired,
     saveBrands: PropTypes.func.isRequired,
-    getFramework: PropTypes.func.isRequired,
     reviewBike: PropTypes.func.isRequired,
     saveBike: PropTypes.func.isRequired,
     deleteBikes: PropTypes.func.isRequired,

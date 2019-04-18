@@ -1,6 +1,5 @@
 import {connect} from 'react-redux'
-import {getFramework} from "../../state/actions/framework";
-import {getBrandsAndSuppliers, saveBrands} from "../../state/actions/core";
+import {saveBrands} from "../../state/actions/core";
 import {getFrameList} from "../../state/actions/bike";
 import {
     createCustomer,
@@ -42,9 +41,7 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
 };
 
 const mapDispatchToProps = {
-    getBrandsAndSuppliers,
     saveBrands,
-    getFramework,
     getFrameList,
     createCustomer, saveCustomer, deleteCustomer,
     createNote, saveNote, deleteNote,

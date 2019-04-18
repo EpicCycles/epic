@@ -19,35 +19,6 @@ const initialState = {
 
 class SupplierProductReviewList extends React.Component {
     state = updateObject(initialState);
-
-    componentDidMount() {
-        if (!this.props.isLoading) {
-            this.getDataForUpload();
-        }
-    };
-
-    componentDidUpdate() {
-        if (!this.props.isLoading) {
-            this.getDataForUpload();
-        }
-    };
-
-    getDataForUpload = () => {
-        let brandsRequired = true;
-        let frameworkRequired = true;
-        if (doWeHaveObjects(this.props.brands)) {
-            brandsRequired = false;
-        }
-        if (doWeHaveObjects(this.props.sections)) {
-            frameworkRequired = false;
-        }
-        if (brandsRequired) {
-            this.props.getBrandsAndSuppliers();
-        } else if (frameworkRequired) {
-            this.props.getFramework();
-        }
-    };
-
     handleInputChange = (fieldName, input) => {
         let newState = updateObject(this.state);
         newState[fieldName] = input;

@@ -12,6 +12,7 @@ const user = (state = initialState, action) => {
     switch (action.type) {
 
         case USER_LOGOUT:
+        case `${USER_LOGOUT}_ERROR`:
             return initialState;
         case `${USER_LOGOUT}_REQUESTED`:
         case `${CHANGE_PASSWORD}_REQUESTED`:
@@ -34,7 +35,6 @@ const user = (state = initialState, action) => {
                 isLoading: false,
                 isAuthenticated: false,
             };
-        case `${USER_LOGOUT}_ERROR`:
         case `${CHANGE_PASSWORD}_FAILURE`:
         case `${CHANGE_USER_DATA}_FAILURE`:
         case `${CHANGE_PASSWORD}_SUCCESS`:

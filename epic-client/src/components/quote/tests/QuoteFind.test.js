@@ -6,7 +6,6 @@ import {sampleBikes, sampleBrands} from "../../../helpers/sampleData";
 describe('QuoteFind', () => {
     it('should render when minimum data present', () => {
         const component = shallow(<QuoteFind
-            getBrandsAndSuppliers={jest.fn()}
             getFrameList={jest.fn()}
             getCustomerList={jest.fn()}
             clearCustomerState={jest.fn()}
@@ -31,7 +30,6 @@ describe('QuoteFind', () => {
     it('should call the get list function when search is clicked with the right data', () => {
         const getQuoteList = jest.fn();
         const component = shallow(<QuoteFind
-            getBrandsAndSuppliers={jest.fn()}
             getFrameList={jest.fn()}
             getCustomerList={jest.fn()}
             clearCustomerState={jest.fn()}

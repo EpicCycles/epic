@@ -15,11 +15,6 @@ import {NEW_ELEMENT_ID} from "../../helpers/constants";
 import {getModelKey} from "../app/model/helpers/model";
 
 class Framework extends React.Component {
-    componentWillMount() {
-        if (!(this.props.sections && this.props.sections.length > 0)) {
-            this.props.getFramework();
-        }
-    };
 
     handleSectionChange = (sectionKey, updatedSection) => {
         const sectionsWithUpdates = this.props.sections.slice();

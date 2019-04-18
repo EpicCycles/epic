@@ -14,7 +14,7 @@ const quoteListFields = [
 class QuoteList extends React.Component {
 
     render() {
-        const { changeQuote, quoteId, clearQuoteState, searchParams, count, next, isLoading, getBrandsAndSuppliers, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes, archiveQuote, unarchiveQuote, quoteParts, parts, bikeParts, sections } = this.props;
+        const { changeQuote, quoteId, clearQuoteState, searchParams, count, next, isLoading, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes, archiveQuote, unarchiveQuote, quoteParts, parts, bikeParts, sections } = this.props;
         const haveQuotes = doWeHaveObjects(quotes);
         let quote;
         if (quoteId) quote = findObjectWithId(quotes, quoteId);
@@ -73,7 +73,6 @@ class QuoteList extends React.Component {
                     count={count}
                     next={next}
                     isLoading={isLoading}
-                    getBrandsAndSuppliers={getBrandsAndSuppliers}
                     getFrameList={getFrameList}
                     getCustomerList={getCustomerList}
                     clearCustomerState={clearCustomerState}
@@ -117,7 +116,6 @@ QuoteList.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
-    getBrandsAndSuppliers: PropTypes.func.isRequired,
     getFrameList: PropTypes.func.isRequired,
     getCustomerList: PropTypes.func.isRequired,
     clearCustomerState: PropTypes.func.isRequired,
