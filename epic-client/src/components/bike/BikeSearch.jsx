@@ -26,6 +26,7 @@ const BikeSearch = (props) => {
             onClick={props.onClick}
             value={props.frameName}
             data-test="frame-name"
+            onKeyPress={props.onKeyPress}
         />
         {props.canSelectArchived && <FormCheckbox
             onChange={props.onChange}
@@ -57,6 +58,7 @@ BikeSearch.propTypes = {
     canSelectArchived: PropTypes.bool,
     archived: PropTypes.bool,
     getFrameList: PropTypes.func.isRequired,
+    onKeyPress: PropTypes.func,
 };
 
 export default BikeSearch;

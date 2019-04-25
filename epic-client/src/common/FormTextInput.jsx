@@ -24,6 +24,7 @@ const FormTextInput = props => {
                 list={props.list}
                 disabled={props.disabled}
                 maxLength={props.maxLength ? props.maxLength : props.size}
+                onKeyPress={props.onKeyPress}
             />
             {(props.value && props.onClick) &&
             <span className="clearInput">
@@ -63,6 +64,7 @@ FormTextInput.propsTypes = {
     list: PropTypes.string,
     fieldName: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    onKeyPress: PropTypes.func,
     size: PropTypes.number,
     maxLength: PropTypes.number,
     disabled:PropTypes.bool,

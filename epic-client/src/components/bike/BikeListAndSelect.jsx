@@ -7,7 +7,7 @@ import {bikeFullName} from "./helpers/bike";
 import BikeSearch from "./BikeSearch";
 
 const BikeListAndSelect = (props) => {
-    const { className, brands, onChange, brandSelected, onClick, frameName, getFrameList, canSelectArchived, archived, bikes, frames, selectedBike } = props;
+    const { onKeyPress, className, brands, onChange, brandSelected, onClick, frameName, getFrameList, canSelectArchived, archived, bikes, frames, selectedBike } = props;
     const bikeOptions = bikes.map(bike => {
         return {
             value: String(getModelKey(bike)),
@@ -28,6 +28,7 @@ const BikeListAndSelect = (props) => {
                 canSelectArchived={canSelectArchived}
                 data-test="bikes-search"
                 className={className}
+                onKeyPress={onKeyPress}
             />
             {(bikeOptions.length > 0) ? <SelectInput
                     fieldName='selectedBike'
@@ -68,5 +69,6 @@ BikeListAndSelect.propTypes = {
         PropTypes.number,
     ]),
     className: PropTypes.string,
+    onKeyPress: PropTypes.func,
 };
 export default BikeListAndSelect;

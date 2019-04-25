@@ -39,13 +39,18 @@ class QuoteFind extends React.Component {
         const { quoteDesc, brand, frameName, selectedCustomer, bike, archived } = this.state;
         this.props.getQuoteList({ quoteDesc, brand, frameName, selectedCustomer, bike, archived })
     };
+    handleKeyPress = (e) => {
+        if ((e.key === 'Enter') && this.checkCriteriaForQuoteSearch()) {
+            this.getQuoteList();
+        }
+    };
 
     render() {
         const { quoteDesc, brand, frameName, selectedCustomer, bike, archived } = this.state;
         const { brands, bikes, frames, getFrameList, getCustomerList, searchParams, isLoading, customers, count, next } = this.props;
 
         return <Fragment>
-                        <h1>Find Quotes</h1>
+            <h1>Find Quotes</h1>
             <div className="row vertical-middle" data-test="quoteDescription">
                 <div>Quote Description includes:</div>
                 <FormTextInput
@@ -54,6 +59,7 @@ class QuoteFind extends React.Component {
                     value={quoteDesc}
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
+                    onKeyPress={this.handleKeyPress}
                 />
                 <FormCheckbox
                     onChange={this.handleInputChange}
@@ -87,6 +93,7 @@ class QuoteFind extends React.Component {
                 getFrameList={getFrameList}
                 selectedBike={bike}
                 data-test="bike-select"
+                onKeyPress={this.handleKeyPress}
             />
             <hr/>
             <h2>Search</h2>
