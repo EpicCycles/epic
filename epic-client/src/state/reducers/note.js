@@ -1,13 +1,9 @@
-import {
-    NOTE_CREATE,
-     NOTE_DELETE,
-    NOTE_LIST,
-    NOTE_SAVE,
- } from "../actions/note";
+import {NOTE_CREATE, NOTE_DELETE, NOTE_LIST, NOTE_SAVE,} from "../actions/note";
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {USER_LOGOUT, USER_NOT_VALIDATED} from "../actions/user";
 import {CUSTOMER} from "../actions/customer";
-import {addItemsToArray, removeItemFromArray} from "../../helpers/utils";
+import {addItemsToArrayAtStart, removeItemFromArray} from "../../helpers/utils";
+import {COPY_QUOTE, CREATE_QUOTE, FIND_QUOTES, GET_QUOTE, UPDATE_QUOTE} from "../actions/quote";
 
 const initialState = {
     count: 0,
@@ -28,7 +24,7 @@ const note = (state = initialState, action) => {
         case USER_LOGOUT:
             return initialState;
         case CUSTOMER:
-                return {
+            return {
                 ...state,
                 notes: action.payload.notes,
             };
@@ -40,11 +36,11 @@ const note = (state = initialState, action) => {
                 totalPages: 0
             };
         case `${NOTE_CREATE}_REQUESTED`:
-             return {
+            return {
                 ...state,
                 isLoading: true,
             };
-       case `${NOTE_SAVE}_REQUESTED`:
+        case `${NOTE_SAVE}_REQUESTED`:
         case `${NOTE_DELETE}_REQUESTED`:
             return {
                 ...state,
@@ -78,7 +74,17 @@ const note = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                notes: addItemsToArray(state.notes, action.payload),
+                notes: addItemsToArrayAtStart(state.notes, action.payload),
+                noteId: undefined,
+            };
+        case `${CREATE_QUOTE}_OK`:
+        case `${GET_QUOTE}_OK`:
+        case `${COPY_QUOTE}_OK`:
+        case `${UPDATE_QUOTE}_OK`:
+            return {
+                ...state,
+                isLoading: false,
+                notes: addItemsToArrayAtStart(state.notes, action.payload.notes),
                 noteId: undefined,
             };
         case NOTE_DELETE:

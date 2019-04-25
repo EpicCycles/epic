@@ -94,6 +94,7 @@ export const PRODUCTS = "products";
 export const QUANTITY = "quantity";
 export const QUOTE_DESC = "quote_desc";
 export const QUOTE_PRICE = "quote_price";
+export const CALCULATED_PRICE ="calculated_price";
 export const QUOTE_STATUS = "quote_status";
 export const REACH = "reach";
 export const REPLACEMENT_PART = "replacement_part";
@@ -275,7 +276,7 @@ export const CLUB_PRICE_FIELD = {
 };
 export const CLUB_MEMBER_FIELD = {
     fieldName: CLUB_MEMBER,
-    header: 'CLub Member?',
+    header: 'Club Member?',
     type: CHECKBOX
 };
 export const COLOUR_PRICE_FIELD = {
@@ -313,7 +314,7 @@ export const CUSTOMER_FIELD = {
 };
 export const CUSTOMER_VISIBLE_FIELD = {
     fieldName: CUSTOMER_VISIBLE,
-    type: TEXT,
+    type: CHECKBOX,
     header: "Customer View",
     readOnly: true
 };
@@ -540,6 +541,14 @@ export const QUOTE_PRICE_FIELD = {
     fieldName: QUOTE_PRICE,
     header: "Quote Price",
     synonyms: [],
+    type: CURRENCY,
+    size: 10,
+    length: 10
+};
+export const CALCULATED_PRICE_FIELD = {
+    fieldName: CALCULATED_PRICE,
+    header: "Total Price",
+    readOnly: true,
     type: CURRENCY,
     size: 10,
     length: 10

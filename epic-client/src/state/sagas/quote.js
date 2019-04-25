@@ -219,6 +219,10 @@ export function* saveQuotePart(action) {
                 response = yield call(quote.createQuotePart, quotePartPayload);
             }
             yield put(saveQuotePartOK(response.data, getModelKey(quotePart)));
+
+            const quoteId = quotePart.quote;
+            const quoteResponse = yield call(quote.recalculateQuote, { quoteId, token });
+            yield put(getQuoteOK(quoteResponse.data));
         } else {
             yield call(history.push, "/login");
         }
@@ -246,6 +250,10 @@ export function* deleteQuotePart(action) {
             const completePayload = updateObject(action.payload, { token });
             yield call(quote.deleteQuotePart, completePayload);
             yield put(deleteQuotePartOK(action.payload.quotePartId));
+
+            const quoteId = action.payload.quoteId;
+            const quoteResponse = yield call(quote.recalculateQuote, { quoteId, token });
+            yield put(getQuoteOK(quoteResponse.data));
         } else {
             yield call(history.push, "/login");
         }

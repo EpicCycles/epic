@@ -32,6 +32,15 @@ export const addItemsToArray = (oldArray = [], listOfItems = []) => {
     });
     return newArray;
 };
+export const addItemsToArrayAtStart = (oldArray = [], listOfItems = []) => {
+    let newArray = oldArray.slice();
+    listOfItems.forEach(item => {
+        let itemKey = getModelKey(item);
+        let existingIndex = findIndexOfObjectWithKey(newArray, itemKey);
+        if (existingIndex < 0) newArray.splice(0, 0, item); else newArray[existingIndex] = item;
+    });
+    return newArray;
+};
 export const removeItemFromArray = (oldArray = [], idToRemove) => {
     let existingIndex = findIndexOfObjectWithKey(oldArray, idToRemove);
     if (existingIndex < 0) return oldArray;

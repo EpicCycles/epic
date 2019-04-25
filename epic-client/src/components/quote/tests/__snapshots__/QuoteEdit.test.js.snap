@@ -48,7 +48,7 @@ exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
         },
         Object {
           "fieldName": "club_member",
-          "header": "CLub Member?",
+          "header": "Club Member?",
           "type": "checkbox",
         },
         Object {
@@ -87,6 +87,14 @@ exports[`QuoteEdit tests renders the form text correctly with no quote 1`] = `
           "length": 10,
           "size": 10,
           "synonyms": Array [],
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "calculated_price",
+          "header": "Total Price",
+          "length": 10,
+          "readOnly": true,
+          "size": 10,
           "type": "currency",
         },
       ]
@@ -161,7 +169,7 @@ exports[`QuoteEdit tests renders the form text correctly with quote 1`] = `
         },
         Object {
           "fieldName": "club_member",
-          "header": "CLub Member?",
+          "header": "Club Member?",
           "type": "checkbox",
         },
         Object {
@@ -200,6 +208,14 @@ exports[`QuoteEdit tests renders the form text correctly with quote 1`] = `
           "length": 10,
           "size": 10,
           "synonyms": Array [],
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "calculated_price",
+          "header": "Total Price",
+          "length": 10,
+          "readOnly": true,
+          "size": 10,
           "type": "currency",
         },
       ]

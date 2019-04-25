@@ -22,6 +22,11 @@ const unarchiveQuote = async payload => {
     const quoteId = payload.quoteId;
     return await api.instance.post(`/api/quote/${quoteId}/unarchive/`);
 };
+const recalculateQuote = async payload => {
+    api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
+    const quoteId = payload.quoteId;
+    return await api.instance.post(`/api/quote/${quoteId}/recalculate/`);
+};
 const saveQuote = async payload => {
     api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
     const quoteId = payload.quote.id;
@@ -65,4 +70,5 @@ export default {
     createQuotePart,
     updateQuotePart,
     deleteQuotePart,
+    recalculateQuote,
 }

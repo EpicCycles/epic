@@ -8,7 +8,7 @@ import NonFieldErrors from "./NonFieldErrors";
 import {isItAnObject} from "../../../helpers/utils";
 
 const EditModelPage = (props) => {
-    const { model, modelFields, persistedModel, className = "", sections, brands, suppliers, bikes, frames, customers, onChange, showReadOnlyFields } = props;
+    const { model, modelFields, persistedModel, users, className = "", sections, brands, suppliers, bikes, frames, customers, onChange, showReadOnlyFields } = props;
     const componentKey = getModelKey(model);
     return <div className="grid-container">
         {model.error && <div className="red">{model.error}</div>}
@@ -40,6 +40,7 @@ const EditModelPage = (props) => {
                 frames={frames}
                 customers={customers}
                 suppliers={suppliers}
+                users={users}
                 data-test='field-to-view'
             />)}
             {isItAnObject(model.error_detail) && <NonFieldErrors
@@ -67,6 +68,7 @@ EditModelPage.propTypes = {
     frames: PropTypes.array,
     suppliers: PropTypes.array,
     customers: PropTypes.array,
+    users: PropTypes.array,
     onChange: PropTypes.func.isRequired,
     showReadOnlyFields: PropTypes.bool,
 };

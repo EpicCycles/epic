@@ -44,13 +44,9 @@ export const checkForChanges = (fieldList, existingObject, newValues) => {
 
 export const addFieldToState = (initialState, fieldList, fieldName, input) => {
     let finalState = initialState;
-    fieldList.some(field => {
-        if (fieldName.startsWith(field.fieldName)) {
-            finalState = applyFieldValueToModel(initialState, field, input);
-            return true;
-        }
-        return false;
-    });
+    let modelField = getField(fieldList, fieldName);
+    if (modelField) finalState = applyFieldValueToModel(initialState, modelField, input);
+
     return finalState;
 };
 
@@ -108,7 +104,8 @@ export const validateModelAndSetErrors = (modelInstance, modelFields) => {
 
 export const getAttribute = (modelFields, fieldName) => {
     let attribute;
-    modelFields.some(field => {
+    const modelFieldsSorted = modelFields.slice().sort((a, b) => b.fieldName.length - a.fieldName.length);
+    modelFieldsSorted.some(field => {
         if (fieldName.startsWith(field.fieldName)) {
             attribute = field.fieldName;
             return true;
@@ -120,7 +117,8 @@ export const getAttribute = (modelFields, fieldName) => {
 
 export const getField = (modelFields, fieldName) => {
     let modelField;
-    modelFields.some(field => {
+    const modelFieldsSorted = modelFields.slice().sort((a, b) => b.fieldName.length - a.fieldName.length);
+    modelFieldsSorted.some(field => {
         if (fieldName.startsWith(field.fieldName)) {
             modelField = field;
             return true;
@@ -169,9 +167,10 @@ export const updateModel = (model, modelFields, fieldName, fieldValue) => {
     const modelField = getField(modelFields, fieldName);
     if (modelField) {
         const updatedModel = applyFieldValueToModelOnly(model, modelField, fieldValue);
-        updatedModel.error_detail =  validateModelAndSetErrors(updatedModel, modelFields);
+        updatedModel.error_detail = validateModelAndSetErrors(updatedModel, modelFields);
         return removeKey(updatedModel, 'error');
-    };
+    }
+    ;
     return model;
 };
 

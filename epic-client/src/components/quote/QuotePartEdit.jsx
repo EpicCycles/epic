@@ -85,9 +85,12 @@ class QuotePartEdit extends React.Component {
             this.props.saveQuotePart(quotePart);
         }
     };
+    deleteQuotePart = (deletionKey) => {
+        this.props.deleteQuotePart(deletionKey, this.state.quotePart.quote);
+    }
     render() {
         const { fields, quotePart, persistedQuotePart } = this.state;
-        const { componentKey, sections, deleteQuotePart, suppliers } = this.props;
+        const { componentKey, sections,  suppliers } = this.props;
         const rowClass = (quotePart && quotePart.error) ? "error" : "";
 
         return <div className={`grid-row ${rowClass}`} key={`row${componentKey}`}>
@@ -104,7 +107,7 @@ class QuotePartEdit extends React.Component {
                     componentKey={componentKey}
                     model={quotePart}
                     modelSave={this.saveQuotePart}
-                    modelDelete={deleteQuotePart}
+                    modelDelete={this.deleteQuotePart}
                     modelReset={this.onClickReset}
                 />
             </div>

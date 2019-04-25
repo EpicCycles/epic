@@ -16,7 +16,7 @@ exports[`NoteEdit tests renders the form text correctly with no note 1`] = `
           "fieldName": "customer_visible",
           "header": "Customer View",
           "readOnly": true,
-          "type": "text",
+          "type": "checkbox",
         },
         Object {
           "fieldName": "created_date",
@@ -71,7 +71,7 @@ exports[`NoteEdit tests renders the form text correctly with note 1`] = `
           "fieldName": "customer_visible",
           "header": "Customer View",
           "readOnly": true,
-          "type": "text",
+          "type": "checkbox",
         },
         Object {
           "fieldName": "created_date",

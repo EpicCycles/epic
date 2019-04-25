@@ -2,7 +2,7 @@ from epic.models.note_models import CustomerNote
 
 
 def create_note_for_quote_part(quote_part, user, action):
-    note_text = f'Quote part {action} for {quote_part.part}'
+    note_text = f'Quote part {action} for {quote_part.partType}'
     customer_note = CustomerNote(customer=quote_part.quote.customer,
                                  quote=quote_part.quote,
                                  note_text=note_text,

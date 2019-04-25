@@ -7,6 +7,7 @@ import {quoteFields} from "./helpers/display";
 import QuoteGrid from "./QuoteGrid";
 import QuoteDetail from "./QuoteDetail";
 import {Redirect} from "react-router-dom";
+import NoteGrid from "../note/NoteGrid";
 
 const tabs = [
     "Customer",
@@ -133,9 +134,13 @@ class QuoteManager extends React.Component {
                 archiveQuote={archiveQuote}
                 saveQuotePart={saveQuotePart}
                 deleteQuotePart={deleteQuotePart}
+                                        users={users}
                 data-test="quote-detail-tab"
             />}
-            {(tab === 3) && <h1 data-test="quote-history-tab">Quote History</h1>}
+            {(tab === 3) && <Fragment>
+                <h1 data-test="quote-history-tab">{quote && 'Quote '}History</h1>
+                <NoteGrid notes={notes} users={users} quote={quote}/>
+            </Fragment>}
             {(tab === 4) && <h1 data-test="bike-quotes-tab">Bike Quotes</h1>}
         </div>
     };

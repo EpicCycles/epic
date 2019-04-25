@@ -33,7 +33,7 @@ class QuoteEdit extends React.Component {
     render() {
         const { quote } = this.state;
         const fields = quote.bike ? quoteFields : quoteFieldsNoBike;
-        const { componentKey, customers, bikes, frames, brands } = this.props;
+        const { componentKey, customers, bikes, frames, brands, users } = this.props;
         return <div className="fit-content">
 
             <EditModelPage
@@ -46,6 +46,7 @@ class QuoteEdit extends React.Component {
                 bikes={bikes}
                 brands={brands}
                 frames={frames}
+                users={users}
             />
             <div className="align_right">
                 <ModelEditIcons
@@ -72,10 +73,11 @@ QuoteEdit.propTypes = {
         PropTypes.string,
         PropTypes.number,
     ]),
-     bikes: PropTypes.array.isRequired,
-     brands: PropTypes.array.isRequired,
+    bikes: PropTypes.array.isRequired,
+    brands: PropTypes.array.isRequired,
     customers: PropTypes.array.isRequired,
     frames: PropTypes.array.isRequired,
+    users: PropTypes.array.isRequired,
 };
 export default QuoteEdit;
 

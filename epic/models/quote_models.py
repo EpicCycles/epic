@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -22,7 +24,9 @@ class Quote(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     issued_date = models.DateTimeField(null=True)
     quote_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    calculated_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     bike = models.ForeignKey(Bike, on_delete=models.CASCADE, blank=True, null=True)
+    bike_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     colour = models.CharField(max_length=40, blank=True, null=True)
     colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     frame_size = models.CharField(max_length=15, blank=True, null=True)
@@ -44,6 +48,35 @@ class Quote(models.Model):
 
     def archive_reset(self):
         self.quote_status = INITIAL
+        self.save()
+
+    def recalculate_price(self):
+        new_calculated_price = Decimal(0)
+        if self.bike:
+            if self.bike_price:
+                new_calculated_price = new_calculated_price + self.bike_price;
+            elif self.club_member and self.bike.club_price:
+                self.bike_price = self.bike.club_price
+                new_calculated_price = new_calculated_price + self.bike.club_price
+            elif self.bike.epic_price:
+                self.bike_price = self.bike.epic_price
+                new_calculated_price = new_calculated_price + self.bike.epic_price
+            elif self.bike.rrp:
+                self.bike_price = self.bike.rrp
+                new_calculated_price = new_calculated_price + self.bike.rrp
+
+            if self.colour and self.colour_price:
+                new_calculated_price = new_calculated_price + self.colour_price
+            else:
+                self.colour_price = None
+
+        for quote_part in QuotePart.objects.filter(quote=self):
+            if quote_part.part_price:
+                new_calculated_price = new_calculated_price + quote_part.part_price
+            if quote_part.trade_in_price:
+                new_calculated_price = new_calculated_price - quote_part.trade_in_price
+
+        self.calculated_price = new_calculated_price
         self.save()
 
     class Meta:

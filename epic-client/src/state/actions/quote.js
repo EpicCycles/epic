@@ -26,9 +26,9 @@ export const saveQuotePartError = (payload) => ({
     type: `${SAVE_QUOTE_PART}_ERROR`,
     payload
 });
-export const deleteQuotePart = (quotePartId) => ({
+export const deleteQuotePart = (quotePartId, quoteId) => ({
     type:`${DELETE_QUOTE_PART}_REQUESTED`,
-    payload: {quotePartId}
+    payload: {quotePartId, quoteId}
 });
 export const deleteQuotePartOK = (quotePartId) => ({
     type:  `${DELETE_QUOTE_PART}_OK`,

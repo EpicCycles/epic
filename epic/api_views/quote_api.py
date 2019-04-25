@@ -4,15 +4,17 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from epic.helpers.note_helper import create_note_for_requote, create_note_for_new_quote
+from epic.helpers.note_helper import create_note_for_requote, create_note_for_new_quote, create_note_for_saved_quote
 from epic.helpers.quote_helper import copy_quote_with_changes
 from epic.model_serializers.bike_serializer import BikePartSerializer, BikeSerializer, FrameSerializer
 from epic.model_serializers.customer_serializer import CustomerSerializer
+from epic.model_serializers.note_serializer import CustomerNoteSerializer
 from epic.model_serializers.part_serializer import SupplierProductSerializer, PartSerializer
 from epic.model_serializers.quote_serializer import QuoteSerializer, QuotePartSerializer
 from epic.models.bike_models import Frame, Bike, BikePart
 from epic.models.brand_models import Part, SupplierProduct
 from epic.models.customer_models import Customer
+from epic.models.note_models import CustomerNote
 from epic.models.quote_models import Quote, QuotePart, INITIAL, ARCHIVED, ISSUED
 
 
@@ -110,8 +112,13 @@ def build_quotes_and_related_data(quotes):
     bike_part_part_ids = bike_parts.values_list('part__id', flat=True)
     bike_part_serializer = BikePartSerializer(bike_parts, many=True)
     bike_frame_ids = bikes.values_list('frame__id', flat=True)
+
     frames = Frame.objects.filter(id__in=bike_frame_ids)
     frame_serializer = FrameSerializer(frames, many=True)
+
+    notes = CustomerNote.objects.filter(quote__in=quotes)
+    notes_serializer = CustomerNoteSerializer(notes, many=True)
+
     parts_from_quotes = Part.objects.filter(id__in=list(quote_part_part_ids))
     parts_from_bikes = Part.objects.filter(id__in=list(bike_part_part_ids))
     parts = parts_from_bikes.union(parts_from_quotes)
@@ -122,6 +129,7 @@ def build_quotes_and_related_data(quotes):
                        'quoteParts': quote_part_serializer.data,
                        'frames': frame_serializer.data,
                        'bikes': bike_serializer.data,
+                       'notes': notes_serializer.data,
                        'parts': part_serializer.data,
                        'supplierProducts': supplier_product_serializer.data,
                        'bikeParts': bike_part_serializer.data}
@@ -153,6 +161,8 @@ class QuoteMaintain(generics.GenericAPIView):
         serializer = QuoteSerializer(quote, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            quote.recalculate_price()
+            create_note_for_saved_quote(quote, request.user)
             return Response(quote_data_for_quote_or_customer(quote))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -186,6 +196,7 @@ class QuoteCopy(generics.GenericAPIView):
             bike = Bike.objects.get(id=bike_id)
 
         new_quote = copy_quote_with_changes(quote, request, quote_desc, bike, customer)
+        new_quote.recalculate_price()
         return Response(quote_data_for_quote_or_customer(new_quote))
 
 
@@ -222,9 +233,26 @@ class QuoteUnArchive(generics.GenericAPIView):
     def post(self, request, quote_id):
         quote = self.get_object(quote_id)
         if quote.quote_status is ARCHIVED:
-            quote.quote_status = INITIAL
-            quote.save()
+            quote.archive_reset()
             create_note_for_requote(quote, request.user)
             return Response(QuoteSerializer(quote).data)
         else:
             return Response(status=status.HTTP_304_NOT_MODIFIED)
+
+
+class QuoteRecalculate(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    serializer_class = QuoteSerializer
+
+    def get_object(self, quote_id):
+        try:
+            return Quote.objects.get(id=quote_id)
+        except Quote.DoesNotExist:
+            raise Http404
+
+    def post(self, request, quote_id):
+        quote = self.get_object(quote_id)
+        quote.recalculate_price()
+        return Response(quote_data_for_quote_or_customer(quote))
