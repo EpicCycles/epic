@@ -9,7 +9,7 @@ import ModelActions from "../app/model/ModelActions";
 import ModelTableActionHeader from "../app/model/ModelTableActionHeader";
 
 const QuoteGrid = props => {
-    const { quotes, getQuote, changeQuote, archiveQuote, unarchiveQuote, customers, bikes, frames, brands, displayFields } = props;
+    const { quotes, getQuote, changeQuote, archiveQuote, unarchiveQuote, customers, bikes, frames, brands, displayFields, users } = props;
     return <div
         key='quotesGrid'
         className="grid"
@@ -62,6 +62,7 @@ const QuoteGrid = props => {
                     brands={brands}
                     bikes={bikes}
                     frames={frames}
+                    users={users}
                 />
                 <ModelActions
                     actions={actionArray}
@@ -84,6 +85,7 @@ QuoteGrid.propTypes = {
     bikes: PropTypes.array,
     frames: PropTypes.array,
     customers: PropTypes.array,
+    users: PropTypes.array,
     getQuote: PropTypes.func.isRequired,
     changeQuote: PropTypes.func.isRequired,
     archiveQuote: PropTypes.func.isRequired,

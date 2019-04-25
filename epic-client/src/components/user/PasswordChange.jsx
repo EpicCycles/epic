@@ -3,6 +3,7 @@ import * as PropTypes from "prop-types";
 
 import {Dimmer, Icon, Loader} from 'semantic-ui-react'
 import {updateObject} from "../../helpers/utils";
+import {userName} from "./helpers/user";
 
 const initialState = {
     new_password1: "",
@@ -49,7 +50,7 @@ class PasswordChange extends React.Component {
                                 </div>
 
                                 <div className="grid-item--borderless">
-                                    {user.first_name}{ }{user.last_name}
+                                    {userName(user)}
                                 </div>
                             </div>
                           <div className="grid-row">

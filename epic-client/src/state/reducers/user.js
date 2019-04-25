@@ -1,5 +1,7 @@
-import {CHANGE_PASSWORD, CHANGE_USER_DATA, USER_LOGIN, USER_LOGOUT} from "../actions/user";
+import {CHANGE_PASSWORD, CHANGE_USER_DATA, GET_USERS, USER_LOGIN, USER_LOGOUT} from "../actions/user";
 import {GET_LOCAL_STATE} from "../actions/application";
+import {COOKIE_TOKEN, COOKIE_USER} from "../../helpers/constants";
+import {createCookie} from "../helpers/cookies";
 
 const initialState = {
     username: "",
@@ -13,10 +15,18 @@ const user = (state = initialState, action) => {
 
         case USER_LOGOUT:
         case `${USER_LOGOUT}_ERROR`:
+        case `${GET_USERS}_FAILURE`:
             return initialState;
+        case `${GET_USERS}_SUCCESS`:
+            return {
+                ...state,
+                isLoading: false,
+                users: action.payload.users,
+            };
         case `${USER_LOGOUT}_REQUESTED`:
         case `${CHANGE_PASSWORD}_REQUESTED`:
         case `${CHANGE_USER_DATA}_REQUESTED`:
+        case `${GET_USERS}_REQUESTED`:
             return {
                 ...state,
                 isLoading: true,
@@ -44,6 +54,8 @@ const user = (state = initialState, action) => {
             };
         case USER_LOGIN:
         case GET_LOCAL_STATE:
+            createCookie(COOKIE_USER, action.payload.user);
+            createCookie(COOKIE_TOKEN, action.payload.token);
             return {
                 ...state,
                 token: action.payload.token,

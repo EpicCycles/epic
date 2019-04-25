@@ -15,7 +15,7 @@ from epic.api_views.quote_api import QuotesApi, QuoteMaintain, QuoteCopy, QuoteA
 from epic.api_views.quote_part_api import QuotePartMaintain
 from epic.api_views.section_api import PartSection
 from epic.api_views.supplier_api import Suppliers, MaintainSupplier
-from epic.api_views.user_api import CustomAuthToken
+from epic.api_views.user_api import CustomAuthToken, UserApi
 
 # good explanation of patterns here https://tutorial.djangogirls.org/en/extend_your_application/
 urlpatterns = [
@@ -61,4 +61,5 @@ urlpatterns = [
     path('api/quote/<int:quote_id>/unarchive/', QuoteUnArchive.as_view()),
     path('api/quote-part/', QuotePartMaintain.as_view()),
     path('api/quote-part/<int:quote_part_id>', QuotePartMaintain.as_view()),
+    path('api/user/', UserApi.as_view()),
 ]

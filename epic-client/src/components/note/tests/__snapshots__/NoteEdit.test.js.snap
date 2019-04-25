@@ -28,7 +28,7 @@ exports[`NoteEdit tests renders the form text correctly with no note 1`] = `
           "fieldName": "created_by",
           "header": "Created By",
           "readOnly": true,
-          "type": "text",
+          "type": "user",
         },
       ]
     }
@@ -83,7 +83,7 @@ exports[`NoteEdit tests renders the form text correctly with note 1`] = `
           "fieldName": "created_by",
           "header": "Created By",
           "readOnly": true,
-          "type": "text",
+          "type": "user",
         },
       ]
     }

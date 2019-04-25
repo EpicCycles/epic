@@ -1,11 +1,12 @@
 import React, {Fragment} from 'react';
 import TabbedView from "../../common/TabbedView";
 import * as PropTypes from "prop-types";
-import {findObjectWithId} from "../../helpers/utils";
+import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
 import CustomerEdit from "../customer/CustomerEdit";
 import {quoteFields} from "./helpers/display";
 import QuoteGrid from "./QuoteGrid";
 import QuoteDetail from "./QuoteDetail";
+import {Redirect} from "react-router-dom";
 
 const tabs = [
     "Customer",
@@ -67,12 +68,15 @@ class QuoteManager extends React.Component {
             parts,
             supplierProducts,
             sections,
+            users,
             archiveQuote,
             unarchiveQuote,
             saveQuote,
             saveQuotePart,
             deleteQuotePart,
         } = this.props;
+        if (!doWeHaveObjects(quotes)) return <Redirect to="/quote-list" push/>;
+
         let quote;
         if (quoteId) quote = findObjectWithId(quotes, quoteId);
         return <div className='page-content'>
@@ -108,6 +112,7 @@ class QuoteManager extends React.Component {
                         bikes={bikes}
                         frames={frames}
                         sections={sections}
+                        users={users}
                         data-test="quote-list-tab"
                     />
                 </div>
@@ -150,6 +155,7 @@ QuoteManager.defaultProps = {
     sections: [],
     quotes: [],
     quoteParts: [],
+    users: [],
     isLoading: false,
 
 };
@@ -177,6 +183,7 @@ QuoteManager.propTypes = {
     notes: PropTypes.array,
     quotes: PropTypes.array,
     quoteParts: PropTypes.array,
+    users: PropTypes.array,
     saveBrands: PropTypes.func.isRequired,
     getFrameList: PropTypes.func.isRequired,
     saveCustomer: PropTypes.func.isRequired,

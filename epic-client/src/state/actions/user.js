@@ -3,6 +3,7 @@ export const USER_LOGOUT = 'user/USER_LOGOUT';
 export const USER_NOT_VALIDATED = 'user/USER_NOT_VALIDATED';
 export const CHANGE_PASSWORD = 'user/CHANGE_PASSWORD';
 export const CHANGE_USER_DATA = "user/CHANGE_USER_DATA";
+export const GET_USERS = "user/GET_USERS";
 
 export const loginUser = (username, password) => ({
     type: `${USER_LOGIN}_REQUESTED`,
@@ -16,6 +17,19 @@ export const loginUserSuccess = (token, user) => ({
 
 export const loginUserFailure = error => ({
     type: `${USER_LOGIN}_ERROR`,
+    payload: error
+});
+export const getUsers = () => ({
+    type: `${GET_USERS}_REQUESTED`,
+});
+
+export const getUsersSuccess = (users) => ({
+    type: `${GET_USERS}_SUCCESS`,
+    payload: { users }
+});
+
+export const getUsersFailure = error => ({
+    type: `${GET_USERS}_ERROR`,
     payload: error
 });
 export const logoutUser = () => ({

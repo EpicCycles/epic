@@ -8,9 +8,9 @@ export const loginUser = async (payload) => {
     return await api.instance.post(loginApi, payload);
 };
 
-export const getUser = async (payload) => {
+export const getUsers = async (payload) => {
     api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
-    const getUserApi = `rest-auth/user/`;
+    const getUserApi = `api/user/`;
     return await api.instance.get(getUserApi);
 };
 

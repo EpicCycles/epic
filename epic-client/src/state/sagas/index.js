@@ -1,5 +1,11 @@
 import {all} from 'redux-saga/effects';
-import {watchForChangePassword, watchForChangeUserData, watchForLoginUser, watchForLogoutUser} from "./user";
+import {
+    watchForChangePassword,
+    watchForChangeUserData,
+    watchForLoginUser,
+    watchForLogoutUser,
+    watchForGetUserList
+} from "./user";
 import {
     watchForCreateCustomer,
     watchForDeleteCustomer,
@@ -54,6 +60,7 @@ export default function* rootSaga() {
         watchForLogoutUser(),
         watchForChangePassword(),
         watchForChangeUserData(),
+        watchForGetUserList(),
         watchForGetFramework(),
         watchForSaveFramework(),
         watchForGetCustomerList(),

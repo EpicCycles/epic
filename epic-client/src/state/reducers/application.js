@@ -10,7 +10,7 @@ import {
     CUSTOMER_SAVE,
 } from "../actions/customer";
 import {NOTE_CREATE, NOTE_DELETE, NOTE_LIST, NOTE_REMOVE, NOTE_SAVE} from "../actions/note";
-import {CHANGE_PASSWORD, CHANGE_USER_DATA, USER_LOGIN, USER_LOGOUT,} from "../actions/user";
+import {CHANGE_PASSWORD, CHANGE_USER_DATA, GET_USERS, USER_LOGIN, USER_LOGOUT,} from "../actions/user";
 import {FRAMEWORK, FRAMEWORK_SAVE} from "../actions/framework";
 import {BRANDS_SAVE} from "../actions/core";
 import {
@@ -148,11 +148,12 @@ const application = (state = initialState, action) => {
         case `${BIKE_PART_SAVE}_ERROR`:
         case `${BIKE_SAVE}_ERROR`:
         case `${PART_UPLOAD}_ERROR`:
-        case  `${CREATE_QUOTE}_ERROR`:
-        case  `${COPY_QUOTE}_ERROR`:
-        case  `${FIND_QUOTES}_ERROR`:
-        case  `${GET_QUOTE}_ERROR`:
-        case  `${UPDATE_QUOTE}_ERROR`:
+        case `${CREATE_QUOTE}_ERROR`:
+        case `${COPY_QUOTE}_ERROR`:
+        case `${FIND_QUOTES}_ERROR`:
+        case `${GET_QUOTE}_ERROR`:
+        case `${UPDATE_QUOTE}_ERROR`:
+        case `${GET_USERS}_FAILURE`:
             return {
                 ...state,
                 message: action.payload,

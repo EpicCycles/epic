@@ -10,7 +10,7 @@ from epic.models.brand_models import SupplierProduct
 from epic.models.quote_models import QuotePart
 
 
-def check_supplier_product(quote_part, quote_part_data):
+def check_supplier_product(quote_part):
     if quote_part.part and quote_part.part_price and quote_part.supplier:
         supplier_product = SupplierProduct.objects.filter(part=quote_part.part, supplier=quote_part.supplier).first()
         if not supplier_product:
@@ -21,13 +21,12 @@ def check_supplier_product(quote_part, quote_part_data):
                 supplier_product.fitted_price = quote_part.part_price
                 supplier_product.save()
         else:
-            ticket_price = quote_part_data.get('ticket_price', None)
-            club_price = quote_part_data.get('club_price', None)
-            if ticket_price or club_price:
-                if club_price:
-                    supplier_product.club_price = club_price
-                if ticket_price:
-                    supplier_product.ticket_price = ticket_price
+            if supplier_product.ticket_price is not quote_part.ticket_price \
+                    or supplier_product.club_price is not quote_part.club_price:
+                if quote_part.club_price:
+                    supplier_product.club_price = quote_part.club_price
+                if quote_part.ticket_price:
+                    supplier_product.ticket_price = quote_part.ticket_price
                 supplier_product.save()
 
 
@@ -42,7 +41,7 @@ class QuotePartMaintain(generics.GenericAPIView):
             return QuotePart.objects.get(id=quote_part_id)
         except QuotePart.DoesNotExist:
             raise Http404
-        
+
     def post(self, request):
         user = request.user
         quote_part_data = request.data
@@ -50,7 +49,7 @@ class QuotePartMaintain(generics.GenericAPIView):
         if serializer.is_valid():
             quote_part = serializer.save()
             create_note_for_quote_part(quote_part, user, 'created')
-            check_supplier_product(quote_part, quote_part_data)
+            check_supplier_product(quote_part)
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -63,7 +62,7 @@ class QuotePartMaintain(generics.GenericAPIView):
         if serializer.is_valid():
             quote_part = serializer.save()
             create_note_for_quote_part(quote_part, user, 'updated')
-            check_supplier_product(quote_part, quote_part_data)
+            check_supplier_product(quote_part)
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

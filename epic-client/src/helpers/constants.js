@@ -17,3 +17,11 @@ export const colourStyles = [
     {background: "bg-col-12", colour: "col-12", border: "border-col-12", transition: "transition-11-12"},
     {background: "bg-col-13", colour: "col-13", border: "border-col-13", transition: "transition-12-13"},
 ];
+
+export const STORAGE_PARTS = 'epic_parts';
+export const STORAGE_SUPPLIER_PRODUCTS = 'epic_supplierProducts';
+export const STORAGE_SECTIONS = 'epic_sections';
+export const STORAGE_BRANDS = 'epic_brands';
+export const STORAGE_SUPPLIERS = 'epic_suppliers';
+export const COOKIE_USER = 'epic_user';
+export const COOKIE_TOKEN = 'epic_user_token';

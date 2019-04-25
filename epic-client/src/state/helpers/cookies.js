@@ -13,6 +13,13 @@ export const getCookie = (cname) => {
     }
 };
 
-export const deleteCookie = (cname) =>{
-  document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+export const getCookieObject = (cname) => {
+    const rawCookie = getCookie(cname);
+    if (rawCookie) return JSON.parse(rawCookie);
+};
+export const createCookie = (cname, contents) => {
+    if (cname && contents) window.document.cookie = `${cname}=${JSON.stringify(contents)}`;
+};
+export const deleteCookie = (cname) => {
+    document.cookie = cname + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 };

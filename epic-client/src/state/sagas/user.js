@@ -9,7 +9,7 @@ import {
     changePasswordError,
     changePasswordOK,
     changeUserDataError,
-    changeUserDataOK,
+    changeUserDataOK, GET_USERS, getUsers, getUsersFailure, getUsersSuccess,
     loginUserFailure,
     loginUserSuccess,
     logoutUserFailure,
@@ -37,7 +37,8 @@ export function* loginUser(action) {
         // start fetch of basic data
         yield put(getBrandsAndSuppliers());
         yield put(getFramework());
-        yield put(listParts({}))
+        yield put(listParts({}));
+        yield put(getUsers());
     } catch (error) {
         logError(error);
         yield put(loginUserFailure(errorAsMessage(error, "Login was not successful")));
@@ -104,4 +105,25 @@ export function* changeUserData(action) {
 
 export function* watchForChangeUserData() {
     yield takeLatest(`${CHANGE_USER_DATA}_REQUESTED`, changeUserData);
+}
+
+export function* getUserList(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = updateObject(action.payload, { token });
+            const getUsersResponse = yield call(userApis.getUsers, completePayload);
+            yield put(getUsersSuccess(getUsersResponse.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+    } catch (error) {
+        logError(error);
+        yield put(getUsersFailure("Get Users was not successful"));
+              yield call(history.push, "/login");
+  }
+}
+
+export function* watchForGetUserList() {
+    yield takeLatest(`${GET_USERS}_REQUESTED`, getUserList);
 }

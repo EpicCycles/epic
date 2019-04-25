@@ -4,7 +4,7 @@ import * as PropTypes from "prop-types";
 import ModelViewRowField from "./ModelViewRowField";
 
 const ViewModelFieldRow = (props) => {
-    const { model, field, index, sections, brands, suppliers, bikes, frames, customers, componentKey } = props;
+    const { model, field, index, sections, brands, suppliers, bikes, frames, customers, users, componentKey } = props;
     if (model[field.fieldName]) {
         return <div
             className="grid-row"
@@ -29,6 +29,7 @@ const ViewModelFieldRow = (props) => {
                     bikes={bikes}
                     frames={frames}
                     customers={customers}
+                    users={users}
                     key={`modelField${field.fieldName}${componentKey}`}
                 />
             </div>
@@ -54,5 +55,6 @@ ViewModelFieldRow.propTypes = {
     frames: PropTypes.array,
     suppliers: PropTypes.array,
     customers: PropTypes.array,
+    users: PropTypes.array,
 };
 export default ViewModelFieldRow;

@@ -155,12 +155,7 @@ exports[`is displays correctly 1`] = `
       id="user"
     >
       Current User: 
-      anna
-       
-      Weaver
-       (
-      AVIW
-      )
+      anna Weaver (AVIW)
       <Icon
         as="i"
         name="log out"

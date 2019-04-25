@@ -28,6 +28,7 @@ export const SELECT_ONE = "select_one";
 export const CURRENCY = "currency";
 export const NUMBER = "number";
 export const TEXT = "text";
+export const USER = "user";
 export const TEXT_AREA = "textArea";
 
 export const ADD_DATE = "add_date";
@@ -294,7 +295,7 @@ export const COUNTRY_FIELD = {
 };
 export const CREATED_BY_FIELD = {
     fieldName: CREATED_BY,
-    type: TEXT,
+    type: USER,
     header: "Created By",
     readOnly: true
 };

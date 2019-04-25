@@ -7,7 +7,15 @@ import HeaderSection from "./HeaderSection";
 import {menuStructure} from "./helpers/menu";
 import {Icon} from "semantic-ui-react";
 import {getLocalStorage, setLocalStorage} from "../../state/helpers/localStorage";
-import {deleteCookie, getCookie} from "../../state/helpers/cookies";
+import {createCookie, deleteCookie, getCookieObject} from "../../state/helpers/cookies";
+import {
+    COOKIE_TOKEN,
+    COOKIE_USER, STORAGE_BRANDS,
+    STORAGE_PARTS,
+    STORAGE_SECTIONS,
+    STORAGE_SUPPLIER_PRODUCTS, STORAGE_SUPPLIERS
+} from "../../helpers/constants";
+import {userName} from "../user/helpers/user";
 
 class Header extends React.Component {
 
@@ -33,30 +41,29 @@ class Header extends React.Component {
     };
 
     hydrateStateWithLocalStorage = () => {
-        const userCookie = getCookie('epic_user');
-        const tokenCookie = getCookie('epic_user_token');
+        const user = getCookieObject(COOKIE_USER);
+        const token = getCookieObject(COOKIE_TOKEN);
 
-        if (tokenCookie && userCookie) {
-            const user = JSON.parse(userCookie);
-            const token = JSON.parse(tokenCookie);
+        if (token && user) {
             this.props.setStateFromLocalStorage(user, token);
+            this.props.getUsers();
 
-            const brands = getLocalStorage('epic_brands');
-            const suppliers = getLocalStorage('epic_suppliers');
+            const brands = getLocalStorage(STORAGE_BRANDS);
+            const suppliers = getLocalStorage(STORAGE_SUPPLIERS);
             if (brands && suppliers) {
                 this.props.getBrandsAndSuppliersSuccess(brands, suppliers);
             } else {
                 this.props.getBrandsAndSuppliers();
             }
-            const sections = getLocalStorage('epic_sections');
+            const sections = getLocalStorage(STORAGE_SECTIONS);
             if (sections) {
                 this.props.getFrameworkSuccess(sections);
             } else {
                 this.props.getFramework();
             }
 
-            const parts = getLocalStorage('epic_parts');
-            const supplierProducts = getLocalStorage('epic_supplierProducts');
+            const parts = getLocalStorage(STORAGE_PARTS);
+            const supplierProducts = getLocalStorage(STORAGE_SUPPLIER_PRODUCTS);
             if (parts && supplierProducts) {
                 this.props.listPartsOK({ parts, supplierProducts });
             } else {
@@ -66,26 +73,26 @@ class Header extends React.Component {
     };
     saveStateToLocalStorage = () => {
         if (this.props.user) {
-            window.document.cookie = `epic_user=${JSON.stringify(this.props.user)};max-age=${60 * 60}`;
-            window.document.cookie = `epic_user_token=${JSON.stringify(this.props.token)};max-age=${60 * 60}`;
+            createCookie(COOKIE_USER, this.props.user);
+            createCookie(COOKIE_TOKEN, this.props.token);
 
-            setLocalStorage('epic_parts', this.props.parts);
-            setLocalStorage('epic_supplierProducts', this.props.supplierProducts);
-            setLocalStorage('epic_sections', this.props.sections);
-            setLocalStorage('epic_suppliers', this.props.suppliers);
-            setLocalStorage('epic_brands', this.props.brands);
+            setLocalStorage(STORAGE_PARTS, this.props.parts);
+            setLocalStorage(STORAGE_SUPPLIER_PRODUCTS, this.props.supplierProducts);
+            setLocalStorage(STORAGE_SECTIONS, this.props.sections);
+            setLocalStorage(STORAGE_SUPPLIERS, this.props.suppliers);
+            setLocalStorage(STORAGE_BRANDS, this.props.brands);
         }
     };
 
     logoutUser = () => {
-        deleteCookie('epic_user');
-        deleteCookie('epic_user_token');
+        deleteCookie(COOKIE_USER);
+        deleteCookie(COOKIE_TOKEN);
         this.props.logoutUser();
     };
 
     render() {
-        const { user, application, removeMessage, logoutUser } = this.props;
-        const okToBeHere = user || window.location.pathname.startsWith('/login') || getCookie('epic_user');
+        const { user, application, removeMessage } = this.props;
+        const okToBeHere = user || window.location.pathname.startsWith('/login') || getCookieObject(COOKIE_USER);
 
         return <Fragment key="header">
             {(!okToBeHere) && <Redirect to="/login" push/>}
@@ -106,7 +113,7 @@ class Header extends React.Component {
                     </ul>
                     {(user) &&
                     <span id="user">
-                        Current User: {user.first_name} {user.last_name} ({user.username})
+                        Current User: {userName(user)}
                         <Icon
                             name="log out"
                             onClick={this.logoutUser}

@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import Header from "../../components/menus/Header";
 import {removeMessage, saveStateToLocalStorage, setStateFromLocalStorage} from "../../state/actions/application";
-import {logoutUser} from "../../state/actions/user";
+import {getUsers, logoutUser} from "../../state/actions/user";
 import {getBrandsAndSuppliers, getBrandsAndSuppliersSuccess} from "../../state/actions/core";
 import {listParts, listPartsOK} from "../../state/actions/part";
 import {getFramework, getFrameworkSuccess} from "../../state/actions/framework";
@@ -30,5 +30,6 @@ const mapDispatchToProps = {
     getFrameworkSuccess,
     listParts,
     listPartsOK,
+    getUsers,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

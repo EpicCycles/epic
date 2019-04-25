@@ -1,4 +1,3 @@
-import {CLEAR_ALL_STATE} from "../actions/application";
 import {
     PART_CLEAR,
     PART_DELETE,
@@ -12,11 +11,14 @@ import {USER_LOGOUT} from "../actions/user";
 import {BIKE_ADD_PART, BIKE_PART_DELETE, BIKE_PART_SAVE, GET_BIKE_PARTS} from "../actions/bike";
 import {addItemsToArray, removeItemFromArray} from "../../helpers/utils";
 import {COPY_QUOTE, CREATE_QUOTE, FIND_QUOTES, GET_QUOTE, UPDATE_QUOTE} from "../actions/quote";
+import {STORAGE_PARTS, STORAGE_SUPPLIER_PRODUCTS} from "../../helpers/constants";
+import {setLocalStorage} from "../helpers/localStorage";
 
 const initialState = {
     isLoading: false
 };
 const part = (state = initialState, action) => {
+    let parts, supplierProducts;
     switch (action.type) {
         case PART_CLEAR:
         case USER_LOGOUT:
@@ -48,35 +50,48 @@ const part = (state = initialState, action) => {
         case `${COPY_QUOTE}_OK`:
         case `${UPDATE_QUOTE}_OK`:
         case `${FIND_QUOTES}_OK`:
+            parts = addItemsToArray(state.parts, action.payload.parts);
+            supplierProducts = addItemsToArray(state.supplierProducts, action.payload.supplierProducts);
+
+            setLocalStorage(STORAGE_PARTS, parts);
+            setLocalStorage(STORAGE_SUPPLIER_PRODUCTS, parts);
+
             return {
                 ...state,
                 isLoading: false,
-                parts: addItemsToArray(state.parts, action.payload.parts),
-                supplierProducts: addItemsToArray(state.supplierProducts, action.payload.supplierProducts)
+                parts,
+                supplierProducts
             };
         case UPDATE_PARTS:
+            parts = addItemsToArray(state.parts, action.payload.parts);
+            setLocalStorage(STORAGE_PARTS, parts);
             return {
                 ...state,
-                parts: addItemsToArray(state.parts, action.payload),
+                parts
             };
         case UPDATE_SUPPLIER_PRODUCTS:
+            supplierProducts = addItemsToArray(state.supplierProducts, action.payload.supplierProducts);
+            setLocalStorage(STORAGE_SUPPLIER_PRODUCTS, parts);
             return {
                 ...state,
-                supplierProducts: addItemsToArray(state.supplierProducts, action.payload),
+                supplierProducts
             };
         case `${PART_SAVE}_OK`:
+            parts = addItemsToArray(state.parts, action.payload.parts);
+            setLocalStorage(STORAGE_PARTS, parts);
             return {
                 ...state,
-                isLoading: false,
+                parts,
                 part: action.payload.part,
-                parts: addItemsToArray(state.parts, [action.payload.part]),
             };
         case `${PART_DELETE}_OK`:
+            parts = removeItemFromArray(state.parts, action.payload.partId);
+            setLocalStorage(STORAGE_PARTS, parts);
             return {
                 ...state,
                 isLoading: false,
                 part: undefined,
-                parts: removeItemFromArray(state.parts, action.payload.partId)
+                parts
             };
         default:
             return state;

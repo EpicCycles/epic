@@ -21,7 +21,7 @@ import {
     unarchiveQuote
 } from "../../state/actions/quote";
 
-const mapStateToProps = ({ bike, core, customer, framework, note, part, quote }) => {
+const mapStateToProps = ({ bike, core, customer, framework, note, part, quote, user }) => {
     const {customers, customerId, addresses, phones } = customer;
     const {bikes, bikeParts, frames} = bike;
     const {brands, suppliers }= core;
@@ -29,6 +29,7 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
     const {quoteId, quotes, quoteParts} = quote;
     const {parts, supplierParts } = part;
     const {sections } = framework;
+    const {users } = user;
     return {
         customers, customerId, addresses, phones,
         bikes, bikeParts, frames,
@@ -36,6 +37,7 @@ const mapStateToProps = ({ bike, core, customer, framework, note, part, quote })
         quoteId, quotes, quoteParts,
         parts, supplierParts,
         notes, sections,
+        users,
         isLoading: (customer.isLoading || core.isLoading || bike.isLoading || framework.isLoading || quote.isLoading)
     }
 };
