@@ -16,7 +16,7 @@ describe('model.applyFieldValueToModelOnly', () => {
         const updatedModel = {
             id: 123,
             address1: "line one",
-            address2: undefined,
+            address2: null,
             address3: "line Three",
             address4: "line Four",
             postcode: "xxxyyy",
@@ -58,14 +58,14 @@ describe('model.applyFieldValueToModelOnly', () => {
             address2: "line Ywo",
             address3: "line Three",
             address4: "line Four",
-                     country: "GB",
-   postcode: "xxxyyy",
+            country: "GB",
+            postcode: "xxxyyy",
             customer: 6
         };
         const updatedModel = {
             id: 123,
             address1: "line one",
-            address2: "",
+            address2: null,
             address3: "line Three",
             address4: "line Four",
             country: "GB",

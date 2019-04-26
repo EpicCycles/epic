@@ -7,6 +7,7 @@ const PartDataList = (props) => {
     const datalist = getDataList(parts, brands, partType, brand);
     return <datalist id={dataListId}>
         {datalist.map(part => <option
+            key={`${dataListId}_${part.id}`}
             value={part.dataValue}
         />)
         }

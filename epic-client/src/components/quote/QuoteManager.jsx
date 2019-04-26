@@ -3,7 +3,7 @@ import TabbedView from "../../common/TabbedView";
 import * as PropTypes from "prop-types";
 import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
 import CustomerEdit from "../customer/CustomerEdit";
-import {quoteFields} from "./helpers/display";
+import {quoteFieldsNoCustomer} from "./helpers/display";
 import QuoteGrid from "./QuoteGrid";
 import QuoteDetail from "./QuoteDetail";
 import {Redirect} from "react-router-dom";
@@ -103,7 +103,7 @@ class QuoteManager extends React.Component {
                 <h1>Quote List</h1>
                 <div className='row'>
                     <QuoteGrid
-                        displayFields={quoteFields}
+                        displayFields={quoteFieldsNoCustomer}
                         getQuote={this.editQuote}
                         archiveQuote={archiveQuote}
                         unarchiveQuote={unarchiveQuote}
@@ -200,7 +200,6 @@ QuoteManager.propTypes = {
     deleteCustomerPhone: PropTypes.func.isRequired,
     saveCustomerAddress: PropTypes.func.isRequired,
     deleteCustomerAddress: PropTypes.func.isRequired,
-    getQuote: PropTypes.func.isRequired,
     archiveQuote: PropTypes.func.isRequired,
     unarchiveQuote: PropTypes.func.isRequired,
     changeQuote: PropTypes.func.isRequired,

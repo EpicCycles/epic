@@ -74,7 +74,7 @@ describe('CustomerAddressEdit', () => {
 
         const customerAddressWithError = {
             id: 123,
-            address1: "",
+            address1: null,
             address2: "line Ywo",
             address3: "line Three",
             address4: "line Four",

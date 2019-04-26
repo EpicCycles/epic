@@ -86,7 +86,7 @@ export const attributeSummary = (attribute) => {
 };
 export const attributePlaceholder = (partType) => {
     let placeholder = [];
-    if (partType.attributes) partType.attributes.forEach(attribute => {
+    if (partType && partType.attributes) partType.attributes.forEach(attribute => {
         if (attribute.in_use) {
             if (attribute.options && attribute.options.length > 0) {
                 placeholder.push(`${attribute.attribute_name}(${attribute.options.map((option) => {

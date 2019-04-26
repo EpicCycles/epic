@@ -1,25 +1,40 @@
 import React from "react";
 import * as PropTypes from "prop-types";
 import {updateObject} from "../../helpers/utils";
-import {updateModel} from "../app/model/helpers/model";
+import {checkForChangesAllFields, updateModel} from "../app/model/helpers/model";
 import {quoteFields, quoteFieldsNoBike} from "./helpers/display";
 import EditModelPage from "../app/model/EditModelPage";
 import ModelEditIcons from "../app/model/ModelEditIcons";
 
 class QuoteEdit extends React.Component {
-    state = {};
-
-    componentWillMount() {
-        this.setState(this.deriveStateFromProps());
+    state = {
+        quote: updateObject(this.props.quote),
+        persistedQuote: this.props.quote,
     };
 
-    componentDidUpdate(prevProps) {
-        if (this.props.quote !== prevProps.quote) this.deriveStateFromProps();
+    // componentWillMount() {
+    //     this.setState(this.deriveStateFromProps());
+    // };
+    //
+    // componentDidUpdate(prevProps) {
+    //     if (this.props.quote !== prevProps.quote) this.deriveStateFromProps();
+    // }
+    //
+    // deriveStateFromProps = () => {
+    //     return { quote: updateObject(this.props.quote) };
+    // };
+    static getDerivedStateFromProps(props, state) {
+        // Any time the current user changes,
+        // Reset any parts of state that are tied to that user.
+        // In this simple example, that's just the email.
+        if (checkForChangesAllFields(quoteFields, props.quote, state.persistedQuote)) {
+            return {
+                quote: updateObject(props.quote),
+                persistedQuote: props.quote,
+            };
+        }
+        return null;
     }
-
-    deriveStateFromProps = () => {
-        return { quote: updateObject(this.props.quote) };
-    };
 
     handleInputChange = (fieldName, input) => {
         const quote = updateModel(this.state.quote, quoteFields, fieldName, input);
@@ -31,14 +46,14 @@ class QuoteEdit extends React.Component {
     };
 
     render() {
-        const { quote } = this.state;
+        const { quote, persistedQuote } = this.state;
         const fields = quote.bike ? quoteFields : quoteFieldsNoBike;
         const { componentKey, customers, bikes, frames, brands, users } = this.props;
         return <div className="fit-content">
 
             <EditModelPage
                 model={quote}
-                persistedModel={this.props.quote}
+                persistedModel={persistedQuote}
                 modelFields={fields}
                 onChange={this.handleInputChange}
                 showReadOnlyFields={true}

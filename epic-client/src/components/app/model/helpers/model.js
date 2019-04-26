@@ -35,7 +35,10 @@ export const justReadOnlyFields = (fieldList) => {
 };
 
 export const checkForChanges = (fieldList, existingObject, newValues) => {
-    return eliminateReadOnlyFields(fieldList).some(field => {
+    return checkForChangesAllFields(eliminateReadOnlyFields(fieldList), existingObject, newValues);
+};
+export const checkForChangesAllFields = (fieldList, existingObject, newValues) => {
+    return fieldList.some(field => {
         if (existingObject[field.fieldName] || newValues[field.fieldName])
             return existingObject[field.fieldName] !== newValues[field.fieldName];
         return false;
@@ -63,9 +66,7 @@ export const isModelValid = (modelInstance) => {
 };
 
 export const applyFieldValueToModel = (modelInstance, field, value) => {
-    let updatedModelInstance = updateObject(modelInstance);
-    updatedModelInstance[field.fieldName] = value;
-    updatedModelInstance.changed = true;
+    let updatedModelInstance = applyFieldValueToModelOnly(modelInstance, field, value);
     if (!updatedModelInstance.error_detail) updatedModelInstance.error_detail = {};
     if (field.required && !value) {
         updatedModelInstance.error_detail[field.fieldName] = field.error;
@@ -82,7 +83,7 @@ export const applyFieldValueToModel = (modelInstance, field, value) => {
 };
 export const applyFieldValueToModelOnly = (modelInstance, field, value) => {
     let updatedModelInstance = updateObject(modelInstance);
-    updatedModelInstance[field.fieldName] = value;
+    if (value) updatedModelInstance[field.fieldName] = value; else updatedModelInstance[field.fieldName] = null;
     updatedModelInstance.changed = true;
     return updatedModelInstance;
 };
@@ -170,7 +171,6 @@ export const updateModel = (model, modelFields, fieldName, fieldValue) => {
         updatedModel.error_detail = validateModelAndSetErrors(updatedModel, modelFields);
         return removeKey(updatedModel, 'error');
     }
-    ;
     return model;
 };
 

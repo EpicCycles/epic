@@ -31,7 +31,7 @@ const EditModelPage = (props) => {
             {showReadOnlyFields && justReadOnlyFields(modelFields).map((field, index) => <ViewModelFieldRow
                 key={`EditModelPageRow${field.fieldName}`}
                 field={field}
-                model={model}
+                model={persistedModel}
                 componentKey={componentKey}
                 index={index}
                 sections={sections}

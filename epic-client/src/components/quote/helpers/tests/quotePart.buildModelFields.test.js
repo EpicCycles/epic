@@ -88,7 +88,7 @@ describe('buildModelFields', () => {
         it('should return additional part fields when there is a bike part and a quote part that is not a replacement', () => {
             const partType = { id: 12, can_be_substituted: true };
             const bikePart = { id: 23 };
-            const quotePart = { id: 231, not_required: false };
+            const quotePart = { id: 231, not_required: false, partType: 12 };
             const result = buildModelFields(partType, quotePart, bikePart, quote);
             expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
             expect(result).toContainEqual(NOT_REQUIRED_FIELD);
@@ -102,7 +102,7 @@ describe('buildModelFields', () => {
         it('should return standard fields when there is a quote part but the part cannot be substituted', () => {
 
             const partType = { id: 12, can_be_substituted: false };
-            const quotePart = { id: 231 };
+            const quotePart = { id: 231, partType: 12 };
             const result = buildModelFields(partType, quotePart, undefined, quote);
             expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
             expect(result).toContainEqual(NOT_REQUIRED_FIELD_DISABLED);
@@ -115,7 +115,7 @@ describe('buildModelFields', () => {
         });
         it('should return replacement part fields when there is a replacable bike part and no quote part', () => {
             const partType = { id: 12, can_be_substituted: true };
-            const bikePart = { id: 23 };
+            const bikePart = { id: 23, partType: 12 };
             const result = buildModelFields(partType, undefined, bikePart, quote);
             expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
             expect(result).toContainEqual(NOT_REQUIRED_FIELD);
@@ -129,7 +129,7 @@ describe('buildModelFields', () => {
         it('should return replacement part fields when there is a replacable bike part and a quote part', () => {
             const partType = { id: 12, can_be_substituted: true };
             const bikePart = { id: 23 };
-            const quotePart = { id: 231, not_required: true };
+            const quotePart = { id: 231, not_required: true, partType: 12 };
             const result = buildModelFields(partType, quotePart, bikePart, quote);
             expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
             expect(result).toContainEqual(NOT_REQUIRED_FIELD);
@@ -143,7 +143,7 @@ describe('buildModelFields', () => {
         it('should return additional part fields when there is a bike part and a quote part that is not a replacement', () => {
             const partType = { id: 12, can_be_substituted: true, attributes: partTypeAttributes };
             const bikePart = { id: 23 };
-            const quotePart = { id: 231, not_required: false, part: { id: 2345 } };
+            const quotePart = { id: 231, not_required: false, part: { id: 2345 }, partType: 12 };
             const result = buildModelFields(partType, quotePart, bikePart, quote);
             expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
             expect(result).toContainEqual(NOT_REQUIRED_FIELD);
@@ -171,7 +171,7 @@ describe('buildModelFields', () => {
         });
         it('should show enabled field fields when a part is present', () => {
             const partType = { id: 12, can_be_substituted: true, attributes: partTypeAttributes };
-            const quotePart = { id: 231, not_required: false, part: { id: 2345 } };
+            const quotePart = { id: 231, not_required: false, part: { id: 2345 }, partType: 12 };
             const expectedFields = [
                 PART_TYPE_FIELD_DISABLED,
                 partDescForType,
@@ -199,7 +199,7 @@ describe('buildModelFields', () => {
         });
         it('should show enabled field fields when a part is present', () => {
             const partType = { id: 12, can_be_substituted: true, attributes: partTypeAttributes };
-            const quotePart = { id: 231, not_required: false, part: { id: 2345 } };
+            const quotePart = { id: 231, not_required: false, part: { id: 2345 }, partType: 12 };
             const expectedFields = [
                 PART_TYPE_FIELD_DISABLED,
                 partDescForType,

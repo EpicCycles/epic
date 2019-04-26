@@ -1,6 +1,9 @@
 import {buildPartString} from "../../part/helpers/part";
 import {
-    BIKE_FIELD, BIKE_PRICE_FIELD, CALCULATED_PRICE_FIELD, CLUB_MEMBER_FIELD,
+    BIKE_FIELD,
+    BIKE_PRICE_FIELD,
+    CALCULATED_PRICE_FIELD,
+    CLUB_MEMBER_FIELD,
     COLOUR_FIELD,
     COLOUR_PRICE_FIELD,
     CREATED_BY_FIELD,
@@ -47,12 +50,6 @@ export const quoteFieldsBike = [
     COLOUR_FIELD,
     COLOUR_PRICE_FIELD
 ];
-export const quoteListFields = [
-    QUOTE_DESC_FIELD,
-    BIKE_FIELD,
-    CUSTOMER_FIELD,
-    QUOTE_PRICE_FIELD,
-];
 export const quoteFieldsNoBike = [
     QUOTE_DESC_FIELD,
     CUSTOMER_FIELD,
@@ -70,6 +67,7 @@ export const quoteFields = quoteFieldsNoBike.concat(quoteFieldsBike);
 export const quoteFieldsNoCustomer = [
     QUOTE_DESC_FIELD,
     QUOTE_STATUS_FIELD,
+    CLUB_MEMBER_FIELD,
     VERSION_FIELD,
     BIKE_FIELD,
     CREATED_BY_FIELD,

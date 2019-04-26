@@ -70,9 +70,13 @@ export const buildModelFields = (partType, quotePart, bikePart, quote) => {
     const isBikeQuote = !!quote.bike;
     const isClubMember = quote.club_member;
 
+    let partTypeId;
+    if (partType) partTypeId = partType.id; else if (quotePart && quotePart.partType) partTypeId = quotePart.partType;
+
     let required = (bikePart && partType && (partType.can_be_omitted || partType.can_be_substituted));
-    let desc = (!!partType);
+    let desc = (!! partTypeId);
     let part = (quotePart && quotePart.part);
+
 
     if (bikePart && partType && quotePart && quotePart.not_required) {
         desc = partType.can_be_substituted;
@@ -82,7 +86,7 @@ export const buildModelFields = (partType, quotePart, bikePart, quote) => {
         required ? fields.push(NOT_REQUIRED_FIELD) : fields.push(NOT_REQUIRED_FIELD_DISABLED);
         required && (quotePart && quotePart.not_required) ? fields.push(TRADE_IN_PRICE_FIELD) : fields.push(TRADE_IN_PRICE_FIELD_DISABLED);
     }
-    desc ? fields.push(updateObject(PART_DESC_FIELD, { listId: `parts-${partType.id}`, })) : fields.push(PART_DESC_FIELD_DISABLED);
+    desc ? fields.push(updateObject(PART_DESC_FIELD, { listId: `parts-${partTypeId}`, })) : fields.push(PART_DESC_FIELD_DISABLED);
     if (part) {
         const attributes = attributePlaceholder(partType);
         const additionalDataField = updateObject(ADDITIONAL_DATA_FIELD,

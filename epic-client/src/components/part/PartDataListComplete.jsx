@@ -7,11 +7,13 @@ const PartDataListComplete = (props) => {
     return <Fragment>
         <PartDataList
             dataListId={`${dataListPrefix}-all`}
+            key={`${dataListPrefix}-all`}
             parts={parts}
             brands={brands}
         />
         {sections.map(section => section.partTypes.map(partType => <PartDataList
             dataListId={`${dataListPrefix}-${partType.id}`}
+            key={`${dataListPrefix}-${partType.id}`}
             parts={parts.filter(part => part.partType === partType.id)}
             brands={brands}
         />))}

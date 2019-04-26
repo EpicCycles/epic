@@ -18,7 +18,9 @@ class QuotePartEdit extends React.Component {
     };
 
     componentDidUpdate(prevProps) {
-        if (this.props.quotePart !== prevProps.quotePart) this.deriveStateFromProps();
+        if (this.props.quotePart !== prevProps.quotePart) {
+            this.deriveStateFromProps();
+        }
     }
 
     deriveStateFromProps = () => {
@@ -28,7 +30,6 @@ class QuotePartEdit extends React.Component {
         if (this.props.replacementPart)
             part_desc = buildPartString(this.props.replacementPart, this.props.brands);
 
-        const fields = buildModelFields(this.props.partType, this.props.quotePart, this.props.bikePart, this.props.quote);
         if (this.props.quotePart) {
             persistedQuotePart = updateObject(this.props.quotePart, { part_desc });
         } else {
@@ -38,12 +39,14 @@ class QuotePartEdit extends React.Component {
             if (this.props.partType) persistedQuotePart.partType = this.props.partType.id;
         }
 
-        return { fields, persistedQuotePart, quotePart: updateObject(persistedQuotePart) };
+        return { persistedQuotePart, quotePart: updateObject(persistedQuotePart) };
     };
 
     handleInputChange = (fieldName, input) => {
-        let { quotePart, fields } = this.state;
+        let { quotePart } = this.state;
+
         let { partType, bikePart, brands, parts, sections, quote, supplierProducts } = this.props;
+        const fields = buildModelFields(partType, quotePart, bikePart, quote);
         let updatedQuotePart = updateModel(quotePart, fields, fieldName, input);
         if (updatedQuotePart.partType) partType = getPartType(updatedQuotePart.partType, sections);
         updatedQuotePart = quotePartValidation(
@@ -66,8 +69,7 @@ class QuotePartEdit extends React.Component {
                 ));
         }
         console.log(partType, updatedQuotePart, bikePart, quote)
-        fields = buildModelFields(partType, updatedQuotePart, bikePart, quote);
-        this.setState({ quotePart: updatedQuotePart, fields });
+        this.setState({ quotePart: updatedQuotePart });
     };
 
     onClickReset = () => {
@@ -78,7 +80,7 @@ class QuotePartEdit extends React.Component {
         let quotePart = updateObject(this.state.quotePart);
         const part = quotePart.part;
 
-        if (part && ! part.id) {
+        if (part && !part.id) {
             this.props.saveQuotePart(quotePart, part);
         } else {
             if (part) quotePart.part = part.id;
@@ -88,9 +90,12 @@ class QuotePartEdit extends React.Component {
     deleteQuotePart = (deletionKey) => {
         this.props.deleteQuotePart(deletionKey, this.state.quotePart.quote);
     }
+
     render() {
-        const { fields, quotePart, persistedQuotePart } = this.state;
-        const { componentKey, sections,  suppliers } = this.props;
+        const { quotePart, persistedQuotePart } = this.state;
+
+        const { componentKey, sections, suppliers, partType, quote, bikePart } = this.props;
+        const fields = buildModelFields(partType, quotePart, bikePart, quote);
         const rowClass = (quotePart && quotePart.error) ? "error" : "";
 
         return <div className={`grid-row ${rowClass}`} key={`row${componentKey}`}>
