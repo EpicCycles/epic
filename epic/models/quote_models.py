@@ -71,6 +71,13 @@ class Quote(models.Model):
                 self.colour_price = None
 
         for quote_part in QuotePart.objects.filter(quote=self):
+            if quote_part.club_price and not self.club_member:
+                if quote_part.club_price:
+                    quote_part.club_price = None
+                if quote_part.ticket_price:
+                    quote_part.part_price = quote_part.ticket_price
+                quote_part.save()
+
             if quote_part.part_price:
                 new_calculated_price = new_calculated_price + quote_part.part_price
             if quote_part.trade_in_price:

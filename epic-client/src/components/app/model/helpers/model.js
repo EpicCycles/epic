@@ -8,6 +8,7 @@ import {
     updateObjectInArray
 } from "../../../../helpers/utils";
 import {NEW_ELEMENT_ID} from "../../../../helpers/constants";
+import {CHECKBOX, CURRENCY} from "./fields";
 
 export const modelIsAlreadyInArray = (modelArray, modelToCheck, modelFields) => {
     if (!doWeHaveObjects(modelArray)) return false;
@@ -83,11 +84,25 @@ export const applyFieldValueToModel = (modelInstance, field, value) => {
 };
 export const applyFieldValueToModelOnly = (modelInstance, field, value) => {
     let updatedModelInstance = updateObject(modelInstance);
-    if (value) updatedModelInstance[field.fieldName] = value; else updatedModelInstance[field.fieldName] = null;
+    if (value) updatedModelInstance[field.fieldName] = value; else updatedModelInstance[field.fieldName] = defaultFieldValue(field);
     updatedModelInstance.changed = true;
     return updatedModelInstance;
 };
-
+const defaultFieldValue = (field) => {
+    if (field.default) return field.default;
+    let defaultValue = null;
+    switch (field.type) {
+        case CURRENCY:
+            defaultValue = 'GBP';
+            break;
+        case CHECKBOX:
+            defaultValue = false;
+            break;
+        default:
+            defaultValue = null;
+    }
+    return defaultValue;
+};
 export const validateModelAndSetErrors = (modelInstance, modelFields) => {
     let error_detail = {};
     modelFields.forEach(field => {

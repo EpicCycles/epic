@@ -1,45 +1,34 @@
 import React from "react";
 import * as PropTypes from "prop-types";
 import {updateObject} from "../../helpers/utils";
-import {updateModel} from "../app/model/helpers/model";
+import {checkForChangesAllFields, updateModel} from "../app/model/helpers/model";
 import ModelEditIcons from "../app/model/ModelEditIcons";
-import {buildPartString} from "../part/helpers/part";
-import {buildModelFields} from "./helpers/quotePart";
+import {addDescToQuotePart, buildModelFields, modelFields} from "./helpers/quotePart";
 import EditModelRow from "../app/model/EditModelRow";
 import {getPartType} from "../partType/helpers/partType";
 import {quotePartValidation} from "./helpers/validation";
 import {calculatePrice} from "../part/helpers/price";
 
 class QuotePartEdit extends React.Component {
-    state = {};
 
-    componentWillMount() {
-        this.setState(this.deriveStateFromProps());
-    };
-
-    componentDidUpdate(prevProps) {
-        if (this.props.quotePart !== prevProps.quotePart) {
-            this.deriveStateFromProps();
+    static getDerivedStateFromProps(props, state) {
+        // Any time the current user changes,
+        // Reset any parts of state that are tied to that user.
+        // In this simple example, that's just the email.
+        if (checkForChangesAllFields(modelFields, props.quotePart, state.persistedQuotePart)) {
+            return {
+                quotePart: addDescToQuotePart(props),
+                persistedQuotePart: addDescToQuotePart(props),
+            };
         }
+        return null;
     }
 
-    deriveStateFromProps = () => {
-        let persistedQuotePart;
-        let part_desc;
 
-        if (this.props.replacementPart)
-            part_desc = buildPartString(this.props.replacementPart, this.props.brands);
 
-        if (this.props.quotePart) {
-            persistedQuotePart = updateObject(this.props.quotePart, { part_desc });
-        } else {
-            persistedQuotePart = {
-                quote: this.props.quote.id,
-            };
-            if (this.props.partType) persistedQuotePart.partType = this.props.partType.id;
-        }
-
-        return { persistedQuotePart, quotePart: updateObject(persistedQuotePart) };
+    state = {
+        quotePart: addDescToQuotePart(this.props),
+        persistedQuotePart: addDescToQuotePart(this.props),
     };
 
     handleInputChange = (fieldName, input) => {
@@ -68,12 +57,12 @@ class QuotePartEdit extends React.Component {
                     supplierProducts
                 ));
         }
-        console.log(partType, updatedQuotePart, bikePart, quote)
         this.setState({ quotePart: updatedQuotePart });
     };
 
     onClickReset = () => {
-        this.setState(this.deriveStateFromProps());
+        const quotePart = updateObject(this.state.persistedQuotePart);
+        this.setState({ quotePart });
     };
 
     saveQuotePart = () => {
@@ -89,8 +78,7 @@ class QuotePartEdit extends React.Component {
     };
     deleteQuotePart = (deletionKey) => {
         this.props.deleteQuotePart(deletionKey, this.state.quotePart.quote);
-    }
-
+    };
     render() {
         const { quotePart, persistedQuotePart } = this.state;
 

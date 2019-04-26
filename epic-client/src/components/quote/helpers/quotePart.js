@@ -25,7 +25,19 @@ import {
     TRADE_IN_PRICE_FIELD_DISABLED
 } from "./quotePartFields";
 import {createEmptyModelWithDefaultFields} from "../../app/model/helpers/model";
+import {buildPartString} from "../../part/helpers/part";
 
+export const modelFields = [
+    PART_PRICE_FIELD,
+    NOT_REQUIRED_FIELD,
+    TRADE_IN_PRICE_FIELD,
+    QUANTITY_FIELD,
+    PART_PRICE_FIELD,
+    SUPPLIER_FIELD_OPTIONAL,
+    TICKET_PRICE_FIELD,
+    CLUB_PRICE_FIELD,
+    ADDITIONAL_DATA_FIELD,
+];
 export const quotePartNew = (quote) => {
     if (quote.bike) {
         return [
@@ -74,7 +86,7 @@ export const buildModelFields = (partType, quotePart, bikePart, quote) => {
     if (partType) partTypeId = partType.id; else if (quotePart && quotePart.partType) partTypeId = quotePart.partType;
 
     let required = (bikePart && partType && (partType.can_be_omitted || partType.can_be_substituted));
-    let desc = (!! partTypeId);
+    let desc = (!!partTypeId);
     let part = (quotePart && quotePart.part);
 
 
@@ -121,3 +133,21 @@ export const buildQuotePart = (quoteId, partTypeId) => {
     quotePart.partType = partTypeId;
     return quotePart;
 };
+
+export const addDescToQuotePart = (passedProps) => {
+        let fullQuotePart;
+        let part_desc;
+
+        if (passedProps.replacementPart)
+            part_desc = buildPartString(passedProps.replacementPart, passedProps.brands);
+
+        if (passedProps.quotePart) {
+            fullQuotePart = updateObject(passedProps.quotePart, { part_desc });
+        } else {
+            fullQuotePart = {
+                quote: passedProps.quote.id,
+            };
+            if (passedProps.partType) fullQuotePart.partType = passedProps.partType.id;
+        }
+        return fullQuotePart;
+    };

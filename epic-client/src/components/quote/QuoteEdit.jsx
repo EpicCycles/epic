@@ -12,17 +12,6 @@ class QuoteEdit extends React.Component {
         persistedQuote: this.props.quote,
     };
 
-    // componentWillMount() {
-    //     this.setState(this.deriveStateFromProps());
-    // };
-    //
-    // componentDidUpdate(prevProps) {
-    //     if (this.props.quote !== prevProps.quote) this.deriveStateFromProps();
-    // }
-    //
-    // deriveStateFromProps = () => {
-    //     return { quote: updateObject(this.props.quote) };
-    // };
     static getDerivedStateFromProps(props, state) {
         // Any time the current user changes,
         // Reset any parts of state that are tied to that user.
@@ -42,7 +31,8 @@ class QuoteEdit extends React.Component {
     };
 
     onClickReset = () => {
-        this.setState(this.deriveStateFromProps());
+        const quote = updateObject(this.state.persistedQuote);
+        this.setState({quote});
     };
 
     render() {
