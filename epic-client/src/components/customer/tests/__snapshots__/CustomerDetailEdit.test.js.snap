@@ -45,6 +45,11 @@ exports[`CustomerDetailEdit tests renders the form text correctly with customer 
           "validator": [Function],
         },
         Object {
+          "fieldName": "club_member",
+          "header": "Club Member?",
+          "type": "checkbox",
+        },
+        Object {
           "fieldName": "add_date",
           "header": "Date Added",
           "readOnly": true,
@@ -127,6 +132,11 @@ exports[`CustomerDetailEdit tests renders the form text correctly with no custom
           "header": "email",
           "type": "text",
           "validator": [Function],
+        },
+        Object {
+          "fieldName": "club_member",
+          "header": "Club Member?",
+          "type": "checkbox",
         },
         Object {
           "fieldName": "add_date",

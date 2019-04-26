@@ -16,6 +16,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=60, blank=False, null=False)
     last_name = models.CharField(max_length=60, blank=False, null=False)
     email = models.EmailField(max_length=100, blank=True)
+    club_member = models.BooleanField(default=False)
     add_date = models.DateTimeField('Date Added', auto_now_add=True)
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
 

@@ -7,9 +7,10 @@ import {getModelKey} from "../app/model/helpers/model";
 import ModelViewRow from "../app/model/ModelViewRow";
 import ModelActions from "../app/model/ModelActions";
 import ModelTableActionHeader from "../app/model/ModelTableActionHeader";
+import {QUOTE_ARCHIVED, QUOTE_INITIAL} from "./helpers/quote";
 
 const QuoteGrid = props => {
-    const { quotes, getQuote, changeQuote, archiveQuote, unarchiveQuote, customers, bikes, frames, brands, displayFields, users } = props;
+    const { quotes, getQuote, changeQuote, archiveQuote, unarchiveQuote, cloneQuote, issueQuote, customers, bikes, frames, brands, displayFields, users } = props;
     return <div
         key='quotesGrid'
         className="grid"
@@ -26,29 +27,40 @@ const QuoteGrid = props => {
         {quotes.map(quote => {
             const modelKey = getModelKey(quote);
             const actionArray = [];
+            if (cloneQuote) actionArray.push({
+                iconName: 'clone',
+                iconTitle: 'copy quote',
+                iconAction: cloneQuote,
+            });
+            if (issueQuote) actionArray.push({
+                iconName: 'email',
+                iconTitle: 'issue quote',
+                iconAction: changeQuote,
+                iconDisabled: (quote.quote_status !== QUOTE_INITIAL),
+            });
             if (changeQuote) actionArray.push({
                 iconName: 'eye',
                 iconTitle: 'view quote',
                 iconAction: changeQuote,
-                iconDisabled: (quote.quote_status === '3'),
+                iconDisabled: (quote.quote_status === QUOTE_ARCHIVED),
             });
             if (getQuote) actionArray.push({
                 iconName: 'edit',
                 iconTitle: 'edit quote',
                 iconAction: getQuote,
-                iconDisabled: (quote.quote_status === '3'),
+                iconDisabled: (quote.quote_status !== QUOTE_INITIAL),
             });
             if (archiveQuote) actionArray.push({
                 iconName: 'remove',
                 iconTitle: 'archive quote',
                 iconAction: archiveQuote,
-                iconDisabled: (quote.quote_status === '3'),
+                iconDisabled: (quote.quote_status === QUOTE_ARCHIVED),
             });
             if (unarchiveQuote) actionArray.push({
                 iconName: 'undo',
                 iconTitle: 'un-archive quote',
                 iconAction: unarchiveQuote,
-                iconDisabled: (quote.quote_status !== '3'),
+                iconDisabled: (quote.quote_status !== QUOTE_ARCHIVED),
             });
             return <div
                 key={`quoteRow${modelKey}`}
@@ -86,10 +98,12 @@ QuoteGrid.propTypes = {
     frames: PropTypes.array,
     customers: PropTypes.array,
     users: PropTypes.array,
-    getQuote: PropTypes.func.isRequired,
-    changeQuote: PropTypes.func.isRequired,
-    archiveQuote: PropTypes.func.isRequired,
-    unarchiveQuote: PropTypes.func.isRequired,
+    getQuote: PropTypes.func,
+    changeQuote: PropTypes.func,
+    archiveQuote: PropTypes.func,
+    unarchiveQuote: PropTypes.func,
+    issueQuote: PropTypes.func,
+    cloneQuote: PropTypes.func,
 };
 
 export default QuoteGrid;

@@ -3,7 +3,7 @@ import {canBeEdited} from "../quote";
 test('can be edited', () => {
     const quote = {
         quote: 1,
-        quote_status: 1,
+        quote_status: '1',
         partType: 1,
         quantity: 1,
         rrp: 12.99,
@@ -17,7 +17,7 @@ test('can be edited', () => {
 test('can not be edited', () => {
     const quote = {
         quote: 1,
-        quote_status: 2,
+        quote_status: '2',
         partType: 1,
         quantity: 1,
         rrp: 12.99,

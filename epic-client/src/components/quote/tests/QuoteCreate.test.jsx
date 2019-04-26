@@ -33,7 +33,6 @@ describe('QuoteCreate', () => {
         const expectedNewQuote = {
             customer: 1,
             bike: undefined,
-            quote_price: 0,
         };
         findDataTest(component, "create-button").simulate('click');
         expect(createQuote).toHaveBeenCalledTimes(1);
@@ -52,7 +51,7 @@ describe('QuoteCreate', () => {
         const expectedNewQuote = {
             customer: 1,
             bike: 58,
-            quote_price: 0.00,
+            quote_price: null,
         };
         findDataTest(component, "create-button").simulate('click');
         expect(createQuote).toHaveBeenCalledTimes(1);

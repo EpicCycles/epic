@@ -1,11 +1,9 @@
 import {findSupplierProduct} from "./supplierProduct";
 
-export const calculatePrice = (is_bike_quote, not_required, part, bikePart, supplierProducts = []) => {
-    let trade_in_price;
+export const calculatePrice = (is_bike_quote, part, supplierProducts = []) => {
     let part_price;
     let supplier;
 
-    if (is_bike_quote && bikePart && not_required) trade_in_price = bikePart.trade_in_price;
     if (part) {
         const supplierProduct = findSupplierProduct(part, supplierProducts);
         if (supplierProduct) {
@@ -18,6 +16,5 @@ export const calculatePrice = (is_bike_quote, not_required, part, bikePart, supp
         }
     }
 
-    return { trade_in_price, part_price, supplier };
+    return { part_price, supplier };
 };
-

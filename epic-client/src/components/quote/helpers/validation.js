@@ -10,7 +10,6 @@ export const quotePartValidation = (quotePart = {}, bikePart, partType, brands, 
     // reset price if there is no part or this is not a replacement
 
     if (quotePart.not_required) {
-        validatedQuotePart.quantity = undefined;
         if (!partType.can_be_substituted) validatedQuotePart.part_desc = undefined;
         if (!quotePart.trade_in_price) error_detail['trade_in_price'] = 'Please specify a price (can be zero).';
     } else {

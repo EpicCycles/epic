@@ -682,7 +682,7 @@ export const bikeFields = [
 ];
 export const brandFields = [BRAND_NAME_FIELD, BIKE_BRAND_FIELD, LINK_FIELD, SUPPLIER_FIELD_OPTIONAL];
 export const customerFields = [
-    FIRST_NAME_FIELD, LAST_NAME_FIELD, EMAIL_FIELD, ADD_DATE_FIELD, UPD_DATE_FIELD,
+    FIRST_NAME_FIELD, LAST_NAME_FIELD, EMAIL_FIELD, CLUB_MEMBER_FIELD, ADD_DATE_FIELD, UPD_DATE_FIELD,
 ];
 export const customerAddressFields = [
     ADDRESS1_FIELD,

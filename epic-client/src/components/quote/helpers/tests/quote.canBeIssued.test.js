@@ -290,7 +290,7 @@ describe('canBeIssued', () => {
 
     test("quote can be issued", () => {
         const quote = {
-            quote_status: 1,
+            quote_status: '1',
             quote_price: 12.99,
             bike: 2,
             bike_price: 1234.99,
@@ -303,7 +303,7 @@ describe('canBeIssued', () => {
     });
     test("bike quote with no parts can be issued", () => {
         const quote = {
-            quote_status: 1,
+            quote_status: '1',
             quote_price: 12.99,
             bike: 2,
             bike_price: 1234.99,
@@ -316,7 +316,7 @@ describe('canBeIssued', () => {
     });
     test("non bike quote can be issued without bike related fields", () => {
         const quote = {
-            quote_status: 1,
+            quote_status: '1',
             quote_price: 12.99,
         };
         const quote_parts = [quoteItemComplete];
@@ -324,7 +324,7 @@ describe('canBeIssued', () => {
     });
     test("non bike quote with no parts cannot be issued", () => {
         const quote = {
-            quote_status: 1,
+            quote_status: '1',
             quote_price: 12.99,
         };
         const quote_parts = [];
@@ -332,7 +332,7 @@ describe('canBeIssued', () => {
     });
     test("quote in wrong status can't be issued", () => {
         const quote = {
-            quote_status: 2,
+            quote_status: '2',
             quote_price: 12.99,
             bike: 2,
             bike_price: 1234.99,
@@ -345,7 +345,7 @@ describe('canBeIssued', () => {
     });
     test("quote missing quote price can not be issued", () => {
         const quote = {
-            quote_status: 1,
+            quote_status: '1',
             bike: 2,
             bike_price: 1234.99,
             colour: "red",
@@ -357,7 +357,7 @@ describe('canBeIssued', () => {
     });
     test("bike quote missing bike price can not be issued", () => {
         const quote = {
-            quote_status: 1,
+            quote_status: '1',
             quote_price: 12.99,
             bike: 2,
             colour: "red",
@@ -369,7 +369,7 @@ describe('canBeIssued', () => {
     });
     test("bike quote missing bike colour can not be issued", () => {
         const quote = {
-            quote_status: 1,
+            quote_status: '1',
             quote_price: 12.99,
             bike: 2,
             bike_price: 1234.99,
@@ -381,7 +381,7 @@ describe('canBeIssued', () => {
     });
     test("bike quote missing colour price can not be issued", () => {
         const quote = {
-            quote_status: 1,
+            quote_status: '1',
             quote_price: 12.99,
             bike: 2,
             bike_price: 1234.99,
@@ -393,7 +393,7 @@ describe('canBeIssued', () => {
     });
     test("bike quote missing frame size can not be issued", () => {
         const quote = {
-            quote_status: 1,
+            quote_status: '1',
             bike: 2,
             bike_price: 1234.99,
             colour: "red",

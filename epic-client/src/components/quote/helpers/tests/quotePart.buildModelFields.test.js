@@ -72,14 +72,14 @@ describe('buildModelFields', () => {
             expect(result).toContainEqual(ADDITIONAL_DATA_FIELD_DISABLED);
             expect(result).not.toContainEqual(ADDITIONAL_DATA_FIELD);
         });
-        it('should return the ability to enter a description when there is a bike part but the part cannot be substituted', () => {
+        it('should not return the ability to enter a description when there is a bike part but the part cannot be substituted', () => {
             const partType = { id: 12, can_be_substituted: false };
             const bikePart = { id: 23 };
             const result = buildModelFields(partType, undefined, bikePart, quote);
             expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
             expect(result).toContainEqual(NOT_REQUIRED_FIELD_DISABLED);
             expect(result).toContainEqual(TRADE_IN_PRICE_FIELD_DISABLED);
-            expect(result).toContainEqual(partDescForType);
+            expect(result).toContainEqual(PART_DESC_FIELD_DISABLED);
             expect(result).toContainEqual(QUANTITY_FIELD_DISABLED);
             expect(result).toContainEqual(PART_PRICE_FIELD_DISABLED);
             expect(result).toContainEqual(SUPPLIER_FIELD_DISABLED);
@@ -142,11 +142,10 @@ describe('buildModelFields', () => {
         });
         it('should return additional part fields when there is a bike part and a quote part that is not a replacement', () => {
             const partType = { id: 12, can_be_substituted: true, attributes: partTypeAttributes };
-            const bikePart = { id: 23 };
             const quotePart = { id: 231, not_required: false, part: { id: 2345 }, partType: 12 };
-            const result = buildModelFields(partType, quotePart, bikePart, quote);
+            const result = buildModelFields(partType, quotePart, undefined, quote);
             expect(result).toContainEqual(PART_TYPE_FIELD_DISABLED);
-            expect(result).toContainEqual(NOT_REQUIRED_FIELD);
+            expect(result).toContainEqual(NOT_REQUIRED_FIELD_DISABLED);
             expect(result).toContainEqual(TRADE_IN_PRICE_FIELD_DISABLED);
             expect(result).toContainEqual(partDescForType);
             expect(result).toContainEqual(QUANTITY_FIELD);

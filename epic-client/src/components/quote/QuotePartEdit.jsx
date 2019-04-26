@@ -51,11 +51,12 @@ class QuotePartEdit extends React.Component {
             updatedQuotePart = updateObject(updatedQuotePart,
                 calculatePrice(
                     (!!quote.bike),
-                    updatedQuotePart.not_required,
                     updatedQuotePart.part,
-                    bikePart,
                     supplierProducts
                 ));
+        }
+        if (updatedQuotePart.not_required && (updatedQuotePart.not_required !== quotePart.not_required)) {
+            updatedQuotePart.trade_in_price = bikePart.trade_in_price;
         }
         this.setState({ quotePart: updatedQuotePart });
     };

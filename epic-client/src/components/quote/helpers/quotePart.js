@@ -90,7 +90,7 @@ export const buildModelFields = (partType, quotePart, bikePart, quote) => {
     let part = (quotePart && quotePart.part);
 
 
-    if (bikePart && partType && quotePart && quotePart.not_required) {
+    if (bikePart && partType) {
         desc = partType.can_be_substituted;
     }
 

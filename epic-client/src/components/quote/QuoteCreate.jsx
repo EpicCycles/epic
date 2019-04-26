@@ -5,13 +5,14 @@ import {findObjectWithId, removeKey, updateObject} from "../../helpers/utils";
 import * as PropTypes from "prop-types";
 import CustomerListAndSelect from "../customer/CustomerListAndSelect";
 import BikeListAndSelect from "../bike/BikeListAndSelect";
-import {quoteDescription, recalculatePrices} from "./helpers/quote";
+import {quoteDescription} from "./helpers/quote";
 
 const initialState = {
-        brand: '',
-        frameName: '',
-        archived: false,
-    };
+    brand: '',
+    frameName: '',
+    archived: false,
+};
+
 class QuoteCreate extends React.Component {
     state = initialState;
 
@@ -52,11 +53,16 @@ class QuoteCreate extends React.Component {
     quoteStart(customer, bike) {
         const quote_desc = quoteDescription(customer, bike, this.props.customers, this.props.frames, this.props.bikes, this.props.brands);
         let quote = { customer, bike, quote_desc };
+
+        const customerObject = findObjectWithId(this.props.customers, customer);
+        if (customerObject) quote.club_member = customerObject.club_member;
+
         let bikeObject;
         if (bike) {
             bikeObject = findObjectWithId(this.props.bikes, bike);
+            if (bikeObject) quote.bike_price = (quote.club_member && bikeObject.club_price) ? bikeObject.club_price : bikeObject.epic_price ? bikeObject.epic_price : bikeObject.rrp;
+            quote.quote_price = quote.bike_price;
         }
-        quote = recalculatePrices(quote, [], bikeObject);
         return quote;
     }
 
@@ -93,8 +99,8 @@ class QuoteCreate extends React.Component {
                     canSelectArchived={true}
                     archived={archived}
                     selectedBike={selectedBike}
-                                  data-test="select-bike"
-  />
+                    data-test="select-bike"
+                />
                 <Button
                     disabled={!selectedCustomer}
                     onClick={this.buildQuote}
