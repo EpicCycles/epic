@@ -23,7 +23,12 @@ class CustomerSearch extends React.Component {
     handleInputClear = (fieldName) => {
         this.handleInputChange(fieldName, this.props.searchParams[fieldName]);
     };
-
+    handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            const { firstName, lastName, email } = this.state;
+            this.props.getCustomerList(firstName, lastName, email);
+        }
+    };
     onSubmit = (event) => {
         if (event) {
             event.preventDefault();
@@ -47,6 +52,7 @@ class CustomerSearch extends React.Component {
                     value={firstName}
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
+                    onKeyPress={this.handleKeyPress}
                 />
                 <div> Last name like:</div>
                 <FormTextInput
@@ -57,6 +63,7 @@ class CustomerSearch extends React.Component {
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
                     value={lastName}
+                    onKeyPress={this.handleKeyPress}
                 />
                 <div> email like:</div>
                 <FormTextInput
@@ -67,6 +74,7 @@ class CustomerSearch extends React.Component {
                     onChange={this.handleInputChange}
                     onClick={this.handleInputClear}
                     value={email}
+                    onKeyPress={this.handleKeyPress}
                 />
                 <SearchButton
                     onClick={this.onSubmit}
