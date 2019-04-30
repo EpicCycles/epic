@@ -8,14 +8,17 @@ import BikeListAndSelect from "../bike/BikeListAndSelect";
 import {quoteDescription} from "./helpers/quote";
 import QuoteSummary from "./QuoteSummary";
 const defaultState = (props) => {
-        const { quotes, quoteId, customers } = props;
+        const { quotes, quoteId, customers, bikes } = props;
         let quote;
         if (quoteId) {
             quote = findObjectWithId(quotes, quoteId);
             const { customer, bike } = quote;
             const existingCustomer = findObjectWithId(customers, customer);
+            let existingBike;
+            if (bike) existingBike = findObjectWithId(bikes, bike);
             return {
-                selectedCustomer: customer, bikeId: bike, existingCustomer,
+                selectedCustomer: customer, selectedBike: bike,
+                existingCustomer, existingBike,
                 brand: '',
                 frameName: '',
                 archived: false,
@@ -49,9 +52,10 @@ class QuoteCopy extends React.Component {
         this.props.getFrameList(this.buildBikeSearchCriteria());
     };
     copyQuote = () => {
-        const { selectedCustomer, selectedBike, existingCustomer } = this.state;
+        const { selectedCustomer, selectedBike, existingCustomer, existingBike } = this.state;
         const fullCustomers = updateObjectInArray(this.props.customers, existingCustomer);
-        const quote_desc = quoteDescription(selectedCustomer, selectedBike, fullCustomers, this.props.frames, this.props.bikes, this.props.brands);
+        const fullBikes = existingBike ? updateObjectInArray(this.props.bikes, existingBike) : this.props.bikes;
+        const quote_desc = quoteDescription(selectedCustomer, selectedBike, fullCustomers, this.props.frames, fullBikes, this.props.brands);
         this.props.copyQuote(this.props.quoteId, { customer: selectedCustomer, bike: selectedBike, quote_desc });
     };
 
@@ -60,14 +64,16 @@ class QuoteCopy extends React.Component {
             getCustomerList, searchParams, isLoading, customers, count, next,
             brands, bikes, frames,
             quotes, quoteId, quoteParts, bikeParts,
-            sections, parts
+            sections, parts, users
         } = this.props;
         let quote;
         if (quoteId) quote = findObjectWithId(quotes, quoteId);
 
-        const { selectedBike, selectedCustomer, brand, frameName, archived, existingCustomer } = this.state;
+        const { selectedBike, selectedCustomer, brand, frameName, archived, existingCustomer, existingBike } = this.state;
         if (!quote) return <Redirect to="/quote-list" push/>;
         const copyAllowed = (selectedCustomer && (!quote.bike || (quote.bike && selectedBike)));
+        const fullCustomers = updateObjectInArray(customers, existingCustomer);
+        const fullBikes = existingBike ? updateObjectInArray(bikes, existingBike) : bikes;
         return (
             <div className='row'>
                 <div key="copy-quote" className="grid-container">
@@ -78,7 +84,7 @@ class QuoteCopy extends React.Component {
                         selectCustomer={this.handleInputChange}
                         searchParams={searchParams}
                         isLoading={isLoading}
-                        customers={customers}
+                        customers={fullCustomers}
                         count={count}
                         next={next}
                         selectedCustomer={selectedCustomer}
@@ -89,7 +95,7 @@ class QuoteCopy extends React.Component {
                         onClick={this.handleInputClear}
                         getFrameList={this.getFrameList}
                         brands={brands}
-                        bikes={bikes}
+                        bikes={fullBikes}
                         frames={frames}
                         brandSelected={brand}
                         frameName={frameName}
@@ -119,9 +125,10 @@ class QuoteCopy extends React.Component {
                     sections={sections}
                     parts={parts}
                     bikeParts={bikeParts}
-                    bikes={bikes}
+                    bikes={[existingBike]}
                     customers={[existingCustomer]}
                     frames={frames}
+                    users={users}
                 />
             </div>
         )
@@ -161,6 +168,7 @@ QuoteCopy.propTypes = {
     quoteParts: PropTypes.array,
     parts: PropTypes.array,
     sections: PropTypes.array,
+    users: PropTypes.array,
     quoteId: PropTypes.number,
 };
 export default QuoteCopy;

@@ -7,7 +7,7 @@ import ViewModelBlock from "../app/model/ViewModelBlock";
 import QuoteSummaryParts from "./QuoteSummaryParts";
 
 const QuoteSummary = props => {
-    const { showPrices, quote, quoteParts, brands, sections, parts, bikes, bikeParts, frames, customers } = props;
+    const { showPrices, quote, quoteParts, brands, sections, parts, bikes, bikeParts, frames, customers, users } = props;
 
     const thisQuoteParts = quoteParts.filter(quotePart => (quotePart.quote === quote.id));
     const bike = findObjectWithId(bikes, quote.bike);
@@ -21,6 +21,7 @@ const QuoteSummary = props => {
             bikes={bikes}
             customers={customers}
             frames={frames}
+            users={users}
         />
         <QuoteSummaryParts
             lockFirstColumn={true}
@@ -45,6 +46,7 @@ QuoteSummary.propTypes = {
     bikes: PropTypes.array.isRequired,
     customers: PropTypes.array.isRequired,
     frames: PropTypes.array.isRequired,
+    users: PropTypes.array.isRequired,
 };
 
 export default QuoteSummary;

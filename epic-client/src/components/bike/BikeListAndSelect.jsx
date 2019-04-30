@@ -10,7 +10,7 @@ const BikeListAndSelect = (props) => {
     const { onKeyPress, className, brands, onChange, brandSelected, onClick, frameName, getFrameList, canSelectArchived, archived, bikes, frames, selectedBike } = props;
     const bikeOptions = bikes.map(bike => {
         return {
-            value: String(getModelKey(bike)),
+            value: getModelKey(bike).toString(),
             name: bikeFullName(bike, frames, brands),
         }
     });
@@ -36,7 +36,7 @@ const BikeListAndSelect = (props) => {
                     options={bikeOptions}
                     title={'Select Bike'}
                     label={'Select Bike'}
-                    value={selectedBike}
+                    value={selectedBike.toString()}
                     data-test="bikes-select"
                     isEmptyAllowed={true}
                 />

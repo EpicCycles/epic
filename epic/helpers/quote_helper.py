@@ -33,7 +33,7 @@ def copy_quote_part_to_new_quote(quote_part, new_quote, bike_parts):
     quote_part.quote = new_quote
 
     if new_quote.bike:
-        bike_part = bike_parts.filter(part__partType=quote_part.partType)
+        bike_part = bike_parts.filter(part__partType=quote_part.partType).first()
 
         if quote_part.not_required:
             if bike_part:
