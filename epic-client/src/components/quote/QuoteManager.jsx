@@ -28,7 +28,7 @@ class QuoteManager extends React.Component {
     };
 
     checkPropsData = () => {
-        if (this.props.quoteId) this.setState({tab:2});
+        if (this.props.quoteId) this.setState({ tab: 2 });
     };
     changeCurrentTab = (newTab) => {
         if (newTab !== this.state.tab) {
@@ -72,6 +72,7 @@ class QuoteManager extends React.Component {
             users,
             archiveQuote,
             unarchiveQuote,
+            getQuoteToCopy,
             saveQuote,
             saveQuotePart,
             deleteQuotePart,
@@ -107,6 +108,7 @@ class QuoteManager extends React.Component {
                         getQuote={this.editQuote}
                         archiveQuote={archiveQuote}
                         unarchiveQuote={unarchiveQuote}
+                        cloneQuote={getQuoteToCopy}
                         quotes={quotes}
                         customers={customers}
                         brands={brands}
@@ -134,7 +136,7 @@ class QuoteManager extends React.Component {
                 archiveQuote={archiveQuote}
                 saveQuotePart={saveQuotePart}
                 deleteQuotePart={deleteQuotePart}
-                                        users={users}
+                users={users}
                 data-test="quote-detail-tab"
             />}
             {(tab === 3) && <Fragment>
@@ -206,6 +208,7 @@ QuoteManager.propTypes = {
     saveQuotePart: PropTypes.func.isRequired,
     saveQuote: PropTypes.func.isRequired,
     deleteQuotePart: PropTypes.func.isRequired,
+    getQuoteToCopy: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 

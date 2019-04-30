@@ -92,7 +92,7 @@ def quote_data_for_quote_or_customer(quote=None, customer=None):
         customer = quote.customer
         quote_id = quote.id
 
-    quotes = Quote.objects.filter(customer=customer, quote_status__in=[1, 2, 4])
+    quotes = Quote.objects.filter(customer=customer).exclude(quote_status=ARCHIVED)
     full_quote_data = build_quotes_and_related_data(quotes)
 
     full_quote_data['quoteId'] = quote_id
@@ -184,9 +184,11 @@ class QuoteCopy(generics.GenericAPIView):
 
     def post(self, request, quote_id):
         quote = self.get_object(quote_id)
-        customer_id = self.request.query_params.get('customer', None)
-        bike_id = self.request.query_params.get('bike', None)
-        quote_desc = self.request.query_params.get('quote_desc', None)
+        post_data = request.data
+        customer_id = post_data.get('customer', None)
+        bike_id = post_data.get('bike', None)
+        quote_desc = post_data.get('quote_desc', None)
+        print(customer_id, bike_id, quote_desc)
         customer = None
         bike = None
         if customer_id:
@@ -195,6 +197,7 @@ class QuoteCopy(generics.GenericAPIView):
         if bike_id:
             bike = Bike.objects.get(id=bike_id)
 
+        print(customer, bike)
         new_quote = copy_quote_with_changes(quote, request, quote_desc, bike, customer)
         new_quote.recalculate_price()
         return Response(quote_data_for_quote_or_customer(new_quote))

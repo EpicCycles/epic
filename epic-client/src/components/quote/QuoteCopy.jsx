@@ -1,33 +1,32 @@
 import React from 'react'
 import {Button, Dimmer, Loader} from 'semantic-ui-react'
 import {Redirect} from "react-router-dom";
-import {findObjectWithId, removeKey, updateObject} from "../../helpers/utils";
+import {findObjectWithId, removeKey, updateObject, updateObjectInArray} from "../../helpers/utils";
 import * as PropTypes from "prop-types";
 import CustomerListAndSelect from "../customer/CustomerListAndSelect";
 import BikeListAndSelect from "../bike/BikeListAndSelect";
 import {quoteDescription} from "./helpers/quote";
 import QuoteSummary from "./QuoteSummary";
-
-const initialState = {
-    brand: '',
-    frameName: '',
-    archived: false,
-};
+const defaultState = (props) => {
+        const { quotes, quoteId, customers } = props;
+        let quote;
+        if (quoteId) {
+            quote = findObjectWithId(quotes, quoteId);
+            const { customer, bike } = quote;
+            const existingCustomer = findObjectWithId(customers, customer);
+            return {
+                selectedCustomer: customer, bikeId: bike, existingCustomer,
+                brand: '',
+                frameName: '',
+                archived: false,
+            };
+        }
+        return {};
+    };
 
 class QuoteCopy extends React.Component {
-    state = initialState;
 
-    componentDidMount() {
-        this.setState(this.defaultState());
-    }
-
-    defaultState = () => {
-        const { quotes, quoteId } = this.props;
-        let quote;
-        if (quoteId) quote = findObjectWithId(quotes, quoteId);
-        const { customer, bike } = quote;
-        return { customer, bike };
-    };
+    state = defaultState(this.props);
 
     goToAddCustomer = () => {
         this.props.clearCustomerState();
@@ -50,14 +49,15 @@ class QuoteCopy extends React.Component {
         this.props.getFrameList(this.buildBikeSearchCriteria());
     };
     copyQuote = () => {
-        const customer = this.state.customer;
-        const bike = this.state.bike;
-        const quote_desc = quoteDescription(customer, bike, this.props.customers, this.props.frames, this.props.bikes, this.props.brands);
-        this.props.copyQuote(this.props.quoteId, { customer, bike, quote_desc });
+        const { selectedCustomer, selectedBike, existingCustomer } = this.state;
+        const fullCustomers = updateObjectInArray(this.props.customers, existingCustomer);
+        const quote_desc = quoteDescription(selectedCustomer, selectedBike, fullCustomers, this.props.frames, this.props.bikes, this.props.brands);
+        this.props.copyQuote(this.props.quoteId, { customer: selectedCustomer, bike: selectedBike, quote_desc });
     };
 
     render() {
-        const { getCustomerList, searchParams, isLoading, customers, count, next,
+        const {
+            getCustomerList, searchParams, isLoading, customers, count, next,
             brands, bikes, frames,
             quotes, quoteId, quoteParts, bikeParts,
             sections, parts
@@ -65,9 +65,9 @@ class QuoteCopy extends React.Component {
         let quote;
         if (quoteId) quote = findObjectWithId(quotes, quoteId);
 
-        const { bike, customer, brand, frameName, archived } = this.state;
-        if (! quote) return <Redirect to="/quote-list" push/>;
-        const copyAllowed = (customer && ( ! quote.bike || (quote.bike && bike)) );
+        const { selectedBike, selectedCustomer, brand, frameName, archived, existingCustomer } = this.state;
+        if (!quote) return <Redirect to="/quote-list" push/>;
+        const copyAllowed = (selectedCustomer && (!quote.bike || (quote.bike && selectedBike)));
         return (
             <div className='row'>
                 <div key="copy-quote" className="grid-container">
@@ -81,7 +81,7 @@ class QuoteCopy extends React.Component {
                         customers={customers}
                         count={count}
                         next={next}
-                        selectedCustomer={customer}
+                        selectedCustomer={selectedCustomer}
                         data-test="select-customer"
                     />
                     {quote.bike && <BikeListAndSelect
@@ -95,7 +95,7 @@ class QuoteCopy extends React.Component {
                         frameName={frameName}
                         canSelectArchived={true}
                         archived={archived}
-                        selectedBike={bike}
+                        selectedBike={selectedBike}
                         data-test="select-bike"
                     />}
                     <Button
@@ -120,7 +120,7 @@ class QuoteCopy extends React.Component {
                     parts={parts}
                     bikeParts={bikeParts}
                     bikes={bikes}
-                    customers={customers}
+                    customers={[existingCustomer]}
                     frames={frames}
                 />
             </div>

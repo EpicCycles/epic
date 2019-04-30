@@ -5,16 +5,17 @@ import {doWeHaveObjects, findObjectWithId} from "../../helpers/utils";
 import {Button, Dimmer, Loader} from "semantic-ui-react";
 import QuoteGrid from "./QuoteGrid";
 import QuoteSummary from "./QuoteSummary";
-import { QUOTE_DESC_FIELD, QUOTE_PRICE_FIELD} from "../app/model/helpers/fields";
+import {QUOTE_DESC_FIELD, QUOTE_PRICE_FIELD} from "../app/model/helpers/fields";
 
 const quoteListFields = [
     QUOTE_DESC_FIELD,
     QUOTE_PRICE_FIELD,
 ];
+
 class QuoteList extends React.Component {
 
     render() {
-        const { changeQuote, quoteId, clearQuoteState, searchParams, count, next, isLoading, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes, archiveQuote, unarchiveQuote, quoteParts, parts, bikeParts, sections } = this.props;
+        const { getQuoteToCopy, changeQuote, quoteId, clearQuoteState, searchParams, count, next, isLoading, getCustomerList, getFrameList, getQuote, getQuoteList, bikes, brands, customers, clearCustomerState, frames, quotes, archiveQuote, unarchiveQuote, quoteParts, parts, bikeParts, sections } = this.props;
         const haveQuotes = doWeHaveObjects(quotes);
         let quote;
         if (quoteId) quote = findObjectWithId(quotes, quoteId);
@@ -49,6 +50,7 @@ class QuoteList extends React.Component {
                             brands={brands}
                             bikes={bikes}
                             frames={frames}
+                            cloneQuote={getQuoteToCopy}
                         />
                         {quote && <QuoteSummary
                             showPrices={true}
@@ -125,6 +127,7 @@ QuoteList.propTypes = {
     getQuote: PropTypes.func.isRequired,
     archiveQuote: PropTypes.func.isRequired,
     unarchiveQuote: PropTypes.func.isRequired,
+    getQuoteToCopy: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
     quoteId: PropTypes.number,
 };

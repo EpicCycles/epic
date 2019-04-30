@@ -20,6 +20,7 @@ import PasswordChangeContainer from "../user/PasswordChangeContainer";
 import QuoteManagerContainer from "../quote/QuoteManagerContainer";
 import QuoteCreateContainer from "../quote/QuoteCreateContainer";
 import QuoteListContainer from "../quote/QuoteListContainer";
+import QuoteCopyContainer from "../quote/QuoteCopyContainer";
 
 ReactModal.setAppElement('#root');
 const App = () => (
@@ -44,6 +45,7 @@ const App = () => (
             <Route exact path="/quote-create" component={QuoteCreateContainer}/>
             <Route exact path="/quote-list" component={QuoteListContainer}/>
             <Route exact path="/quote" component={QuoteManagerContainer}/>
+            <Route exact path="/quote-copy" component={QuoteCopyContainer}/>
         </main>
     </div>
 );

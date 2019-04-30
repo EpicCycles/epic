@@ -8,6 +8,7 @@ import {
     DELETE_QUOTE_PART,
     FIND_QUOTES,
     GET_QUOTE,
+    GET_QUOTE_TO_COPY,
     SAVE_QUOTE_PART,
     UNARCHIVE_QUOTE,
     UPDATE_QUOTE,
@@ -44,6 +45,7 @@ const quote = (state = initialState, action) => {
         case `${CREATE_QUOTE}_OK`:
         case `${COPY_QUOTE}_OK`:
         case `${GET_QUOTE}_OK`:
+        case `${GET_QUOTE_TO_COPY}_OK`:
         case `${UPDATE_QUOTE}_OK`:
         case `${FIND_QUOTES}_OK`:
             return {
@@ -70,6 +72,7 @@ const quote = (state = initialState, action) => {
         case  `${COPY_QUOTE}_REQUESTED`:
         case  `${FIND_QUOTES}_REQUESTED`:
         case  `${GET_QUOTE}_REQUESTED`:
+        case  `${GET_QUOTE_TO_COPY}_REQUESTED`:
         case  `${UPDATE_QUOTE}_REQUESTED`:
         case  `${ARCHIVE_QUOTE}_REQUESTED`:
         case  `${UNARCHIVE_QUOTE}_REQUESTED`:
@@ -83,6 +86,7 @@ const quote = (state = initialState, action) => {
         case  `${COPY_QUOTE}_ERROR`:
         case  `${FIND_QUOTES}_ERROR`:
         case  `${GET_QUOTE}_ERROR`:
+        case  `${GET_QUOTE_TO_COPY}_ERROR`:
         case  `${ARCHIVE_QUOTE}_ERROR`:
         case  `${UNARCHIVE_QUOTE}_ERROR`:
         case  `${DELETE_QUOTE_PART}_ERROR`:

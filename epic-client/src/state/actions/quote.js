@@ -1,5 +1,6 @@
 export const CREATE_QUOTE = 'quote/QUOTE_CREATE';
 export const COPY_QUOTE = 'quote/QUOTE_COPY';
+export const GET_QUOTE_TO_COPY = 'quote/GET_QUOTE_TO_COPY';
 export const FIND_QUOTES = 'quote/QUOTE_SEARCH';
 export const GET_QUOTE = 'quote/QUOTE_FETCH';
 export const CHANGE_QUOTE = 'quote/QUOTE_CHANGE';
@@ -64,6 +65,18 @@ export const getQuoteOK = (responseData) => ({
 });
 export const getQuoteError = (error) => ({
     type: `${GET_QUOTE}_ERROR`,
+    payload: error
+});
+export const getQuoteToCopy = (quoteId) => ({
+    type: `${GET_QUOTE_TO_COPY}_REQUESTED`,
+    payload: { quoteId }
+});
+export const getQuoteToCopyOK = (responseData) => ({
+    type:  `${GET_QUOTE_TO_COPY}_OK`,
+    payload: responseData
+});
+export const getQuoteToCopyError = (error) => ({
+    type: `${GET_QUOTE_TO_COPY}_ERROR`,
     payload: error
 });
 

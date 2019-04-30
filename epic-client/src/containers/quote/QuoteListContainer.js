@@ -6,7 +6,7 @@ import {
     changeQuote,
     clearQuoteState,
     getQuote,
-    getQuoteList,
+    getQuoteList, getQuoteToCopy,
     unarchiveQuote
 } from "../../state/actions/quote";
 import QuoteList from "../../components/quote/QuoteList";
@@ -43,5 +43,6 @@ const mapDispatchToProps = {
     getQuote,
     archiveQuote,
     unarchiveQuote,
+    getQuoteToCopy,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(QuoteList)

@@ -52,6 +52,7 @@ import {
     watchForUnarchiveQuote,
     watchForSaveQuotePart,
     watchForDeleteQuotePart,
+    watchForGetQuoteToCopy,
 } from "./quote";
 
 export default function* rootSaga() {
@@ -107,5 +108,6 @@ export default function* rootSaga() {
         watchForArchiveQuote(),
         watchForSaveQuotePart(),
         watchForDeleteQuotePart(),
+        watchForGetQuoteToCopy(),
     ]);
 }

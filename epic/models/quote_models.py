@@ -106,3 +106,5 @@ class QuotePart(models.Model):
     part_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     not_required = models.BooleanField(default=False)
     additional_data = models.CharField(max_length=40, blank=True, null=True)
+
+

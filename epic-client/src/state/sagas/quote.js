@@ -18,11 +18,11 @@ import {
     deleteQuotePartError,
     deleteQuotePartOK,
     FIND_QUOTES,
-    GET_QUOTE,
+    GET_QUOTE, GET_QUOTE_TO_COPY,
     getQuoteError,
     getQuoteListError,
     getQuoteListOK,
-    getQuoteOK,
+    getQuoteOK, getQuoteToCopyError, getQuoteToCopyOK,
     SAVE_QUOTE_PART,
     saveQuoteError,
     saveQuoteOK,
@@ -114,6 +114,8 @@ export function* copyQuote(action) {
             const completePayload = updateObject(action.payload, { token });
             const response = yield call(quote.copyQuote, completePayload);
             yield put(copyQuoteOK(response.data));
+            yield put(getCustomer(response.data.customerId));
+            yield call(history.push, "/quote");
         } else {
             yield call(history.push, "/login");
         }
@@ -147,6 +149,26 @@ export function* getQuote(action) {
 
 export function* watchForGetQuote() {
     yield takeLatest(`${GET_QUOTE}_REQUESTED`, getQuote);
+}
+export function* getQuoteToCopy(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = updateObject(action.payload, { token });
+            const response = yield call(quote.getQuote, completePayload);
+            yield put(getQuoteToCopyOK(response.data));
+            yield call(history.push, "/quote-copy");
+        } else {
+            yield call(history.push, "/login");
+        }
+
+    } catch (error) {
+        yield put(getQuoteToCopyError(errorAsMessage(error, "Failed to get quote")));
+    }
+}
+
+export function* watchForGetQuoteToCopy() {
+    yield takeLatest(`${GET_QUOTE_TO_COPY}_REQUESTED`, getQuoteToCopy);
 }
 
 export function* getQuoteList(action) {

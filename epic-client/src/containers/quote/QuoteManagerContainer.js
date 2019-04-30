@@ -15,7 +15,7 @@ import QuoteManager from "../../components/quote/QuoteManager";
 import {
     archiveQuote,
     changeQuote,
-    deleteQuotePart,
+    deleteQuotePart, getQuoteToCopy,
     saveQuote,
     saveQuotePart,
     unarchiveQuote
@@ -55,5 +55,6 @@ const mapDispatchToProps = {
     saveQuote,
     saveQuotePart,
     deleteQuotePart,
+    getQuoteToCopy,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(QuoteManager)

@@ -47,12 +47,16 @@ describe('QuoteCopy', () => {
             bikes={sampleBikes}
             quoteId={2}
             quotes={[{ id: 2, customer: 23 }]}
-        />);
+               customers={[
+                   {id:23, first_name:'Sue'},
+                   {id:1, first_name:'Bill'}
+                   ]}
+     />);
         const expectedNewQuote = {
             customer: 1,
             bike: undefined,
         };
-        component.instance().handleInputChange('customer', 1);
+        component.instance().handleInputChange('selectedCustomer', 1);
         findDataTest(component, "copy-button").simulate('click');
         expect(copyQuote).toHaveBeenCalledTimes(1);
 
@@ -68,8 +72,9 @@ describe('QuoteCopy', () => {
             bikes={sampleBikes}
             quoteId={2}
             quotes={[{ id: 2, customer: 23 }]}
+            customers={[{id:23, first_name:'Sue'}]}
         />);
-        component.instance().handleInputChange('bike', 58);
+        component.instance().handleInputChange('selectedBike', 58);
         const expectedNewQuote = {
             customer: 23,
             bike: 58,

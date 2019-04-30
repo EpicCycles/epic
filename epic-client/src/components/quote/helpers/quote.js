@@ -46,3 +46,43 @@ export const quoteDescription = (customer, bike, customers, frames, bikes, brand
     }
     return `${customerName}${quote_desc} - ${formattedDate(new Date())}`;
 };
+
+export const quoteActions = (cloneQuote, issueQuote, changeQuote, quote, getQuote, archiveQuote, unarchiveQuote) => {
+    const actionArray = [];
+    if (cloneQuote) actionArray.push({
+        iconName: 'clone',
+        iconTitle: 'copy quote',
+        iconAction: cloneQuote,
+    });
+    if (issueQuote) actionArray.push({
+        iconName: 'email',
+        iconTitle: 'issue quote',
+        iconAction: changeQuote,
+        iconDisabled: (quote.quote_status !== QUOTE_INITIAL),
+    });
+    if (changeQuote) actionArray.push({
+        iconName: 'eye',
+        iconTitle: 'view quote',
+        iconAction: changeQuote,
+        iconDisabled: (quote.quote_status === QUOTE_ARCHIVED),
+    });
+    if (getQuote) actionArray.push({
+        iconName: 'edit',
+        iconTitle: 'edit quote',
+        iconAction: getQuote,
+        iconDisabled: (quote.quote_status !== QUOTE_INITIAL),
+    });
+    if (archiveQuote) actionArray.push({
+        iconName: 'remove',
+        iconTitle: 'archive quote',
+        iconAction: archiveQuote,
+        iconDisabled: (quote.quote_status === QUOTE_ARCHIVED),
+    });
+    if (unarchiveQuote) actionArray.push({
+        iconName: 'undo',
+        iconTitle: 'un-archive quote',
+        iconAction: unarchiveQuote,
+        iconDisabled: (quote.quote_status !== QUOTE_ARCHIVED),
+    });
+    return actionArray;
+};
