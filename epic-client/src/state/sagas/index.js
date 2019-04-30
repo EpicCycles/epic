@@ -53,6 +53,7 @@ import {
     watchForSaveQuotePart,
     watchForDeleteQuotePart,
     watchForGetQuoteToCopy,
+    watchForIssueQuote,
 } from "./quote";
 
 export default function* rootSaga() {
@@ -109,5 +110,6 @@ export default function* rootSaga() {
         watchForSaveQuotePart(),
         watchForDeleteQuotePart(),
         watchForGetQuoteToCopy(),
+        watchForIssueQuote(),
     ]);
 }

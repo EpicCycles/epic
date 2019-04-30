@@ -14,6 +14,7 @@ const BikeListAndSelect = (props) => {
             name: bikeFullName(bike, frames, brands),
         }
     });
+
     return <Fragment>
         <h2 data-test="list-and-search-heading">Select Bike</h2>
         <div className={className}>
@@ -52,6 +53,7 @@ BikeListAndSelect.defaultProps = {
     bikes: [],
     frames: [],
     className: 'row',
+    selectedBike: '',
 };
 BikeListAndSelect.propTypes = {
     brands: PropTypes.array,

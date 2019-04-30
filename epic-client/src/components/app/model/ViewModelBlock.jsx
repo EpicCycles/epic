@@ -5,7 +5,7 @@ import {getModelKey} from "./helpers/model";
 import ViewModelFieldRow from "./ViewModelFieldRow";
 
 const ViewModelBlock = (props) => {
-    const { model, modelFields, className = "", sections, bikes, frames, brands, suppliers, customers } = props;
+    const { model, modelFields, className = "", sections, bikes, frames, brands, suppliers, customers, users } = props;
     const componentKey = getModelKey(model);
     return <div className="grid-container">
          <div key="modelFields" className={`grid ${className}`}>
@@ -21,6 +21,7 @@ const ViewModelBlock = (props) => {
                 frames={frames}
                 customers={customers}
                 suppliers={suppliers}
+                users={users}
             />)}
         </div>
     </div>
@@ -28,6 +29,13 @@ const ViewModelBlock = (props) => {
 
 ViewModelBlock.defaultProps = {
     model: {},
+    sections: [],
+    brands: [],
+    bikes: [],
+    frames: [],
+    suppliers: [],
+    customers: [],
+    users:[],
 };
 
 ViewModelBlock.propTypes = {
@@ -40,5 +48,6 @@ ViewModelBlock.propTypes = {
     frames: PropTypes.array,
     suppliers: PropTypes.array,
     customers: PropTypes.array,
+    users: PropTypes.array,
 };
 export default ViewModelBlock;

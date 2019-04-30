@@ -5,6 +5,7 @@ export const FIND_QUOTES = 'quote/QUOTE_SEARCH';
 export const GET_QUOTE = 'quote/QUOTE_FETCH';
 export const CHANGE_QUOTE = 'quote/QUOTE_CHANGE';
 export const ARCHIVE_QUOTE = 'quote/QUOTE_ARCHIVE';
+export const ISSUE_QUOTE = 'quote/QUOTE_ISSUE';
 export const UNARCHIVE_QUOTE = 'quote/QUOTE_UNARCHIVE';
 export const UPDATE_QUOTE = 'quote/QUOTE_PUT';
 export const CLEAR_QUOTE_DATA = 'quote/QUOTE_CLEAR';
@@ -90,6 +91,19 @@ export const archiveQuoteOK = (responseData) => ({
 });
 export const archiveQuoteError = (error) => ({
     type: `${ARCHIVE_QUOTE}_ERROR`,
+    payload: error
+});
+
+export const issueQuote = (quoteId) => ({
+    type: `${ISSUE_QUOTE}_REQUESTED`,
+    payload: { quoteId }
+});
+export const issueQuoteOK = (responseData) => ({
+    type:  `${ISSUE_QUOTE}_OK`,
+    payload: responseData
+});
+export const issueQuoteError = (error) => ({
+    type: `${ISSUE_QUOTE}_ERROR`,
     payload: error
 });
 

@@ -9,7 +9,10 @@ exports[`ViewModelBlock it renders 1`] = `
     key="modelFields"
   >
     <ViewModelFieldRow
+      bikes={Array []}
+      brands={Array []}
       componentKey="new"
+      customers={Array []}
       field={
         Object {
           "error": "At least one line of address must be entered",
@@ -21,12 +24,19 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "text",
         }
       }
+      frames={Array []}
       index={0}
       key="ViewModelFieldRowaddress1"
       model={Object {}}
+      sections={Array []}
+      suppliers={Array []}
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
+      brands={Array []}
       componentKey="new"
+      customers={Array []}
       field={
         Object {
           "fieldName": "address2",
@@ -36,12 +46,19 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "text",
         }
       }
+      frames={Array []}
       index={1}
       key="ViewModelFieldRowaddress2"
       model={Object {}}
+      sections={Array []}
+      suppliers={Array []}
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
+      brands={Array []}
       componentKey="new"
+      customers={Array []}
       field={
         Object {
           "fieldName": "address3",
@@ -51,12 +68,19 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "text",
         }
       }
+      frames={Array []}
       index={2}
       key="ViewModelFieldRowaddress3"
       model={Object {}}
+      sections={Array []}
+      suppliers={Array []}
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
+      brands={Array []}
       componentKey="new"
+      customers={Array []}
       field={
         Object {
           "fieldName": "address4",
@@ -66,12 +90,19 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "text",
         }
       }
+      frames={Array []}
       index={3}
       key="ViewModelFieldRowaddress4"
       model={Object {}}
+      sections={Array []}
+      suppliers={Array []}
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
+      brands={Array []}
       componentKey="new"
+      customers={Array []}
       field={
         Object {
           "error": "A country must be selected",
@@ -1080,12 +1111,19 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "select_one",
         }
       }
+      frames={Array []}
       index={4}
       key="ViewModelFieldRowcountry"
       model={Object {}}
+      sections={Array []}
+      suppliers={Array []}
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
+      brands={Array []}
       componentKey="new"
+      customers={Array []}
       field={
         Object {
           "fieldName": "postcode",
@@ -1099,12 +1137,19 @@ exports[`ViewModelBlock it renders 1`] = `
           ],
         }
       }
+      frames={Array []}
       index={5}
       key="ViewModelFieldRowpostcode"
       model={Object {}}
+      sections={Array []}
+      suppliers={Array []}
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
+      brands={Array []}
       componentKey="new"
+      customers={Array []}
       field={
         Object {
           "fieldName": "billing",
@@ -1112,12 +1157,19 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "checkbox",
         }
       }
+      frames={Array []}
       index={6}
       key="ViewModelFieldRowbilling"
       model={Object {}}
+      sections={Array []}
+      suppliers={Array []}
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
+      brands={Array []}
       componentKey="new"
+      customers={Array []}
       field={
         Object {
           "fieldName": "add_date",
@@ -1126,12 +1178,19 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "date_time",
         }
       }
+      frames={Array []}
       index={7}
       key="ViewModelFieldRowadd_date"
       model={Object {}}
+      sections={Array []}
+      suppliers={Array []}
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
+      brands={Array []}
       componentKey="new"
+      customers={Array []}
       field={
         Object {
           "fieldName": "upd_date",
@@ -1140,9 +1199,13 @@ exports[`ViewModelBlock it renders 1`] = `
           "type": "date_time",
         }
       }
+      frames={Array []}
       index={8}
       key="ViewModelFieldRowupd_date"
       model={Object {}}
+      sections={Array []}
+      suppliers={Array []}
+      users={Array []}
     />
   </div>
 </div>
@@ -1157,6 +1220,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
     key="modelFields"
   >
     <ViewModelFieldRow
+      bikes={Array []}
       brands={
         Array [
           Object {
@@ -1174,6 +1238,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
         ]
       }
       componentKey={123}
+      customers={Array []}
       field={
         Object {
           "error": "At least one line of address must be entered",
@@ -1185,6 +1250,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "text",
         }
       }
+      frames={Array []}
       index={0}
       key="ViewModelFieldRowaddress1"
       model={
@@ -1244,8 +1310,10 @@ exports[`ViewModelBlock it renders with data 1`] = `
           },
         ]
       }
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
       brands={
         Array [
           Object {
@@ -1263,6 +1331,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
         ]
       }
       componentKey={123}
+      customers={Array []}
       field={
         Object {
           "fieldName": "address2",
@@ -1272,6 +1341,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "text",
         }
       }
+      frames={Array []}
       index={1}
       key="ViewModelFieldRowaddress2"
       model={
@@ -1331,8 +1401,10 @@ exports[`ViewModelBlock it renders with data 1`] = `
           },
         ]
       }
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
       brands={
         Array [
           Object {
@@ -1350,6 +1422,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
         ]
       }
       componentKey={123}
+      customers={Array []}
       field={
         Object {
           "fieldName": "address3",
@@ -1359,6 +1432,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "text",
         }
       }
+      frames={Array []}
       index={2}
       key="ViewModelFieldRowaddress3"
       model={
@@ -1418,8 +1492,10 @@ exports[`ViewModelBlock it renders with data 1`] = `
           },
         ]
       }
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
       brands={
         Array [
           Object {
@@ -1437,6 +1513,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
         ]
       }
       componentKey={123}
+      customers={Array []}
       field={
         Object {
           "fieldName": "address4",
@@ -1446,6 +1523,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "text",
         }
       }
+      frames={Array []}
       index={3}
       key="ViewModelFieldRowaddress4"
       model={
@@ -1505,8 +1583,10 @@ exports[`ViewModelBlock it renders with data 1`] = `
           },
         ]
       }
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
       brands={
         Array [
           Object {
@@ -1524,6 +1604,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
         ]
       }
       componentKey={123}
+      customers={Array []}
       field={
         Object {
           "error": "A country must be selected",
@@ -2532,6 +2613,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "select_one",
         }
       }
+      frames={Array []}
       index={4}
       key="ViewModelFieldRowcountry"
       model={
@@ -2591,8 +2673,10 @@ exports[`ViewModelBlock it renders with data 1`] = `
           },
         ]
       }
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
       brands={
         Array [
           Object {
@@ -2610,6 +2694,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
         ]
       }
       componentKey={123}
+      customers={Array []}
       field={
         Object {
           "fieldName": "postcode",
@@ -2623,6 +2708,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
           ],
         }
       }
+      frames={Array []}
       index={5}
       key="ViewModelFieldRowpostcode"
       model={
@@ -2682,8 +2768,10 @@ exports[`ViewModelBlock it renders with data 1`] = `
           },
         ]
       }
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
       brands={
         Array [
           Object {
@@ -2701,6 +2789,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
         ]
       }
       componentKey={123}
+      customers={Array []}
       field={
         Object {
           "fieldName": "billing",
@@ -2708,6 +2797,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "checkbox",
         }
       }
+      frames={Array []}
       index={6}
       key="ViewModelFieldRowbilling"
       model={
@@ -2767,8 +2857,10 @@ exports[`ViewModelBlock it renders with data 1`] = `
           },
         ]
       }
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
       brands={
         Array [
           Object {
@@ -2786,6 +2878,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
         ]
       }
       componentKey={123}
+      customers={Array []}
       field={
         Object {
           "fieldName": "add_date",
@@ -2794,6 +2887,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "date_time",
         }
       }
+      frames={Array []}
       index={7}
       key="ViewModelFieldRowadd_date"
       model={
@@ -2853,8 +2947,10 @@ exports[`ViewModelBlock it renders with data 1`] = `
           },
         ]
       }
+      users={Array []}
     />
     <ViewModelFieldRow
+      bikes={Array []}
       brands={
         Array [
           Object {
@@ -2872,6 +2968,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
         ]
       }
       componentKey={123}
+      customers={Array []}
       field={
         Object {
           "fieldName": "upd_date",
@@ -2880,6 +2977,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
           "type": "date_time",
         }
       }
+      frames={Array []}
       index={8}
       key="ViewModelFieldRowupd_date"
       model={
@@ -2939,6 +3037,7 @@ exports[`ViewModelBlock it renders with data 1`] = `
           },
         ]
       }
+      users={Array []}
     />
   </div>
 </div>

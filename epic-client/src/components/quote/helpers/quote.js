@@ -55,9 +55,9 @@ export const quoteActions = (cloneQuote, issueQuote, changeQuote, quote, getQuot
         iconAction: cloneQuote,
     });
     if (issueQuote) actionArray.push({
-        iconName: 'email',
+        iconName: 'mail',
         iconTitle: 'issue quote',
-        iconAction: changeQuote,
+        iconAction: issueQuote,
         iconDisabled: (quote.quote_status !== QUOTE_INITIAL),
     });
     if (changeQuote) actionArray.push({
@@ -70,7 +70,6 @@ export const quoteActions = (cloneQuote, issueQuote, changeQuote, quote, getQuot
         iconName: 'edit',
         iconTitle: 'edit quote',
         iconAction: getQuote,
-        iconDisabled: (quote.quote_status !== QUOTE_INITIAL),
     });
     if (archiveQuote) actionArray.push({
         iconName: 'remove',

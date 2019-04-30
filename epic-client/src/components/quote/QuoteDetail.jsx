@@ -5,27 +5,53 @@ import * as PropTypes from "prop-types";
 import {findPartsForBike} from "../bike/helpers/bike";
 import QuoteSummaryParts from "./QuoteSummaryParts";
 import QuotePartGrid from "./QuotePartGrid";
+import {QUOTE_INITIAL, quoteActions} from "./helpers/quote";
+import ModelActions from "../app/model/ModelActions";
+import {quoteFields} from "./helpers/display";
+import ViewModelBlock from "../app/model/ViewModelBlock";
 
 const QuoteDetail = props => {
-    const { quoteParts, parts, supplierProducts, users, brands, suppliers, sections, saveQuote, archiveQuote, quote, bikes, bikeParts, frames, customers, deleteQuotePart, saveQuotePart } = props;
+    const {
+        quoteParts, parts, supplierProducts,
+        users, brands, suppliers, sections,
+        saveQuote, archiveQuote,
+        quote, bikes, bikeParts, frames,
+        customers, deleteQuotePart, saveQuotePart,
+        cloneQuote, issueQuote, unarchiveQuote
+    } = props;
 
     const thisQuoteParts = quoteParts.filter(quotePart => (quotePart.quote === quote.id));
     const bike = findObjectWithId(bikes, quote.bike);
     const thisBikeParts = findPartsForBike(bike, bikeParts, parts);
+    const actionArray = quoteActions(cloneQuote, issueQuote, undefined, quote, undefined, archiveQuote, unarchiveQuote);
 
     return <div className="row">
         <div>
-            <QuoteEdit
-                quote={quote}
-                brands={brands}
-                bikes={bikes}
-                frames={frames}
-                users={users}
-                customers={customers}
-                saveQuote={saveQuote}
-                archiveQuote={archiveQuote}
-                key={`editQuote${quote.id}`}
-            />
+            <div className='align_right'>
+                <ModelActions
+                    actions={actionArray}
+                    componentKey={quote.id}
+                />
+            </div>
+            {quote.quote_status === QUOTE_INITIAL ? <QuoteEdit
+                    quote={quote}
+                    brands={brands}
+                    bikes={bikes}
+                    frames={frames}
+                    users={users}
+                    customers={customers}
+                    saveQuote={saveQuote}
+                    archiveQuote={archiveQuote}
+                    key={`editQuote${quote.id}`}
+                />
+                : <ViewModelBlock
+                    modelFields={quoteFields}
+                    model={quote}
+                    bikes={bikes}
+                    customers={customers}
+                    frames={frames}
+                    users={users}
+                />}
             <div className="grid-container">
                 <QuoteSummaryParts
                     lockFirstColumn={true}
@@ -38,7 +64,7 @@ const QuoteDetail = props => {
                 />
             </div>
         </div>
-        <div>
+        {quote.quote_status === QUOTE_INITIAL && <div>
             <QuotePartGrid
                 quoteParts={thisQuoteParts}
                 brands={brands}
@@ -51,7 +77,7 @@ const QuoteDetail = props => {
                 saveQuotePart={saveQuotePart}
                 quote={quote}
             />
-        </div>
+        </div>}
     </div>;
 };
 
@@ -81,6 +107,9 @@ QuoteDetail.propTypes = {
     archiveQuote: PropTypes.func.isRequired,
     deleteQuotePart: PropTypes.func.isRequired,
     saveQuotePart: PropTypes.func.isRequired,
+    cloneQuote: PropTypes.func.isRequired,
+    issueQuote: PropTypes.func.isRequired,
+    unarchiveQuote: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 export default QuoteDetail;

@@ -8,7 +8,7 @@ import {
     DELETE_QUOTE_PART,
     FIND_QUOTES,
     GET_QUOTE,
-    GET_QUOTE_TO_COPY,
+    GET_QUOTE_TO_COPY, ISSUE_QUOTE,
     SAVE_QUOTE_PART,
     UNARCHIVE_QUOTE,
     UPDATE_QUOTE,
@@ -16,6 +16,7 @@ import {
 import {CLEAR_ALL_STATE} from "../actions/application";
 import {CUSTOMER} from "../actions/customer";
 import {removeItemFromArray, updateObjectInArray, updateObjectWithApiErrors} from "../../helpers/utils";
+import {getModelKey} from "../../components/app/model/helpers/model";
 
 const initialState = {};
 
@@ -56,10 +57,12 @@ const quote = (state = initialState, action) => {
                 isLoading: false,
             };
         case `${ARCHIVE_QUOTE}_OK`:
+        case `${ISSUE_QUOTE}_OK`:
         case `${UNARCHIVE_QUOTE}_OK`:
             return {
                 ...state,
                 quotes: updateObjectInArray(state.quotes, action.payload),
+                quoteId: getModelKey(action.payload),
                 isLoading: false,
             };
         case CUSTOMER:
@@ -75,6 +78,7 @@ const quote = (state = initialState, action) => {
         case  `${GET_QUOTE_TO_COPY}_REQUESTED`:
         case  `${UPDATE_QUOTE}_REQUESTED`:
         case  `${ARCHIVE_QUOTE}_REQUESTED`:
+        case  `${ISSUE_QUOTE}_REQUESTED`:
         case  `${UNARCHIVE_QUOTE}_REQUESTED`:
         case  `${SAVE_QUOTE_PART}_REQUESTED`:
         case  `${DELETE_QUOTE_PART}_REQUESTED`:
@@ -88,6 +92,7 @@ const quote = (state = initialState, action) => {
         case  `${GET_QUOTE}_ERROR`:
         case  `${GET_QUOTE_TO_COPY}_ERROR`:
         case  `${ARCHIVE_QUOTE}_ERROR`:
+        case  `${ISSUE_QUOTE}_ERROR`:
         case  `${UNARCHIVE_QUOTE}_ERROR`:
         case  `${DELETE_QUOTE_PART}_ERROR`:
             return {

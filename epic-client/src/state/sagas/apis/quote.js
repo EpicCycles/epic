@@ -27,6 +27,11 @@ const recalculateQuote = async payload => {
     const quoteId = payload.quoteId;
     return await api.instance.post(`/api/quote/${quoteId}/recalculate/`);
 };
+const issueQuote = async payload => {
+    api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
+    const quoteId = payload.quoteId;
+    return await api.instance.post(`/api/quote/${quoteId}/issue/`);
+};
 const saveQuote = async payload => {
     api.instance.defaults.headers.common['Authorization'] = `Token ${payload.token}`;
     const quoteId = payload.quote.id;
@@ -71,4 +76,5 @@ export default {
     updateQuotePart,
     deleteQuotePart,
     recalculateQuote,
+    issueQuote,
 }

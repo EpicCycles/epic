@@ -8,6 +8,7 @@ import QuoteGrid from "./QuoteGrid";
 import QuoteDetail from "./QuoteDetail";
 import {Redirect} from "react-router-dom";
 import NoteGrid from "../note/NoteGrid";
+import {issueQuote} from "../../state/actions/quote";
 
 const tabs = [
     "Customer",
@@ -72,6 +73,7 @@ class QuoteManager extends React.Component {
             users,
             archiveQuote,
             unarchiveQuote,
+            issueQuote,
             getQuoteToCopy,
             saveQuote,
             saveQuotePart,
@@ -109,6 +111,7 @@ class QuoteManager extends React.Component {
                         archiveQuote={archiveQuote}
                         unarchiveQuote={unarchiveQuote}
                         cloneQuote={getQuoteToCopy}
+                        issueQuote={issueQuote}
                         quotes={quotes}
                         customers={customers}
                         brands={brands}
@@ -133,9 +136,12 @@ class QuoteManager extends React.Component {
                 suppliers={suppliers}
                 sections={sections}
                 saveQuote={saveQuote}
-                archiveQuote={archiveQuote}
                 saveQuotePart={saveQuotePart}
                 deleteQuotePart={deleteQuotePart}
+                archiveQuote={archiveQuote}
+                        unarchiveQuote={unarchiveQuote}
+                        cloneQuote={getQuoteToCopy}
+                issueQuote={issueQuote}
                 users={users}
                 data-test="quote-detail-tab"
             />}
@@ -209,6 +215,7 @@ QuoteManager.propTypes = {
     saveQuote: PropTypes.func.isRequired,
     deleteQuotePart: PropTypes.func.isRequired,
     getQuoteToCopy: PropTypes.func.isRequired,
+    issueQuote: PropTypes.func.isRequired,
     isLoading: PropTypes.bool,
 };
 

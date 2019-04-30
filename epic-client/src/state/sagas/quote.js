@@ -22,7 +22,7 @@ import {
     getQuoteError,
     getQuoteListError,
     getQuoteListOK,
-    getQuoteOK, getQuoteToCopyError, getQuoteToCopyOK,
+    getQuoteOK, getQuoteToCopyError, getQuoteToCopyOK, ISSUE_QUOTE, issueQuoteError, issueQuoteOK,
     SAVE_QUOTE_PART,
     saveQuoteError,
     saveQuoteOK,
@@ -287,4 +287,24 @@ export function* deleteQuotePart(action) {
 
 export function* watchForDeleteQuotePart() {
     yield takeLatest(`${DELETE_QUOTE_PART}_REQUESTED`, deleteQuotePart);
+}
+
+export function* issueQuote(action) {
+    try {
+        const token = yield select(selectors.token);
+        if (token) {
+            const completePayload = updateObject(action.payload, { token });
+            const response = yield call(quote.issueQuote, completePayload);
+            yield put(issueQuoteOK(response.data));
+        } else {
+            yield call(history.push, "/login");
+        }
+
+    } catch (error) {
+        yield put(issueQuoteError(errorAsMessage(error, "Issue Quote failed")));
+    }
+}
+
+export function* watchForIssueQuote() {
+    yield takeLatest(`${ISSUE_QUOTE}_REQUESTED`, issueQuote);
 }
