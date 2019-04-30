@@ -17,7 +17,7 @@ const QuoteGrid = props => {
         key='quotesGrid'
         className="grid"
         style={{
-            height: (window.innerHeight - 120) + "px",
+            maxHeight: (window.innerHeight - 120) + "px",
             maxWidth: (window.innerWidth - 120) + "px",
             overflow: "auto"
         }}

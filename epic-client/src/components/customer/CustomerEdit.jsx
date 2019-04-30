@@ -29,24 +29,19 @@ class CustomerEdit extends React.Component {
             this.props.createNote(noteToSave);
         }
     };
-    unArchiveQuote = quoteId => {
-        alert('would un-archive');
-    };
-    archiveQuote = quoteId => {
-        alert('would archive');
-    };
 
     render() {
         const { note } = this.state;
         const {
             addresses, phones, customers,
-            notes, frames, bikes, quotes, brands,
+            notes, frames, bikes, quotes, brands, users,
             deleteCustomer,
             isLoading, customerId,
             deleteNote,
             deleteCustomerPhone, saveCustomerPhone,
             saveCustomerAddress, deleteCustomerAddress,
-            saveCustomer, createCustomer, getQuote,
+            saveCustomer, createCustomer,
+            getQuote, archiveQuote, unarchiveQuote, getQuoteToCopy
         } = this.props;
         const customer = findObjectWithId(customers, customerId);
         const note_key = getModelKey(note);
@@ -81,6 +76,22 @@ class CustomerEdit extends React.Component {
                             data-test="edit-customer-phones"
                         />
                     </div>}
+                    {quotes && doWeHaveObjects(quotes) && <div className="grid-container">
+                        <QuoteGrid
+                            displayFields={quoteFieldsNoCustomer}
+                            getQuote={getQuote}
+                            archiveQuote={archiveQuote}
+                            unarchiveQuote={unarchiveQuote}
+                            cloneQuote={getQuoteToCopy}
+                            bikes={bikes}
+                            frames={frames}
+                            brands={brands}
+                            quotes={quotes}
+                            users={users}
+                        />
+                    </div>
+                    }
+
                 </div>
                 <div>
                     {(customerId) && <Fragment>
@@ -91,26 +102,15 @@ class CustomerEdit extends React.Component {
                             deleteNote={deleteNote}
                             data-test="add-customer-note"
                         />
-                        {notes && notes.map(oldNote => <ViewModelBlock
+                        {notes && notes.filter(note => (! note.quote)).map(oldNote => <ViewModelBlock
                             modelFields={customerNoteFields}
                             model={oldNote}
+                            key={`note_${getModelKey(oldNote)}`}
                         />)}
                     </Fragment>
                     }
                 </div>
             </section>
-            {quotes && doWeHaveObjects(quotes) && <section>
-                <QuoteGrid
-                    displayFields={quoteFieldsNoCustomer}
-                    getQuote={getQuote}
-                    archiveQuote={this.archiveQuote}
-                    unArchiveQuote={this.unArchiveQuote}
-                    bikes={bikes}
-                    frames={frames}
-                    brands={brands}
-                    quotes={quotes}
-                />
-            </section>}
 
             {isLoading &&
             <Dimmer active inverted>

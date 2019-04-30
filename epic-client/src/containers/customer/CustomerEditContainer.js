@@ -7,9 +7,9 @@ import {
 import {connect} from "react-redux";
 import CustomerEdit from "../../components/customer/CustomerEdit";
 import {createNote, deleteNote, saveNote} from "../../state/actions/note";
-import {getQuote} from "../../state/actions/quote";
+import {archiveQuote, getQuote, getQuoteToCopy, unarchiveQuote} from "../../state/actions/quote";
 
-export default connect(({ customer, note, quote, bike, core }) => ({
+export default connect(({ customer, note, quote, bike, core, user }) => ({
     customers: customer.customers,
     addresses: customer.addresses,
     phones: customer.phones,
@@ -21,11 +21,12 @@ export default connect(({ customer, note, quote, bike, core }) => ({
     bikes: bike.bikes,
     frames: bike.frames,
     brands: core.brands,
+    users: user.users,
     isLoading: customer.isLoading || note.isLoading
 }), {
     createCustomer, saveCustomer, deleteCustomer,
     createNote, saveNote,  deleteNote,
     saveCustomerPhone, deleteCustomerPhone,
     saveCustomerAddress, deleteCustomerAddress,
-    getQuote,
+    getQuote, archiveQuote, unarchiveQuote, getQuoteToCopy
 }) (CustomerEdit)
