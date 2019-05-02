@@ -26,40 +26,28 @@ const PartEditBlock = props => {
 
   return (
     <Fragment>
-  <h2>{part ? 'Selected' : 'New'} Part</h2>
+      <h2>{part ? 'Selected' : 'New'} Part</h2>
       <EditModelPage
-          model={part}
+        model={part}
         modelFields={editFields}
-          onChange={onChange}
+        onChange={onChange}
         persistedModel={persistedPart}
-          componentKey={componentKey}
+        componentKey={componentKey}
         brands={brands}
         sections={sections}
       />
-  <div style={{ width: '100%', textAlign: 'right' }}>
-          {part.changed
-            && <Icon
-id="reset-part" name="undo"
-              onClick={resetPart}
-              title="Reset Part details"
-            />
+      <div style={{ width: '100%', textAlign: 'right' }}>
+        {part.changed && (
+          <Icon id="reset-part" name="undo" onClick={resetPart} title="Reset Part details" />
         )}
-          {(part.changed && isValid)
-            && <Icon
-id="accept-part" name="check"
-              onClick={savePart}
-              title="Confirm Part Change"
-            />
+        {part.changed && isValid && (
+          <Icon id="accept-part" name="check" onClick={savePart} title="Confirm Part Change" />
         )}
-          {(deletePart && (part.id || part.changed))
-            && <Icon
-id="delete-part" name="trash"
-              onClick={deletePart}
-              title="Delete Part"
-            />
+        {deletePart && (part.id || part.changed) && (
+          <Icon id="delete-part" name="trash" onClick={deletePart} title="Delete Part" />
         )}
       </div>
-</Fragment>
+    </Fragment>
   );
 };
 PartEditBlock.defaultProps = {

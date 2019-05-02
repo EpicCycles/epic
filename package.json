@@ -10,7 +10,7 @@
     "dev": "webpack --mode development ./frontend/src/index.js --output ./frontend/static/frontend/main.js",
     "watch": "webpack --mode development ./frontend/src/index.js --output ./frontend/static/frontend/main.js --watch",
     "build": "webpack --mode production ./frontend/src/index.js --output ./frontend/static/frontend/main.js",
-    "lint": "eslint --debug src/",
+    "lint": "eslint . --ext .js,.jsx --debug src/",
     "lint:write": "eslint --debug src/ --fix",
     "test": "jest --watch",
     "test:coverage": "jest --coverage --colors",
@@ -21,7 +21,6 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {

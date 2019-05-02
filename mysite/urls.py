@@ -15,16 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth import views
+from django.urls import include, re_path
 
 from mysite import settings, debugUrls
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^api-auth/', include('rest_framework.urls')),
-    url(r'^rest-auth/', include('rest_auth.urls')),
-    url(r'', include('epic.urls')),
-    url('', include('frontend.urls')),
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^api-auth/', include('rest_framework.urls')),
+    re_path(r'^rest-auth/', include('rest_auth.urls')),
+    re_path(r'^api/', include('epic.urls')),
+    re_path(r'', include('frontend.urls')),
 ]
 if settings.DEBUG:
     urlpatterns = debugUrls.get_debug_urls() + urlpatterns

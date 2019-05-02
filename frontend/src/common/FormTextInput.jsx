@@ -5,7 +5,6 @@ import * as PropTypes from 'prop-types';
 const FormTextInput = props => {
   const {
     value,
-    id,
     className,
     dataType,
     disabled,
@@ -22,7 +21,7 @@ const FormTextInput = props => {
     size,
   } = props;
   return (
-    <div id={id} className={`row ${className}${error ? ' error' : ''}`}>
+    <div className={`row ${className}${error ? ' error' : ''}`}>
       {label && <label>{label}</label>}
       <input
         className={error ? ' error' : ''}
@@ -31,7 +30,7 @@ const FormTextInput = props => {
         placeholder={placeholder}
         title={`${title} ${error}`}
         name={fieldName}
-        id={fieldName}
+        key={fieldName}
         onChange={event => onChange(fieldName, event.target.value)}
         value={value}
         size={size}
@@ -44,7 +43,7 @@ const FormTextInput = props => {
         <span className="clearInput">
           <Icon
             name="remove"
-            id={`remove${fieldName}`}
+            key={`remove${fieldName}`}
             size="small"
             circular
             link
@@ -68,7 +67,6 @@ FormTextInput.defaultProps = {
   size: 30,
 };
 FormTextInput.propTypes = {
-  id: PropTypes.string.isRequired,
   className: PropTypes.string,
   error: PropTypes.string,
   label: PropTypes.string,

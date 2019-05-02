@@ -3,7 +3,6 @@
 exports[`FormTextInput renders an error when present 1`] = `
 <div
   className="row  error"
-  id="5678"
 >
   <label>
     Test
@@ -26,7 +25,6 @@ exports[`FormTextInput renders an error when present 1`] = `
 exports[`FormTextInput renders the form numeric input correctly 1`] = `
 <div
   className="row "
-  id="1234"
 >
   <label>
     Test
@@ -49,7 +47,6 @@ exports[`FormTextInput renders the form numeric input correctly 1`] = `
 exports[`FormTextInput renders the form text input correctly 1`] = `
 <div
   className="row "
-  id="1234"
 >
   <label>
     Test
@@ -76,7 +73,7 @@ exports[`FormTextInput should call onChange when an input is entered 1`] = `
   <input
     autoComplete="off"
     className=""
-    id="email"
+    key="email"
     list=""
     maxLength={30}
     name="email"
@@ -93,7 +90,7 @@ exports[`FormTextInput should call onChange when an input is entered 1`] = `
     <Icon
       as="i"
       circular={true}
-      id="removeemail"
+      key="removeemail"
       link={true}
       name="remove"
       onClick={[Function]}
