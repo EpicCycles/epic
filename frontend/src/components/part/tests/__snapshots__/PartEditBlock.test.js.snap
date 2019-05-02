@@ -1,0 +1,616 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should display all icons when a part is changed 1`] = `
+<Fragment>
+  <h2>
+    Selected
+     Part
+  </h2>
+  <EditModelPage
+    brands={
+      Array [
+        Object {
+          "brand_name": "brand 1",
+          "id": 1,
+        },
+        Object {
+          "brand_name": "brand 2",
+          "id": 2,
+          "supplier": Array [],
+          "supplier_names": Array [],
+        },
+        Object {
+          "brand_name": "brand 3",
+          "id": 3,
+          "supplier": Array [
+            1,
+          ],
+          "supplier_names": Array [
+            "supplier 1",
+          ],
+        },
+        Object {
+          "brand_name": "brand 4",
+          "delete": true,
+          "id": 4,
+        },
+        Object {
+          "brand_name": "brand 5",
+          "changed": true,
+          "id": 5,
+          "supplier": Array [
+            1,
+            3,
+          ],
+          "supplier_names": Array [
+            "supplier 1",
+            "supplier 3",
+          ],
+        },
+        Object {
+          "brand_name": "brand new",
+          "changed": true,
+          "dummyKey": "123ABC",
+        },
+        Object {
+          "brand_name": "brand new 2",
+          "changed": true,
+          "dummyKey": "new",
+        },
+      ]
+    }
+    componentKey={1}
+    model={
+      Object {
+        "brand": 12,
+        "changed": true,
+        "id": 1,
+        "partType": 12,
+        "part_name": "a part name",
+        "standard": true,
+        "stocked": true,
+        "trade_in_price": 24.99,
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "A brand must be selected",
+          "fieldName": "brand",
+          "header": "Brand",
+          "required": true,
+          "synonyms": Array [
+            "brand",
+            "manufacturer",
+          ],
+          "type": "brand",
+        },
+        Object {
+          "error": "A name is required for the part",
+          "fieldName": "part_name",
+          "header": "Part Name",
+          "required": true,
+        },
+        Object {
+          "fieldName": "trade_in_price",
+          "header": "Trade In £",
+          "length": 10,
+          "size": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "standard",
+          "header": "Standard",
+          "type": "checkbox",
+        },
+      ]
+    }
+    onChange={[MockFunction]}
+    persistedModel={
+      Object {
+        "brand": 12,
+        "id": 1,
+        "partType": 12,
+        "part_name": "a part name",
+        "standard": false,
+        "stocked": false,
+        "trade_in_price": 24.99,
+      }
+    }
+    sections={
+      Array [
+        Object {
+          "id": 1,
+          "name": "Frameset",
+          "partTypes": Array [
+            Object {
+              "attributes": Array [
+                Object {
+                  "attribute_name": "Size",
+                  "attribute_type": "1",
+                  "id": 1,
+                  "in_use": true,
+                  "mandatory": true,
+                  "options": Array [],
+                  "partType": 1,
+                  "placing": 10,
+                },
+              ],
+              "can_be_omitted": false,
+              "can_be_substituted": true,
+              "customer_facing": false,
+              "id": 1,
+              "includeInSection": 1,
+              "name": "Frame",
+              "placing": 10,
+              "synonyms": Array [],
+            },
+            Object {
+              "attributes": Array [],
+              "can_be_omitted": true,
+              "can_be_substituted": false,
+              "customer_facing": false,
+              "id": 2,
+              "includeInSection": 1,
+              "name": "Fork",
+              "placing": 20,
+              "synonyms": Array [
+                Object {
+                  "id": 1,
+                  "name": "Front Fork",
+                  "partType": 2,
+                },
+              ],
+            },
+            Object {
+              "attributes": Array [],
+              "can_be_omitted": false,
+              "can_be_substituted": false,
+              "customer_facing": true,
+              "id": 3,
+              "includeInSection": 1,
+              "name": "Headset",
+              "placing": 30,
+              "synonyms": Array [],
+            },
+          ],
+          "placing": 10,
+        },
+      ]
+    }
+  />
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      id="reset-part"
+      name="undo"
+      onClick={[MockFunction]}
+      title="Reset Part details"
+    />
+    <Icon
+      as="i"
+      id="accept-part"
+      name="check"
+      onClick={[MockFunction]}
+      title="Confirm Part Change"
+    />
+    <Icon
+      as="i"
+      id="delete-part"
+      name="trash"
+      onClick={[MockFunction]}
+      title="Delete Part"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`should display delete and reset when a part is changed but has errors 1`] = `
+<Fragment>
+  <h2>
+    Selected
+     Part
+  </h2>
+  <EditModelPage
+    brands={
+      Array [
+        Object {
+          "brand_name": "brand 1",
+          "id": 1,
+        },
+        Object {
+          "brand_name": "brand 2",
+          "id": 2,
+          "supplier": Array [],
+          "supplier_names": Array [],
+        },
+        Object {
+          "brand_name": "brand 3",
+          "id": 3,
+          "supplier": Array [
+            1,
+          ],
+          "supplier_names": Array [
+            "supplier 1",
+          ],
+        },
+        Object {
+          "brand_name": "brand 4",
+          "delete": true,
+          "id": 4,
+        },
+        Object {
+          "brand_name": "brand 5",
+          "changed": true,
+          "id": 5,
+          "supplier": Array [
+            1,
+            3,
+          ],
+          "supplier_names": Array [
+            "supplier 1",
+            "supplier 3",
+          ],
+        },
+        Object {
+          "brand_name": "brand new",
+          "changed": true,
+          "dummyKey": "123ABC",
+        },
+        Object {
+          "brand_name": "brand new 2",
+          "changed": true,
+          "dummyKey": "new",
+        },
+      ]
+    }
+    componentKey={1}
+    model={
+      Object {
+        "brand": 12,
+        "changed": true,
+        "error": "has an error",
+        "id": 1,
+        "partType": 12,
+        "part_name": "a part name",
+        "standard": true,
+        "stocked": true,
+        "trade_in_price": 24.99,
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "A brand must be selected",
+          "fieldName": "brand",
+          "header": "Brand",
+          "required": true,
+          "synonyms": Array [
+            "brand",
+            "manufacturer",
+          ],
+          "type": "brand",
+        },
+        Object {
+          "error": "A name is required for the part",
+          "fieldName": "part_name",
+          "header": "Part Name",
+          "required": true,
+        },
+        Object {
+          "fieldName": "trade_in_price",
+          "header": "Trade In £",
+          "length": 10,
+          "size": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "standard",
+          "header": "Standard",
+          "type": "checkbox",
+        },
+      ]
+    }
+    onChange={[MockFunction]}
+    persistedModel={
+      Object {
+        "brand": 12,
+        "id": 1,
+        "partType": 12,
+        "part_name": "a part name",
+        "standard": false,
+        "stocked": false,
+        "trade_in_price": 24.99,
+      }
+    }
+    sections={
+      Array [
+        Object {
+          "id": 1,
+          "name": "Frameset",
+          "partTypes": Array [
+            Object {
+              "attributes": Array [
+                Object {
+                  "attribute_name": "Size",
+                  "attribute_type": "1",
+                  "id": 1,
+                  "in_use": true,
+                  "mandatory": true,
+                  "options": Array [],
+                  "partType": 1,
+                  "placing": 10,
+                },
+              ],
+              "can_be_omitted": false,
+              "can_be_substituted": true,
+              "customer_facing": false,
+              "id": 1,
+              "includeInSection": 1,
+              "name": "Frame",
+              "placing": 10,
+              "synonyms": Array [],
+            },
+            Object {
+              "attributes": Array [],
+              "can_be_omitted": true,
+              "can_be_substituted": false,
+              "customer_facing": false,
+              "id": 2,
+              "includeInSection": 1,
+              "name": "Fork",
+              "placing": 20,
+              "synonyms": Array [
+                Object {
+                  "id": 1,
+                  "name": "Front Fork",
+                  "partType": 2,
+                },
+              ],
+            },
+            Object {
+              "attributes": Array [],
+              "can_be_omitted": false,
+              "can_be_substituted": false,
+              "customer_facing": true,
+              "id": 3,
+              "includeInSection": 1,
+              "name": "Headset",
+              "placing": 30,
+              "synonyms": Array [],
+            },
+          ],
+          "placing": 10,
+        },
+      ]
+    }
+  />
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      id="reset-part"
+      name="undo"
+      onClick={[MockFunction]}
+      title="Reset Part details"
+    />
+    <Icon
+      as="i"
+      id="delete-part"
+      name="trash"
+      onClick={[MockFunction]}
+      title="Delete Part"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`should display just delete when a part is unchanged 1`] = `
+<Fragment>
+  <h2>
+    Selected
+     Part
+  </h2>
+  <EditModelPage
+    brands={
+      Array [
+        Object {
+          "brand_name": "brand 1",
+          "id": 1,
+        },
+        Object {
+          "brand_name": "brand 2",
+          "id": 2,
+          "supplier": Array [],
+          "supplier_names": Array [],
+        },
+        Object {
+          "brand_name": "brand 3",
+          "id": 3,
+          "supplier": Array [
+            1,
+          ],
+          "supplier_names": Array [
+            "supplier 1",
+          ],
+        },
+        Object {
+          "brand_name": "brand 4",
+          "delete": true,
+          "id": 4,
+        },
+        Object {
+          "brand_name": "brand 5",
+          "changed": true,
+          "id": 5,
+          "supplier": Array [
+            1,
+            3,
+          ],
+          "supplier_names": Array [
+            "supplier 1",
+            "supplier 3",
+          ],
+        },
+        Object {
+          "brand_name": "brand new",
+          "changed": true,
+          "dummyKey": "123ABC",
+        },
+        Object {
+          "brand_name": "brand new 2",
+          "changed": true,
+          "dummyKey": "new",
+        },
+      ]
+    }
+    componentKey={1}
+    model={
+      Object {
+        "brand": 12,
+        "id": 1,
+        "partType": 12,
+        "part_name": "a part name",
+        "standard": false,
+        "stocked": false,
+        "trade_in_price": 24.99,
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "A brand must be selected",
+          "fieldName": "brand",
+          "header": "Brand",
+          "required": true,
+          "synonyms": Array [
+            "brand",
+            "manufacturer",
+          ],
+          "type": "brand",
+        },
+        Object {
+          "error": "A name is required for the part",
+          "fieldName": "part_name",
+          "header": "Part Name",
+          "required": true,
+        },
+        Object {
+          "fieldName": "trade_in_price",
+          "header": "Trade In £",
+          "length": 10,
+          "size": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "standard",
+          "header": "Standard",
+          "type": "checkbox",
+        },
+      ]
+    }
+    onChange={[MockFunction]}
+    persistedModel={
+      Object {
+        "brand": 12,
+        "id": 1,
+        "partType": 12,
+        "part_name": "a part name",
+        "standard": false,
+        "stocked": false,
+        "trade_in_price": 24.99,
+      }
+    }
+    sections={
+      Array [
+        Object {
+          "id": 1,
+          "name": "Frameset",
+          "partTypes": Array [
+            Object {
+              "attributes": Array [
+                Object {
+                  "attribute_name": "Size",
+                  "attribute_type": "1",
+                  "id": 1,
+                  "in_use": true,
+                  "mandatory": true,
+                  "options": Array [],
+                  "partType": 1,
+                  "placing": 10,
+                },
+              ],
+              "can_be_omitted": false,
+              "can_be_substituted": true,
+              "customer_facing": false,
+              "id": 1,
+              "includeInSection": 1,
+              "name": "Frame",
+              "placing": 10,
+              "synonyms": Array [],
+            },
+            Object {
+              "attributes": Array [],
+              "can_be_omitted": true,
+              "can_be_substituted": false,
+              "customer_facing": false,
+              "id": 2,
+              "includeInSection": 1,
+              "name": "Fork",
+              "placing": 20,
+              "synonyms": Array [
+                Object {
+                  "id": 1,
+                  "name": "Front Fork",
+                  "partType": 2,
+                },
+              ],
+            },
+            Object {
+              "attributes": Array [],
+              "can_be_omitted": false,
+              "can_be_substituted": false,
+              "customer_facing": true,
+              "id": 3,
+              "includeInSection": 1,
+              "name": "Headset",
+              "placing": 30,
+              "synonyms": Array [],
+            },
+          ],
+          "placing": 10,
+        },
+      ]
+    }
+  />
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      id="delete-part"
+      name="trash"
+      onClick={[MockFunction]}
+      title="Delete Part"
+    />
+  </div>
+</Fragment>
+`;

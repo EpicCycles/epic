@@ -1,0 +1,230 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`displays correctly for existing supplier 1`] = `
+<Fragment>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      Edit Supplier
+    </h2>
+    <FormTextInput
+      className=""
+      dataType="text"
+      error=""
+      fieldName="supplier_name_1"
+      key="supplier_name_1"
+      label=""
+      list=""
+      onChange={[Function]}
+      placeholder="Supplier name"
+      size={30}
+      title=""
+      value="supplier name"
+    />
+    <FormTextInput
+      className=""
+      dataType="text"
+      error=""
+      fieldName="link_1"
+      key="link_1"
+      label=""
+      list=""
+      onChange={[Function]}
+      placeholder="link"
+      size={30}
+      title=""
+      value="supplier.co.uk"
+    />
+    <input
+      checked={false}
+      name="preferred_supplier"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label>
+      Preferred Supplier
+    </label>
+    <div>
+       Brands: 
+      brands 1, brand 2, brand 3
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      id="delete-supplier"
+      name="trash"
+      onClick={[Function]}
+      title="Delete Supplier"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`displays correctly for existing supplier as a modal dialogue 1`] = `
+<Fragment>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      circular={true}
+      link={true}
+      name="remove"
+      onClick={[MockFunction]}
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      Edit Supplier
+    </h2>
+    <FormTextInput
+      className=""
+      dataType="text"
+      error=""
+      fieldName="supplier_name_1"
+      key="supplier_name_1"
+      label=""
+      list=""
+      onChange={[Function]}
+      placeholder="Supplier name"
+      size={30}
+      title=""
+      value="supplier name"
+    />
+    <FormTextInput
+      className=""
+      dataType="text"
+      error=""
+      fieldName="link_1"
+      key="link_1"
+      label=""
+      list=""
+      onChange={[Function]}
+      placeholder="link"
+      size={30}
+      title=""
+      value="supplier.co.uk"
+    />
+    <input
+      checked={false}
+      name="preferred_supplier"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label>
+      Preferred Supplier
+    </label>
+    <div>
+       Brands: 
+      brands 1, brand 2, brand 3
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      id="delete-supplier"
+      name="trash"
+      onClick={[Function]}
+      title="Delete Supplier"
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`displays correctly for new supplier 1`] = `
+<Fragment>
+  <div
+    style={
+      Object {
+        "textAlign": "left",
+        "width": "100%",
+      }
+    }
+  >
+    <h2>
+      Edit Supplier
+    </h2>
+    <FormTextInput
+      className=""
+      dataType="text"
+      error=""
+      fieldName="supplier_name_new"
+      key="supplier_name_new"
+      label=""
+      list=""
+      onChange={[Function]}
+      placeholder="Supplier name"
+      size={30}
+      title=""
+      value=""
+    />
+    <FormTextInput
+      className=""
+      dataType="text"
+      error=""
+      fieldName="link_new"
+      key="link_new"
+      label=""
+      list=""
+      onChange={[Function]}
+      placeholder="link"
+      size={30}
+      title=""
+      value=""
+    />
+    <input
+      checked={true}
+      name="preferred_supplier"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <label>
+      Preferred Supplier
+    </label>
+    <div>
+       Brands: 
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  />
+</Fragment>
+`;

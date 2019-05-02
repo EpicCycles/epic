@@ -1,0 +1,946 @@
+
+:root {
+    --col-1: #0e1a40;
+    --col-2: #222f5b;
+    --col-3: #5d5d5d;
+    --col-4: #946b2d;
+    --col-5: #602320;
+    --col-6: #2a623d;
+    --col-7: #602320;
+    --col-8: #a32020;
+    --col-9: #e0301e;
+    --col-10: #eb8c00;
+    --col-11: #dc6900;
+    --col-12: #B10DC9;
+    --col-13: #85144B;
+    --col-epic-red: #c82011;
+    --col-white: #FFFFFF;
+    --col-pale-gray: #CCCCCC;
+    --col-silver: #DDDDDD;
+    --col-gray: #AAAAAA;
+    --col-dark-gray: #444444;
+    --col-black: #111111;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Lato, Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0;
+}
+
+table.fixed_header {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr:nth-child(even), .grid-row--shaded:nth-child(even) {
+    background: var(--col-pale-gray);
+}
+
+tr:nth-child(odd), .grid-row--shaded:nth-child(odd) {
+    background: var(--col-white);
+}
+
+.full {
+    width: 100%;
+}
+
+th {
+    padding: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    vertical-align: top;
+    text-align: center;
+}
+
+.listHead {
+    padding: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: var(--col-epic-red);
+    color: white;
+    vertical-align: bottom;
+    text-align: center;
+}
+
+td {
+    padding: 2px;
+    font-size: 1rem;
+    font-weight: normal;
+    vertical-align: top;
+}
+
+.menu td {
+    padding: 15px;
+    vertical-align: top;
+}
+
+.page_actions td {
+    vertical-align: middle;
+    align-content: end;
+}
+
+.page-header {
+    background-color: var(--col-epic-red);
+    margin-top: 0;
+    padding: 10px 10px 10px 10px;
+}
+
+.page-header h1, .page-header h1 a, .page-header h1 a:visited, .page-header h1 a:active {
+    color: var(--col-white);
+    text-decoration: none;
+}
+
+.internal_link, .menu-link {
+    display: block;
+    background-color: inherit;
+    font-size: 1.1rem;
+    color: black;
+    text-align: inherit;
+    padding: 5px;
+}
+
+a.internal_link:hover, a.internal_link:focus {
+    text-decoration: underline;
+    background-color: white;
+    color: black;
+}
+
+a.internal_link, a.internal_link:visited, a.internal_link:active {
+    text-decoration: none;
+    background-color: white;
+    color: black;
+
+}
+
+.menu-link a:hover, a:focus {
+    text-decoration: underline;
+    background-color: white;
+    color: black;
+}
+
+.menu-link a, a:visited, a:active {
+    text-decoration: none;
+    background-color: white;
+    color: black;
+
+}
+
+.content {
+    margin: 10px;
+}
+
+h1, h2, h3, h4 {
+    color: var(--col-epic-red);
+    font-family: Lato, Arial, Helvetica, sans-serif;
+    margin: 10px 0 5px 0;
+}
+
+body h1, .h1 {
+    font-size: 1.4rem;
+}
+
+body h2 {
+    font-size: 1.3rem;
+}
+
+body h3 {
+    font-size: 1.2rem;
+}
+
+body h4 {
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+section {
+    display: flex;
+    flex-direction: row;
+}
+.page-content {
+    display: inline-grid;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+div.fit-content {
+    width: fit-content;
+}
+
+section.flex-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+label, div.field-label {
+    font-weight: bold;
+    padding-left: 5px;
+    padding-right: 10px;
+}
+
+div.field-input {
+    font-weight: bold;
+    padding-left: 25px;
+}
+
+.half {
+    width: 50%;
+}
+
+.three-quarters {
+    width: 75%;
+}
+
+.one-quarter {
+    width: 25%;
+}
+
+.one-third {
+    width: 33%;
+}
+
+.save {
+    float: right;
+}
+
+.post-form textarea {
+    width: 100%;
+}
+
+.top-menu, .top-menu:hover, .top-menu:visited {
+    color: var(--col-epic-red);
+    float: right;
+    font-size: 1.1rem;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+/* input validation bits */
+input[type=text],
+input[type=email],
+input[type=number],
+textarea,
+select,
+fieldset {
+    border: 1px solid var(--col-dark-gray);
+    margin: 2px;
+
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: black;
+
+    box-sizing: border-box;
+}
+
+.postcode {
+    width: 30px;
+}
+
+select {
+    vertical-align: top;
+}
+
+input:invalid {
+    box-shadow: 0 0 5px 1px var(--col-epic-red);;
+    color: var(--col-epic-red);
+    font-weight: bold;
+}
+
+input:focus:invalid {
+    outline: none;
+}
+
+input:disabled, select:disabled {
+    background-color: var(--col-gray);
+}
+
+.red {
+    color: var(--col-epic-red);
+}
+
+.discarded {
+    text-decoration: line-through;
+}
+
+/*styles for messages*/
+.info {
+    color: var(--col-dark-gray);
+}
+
+.warning {
+    color: var(--col-epic-red);
+    font-style: italic;
+}
+
+.success {
+    color: var(--col-epic-red);
+    font-weight: bold;
+}
+
+.error, input.error {
+    color: var(--col-epic-red);
+    font-weight: bold;
+    background-color: rgba(200, 32, 17, 0.15);
+}
+
+div.error, td.error, tr.error {
+    background-color: rgba(200, 32, 17, 0.15);
+}
+
+.errorlist {
+    color: var(--col-epic-red);
+    font-weight: bold;
+}
+
+.noPadding td {
+    padding: 0;
+}
+
+.align_top {
+    vertical-align: top;
+}
+
+.vertical-middle {
+    vertical-align: middle;
+}
+
+.align_right {
+    text-align: right;
+}
+
+.align_left {
+    text-align: left;
+}
+
+.align_center {
+    text-align: center;
+}
+
+.circle {
+    border-radius: 50%;
+    display: inline-block;
+    padding: 1rem;
+    margin: 1rem;
+    min-height: 50px;
+    min-width: 50px;
+}
+
+.selected-circle {
+    font-size: xx-large;
+    text-decoration: underline;
+}
+
+.unselected-circle {
+    font-size: large;
+}
+
+/* button properties */
+button.disabled, .disabled {
+    text-decoration: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.disabled:hover, .disabled:focus, button.disabled:hover, button.disabled:focus {
+    text-decoration: none;
+    opacity: 0.6;
+    color: white;
+    cursor: not-allowed;
+}
+
+button, .ui.button, .ui.buttons, a.button, input.button {
+    background-color: var(--col-epic-red);
+    border: 1px var(--col-black);
+    border-radius: 4px;
+    color: white;
+    padding: 5px 5px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 1.4rem;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-family: Lato, Arial, Helvetica, sans-serif;
+    min-width: 50px;
+}
+
+button:disabled, .button:disabled {
+    text-decoration: none;
+    background-color: var(--col-gray);
+    border: 1px var(--col-black);
+    border-radius: 4px;
+}
+
+.ui.button:hover, .ui.button:focus, .button:hover, .button:focus {
+    text-decoration: underline;
+    color: white;
+    background-color: var(--col-epic-red);
+}
+
+/* override defaults */
+fieldset {
+    border: hidden;
+}
+
+/* class to remove tr's from display*/
+.no-show {
+    height: 0;
+    overflow: hidden;
+}
+
+.attributes ul {
+    display: block;
+    list-style-type: disc;
+    background-color: inherit;
+}
+
+.attributes li {
+    background-color: inherit;
+}
+
+/*Grid laout CSS for tables*/
+.grid-container {
+    display: grid; /* This is a (hacky) way to make the .grid element size to fit its content */
+    background: var(--col-white);
+    align-content: baseline;
+    padding: 10px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+}
+
+.grid {
+    display: table-column;
+    flex-wrap: nowrap;
+    border: 1.5em white solid;
+}
+
+.grid-row {
+    display: table-row;
+}
+
+.grid-col {
+    min-width: 150px;
+}
+
+.grid-row--header {
+    min-height: 25px;
+    position: sticky;
+    position: -webkit-sticky;
+}
+
+.grid-item--header {
+    position: sticky;
+    top: 0;
+    padding: 5px;
+    min-width: 100px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: var(--col-epic-red);
+    color: white;
+    vertical-align: bottom;
+    text-align: center;
+    display: table-cell;
+    z-index: 9000;
+}
+
+.grid-col--fixed-left, .grid-item--fixed-left, .grid-header--fixed-left {
+    position: sticky;
+    left: 0;
+}
+
+.grid-header--fixed-left, .grid-header--fixed-right {
+    background-color: var(--col-epic-red);
+    z-index: 9001;
+}
+
+.grid-col--fixed-left, .grid-item--fixed-left, .grid-col--fixed-right {
+    /*background: white;*/
+    background-color: white;
+    z-index: 8000;
+}
+
+.grid-col--fixed-right, .grid-header--fixed-right  {
+    position: sticky;
+    right: 0;
+}
+
+.grid-item {
+    border: 1px solid gray;
+}
+
+.grid-item--borderless, .grid-item {
+    padding: 2px;
+    font-size: 1rem;
+    font-weight: normal;
+    vertical-align: top;
+    display: table-cell;
+}
+
+/* navbar contents */
+.nav, .dropbtn, .dropdown, a.dropbtn:hover, a.dropbtn:visited, a.dropbtn:focus, a.dropbtn:active {
+    background-color: var(--col-epic-red);
+    z-index: 9500;
+}
+
+div.nav {
+    display: inline-flex;
+    align-items: center;
+}
+
+#user {
+    height: 100%;
+    vertical-align: center;
+    color: var(--col-white);
+}
+
+ul.nav {
+    list-style-type: none;
+    background-color: var(--col-epic-red);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+p.dropbtn {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+li.nav {
+    float: left;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 10px 12px;
+    text-decoration: none;
+}
+
+li.dropdown a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li.dropdown a:hover, .dropdown:hover .dropbtn {
+    text-decoration: underline;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+div.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-section {
+    z-index: 1;
+    padding: 14px 16px;
+    color: var(--col-epic-red);
+    font-weight: bold;
+}
+
+div.dropdown-content a {
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--col-silver);
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    background-color: var(--col-white);
+}
+
+a.dropbtn {
+    color: white;
+}
+
+div.dropdown-content a.dropbtn:hover, a.dropbtn:focus {
+    color: var(--col-epic-red);
+}
+
+/* dragable boxes */
+.rounded, .rounded-auto, .Modal {
+    border-radius: 5px;
+    border: 2px solid var(--col-gray);
+    margin: .2rem;
+    display: inline-block;
+}
+
+.rounded {
+    padding: 5px;
+    min-width: 150px;
+    min-height: 15px;
+}
+
+.rounded-auto {
+    padding: 0 5px;
+}
+
+/* Modal dialogs */
+.Modal {
+    position: relative;
+    top: 20%;
+    left: 40px;
+    right: 40px;
+    background-color: var(--col-white);
+    max-width: 80%;
+    padding: 10px;
+}
+
+.SupplierModal, .BrandModal {
+    left: calc(50% - 200px);
+    right: calc(50% - 200px);
+    width: 400px;
+}
+
+.PartTypeModal {
+    top: 20%;
+    left: calc(50% - 300px);
+    right: calc(50% - 300px);
+    width: 600px;
+    z-index: 9999;
+}
+
+.PartModal {
+    top: 20%;
+    width: 400px;
+    z-index: 9999;
+    min-height: 250px;
+}
+
+/* nice colours */
+.transition-01-02,
+.transition-02-03,
+.transition-03-04,
+.transition-04-05,
+.transition-05-06,
+.transition-06-07,
+.transition-07-08,
+.transition-08-09,
+.transition-09-10,
+.transition-10-11,
+.transition-11-12,
+.transition-12-13 {
+    height: 5px;
+    width: 20px;
+    display: inline-block;
+}
+
+.transition-01-02 {
+    background-image: linear-gradient(to right, var(--col-1), var(--col-2));
+}
+
+.transition-02-03 {
+    background-image: linear-gradient(to right, var(--col-2), var(--col-3));
+}
+
+.transition-03-04 {
+    background-image: linear-gradient(to right, var(--col-3), var(--col-4));
+}
+
+.transition-04-05 {
+    background-image: linear-gradient(to right, var(--col-4), var(--col-5));
+}
+
+.transition-05-06 {
+    background-image: linear-gradient(to right, var(--col-5), var(--col-6));
+}
+
+.transition-06-07 {
+    background-image: linear-gradient(to right, var(--col-6), var(--col-7));
+}
+
+.transition-07-08 {
+    background-image: linear-gradient(to right, var(--col-7), var(--col-8));
+}
+
+.transition-08-09 {
+    background-image: linear-gradient(to right, var(--col-8), var(--col-9));
+}
+
+.transition-09-10 {
+    background-image: linear-gradient(to right, var(--col-9), var(--col-10));
+}
+
+.transition-10-11 {
+    background-image: linear-gradient(to right, var(--col-10), var(--col-11));
+}
+
+.transition-11-12 {
+    background-image: linear-gradient(to right, var(--col-11), var(--col-12));
+}
+
+.transition-12-13 {
+    background-image: linear-gradient(to right, var(--col-12), var(--col-13));
+}
+
+/* Backgrounds */
+.bg-col-01 {
+    background-color: var(--col-1);
+}
+
+.bg-col-02 {
+    background-color: var(--col-2);
+}
+
+.bg-col-03 {
+    background-color: var(--col-3);
+}
+
+.bg-col-04 {
+    background-color: var(--col-4);
+}
+
+.bg-col-05 {
+    background-color: var(--col-5);
+}
+
+.bg-col-06 {
+    background-color: var(--col-6);
+}
+
+.bg-col-07 {
+    background-color: var(--col-7);
+}
+
+.bg-col-08 {
+    background-color: var(--col-8);
+}
+
+.bg-col-09 {
+    background-color: var(--col-9);
+}
+
+.bg-col-10 {
+    background-color: var(--col-10);
+}
+
+.bg-col-11 {
+    background-color: var(--col-11);
+}
+
+.bg-col-12 {
+    background-color: var(--col-12);
+}
+
+.bg-col-13 {
+    background-color: var(--col-13);
+}
+
+.bg-epic {
+    background-color: var(--col-epic-red);
+}
+
+.bg-white {
+    background-color: var(--col-white);
+}
+
+.bg-gray {
+    background-color: var(--col-gray);
+}
+
+.bg-silver {
+    background-color: var(--col-silver);
+}
+
+.bg-black {
+    background-color: var(--col-black);
+}
+
+/* Colors */
+.col-01, .col-02, .col-03, .col-04, .col-05, .col-06, .col-07, .col-08, .col-09, .col-10, .col-11, .col-12, .col-13 {
+    color: var(--col-white);
+}
+
+.epic {
+    color: var(--col-epic-red);
+}
+
+.white {
+    color: var(--col-white);
+}
+
+.gray {
+    color: var(--col-gray);
+}
+
+.silver {
+    color: var(--col-silver);
+}
+
+.black {
+    color: var(--col-black);
+}
+
+/* Border colors
+   Use with another border utility that sets border-width and style
+   i.e .border { border-width: 1px); border-style: solid); }
+*/
+.border-col-01 {
+    border-color: var(--col-1);
+}
+
+.border-col-02 {
+    border-color: var(--col-2);
+}
+
+.border-col-03 {
+    border-color: var(--col-3);
+}
+
+.border-col-04 {
+    border-color: var(--col-4);
+}
+
+.border-col-05 {
+    border-color: var(--col-5);
+}
+
+.border-col-06 {
+    border-color: var(--col-6);
+}
+
+.border-col-07 {
+    border-color: var(--col-7);
+}
+
+.border-col-08 {
+    border-color: var(--col-8);
+}
+
+.border-col-09 {
+    border-color: var(--col-9);
+}
+
+.border-col-10 {
+    border-color: var(--col-10);
+}
+
+.border-col-11 {
+    border-color: var(--col-11);
+}
+
+.border-col-12 {
+    border-color: var(--col-12);
+}
+
+.border-col-13 {
+    border-color: var(--col-13);
+}
+
+.border-epic {
+    border-color: var(--col-epic-red);
+}
+
+.border-white {
+    border-color: var(--col-white);
+}
+
+.border-gray {
+    border-color: var(--col-gray);
+}
+
+.border-silver {
+    border-color: var(--col-silver);
+}
+
+.border-black {
+    border-color: var(--col-black);
+}
+
+/*ui toggle checkbox colour  DOES NOT WORK */
+ui.toggle.checkbox input[type="checkbox"]:checked,
+ui.toggle.checkbox input[type="radio"]:checked {
+    color: var(--col-epic-red);
+    background-color: var(--col-epic-red);
+}
+
+/* tabbing headers */
+.tabrow {
+    position: relative;
+    text-align: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    line-height: 35px;
+    height: 37px;
+    overflow: hidden;
+    font-size: 12px;
+    display: inline-flex;
+     width: 100%;
+    border-bottom: 1px solid #AAA;;
+}
+
+.tabrow:after {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    border-bottom: 1px solid #AAA;
+    z-index: 1;
+}
+
+.tabrow:before {
+    z-index: 1;
+}
+
+.tabrow li {
+    position: relative;
+    z-index: 0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    background-color: var(--col-pale-gray);
+    margin: 0 -5px;
+    padding: 0 20px;
+}
+
+.tabrow li:hover {
+    background-color: var(--col-gray);
+}
+
+.tabrow li:before {
+    border-bottom-right-radius: 6px;
+    border-width: 0 1px 1px 0;
+}
+
+.tabrow li:after {
+    border-bottom-left-radius: 6px;
+    border-width: 0 0 1px 1px;
+}
+
+.tabrow li.tabSelected {
+    z-index: 2;
+    background-color: #ffffff;
+    border-bottom-color: #FFF;
+}
+
+.tabrow li.tabSelected:hover {
+    background-color: #ffffff;
+}

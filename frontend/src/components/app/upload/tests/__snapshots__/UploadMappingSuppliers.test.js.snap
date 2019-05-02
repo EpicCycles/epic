@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UploadMappingSuppliers it renders 1`] = `
+<Fragment
+  key="supplierProductUploadMapping"
+>
+  <section
+    className="row"
+    id="mappingData"
+    key="mappingData"
+  >
+    <div
+      className="rounded"
+      key="mapping0"
+    >
+      id 11
+      <Icon
+        as="i"
+        id="delete-field0"
+        name="trash"
+        onClick={[Function]}
+        title="Discard data"
+      />
+      <Icon
+        as="i"
+        id="create{index}"
+        name="add circle"
+        onClick={[Function]}
+        title="Create Supplier to store data"
+      />
+    </div>
+    <div
+      className="rounded"
+      key="mapping1"
+    >
+      id 111
+      <Icon
+        as="i"
+        id="delete-field1"
+        name="trash"
+        onClick={[Function]}
+        title="Discard data"
+      />
+      <Icon
+        as="i"
+        id="create{index}"
+        name="add circle"
+        onClick={[Function]}
+        title="Create Supplier to store data"
+      />
+    </div>
+    <div
+      className="rounded"
+      key="mapping2"
+    >
+      id 234
+      <Icon
+        as="i"
+        id="delete-field2"
+        name="trash"
+        onClick={[Function]}
+        title="Discard data"
+      />
+      <Icon
+        as="i"
+        id="create{index}"
+        name="add circle"
+        onClick={[Function]}
+        title="Create Supplier to store data"
+      />
+    </div>
+    <div
+      className="rounded discarded"
+      key="discard0"
+    >
+      id 11
+      <Icon
+        as="i"
+        id="restore-field0"
+        name="remove circle"
+        onClick={[Function]}
+        title="Do not Discard data"
+      />
+    </div>
+  </section>
+  <div>
+    <Button
+      as="button"
+      disabled={true}
+      key="uploadCont"
+      onClick={[Function]}
+      role="button"
+    >
+      Continue ...
+    </Button>
+  </div>
+</Fragment>
+`;

@@ -46,7 +46,7 @@ if ENV == 'TEST':
         'epic',
         'rest_framework', # enable rest framework
         'rest_framework.authtoken',
-        'epic-client', # enable react client
+        'frontend',  # enable react client
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',

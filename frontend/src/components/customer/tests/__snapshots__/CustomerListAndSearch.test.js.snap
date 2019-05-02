@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch correctly 1`] = `
+<Fragment>
+  <h2>
+    Find Customer
+  </h2>
+  <CustomerSearch
+    className="row"
+    isLoading={false}
+    searchParams={
+      Object {
+        "email": "",
+        "firstName": "",
+        "lastName": "",
+      }
+    }
+  />
+  <div
+    className="row align_left"
+  >
+    <div>
+      No Customer to show, set new criteria and search, or
+    </div>
+    <CustomerAddLink
+      addNewCustomer={[MockFunction]}
+    />
+  </div>
+</Fragment>
+`;
+
+exports[`CustomerListAndSearch.index tests renders the CustomerListAndSearch correctly when there are customers 1`] = `
+<Fragment>
+  <h2>
+    Find Customer
+  </h2>
+  <CustomerSearch
+    className="row"
+    isLoading={false}
+    searchParams={
+      Object {
+        "email": "",
+        "firstName": "",
+        "lastName": "",
+      }
+    }
+  />
+  <div
+    className="grid"
+    key="customer-list-container"
+  >
+    <CustomerListGridHeaders
+      className=""
+      includeActions={true}
+    />
+    <CustomerListGridRow
+      customer={
+        Object {
+          "add_date": "2018-07-04T13:02:09.988286+01:00",
+          "email": "anna.weaver@johnlewis.co.uk",
+          "first_name": "Anna",
+          "id": 16,
+          "last_name": "Weaver",
+          "upd_date": "2018-07-04T13:02:09.988343+01:00",
+        }
+      }
+      getCustomer={[MockFunction]}
+      key="cust-16"
+    />
+    <CustomerListGridRow
+      customer={
+        Object {
+          "add_date": "2018-07-04T13:02:09.988286+01:00",
+          "first_name": "dfds",
+          "id": 26,
+          "last_name": "Weasdfdsfver",
+          "upd_date": "2018-07-04T13:02:09.988343+01:00",
+        }
+      }
+      getCustomer={[MockFunction]}
+      key="cust-26"
+    />
+  </div>
+  <div
+    className="row align_left"
+  >
+    <Pagination
+      count={6}
+      id="customer-pagination"
+    />
+    <CustomerAddLink
+      addNewCustomer={[MockFunction]}
+    />
+  </div>
+</Fragment>
+`;

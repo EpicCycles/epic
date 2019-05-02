@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PartTypes displays when none present 1`] = `
+<table
+  className="full"
+  key="partTypes_new"
+>
+  <tbody>
+    <tr
+      key="partTypeNew_new"
+    >
+      <PartTypeEdit
+        componentKey="new"
+        key="partTypeEditNew"
+        partType={
+          Object {
+            "attributes": Array [],
+            "can_be_omitted": true,
+            "can_be_substituted": true,
+            "customer_visible": true,
+            "name": "",
+          }
+        }
+        updatePartType={[Function]}
+      />
+      <td />
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`PartTypes displays when only deleted present 1`] = `
+<table
+  className="full"
+  key="partTypes_66"
+>
+  <tbody>
+    <tr
+      key="partTypeNew_66"
+    >
+      <PartTypeEdit
+        componentKey="new"
+        key="partTypeEditNew"
+        partType={
+          Object {
+            "attributes": Array [],
+            "can_be_omitted": true,
+            "can_be_substituted": true,
+            "customer_visible": true,
+            "name": "",
+          }
+        }
+        updatePartType={[Function]}
+      />
+      <td />
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`PartTypes displays when some present 1`] = `
+<table
+  className="full"
+  key="partTypes_66"
+>
+  <tbody>
+    <tr
+      className=""
+      key="partType_23"
+      title=""
+    >
+      <PartTypeEdit
+        componentKey={23}
+        key="partTypeEdit23"
+        partType={
+          Object {
+            "id": 23,
+          }
+        }
+        updatePartType={[Function]}
+      />
+      <td>
+        <FrameworkMoves
+          componentKey={23}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      className=""
+      key="partType_dummy1"
+      title=""
+    >
+      <PartTypeEdit
+        componentKey="dummy1"
+        key="partTypeEditdummy1"
+        partType={
+          Object {
+            "dummyKey": "dummy1",
+          }
+        }
+        updatePartType={[Function]}
+      />
+      <td>
+        <FrameworkMoves
+          componentKey="dummy1"
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      className=""
+      key="partType_dummy2"
+      title=""
+    >
+      <PartTypeEdit
+        componentKey="dummy2"
+        key="partTypeEditdummy2"
+        partType={
+          Object {
+            "changed": true,
+            "dummyKey": "dummy2",
+          }
+        }
+        updatePartType={[Function]}
+      />
+      <td>
+        <FrameworkMoves
+          componentKey="dummy2"
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      className="error"
+      key="partType_62"
+      title="errors"
+    >
+      <PartTypeEdit
+        componentKey={62}
+        key="partTypeEdit62"
+        partType={
+          Object {
+            "error": true,
+            "error_detail": "errors",
+            "id": 62,
+          }
+        }
+        updatePartType={[Function]}
+      />
+      <td>
+        <FrameworkMoves
+          componentKey={62}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      key="partTypeNew_66"
+    >
+      <PartTypeEdit
+        componentKey="new"
+        key="partTypeEditNew"
+        partType={
+          Object {
+            "dummyKey": "new",
+          }
+        }
+        updatePartType={[Function]}
+      />
+      <td />
+    </tr>
+  </tbody>
+</table>
+`;

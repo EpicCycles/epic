@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomerRow tests renders the row correctly 1`] = `
+<tr
+  key="cust-row-1"
+>
+  <td
+    key="cust-fn-1"
+  >
+    Anna
+  </td>
+  <td
+    key="cust-ln-1"
+  >
+    Weaver
+  </td>
+  <td
+    key="cust-e-1"
+  >
+    anna.weaver@johnlewis.co.uk
+  </td>
+  <td
+    key="cust-a-1"
+  >
+    2018-07-04
+  </td>
+  <td
+    key="cust-u-1"
+  >
+    2018-07-04
+  </td>
+  <td
+    key="cust-act-1"
+  >
+    <Icon
+      as="i"
+      id="edit-cust-1"
+      name="edit"
+      onClick={[Function]}
+      title="Edit Customer"
+    />
+  </td>
+</tr>
+`;
