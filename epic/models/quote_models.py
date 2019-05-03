@@ -7,7 +7,7 @@ from django.utils import timezone
 from epic.models.bike_models import Bike
 from epic.models.brand_models import Part, Supplier
 from epic.models.customer_models import Customer, Fitting
-from epic.models.framework_models import PartType, PartTypeAttribute
+from epic.models.framework_models import PartType
 
 INITIAL = '1'
 ISSUED = '2'

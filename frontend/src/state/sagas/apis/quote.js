@@ -20,7 +20,7 @@ const archiveQuote = async payload => {
 const unarchiveQuote = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
   const quoteId = payload.quoteId;
-  return await api.instance.post(`/rest-epic/quote/${quoteId}/unarchive`);
+  return api.instance.post(`/rest-epic/quote/${quoteId}/unarchive`);
 };
 const recalculateQuote = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
@@ -30,18 +30,18 @@ const recalculateQuote = async payload => {
 const issueQuote = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
   const quoteId = payload.quoteId;
-  return await api.instance.post(`/rest-epic/quote/${quoteId}/issue`);
+  return api.instance.post(`/rest-epic/quote/${quoteId}/issue`);
 };
 const saveQuote = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
   const quoteId = payload.quote.id;
   const quoteData = payload.quote;
-  return await api.instance.put(`/rest-epic/quote/${quoteId}`, quoteData);
+  return api.instance.put(`/rest-epic/quote/${quoteId}`, quoteData);
 };
 const getQuote = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
   const quoteId = payload.quoteId;
-  return await api.instance.get(`/rest-epic/quote/${quoteId}`);
+  return api.instance.get(`/rest-epic/quote/${quoteId}`);
 };
 const getQuoteList = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
@@ -52,17 +52,17 @@ const getQuoteList = async payload => {
 const createQuotePart = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
   const quotePart = payload.quotePart;
-  return await api.instance.post('/rest-epic/quote-part', quotePart);
+  return api.instance.post('/rest-epic/quote-part', quotePart);
 };
 const updateQuotePart = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
   const quotePart = payload.quotePart;
-  return await api.instance.patch(`/rest-epic/quote-part/${quotePart.id}`, quotePart);
+  return api.instance.patch(`/rest-epic/quote-part/${quotePart.id}`, quotePart);
 };
 const deleteQuotePart = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
   const quotePartId = payload.quotePartId;
-  return await api.instance.delete(`/rest-epic/quote-part/${quotePartId}`);
+  return api.instance.delete(`/rest-epic/quote-part/${quotePartId}`);
 };
 export default {
   createQuote,

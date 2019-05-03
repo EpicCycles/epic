@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {
   CLUB_PRICE_FIELD,
   PART_TYPE_FIELD,
@@ -95,14 +96,18 @@ export const buildModelFields = (partType, quotePart, bikePart, quote) => {
   }
 
   if (isBikeQuote) {
-    required ? fields.push(NOT_REQUIRED_FIELD) : fields.push(NOT_REQUIRED_FIELD_DISABLED);
-    required && (quotePart && quotePart.not_required)
-      ? fields.push(TRADE_IN_PRICE_FIELD)
-      : fields.push(TRADE_IN_PRICE_FIELD_DISABLED);
+    if (required) {
+      fields.push(NOT_REQUIRED_FIELD);
+      if (quotePart && quotePart.not_required) {
+        fields.push(TRADE_IN_PRICE_FIELD);
+      } else fields.push(TRADE_IN_PRICE_FIELD_DISABLED);
+    } else {
+      fields.push(NOT_REQUIRED_FIELD_DISABLED);
+    }
   }
-  desc
-    ? fields.push(updateObject(PART_DESC_FIELD, { listId: `parts-${partTypeId}` }))
-    : fields.push(PART_DESC_FIELD_DISABLED);
+  if (desc) {
+    fields.push(updateObject(PART_DESC_FIELD, { listId: `parts-${partTypeId}` }));
+  } else fields.push(PART_DESC_FIELD_DISABLED);
   if (part) {
     const attributes = attributePlaceholder(partType);
     const additionalDataField = updateObject(ADDITIONAL_DATA_FIELD, {
@@ -144,8 +149,9 @@ export const addDescToQuotePart = passedProps => {
   let fullQuotePart;
   let part_desc;
 
-  if (passedProps.replacementPart)
+  if (passedProps.replacementPart) {
     part_desc = buildPartString(passedProps.replacementPart, passedProps.brands);
+  }
 
   if (passedProps.quotePart) {
     fullQuotePart = updateObject(passedProps.quotePart, { part_desc });

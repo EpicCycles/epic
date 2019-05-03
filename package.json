@@ -7,11 +7,11 @@
     "test": "test"
   },
   "scripts": {
-    "dev": "webpack --mode development ./frontend/src/index.js --output ./frontend/static/frontend/main.js",
+    "dev": "webpack --mode development",
     "watch": "webpack --mode development --watch",
-    "build": "webpack --mode production ./frontend/src/index.js --output ./frontend/static/frontend/main.js",
-    "lint": "eslint . --ext .js,.jsx --debug src/",
-    "lint:write": "eslint --debug src/ --fix",
+    "build": "webpack --mode production ",
+    "lint": "eslint",
+    "lint:write": "eslint --fix --ext .js,.jsx src",
     "test": "jest --watch",
     "test:coverage": "jest --coverage --colors",
     "prettier": "prettier --write src/**/*.js"
