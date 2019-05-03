@@ -6,6 +6,7 @@ import * as PropTypes from "prop-types";
 import CustomerListAndSelect from "../customer/CustomerListAndSelect";
 import BikeListAndSelect from "../bike/BikeListAndSelect";
 import {quoteDescription} from "./helpers/quote";
+import {CUSTOMER_URL} from "../menus/helpers/menu";
 
 const initialState = {
     brand: '',
@@ -25,7 +26,7 @@ class QuoteCreate extends React.Component {
 
     goToAddCustomer = () => {
         this.props.clearCustomerState();
-        this.setState({ redirect: '/customer' });
+        this.setState({ redirect: CUSTOMER_URL });
     };
 
     handleInputChange = (fieldName, input) => {

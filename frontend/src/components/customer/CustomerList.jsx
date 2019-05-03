@@ -2,18 +2,19 @@ import React from 'react'
 import {Dimmer, Loader} from 'semantic-ui-react'
 import {Redirect} from "react-router-dom";
 import CustomerListAndSearch from "./CustomerListAndSearch";
+import {CUSTOMER_URL} from "../menus/helpers/menu";
 
 class CustomerList extends React.Component {
     state = {};
 
     goToAddCustomer = () => {
         this.props.clearCustomerState();
-        this.setState({ redirect: '/customer' });
+        this.setState({ redirect: CUSTOMER_URL });
     };
 
     goToEditCustomer = (customerId) => {
         this.props.getCustomer(customerId);
-        this.setState({ redirect: '/customer' });
+        this.setState({ redirect: CUSTOMER_URL });
     };
 
     render() {

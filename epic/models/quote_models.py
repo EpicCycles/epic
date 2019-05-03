@@ -71,6 +71,9 @@ class Quote(models.Model):
                 self.colour_price = None
 
         for quote_part in QuotePart.objects.filter(quote=self):
+            quantity = Decimal(1)
+            if quote_part.quantity:
+                quantity = quote_part.quantity
             if quote_part.club_price and not self.club_member:
                 if quote_part.club_price:
                     quote_part.club_price = None
@@ -79,7 +82,7 @@ class Quote(models.Model):
                 quote_part.save()
 
             if quote_part.part_price:
-                new_calculated_price = new_calculated_price + quote_part.part_price
+                new_calculated_price = new_calculated_price + (quote_part.part_price * quantity)
             if quote_part.trade_in_price:
                 new_calculated_price = new_calculated_price - quote_part.trade_in_price
 

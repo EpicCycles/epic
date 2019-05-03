@@ -23,7 +23,7 @@ urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
     re_path(r'^api-auth/', include('rest_framework.urls')),
     re_path(r'^rest-auth/', include('rest_auth.urls')),
-    re_path(r'^api/', include('epic.urls')),
+    re_path(r'rest-epic/', include('epic.urls')),
     re_path(r'', include('frontend.urls')),
 ]
 if settings.DEBUG:

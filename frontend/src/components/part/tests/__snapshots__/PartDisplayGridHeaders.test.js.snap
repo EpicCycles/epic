@@ -14,6 +14,7 @@ exports[`should display all headers with locking and an extra class 1`] = `
   <PartHeaders
     className="pink"
     key="part-display-grid-header-part-headers"
+    lockFirstColumn={false}
     showErrors={true}
   />
   <SupplierProductFieldHeaders
@@ -39,6 +40,7 @@ exports[`should display all headers with locking and an extra class and actions 
   <PartHeaders
     className="pink"
     key="part-display-grid-header-part-headers"
+    lockFirstColumn={false}
     showErrors={true}
   />
   <SupplierProductFieldHeaders
@@ -70,6 +72,8 @@ exports[`should display just part headers when supplier products no requested 1`
   <PartHeaders
     className=""
     key="part-display-grid-header-part-headers"
+    lockFirstColumn={false}
+    showErrors={false}
   />
 </div>
 `;
