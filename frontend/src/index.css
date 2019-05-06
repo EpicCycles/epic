@@ -171,7 +171,7 @@ div.fit-content {
     width: fit-content;
 }
 
-section.flex-vertical {
+section.flex-vertical, div.flex-vertical {
     display: flex;
     flex-direction: column;
 }
