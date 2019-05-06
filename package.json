@@ -7,6 +7,7 @@
     "test": "test"
   },
   "scripts": {
+    "start": "react-scripts start",
     "dev": "webpack --mode development",
     "watch": "webpack --mode development --watch",
     "build": "webpack --mode production ",
@@ -17,11 +18,12 @@
     "prettier": "prettier --write src/**/*.js"
   },
   "jest": {
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "husky": {
-    "hooks": {
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "*.(js|jsx)": [
@@ -63,8 +65,6 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.3",
-    "babel-jest": "^24.7.1",
     "babel-loader": "^8.0.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "css-loader": "^2.1.1",
@@ -85,6 +85,7 @@
     "jest": "^24.7.1",
     "lint-staged": "^7.3.0",
     "prettier": "^1.17.0",
+    "react-scripts": "^3.0.0",
     "react-test-renderer": "16.8.*",
     "redux-mock-store": "^1.5.3",
     "style-loader": "^0.23.1",
