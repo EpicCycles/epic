@@ -13,7 +13,8 @@ class BrandSerializer(serializers.ModelSerializer):
         brand_name = data.get('brand_name')
         existing_brands = Brand.objects.filter(brand_name__iexact=brand_name)
         if self.instance:
-            existing_brands.exclude(id=self.instance.id)
+            existing_brands = existing_brands.exclude(id=self.instance.id)
+
         if existing_brands.exists():
             raise serializers.ValidationError('This brand is already set up')
         return data
