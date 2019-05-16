@@ -4,17 +4,19 @@ from epic.models.brand_models import Brand
 
 
 class BrandSerializer(serializers.ModelSerializer):
-    supplier_names = serializers.SerializerMethodField()
 
     class Meta:
         model = Brand
         fields = '__all__'
 
-    def get_supplier_names(self, brand):
-        supplier_names = []
-        for supplier in brand.supplier.all():
-            supplier_names.append(str(supplier))
-        return supplier_names
+    def validate(self, data):
+        brand_name = data.get('brand_name')
+        existing_brands = Brand.objects.filter(brand_name__iexact=brand_name)
+        if self.instance:
+            existing_brands.exclude(id=self.instance.id)
+        if existing_brands.exists():
+            raise serializers.ValidationError('This brand is already set up')
+        return data
 
     def validate_brand_name(self, value):
         if value:

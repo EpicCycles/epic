@@ -2,7 +2,7 @@ from django.urls import path
 
 from epic.api_views.attribute_option_api import AttributeOptions
 from epic.api_views.bike_api import Frames, FrameUpload, BikeParts, Bikes
-from epic.api_views.brands_api import Brands
+from epic.api_views.brands_api import Brands, BrandMaintain
 from epic.api_views.customer_address_api import CustomerAddressList, CustomerAddressMaintain
 from epic.api_views.customer_api import CustomerList, CustomerMaintain
 from epic.api_views.customer_phone_api import CustomerPhoneList, CustomerPhoneMaintain
@@ -22,6 +22,7 @@ from epic.api_views.user_api import CustomAuthToken, UserApi
 urlpatterns = [
     path('framework', Framework.as_view()),
     path('brands', Brands.as_view()),
+    path('brand/<int:pk>', BrandMaintain.as_view()),
     path('suppliers', Suppliers.as_view()),
     path('supplier/<int:pk>', MaintainSupplier.as_view()),
     path('partsection', PartSection.as_view()),
