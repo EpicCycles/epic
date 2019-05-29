@@ -171,8 +171,7 @@ class PartMaintain(generics.GenericAPIView):
 
     def delete(self, request, part_id):
         part = self.get_object(part_id)
-        if not BikePart.objects.filter(part=part).exists() \
-                and not QuotePart.objects.filter(part=part).exists():
+        if not QuotePart.objects.filter(part=part).exists():
             part.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -207,3 +206,7 @@ class SupplierProductMaintain(generics.GenericAPIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, supplier_product_id):
+        supplier_product = self.get_object(supplier_product_id)
+        supplier_product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
