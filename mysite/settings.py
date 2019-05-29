@@ -16,23 +16,29 @@ import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-with open(os.path.join(BASE_DIR,'config.json'), 'r') as f:
-    config = json.load(f)
+exists = os.path.isfile(os.path.join(BASE_DIR, 'config.json'))
+checkEnv = os.environ
+checkEnvDefault = os.environ
 
-# environment running int
-ENV = config['ENV_RUNNING']
+if exists:
+    with open(os.path.join(BASE_DIR, 'config.json'), 'r') as f:
+        config = json.load(f)
+
+    # environment running in
+    CURRENT_ENV = config['ENV_RUNNING']
+    checkEnv = config[CURRENT_ENV]
+    checkEnvDefault = config['DEFAULT']
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'ii-hi&7@w*vgxp=06ovn^c$+q2)yl=-f=28j8@6wzwtuq%t$1^'
-SECRET_KEY = config['DEFAULT']['SECRET_KEY']
+SECRET_KEY = checkEnvDefault['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config[ENV]['DEBUG']
+DEBUG = checkEnv['DEBUG']
 
-ALLOWED_HOSTS = config[ENV]['ALLOWED_HOSTS']
+ALLOWED_HOSTS = checkEnv['ALLOWED_HOSTS']
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -40,7 +46,7 @@ CACHES = {
 }
 
 # Application definition
-if ENV == 'TEST':
+if CURRENT_ENV == 'TEST':
     # settings for debug panels not in live
     INSTALLED_APPS = [
         'epic',
@@ -183,13 +189,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Apostle settings
-APOSTLE_DOMAIN_KEY = config[ENV]['APOSTLE_DOMAIN_KEY']
-APOSTLE_TEST = config[ENV]['APOSTLE_TEST']
-TO_EMAIL =  config[ENV]['TO_EMAIL']
-FROM_EMAIL = config[ENV]['FROM_EMAIL']
-
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 STATIC_URL = '/static/'
-if config[ENV]['STATIC_ROOT']:
-    STATIC_ROOT = config[ENV]['STATIC_ROOT']
+if checkEnv['STATIC_ROOT']:
+    STATIC_ROOT = checkEnv['STATIC_ROOT']
