@@ -1,74 +1,40 @@
-import BrandSelect from "../brand/BrandSelect";
-import FormTextInput from "../../common/FormTextInput";
-import {Button} from "semantic-ui-react";
-import * as PropTypes from "prop-types";
-import React, {Fragment} from "react";
-import SupplierSelect from "../supplier/SupplierSelect";
-
-const SupplierProductReviewListSelection = (props) => {
-    return <Fragment>
+import * as PropTypes from 'prop-types';
+import React, { Fragment } from 'react';
+import SearchBlock from '../../common/SearchBlock';
+class SupplierProductReviewListSelection extends React.Component {
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.props.listParts();
+    }
+  };
+  render() {
+    const { onChange, listParts, hasSelectionCriteria, searchFields, searchCriteria } = this.props;
+    return (
+      <Fragment>
         <h2>Get Parts</h2>
-        <div className="row vertical-middle">
-            <div className="field-label">Brand:</div>
-            <BrandSelect
-                brands={props.brands}
-                fieldName="brand"
-                onChange={props.onChange}
-                brandSelected={props.brandSelected}
-                isEmptyAllowed={true}
-            />
-            <div className="field-label">Supplier:</div>
-            <SupplierSelect
-                suppliers={props.suppliers}
-                fieldName="supplier"
-                onChange={props.onChange}
-                supplierSelected={props.supplierSelected}
-                isEmptyAllowed={true}
-            />
-            <div className="field-label">Part Name like:</div>
-            <FormTextInput
-                placeholder="Frame Name"
-                id="frame-name-input"
-                className="column "
-                fieldName="partName"
-                onChange={props.onChange}
-                onClick={props.onClick}
-                value={props.partName}
-            />
-            <div className="field-label">Standard only:</div>
-            <input type="checkbox"
-                   name="standard"
-                   onChange={() => props.onChange("standard", !props.standard)}
-                   checked={props.standard ? props.standard : false}
-            />
-            <div className="field-label">Stocked only:</div>
-            <input type="checkbox"
-                   name="stocked"
-                   onChange={() => props.onChange("stocked", !props.stocked)}
-                   checked={props.stocked ? props.stocked : false}
-            />
-            <Button
-                onClick={props.listParts}
-                disabled={!props.hasSelectionCriteria}
-            >
-                Find Products
-            </Button>
-        </div>
-    </Fragment>;
+        <SearchBlock
+          searchFields={searchFields}
+          onChange={onChange}
+          searchFnc={listParts}
+          onKeyPress={this.handleKeyPress}
+          searchTitle="Find Products"
+          displayRow={false}
+          searchCriteria={searchCriteria}
+          searchCriteriaValid={hasSelectionCriteria}
+        />
+      </Fragment>
+    );
+  }
+}
+SupplierProductReviewListSelection.defaultProps = {
+  searchCriteria: {},
 };
-
 SupplierProductReviewListSelection.propTypes = {
-    brands: PropTypes.any,
-    suppliers: PropTypes.any,
-    onChange: PropTypes.func,
-    brandSelected: PropTypes.string,
-    supplierSelected: PropTypes.string,
-    onClick: PropTypes.func,
-    partName: PropTypes.string,
-    standard: PropTypes.bool,
-    stocked: PropTypes.bool,
-    hasSelectionCriteria: PropTypes.bool,
-    listParts: PropTypes.func
+  searchFields: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired,
+  hasSelectionCriteria: PropTypes.bool,
+  listParts: PropTypes.func.isRequired,
+  searchCriteria: PropTypes.object,
 };
 
 export default SupplierProductReviewListSelection;

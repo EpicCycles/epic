@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic render should show the bike name and bike edit page when rendered 1`] = `
+<Fragment>
+  <h3>
+    Haibike: Trekking 4
+  </h3>
+  <EditModelPage
+    model={
+      Object {
+        "changed": false,
+        "club_price": "2249.00",
+        "colours": "anthracite/black/lime",
+        "description": null,
+        "epic_price": null,
+        "error": "",
+        "error_detail": Object {},
+        "frame": 14,
+        "id": 58,
+        "model_name": "4",
+        "rrp": null,
+        "sizes": null,
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "A name is required for the model",
+          "fieldName": "model_name",
+          "header": "Model Name",
+          "length": 100,
+          "required": true,
+          "size": 40,
+          "synonyms": Array [],
+          "type": "text",
+        },
+        Object {
+          "fieldName": "description",
+          "header": "Description",
+          "size": 400,
+          "synonyms": Array [
+            "description",
+            "desc",
+          ],
+          "type": "textArea",
+        },
+        Object {
+          "fieldName": "colours",
+          "header": "Colours",
+          "length": 100,
+          "size": 30,
+          "synonyms": Array [
+            "colours",
+            "colour",
+            "colors",
+            "color",
+          ],
+          "type": "text",
+        },
+        Object {
+          "fieldName": "rrp",
+          "header": "RRP",
+          "length": 10,
+          "size": 10,
+          "synonyms": Array [
+            "price",
+            "selling price",
+            "srp",
+            "rrp",
+            "sell price",
+            "retail price",
+          ],
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "epic_price",
+          "header": "Epic Price",
+          "length": 10,
+          "size": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "club_price",
+          "header": "Club Price",
+          "length": 10,
+          "size": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "sizes",
+          "header": "Sizes",
+          "length": 100,
+          "size": 50,
+          "synonyms": Array [
+            "sizes",
+            "size",
+            "frame sizes",
+            "frame size",
+          ],
+          "type": "text",
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={
+      Object {
+        "club_price": "2249.00",
+        "colours": "anthracite/black/lime",
+        "description": null,
+        "epic_price": null,
+        "frame": 14,
+        "id": 58,
+        "model_name": "4",
+        "rrp": null,
+        "sizes": null,
+      }
+    }
+  />
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      data-test="delete-bike"
+      id="delete-bike"
+      name="trash"
+      onClick={[Function]}
+      title="Delete Bike"
+    />
+  </div>
+</Fragment>
+`;

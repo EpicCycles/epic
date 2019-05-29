@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pagination tests renders the pagination correctly 1`] = `
+<span
+  id="paging"
+>
+  Page
+  : 
+  <Icon
+    as="i"
+    disabled={true}
+    id="firstPage"
+    name="angle double left"
+    onClick={[Function]}
+    title="Go to first page"
+  />
+  <Icon
+    as="i"
+    disabled={true}
+    id="prevPage"
+    name="angle left"
+    onClick={[Function]}
+    title="Go to previous page"
+  />
+  <span>
+     
+     
+  </span>
+  <Icon
+    as="i"
+    disabled={true}
+    id="nextPage"
+    name="angle right"
+    onClick={[Function]}
+    title="Go to next page"
+  />
+  <Icon
+    as="i"
+    disabled={true}
+    id="lastPage"
+    name="angle double right"
+    onClick={[Function]}
+    title="Go to last page"
+  />
+  (Total count 
+  1
+  )
+</span>
+`;

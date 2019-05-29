@@ -1,0 +1,230 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PartTypeAttributes tests renders the form correctly when all attributes deleted 1`] = `
+<table
+  className="full"
+  key="attributes_undefined"
+>
+  <tbody>
+    <tr>
+      <th>
+        Attribute Details
+      </th>
+      <th>
+        Options
+      </th>
+      <th>
+        Position
+      </th>
+    </tr>
+    <tr
+      key="newattributeRowundefined"
+    >
+      <PartTypeAttributeEdit
+        attribute={
+          Object {
+            "attribute_name": "",
+            "attribute_type": 1,
+            "in_use": true,
+            "mandatory": false,
+          }
+        }
+        componentKey="new"
+        handleAttributeChange={[Function]}
+        key="attributeEditNew"
+      />
+      <td />
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`PartTypeAttributes tests renders the form correctly with attributes 1`] = `
+<table
+  className="full"
+  key="attributes_undefined"
+>
+  <tbody>
+    <tr>
+      <th>
+        Attribute Details
+      </th>
+      <th>
+        Options
+      </th>
+      <th>
+        Position
+      </th>
+    </tr>
+    <tr
+      className=""
+      key="attributeRow12"
+      title=""
+    >
+      <PartTypeAttributeEdit
+        attribute={
+          Object {
+            "attribute_name": "Colour",
+            "attribute_type": "1",
+            "id": 12,
+            "in_use": true,
+            "mandatory": true,
+            "options": Array [],
+            "partType": 18,
+            "placing": 1,
+          }
+        }
+        componentKey={12}
+        handleAttributeChange={[Function]}
+        key="attributeEdit12"
+      />
+      <td>
+        <FrameworkMoves
+          componentKey={12}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      className=""
+      key="attributeRow17"
+      title=""
+    >
+      <PartTypeAttributeEdit
+        attribute={
+          Object {
+            "attribute_name": "Size",
+            "attribute_type": "1",
+            "id": 17,
+            "in_use": true,
+            "mandatory": true,
+            "options": Array [],
+            "partType": 18,
+            "placing": 2,
+          }
+        }
+        componentKey={17}
+        handleAttributeChange={[Function]}
+        key="attributeEdit17"
+      />
+      <td>
+        <FrameworkMoves
+          componentKey={17}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      className=""
+      key="attributeRow11"
+      title=""
+    >
+      <PartTypeAttributeEdit
+        attribute={
+          Object {
+            "attribute_name": "Valve Length",
+            "attribute_type": "4",
+            "id": 11,
+            "in_use": true,
+            "mandatory": false,
+            "options": Array [
+              Object {
+                "attribute_option": "Long",
+                "id": 5,
+                "part_type_attribute": 11,
+              },
+              Object {
+                "attribute_option": "Medium",
+                "id": 4,
+                "part_type_attribute": 11,
+              },
+              Object {
+                "attribute_option": "Short",
+                "id": 3,
+                "part_type_attribute": 11,
+              },
+            ],
+            "partType": 19,
+            "placing": 1,
+          }
+        }
+        componentKey={11}
+        handleAttributeChange={[Function]}
+        key="attributeEdit11"
+      />
+      <td>
+        <FrameworkMoves
+          componentKey={11}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      key="newattributeRowundefined"
+    >
+      <PartTypeAttributeEdit
+        attribute={
+          Object {
+            "attribute_name": "",
+            "attribute_type": 1,
+            "in_use": true,
+            "mandatory": false,
+          }
+        }
+        componentKey="new"
+        handleAttributeChange={[Function]}
+        key="attributeEditNew"
+      />
+      <td />
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`PartTypeAttributes tests renders the form correctly with no attributes 1`] = `
+<table
+  className="full"
+  key="attributes_undefined"
+>
+  <tbody>
+    <tr>
+      <th>
+        Attribute Details
+      </th>
+      <th>
+        Options
+      </th>
+      <th>
+        Position
+      </th>
+    </tr>
+    <tr
+      key="newattributeRowundefined"
+    >
+      <PartTypeAttributeEdit
+        attribute={
+          Object {
+            "attribute_name": "",
+            "attribute_type": 1,
+            "in_use": true,
+            "mandatory": false,
+          }
+        }
+        componentKey="new"
+        handleAttributeChange={[Function]}
+        key="attributeEditNew"
+      />
+      <td />
+    </tr>
+  </tbody>
+</table>
+`;

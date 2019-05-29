@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FrameworkMoves displays and right methods are called 1`] = `
+<Fragment>
+  <Icon
+    as="i"
+    circular={true}
+    id="moveToTop_21"
+    link={true}
+    name="angle double up"
+    onClick={[Function]}
+    size="small"
+  />
+  <Icon
+    as="i"
+    circular={true}
+    id="moveUp_21"
+    link={true}
+    name="angle up"
+    onClick={[Function]}
+    size="small"
+  />
+  <Icon
+    as="i"
+    circular={true}
+    id="moveDown_21"
+    link={true}
+    name="angle down"
+    onClick={[Function]}
+    size="small"
+  />
+  <Icon
+    as="i"
+    circular={true}
+    id="moveDown_21"
+    link={true}
+    name="angle double down"
+    onClick={[Function]}
+    size="small"
+  />
+</Fragment>
+`;

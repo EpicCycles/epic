@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it displays correctly 1`] = `
+Array [
+  <li
+    className="dropdown"
+    key="navSectionundefined"
+  >
+    <p
+      className="dropbtn"
+    >
+      Customer
+    </p>
+    <div
+      className="dropdown-content"
+    >
+      <div
+        className="dropdown-section"
+      >
+        Customer
+      </div>
+      <Link
+        className="dropbtn"
+        key="link1"
+        to="/customer-search"
+      >
+        Find Customer
+      </Link>
+      <Link
+        className="dropbtn"
+        key="link2"
+        to="/customer"
+      >
+        New Customer
+      </Link>
+    </div>
+  </li>,
+  <li
+    className="dropdown"
+    key="navSectionundefined"
+  >
+    <p
+      className="dropbtn"
+    >
+      Core Data
+    </p>
+    <div
+      className="dropdown-content"
+    >
+      <div
+        className="dropdown-section"
+      >
+        Core Data
+      </div>
+      <Link
+        className="dropbtn"
+        key="link3"
+        to="/framework"
+      >
+        Quote Sections
+      </Link>
+      <Link
+        className="dropbtn"
+        key="link4"
+        to="/brands"
+      >
+        Brands
+      </Link>
+    </div>
+  </li>,
+]
+`;

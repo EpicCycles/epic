@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TabbedView it selects the first tab if none passed 1`] = `
+<ul
+  className="tabrow"
+  data-test="tab-row"
+>
+  <li
+    className="tabSelected"
+    data-test="tab"
+    id="tab0"
+    key="tab0"
+    onClick={[Function]}
+  >
+    Addresses
+  </li>
+  <li
+    className="tabUnselected"
+    data-test="tab"
+    id="tab1"
+    key="tab1"
+    onClick={[Function]}
+  >
+    Phone numbers
+  </li>
+  <li
+    className="tabUnselected"
+    data-test="tab"
+    id="tab2"
+    key="tab2"
+    onClick={[Function]}
+  >
+    Fittings
+  </li>
+  <li
+    className="tabUnselected"
+    data-test="tab"
+    id="tab3"
+    key="tab3"
+    onClick={[Function]}
+  >
+    History
+  </li>
+  <li
+    className="tabUnselected"
+    data-test="tab"
+    id="tab4"
+    key="tab4"
+    onClick={[Function]}
+  >
+    Quotes
+  </li>
+</ul>
+`;
+
+exports[`TabbedView it selects the passed tab 1`] = `
+<ul
+  className="tabrow"
+  data-test="tab-row"
+>
+  <li
+    className="tabUnselected"
+    data-test="tab"
+    id="tab0"
+    key="tab0"
+    onClick={[Function]}
+  >
+    Addresses
+  </li>
+  <li
+    className="tabUnselected"
+    data-test="tab"
+    id="tab1"
+    key="tab1"
+    onClick={[Function]}
+  >
+    Phone numbers
+  </li>
+  <li
+    className="tabUnselected"
+    data-test="tab"
+    id="tab2"
+    key="tab2"
+    onClick={[Function]}
+  >
+    Fittings
+  </li>
+  <li
+    className="tabSelected"
+    data-test="tab"
+    id="tab3"
+    key="tab3"
+    onClick={[Function]}
+  >
+    History
+  </li>
+  <li
+    className="tabUnselected"
+    data-test="tab"
+    id="tab4"
+    key="tab4"
+    onClick={[Function]}
+  >
+    Quotes
+  </li>
+</ul>
+`;

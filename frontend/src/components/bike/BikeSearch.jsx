@@ -1,64 +1,67 @@
-import BrandSelect from "../brand/BrandSelect";
-import FormTextInput from "../../common/FormTextInput";
-import * as PropTypes from "prop-types";
-import React from "react";
-import SearchButton from "../../common/SearchButton";
-import FormCheckbox from "../../common/FormCheckbox";
+import * as PropTypes from 'prop-types';
+import React from 'react';
+import { ARCHIVED, CHECKBOX, SELECT_ONE, TEXT } from '../app/model/helpers/fields';
+import { buildBrandOptions } from '../brand/helpers/brand';
+import SearchBlock from '../../common/SearchBlock';
 
-const BikeSearch = (props) => {
-    return <div className={props.className}>
-        <div className="field-label">Brand:</div>
-        <BrandSelect
-            brands={props.brands}
-            fieldName="brand"
-            onChange={props.onChange}
-            brandSelected={props.brandSelected}
-            isEmptyAllowed={true}
-            bikeOnly={true}
-        />
-        <div className="field-label">Frame Name like:</div>
-        <FormTextInput
-            placeholder="Frame Name"
-            id="frame-name-input"
-            className="column "
-            fieldName="frameName"
-            onChange={props.onChange}
-            onClick={props.onClick}
-            value={props.frameName}
-            data-test="frame-name"
-            onKeyPress={props.onKeyPress}
-        />
-        {props.canSelectArchived && <FormCheckbox
-            onChange={props.onChange}
-            fieldName={'archived'}
-            fieldValue={props.archived}
-            fieldLabel='Include archived frames:'
-            data-test="archived-checkbox"
-            key='select-archived-for-bikes'
-        />}
-        <SearchButton
-            onClick={props.getFrameList}
-            disabled={!props.brandSelected}
-            title={'find matching bikes'}
-            data-test="search"
-        />
-    </div>;
+const BikeSearch = props => {
+  const {
+    brands,
+    onChange,
+    brand,
+    onKeyPress,
+    frameName,
+    archived,
+    className,
+    getFrameList,
+    displayRow,
+  } = props;
+  const searchFields = [
+    {
+      displayName: 'Brand:',
+      fieldName: 'brand',
+      type: SELECT_ONE,
+      selectList: buildBrandOptions(brands),
+    },
+    { displayName: 'Frame Name like:', fieldName: 'frameName', type: TEXT },
+  ];
+  if (props.canSelectArchived)
+    searchFields.push({
+      displayName: 'Include archived Frames:',
+      fieldName: ARCHIVED,
+      type: CHECKBOX,
+    });
+  const selectionCriteria = { brand, frameName, archived };
+  return (
+    <SearchBlock
+      searchFields={searchFields}
+      onChange={onChange}
+      searchFnc={getFrameList}
+      onKeyPress={onKeyPress}
+      searchTitle="Find Bikes"
+      displayRow={displayRow}
+      searchCriteria={selectionCriteria}
+      searchCriteriaValid={!!(brand || frameName)}
+      className={className}
+    />
+  );
 };
 BikeSearch.defaultProps = {
-    brands: [],
-    className: 'row',
+  brands: [],
+  className: '',
+  displayRow: true,
 };
 BikeSearch.propTypes = {
-    brands: PropTypes.any,
-    onChange: PropTypes.func.isRequired,
-    brandSelected: PropTypes.string,
-    className: PropTypes.string,
-    onClick: PropTypes.func.isRequired,
-    frameName: PropTypes.string,
-    canSelectArchived: PropTypes.bool,
-    archived: PropTypes.bool,
-    getFrameList: PropTypes.func.isRequired,
-    onKeyPress: PropTypes.func,
+  brands: PropTypes.any,
+  onChange: PropTypes.func.isRequired,
+  brand: PropTypes.string,
+  className: PropTypes.string,
+  frameName: PropTypes.string,
+  canSelectArchived: PropTypes.bool,
+  archived: PropTypes.bool,
+  displayRow: PropTypes.bool,
+  getFrameList: PropTypes.func.isRequired,
+  onKeyPress: PropTypes.func,
 };
 
 export default BikeSearch;

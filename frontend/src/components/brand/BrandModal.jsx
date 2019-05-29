@@ -1,58 +1,47 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import ReactModal from 'react-modal';
 
 import * as PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
 import { NEW_ELEMENT_ID } from '../../helpers/constants';
-import { brandFields } from '../app/model/helpers/fields';
+import { brandFields, supplierFields } from '../app/model/helpers/fields';
 import EditModelPage from '../app/model/EditModelPage';
-import { updateModel } from '../app/model/helpers/model';
+import { checkForChangesAllFields, getModelKey, updateModel } from '../app/model/helpers/model';
+import { updateObject } from '../../helpers/utils';
+import { getSupplierNamesForBrand } from './helpers/brand';
+import ModelEditIcons from '../app/model/ModelEditIcons';
 
 class BrandModal extends React.Component {
-  state = {};
-
-  constructor(props) {
-    super();
-    this.state = this.deriveStateFromProps(props);
-  }
-
-  onAfterOpen = () => {
-    this.setState(this.deriveStateFromProps(this.props));
+  state = {
+    brand: updateObject(this.props.brand),
+    persistedBrand: this.props.brand,
+    mode: this.props.brand && this.props.brand.id ? 'Edit' : 'New',
   };
 
-  deriveStateFromProps = props => {
-    return {
-      brand: props.brand || {},
-      mode: props.brand && props.brand.id ? 'Edit' : 'New',
-    };
-  };
-
-  handleBrandValueChange = (fieldName, input) => {
-    const { componentKey, brand, suppliers } = this.props;
-
-    const updatedBrand = updateModel(brand, brandFields, fieldName, input);
-    if (fieldName.startsWith('supplier')) {
-      updatedBrand.supplier_names = this.buildSupplierNameArray(input, suppliers);
+  static getDerivedStateFromProps(props, state) {
+    // Any time the current brand changes,
+    // Reset any parts of state that are tied to that brand.
+    // In this simple example, that's just the email.
+    if (checkForChangesAllFields(brandFields, props.brand, state.persistedBrand)) {
+      return {
+        brand: updateObject(props.brand),
+        persistedBrand: props.brand,
+        mode: props.brand && props.brand.id ? 'Edit' : 'New',
+      };
     }
+    return null;
+  }
+  handleBrandValueChange = (fieldName, input) => {
+    let { brand } = this.state;
 
-    if (componentKey === NEW_ELEMENT_ID) updatedBrand.dummyKey = NEW_ELEMENT_ID;
-
-    this.setState({ brand: updatedBrand });
-  };
-
-  buildSupplierNameArray = (selectedSuppliers, suppliers) => {
-    const supplier_names = [];
-    suppliers.forEach(supplier => {
-      if (selectedSuppliers.includes(supplier.id)) {
-        supplier_names.push(supplier.supplier_name);
-      }
-    });
-    return supplier_names;
+    brand = updateModel(brand, brandFields, fieldName, input);
+    this.setState({ brand });
   };
 
   onClickReset = () => {
-    this.setState(this.deriveStateFromProps(this.props));
+    const { persistedBrand } = this.state;
+    const brand = updateObject(persistedBrand);
+    this.setState({ brand });
   };
 
   saveOrCreateBrand = () => {
@@ -64,25 +53,17 @@ class BrandModal extends React.Component {
 
   deleteOrRemoveBrand = () => {
     const { deleteBrand, closeBrandModal } = this.props;
-    const { componentKey, brand } = this.state;
-    if (componentKey) {
-      deleteBrand(brand);
-    }
+    const { brand } = this.state;
+    deleteBrand(brand);
     closeBrandModal();
   };
 
   render() {
-    const { brand, mode } = this.state;
-    const { closeBrandModal, suppliers, brandModalOpen, deleteBrand } = this.props;
-    // eslint-disable-next-line react/destructuring-assignment
-    const persistedBrand = this.props.brand;
+    const { brand, persistedBrand, mode } = this.state;
+    const componentKey = getModelKey(brand);
+    const { closeBrandModal, suppliers, deleteBrand } = this.props;
     return (
-      <ReactModal
-        isOpen={brandModalOpen}
-        contentLabel={`${mode} Brand`}
-        className="Modal BrandModal"
-        onAfterOpen={this.onAfterOpen}
-      >
+      <div>
         <div style={{ width: '100%', textAlign: 'right' }}>
           <Icon name="remove" circular link onClick={closeBrandModal} />
         </div>
@@ -96,33 +77,16 @@ class BrandModal extends React.Component {
             suppliers={suppliers}
           />
         </div>
-        <div style={{ width: '100%', textAlign: 'right' }}>
-          {brand.changed && (
-            <Icon
-              id="reset-brand"
-              name="undo"
-              onClick={this.onClickReset}
-              title="Reset Brand details"
-            />
-          )}
-          {brand.changed && !brand.error && (
-            <Icon
-              id="accept-brand"
-              name="check"
-              onClick={this.saveOrCreateBrand}
-              title="Confirm Brand Change"
-            />
-          )}
-          {deleteBrand && (brand.id || brand.changed) && (
-            <Icon
-              id="delete-brand"
-              name="trash"
-              onClick={this.deleteOrRemoveBrand}
-              title="Delete Brand"
-            />
-          )}
+        <div className="align_right">
+          <ModelEditIcons
+            componentKey={componentKey}
+            model={brand}
+            modelSave={this.saveOrCreateBrand}
+            modelDelete={this.deleteOrRemoveBrand}
+            modelReset={this.onClickReset}
+          />
         </div>
-      </ReactModal>
+      </div>
     );
   }
 }

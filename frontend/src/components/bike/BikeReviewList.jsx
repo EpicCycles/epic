@@ -2,7 +2,7 @@ import React, {Fragment} from 'react'
 import {changeList, doWeHaveObjects, removeKey, updateObject} from "../../helpers/utils";
 import {Button, Dimmer, Icon, Loader} from "semantic-ui-react";
 import BikeReviewListSelection from "./BikeReviewListSelection";
-import {Redirect} from "react-router-dom";
+import {Redirect} from "react-router";
 import ModelTableActionHeader from "../app/model/ModelTableActionHeader";
 
 class BikeReviewList extends React.Component {

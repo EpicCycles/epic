@@ -100,14 +100,20 @@ export const buildModelFields = (partType, quotePart, bikePart, quote) => {
       fields.push(NOT_REQUIRED_FIELD);
       if (quotePart && quotePart.not_required) {
         fields.push(TRADE_IN_PRICE_FIELD);
-      } else fields.push(TRADE_IN_PRICE_FIELD_DISABLED);
+      } else {
+        fields.push(TRADE_IN_PRICE_FIELD_DISABLED);
+      }
     } else {
       fields.push(NOT_REQUIRED_FIELD_DISABLED);
+      fields.push(TRADE_IN_PRICE_FIELD_DISABLED);
     }
   }
   if (desc) {
     fields.push(updateObject(PART_DESC_FIELD, { listId: `parts-${partTypeId}` }));
-  } else fields.push(PART_DESC_FIELD_DISABLED);
+  } else {
+    fields.push(PART_DESC_FIELD_DISABLED);
+  }
+
   if (part) {
     const attributes = attributePlaceholder(partType);
     const additionalDataField = updateObject(ADDITIONAL_DATA_FIELD, {

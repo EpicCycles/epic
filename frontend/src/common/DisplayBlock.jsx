@@ -8,7 +8,7 @@ const DisplayBlock = props => {
   if (!doWeHaveObjects(arrayOfThings)) return null;
 
   if (arrayOfThings.length === 1) {
-    return <div data-test="block-element">arrayOfThings[0]</div>;
+    return <div data-test="block-element">{arrayOfThings[0]}</div>;
   }
 
   return (

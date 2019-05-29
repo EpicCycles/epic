@@ -161,7 +161,7 @@ export const uploadFrameSuccess = () => ({
 });
 export const getFrameList = (searchCriteria) => ({
     type: `${FRAME_LIST}_REQUESTED`,
-    payload: searchCriteria
+    payload: {searchCriteria}
 });
 export const getFrameListOK = (apiData) => ({
     type: `${FRAME_LIST}_OK`,

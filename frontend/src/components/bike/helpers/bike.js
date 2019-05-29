@@ -54,7 +54,11 @@ export const getBikeName = (bikeId, bikes, frames, brands) => {
 
 export const findPartsForBike = (bike, bikeParts, parts) => {
     if (! (bike && bikeParts && parts)) return [];
-    return bikeParts.filter(bikePart => bikePart.bike === bike.id).map(bikePart => {
+    return findPartsForBikeId(bike.id, bikeParts, parts);
+};
+export const findPartsForBikeId = (bikeId, bikeParts, parts) => {
+    if (! (bikeId && bikeParts && parts)) return [];
+    return bikeParts.filter(bikePart => bikePart.bike === bikeId).map(bikePart => {
         return findObjectWithId(parts, bikePart.part)
     });
 };

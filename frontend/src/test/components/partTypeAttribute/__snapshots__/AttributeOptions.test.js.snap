@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AttributeOptions tests renders the form correctly when all options deleted 1`] = `
+<table>
+  <tbody>
+    <tr
+      key="newOption234"
+    >
+      <td>
+        <FormTextInput
+          className=""
+          dataType="text"
+          error=""
+          fieldName="optionValue_new"
+          label=""
+          list=""
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          size={30}
+          title=""
+          value=""
+        />
+      </td>
+      <td>
+        <Icon
+          as="i"
+          name="add"
+          onClick={[Function]}
+          title="confirm new Attribute"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`AttributeOptions tests renders the form correctly with no options 1`] = `
+<table>
+  <tbody>
+    <tr
+      key="newOption234"
+    >
+      <td>
+        <FormTextInput
+          className=""
+          dataType="text"
+          error=""
+          fieldName="optionValue_new"
+          label=""
+          list=""
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          size={30}
+          title=""
+          value=""
+        />
+      </td>
+      <td>
+        <Icon
+          as="i"
+          name="add"
+          onClick={[Function]}
+          title="confirm new Attribute"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`AttributeOptions tests renders the form correctly with options 1`] = `
+<table>
+  <tbody>
+    <tr
+      className=""
+      key="option_123"
+      title=""
+    >
+      <td>
+        <FormTextInput
+          className=""
+          dataType="text"
+          error=""
+          fieldName="optionValue_123"
+          label=""
+          list=""
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          size={30}
+          title=""
+          value="braze"
+        />
+      </td>
+      <td>
+        <FrameworkMoves
+          componentKey={123}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      className=""
+      key="option_323"
+      title=""
+    >
+      <td>
+        <FormTextInput
+          className=""
+          dataType="text"
+          error=""
+          fieldName="optionValue_323"
+          label=""
+          list=""
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          size={30}
+          title=""
+          value="band"
+        />
+      </td>
+      <td>
+        <FrameworkMoves
+          componentKey={323}
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      className=""
+      key="option_hjgfkuyg34"
+      title=""
+    >
+      <td>
+        <FormTextInput
+          className=""
+          dataType="text"
+          error=""
+          fieldName="optionValue_hjgfkuyg34"
+          label=""
+          list=""
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          size={30}
+          title=""
+          value="boggle"
+        />
+      </td>
+      <td>
+        <FrameworkMoves
+          componentKey="hjgfkuyg34"
+          moveDown={[Function]}
+          moveToBottom={[Function]}
+          moveToTop={[Function]}
+          moveUp={[Function]}
+        />
+      </td>
+    </tr>
+    <tr
+      key="newOption234"
+    >
+      <td>
+        <FormTextInput
+          className=""
+          dataType="text"
+          error=""
+          fieldName="optionValue_new"
+          label=""
+          list=""
+          onChange={[Function]}
+          onClick={[Function]}
+          placeholder="add new"
+          size={30}
+          title=""
+          value=""
+        />
+      </td>
+      <td>
+        <Icon
+          as="i"
+          name="add"
+          onClick={[Function]}
+          title="confirm new Attribute"
+        />
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;

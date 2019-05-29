@@ -1,4 +1,5 @@
 import api from '../api';
+import { buildSearchCriteria } from './utils/list';
 
 const deleteBike = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
@@ -47,9 +48,7 @@ const uploadFrame = async payload => {
 
 const getFrames = async payload => {
   api.instance.defaults.headers.common.Authorization = `Token ${payload.token}`;
-  const frameApi = `/rest-epic/frames?brand=${payload.brand}&frameName=${
-    payload.frameName
-  }&archived=${payload.archived}`;
+  const frameApi = `/rest-epic/frames${buildSearchCriteria(payload.searchCriteria)}`;
   return await api.instance.get(frameApi);
 };
 

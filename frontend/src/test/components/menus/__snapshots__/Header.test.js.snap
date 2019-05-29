@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`is displays correctly 1`] = `
+<Fragment
+  key="header"
+>
+  <div
+    className="row full nav"
+  >
+    <ul
+      className="nav"
+    >
+      <li
+        className="dropdown"
+      >
+        <Link
+          className="dropbtn"
+          to="/"
+        >
+          Home
+        </Link>
+      </li>
+      <HeaderSection
+        key="headerSection1"
+        sectionContents={
+          Array [
+            Object {
+              "groupHeader": "Customer",
+              "groupLinks": Array [
+                Object {
+                  "displayText": "Find Customer",
+                  "linkNumber": 101,
+                  "linkRoute": "/customer-search",
+                },
+                Object {
+                  "displayText": "New Customer",
+                  "linkNumber": 102,
+                  "linkRoute": "/customer",
+                },
+              ],
+              "groupPos": 10,
+            },
+          ]
+        }
+      />
+      <HeaderSection
+        key="headerSection2"
+        sectionContents={
+          Array [
+            Object {
+              "groupHeader": "Quotes",
+              "groupLinks": Array [
+                Object {
+                  "displayText": "New Quote",
+                  "linkNumber": 201,
+                  "linkRoute": "/quote-create",
+                },
+                Object {
+                  "displayText": "Find Quote",
+                  "linkNumber": 202,
+                  "linkRoute": "/quote-list",
+                },
+              ],
+              "groupPos": 20,
+            },
+          ]
+        }
+      />
+      <HeaderSection
+        key="headerSection3"
+        sectionContents={
+          Array [
+            Object {
+              "groupHeader": "Bikes",
+              "groupLinks": Array [
+                Object {
+                  "displayText": "Bike Upload",
+                  "linkNumber": 301,
+                  "linkRoute": "/bike-upload",
+                },
+                Object {
+                  "displayText": "Bike Review",
+                  "linkNumber": 302,
+                  "linkRoute": "/bike-review-list",
+                },
+              ],
+              "groupPos": 30,
+            },
+            Object {
+              "groupHeader": "Core Data",
+              "groupLinks": Array [
+                Object {
+                  "displayText": "Quote Sections",
+                  "linkNumber": 311,
+                  "linkRoute": "/framework",
+                },
+                Object {
+                  "displayText": "Brands",
+                  "linkNumber": 312,
+                  "linkRoute": "/brands",
+                },
+              ],
+              "groupPos": 31,
+            },
+            Object {
+              "groupHeader": "Products",
+              "groupLinks": Array [
+                Object {
+                  "displayText": "Product Upload",
+                  "linkNumber": 321,
+                  "linkRoute": "/product-upload",
+                },
+                Object {
+                  "displayText": "Product Review",
+                  "linkNumber": 322,
+                  "linkRoute": "/product-review",
+                },
+              ],
+              "groupPos": 32,
+            },
+          ]
+        }
+      />
+      <HeaderSection
+        key="headerSection4"
+        sectionContents={
+          Array [
+            Object {
+              "groupHeader": "User",
+              "groupLinks": Array [
+                Object {
+                  "displayText": "Edit User",
+                  "linkNumber": 401,
+                  "linkRoute": "/change-user-detail",
+                },
+                Object {
+                  "displayText": "Change Password",
+                  "linkNumber": 402,
+                  "linkRoute": "/change-password",
+                },
+                Object {
+                  "displayText": "Login",
+                  "linkNumber": 403,
+                  "linkRoute": "/login",
+                },
+              ],
+              "groupPos": 40,
+            },
+          ]
+        }
+      />
+    </ul>
+    <span
+      id="user"
+    >
+      Current User: 
+      anna Weaver (AVIW)
+      <Icon
+        as="i"
+        name="log out"
+        onClick={[Function]}
+      />
+    </span>
+  </div>
+  <ErrorDismissibleBlock
+    application={
+      Object {
+        "message": "Message to be displayed",
+      }
+    }
+  />
+</Fragment>
+`;

@@ -35,9 +35,9 @@ const QuoteBikeParts = props => {
                   <div
                     className={gridItemClass('', 1, true)}
                     data-test="quote-partType"
-                    key={`parts_${quote.id}`}
+                    key={`parts_${partType.id}_${quote.id}`}
                   >
-                    <DisplayBlock modelFields={displayArray} />
+                    <DisplayBlock arrayOfThings={displayArray} />
                   </div>
                 );
               })}

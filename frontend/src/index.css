@@ -155,22 +155,20 @@ body h4 {
     font-style: italic;
 }
 
-section {
+section, .row {
     display: flex;
     flex-direction: row;
 }
 .page-content {
     display: inline-grid;
 }
-.row {
-    display: flex;
-    flex-direction: row;
-}
 
-div.fit-content {
+div.fit-content, .fit-block {
     width: fit-content;
 }
-
+.fit-block {
+   display: inline-table;
+}
 section.flex-vertical, div.flex-vertical {
     display: flex;
     flex-direction: column;

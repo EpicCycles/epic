@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PartSearch should render when minimal details are passed 1`] = `
+<SearchBlock
+  className=""
+  displayRow={false}
+  onChange={[MockFunction]}
+  onKeyPress={[Function]}
+  searchCriteria={Object {}}
+  searchCriteriaValid={false}
+  searchFnc={[MockFunction]}
+  searchTitle="Find Parts"
+/>
+`;
+
+exports[`PartSearch should render when more details are passed 1`] = `
+<SearchBlock
+  className=""
+  displayRow={false}
+  onChange={[MockFunction]}
+  onKeyPress={[Function]}
+  searchCriteria={Object {}}
+  searchCriteriaValid={false}
+  searchFnc={[MockFunction]}
+  searchTitle="Find Parts"
+/>
+`;

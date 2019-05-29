@@ -157,17 +157,17 @@ class UploadMappingPartTypes extends React.Component {
     const discardedRowMappings = rowMappings.filter(rowMapping => rowMapping.ignore);
     return (
       <Fragment key="bikeUploadMapping">
-        {showModal && (
-          <PartTypeModal
-            partTypeModalOpen={showModal}
-            partType={partType}
-            componentKey={NEW_ELEMENT_ID}
-            savePartType={this.savePartType}
-            sections={sections}
-            closePartTypeModal={this.handleCloseModal}
-          />
-        )}
         <section key="mappingData" className="row" id="mappingData">
+          {showModal && (
+            <PartTypeModal
+              partTypeModalOpen={showModal}
+              partType={partType}
+              componentKey={NEW_ELEMENT_ID}
+              savePartType={this.savePartType}
+              sections={sections}
+              closePartTypeModal={this.handleCloseModal}
+            />
+          )}
           {/* part type mapping */}
           <div
             key="partTypes"

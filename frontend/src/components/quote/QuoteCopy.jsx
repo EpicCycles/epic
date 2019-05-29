@@ -1,6 +1,6 @@
 import React from 'react'
 import {Button, Dimmer, Loader} from 'semantic-ui-react'
-import {Redirect} from "react-router-dom";
+import {Redirect} from "react-router";
 import {findObjectWithId, removeKey, updateObject, updateObjectInArray} from "../../helpers/utils";
 import * as PropTypes from "prop-types";
 import CustomerListAndSelect from "../customer/CustomerListAndSelect";

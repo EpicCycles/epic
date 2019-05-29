@@ -8,9 +8,10 @@ import { addToUniqueArray, findIndexOfObjectWithKey, findObjectWithKey } from '.
 import { NEW_ELEMENT_ID } from '../../helpers/constants';
 import BrandEdit from './BrandEdit';
 import SupplierBlob from '../supplier/SupplierBlob';
-import SupplierModal from '../supplier/SupplierModal';
 import { getModelKey } from '../app/model/helpers/model';
-
+import SupplierEdit from '../supplier/SupplierEdit';
+const CHANGES_CONFIRM =
+  'You have made changes to brands. Cancel and Save if you do not want to lose them.';
 class Brands extends React.Component {
   constructor() {
     super();
@@ -70,26 +71,22 @@ class Brands extends React.Component {
         brandsWithUpdates[brandToUpdateIndex].supplier,
         suppliers[supplierIndex].id,
       );
-      brandsWithUpdates[brandToUpdateIndex].supplier_names = addToUniqueArray(
-        brandsWithUpdates[brandToUpdateIndex].supplier_names,
-        suppliers[supplierIndex].supplier_name,
-      );
       brandsWithUpdates[brandToUpdateIndex].changed = true;
       this.props.updateBrands(brandsWithUpdates);
     }
   };
 
-  handleOpenModal(supplierId) {
+  handleOpenModal = supplierId => {
     if (supplierId) {
       this.setState({ showModal: true, supplierId });
     } else {
       this.setState({ showModal: true });
     }
-  }
+  };
 
-  handleCloseModal() {
+  handleCloseModal = () => {
     this.setState({ showModal: false });
-  }
+  };
 
   render() {
     const { brands, suppliers, isLoading, saveSupplier, deleteSupplier } = this.props;
@@ -107,10 +104,7 @@ class Brands extends React.Component {
     const changesExist = brandsWithChanges.length > 0;
     return (
       <Fragment>
-        <Prompt
-          when={changesExist}
-          message="You have made changes to brands. Cancel and Save if you do not want to lose them."
-        />
+        <Prompt when={changesExist} message={CHANGES_CONFIRM} />
         <section key="brandsAndSuppliers" className="row" id="brandsAndSuppliers">
           <div key="brands">
             <Button
@@ -126,6 +120,7 @@ class Brands extends React.Component {
                 <BrandEdit
                   key={`brandEdit${componentKey}`}
                   brand={brand}
+                  suppliers={suppliers}
                   componentKey={componentKey}
                   handleBrandChange={this.handleBrandChange}
                   pickUpBrand={this.pickUpBrand}
@@ -142,22 +137,23 @@ class Brands extends React.Component {
           </div>
           <div key="suppliers">
             <div>
-              <button type="button" onClick={this.handleOpenModal}>
-                Add Supplier
-              </button>
-              {showModal && (
-                <SupplierModal
-                  supplierModalOpen={showModal}
-                  supplierToEdit={supplierToEdit || {}}
-                  componentKey={supplierId || NEW_ELEMENT_ID}
+              {showModal ? (
+                <SupplierEdit
+                  supplier={supplierToEdit ? supplierToEdit : {}}
+                  componentKey={getModelKey(supplierToEdit)}
                   saveSupplier={saveSupplier}
                   deleteSupplier={deleteSupplier}
-                  closeSupplierModal={this.handleCloseModal}
+                  closeModal={this.handleCloseModal}
+                  brands={brands}
                 />
+              ) : (
+                <button type="button" onClick={this.handleOpenModal}>
+                  Add Supplier
+                </button>
               )}
             </div>
-            {suppliersToUse
-              && suppliersToUse.map(supplier => {
+            {suppliersToUse &&
+              suppliersToUse.map(supplier => {
                 const componentKey = getModelKey(supplier);
                 return (
                   <div
@@ -167,7 +163,7 @@ class Brands extends React.Component {
                   >
                     <SupplierBlob
                       supplier={supplier}
-                      componentKey={componentKey}
+                      brands={brands}
                       showBrands
                       showWebsite
                       allowEdit

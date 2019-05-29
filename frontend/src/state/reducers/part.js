@@ -1,40 +1,69 @@
 import {
+  PART_AND_PRODUCT_MULTI_SAVE,
   PART_CLEAR,
   PART_DELETE,
   PART_LIST,
   PART_SAVE,
   PART_UPLOAD,
+  SUPPLIER_PRODUCT_DELETE,
+  SUPPLIER_PRODUCT_SAVE,
   UPDATE_PARTS,
   UPDATE_SUPPLIER_PRODUCTS,
 } from '../actions/part';
 import { USER_LOGOUT } from '../actions/user';
 import { BIKE_ADD_PART, BIKE_PART_DELETE, BIKE_PART_SAVE, GET_BIKE_PARTS } from '../actions/bike';
-import { addItemsToArray, removeItemFromArray } from '../../helpers/utils';
+import {
+  addItemsToArray,
+  removeItemFromArray,
+  updateObjectInArray,
+  updateObjectWithApiErrors,
+} from '../../helpers/utils';
 import { COPY_QUOTE, CREATE_QUOTE, FIND_QUOTES, GET_QUOTE, UPDATE_QUOTE } from '../actions/quote';
 import { STORAGE_PARTS, STORAGE_SUPPLIER_PRODUCTS } from '../../helpers/constants';
 import { setLocalStorage } from '../helpers/localStorage';
 
 const initialState = {
   isLoading: false,
+  parts: [],
+  supplierProducts: [],
 };
 const part = (state = initialState, action) => {
-  let parts,
-    supplierProducts;
+  let parts, supplierProducts;
   switch (action.type) {
     case PART_CLEAR:
     case USER_LOGOUT:
       return initialState;
     case `${PART_SAVE}_REQUESTED`:
     case `${PART_DELETE}_REQUESTED`:
+    case `${SUPPLIER_PRODUCT_SAVE}_REQUESTED`:
+    case `${SUPPLIER_PRODUCT_DELETE}_REQUESTED`:
     case `${PART_UPLOAD}_REQUESTED`:
     case `${PART_LIST}_REQUESTED`:
+    case `${PART_AND_PRODUCT_MULTI_SAVE}_REQUESTED`:
       return {
         ...state,
         isLoading: true,
       };
-    case `${PART_DELETE}_ERROR`:
-    case `${PART_UPLOAD}_ERROR`:
     case `${PART_SAVE}_ERROR`:
+      const partWithErrors = updateObjectWithApiErrors(action.payload.part, action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        parts: updateObjectInArray(state.parts, partWithErrors),
+      };
+    case `${SUPPLIER_PRODUCT_SAVE}_ERROR`:
+      const supplierProductWithErrors = updateObjectWithApiErrors(
+        action.payload.supplierProduct,
+        action.payload,
+      );
+      return {
+        ...state,
+        isLoading: false,
+        supplierProducts: updateObjectInArray(state.supplierProducts, supplierProductWithErrors),
+      };
+    case `${PART_DELETE}_ERROR`:
+    case `${SUPPLIER_PRODUCT_DELETE}_ERROR`:
+    case `${PART_UPLOAD}_ERROR`:
     case `${PART_LIST}_ERROR`:
       return {
         ...state,
@@ -55,7 +84,7 @@ const part = (state = initialState, action) => {
       supplierProducts = addItemsToArray(state.supplierProducts, action.payload.supplierProducts);
 
       setLocalStorage(STORAGE_PARTS, parts);
-      setLocalStorage(STORAGE_SUPPLIER_PRODUCTS, parts);
+      setLocalStorage(STORAGE_SUPPLIER_PRODUCTS, supplierProducts);
 
       return {
         ...state,
@@ -78,12 +107,25 @@ const part = (state = initialState, action) => {
         supplierProducts,
       };
     case `${PART_SAVE}_OK`:
-      parts = addItemsToArray(state.parts, action.payload.parts);
+      parts = updateObjectInArray(state.parts, action.payload.part, action.payload.existingKey);
       setLocalStorage(STORAGE_PARTS, parts);
       return {
         ...state,
         parts,
+        isLoading: false,
         part: action.payload.part,
+      };
+    case `${SUPPLIER_PRODUCT_SAVE}_OK`:
+      supplierProducts = updateObjectInArray(
+        state.supplierProducts,
+        action.payload.supplierProduct,
+        action.payload.existingKey,
+      );
+      setLocalStorage(STORAGE_SUPPLIER_PRODUCTS, supplierProducts);
+      return {
+        ...state,
+        isLoading: false,
+        supplierProducts,
       };
     case `${PART_DELETE}_OK`:
       parts = removeItemFromArray(state.parts, action.payload.partId);
@@ -93,6 +135,41 @@ const part = (state = initialState, action) => {
         isLoading: false,
         part: undefined,
         parts,
+      };
+    case `${SUPPLIER_PRODUCT_DELETE}_OK`:
+      supplierProducts = removeItemFromArray(
+        state.supplierProducts,
+        action.payload.supplierProductId,
+      );
+      setLocalStorage(STORAGE_SUPPLIER_PRODUCTS, supplierProducts);
+      return {
+        ...state,
+        isLoading: false,
+        supplierProducts,
+      };
+    case `${PART_AND_PRODUCT_MULTI_SAVE}_OK`:
+      const {
+        partsSaved,
+        supplierProductsSaved,
+        oldPartKeys,
+        oldSupplierProductKeys,
+      } = action.payload;
+      parts = state.parts;
+      supplierProducts = state.supplierProducts;
+      oldPartKeys.forEach(partId => (parts = removeItemFromArray(parts, partId)));
+      oldSupplierProductKeys.forEach(
+        supplierProductId =>
+          (supplierProducts = removeItemFromArray(supplierProducts, supplierProductId)),
+      );
+      parts = addItemsToArray(parts, partsSaved);
+      supplierProducts = addItemsToArray(supplierProducts, supplierProductsSaved);
+      setLocalStorage(STORAGE_PARTS, parts);
+      setLocalStorage(STORAGE_SUPPLIER_PRODUCTS, supplierProducts);
+      return {
+        ...state,
+        isLoading: false,
+        parts,
+        supplierProducts,
       };
     default:
       return state;

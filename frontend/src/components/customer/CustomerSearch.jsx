@@ -1,9 +1,9 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import FormTextInput from '../../common/FormTextInput';
 import { updateObject, updateObjectWithSelectionChanges } from '../../helpers/utils';
-import SearchButton from '../../common/SearchButton';
+import SearchBlock from '../../common/SearchBlock';
+import { customerSearchFields } from './helpers/search';
 
 class CustomerSearch extends React.Component {
   state = {
@@ -19,10 +19,6 @@ class CustomerSearch extends React.Component {
   handleInputChange = (fieldName, input) => {
     const newState = updateObjectWithSelectionChanges(this.state, fieldName, input);
     this.setState(newState);
-  };
-
-  handleInputClear = fieldName => {
-    this.handleInputChange(fieldName, this.props.searchParams[fieldName]);
   };
 
   handleKeyPress = e => {
@@ -42,51 +38,20 @@ class CustomerSearch extends React.Component {
   };
 
   render() {
-    const { firstName, lastName, email } = this.state;
-    const { isLoading, className } = this.props;
+    const { className, isLoading } = this.props;
     return (
       <form onSubmit={this.onSubmit} data-test="search-form">
-        <div className={className}>
-          <div>First name like:</div>
-          <FormTextInput
-            placeholder="First Name"
-            id="first-name-input"
-            data-test="first-name-input"
-            fieldName="firstName"
-            value={firstName}
-            onChange={this.handleInputChange}
-            onClick={this.handleInputClear}
-            onKeyPress={this.handleKeyPress}
-          />
-          <div> Last name like:</div>
-          <FormTextInput
-            placeholder="Last Name"
-            id="last-name-input"
-            data-test="last-name-input"
-            fieldName="lastName"
-            onChange={this.handleInputChange}
-            onClick={this.handleInputClear}
-            value={lastName}
-            onKeyPress={this.handleKeyPress}
-          />
-          <div> email like:</div>
-          <FormTextInput
-            placeholder="bod@gmail.com"
-            id="email-input"
-            data-test="email-input"
-            fieldName="email"
-            onChange={this.handleInputChange}
-            onClick={this.handleInputClear}
-            value={email}
-            onKeyPress={this.handleKeyPress}
-          />
-          <SearchButton
-            onClick={this.onSubmit}
-            title="Find matching customers"
-            data-test="find-button"
-            disabled={isLoading}
-          />
-        </div>
+        <SearchBlock
+          searchFields={customerSearchFields}
+          onChange={this.handleInputChange}
+          searchFnc={this.onSubmit}
+          onKeyPress={this.handleKeyPress}
+          searchTitle="Find Customers"
+          displayRow={true}
+          searchCriteria={this.state}
+          searchCriteriaValid={!isLoading}
+          className={className}
+        />
       </form>
     );
   }

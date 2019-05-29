@@ -1,0 +1,809 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render with maximum information 1`] = `
+<div
+  className="grid-container"
+>
+  <Prompt
+    message="You have made changes. Cancel and Save if you do not want to lose them."
+  />
+  <h2>
+    Find Part
+  </h2>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      circular={true}
+      link={true}
+      name="remove"
+      onClick={[Function]}
+    />
+  </div>
+  <div
+    className="grid"
+    key="partFinderFields"
+  >
+    <PartSearch
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      findParts={[Function]}
+      onChange={[Function]}
+      searchCriteria={
+        Object {
+          "brandSelected": 6,
+          "partTypeSelected": 7,
+          "searchPartName": undefined,
+          "searchStandard": undefined,
+          "searchStocked": undefined,
+        }
+      }
+      searchFields={
+        Array [
+          Object {
+            "displayName": "Part Type:",
+            "fieldName": "partTypeSelected",
+            "modelFieldName": "partType",
+            "selectList": Array [
+              Object {
+                "name": "Frame (Frameset)",
+                "value": "1",
+              },
+              Object {
+                "name": "Fork (Frameset)",
+                "value": "2",
+              },
+              Object {
+                "name": "Headset (Frameset)",
+                "value": "3",
+              },
+            ],
+            "type": "select_one",
+          },
+          Object {
+            "displayName": "Brand:",
+            "fieldName": "brandSelected",
+            "modelFieldName": "brand",
+            "selectList": Array [
+              Object {
+                "name": "brand 1",
+                "value": "1",
+              },
+              Object {
+                "name": "brand 2",
+                "value": "2",
+              },
+              Object {
+                "name": "brand 3",
+                "value": "3",
+              },
+              Object {
+                "name": "brand 4",
+                "value": "4",
+              },
+              Object {
+                "name": "brand 5",
+                "value": "5",
+              },
+              Object {
+                "name": "brand new",
+                "value": "123ABC",
+              },
+              Object {
+                "name": "brand new 2",
+                "value": "new",
+              },
+            ],
+            "type": "select_one",
+          },
+          Object {
+            "displayName": "Part name contains:",
+            "fieldName": "searchPartName",
+            "modelFieldName": "part_name",
+            "placeholder": "part name",
+            "type": "text",
+          },
+          Object {
+            "displayName": "Standard only",
+            "fieldName": "searchStandard",
+            "modelFieldName": "standard",
+            "type": "checkbox",
+          },
+          Object {
+            "displayName": "Stocked only",
+            "fieldName": "searchStocked",
+            "modelFieldName": "stocked",
+            "type": "checkbox",
+          },
+        ]
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "Frameset",
+            "partTypes": Array [
+              Object {
+                "attributes": Array [
+                  Object {
+                    "attribute_name": "Size",
+                    "attribute_type": "1",
+                    "id": 1,
+                    "in_use": true,
+                    "mandatory": true,
+                    "options": Array [],
+                    "partType": 1,
+                    "placing": 10,
+                  },
+                ],
+                "can_be_omitted": false,
+                "can_be_substituted": true,
+                "customer_facing": false,
+                "id": 1,
+                "includeInSection": 1,
+                "name": "Frame",
+                "placing": 10,
+                "synonyms": Array [],
+              },
+              Object {
+                "attributes": Array [],
+                "can_be_omitted": true,
+                "can_be_substituted": false,
+                "customer_facing": false,
+                "id": 2,
+                "includeInSection": 1,
+                "name": "Fork",
+                "placing": 20,
+                "synonyms": Array [
+                  Object {
+                    "id": 1,
+                    "name": "Front Fork",
+                    "partType": 2,
+                  },
+                ],
+              },
+              Object {
+                "attributes": Array [],
+                "can_be_omitted": false,
+                "can_be_substituted": false,
+                "customer_facing": true,
+                "id": 3,
+                "includeInSection": 1,
+                "name": "Headset",
+                "placing": 30,
+                "synonyms": Array [],
+              },
+            ],
+            "placing": 10,
+          },
+        ]
+      }
+    />
+  </div>
+  <EditModelPage
+    brands={
+      Array [
+        Object {
+          "brand_name": "brand 1",
+          "id": 1,
+        },
+        Object {
+          "brand_name": "brand 2",
+          "id": 2,
+          "supplier": Array [],
+        },
+        Object {
+          "brand_name": "brand 3",
+          "id": 3,
+          "supplier": Array [
+            1,
+          ],
+        },
+        Object {
+          "brand_name": "brand 4",
+          "delete": true,
+          "id": 4,
+        },
+        Object {
+          "brand_name": "brand 5",
+          "changed": true,
+          "id": 5,
+          "supplier": Array [
+            1,
+            3,
+          ],
+        },
+        Object {
+          "brand_name": "brand new",
+          "changed": true,
+          "dummyKey": "123ABC",
+        },
+        Object {
+          "brand_name": "brand new 2",
+          "changed": true,
+          "dummyKey": "new",
+        },
+      ]
+    }
+    model={
+      Object {
+        "brand": 6,
+        "brand_name": "Shimano",
+        "id": 330,
+        "partType": 7,
+        "part_name": "Deore XT M8000 Shadow Plus 11 speed",
+        "standard": false,
+        "stocked": false,
+        "trade_in_price": null,
+      }
+    }
+    modelFields={
+      Array [
+        Object {
+          "error": "A brand must be selected",
+          "fieldName": "brand",
+          "header": "Brand",
+          "required": true,
+          "synonyms": Array [
+            "brand",
+            "manufacturer",
+          ],
+          "type": "brand",
+        },
+        Object {
+          "error": "A name is required for the part",
+          "fieldName": "part_name",
+          "header": "Part Name",
+          "required": true,
+        },
+        Object {
+          "fieldName": "trade_in_price",
+          "header": "Trade In £",
+          "length": 10,
+          "size": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "standard",
+          "header": "Standard",
+          "type": "checkbox",
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={
+      Object {
+        "brand": 6,
+        "brand_name": "Shimano",
+        "id": 330,
+        "partType": 7,
+        "part_name": "Deore XT M8000 Shadow Plus 11 speed",
+        "standard": false,
+        "stocked": false,
+        "trade_in_price": null,
+      }
+    }
+    sections={
+      Array [
+        Object {
+          "id": 1,
+          "name": "Frameset",
+          "partTypes": Array [
+            Object {
+              "attributes": Array [
+                Object {
+                  "attribute_name": "Size",
+                  "attribute_type": "1",
+                  "id": 1,
+                  "in_use": true,
+                  "mandatory": true,
+                  "options": Array [],
+                  "partType": 1,
+                  "placing": 10,
+                },
+              ],
+              "can_be_omitted": false,
+              "can_be_substituted": true,
+              "customer_facing": false,
+              "id": 1,
+              "includeInSection": 1,
+              "name": "Frame",
+              "placing": 10,
+              "synonyms": Array [],
+            },
+            Object {
+              "attributes": Array [],
+              "can_be_omitted": true,
+              "can_be_substituted": false,
+              "customer_facing": false,
+              "id": 2,
+              "includeInSection": 1,
+              "name": "Fork",
+              "placing": 20,
+              "synonyms": Array [
+                Object {
+                  "id": 1,
+                  "name": "Front Fork",
+                  "partType": 2,
+                },
+              ],
+            },
+            Object {
+              "attributes": Array [],
+              "can_be_omitted": false,
+              "can_be_substituted": false,
+              "customer_facing": true,
+              "id": 3,
+              "includeInSection": 1,
+              "name": "Headset",
+              "placing": 30,
+              "synonyms": Array [],
+            },
+          ],
+          "placing": 10,
+        },
+      ]
+    }
+  />
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      key="primaryAction"
+      name="meh"
+      onClick={[Function]}
+      title="select"
+    />
+    <Icon
+      as="i"
+      key="secondaryAction"
+      name="delete"
+      onClick={[Function]}
+      title="Delete me"
+    />
+  </div>
+</div>
+`;
+
+exports[`should render with minimum information 1`] = `
+<div
+  className="grid-container"
+>
+  <Prompt
+    message="You have made changes. Cancel and Save if you do not want to lose them."
+  />
+  <h2>
+    Find Part
+  </h2>
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  >
+    <Icon
+      as="i"
+      circular={true}
+      link={true}
+      name="remove"
+      onClick={[Function]}
+    />
+  </div>
+  <div
+    className="grid"
+    key="partFinderFields"
+  >
+    <PartSearch
+      brands={
+        Array [
+          Object {
+            "brand_name": "brand 1",
+            "id": 1,
+          },
+          Object {
+            "brand_name": "brand 2",
+            "id": 2,
+            "supplier": Array [],
+          },
+          Object {
+            "brand_name": "brand 3",
+            "id": 3,
+            "supplier": Array [
+              1,
+            ],
+          },
+          Object {
+            "brand_name": "brand 4",
+            "delete": true,
+            "id": 4,
+          },
+          Object {
+            "brand_name": "brand 5",
+            "changed": true,
+            "id": 5,
+            "supplier": Array [
+              1,
+              3,
+            ],
+          },
+          Object {
+            "brand_name": "brand new",
+            "changed": true,
+            "dummyKey": "123ABC",
+          },
+          Object {
+            "brand_name": "brand new 2",
+            "changed": true,
+            "dummyKey": "new",
+          },
+        ]
+      }
+      findParts={[Function]}
+      onChange={[Function]}
+      searchCriteria={
+        Object {
+          "brandSelected": undefined,
+          "partTypeSelected": undefined,
+          "searchPartName": undefined,
+          "searchStandard": undefined,
+          "searchStocked": undefined,
+        }
+      }
+      searchFields={
+        Array [
+          Object {
+            "displayName": "Part Type:",
+            "fieldName": "partTypeSelected",
+            "modelFieldName": "partType",
+            "selectList": Array [
+              Object {
+                "name": "Frame (Frameset)",
+                "value": "1",
+              },
+              Object {
+                "name": "Fork (Frameset)",
+                "value": "2",
+              },
+              Object {
+                "name": "Headset (Frameset)",
+                "value": "3",
+              },
+            ],
+            "type": "select_one",
+          },
+          Object {
+            "displayName": "Brand:",
+            "fieldName": "brandSelected",
+            "modelFieldName": "brand",
+            "selectList": Array [
+              Object {
+                "name": "brand 1",
+                "value": "1",
+              },
+              Object {
+                "name": "brand 2",
+                "value": "2",
+              },
+              Object {
+                "name": "brand 3",
+                "value": "3",
+              },
+              Object {
+                "name": "brand 4",
+                "value": "4",
+              },
+              Object {
+                "name": "brand 5",
+                "value": "5",
+              },
+              Object {
+                "name": "brand new",
+                "value": "123ABC",
+              },
+              Object {
+                "name": "brand new 2",
+                "value": "new",
+              },
+            ],
+            "type": "select_one",
+          },
+          Object {
+            "displayName": "Part name contains:",
+            "fieldName": "searchPartName",
+            "modelFieldName": "part_name",
+            "placeholder": "part name",
+            "type": "text",
+          },
+          Object {
+            "displayName": "Standard only",
+            "fieldName": "searchStandard",
+            "modelFieldName": "standard",
+            "type": "checkbox",
+          },
+          Object {
+            "displayName": "Stocked only",
+            "fieldName": "searchStocked",
+            "modelFieldName": "stocked",
+            "type": "checkbox",
+          },
+        ]
+      }
+      sections={
+        Array [
+          Object {
+            "id": 1,
+            "name": "Frameset",
+            "partTypes": Array [
+              Object {
+                "attributes": Array [
+                  Object {
+                    "attribute_name": "Size",
+                    "attribute_type": "1",
+                    "id": 1,
+                    "in_use": true,
+                    "mandatory": true,
+                    "options": Array [],
+                    "partType": 1,
+                    "placing": 10,
+                  },
+                ],
+                "can_be_omitted": false,
+                "can_be_substituted": true,
+                "customer_facing": false,
+                "id": 1,
+                "includeInSection": 1,
+                "name": "Frame",
+                "placing": 10,
+                "synonyms": Array [],
+              },
+              Object {
+                "attributes": Array [],
+                "can_be_omitted": true,
+                "can_be_substituted": false,
+                "customer_facing": false,
+                "id": 2,
+                "includeInSection": 1,
+                "name": "Fork",
+                "placing": 20,
+                "synonyms": Array [
+                  Object {
+                    "id": 1,
+                    "name": "Front Fork",
+                    "partType": 2,
+                  },
+                ],
+              },
+              Object {
+                "attributes": Array [],
+                "can_be_omitted": false,
+                "can_be_substituted": false,
+                "customer_facing": true,
+                "id": 3,
+                "includeInSection": 1,
+                "name": "Headset",
+                "placing": 30,
+                "synonyms": Array [],
+              },
+            ],
+            "placing": 10,
+          },
+        ]
+      }
+    />
+  </div>
+  <EditModelPage
+    brands={
+      Array [
+        Object {
+          "brand_name": "brand 1",
+          "id": 1,
+        },
+        Object {
+          "brand_name": "brand 2",
+          "id": 2,
+          "supplier": Array [],
+        },
+        Object {
+          "brand_name": "brand 3",
+          "id": 3,
+          "supplier": Array [
+            1,
+          ],
+        },
+        Object {
+          "brand_name": "brand 4",
+          "delete": true,
+          "id": 4,
+        },
+        Object {
+          "brand_name": "brand 5",
+          "changed": true,
+          "id": 5,
+          "supplier": Array [
+            1,
+            3,
+          ],
+        },
+        Object {
+          "brand_name": "brand new",
+          "changed": true,
+          "dummyKey": "123ABC",
+        },
+        Object {
+          "brand_name": "brand new 2",
+          "changed": true,
+          "dummyKey": "new",
+        },
+      ]
+    }
+    model={Object {}}
+    modelFields={
+      Array [
+        Object {
+          "error": "A part type must be selected",
+          "fieldName": "partType",
+          "header": "Part Type",
+          "required": true,
+          "type": "partType",
+        },
+        Object {
+          "error": "A brand must be selected",
+          "fieldName": "brand",
+          "header": "Brand",
+          "required": true,
+          "synonyms": Array [
+            "brand",
+            "manufacturer",
+          ],
+          "type": "brand",
+        },
+        Object {
+          "error": "A name is required for the part",
+          "fieldName": "part_name",
+          "header": "Part Name",
+          "required": true,
+        },
+        Object {
+          "fieldName": "trade_in_price",
+          "header": "Trade In £",
+          "length": 10,
+          "size": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "standard",
+          "header": "Standard",
+          "type": "checkbox",
+        },
+      ]
+    }
+    onChange={[Function]}
+    persistedModel={Object {}}
+    sections={
+      Array [
+        Object {
+          "id": 1,
+          "name": "Frameset",
+          "partTypes": Array [
+            Object {
+              "attributes": Array [
+                Object {
+                  "attribute_name": "Size",
+                  "attribute_type": "1",
+                  "id": 1,
+                  "in_use": true,
+                  "mandatory": true,
+                  "options": Array [],
+                  "partType": 1,
+                  "placing": 10,
+                },
+              ],
+              "can_be_omitted": false,
+              "can_be_substituted": true,
+              "customer_facing": false,
+              "id": 1,
+              "includeInSection": 1,
+              "name": "Frame",
+              "placing": 10,
+              "synonyms": Array [],
+            },
+            Object {
+              "attributes": Array [],
+              "can_be_omitted": true,
+              "can_be_substituted": false,
+              "customer_facing": false,
+              "id": 2,
+              "includeInSection": 1,
+              "name": "Fork",
+              "placing": 20,
+              "synonyms": Array [
+                Object {
+                  "id": 1,
+                  "name": "Front Fork",
+                  "partType": 2,
+                },
+              ],
+            },
+            Object {
+              "attributes": Array [],
+              "can_be_omitted": false,
+              "can_be_substituted": false,
+              "customer_facing": true,
+              "id": 3,
+              "includeInSection": 1,
+              "name": "Headset",
+              "placing": 30,
+              "synonyms": Array [],
+            },
+          ],
+          "placing": 10,
+        },
+      ]
+    }
+  />
+  <div
+    style={
+      Object {
+        "textAlign": "right",
+        "width": "100%",
+      }
+    }
+  />
+</div>
+`;

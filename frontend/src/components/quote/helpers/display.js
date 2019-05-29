@@ -21,6 +21,7 @@ import {
 } from '../../app/model/helpers/fields';
 import { findObjectWithId } from '../../../helpers/utils';
 import { PART_PRICE_FIELD } from './quotePartFields';
+import {findPartsForBikeId} from "../../bike/helpers/bike";
 
 const findReplacementQuotePart = (partTypeId, bikePart, quoteParts) => {
   if (!bikePart) return undefined;
@@ -40,10 +41,10 @@ export const displayForPartType = (partTypeId, quoteParts, bikeParts, parts) => 
   return { bikePart, quotePart, replacementPart, additionalParts };
 };
 export const displayForPartTypeAndQuote = (quote, partTypeId, quoteParts, bikeParts, parts) => {
-  const bikePartsForQuote = bikeParts.filter(bp => bp.bike === quote.bike);
+  const bikePartsForBike = findPartsForBikeId(quote.bike, bikeParts, parts);
   const quotePartsForQuote = quoteParts.filter(qp => qp.quote === quote.id);
 
-  return displayForPartType(partTypeId, quotePartsForQuote, bikePartsForQuote, parts);
+  return displayForPartType(partTypeId, quotePartsForQuote, bikePartsForBike, parts);
 };
 
 export const bikePartOnQuote = (bikePart, quotePart, replacementPart, brands) => {
@@ -117,4 +118,6 @@ export const quoteFieldsNoCustomer = [
   QUOTE_PRICE_FIELD,
   CALCULATED_PRICE_FIELD,
 ];
+export const quoteFieldsBikeNoCustomer = quoteFieldsNoCustomer.concat(quoteFieldsBike);
+
 export const priceFields = [QUANTITY_FIELD, PART_PRICE_FIELD, TRADE_IN_PRICE_FIELD];

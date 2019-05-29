@@ -1,6 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import ReactModal from 'react-modal';
 
 import * as PropTypes from 'prop-types';
 import { Icon } from 'semantic-ui-react';
@@ -46,10 +45,6 @@ class PartTypeModal extends React.Component {
     this.setState(this.deriveStateFromProps(this.props));
   };
 
-  onAfterOpen = () => {
-    this.setState(this.deriveStateFromProps(this.props));
-  };
-
   saveOrCreatePartType = () => {
     this.props.savePartType(this.state.partType);
     this.props.closePartTypeModal();
@@ -66,12 +61,7 @@ class PartTypeModal extends React.Component {
     const { partTypeModalOpen, componentKey, deletePartType, closePartTypeModal } = this.props;
     const { partType, mode, sectionOptions } = this.state;
     return (
-      <ReactModal
-        isOpen={partTypeModalOpen}
-        contentLabel={`${mode} Part Type`}
-        className="Modal PartTypeModal"
-        onAfterOpen={this.onAfterOpen}
-      >
+      <div>
         <div style={{ width: '100%', textAlign: 'right' }}>
           <Icon name="remove" circular link onClick={closePartTypeModal} />
         </div>
@@ -124,7 +114,7 @@ class PartTypeModal extends React.Component {
             />
           )}
         </div>
-      </ReactModal>
+      </div>
     );
   }
 }

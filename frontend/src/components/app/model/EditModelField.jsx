@@ -50,7 +50,7 @@ EditModelField.propTypes = {
   field: PropTypes.object.isRequired,
   model: PropTypes.object.isRequired,
   className: PropTypes.string,
-  componentKey: PropTypes.string.isRequired,
+  componentKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   index: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
   sections: PropTypes.array,

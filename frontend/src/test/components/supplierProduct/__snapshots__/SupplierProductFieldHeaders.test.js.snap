@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should display headers 1`] = `
+<Fragment>
+  <ModelTableHeaders
+    className=""
+    lockFirstColumn={false}
+    modelFields={
+      Array [
+        Object {
+          "error": "A supplier must be selected",
+          "fieldName": "supplier",
+          "header": "Supplier",
+          "required": true,
+          "synonyms": Array [
+            "supplier",
+          ],
+          "type": "supplier",
+        },
+        Object {
+          "fieldName": "product_code",
+          "header": "Product Code",
+          "length": 30,
+          "size": 10,
+          "synonyms": Array [
+            "product_code",
+          ],
+          "type": "text",
+        },
+        Object {
+          "fieldName": "fitted_price",
+          "header": "Fitted Price",
+          "length": 10,
+          "size": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "ticket_price",
+          "header": "Ticket Price",
+          "length": 10,
+          "size": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "rrp",
+          "header": "RRP",
+          "length": 10,
+          "size": 10,
+          "synonyms": Array [
+            "price",
+            "selling price",
+            "srp",
+            "rrp",
+            "sell price",
+            "retail price",
+          ],
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "trade_price",
+          "header": "Trade Price £",
+          "length": 10,
+          "size": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "club_price",
+          "header": "Club Price",
+          "length": 10,
+          "size": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "check_date",
+          "header": "Date Checked",
+          "readOnly": true,
+          "type": "date_time",
+        },
+      ]
+    }
+  />
+</Fragment>
+`;
+
+exports[`should display headers with locking, error and an extra class 1`] = `
+<Fragment>
+  <ModelTableHeaders
+    className="pink"
+    lockFirstColumn={true}
+    modelFields={
+      Array [
+        Object {
+          "error": "A supplier must be selected",
+          "fieldName": "supplier",
+          "header": "Supplier",
+          "required": true,
+          "synonyms": Array [
+            "supplier",
+          ],
+          "type": "supplier",
+        },
+        Object {
+          "fieldName": "product_code",
+          "header": "Product Code",
+          "length": 30,
+          "size": 10,
+          "synonyms": Array [
+            "product_code",
+          ],
+          "type": "text",
+        },
+        Object {
+          "fieldName": "fitted_price",
+          "header": "Fitted Price",
+          "length": 10,
+          "size": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "ticket_price",
+          "header": "Ticket Price",
+          "length": 10,
+          "size": 10,
+          "synonyms": Array [],
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "rrp",
+          "header": "RRP",
+          "length": 10,
+          "size": 10,
+          "synonyms": Array [
+            "price",
+            "selling price",
+            "srp",
+            "rrp",
+            "sell price",
+            "retail price",
+          ],
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "trade_price",
+          "header": "Trade Price £",
+          "length": 10,
+          "size": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "club_price",
+          "header": "Club Price",
+          "length": 10,
+          "size": 10,
+          "type": "currency",
+        },
+        Object {
+          "fieldName": "check_date",
+          "header": "Date Checked",
+          "readOnly": true,
+          "type": "date_time",
+        },
+      ]
+    }
+  />
+  <AdditionalHeader
+    className="pink"
+    headerText="Errors"
+    lockedColumn={false}
+  />
+</Fragment>
+`;

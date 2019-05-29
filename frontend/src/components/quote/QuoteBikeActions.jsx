@@ -1,16 +1,14 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
-import {gridItemClass} from '../app/model/helpers/display';
-import { quoteActions } from './helpers/quote';
+import { gridItemClass } from '../app/model/helpers/display';
 import { getModelKey } from '../app/model/helpers/model';
-import ModelActions from '../app/model/ModelActions';
+import QuoteActionCell from './QuoteActionCell';
 
 const QuoteBikeActions = props => {
   const {
     quotes,
     cloneQuote,
     issueQuote,
-    changeQuote,
     getQuote,
     archiveQuote,
     unarchiveQuote,
@@ -22,25 +20,20 @@ const QuoteBikeActions = props => {
       </div>
       {quotes.map(quote => {
         const modelKey = getModelKey(quote);
-        const actionArray = quoteActions(
-          cloneQuote,
-          issueQuote,
-          changeQuote,
-          quote,
-          getQuote,
-          archiveQuote,
-          unarchiveQuote,
-        );
         return (
           <div
-            className={gridHeaderClass('red', 1, true)}
+            className={gridItemClass('red', 1, true)}
             data-test="actions"
             key={`action-cell${modelKey}`}
           >
-            <ModelActions
-              actions={actionArray}
-              componentKey={modelKey}
-              key={`actions${modelKey}`}
+            <QuoteActionCell
+              quote={quote}
+              archiveQuote={archiveQuote}
+              unarchiveQuote={unarchiveQuote}
+              cloneQuote={cloneQuote}
+              issueQuote={issueQuote}
+              getQuote={getQuote}
+              key={`actions_${modelKey}`}
             />
           </div>
         );
@@ -52,7 +45,6 @@ const QuoteBikeActions = props => {
 QuoteBikeActions.propTypes = {
   quotes: PropTypes.array.isRequired,
   getQuote: PropTypes.func,
-  changeQuote: PropTypes.func,
   archiveQuote: PropTypes.func,
   unarchiveQuote: PropTypes.func,
   issueQuote: PropTypes.func,

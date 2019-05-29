@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Fragment } from 'react';
 import * as PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import TabbedView from '../../common/TabbedView';
 import { doWeHaveObjects, findObjectWithId } from '../../helpers/utils';
 import CustomerEdit from '../customer/CustomerEdit';
@@ -160,23 +160,20 @@ class QuoteManager extends React.Component {
           <QuoteBikes
             quotes={quotes}
             quoteParts={quoteParts}
+            bikes={bikes}
+            frames={frames}
             bikeParts={bikeParts}
             parts={parts}
-            supplierProducts={supplierProducts}
-            frames={frames}
-            bikes={bikes}
             customers={customers}
             brands={brands}
             suppliers={suppliers}
             sections={sections}
-            saveQuote={saveQuote}
-            saveQuotePart={saveQuotePart}
-            deleteQuotePart={deleteQuotePart}
+            users={users}
+            getQuote={this.editQuote}
             archiveQuote={archiveQuote}
             unarchiveQuote={unarchiveQuote}
             cloneQuote={getQuoteToCopy}
             issueQuote={issueQuote}
-            users={users}
             data-test="bike-quotes-tab"
           />
         )}

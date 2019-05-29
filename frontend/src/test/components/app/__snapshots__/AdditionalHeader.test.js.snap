@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdditionalHeader should display error header 1`] = `
+<div
+  className=" grid-item--header "
+>
+  Errors
+</div>
+`;
+
+exports[`AdditionalHeader should display error header with locking and an extra class 1`] = `
+<div
+  className="pink grid-item--header grid-header--fixed-left"
+>
+  Errors
+</div>
+`;

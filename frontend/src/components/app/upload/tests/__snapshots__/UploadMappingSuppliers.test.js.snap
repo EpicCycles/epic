@@ -89,7 +89,6 @@ exports[`UploadMappingSuppliers it renders 1`] = `
       disabled={true}
       key="uploadCont"
       onClick={[Function]}
-      role="button"
     >
       Continue ...
     </Button>

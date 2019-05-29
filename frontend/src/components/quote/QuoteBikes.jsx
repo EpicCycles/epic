@@ -1,31 +1,34 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import QuoteBikeParts from './QuoteBikeParts';
-import { quoteFieldsBike } from './helpers/display';
+import { quoteFieldsBikeNoCustomer } from './helpers/display';
 import ModelFieldRow from '../app/model/ModelFieldRow';
 import QuoteBikeActions from './QuoteBikeActions';
 
 const QuoteBikes = props => {
   const {
     quotes,
+    quoteParts,
     bikes,
-    customers,
     frames,
-    users,
+    bikeParts,
+    parts,
+    customers,
     brands,
     suppliers,
-    getQuoteToCopy,
-    issueQuote,
-    changeQuote,
+    sections,
+    users,
     getQuote,
     archiveQuote,
-    unarchiveQuote
+    unarchiveQuote,
+    issueQuote,
+    cloneQuote,
   } = props;
   const bikeQuotes = quotes.filter(quote => !!quote.bike);
   return (
     <div className="grid-container">
       <div className="grid">
-        {quoteFieldsBike.map((quoteField, index) => {
+        {quoteFieldsBikeNoCustomer.map((quoteField, index) => {
           return (
             <ModelFieldRow
               field={quoteField}
@@ -37,46 +40,46 @@ const QuoteBikes = props => {
               frames={frames}
               users={users}
               firstRow={index === 0}
+              key={`quoteFieldRow_${quoteField.fieldName}`}
             />
           );
         })}
-        <QuoteBikeActions quotes={bikeQuotes} />
-        <QuoteBikeParts
+        <QuoteBikeActions
           quotes={bikeQuotes}
-          customers={customers}
-          frames={frames}
-          users={users}
-          cloneQuote={getQuoteToCopy}
-          issueQuote={issueQuote}
-          changeQuote={changeQuote}
           getQuote={getQuote}
           archiveQuote={archiveQuote}
           unarchiveQuote={unarchiveQuote}
+          cloneQuote={cloneQuote}
+          issueQuote={issueQuote}
+        />
+        <QuoteBikeParts
+          quotes={bikeQuotes}
+          sections={sections}
+          quoteParts={quoteParts}
+          bikeParts={bikeParts}
+          parts={parts}
+          brands={brands}
         />
       </div>
     </div>
   );
 };
 QuoteBikes.propTypes = {
+  quotes: PropTypes.array.isRequired,
+  quoteParts: PropTypes.array.isRequired,
   bikes: PropTypes.array,
+  frames: PropTypes.array,
   bikeParts: PropTypes.array,
+  parts: PropTypes.array,
+  customers: PropTypes.array.isRequired,
   brands: PropTypes.array,
   suppliers: PropTypes.array,
   sections: PropTypes.array,
-  parts: PropTypes.array,
-  supplierProducts: PropTypes.array,
-  frames: PropTypes.array,
-  customers: PropTypes.array.isRequired,
-  quotes: PropTypes.array.isRequired,
-  quoteParts: PropTypes.array.isRequired,
   users: PropTypes.array.isRequired,
+  getQuote: PropTypes.func.isRequired,
   archiveQuote: PropTypes.func.isRequired,
   unarchiveQuote: PropTypes.func.isRequired,
-  changeQuote: PropTypes.func.isRequired,
-  saveQuotePart: PropTypes.func.isRequired,
-  saveQuote: PropTypes.func.isRequired,
-  getQuoteToCopy: PropTypes.func.isRequired,
-  getQuote: PropTypes.func.isRequired,
+  cloneQuote: PropTypes.func.isRequired,
   issueQuote: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
 };

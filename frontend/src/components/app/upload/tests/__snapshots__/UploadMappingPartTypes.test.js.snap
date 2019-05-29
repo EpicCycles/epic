@@ -276,7 +276,6 @@ exports[`it renders 1`] = `
       as="button"
       key="bikeFileUploadCont"
       onClick={[Function]}
-      role="button"
     >
       Continue ...
     </Button>

@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as PropTypes from 'prop-types';
 import SelectInput from '../../common/SelectInput';
-import { getModelKey } from '../app/model/helpers/model';
+import { buildSupplierOptions } from './helpers/supplier';
 
 const SupplierSelect = props => {
   const {
@@ -16,20 +16,13 @@ const SupplierSelect = props => {
     error,
     disabled,
   } = props;
-  const supplierOptions = suppliers
-    ? suppliers.map(supplier => {
-        return {
-          value: getModelKey(supplier).toString(),
-          name: supplier.supplier_name,
-        };
-      })
-    : [];
+
   return (
     <SelectInput
       fieldName={fieldName}
       onChange={onChange}
       value={supplierSelected ? supplierSelected.toString() : ''}
-      options={supplierOptions}
+      options={buildSupplierOptions(suppliers)}
       isEmptyAllowed={isEmptyAllowed}
       isMultiple={isMultiple}
       multipleSize={multipleSize}

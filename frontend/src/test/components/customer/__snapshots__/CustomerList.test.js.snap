@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CustomerList.index tests renders the CustomerList correctly 1`] = `
+<div
+  className="grid-container"
+  id="customer-list"
+>
+  <CustomerListAndSearch
+    addNewCustomer={[Function]}
+    count={0}
+    customers={Array []}
+    getCustomer={[Function]}
+    getCustomerList={[MockFunction]}
+    getCustomerListPage={[MockFunction]}
+    isLoading={false}
+  />
+</div>
+`;
+
+exports[`CustomerList.index tests renders the CustomerList correctly when there are customers 1`] = `
+<div
+  className="grid-container"
+  id="customer-list"
+>
+  <CustomerListAndSearch
+    addNewCustomer={[Function]}
+    count={6}
+    customers={
+      Array [
+        Object {
+          "add_date": "2018-07-04T13:02:09.988286+01:00",
+          "email": "anna.weaver@johnlewis.co.uk",
+          "first_name": "Anna",
+          "id": 16,
+          "last_name": "Weaver",
+          "upd_date": "2018-07-04T13:02:09.988343+01:00",
+        },
+        Object {
+          "add_date": "2018-07-04T13:02:09.988286+01:00",
+          "first_name": "dfds",
+          "id": 26,
+          "last_name": "Weasdfdsfver",
+          "upd_date": "2018-07-04T13:02:09.988343+01:00",
+        },
+      ]
+    }
+    getCustomer={[Function]}
+    getCustomerList={[MockFunction]}
+    getCustomerListPage={[MockFunction]}
+    isLoading={false}
+  />
+</div>
+`;
