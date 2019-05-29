@@ -15,6 +15,8 @@ import os
 import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import django_heroku
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 exists = os.path.isfile(os.path.join(BASE_DIR, 'config.json'))
 checkEnv = os.environ
@@ -166,9 +168,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
-    # 'DEFAULT_PERMISSION_CLASSES': (
-    #     'rest_framework.permissions.IsAuthenticated',
-    # ),
 }
 OLD_PASSWORD_FIELD_ENABLED = True
 LOGOUT_ON_PASSWORD_CHANGE = False
@@ -193,3 +192,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 if checkEnv['STATIC_ROOT']:
     STATIC_ROOT = checkEnv['STATIC_ROOT']
+
+django_heroku.settings(locals())
