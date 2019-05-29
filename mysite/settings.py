@@ -30,7 +30,8 @@ if exists:
     CURRENT_ENV = config['ENV_RUNNING']
     checkEnv = config[CURRENT_ENV]
     checkEnvDefault = config['DEFAULT']
-
+else:
+    CURRENT_ENV = os.environ['ENV_RUNNING']
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
