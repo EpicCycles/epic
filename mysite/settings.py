@@ -95,14 +95,16 @@ if CURRENT_ENV == 'TEST':
 else:
     INSTALLED_APPS = [
         'epic',
-        'rest_framework', # enable rest framework
-        'frontend', # enable react client
+        'rest_framework',  # enable rest framework
+        'rest_framework.authtoken',
+        'frontend',  # enable react client
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'rest_auth'
     ]
 
     MIDDLEWARE = [
