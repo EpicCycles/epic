@@ -83,7 +83,7 @@ class Parts(generics.ListCreateAPIView):
 
         return q
 
-    def get(self, request, format=None):
+    def get(self, request):
         serializer = PartSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
 

@@ -16,23 +16,25 @@ class Brands(generics.ListCreateAPIView):
     def get_queryset(self):
         return Brand.objects.all()
 
-    def get(self, request, pk=None, format=None):
+    def get(self, request):
         serializer = BrandSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
 
-    def post(self, request, pk=None, format=None):
+    def post(self, request):
 
         post_data = request.data
         return_data = []
         errors = False
         for brand in post_data:
             brand_id = brand.get('id', None)
-            if brand_id is not None:
-                existing_brand = Brand.objects.get(id=brand_id)
             if brand.get('delete', False) is True:
-                existing_brand.delete()
+                if brand_id is not None:
+                    existing_brand = Brand.objects.get(id=brand_id).delete()
 
             else:
+                if brand_id is not None:
+                    existing_brand = Brand.objects.get(id=brand_id)
+
                 serializer = BrandSerializer(existing_brand, data=brand)
                 if serializer.is_valid():
                     serializer.save()
@@ -77,6 +79,5 @@ class BrandMaintain(generics.GenericAPIView):
 
     def delete(self, request, pk):
         brand = self.get_object(pk)
-        customer_id = brand.customer.id
         brand.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

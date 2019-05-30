@@ -304,11 +304,11 @@ class Framework(generics.ListCreateAPIView):
     def get_queryset(self):
         return PartSection.objects.all()
 
-    def get(self, request, pk=None, format=None):
+    def get(self, request):
         serializer = FrameworkSerializer(self.get_queryset(), many=True)
         return Response(serializer.data)
 
-    def post(self, request, pk=None, format=None):
+    def post(self, request):
 
         post_data = request.data
         return_data = []
