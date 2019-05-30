@@ -26,5 +26,5 @@ urlpatterns = [
     re_path(r'rest-epic/', include('epic.urls')),
     re_path(r'', include('frontend.urls')),
 ]
-if settings.DEBUG:
+if settings.CURRENT_ENV == 'TEST' and settings.DEBUG:
     urlpatterns = debugUrls.get_debug_urls() + urlpatterns

@@ -15,6 +15,7 @@ import os
 import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import dj_database_url
 import django_heroku
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -111,7 +112,7 @@ else:
     ]
 
     MIDDLEWARE = [
-        # 'django.middleware.security.SecurityMiddleware',
+        'django.middleware.security.SecurityMiddleware',
         'whitenoise.middleware.WhiteNoiseMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
@@ -152,7 +153,9 @@ if CURRENT_ENV == 'TEST':
         }
     }
     CONN_MAX_AGE = 60
-
+else:
+    DATABASES = {}
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
