@@ -18,6 +18,8 @@ import json
 import django_heroku
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 exists = os.path.isfile(os.path.join(BASE_DIR, 'config.json'))
 checkEnv = os.environ
 checkEnvDefault = os.environ
@@ -103,6 +105,7 @@ else:
         'django.contrib.contenttypes',
         'django.contrib.sessions',
         'django.contrib.messages',
+        'whitenoise.runserver_nostatic',
         'django.contrib.staticfiles',
         'rest_auth'
     ]
@@ -192,9 +195,19 @@ USE_L10N = True
 
 USE_TZ = True
 
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
-if checkEnv['STATIC_ROOT']:
-    STATIC_ROOT = checkEnv['STATIC_ROOT']
+
+# Extra places for collectstatic to find static files.
+# STATICFILES_DIRS = [
+#     os.path.join(PROJECT_ROOT, 'static'),
+# ]
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 django_heroku.settings(locals())
