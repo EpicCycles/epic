@@ -141,17 +141,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
+if CURRENT_ENV == 'TEST':
+    # Database is sqllite for dev only
+    # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
-CONN_MAX_AGE = 60
+    CONN_MAX_AGE = 60
 
 
 # Password validation
