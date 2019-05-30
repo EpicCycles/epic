@@ -297,8 +297,8 @@ def create_part_section(part_section):
 
 
 class Framework(generics.ListCreateAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
     serializer_class = FrameworkSerializer
 
     def get_queryset(self):
