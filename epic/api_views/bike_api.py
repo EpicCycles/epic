@@ -1,5 +1,4 @@
 from django.http import Http404
-
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -244,7 +243,9 @@ class BikeParts(generics.ListCreateAPIView):
 
     def delete(self, request, bike_id, part_id):
         bike_part = find_bike_part(bike_id, part_id)
-        bike_part.delete()
+        if bike_part:
+            bike_part.delete()
+
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def put(self, request, bike_id, part_id):

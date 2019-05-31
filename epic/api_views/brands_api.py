@@ -34,8 +34,10 @@ class Brands(generics.ListCreateAPIView):
             else:
                 if brand_id is not None:
                     existing_brand = Brand.objects.get(id=brand_id)
+                    serializer = BrandSerializer(existing_brand, data=brand)
+                else:
+                    serializer = BrandSerializer(data=brand)
 
-                serializer = BrandSerializer(existing_brand, data=brand)
                 if serializer.is_valid():
                     serializer.save()
                     return_data.append(serializer.data)

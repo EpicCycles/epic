@@ -92,7 +92,7 @@ if CURRENT_ENV == 'TEST':
         'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
+        # 'debug_toolbar.middleware.DebugToolbarMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
 else:
