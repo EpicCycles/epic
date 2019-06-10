@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from epic.model_serializers.part_serializer import PartSerializer, SupplierProductSerializer
 from epic.models.bike_models import BikePart
-from epic.models.brand_models import Part, SupplierProduct
+from epic.models.brand_models import Part, SupplierProduct, Brand
 from epic.models.quote_models import QuotePart
 
 
@@ -90,18 +90,17 @@ class Parts(generics.ListCreateAPIView):
     # post
     def post(self, request, format=None):
         post_data = request.data
-        print(post_data)
         return_data = []
         errors = False
         for part in post_data:
             part_serializer = PartSerializer(data=part)
             supplier_product = part.get('supplierProduct')
-            print("supplier product", supplier_product)
             if part.get('id'):
                 existing_part = Part.objects.get(pk=part.get('id'))
             else:
                 existing_part = Part.objects.filter(brand__id=part.get('brand'),
-                                                    part_name=part.get('part_name')).first()
+                                                    partType__id=part.get('partType'),
+                                                    part_name__iexact=part.get('part_name')).first()
 
             if existing_part:
                 part_serializer = PartSerializer(existing_part, data=part)
@@ -154,7 +153,14 @@ class PartMaintain(generics.GenericAPIView):
             raise Http404
 
     def post(self, request):
-        serializer = PartSerializer(data=request.data)
+        part = request.data
+        existing_part = Part.objects.filter(brand__id=part.get('brand'),
+                                            partType__id=part.get('partType'),
+                                            part_name__iexact=part.get('part_name')).first()
+        if existing_part:
+            serializer = PartSerializer(instance=existing_part, data=request.data)
+        else:
+            serializer = PartSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -163,7 +169,7 @@ class PartMaintain(generics.GenericAPIView):
 
     def patch(self, request, part_id):
         part = self.get_object(part_id)
-        serializer = PartSerializer(part, data=request.data, partial=True)
+        serializer = PartSerializer(instance=part, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

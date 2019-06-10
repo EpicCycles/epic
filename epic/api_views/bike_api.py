@@ -101,6 +101,9 @@ class FrameUpload(generics.ListCreateAPIView):
             for bike in bikes:
                 bike['frame'] = frame_id
                 model_name = bike.get('model_name')
+                parts = bike.get('parts', [])
+                bike_parts = bike.get('bikeParts', [])
+
                 bike_serializer = BikeSerializer(data=bike)
                 existing_bike = Bike.objects.filter(frame__id=frame_id, model_name=model_name).first()
                 if existing_bike:
@@ -111,8 +114,8 @@ class FrameUpload(generics.ListCreateAPIView):
                     bike_serializer.save()
                     persisted_bike = bike_serializer.data
                     bike_id = persisted_bike.get('id', None)
-                    parts = bike.get('parts', [])
-                    persisted_parts = []
+                    saved_bike = Bike.objects.get(pk=bike_id)
+
                     for part in parts:
                         part_type = part.get('partType', None)
                         part_name = part.get('part_name', None)
@@ -122,10 +125,14 @@ class FrameUpload(generics.ListCreateAPIView):
                                                        PartType.objects.get(id=part_type),
                                                        part_name,
                                                        False)
-                            persisted_parts.append(PartSerializer(part).data)
-                            bike_part = BikePart.objects.create(bike=Bike.objects.get(id=bike_id), part=part)
+                            bike_part = BikePart.objects.create(bike=saved_bike, part=part)
                             bike_part.save()
-                    persisted_bike['parts'] = persisted_parts
+
+                    for bike_part in bike_parts:
+                        part_id = bike_part.get('part', None)
+                        if part_id:
+                            bike_part = BikePart.objects.create(bike=saved_bike, part=Part.objects.get(id=part_id))
+                            bike_part.save()
                     persisted_bikes.append(persisted_bike)
                 else:
                     bike['error'] = True
@@ -136,13 +143,10 @@ class FrameUpload(generics.ListCreateAPIView):
             saved_frame_data['bikes'] = persisted_bikes
             if errors:
                 saved_frame_data['error'] = True
-                print("status 202 response")
                 return Response(status=status.HTTP_202_ACCEPTED)
 
-            print("status 201 response")
             return Response(status=status.HTTP_201_CREATED)
 
-        print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -231,7 +235,6 @@ class BikeParts(generics.ListCreateAPIView):
                 part = find_or_create_part(brand,
                                            part_type,
                                            part_name)
-                print('part:', part)
 
                 BikePart.objects.filter(bike__id=bike_id, part__partType=part.partType).delete()
                 BikePart.objects.create(bike=Bike.objects.get(id=bike_id), part=part)
@@ -255,10 +258,8 @@ class BikeParts(generics.ListCreateAPIView):
         if part:
             part_serializer = PartSerializer(part, data=part_data)
             if part_serializer.is_valid():
-                print('part serializer valid')
                 part_serializer.save()
             else:
-                print('errors are', part_serializer.errors)
                 return Response(part_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)

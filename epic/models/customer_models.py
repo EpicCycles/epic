@@ -73,7 +73,7 @@ class CustomerAddress(models.Model):
             raise ValueError('Missing address1')
 
         if CustomerAddress.objects.filter(customer=self.customer,
-                                          address1=self.address1).exclude(id=self.id).exists():
+                                          address1__iexact=self.address1).exclude(id=self.id).exists():
             raise ValueError('Customer with these values already exists')
 
         super(CustomerAddress, self).save(*args, **kwargs)

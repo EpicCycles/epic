@@ -32,7 +32,6 @@ class QuotesApi(generics.ListCreateAPIView):
         search_bike = self.request.query_params.get('bike', None)
         include_archived = self.request.query_params.get('archived', False)
 
-        print('query params ', self.request.query_params)
         q = Quote.objects.all()
 
         if include_archived != 'true':
@@ -189,7 +188,6 @@ class QuoteCopy(generics.GenericAPIView):
         customer_id = post_data.get('customer', None)
         bike_id = post_data.get('bike', None)
         quote_desc = post_data.get('quote_desc', None)
-        print(customer_id, bike_id, quote_desc)
         customer = None
         bike = None
         if customer_id:

@@ -1,5 +1,4 @@
 from django.db import models, IntegrityError
-from django.db.models import CharField, TextField
 
 from epic.helpers.validation_helper import is_valid_url
 from epic.models.framework_models import PartType
@@ -78,7 +77,6 @@ class Part(models.Model):
     def save(self, *args, **kwargs):
         if self.part_name is None or self.part_name == '':
             raise ValueError('Missing part name')
-
         if Part.objects.filter(part_name__iexact=self.part_name, brand=self.brand, partType=self.partType).exclude(
                 id=self.id).exists():
             raise IntegrityError('Part already exists with name for brand and type' + self.part_name)
