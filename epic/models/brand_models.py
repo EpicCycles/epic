@@ -90,7 +90,7 @@ class Part(models.Model):
 class SupplierProduct(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
-    product_code = models.CharField(max_length=30)
+    product_code = models.CharField(max_length=30, blank=True, null=True)
     fitted_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     ticket_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     rrp = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)

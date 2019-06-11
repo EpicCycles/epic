@@ -92,8 +92,10 @@ class Parts(generics.ListCreateAPIView):
         post_data = request.data
         return_data = []
         errors = False
+        part_type_id = None
         for part in post_data:
             part_serializer = PartSerializer(data=part)
+            part_type_id = part.get('partType')
             supplier_product = part.get('supplierProduct')
             if part.get('id'):
                 existing_part = Part.objects.get(pk=part.get('id'))
@@ -109,25 +111,26 @@ class Parts(generics.ListCreateAPIView):
                 part_serializer.save()
                 part_id = part_serializer.data.get('id', None)
                 if part_id and supplier_product:
+                    supplier_id = supplier_product.get('supplier')
+                    existing_supplier_product = SupplierProduct.objects.filter(part__id=part_id,
+                                                                            supplier__id=supplier_id).first()
                     supplier_product['part'] = part_id
-                    supplier_product_serializer = SupplierProductSerializer(data=supplier_product)
-                    existing_supplier_product = SupplierProduct.objects.get(part__id=part_id,
-                                                                            supplier__id=supplier_product.get(
-                                                                                'supplier')).first()
                     if existing_supplier_product:
                         supplier_product_serializer = SupplierProductSerializer(existing_supplier_product,
                                                                                 data=supplier_product)
+                    else:
+                        supplier_product_serializer = SupplierProductSerializer(data=supplier_product)
 
                     if supplier_product_serializer.is_valid():
                         supplier_product_serializer.save()
                     else:
-                        errorPart = part_serializer.data
-                        errorPart['supplierProduct'] = supplier_product_serializer.data
-                        errorPart['error'] = True
+                        error_part = part_serializer.data
+                        error_part['supplierProduct'] = supplier_product_serializer.data
+                        error_part['error'] = True
                         errors = True
-                        errorPart['error_detail'] = 'Part Supplier details could not be saved ' + str(
+                        error_part['error_detail'] = 'Part Supplier details could not be saved ' + str(
                             supplier_product_serializer.errors)
-                        return_data.append(errorPart)
+                        return_data.append(error_part)
             else:
                 part['error'] = True
                 errors = True
@@ -136,6 +139,14 @@ class Parts(generics.ListCreateAPIView):
 
         if errors:
             return Response(return_data, status=status.HTTP_202_ACCEPTED)
+
+        if part_type_id:
+            q_parts = Part.objects.filter(partType__id=part_type_id)
+            # now filter supplier parts based on remaining parts
+            q_supplier_products = SupplierProduct.objects.filter(part__in=q_parts)
+
+            return_data = {"parts": PartSerializer(q_parts, many=True).data,
+                           "supplierProducts": SupplierProductSerializer(q_supplier_products, many=True).data}
 
         return Response(return_data, status=status.HTTP_201_CREATED)
 
