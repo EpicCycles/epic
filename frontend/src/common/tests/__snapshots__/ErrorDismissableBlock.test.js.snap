@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`ErrorDismissibleBlock tests renders the errorDismissableBlock correctly 1`] = `
-<Message
-  color="red"
-  content="show me the error"
-  onDismiss={[Function]}
-/>
-`;

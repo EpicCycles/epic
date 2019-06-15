@@ -24,7 +24,6 @@ urlpatterns = [
     re_path(r'^api-auth/', include('rest_framework.urls')),
     re_path(r'^rest-auth/', include('rest_auth.urls')),
     re_path(r'rest-epic/', include('epic.urls')),
-    re_path(r'', include('frontend.urls')),
 ]
 # if settings.CURRENT_ENV == 'TEST' and settings.DEBUG:
 #     urlpatterns = debugUrls.get_debug_urls() + urlpatterns
