@@ -1,6 +1,5 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 
 from epic.models.customer_models import *
 
@@ -112,14 +111,15 @@ class CustomerAddressSerializer(serializers.ModelSerializer):
         address1 = data.get('address1')
         postcode = data.get('postcode')
         customer = data.get('customer')
+        existing_addresses = CustomerAddress.objects.filter(customer=customer, address1__iexact=address1,
+                                                            postcode__iexact=postcode)
+
         if self.instance:
-            if CustomerAddress.objects.filter(customer=customer, address1__iexact=address1, postcode__iexact=postcode) \
-                    .exclude(id=self.instance.id).exists():
-                raise serializers.ValidationError('This address is already in use for the same customer')
-        else:
-            if CustomerAddress.objects.filter(customer=customer, address1__iexact=address1, postcode__iexact=postcode) \
-                    .exists():
-                raise serializers.ValidationError('This address is already in use for the same customer')
+            existing_addresses = existing_addresses.exclude(id=self.instance.id)
+
+        if existing_addresses.exists():
+            raise serializers.ValidationError('This address is already in use for the same customer')
+
         return data
 
     @staticmethod

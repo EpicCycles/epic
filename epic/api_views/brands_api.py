@@ -73,7 +73,7 @@ class BrandMaintain(generics.GenericAPIView):
 
     def post(self, request, pk):
         brand = self.get_object(pk)
-        serializer = BrandSerializer(initial=brand, data=request.data)
+        serializer = BrandSerializer(brand, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
