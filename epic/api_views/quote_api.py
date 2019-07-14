@@ -150,7 +150,7 @@ class QuoteMaintain(generics.GenericAPIView):
     serializer_class = QuoteSerializer
 
     def get_object(self, quote_id):
-        return get_quote_object(quote_id);
+        return get_quote_object(quote_id)
 
     def get(self, request, quote_id):
         quote = get_quote_object(quote_id)

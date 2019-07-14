@@ -63,7 +63,6 @@ class CustomerAddressMaintain(generics.GenericAPIView):
 
     def post(self, request, pk):
         customer_address = self.get_object(pk)
-        print(customer_address.id, customer_address.customer)
         customer_id = customer_address.customer.id
         serializer = CustomerAddressSerializer(customer_address, data=request.data)
         if serializer.is_valid():

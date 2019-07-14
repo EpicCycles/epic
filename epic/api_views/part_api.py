@@ -6,8 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_serializers.part_serializer import PartSerializer, SupplierProductSerializer
-from epic.models.bike_models import BikePart
-from epic.models.brand_models import Part, SupplierProduct, Brand
+from epic.models.brand_models import Part, SupplierProduct
 from epic.models.quote_models import QuotePart
 
 
@@ -88,60 +87,67 @@ class Parts(generics.ListCreateAPIView):
         return Response(serializer.data)
 
     # post
-    def post(self, request, format=None):
+    def post(self, request):
         post_data = request.data
+        user = request.user
         return_data = []
         errors = False
         part_type_id = None
+        # remove the core flag from all part products prior to upload
+        processed_part_types = []
         for part in post_data:
             part_serializer = PartSerializer(data=part)
             part_type_id = part.get('partType')
-            supplier_product = part.get('supplierProduct')
+
+            if not part_type_id:
+                part['error_detail'] = {'non_field_errors': 'Part could not be saved because no part type is present'}
+                return_data.append(part)
+                continue
+
+            if processed_part_types.count(part_type_id) == 0:
+                processed_part_types.push(part_type_id)
+                Part.objects.filter(partType__id=part_type_id).update(standard__on=False, stocked__on=False,
+                                                                      upd_by=user)
+
             if part.get('id'):
                 existing_part = Part.objects.get(pk=part.get('id'))
             else:
                 existing_part = Part.objects.filter(brand__id=part.get('brand'),
-                                                    partType__id=part.get('partType'),
+                                                    partType__id=part_type_id,
                                                     part_name__iexact=part.get('part_name')).first()
 
             if existing_part:
                 part_serializer = PartSerializer(existing_part, data=part)
 
             if part_serializer.is_valid():
-                part_serializer.save()
+                part_serializer.save(upd_by=user)
+                if existing_part:
+                    SupplierProduct.objects.filter(part=existing_part).delete()
+
+                supplier_product = part.get('supplierProduct')
                 part_id = part_serializer.data.get('id', None)
                 if part_id and supplier_product:
-                    supplier_id = supplier_product.get('supplier')
-                    existing_supplier_product = SupplierProduct.objects.filter(part__id=part_id,
-                                                                            supplier__id=supplier_id).first()
                     supplier_product['part'] = part_id
-                    if existing_supplier_product:
-                        supplier_product_serializer = SupplierProductSerializer(existing_supplier_product,
-                                                                                data=supplier_product)
-                    else:
-                        supplier_product_serializer = SupplierProductSerializer(data=supplier_product)
+                    supplier_product_serializer = SupplierProductSerializer(data=supplier_product)
 
                     if supplier_product_serializer.is_valid():
-                        supplier_product_serializer.save()
+                        supplier_product_serializer.save(upd_by=request.user)
                     else:
                         error_part = part_serializer.data
                         error_part['supplierProduct'] = supplier_product_serializer.data
-                        error_part['error'] = True
                         errors = True
-                        error_part['error_detail'] = 'Part Supplier details could not be saved ' + str(
-                            supplier_product_serializer.errors)
+                        error_part['error_detail'] = {'non_field_errors': 'Part Supplier details could not be saved '}
                         return_data.append(error_part)
             else:
-                part['error'] = True
                 errors = True
-                part['error_detail'] = 'Part could not be saved ' + str(part_serializer.errors)
+                part['error_detail'] = part_serializer.errors
                 return_data.append(part)
 
         if errors:
             return Response(return_data, status=status.HTTP_202_ACCEPTED)
 
-        if part_type_id:
-            q_parts = Part.objects.filter(partType__id=part_type_id)
+        if len(processed_part_types) > 0:
+            q_parts = Part.objects.filter(partType__id__in=processed_part_types)
             # now filter supplier parts based on remaining parts
             q_supplier_products = SupplierProduct.objects.filter(part__in=q_parts)
 
@@ -173,7 +179,7 @@ class PartMaintain(generics.GenericAPIView):
         else:
             serializer = PartSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(upd_by=request.user)
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -182,7 +188,8 @@ class PartMaintain(generics.GenericAPIView):
         part = self.get_object(part_id)
         serializer = PartSerializer(instance=part, data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            user = request.user
+            serializer.save(upd_by=request.user)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -210,7 +217,7 @@ class SupplierProductMaintain(generics.GenericAPIView):
     def post(self, request):
         serializer = SupplierProductSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(upd_by=request.user)
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -219,7 +226,7 @@ class SupplierProductMaintain(generics.GenericAPIView):
         supplier_product = self.get_object(supplier_product_id)
         serializer = SupplierProductSerializer(supplier_product, data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(upd_by=request.user)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

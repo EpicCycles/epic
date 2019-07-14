@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models, IntegrityError
 
 from epic.helpers.validation_helper import is_valid_url
@@ -67,8 +68,11 @@ class Part(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     part_name = models.CharField(max_length=200)
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    rrp = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     standard = models.BooleanField(default=False)
     stocked = models.BooleanField(default=False)
+    upd_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
+    upd_date = models.DateTimeField(auto_now=True)
     objects = PartManager()
 
     def __str__(self):
@@ -97,13 +101,7 @@ class SupplierProduct(models.Model):
     trade_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     club_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     check_date = models.DateTimeField(auto_now=True)
+    upd_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
 
     class Meta:
         indexes = [models.Index(fields=['supplier', 'part']), ]
-
-
-class Bundle(models.Model):
-    bundle_name = models.CharField(max_length=100, unique=True)
-    products = models.ManyToManyField(SupplierProduct, blank=True)
-    fitted_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    ticket_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
