@@ -56,7 +56,7 @@ if CURRENT_ENV == 'TEST':
     # settings for debug panels not in live
     INSTALLED_APPS = [
         'epic',
-        'rest_framework', # enable rest framework
+        'rest_framework',  # enable rest framework
         'rest_framework.authtoken',
         'django.contrib.admin',
         'django.contrib.auth',
@@ -183,6 +183,7 @@ LOGOUT_ON_PASSWORD_CHANGE = False
 
 # redirect after login to HOME page
 LOGIN_REDIRECT_URL = '/'
+# APPEND_SLASH = False
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

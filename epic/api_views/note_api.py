@@ -37,7 +37,7 @@ class CustomerNoteList(generics.ListCreateAPIView):
         objects = CustomerNote.objects.filter(where_filter).order_by('created_date')
         return objects
 
-    def post(self, request, format=None):
+    def post(self, request):
         user = request.user
         serializer = CustomerNoteSerializer(data=request.data)
 
@@ -58,20 +58,20 @@ class CustomerNoteMaintain(generics.GenericAPIView):
         except CustomerNote.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, format=None):
-        customerNote = self.get_object(pk)
-        serializer = CustomerNoteSerializer(customerNote)
+    def get(self, request, pk):
+        customer_note = self.get_object(pk)
+        serializer = CustomerNoteSerializer(customer_note)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request, pk, format=None):
-        customerNote = self.get_object(pk)
-        serializer = CustomerNoteSerializer(customerNote, data=request.data)
+    def post(self, request, pk):
+        customer_note = self.get_object(pk)
+        serializer = CustomerNoteSerializer(customer_note, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk, format=None):
-        customerNote = self.get_object(pk)
-        customerNote.delete()
+    def delete(self, request, pk):
+        customer_note = self.get_object(pk)
+        customer_note.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

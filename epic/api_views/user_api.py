@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -20,7 +20,7 @@ class CustomAuthToken(ObtainAuthToken):
         token, created = Token.objects.get_or_create(user=user)
         return Response({
             'token': token.key,
-            'user': UserSerializer(user).data
+            'user': UserSerializer(user, context={'request': request}).data
         })
 
 
