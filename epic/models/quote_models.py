@@ -54,7 +54,7 @@ class Quote(models.Model):
         new_calculated_price = Decimal(0)
         if self.bike:
             if self.bike_price:
-                new_calculated_price = new_calculated_price + self.bike_price;
+                new_calculated_price = new_calculated_price + self.bike_price
             elif self.club_member and self.bike.club_price:
                 self.bike_price = self.bike.club_price
                 new_calculated_price = new_calculated_price + self.bike.club_price
@@ -74,12 +74,6 @@ class Quote(models.Model):
             quantity = Decimal(1)
             if quote_part.quantity:
                 quantity = quote_part.quantity
-            if quote_part.club_price and not self.club_member:
-                if quote_part.club_price:
-                    quote_part.club_price = None
-                if quote_part.ticket_price:
-                    quote_part.part_price = quote_part.ticket_price
-                quote_part.save()
 
             if quote_part.part_price:
                 new_calculated_price = new_calculated_price + (quote_part.part_price * quantity)
@@ -104,8 +98,6 @@ class QuotePart(models.Model):
     part = models.ForeignKey(Part, on_delete=models.CASCADE, blank=True, null=True)
     quantity = models.IntegerField(default=1, blank=True, null=True)
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    ticket_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
-    club_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     part_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     not_required = models.BooleanField(default=False)
     additional_data = models.CharField(max_length=40, blank=True, null=True)
