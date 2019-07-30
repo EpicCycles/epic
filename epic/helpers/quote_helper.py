@@ -76,12 +76,9 @@ def copy_quote_with_changes(old_quote, request, quote_desc, bike, customer):
     new_quote.fitting = copy_fitting
     new_quote.quote_status = INITIAL
     new_quote.created_by = request.user
-    if copy_quote_desc:
-        new_quote.quote_desc = copy_quote_desc
-        new_quote.version = 1
-    else:
-        quote_same_name = Quote.objects.filter(customer=copy_customer, quote_desc=copy_quote_desc).count()
-        new_quote.version = quote_same_name + 1
+
+    quote_same_name = Quote.objects.filter(customer=copy_customer, quote_desc=copy_quote_desc).count()
+    new_quote.version = quote_same_name + 1
 
     if bike:
         if new_quote.bike:
