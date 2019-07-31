@@ -81,8 +81,6 @@ class Quote(models.Model):
                 new_calculated_price = new_calculated_price - quote_part.trade_in_price
 
         self.calculated_price = new_calculated_price
-        if not self.quote_price:
-            self.quote_price = self.calculated_price
         self.save()
 
     class Meta:
