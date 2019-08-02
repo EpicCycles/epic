@@ -3,6 +3,7 @@ from django.urls import path
 from epic.api_views.attribute_option_api import AttributeOptions
 from epic.api_views.bike_api import Frames, FrameUpload, BikeParts, Bikes
 from epic.api_views.brands_api import Brands, BrandMaintain
+from epic.api_views.charge_api import ChargeList, ChargeMaintain
 from epic.api_views.customer_address_api import CustomerAddressList, CustomerAddressMaintain
 from epic.api_views.customer_api import CustomerList, CustomerMaintain
 from epic.api_views.customer_phone_api import CustomerPhoneList, CustomerPhoneMaintain
@@ -13,6 +14,7 @@ from epic.api_views.part_type_api import PartType
 from epic.api_views.part_type_attribute_api import PartTypeAttribute
 from epic.api_views.quote_api import QuotesApi, QuoteMaintain, QuoteCopy, QuoteArchive, QuoteUnArchive, \
     QuoteRecalculate, QuoteIssue
+from epic.api_views.quote_charge_api import QuoteChargeMaintain
 from epic.api_views.quote_part_api import QuotePartMaintain
 from epic.api_views.section_api import PartSection
 from epic.api_views.supplier_api import Suppliers, MaintainSupplier
@@ -65,5 +67,9 @@ urlpatterns = [
     path('quote/<int:quote_id>/issue', QuoteIssue.as_view()),
     path('quote-part', QuotePartMaintain.as_view()),
     path('quote-part/<int:quote_part_id>', QuotePartMaintain.as_view()),
+    path('charge', ChargeList.as_view()),
+    path('charge/<int:charge_id>', ChargeMaintain.as_view()),
+    path('quote-charge', QuoteChargeMaintain.as_view()),
+    path('quote-charge/<int:quote_charge_id>', QuotePartMaintain.as_view()),
     path('user', UserApi.as_view()),
 ]

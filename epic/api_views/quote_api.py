@@ -11,12 +11,12 @@ from epic.model_serializers.bike_serializer import BikePartSerializer, BikeSeria
 from epic.model_serializers.customer_serializer import CustomerSerializer
 from epic.model_serializers.note_serializer import CustomerNoteSerializer
 from epic.model_serializers.part_serializer import SupplierProductSerializer, PartSerializer
-from epic.model_serializers.quote_serializer import QuoteSerializer, QuotePartSerializer
+from epic.model_serializers.quote_serializer import QuoteSerializer, QuotePartSerializer, QuoteChargeSerializer
 from epic.models.bike_models import Frame, Bike, BikePart
 from epic.models.brand_models import Part, SupplierProduct
 from epic.models.customer_models import Customer
 from epic.models.note_models import CustomerNote
-from epic.models.quote_models import Quote, QuotePart, INITIAL, ARCHIVED, ISSUED
+from epic.models.quote_models import Quote, QuotePart, INITIAL, ARCHIVED, ISSUED, QuoteCharge
 
 
 class QuotesApi(generics.ListCreateAPIView):
@@ -104,6 +104,8 @@ def build_quotes_and_related_data(quotes):
     quote_bike_ids = quotes.values_list('bike__id', flat=True)
     quote_serializer = QuoteSerializer(quotes, many=True)
     quote_parts = QuotePart.objects.filter(quote__in=quotes)
+    quote_charges = QuoteCharge.objects.filter(quote__in=quotes)
+    quote_charge_serializer = QuoteChargeSerializer(quote_charges, many=True)
     quote_part_part_ids = quote_parts.values_list('part__id', flat=True)
     quote_part_serializer = QuotePartSerializer(quote_parts, many=True)
     bikes = Bike.objects.filter(id__in=quote_bike_ids)
@@ -127,6 +129,7 @@ def build_quotes_and_related_data(quotes):
     supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
     full_quote_data = {'quotes': quote_serializer.data,
                        'quoteParts': quote_part_serializer.data,
+                       'quoteCharges': quote_charge_serializer.data,
                        'frames': frame_serializer.data,
                        'bikes': bike_serializer.data,
                        'notes': notes_serializer.data,

@@ -10,10 +10,10 @@ class PartModelTestCase(TestCase):
     def setUp(self):
         self.part_section1 = PartSection.objects.create(name='Section1', placing=1)
         self.part_section2 = PartSection.objects.create(name='Section2', placing=2)
-        self.part_type1 = PartType.objects.create(name='Wheels', description='Wheels description',
+        self.part_type1 = PartType.objects.create(name='Wheels',
                                                   includeInSection=self.part_section1, placing=1,
                                                   can_be_substituted=True, can_be_omitted=True, customer_visible=True)
-        self.part_type2 = PartType.objects.create(name='Lights', description='Wheels description',
+        self.part_type2 = PartType.objects.create(name='Lights',
                                                   includeInSection=self.part_section1, placing=1,
                                                   can_be_substituted=True, can_be_omitted=True, customer_visible=True)
         self.part_type_attribute1 = PartTypeAttribute.objects.create(partType=self.part_type1,
@@ -30,12 +30,12 @@ class PartModelTestCase(TestCase):
                                                                      attribute_type=SELECT, in_use=False,
                                                                      mandatory=False)
         self.attribute_value1 = AttributeOptions.objects.create(part_type_attribute=self.part_type_attribute1,
-                                                                option_name='Option 1')
+                                                                option_name='Option 1', placing=4)
         self.attribute_value2 = AttributeOptions.objects.create(part_type_attribute=self.part_type_attribute1,
-                                                                option_name='Option 2')
+                                                                option_name='Option 2', placing=41)
         self.supplier1 = Supplier.objects.create(supplier_name='Supplier 1')
         self.supplier2 = Supplier.objects.create(supplier_name='Supplier 2')
-        self.brand1 = Brand.objects.create(supplier=self.supplier1, brand_name='Brand 1', link='orbea.co.uk')
+        self.brand1 = Brand.objects.create( brand_name='Brand 1', link='orbea.co.uk')
         self.brand2 = Brand.objects.create(brand_name='Brand 2')
         self.part1 = Part.objects.create_part(self.part_type1, self.brand1, 'Part 1')
         self.part2 = Part.objects.create_part(self.part_type1, self.brand1, 'Part 2')
@@ -217,10 +217,6 @@ class PartModelTestCase(TestCase):
             Brand.objects.create(brand_name=None)
         with self.assertRaises(ValueError):
             Brand.objects.create(brand_name='')
-        with self.assertRaises(ValueError):
-            Brand.objects.create(brand_name='new brand', link='')
-        with self.assertRaises(ValueError):
-            Brand.objects.create(brand_name='new brand', link='epic&cycles.co.uk')
 
     def test_brand_update_error(self):
         get_id = self.brand1.id
@@ -231,14 +227,6 @@ class PartModelTestCase(TestCase):
         with self.assertRaises(ValueError):
             check_brand = Brand.objects.get(id=get_id)
             check_brand.brand_name = ''
-            check_brand.save()
-        with self.assertRaises(ValueError):
-            check_brand = Brand.objects.get(id=get_id)
-            check_brand.link = ''
-            check_brand.save()
-        with self.assertRaises(ValueError):
-            check_brand = Brand.objects.get(id=get_id)
-            check_brand.link = 'invalidlink'
             check_brand.save()
 
     def test_part_insert_error(self):
@@ -297,7 +285,7 @@ class PartModelTestCase(TestCase):
     def test_option_value_create_duplicate(self):
         with self.assertRaises(IntegrityError):
             AttributeOptions.objects.create(part_type_attribute=self.attribute_value1.part_type_attribute,
-                                            option_name=self.attribute_value1.option_name)
+                                            option_name=self.attribute_value1.option_name, placing=1)
 
     def test_supplier_create_duplicate1(self):
         with self.assertRaises(IntegrityError):
@@ -383,7 +371,6 @@ class PartModelTestCase(TestCase):
 
     def test_type_defaults(self):
         new_part_type = PartType.objects.create(name='Check', placing=4, includeInSection=self.part_section1)
-        self.assertEqual(new_part_type.description, None)
         self.assertEqual(new_part_type.can_be_substituted, False)
         self.assertEqual(new_part_type.can_be_omitted, False)
         self.assertEqual(new_part_type.customer_visible, False)
@@ -413,7 +400,6 @@ class PartModelTestCase(TestCase):
     def test_type_update(self):
         part_id = self.part_type1.id
         name = self.part_type1.name
-        description = self.part_type1.description
         includeInSection = self.part_type1.includeInSection
         placing = self.part_type1.placing
         can_be_substituted = self.part_type1.can_be_substituted
@@ -421,7 +407,6 @@ class PartModelTestCase(TestCase):
         customer_visible = self.part_type1.customer_visible
 
         self.part_type1.name = 'Bob'
-        self.part_type1.description = 'Bob desc'
         self.part_type1.includeInSection = self.part_section2
         self.part_type1.placing = 24
         self.part_type1.can_be_substituted = False
@@ -432,8 +417,6 @@ class PartModelTestCase(TestCase):
         check_type = PartType.objects.get(id=part_id)
         self.assertEqual(check_type.name, 'Bob')
         self.assertNotEqual(check_type.name, name)
-        self.assertEqual(check_type.description, 'Bob desc')
-        self.assertNotEqual(check_type.description, description)
         self.assertEqual(check_type.includeInSection, self.part_section2)
         self.assertNotEqual(check_type.includeInSection, includeInSection)
         self.assertEqual(check_type.placing, 24)
@@ -497,30 +480,17 @@ class PartModelTestCase(TestCase):
         check_id = self.brand1.id
         old_brand_name = self.brand1.brand_name
         old_link = self.brand1.link
-        old_supplier = self.brand1.supplier
 
-        self.brand1.supplier = None
         self.brand1.save()
         check_brand = Brand.objects.get(id=check_id)
         self.assertEqual(check_brand.brand_name, self.brand1.brand_name)
         self.assertEqual(check_brand.link, self.brand1.link)
-        self.assertEqual(check_brand.supplier, None)
-        self.assertNotEqual(check_brand.supplier, old_supplier)
-
-        self.brand1.supplier = self.supplier2
-        self.brand1.save()
-        check_brand = Brand.objects.get(id=check_id)
-        self.assertEqual(check_brand.brand_name, self.brand1.brand_name)
-        self.assertEqual(check_brand.link, self.brand1.link)
-        self.assertEqual(check_brand.supplier, self.supplier2)
-        self.assertNotEqual(check_brand.supplier, old_supplier)
 
         self.brand1.link = None
         self.brand1.save()
         check_brand = Brand.objects.get(id=check_id)
         self.assertEqual(check_brand.brand_name, self.brand1.brand_name)
         self.assertEqual(check_brand.link, None)
-        self.assertEqual(check_brand.supplier, self.supplier2)
         self.assertNotEqual(check_brand.link, old_link)
 
         self.brand1.brand_name = 'New Brand name'
@@ -528,7 +498,6 @@ class PartModelTestCase(TestCase):
         check_brand = Brand.objects.get(id=check_id)
         self.assertEqual(check_brand.brand_name, 'New Brand name')
         self.assertEqual(check_brand.link, None)
-        self.assertEqual(check_brand.supplier, self.supplier2)
         self.assertNotEqual(check_brand.brand_name, old_brand_name)
 
     def test_part_updates(self):
@@ -579,21 +548,3 @@ class PartModelTestCase(TestCase):
     def test_part_string(self):
         expected = f'{self.part1.partType.name}: {self.part1.brand.brand_name} {self.part1.part_name}'
         self.assertEqual(str(self.part1), expected)
-
-    def test_attribute_needs_completing(self):
-        self.assertEqual(self.part_type_attribute1.needs_completing(), True)
-        self.assertEqual(self.part_type_attribute2.needs_completing(), False)
-        self.assertEqual(self.part_type_attribute3.needs_completing(), False)
-        self.assertEqual(self.part_type_attribute4.needs_completing(), False)
-
-    def test_brand_has_link(self):
-        self.assertEqual(self.brand1.has_link(), True)
-        self.assertEqual(self.brand2.has_link(), False)
-
-    def test_brand_build_link(self):
-        self.assertEqual(self.brand1.build_link_new_tab().startswith('<a'), True)
-        self.assertEqual(self.brand2.build_link_new_tab(), None)
-
-    def test_part_javascript_object(self):
-        expected = f'brand:"{self.part1.brand.id}",partType:"{self.part1.partType.id}",partName:"{self.part1.part_name}"'
-        self.assertEqual(self.part1.getJavascriptObject(), expected)

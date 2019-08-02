@@ -90,9 +90,6 @@ class PartTypeAttribute(models.Model):
 
         super(PartTypeAttribute, self).save(*args, **kwargs)
 
-    def needs_completing(self):
-        return self.in_use and self.mandatory
-
     class Meta:
         indexes = [models.Index(fields=["partType", "attribute_name"]), ]
         ordering = ('placing',)

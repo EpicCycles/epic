@@ -11,6 +11,16 @@ def create_note_for_quote_part(quote_part, user, action):
     customer_note.save()
 
 
+def create_note_for_quote_charge(quote_charge, user, action):
+    note_text = f'Quote charge {action} for {quote_charge.charge.charge_name} with price £{quote_charge.price}'
+    customer_note = CustomerNote(customer=quote_charge.quote.customer,
+                                 quote=quote_charge.quote,
+                                 note_text=note_text,
+                                 created_by=user,
+                                 customer_visible=False)
+    customer_note.save()
+
+
 def create_note_for_requote(quote, user):
     note_text = "Quote set back to Initial"
     customer_note = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,
@@ -19,7 +29,7 @@ def create_note_for_requote(quote, user):
 
 
 def create_note_for_issue(quote, user):
-    note_text = "Quote issued"
+    note_text = f'Quote issued at price £{quote.quote_price}'
     customer_note = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,
                                  customer_visible=False)
     customer_note.save()

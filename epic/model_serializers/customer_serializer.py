@@ -147,19 +147,19 @@ class FittingSerializer(serializers.ModelSerializer):
         raise serializers.ValidationError("Missing fitting_type")
 
     @staticmethod
-    def validate_saddle_height(self, value):
+    def validate_saddle_height(value):
         if value:
             return value
         raise serializers.ValidationError("Missing saddle_height")
 
     @staticmethod
-    def validate_saddle_height(self, value):
+    def validate_bar_height(value):
         if value:
             return value
-        raise serializers.ValidationError("Missing saddle_height")
+        raise serializers.ValidationError("Missing bar_height")
 
     @staticmethod
-    def validate_reach(self, value):
+    def validate_reach(value):
         if value:
             return value
         raise serializers.ValidationError("Missing reach")

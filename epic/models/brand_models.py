@@ -26,7 +26,7 @@ class Supplier(models.Model):
 
 class Brand(models.Model):
     brand_name = models.CharField(max_length=50, unique=True)
-    link = models.CharField(max_length=100, blank=True)
+    link = models.CharField(max_length=100, blank=True, null=True)
     supplier = models.ManyToManyField(Supplier, blank=True)
     bike_brand = models.BooleanField(default=False)
 

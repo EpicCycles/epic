@@ -188,7 +188,6 @@ class PartMaintain(generics.GenericAPIView):
         part = self.get_object(part_id)
         serializer = PartSerializer(instance=part, data=request.data)
         if serializer.is_valid():
-            user = request.user
             serializer.save(upd_by=request.user)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

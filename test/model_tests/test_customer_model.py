@@ -4,6 +4,7 @@ from django.test import TestCase
 
 from epic.models.customer_models import *
 
+
 class CustomerModelTestCase(TestCase):
     def setUp(self):
         self.customer_no_email = Customer.objects.create(first_name="Bod", last_name='Prince')
@@ -20,109 +21,8 @@ class CustomerModelTestCase(TestCase):
         self.c_n_m_address2 = CustomerAddress.objects.create(customer=self.customer_no_email, address1='2 New Street',
                                                              postcode='TR1 1FF')
         self.c_n_m_fitting = Fitting.objects.create(customer=self.customer_no_email, saddle_height='23',
-                                                    bar_height='45', reach='23', notes='New note', fitting_type=CUST)
-
-    def test_missing_data_customer_create(self):
-        with self.assertRaises(ValueError):
-            Customer.objects.create()
-        with self.assertRaises(ValueError):
-            Customer.objects.create(first_name='Annd')
-        with self.assertRaises(ValueError):
-            Customer.objects.create(last_name='Weaver')
-        with self.assertRaises(ValueError):
-            Customer.objects.create(last_name='')
-        with self.assertRaises(ValueError):
-            Customer.objects.create(first_name='New', last_name='Last', email='abc')
-
-    def test_missing_data_customer_phone_create(self):
-        with self.assertRaises(ValueError):
-            CustomerPhone.objects.create(customer=self.customer_no_email)
-        with self.assertRaises(ValueError):
-            CustomerPhone.objects.create(customer=self.customer_no_email, number_type=HOME)
-        with self.assertRaises(ValueError):
-            CustomerPhone.objects.create(customer=self.customer_no_email, number_type='X', telephone='5678')
-
-    def test_missing_data_customer_address_create(self):
-        with self.assertRaises(ValueError):
-            CustomerAddress.objects.create(customer=self.customer_no_email)
-        with self.assertRaises(ValueError):
-            CustomerAddress.objects.create(customer=self.customer_no_email, address1='2 Teme Road')
-
-    def test_missing_data_fitting_create(self):
-        with self.assertRaises(ValueError):
-            Fitting.objects.create()
-        with self.assertRaises(ValueError):
-            Fitting.objects.create(saddle_height='34cm')
-        with self.assertRaises(ValueError):
-            Fitting.objects.create(saddle_height='34cm', bar_height='45 cm')
-
-    def test_missing_data_customer_update(self):
-        with self.assertRaises(ValueError):
-            self.customer_with_email.first_name = None
-            self.customer_with_email.save()
-        with self.assertRaises(ValueError):
-            self.customer_with_email.last_name = None
-            self.customer_with_email.save()
-        with self.assertRaises(ValueError):
-            self.customer_with_email.first_name = None
-            self.customer_with_email.last_name = None
-            self.customer_with_email.save()
-
-    def test_missing_data_customer_phone_update(self):
-        with self.assertRaises(ValueError):
-            self.c_n_m_home_phone.number_type = None
-            self.c_n_m_home_phone.save()
-        with self.assertRaises(ValueError):
-            self.c_n_m_home_phone.telephone = None
-            self.c_n_m_home_phone.save()
-        with self.assertRaises(ValueError):
-            self.c_n_m_home_phone.telephone = ''
-            self.c_n_m_home_phone.save()
-
-    def test_missing_data_customer_address_update(self):
-        with self.assertRaises(ValueError):
-            self.c_n_m_address1.address1 = None
-            self.c_n_m_address1.save()
-        with self.assertRaises(ValueError):
-            self.c_n_m_address1.postcode = None
-            self.c_n_m_address1.save()
-        with self.assertRaises(ValueError):
-            self.c_n_m_address1.address1 = ''
-            self.c_n_m_address1.save()
-        with self.assertRaises(ValueError):
-            self.c_n_m_address1.postcode = ''
-            self.c_n_m_address1.save()
-
-    def test_missing_data_fitting_update(self):
-        with self.assertRaises(ValueError):
-            self.c_n_m_fitting.saddle_height = None
-            self.c_n_m_fitting.save()
-        with self.assertRaises(ValueError):
-            self.c_n_m_fitting.bar_height = None
-            self.c_n_m_fitting.save()
-        with self.assertRaises(ValueError):
-            self.c_n_m_fitting.reach = None
-            self.c_n_m_fitting.save()
-        with self.assertRaises(ValueError):
-            self.c_n_m_fitting.saddle_height = ''
-            self.c_n_m_fitting.save()
-        with self.assertRaises(ValueError):
-            self.c_n_m_fitting.bar_height = ''
-            self.c_n_m_fitting.save()
-        with self.assertRaises(ValueError):
-            self.c_n_m_fitting.reach = ''
-            self.c_n_m_fitting.save()
-
-    def test_add_duplicate_customer_fails(self):
-        with self.assertRaises(ValueError):
-            Customer.objects.create(first_name="Bod", last_name='Prince')
-        with self.assertRaises(ValueError):
-            Customer.objects.create(first_name="Fred", last_name='Bloggs', email='f.b@c.com')
-
-    def test_save_create_duplicate_customer_fails(self):
-        with self.assertRaises(ValueError):
-            self.customer_with_email2.last_name = self.customer_with_email.last_name
-            self.customer_with_email2.save()
+                                                    bar_height='45', reach='23', note_text='New note',
+                                                    fitting_type=CUST)
 
     def test_create_new_email_customer(self):
         new_customer = Customer.objects.create(first_name=self.customer_no_email.first_name,
@@ -159,28 +59,6 @@ class CustomerModelTestCase(TestCase):
         self.assertNotEqual(check_customer.email, old_email)
         self.assertEqual(check_customer.add_date, old_add)
         self.assertNotEqual(check_customer.upd_date, old_upd)
-
-    def test_phone_create_duplicate(self):
-        with self.assertRaises(ValueError):
-            CustomerPhone.objects.create(customer=self.customer_no_email, number_type=HOME, telephone='01568 770451')
-        with self.assertRaises(ValueError):
-            CustomerPhone.objects.create(customer=self.customer_no_email, number_type=MOBILE, telephone='01568 770451')
-
-    def test_phone_update_duplicate(self):
-        with self.assertRaises(ValueError):
-            self.c_n_m_home_phone.telephone = self.c_n_m_home_phone2.telephone
-            self.c_n_m_home_phone.save()
-
-    def test_address_create_duplicate(self):
-        with self.assertRaises(ValueError):
-            CustomerAddress.objects.create(customer=self.customer_no_email, address1=self.c_n_m_address1.address1,
-                                           postcode=self.c_n_m_address1.postcode)
-
-    def test_address_update_duplicate(self):
-        with self.assertRaises(ValueError):
-            self.c_n_m_address1.address1 = self.c_n_m_address2.address1
-            self.c_n_m_address1.postcode = self.c_n_m_address2.postcode
-            self.c_n_m_address1.save()
 
     def test_insert_new_telephone(self):
         new_telephone = CustomerPhone.objects.create(customer=self.customer_no_email, telephone='07866311879')
@@ -248,7 +126,7 @@ class CustomerModelTestCase(TestCase):
         fitting_saddle = self.c_n_m_fitting.saddle_height
         fitting_bar = self.c_n_m_fitting.bar_height
         fitting_reach = self.c_n_m_fitting.reach
-        fitting_notes = self.c_n_m_fitting.notes
+        fitting_note_text = self.c_n_m_fitting.note_text
         fitting_add = self.c_n_m_fitting.add_date
         fitting_upd = self.c_n_m_fitting.upd_date
         time.sleep(1)
@@ -256,7 +134,7 @@ class CustomerModelTestCase(TestCase):
         self.c_n_m_fitting.saddle_height = '34 cm'
         self.c_n_m_fitting.bar_height = '36 cm'
         self.c_n_m_fitting.reach = '38 cm'
-        self.c_n_m_fitting.notes = 'changed notes'
+        self.c_n_m_fitting.note_text = 'changed note_text'
         self.c_n_m_fitting.save()
 
         check_fitting = Fitting.objects.get(id=fitting_id)
@@ -264,5 +142,5 @@ class CustomerModelTestCase(TestCase):
         self.assertNotEqual(check_fitting.saddle_height, fitting_saddle)
         self.assertNotEqual(check_fitting.bar_height, fitting_bar)
         self.assertNotEqual(check_fitting.reach, fitting_reach)
-        self.assertNotEqual(check_fitting.notes, fitting_notes)
+        self.assertNotEqual(check_fitting.note_text, fitting_note_text)
         self.assertNotEqual(check_fitting.upd_date, fitting_upd)

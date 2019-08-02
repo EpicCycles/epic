@@ -48,6 +48,7 @@ class Quote(models.Model):
 
     def archive_reset(self):
         self.quote_status = INITIAL
+        self.quote_price = None
         self.save()
 
     def recalculate_price(self):
@@ -69,6 +70,9 @@ class Quote(models.Model):
                 new_calculated_price = new_calculated_price + self.colour_price
             else:
                 self.colour_price = None
+
+        for quote_charge in QuoteCharge.objects.filter(quote=self):
+            new_calculated_price = new_calculated_price + quote_charge.price
 
         for quote_part in QuotePart.objects.filter(quote=self):
             quantity = Decimal(1)
@@ -100,4 +104,16 @@ class QuotePart(models.Model):
     not_required = models.BooleanField(default=False)
     additional_data = models.CharField(max_length=40, blank=True, null=True)
 
+
+class Charge(models.Model):
+    charge_name = models.CharField(max_length=100, unique=True)
+    price = models.DecimalField(max_digits=9, decimal_places=2)
+    upd_date = models.DateTimeField(auto_now=True)
+    upd_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
+
+
+class QuoteCharge(models.Model):
+    quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
+    charge = models.ForeignKey(Charge, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=9, decimal_places=2)
 
