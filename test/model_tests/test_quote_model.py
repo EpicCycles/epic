@@ -15,7 +15,7 @@ class QuoteModelSerializersTestCase(TestCase):
                                                   can_be_substituted=True, can_be_omitted=True, customer_visible=True)
         self.brand1 = Brand.objects.create(brand_name='Brand 1', link='orbea.co.uk')
         self.part1 = Part.objects.create_part(self.part_type1, self.brand1, 'Part 1')
-        self.test_quote1 = Quote.objects.create(customer=self.customer, quote_desc='description')
+        self.test_quote1 = Quote.objects.create(customer=self.customer, quote_desc='description', quote_price=1234.56)
         self.test_quote2 = Quote.objects.create(customer=self.customer, quote_desc='description', quote_status=ARCHIVED,
                                                 quote_price=1234)
         self.test_quote1_part1 = QuotePart.objects.create(quote=self.test_quote1, partType=self.part_type1,
@@ -50,10 +50,16 @@ class QuoteModelSerializersTestCase(TestCase):
         self.test_quote1.recalculate_price()
 
         self.assertEqual(self.test_quote1.calculated_price, 348)
+        self.assertEqual(self.test_quote1.quote_price, None)
 
         QuoteCharge.objects.create(quote=self.test_quote1, charge=self.charge2, price=-50)
         self.test_quote1.recalculate_price()
         self.assertEqual(self.test_quote1.calculated_price, 298)
+        self.test_quote1.quote_price = 250
+        self.test_quote1.save()
+        self.test_quote1.recalculate_price()
+        self.assertEqual(self.test_quote1.calculated_price, 298)
+        self.assertEqual(self.test_quote1.quote_price, 250)
 
         self.test_quote1_part2.quantity = 1
         self.test_quote1_part2.save()

@@ -69,6 +69,6 @@ class ChargeMaintain(generics.GenericAPIView):
         charge = self.get_object(charge_id)
         if not QuoteCharge.objects.filter(charge=charge).exists():
             charge.delete()
-            return Response(charge_data(), status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response(status=status.HTTP_403_FORBIDDEN)

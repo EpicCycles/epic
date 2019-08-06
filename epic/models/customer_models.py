@@ -1,7 +1,4 @@
 from django.db import models
-from django.db.models import CharField, TextField
-
-from epic.helpers.validation_helper import is_valid_email
 
 HOME = 'H'
 WORK = 'W'

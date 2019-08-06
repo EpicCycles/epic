@@ -52,6 +52,7 @@ class Quote(models.Model):
         self.save()
 
     def recalculate_price(self):
+        old_calculated_price = self.calculated_price
         new_calculated_price = Decimal(0)
         if self.bike:
             if self.bike_price:
@@ -83,6 +84,9 @@ class Quote(models.Model):
                 new_calculated_price = new_calculated_price + (quote_part.part_price * quantity)
             if quote_part.trade_in_price:
                 new_calculated_price = new_calculated_price - quote_part.trade_in_price
+
+        if new_calculated_price != old_calculated_price:
+            self.quote_price = None
 
         self.calculated_price = new_calculated_price
         self.save()

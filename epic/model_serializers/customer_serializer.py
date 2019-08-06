@@ -1,6 +1,7 @@
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from rest_framework import serializers
 
+from epic.helpers.validation_helper import is_valid_email
 from epic.models.customer_models import *
 
 
