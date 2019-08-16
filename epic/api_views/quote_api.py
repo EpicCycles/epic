@@ -199,7 +199,7 @@ class QuoteCopy(generics.GenericAPIView):
         if bike_id:
             bike = Bike.objects.get(id=bike_id)
 
-        new_quote = copy_quote_with_changes(quote, request, quote_desc, bike, customer)
+        new_quote = copy_quote_with_changes(quote, request.user, quote_desc, bike, customer)
         new_quote.recalculate_price()
         return Response(quote_data_for_quote_or_customer(new_quote))
 

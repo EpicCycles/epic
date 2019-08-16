@@ -53,7 +53,7 @@ def copy_quote_part_to_new_quote(quote_part, new_quote, bike_parts):
     quote_part.save()
 
 
-def copy_quote_with_changes(old_quote, request, quote_desc, bike, customer):
+def copy_quote_with_changes(old_quote, user, quote_desc, bike, customer):
     # get the quote you are basing it on and create a copy_quote
     copy_customer = old_quote.customer
     copy_fitting = old_quote.fitting
@@ -75,7 +75,7 @@ def copy_quote_with_changes(old_quote, request, quote_desc, bike, customer):
     new_quote.club_member = copy_customer.club_member
     new_quote.fitting = copy_fitting
     new_quote.quote_status = INITIAL
-    new_quote.created_by = request.user
+    new_quote.created_by = user
 
     quote_same_name = Quote.objects.filter(customer=copy_customer, quote_desc=copy_quote_desc).count()
     new_quote.version = quote_same_name + 1
