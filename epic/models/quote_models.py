@@ -25,10 +25,10 @@ class Quote(models.Model):
     issued_date = models.DateTimeField(null=True)
     quote_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     calculated_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    total_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     bike = models.ForeignKey(Bike, on_delete=models.CASCADE, blank=True, null=True)
     bike_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     colour = models.CharField(max_length=40, blank=True, null=True)
-    colour_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     frame_size = models.CharField(max_length=15, blank=True, null=True)
     fitting = models.ForeignKey(Fitting, on_delete=models.CASCADE, blank=True, null=True)
     quote_status = models.CharField(max_length=1, choices=QUOTE_STATUS_CHOICES, default=INITIAL, )
@@ -54,6 +54,7 @@ class Quote(models.Model):
     def recalculate_price(self):
         old_calculated_price = self.calculated_price
         new_calculated_price = Decimal(0)
+        fixed_prices = Decimal(0)
         if self.bike:
             if self.bike_price:
                 new_calculated_price = new_calculated_price + self.bike_price
@@ -67,28 +68,23 @@ class Quote(models.Model):
                 self.bike_price = self.bike.rrp
                 new_calculated_price = new_calculated_price + self.bike.rrp
 
-            if self.colour and self.colour_price:
-                new_calculated_price = new_calculated_price + self.colour_price
-            else:
-                self.colour_price = None
-
         for quote_charge in QuoteCharge.objects.filter(quote=self):
-            new_calculated_price = new_calculated_price + quote_charge.price
+            fixed_prices = fixed_prices + quote_charge.price
 
         for quote_part in QuotePart.objects.filter(quote=self):
-            quantity = Decimal(1)
-            if quote_part.quantity:
-                quantity = quote_part.quantity
-
-            if quote_part.part_price:
-                new_calculated_price = new_calculated_price + (quote_part.part_price * quantity)
-            if quote_part.trade_in_price:
-                new_calculated_price = new_calculated_price - quote_part.trade_in_price
+            if quote_part.fixed_price:
+                fixed_prices = fixed_prices + quote_part.total_price
+            else:
+                new_calculated_price = new_calculated_price + quote_part.total_price
 
         if new_calculated_price != old_calculated_price:
             self.quote_price = None
 
         self.calculated_price = new_calculated_price
+        if self.quote_price:
+            self.total_price = self.quote_price + fixed_prices
+        else:
+            self.total_price = new_calculated_price + fixed_prices
         self.save()
 
     class Meta:
@@ -105,8 +101,20 @@ class QuotePart(models.Model):
     quantity = models.IntegerField(default=1, blank=True, null=True)
     trade_in_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     part_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    total_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     not_required = models.BooleanField(default=False)
     additional_data = models.CharField(max_length=40, blank=True, null=True)
+    fixed_price = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        new_total_price = 0
+        if self.trade_in_price:
+            new_total_price = new_total_price - self.trade_in_price
+        if self.quantity and self.part_price:
+            new_total_price = new_total_price + (self.quantity * self.part_price)
+        self.total_price = new_total_price
+
+        super().save(*args, **kwargs)
 
 
 class Charge(models.Model):
@@ -120,4 +128,3 @@ class QuoteCharge(models.Model):
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
     charge = models.ForeignKey(Charge, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=9, decimal_places=2)
-

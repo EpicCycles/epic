@@ -16,6 +16,7 @@ class CustomerNote(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user', blank=True, null=True,
                                    on_delete=models.PROTECT)
     customer_visible = models.BooleanField(default=False)
+    system_generated = models.BooleanField(default=False)
 
     class Meta:
         # order most recent first

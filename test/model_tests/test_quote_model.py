@@ -1,6 +1,5 @@
 from django.test import TestCase
 
-from epic.model_serializers.quote_serializer import QuotePartSerializer, ChargeSerializer
 from epic.models.brand_models import Brand
 from epic.models.framework_models import PartSection
 from epic.models.quote_models import *
@@ -49,21 +48,42 @@ class QuoteModelSerializersTestCase(TestCase):
         self.assertEqual(self.test_quote1.calculated_price, None)
         self.test_quote1.recalculate_price()
 
-        self.assertEqual(self.test_quote1.calculated_price, 348)
+        self.assertEqual(self.test_quote1.total_price, 348)
         self.assertEqual(self.test_quote1.quote_price, None)
 
         QuoteCharge.objects.create(quote=self.test_quote1, charge=self.charge2, price=-50)
         self.test_quote1.recalculate_price()
-        self.assertEqual(self.test_quote1.calculated_price, 298)
+        self.assertEqual(self.test_quote1.total_price, 298)
         self.test_quote1.quote_price = 250
         self.test_quote1.save()
         self.test_quote1.recalculate_price()
-        self.assertEqual(self.test_quote1.calculated_price, 298)
+        self.assertEqual(self.test_quote1.total_price, 350)
         self.assertEqual(self.test_quote1.quote_price, 250)
 
         self.test_quote1_part2.quantity = 1
         self.test_quote1_part2.save()
 
         self.test_quote1.recalculate_price()
-        self.assertEqual(self.test_quote1.calculated_price, 198)
+        self.assertEqual(self.test_quote1.total_price, 198)
 
+    def test_quote_part_no_price(self):
+        new_quote_part = QuotePart.objects.create(quote=self.test_quote1, partType=self.part_type1)
+        self.assertEqual(new_quote_part.total_price, 0)
+
+    def test_quote_part__with_trade_in(self):
+        new_quote_part = QuotePart.objects.create(quote=self.test_quote1, partType=self.part_type1, trade_in_price=23)
+        self.assertEqual(new_quote_part.total_price, -23)
+
+    def test_quote_part_with_qty(self):
+        new_quote_part = QuotePart.objects.create(quote=self.test_quote1, partType=self.part_type1, quantity=23)
+        self.assertEqual(new_quote_part.total_price, 0)
+
+    def test_quote_part_with_qty_and_price(self):
+        new_quote_part = QuotePart.objects.create(quote=self.test_quote1, partType=self.part_type1, quantity=23,
+                                                  part_price=10)
+        self.assertEqual(new_quote_part.total_price, 230)
+
+    def test_quote_part_with_all(self):
+        new_quote_part = QuotePart.objects.create(quote=self.test_quote1, partType=self.part_type1, quantity=23,
+                                                  part_price=10, trade_in_price=14.5)
+        self.assertEqual(new_quote_part.total_price, 215.5)

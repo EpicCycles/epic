@@ -50,9 +50,10 @@ class TestQuoteHelper(unittest.TestCase):
         self.frame1 = Frame.objects.create(brand=self.brand1, frame_name='frame1')
         self.bike1 = Bike.objects.create(frame=self.frame1, model_name='bike1')
         self.frame2 = Frame.objects.create(brand=self.brand1, frame_name='frame2')
-        self.bike2 = Bike.objects.create(frame=self.frame2, model_name='bike2')
+        self.bike2 = Bike.objects.create(frame=self.frame2, model_name='bike2', rrp=1299)
         self.test_quote_bike = Quote.objects.create(fitting=self.fitting, bike=self.bike1, customer=self.customer,
-                                                    quote_desc='description for bike quote')
+                                                    quote_desc='description for bike quote', colour='Purple',
+                                                    bike_price=12345, frame_size='53cm')
 
     def test_copy_quote_with_changes_none(self):
         new_quote = copy_quote_with_changes(self.test_quote_bike, self.user, None, None, None)
@@ -71,4 +72,16 @@ class TestQuoteHelper(unittest.TestCase):
         self.assertEqual(new_quote.fitting, None)
         self.assertEqual(new_quote.quote_desc, self.test_quote_bike.quote_desc)
         expected_version = 1
+        self.assertEqual(new_quote.version, expected_version)
+
+    def test_copy_quote_with_new_bike(self):
+        new_quote = copy_quote_with_changes(self.test_quote_bike, self.user, None, self.bike2, None)
+        self.assertEqual(new_quote.customer, self.test_quote_bike.customer)
+        self.assertEqual(new_quote.bike, self.bike2)
+        self.assertEqual(new_quote.colour, None)
+        self.assertEqual(new_quote.frame_size, None)
+        self.assertEqual(new_quote.bike_price, 1299)
+        self.assertEqual(new_quote.fitting, self.test_quote_bike.fitting)
+        self.assertEqual(new_quote.quote_desc, self.test_quote_bike.quote_desc)
+        expected_version = self.test_quote_bike.version + 1
         self.assertEqual(new_quote.version, expected_version)

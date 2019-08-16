@@ -188,6 +188,7 @@ class QuoteCopy(generics.GenericAPIView):
     def post(self, request, quote_id):
         quote = self.get_object(quote_id)
         post_data = request.data
+
         customer_id = post_data.get('customer', None)
         bike_id = post_data.get('bike', None)
         quote_desc = post_data.get('quote_desc', None)
@@ -198,7 +199,7 @@ class QuoteCopy(generics.GenericAPIView):
 
         if bike_id:
             bike = Bike.objects.get(id=bike_id)
-
+        print(customer, bike, quote_desc)
         new_quote = copy_quote_with_changes(quote, request.user, quote_desc, bike, customer)
         new_quote.recalculate_price()
         return Response(quote_data_for_quote_or_customer(new_quote))
