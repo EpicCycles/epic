@@ -12,6 +12,8 @@ from epic.api_views.note_api import CustomerNoteList, CustomerNoteMaintain
 from epic.api_views.part_api import Parts, parts_and_supplier_parts, PartMaintain, SupplierProductMaintain
 from epic.api_views.part_type_api import PartType
 from epic.api_views.part_type_attribute_api import PartTypeAttribute
+from epic.api_views.question_api import QuestionList, QuestionMaintain
+from epic.api_views.quote_answer_api import QuoteAnswerMaintain
 from epic.api_views.quote_api import QuotesApi, QuoteMaintain, QuoteCopy, QuoteArchive, QuoteUnArchive, \
     QuoteRecalculate, QuoteIssue
 from epic.api_views.quote_charge_api import QuoteChargeMaintain
@@ -69,7 +71,11 @@ urlpatterns = [
     path('quote-part/<int:quote_part_id>', QuotePartMaintain.as_view()),
     path('charge', ChargeList.as_view()),
     path('charge/<int:charge_id>', ChargeMaintain.as_view()),
+    path('question', QuestionList.as_view()),
+    path('question/<int:question_id>', QuestionMaintain.as_view()),
     path('quote-charge', QuoteChargeMaintain.as_view()),
     path('quote-charge/<int:quote_charge_id>', QuotePartMaintain.as_view()),
+    path('quote-answer', QuoteAnswerMaintain.as_view()),
+    path('quote-answer/<int:quote_answer_id>', QuoteAnswerMaintain.as_view()),
     path('user', UserApi.as_view()),
 ]

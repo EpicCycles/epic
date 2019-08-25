@@ -34,7 +34,7 @@ class ChargeList(generics.ListCreateAPIView):
 
 
 def charge_data():
-    charges = Charge.objects.all()
+    charges = Charge.objects.filter(deleted=False)
     serializer = ChargeSerializer(charges, many=True)
     return serializer.data
 
@@ -67,8 +67,13 @@ class ChargeMaintain(generics.GenericAPIView):
 
     def delete(self, request, charge_id):
         charge = self.get_object(charge_id)
-        if not QuoteCharge.objects.filter(charge=charge).exists():
-            charge.delete()
+        if charge:
+            if QuoteCharge.objects.filter(charge=charge).exists():
+                charge.deleted = True
+                charge.upd_by = request.user
+                charge.save()
+            else:
+                charge.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response(status=status.HTTP_403_FORBIDDEN)

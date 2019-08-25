@@ -21,6 +21,16 @@ def create_note_for_quote_charge(quote_charge, user, action):
     customer_note.save()
 
 
+def create_note_for_quote_answer(quote_answer, user, action):
+    note_text = f'Answer provided {action} for {quote_answer.question.question} with reply {quote_answer.answer}'
+    customer_note = CustomerNote(customer=quote_answer.quote.customer,
+                                 quote=quote_answer.quote,
+                                 note_text=note_text,
+                                 created_by=user,
+                                 system_generated=True)
+    customer_note.save()
+
+
 def create_note_for_requote(quote, user):
     note_text = "Quote set back to Initial"
     customer_note = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,

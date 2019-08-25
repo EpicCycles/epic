@@ -120,6 +120,17 @@ class QuotePart(models.Model):
 class Charge(models.Model):
     charge_name = models.CharField(max_length=100, unique=True)
     price = models.DecimalField(max_digits=9, decimal_places=2)
+    can_be_zero = models.BooleanField(default=False)
+    deleted = models.BooleanField(default=False)
+    upd_date = models.DateTimeField(auto_now=True)
+    upd_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
+
+
+class Question(models.Model):
+    question = models.CharField(max_length=200, unique=True)
+    charge = models.ForeignKey(Charge, on_delete=models.CASCADE, blank=True, null=True)
+    deleted = models.BooleanField(default=False)
+    bike_only = models.BooleanField(default=False)
     upd_date = models.DateTimeField(auto_now=True)
     upd_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
 
@@ -128,3 +139,10 @@ class QuoteCharge(models.Model):
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
     charge = models.ForeignKey(Charge, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=9, decimal_places=2)
+
+
+class QuoteAnswer(models.Model):
+    quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    answer = models.BooleanField(default=False)
+
