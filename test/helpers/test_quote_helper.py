@@ -2,12 +2,12 @@ import unittest
 
 from django.contrib.auth.models import User
 
-from epic.helpers.quote_helper import copy_quote_with_changes
+from epic.helpers.quote_helper import copy_quote_with_changes, check_charges
 from epic.models.bike_models import Frame, Bike
 from epic.models.brand_models import Brand, Part
 from epic.models.customer_models import Customer, Fitting
 from epic.models.framework_models import PartType, PartSection
-from epic.models.quote_models import Quote, QuotePart, Charge, QuoteCharge
+from epic.models.quote_models import Quote, QuotePart, Charge, QuoteCharge, Question, QuoteAnswer
 
 
 class TestQuoteHelper(unittest.TestCase):
@@ -21,9 +21,11 @@ class TestQuoteHelper(unittest.TestCase):
         Quote.objects.all().delete()
         QuotePart.objects.all().delete()
         QuoteCharge.objects.all().delete()
+        QuoteAnswer.objects.all().delete()
         Frame.objects.all().delete()
         Bike.objects.all().delete()
         User.objects.all().delete()
+        Question.objects.all().delete()
         self.customer = Customer.objects.create(first_name="Bod", last_name='Prince')
         self.customer2 = Customer.objects.create(first_name="Fred", last_name='Bloggs', email='f.b@c.com')
         self.fitting = Fitting.objects.create(saddle_height='12', bar_height='123', reach='34', customer=self.customer)
@@ -54,6 +56,34 @@ class TestQuoteHelper(unittest.TestCase):
         self.test_quote_bike = Quote.objects.create(fitting=self.fitting, bike=self.bike1, customer=self.customer,
                                                     quote_desc='description for bike quote', colour='Purple',
                                                     bike_price=12345, frame_size='53cm')
+        self.question_no_charge = Question.objects.create(question='Question no charge')
+        self.question_with_charge = Question.objects.create(question='Question with charge', charge=self.charge1)
+
+    def test_check_charges_no_charge_reqd(self):
+        charges_before = QuoteCharge.objects.filter(quote=self.test_quote_bike).count()
+        new_answer = QuoteAnswer.objects.create(quote=self.test_quote_bike, question=self.question_no_charge,
+                                                answer=True)
+        check_charges(self.user, new_answer)
+        self.assertEqual(QuoteCharge.objects.filter(quote=self.test_quote_bike).count(), charges_before)
+
+    def test_check_charges_answer_no(self):
+        charges_before = QuoteCharge.objects.filter(quote=self.test_quote).count()
+        new_answer = QuoteAnswer.objects.create(quote=self.test_quote, question=self.question_no_charge, answer=False)
+        check_charges(self.user, new_answer)
+        self.assertEqual(QuoteCharge.objects.filter(quote=self.test_quote).count(), charges_before)
+
+    def test_check_charges_charge_reqd(self):
+        charges_expected = QuoteCharge.objects.filter(quote=self.test_quote_bike).count() + 1
+        new_answer = QuoteAnswer.objects.create(quote=self.test_quote_bike, question=self.question_with_charge,
+                                                answer=True)
+        check_charges(self.user, new_answer)
+        self.assertEqual(QuoteCharge.objects.filter(quote=self.test_quote_bike).count(), charges_expected)
+
+    def test_check_charges_charge_exists(self):
+        charges_expected = QuoteCharge.objects.filter(quote=self.test_quote).count()
+        new_answer = QuoteAnswer.objects.create(quote=self.test_quote, question=self.question_with_charge, answer=True)
+        check_charges(self.user, new_answer)
+        self.assertEqual(QuoteCharge.objects.filter(quote=self.test_quote).count(), charges_expected)
 
     def test_copy_quote_with_changes_none(self):
         new_quote = copy_quote_with_changes(self.test_quote_bike, self.user, None, None, None)

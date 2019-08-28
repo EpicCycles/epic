@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.helpers.note_helper import create_note_for_quote_answer
+from epic.helpers.quote_helper import check_charges
 from epic.model_serializers.quote_serializer import QuoteAnswerSerializer
 from epic.models.quote_models import QuoteAnswer
 
@@ -28,6 +29,7 @@ class QuoteAnswerMaintain(generics.GenericAPIView):
         if serializer.is_valid():
             quote_answer = serializer.save()
             create_note_for_quote_answer(quote_answer, user, 'created')
+            check_charges(user, quote_answer)
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -40,6 +42,7 @@ class QuoteAnswerMaintain(generics.GenericAPIView):
         if serializer.is_valid():
             quote_answer = serializer.save()
             create_note_for_quote_answer(quote_answer, user, 'updated')
+            check_charges(user, quote_answer)
             return Response(serializer.data)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

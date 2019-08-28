@@ -1,7 +1,18 @@
-from epic.helpers.note_helper import create_note_for_requote, create_note_for_quote_archive
+from epic.helpers.note_helper import create_note_for_requote, create_note_for_quote_archive, \
+    create_note_for_quote_charge
 from epic.models.bike_models import Bike, BikePart
 from epic.models.brand_models import SupplierProduct
-from epic.models.quote_models import INITIAL, ARCHIVED, Quote, QuotePart, Customer
+from epic.models.quote_models import INITIAL, ARCHIVED, Quote, QuotePart, Customer, QuoteAnswer, QuoteCharge
+
+
+def check_charges(user, quote_answer: QuoteAnswer):
+    if quote_answer.answer is True:
+        if quote_answer.question.charge:
+            if not QuoteCharge.objects.filter(quote=quote_answer.quote, charge=quote_answer.question.charge).exists():
+                quote_charge = QuoteCharge(quote=quote_answer.quote, charge=quote_answer.question.charge,
+                                           price=quote_answer.question.charge.price)
+                quote_charge.save()
+                create_note_for_quote_charge(quote_charge, user, 'Auto added')
 
 
 def quote_requote(request, quote: Quote):
