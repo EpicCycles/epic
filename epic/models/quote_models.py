@@ -49,6 +49,7 @@ class Quote(models.Model):
     def archive_reset(self):
         self.quote_status = INITIAL
         self.quote_price = None
+        self.issued_date = None
         self.save()
 
     def recalculate_price(self):

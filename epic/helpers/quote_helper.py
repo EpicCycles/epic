@@ -23,6 +23,7 @@ def quote_requote(request, quote: Quote):
         quote (Quote):
     """
     quote.quote_status = INITIAL
+    quote.issued_date = None
     quote.save()
 
     create_note_for_requote(quote, request.user)
@@ -86,6 +87,8 @@ def copy_quote_with_changes(old_quote, user, quote_desc, bike, customer):
     new_quote.club_member = copy_customer.club_member
     new_quote.fitting = copy_fitting
     new_quote.quote_status = INITIAL
+    new_quote.issued_date = None
+
     new_quote.created_by = user
     new_quote.quote_desc = copy_quote_desc
 
