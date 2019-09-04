@@ -45,8 +45,10 @@ def create_note_for_issue(quote, user):
     customer_note.save()
 
 
-def create_note_for_new_quote(quote, user):
+def create_note_for_new_quote(quote, user, old_quote_desc):
     note_text = "Quote created"
+    if old_quote_desc:
+        note_text = note_text + ' based on ' + old_quote_desc
     customer_note = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,
                                  system_generated=True)
     customer_note.save()

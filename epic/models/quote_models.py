@@ -111,7 +111,9 @@ class QuotePart(models.Model):
         new_total_price = 0
         if self.trade_in_price:
             new_total_price = new_total_price - self.trade_in_price
-        if self.quantity and self.part_price:
+        if self.part_price:
+            if not self.quantity:
+                self.quantity = 1
             new_total_price = new_total_price + (self.quantity * self.part_price)
         self.total_price = new_total_price
 

@@ -83,6 +83,7 @@ def copy_quote_with_changes(old_quote, user, quote_desc, bike, customer):
     # copy quote details
     new_quote = Quote.objects.get(pk=old_quote.pk)
     new_quote.pk = None
+    new_quote.quote_price = None
     new_quote.customer = copy_customer
     new_quote.club_member = copy_customer.club_member
     new_quote.fitting = copy_fitting
