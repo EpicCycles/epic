@@ -26,7 +26,7 @@ class Frames(generics.ListCreateAPIView):
             raise Http404
 
     def get_queryset(self):
-        search_name = self.request.query_params.get('frameName', None)
+        search_frame_name = self.request.query_params.get('frameName', None)
         search_brand = self.request.query_params.get('brand', None)
         include_archived = self.request.query_params.get('archived', None)
         q = Frame.objects.all()
@@ -34,8 +34,8 @@ class Frames(generics.ListCreateAPIView):
             q = q.filter(brand__id=search_brand)
 
         # if filter added on name add it to query set
-        if search_name:
-            q = q.filter(frame_name__icontains=search_name)
+        if search_frame_name:
+            q = q.filter(frame_name__icontains=search_frame_name)
 
         if include_archived == 'true':
             return q

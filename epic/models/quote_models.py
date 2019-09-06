@@ -73,6 +73,8 @@ class Quote(models.Model):
             fixed_prices = fixed_prices + quote_charge.price
 
         for quote_part in QuotePart.objects.filter(quote=self):
+            if not quote_part.total_price:
+                quote_part.save()
             if quote_part.fixed_price:
                 fixed_prices = fixed_prices + quote_part.total_price
             else:

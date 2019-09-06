@@ -74,7 +74,7 @@ urlpatterns = [
     path('question', QuestionList.as_view()),
     path('question/<int:question_id>', QuestionMaintain.as_view()),
     path('quote-charge', QuoteChargeMaintain.as_view()),
-    path('quote-charge/<int:quote_charge_id>', QuotePartMaintain.as_view()),
+    path('quote-charge/<int:quote_charge_id>', QuoteChargeMaintain.as_view()),
     path('quote-answer', QuoteAnswerMaintain.as_view()),
     path('quote-answer/<int:quote_answer_id>', QuoteAnswerMaintain.as_view()),
     path('user', UserApi.as_view()),
