@@ -25,6 +25,8 @@ class Quote(models.Model):
     issued_date = models.DateTimeField(null=True)
     quote_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     calculated_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    fixed_price_total = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    charges_total = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     total_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     bike = models.ForeignKey(Bike, on_delete=models.CASCADE, blank=True, null=True)
     bike_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
@@ -55,7 +57,8 @@ class Quote(models.Model):
     def recalculate_price(self):
         old_calculated_price = self.calculated_price
         new_calculated_price = Decimal(0)
-        fixed_prices = Decimal(0)
+        fixed_price_total = Decimal(0)
+        charges_total = Decimal(0)
         if self.bike:
             if self.bike_price:
                 new_calculated_price = new_calculated_price + self.bike_price
@@ -69,25 +72,35 @@ class Quote(models.Model):
                 self.bike_price = self.bike.rrp
                 new_calculated_price = new_calculated_price + self.bike.rrp
 
-        for quote_charge in QuoteCharge.objects.filter(quote=self):
-            fixed_prices = fixed_prices + quote_charge.price
-
         for quote_part in QuotePart.objects.filter(quote=self):
             if not quote_part.total_price:
                 quote_part.save()
             if quote_part.fixed_price:
-                fixed_prices = fixed_prices + quote_part.total_price
+                fixed_price_total = fixed_price_total + quote_part.total_price
             else:
                 new_calculated_price = new_calculated_price + quote_part.total_price
 
         if new_calculated_price != old_calculated_price:
             self.quote_price = None
 
-        self.calculated_price = new_calculated_price
+        new_total = new_calculated_price + fixed_price_total
         if self.quote_price:
-            self.total_price = self.quote_price + fixed_prices
+            new_total = self.quote_price + fixed_price_total
+
+        for quote_charge in QuoteCharge.objects.filter(quote=self):
+            if quote_charge.charge.percentage:
+                quote_charge.price = new_total * quote_charge.charge.percentage / 100
+                quote_charge.save()
+
+            charges_total = charges_total + quote_charge.price
+
+        self.calculated_price = new_calculated_price
+        self.fixed_price_total = fixed_price_total
+        self.charges_total = charges_total
+        if self.quote_price:
+            self.total_price = self.quote_price + fixed_price_total + charges_total
         else:
-            self.total_price = new_calculated_price + fixed_prices
+            self.total_price = new_calculated_price + fixed_price_total + charges_total
         self.save()
 
     class Meta:
@@ -124,8 +137,10 @@ class QuotePart(models.Model):
 
 class Charge(models.Model):
     charge_name = models.CharField(max_length=100, unique=True)
-    price = models.DecimalField(max_digits=9, decimal_places=2)
+    price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
+    percentage = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
     can_be_zero = models.BooleanField(default=False)
+    fixed_charge = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
     upd_date = models.DateTimeField(auto_now=True)
     upd_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
@@ -150,4 +165,3 @@ class QuoteAnswer(models.Model):
     quote = models.ForeignKey(Quote, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.BooleanField(default=False)
-
