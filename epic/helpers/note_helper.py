@@ -39,7 +39,14 @@ def create_note_for_requote(quote, user):
 
 
 def create_note_for_issue(quote, user):
-    note_text = f'Quote issued at price £{quote.quote_price}'
+    note_text = f'Quote issued at price £{quote.total_price}'
+    customer_note = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,
+                                 system_generated=True)
+    customer_note.save()
+
+
+def create_note_for_order(quote, user):
+    note_text = f'Order created £{quote.total_price}'
     customer_note = CustomerNote(customer=quote.customer, quote=quote, note_text=note_text, created_by=user,
                                  system_generated=True)
     customer_note.save()

@@ -15,7 +15,7 @@ from epic.api_views.part_type_attribute_api import PartTypeAttribute
 from epic.api_views.question_api import QuestionList, QuestionMaintain
 from epic.api_views.quote_answer_api import QuoteAnswerMaintain
 from epic.api_views.quote_api import QuotesApi, QuoteMaintain, QuoteCopy, QuoteArchive, QuoteUnArchive, \
-    QuoteRecalculate, QuoteIssue
+    QuoteRecalculate, QuoteIssue, QuoteOrder
 from epic.api_views.quote_charge_api import QuoteChargeMaintain
 from epic.api_views.quote_part_api import QuotePartMaintain
 from epic.api_views.section_api import PartSection
@@ -67,6 +67,7 @@ urlpatterns = [
     path('quote/<int:quote_id>/unarchive', QuoteUnArchive.as_view()),
     path('quote/<int:quote_id>/recalculate', QuoteRecalculate.as_view()),
     path('quote/<int:quote_id>/issue', QuoteIssue.as_view()),
+    path('quote/<int:quote_id>/order', QuoteOrder.as_view()),
     path('quote-part', QuotePartMaintain.as_view()),
     path('quote-part/<int:quote_part_id>', QuotePartMaintain.as_view()),
     path('charge', ChargeList.as_view()),

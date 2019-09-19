@@ -38,10 +38,14 @@ class Quote(models.Model):
     upd_date = models.DateTimeField('Date Updated', auto_now=True)
     club_member = models.BooleanField(default=False)
 
-    # set issuedDate whe quote is issued to a customer
     def issue(self):
         self.issued_date = timezone.now()
         self.quote_status = ISSUED
+        self.save()
+
+    def order(self):
+        self.issued_date = timezone.now()
+        self.quote_status = ORDERED
         self.save()
 
     def archive(self):

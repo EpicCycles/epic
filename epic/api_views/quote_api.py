@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.helpers.note_helper import create_note_for_requote, create_note_for_new_quote, create_note_for_saved_quote, \
-    create_note_for_issue
+    create_note_for_issue, create_note_for_order
 from epic.helpers.quote_helper import copy_quote_with_changes
 from epic.model_serializers.bike_serializer import BikePartSerializer, BikeSerializer, FrameSerializer
 from epic.model_serializers.customer_serializer import CustomerSerializer
@@ -267,6 +267,25 @@ class QuoteIssue(generics.GenericAPIView):
         quote = self.get_object(quote_id)
         quote.issue()
         create_note_for_issue(quote, request.user)
+        return Response(QuoteSerializer(quote).data)
+
+
+class QuoteOrder(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    serializer_class = QuoteSerializer
+
+    def get_object(self, quote_id):
+        try:
+            return Quote.objects.get(id=quote_id)
+        except Quote.DoesNotExist:
+            raise Http404
+
+    def post(self, request, quote_id):
+        quote = self.get_object(quote_id)
+        quote.order()
+        create_note_for_order(quote, request.user)
         return Response(QuoteSerializer(quote).data)
 
 

@@ -32,6 +32,11 @@ class QuoteModelSerializersTestCase(TestCase):
         self.assertEqual(self.test_quote1.quote_status, ISSUED)
         self.assertNotEqual(self.test_quote1.issued_date, None)
 
+    def test_quote1_order(self):
+        self.assertNotEqual(self.test_quote1.quote_status, ORDERED)
+        self.test_quote1.order()
+        self.assertEqual(self.test_quote1.quote_status, ORDERED)
+
     def test_quote1_archive(self):
         self.assertNotEqual(self.test_quote1.quote_status, ARCHIVED)
         self.test_quote1.archive()
