@@ -52,7 +52,7 @@ def create_note_for_order(quote, user):
     customer_note.save()
 
 
-def create_note_for_new_quote(quote, user, old_quote_desc):
+def create_note_for_new_quote(quote, user, old_quote_desc=None):
     note_text = "Quote created"
     if old_quote_desc:
         note_text = note_text + ' based on ' + old_quote_desc
