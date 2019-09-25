@@ -73,6 +73,8 @@ class QuotesApi(generics.ListCreateAPIView):
             customer_serializer = CustomerSerializer(customers, many=True)
 
             full_quote_data['customers'] = customer_serializer.data
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response(full_quote_data)
 
