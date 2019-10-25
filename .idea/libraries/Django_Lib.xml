@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="file://$PROJECT_DIR$/myenv/Lib/site-packages" />
     </CLASSES>
+    <JAVADOC />
     <SOURCES />
   </library>
 </component>
