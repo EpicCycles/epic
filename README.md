@@ -3,16 +3,28 @@
 
 - using pip install packages required to run the application:
   - django
-  - debug toolbar
-  - apostle
-  `pip install -r requirements.pip`
-- set up config file at top level directory (`config.json`)
-- follow instructions for setting up web app
-  - `cd client`
-  - `npm install`
+  `pip install -r requirements.txt`
+- set up config file at top level directory (`config.json`) if you can't set environment variables.
+```
+{
+  "ENV_RUNNING": "TEST",
+  "DEFAULT": {
+    "SECRET_KEY": "?????????????????????????????????????????????????????????",
+    "ADMIN_NAME": "administrator",
+    "AWS_DEFAULT_REGION": "ap-northeast-2",
+    "MAX_IMAGE_SIZE": 5242880
+  },
+  "TEST": {
+    "DEBUG": "True",
+    "ALLOWED_HOSTS": [],
+    "TEST_TIMEOUT": 20,
+    "STATIC_ROOT": ""
+  },
+}
+```
 
 ## Virtual environment
-Windows - 
+Windows/PyCharm not required-
 Linux -`source myvenv/bin/activate`
 
 ## Database migrations.
@@ -21,6 +33,7 @@ The virtual environment must be started before running migrations.  Two commands
 - `python manage.py migrate` runs the migrations
 
 ## start server
+`python manage.py runserver`
 
 ## Setting up users
 Need to have virtual environment and server up and running

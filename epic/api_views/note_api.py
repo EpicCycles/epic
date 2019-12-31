@@ -34,7 +34,7 @@ class CustomerNoteList(generics.ListCreateAPIView):
             where_filter &= Q(customer_visible=customer_visible)
 
         # find objects matching any filter and order them
-        objects = CustomerNote.objects.filter(where_filter).order_by('created_date')
+        objects = CustomerNote.objects.filter(where_filter).order_by('-created_date')
         return objects
 
     def post(self, request):
