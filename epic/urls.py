@@ -7,6 +7,7 @@ from epic.api_views.charge_api import ChargeList, ChargeMaintain
 from epic.api_views.customer_address_api import CustomerAddressList, CustomerAddressMaintain
 from epic.api_views.customer_api import CustomerList, CustomerMaintain
 from epic.api_views.customer_phone_api import CustomerPhoneList, CustomerPhoneMaintain
+from epic.api_views.fitting_api import FittingList, FittingMaintain
 from epic.api_views.framework_api import Framework
 from epic.api_views.note_api import CustomerNoteList, CustomerNoteMaintain
 from epic.api_views.part_api import Parts, parts_and_supplier_parts, PartMaintain, SupplierProductMaintain
@@ -53,6 +54,8 @@ urlpatterns = [
     path('part/<int:part_id>', PartMaintain.as_view()),
     path('supplier-product', SupplierProductMaintain.as_view()),
     path('supplier-product/<int:supplier_product_id>', SupplierProductMaintain.as_view()),
+    path('fitting', FittingList.as_view()),
+    path('fitting/<int:pk>', FittingMaintain.as_view()),
     path('frames', Frames.as_view()),
     path('frames/<int:frame_id>', Frames.as_view()),
     path('frame/upload', FrameUpload.as_view()),
