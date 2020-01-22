@@ -135,6 +135,7 @@ class FrameUpload(generics.ListCreateAPIView):
                             bike_part.save()
                     persisted_bikes.append(persisted_bike)
                 else:
+                    print(bike_serializer.errors)
                     bike['error'] = True
                     errors = True
                     bike['error_detail'] = bike_serializer.errors

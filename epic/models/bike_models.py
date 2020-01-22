@@ -46,7 +46,7 @@ class Bike(models.Model):
     frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
     model_name = models.CharField(max_length=100)
     product_code = models.CharField(max_length=30, blank=True, null=True)
-    description = models.TextField(max_length=400, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
     colours = models.CharField(max_length=400, blank=True, null=True)
     rrp = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     epic_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
