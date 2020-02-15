@@ -1,6 +1,6 @@
 from epic.helpers.note_helper import create_note_for_requote, create_note_for_quote_archive, \
     create_note_for_quote_charge
-from epic.models.bike_models import Bike, BikePart
+from epic.models.bike_models import Bike
 from epic.models.brand_models import SupplierProduct
 from epic.models.quote_models import INITIAL, ARCHIVED, Quote, QuotePart, Customer, QuoteAnswer, QuoteCharge
 
@@ -47,18 +47,9 @@ def quote_archive(request, quote):
 
 
 # create a new quote based on an existing quote
-def copy_quote_part_to_new_quote(quote_part, new_quote, bike_parts):
+def copy_quote_part_to_new_quote(quote_part, new_quote):
     quote_part.id = None
     quote_part.quote = new_quote
-
-    if new_quote.bike:
-        bike_part = bike_parts.filter(part__partType=quote_part.partType).first()
-
-        if quote_part.not_required:
-            if bike_part:
-                quote_part.trade_in_price = bike_part.part.trade_in_price
-            else:
-                return
 
     if quote_part.part:
         supplier_product = SupplierProduct.objects.filter(part=quote_part.part).first()
@@ -119,9 +110,8 @@ def copy_quote_with_changes(old_quote, user, quote_desc, bike, customer):
 
     # get parts from old quote and copy across to new_quote
     old_quote_parts = QuotePart.objects.filter(quote=old_quote)
-    bike_parts = BikePart.objects.filter(bike=new_quote.bike)
     for old_quote_part in old_quote_parts:
-        copy_quote_part_to_new_quote(old_quote_part, new_quote, bike_parts)
+        copy_quote_part_to_new_quote(old_quote_part, new_quote)
 
     new_quote.recalculate_price()
     return new_quote

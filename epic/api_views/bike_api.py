@@ -4,13 +4,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from epic.model_helpers.part_helper import find_or_create_part
-from epic.model_serializers.bike_serializer import FrameSerializer, BikeSerializer, FrameListSerializer, \
-    BikePartSerializer
-from epic.model_serializers.part_serializer import PartSerializer, SupplierProductSerializer
-from epic.models.bike_models import Frame, BikePart, Bike
-from epic.models.brand_models import Brand, Part, SupplierProduct
-from epic.models.framework_models import PartType
+from epic.model_serializers.bike_serializer import FrameSerializer, BikeSerializer, FrameListSerializer
+from epic.models.bike_models import Frame, Bike
 from epic.models.quote_models import Quote
 
 
@@ -101,38 +96,15 @@ class FrameUpload(generics.ListCreateAPIView):
             for bike in bikes:
                 bike['frame'] = frame_id
                 model_name = bike.get('model_name')
-                parts = bike.get('parts', [])
-                bike_parts = bike.get('bikeParts', [])
 
                 bike_serializer = BikeSerializer(data=bike)
                 existing_bike = Bike.objects.filter(frame__id=frame_id, model_name=model_name).first()
                 if existing_bike:
                     bike_serializer = BikeSerializer(existing_bike, data=bike)
-                    BikePart.objects.filter(bike=existing_bike).delete()
 
                 if bike_serializer.is_valid():
                     bike_serializer.save()
                     persisted_bike = bike_serializer.data
-                    bike_id = persisted_bike.get('id', None)
-                    saved_bike = Bike.objects.get(pk=bike_id)
-
-                    for part in parts:
-                        part_type = part.get('partType', None)
-                        part_name = part.get('part_name', None)
-                        part_brand = part.get('brand', frame_brand)
-                        if part_type and part_name and bike_id:
-                            part = find_or_create_part(Brand.objects.get(id=part_brand),
-                                                       PartType.objects.get(id=part_type),
-                                                       part_name,
-                                                       False)
-                            bike_part = BikePart.objects.create(bike=saved_bike, part=part)
-                            bike_part.save()
-
-                    for bike_part in bike_parts:
-                        part_id = bike_part.get('part', None)
-                        if part_id:
-                            bike_part = BikePart.objects.create(bike=saved_bike, part=Part.objects.get(id=part_id))
-                            bike_part.save()
                     persisted_bikes.append(persisted_bike)
                 else:
                     print(bike_serializer.errors)
@@ -187,89 +159,3 @@ class Bikes(generics.GenericAPIView):
 
         return Response(status=status.HTTP_403_FORBIDDEN)
 
-
-def get_part_list_for_bike(bike_id):
-    bike_part_list = BikePart.objects.filter(bike__id=bike_id)
-    bike_part_serializer = BikePartSerializer(bike_part_list, many=True)
-    bike_part_part_ids = bike_part_list.values_list('part__pk', flat=True)
-    part_list = Part.objects.filter(id__in=list(bike_part_part_ids))
-    part_serializer = PartSerializer(part_list, many=True)
-    supplier_product_list = SupplierProduct.objects.filter(part__in=part_list)
-    supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
-    return {'parts': part_serializer.data,
-            'supplierProducts': supplier_product_serializer.data,
-            'bikeParts': bike_part_serializer.data}
-
-
-def find_bike_part(bike_id, part_id):
-    return BikePart.objects.filter(bike__id=bike_id, part__id=part_id).first()
-
-
-class BikeParts(generics.ListCreateAPIView):
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
-    serializer_class = PartSerializer
-
-    def get(self, request, bike_id):
-        return Response(get_part_list_for_bike(bike_id))
-
-    def post(self, request, bike_id):
-        part_data = request.data
-
-        part_part_type = part_data.get('partType', None)
-        part_name = part_data.get('part_name', None)
-        part_brand = part_data.get('brand', None)
-        existing_bike = get_bike_object(bike_id)
-        if not existing_bike:
-            return Response(status=status.HTTP_404_NOT_FOUND, data="bike not found")
-
-        if part_part_type and part_name and part_brand:
-            brand = Brand.objects.get(id=part_brand)
-            if not brand:
-                return Response(status=status.HTTP_404_NOT_FOUND, data="brand not found")
-            part_type = PartType.objects.get(id=part_part_type)
-            if not part_type:
-                return Response(status=status.HTTP_404_NOT_FOUND, data="part_type not found")
-
-            try:
-                # get an existing part
-                part = find_or_create_part(brand,
-                                           part_type,
-                                           part_name)
-
-                BikePart.objects.filter(bike__id=bike_id, part__partType=part.partType).delete()
-                BikePart.objects.create(bike=Bike.objects.get(id=bike_id), part=part)
-                return Response(get_part_list_for_bike(bike_id), status=status.HTTP_202_ACCEPTED)
-
-            except Exception as e:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, bike_id, part_id):
-        bike_part = find_bike_part(bike_id, part_id)
-        if bike_part:
-            bike_part.delete()
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    def put(self, request, bike_id, part_id):
-        bike_part = find_bike_part(bike_id, part_id)
-        part = Part.objects.get(id=part_id)
-        part_data = request.data
-        if part:
-            part_serializer = PartSerializer(part, data=part_data)
-            if part_serializer.is_valid():
-                part_serializer.save()
-            else:
-                return Response(part_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        if bike_part:
-            bike_part.part = part
-            bike_part.save()
-        else:
-            BikePart.objects.filter(bike__id=bike_id, part__partType=part.partType).delete()
-            BikePart.objects.create(bike=Bike.objects.get(id=bike_id), part=part)
-
-        return Response(get_part_list_for_bike(bike_id), status=status.HTTP_202_ACCEPTED)

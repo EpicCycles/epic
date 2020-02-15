@@ -7,13 +7,13 @@ from rest_framework.response import Response
 from epic.helpers.note_helper import create_note_for_requote, create_note_for_new_quote, create_note_for_saved_quote, \
     create_note_for_issue, create_note_for_order
 from epic.helpers.quote_helper import copy_quote_with_changes
-from epic.model_serializers.bike_serializer import BikePartSerializer, BikeSerializer, FrameSerializer
+from epic.model_serializers.bike_serializer import BikeSerializer, FrameSerializer
 from epic.model_serializers.customer_serializer import CustomerSerializer
 from epic.model_serializers.note_serializer import CustomerNoteSerializer
 from epic.model_serializers.part_serializer import SupplierProductSerializer, PartSerializer
 from epic.model_serializers.quote_serializer import QuoteSerializer, QuotePartSerializer, QuoteChargeSerializer, \
     QuoteAnswerSerializer
-from epic.models.bike_models import Frame, Bike, BikePart
+from epic.models.bike_models import Frame, Bike
 from epic.models.brand_models import Part, SupplierProduct
 from epic.models.customer_models import Customer
 from epic.models.note_models import CustomerNote
@@ -115,9 +115,6 @@ def build_quotes_and_related_data(quotes):
     quote_part_serializer = QuotePartSerializer(quote_parts, many=True)
     bikes = Bike.objects.filter(id__in=quote_bike_ids)
     bike_serializer = BikeSerializer(bikes, many=True)
-    bike_parts = BikePart.objects.filter(bike__in=bikes)
-    bike_part_part_ids = bike_parts.values_list('part__id', flat=True)
-    bike_part_serializer = BikePartSerializer(bike_parts, many=True)
     bike_frame_ids = bikes.values_list('frame__id', flat=True)
 
     frames = Frame.objects.filter(id__in=bike_frame_ids)
@@ -127,10 +124,8 @@ def build_quotes_and_related_data(quotes):
     notes_serializer = CustomerNoteSerializer(notes, many=True)
 
     parts_from_quotes = Part.objects.filter(id__in=list(quote_part_part_ids))
-    parts_from_bikes = Part.objects.filter(id__in=list(bike_part_part_ids))
-    parts = parts_from_bikes.union(parts_from_quotes)
-    part_serializer = PartSerializer(parts, many=True)
-    supplier_product_list = SupplierProduct.objects.filter(part__in=parts_from_bikes)
+    part_serializer = PartSerializer(parts_from_quotes, many=True)
+    supplier_product_list = SupplierProduct.objects.filter(part__in=parts_from_quotes)
     supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
     full_quote_data = {'quotes': quote_serializer.data,
                        'quoteParts': quote_part_serializer.data,
@@ -140,8 +135,7 @@ def build_quotes_and_related_data(quotes):
                        'bikes': bike_serializer.data,
                        'notes': notes_serializer.data,
                        'parts': part_serializer.data,
-                       'supplierProducts': supplier_product_serializer.data,
-                       'bikeParts': bike_part_serializer.data}
+                       'supplierProducts': supplier_product_serializer.data}
     return full_quote_data
 
 

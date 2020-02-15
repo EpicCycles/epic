@@ -1,7 +1,8 @@
 from django.urls import path
 
+from epic.api_views.archive_api import Archive
 from epic.api_views.attribute_option_api import AttributeOptions
-from epic.api_views.bike_api import Frames, FrameUpload, BikeParts, Bikes
+from epic.api_views.bike_api import Frames, FrameUpload, Bikes
 from epic.api_views.brands_api import Brands, BrandMaintain
 from epic.api_views.charge_api import ChargeList, ChargeMaintain
 from epic.api_views.customer_address_api import CustomerAddressList, CustomerAddressMaintain
@@ -26,6 +27,7 @@ from epic.api_views.user_api import CustomAuthToken, UserApi
 # good explanation of patterns here https://tutorial.djangogirls.org/en/extend_your_application/
 urlpatterns = [
     path('framework', Framework.as_view()),
+    path('archive/<archiveType>', Archive.as_view()),
     path('brands', Brands.as_view()),
     path('brand/<int:pk>', BrandMaintain.as_view()),
     path('suppliers', Suppliers.as_view()),
@@ -60,8 +62,6 @@ urlpatterns = [
     path('frames/<int:frame_id>', Frames.as_view()),
     path('frame/upload', FrameUpload.as_view()),
     path('bike/<int:bike_id>', Bikes.as_view()),
-    path('bike/<int:bike_id>/parts', BikeParts.as_view()),
-    path('bike/<int:bike_id>/parts/<int:part_id>', BikeParts.as_view()),
     path('productsearch', parts_and_supplier_parts),
     path('quotes', QuotesApi.as_view()),
     path('quote/<int:quote_id>', QuoteMaintain.as_view()),

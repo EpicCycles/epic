@@ -52,38 +52,4 @@ class Bike(models.Model):
     epic_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     club_price = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     sizes = models.CharField(max_length=100, blank=True, null=True)
-
-
-class BikePart(models.Model):
-    bike = models.ForeignKey(Bike, on_delete=models.CASCADE)
-    part = models.ForeignKey(Part, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.part.partType.name}: {str(self.part.brand)} {self.part.part_name}'
-
-    def save(self, *args, **kwargs):
-        if BikePart.objects.filter(bike=self.bike, part=self.part).exclude(id=self.id).exists():
-            raise IntegrityError('Frame Part with these values already exists')
-
-        super(BikePart, self).save(*args, **kwargs)
-
-    class Meta:
-        indexes = [models.Index(fields=["bike", "part"]), ]
-        ordering = ('pk',)
-
-
-class FrameExclusion(models.Model):
-    frame = models.ForeignKey(Frame, on_delete=models.CASCADE)
-    partType = models.ForeignKey(PartType, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{str(self.partType)} n/a'
-
-    def save(self, *args, **kwargs):
-        if FrameExclusion.objects.filter(frame=self.frame, partType=self.partType).exclude(id=self.id).exists():
-            raise IntegrityError('Frame Exclusion with these values already exists')
-
-        super(FrameExclusion, self).save(*args, **kwargs)
-
-    class Meta:
-        indexes = [models.Index(fields=["frame", "partType"]), ]
+    bikeParts = models.TextField(blank=True, null=True)
