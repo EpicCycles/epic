@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_serializers.quote_serializer import ChargeSerializer
-from epic.models.quote_models import Charge, QuoteCharge
+from epic.models.quote_models import Charge
 
 
 class ChargeList(generics.ListCreateAPIView):
@@ -68,12 +68,9 @@ class ChargeMaintain(generics.GenericAPIView):
     def delete(self, request, charge_id):
         charge = self.get_object(charge_id)
         if charge:
-            if QuoteCharge.objects.filter(charge=charge).exists():
-                charge.deleted = True
-                charge.upd_by = request.user
-                charge.save()
-            else:
-                charge.delete()
+            charge.deleted = True
+            charge.upd_by = request.user
+            charge.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response(status=status.HTTP_403_FORBIDDEN)

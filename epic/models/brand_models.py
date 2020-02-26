@@ -71,12 +71,10 @@ class Part(models.Model):
     rrp = models.DecimalField(max_digits=9, decimal_places=2, blank=True, null=True)
     standard = models.BooleanField(default=False)
     stocked = models.BooleanField(default=False)
+    countUses = models.IntegerField(default=0)
     upd_by = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.PROTECT)
     upd_date = models.DateTimeField(auto_now=True)
     objects = PartManager()
-
-    def __str__(self):
-        return f'{self.partType.name}: {self.brand.brand_name} {self.part_name}'
 
     def save(self, *args, **kwargs):
         if self.part_name is None or self.part_name == '':

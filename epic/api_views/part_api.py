@@ -7,7 +7,6 @@ from rest_framework.response import Response
 
 from epic.model_serializers.part_serializer import PartSerializer, SupplierProductSerializer
 from epic.models.brand_models import Part, SupplierProduct
-from epic.models.quote_models import QuotePart
 
 
 @api_view()
@@ -194,10 +193,13 @@ class PartMaintain(generics.GenericAPIView):
 
     def delete(self, request, part_id):
         part = self.get_object(part_id)
-        if not QuotePart.objects.filter(part=part).exists():
+        if part.countUses == 0:
             part.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
+        part.standard = False
+        part.stocked = False
+        part.save()
         return Response(status=status.HTTP_403_FORBIDDEN)
 
 

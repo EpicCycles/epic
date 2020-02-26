@@ -1,38 +1,12 @@
 from rest_framework import serializers
 
-from epic.models.quote_models import Quote, QuotePart, Charge, QuoteCharge, Question, QuoteAnswer
+from epic.models.quote_models import Quote, Charge, Question
 
 
 class QuoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Quote
         fields = '__all__'
-
-
-class QuotePartSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QuotePart
-        fields = '__all__'
-
-    def validate(self, data):
-        part = data.get('part')
-        not_required = data.get('not_required')
-        quantity = data.get('quantity')
-
-        # if self.instance:
-        #     if not quote:
-        #         quote = self.instance.quote
-        #
-        # if quote.quote_status is '2':
-        #     raise serializers.ValidationError("Quote part must be part of a current quote")
-
-        if not (part or not_required):
-            raise serializers.ValidationError("Quote part must either be a replacement part or include part details")
-        if part:
-            if not quantity:
-                raise serializers.ValidationError("Parts must have a quantity")
-
-        return data
 
 
 class ChargeSerializer(serializers.ModelSerializer):
@@ -43,7 +17,7 @@ class ChargeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_can_be_deleted(self, charge):
-        return not QuoteCharge.objects.filter(charge=charge).exists()
+        return False
 
     def validate(self, data):
         charge_name = data.get('charge_name')
@@ -81,20 +55,3 @@ class QuestionSerializer(serializers.ModelSerializer):
         if value:
             return value
         raise serializers.ValidationError("Missing question text")
-
-
-class QuoteChargeSerializer(serializers.ModelSerializer):
-    can_be_zero = serializers.SerializerMethodField()
-    class Meta:
-        model = QuoteCharge
-        fields = '__all__'
-
-    def get_can_be_zero(self, quote_charge):
-        return quote_charge.charge.can_be_zero
-
-
-class QuoteAnswerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QuoteAnswer
-        fields = '__all__'
-

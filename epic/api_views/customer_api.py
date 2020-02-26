@@ -6,12 +6,11 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from epic.model_serializers.bike_serializer import BikeSerializer, FrameSerializer
-from epic.model_serializers.customer_serializer import CustomerSerializer, PaginatedCustomerSerializer, \
-    CustomerAddressSerializer, CustomerPhoneSerializer, FittingSerializer
+from epic.model_serializers.customer_serializer import CustomerSerializer, PaginatedCustomerSerializer
 from epic.model_serializers.note_serializer import CustomerNoteSerializer
 from epic.model_serializers.quote_serializer import QuoteSerializer
 from epic.models.bike_models import Bike, Frame
-from epic.models.customer_models import Customer, CustomerPhone, CustomerAddress, Fitting
+from epic.models.customer_models import Customer
 from epic.models.note_models import CustomerNote
 from epic.models.quote_models import Quote
 
@@ -76,8 +75,6 @@ class CustomerMaintain(generics.GenericAPIView):
         customer = self.get_object(pk)
         serializer = CustomerSerializer(customer)
 
-        address_list = CustomerAddress.objects.filter(customer=customer)
-        phone_list = CustomerPhone.objects.filter(customer=customer)
         note_list = CustomerNote.objects.filter(customer=customer)
         quote_list = Quote.objects.filter(customer=customer)
 
@@ -89,12 +86,7 @@ class CustomerMaintain(generics.GenericAPIView):
         frames = Frame.objects.filter(id__in=bike_frame_ids)
         frame_serializer = FrameSerializer(frames, many=True)
 
-        fitting_list = Fitting.objects.filter(customer=customer)
-
         return Response({'customer': serializer.data,
-                         'addresses': CustomerAddressSerializer(address_list, many=True).data,
-                         'phones': CustomerPhoneSerializer(phone_list, many=True).data,
-                         'fittings': FittingSerializer(fitting_list, many=True).data,
                          'notes': CustomerNoteSerializer(note_list, many=True).data,
                          'quotes': QuoteSerializer(quote_list, many=True).data,
                          'frames': frame_serializer.data,

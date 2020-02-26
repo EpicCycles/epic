@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from epic.model_serializers.quote_serializer import QuestionSerializer
-from epic.models.quote_models import Question, QuoteAnswer
+from epic.models.quote_models import Question
 
 
 class QuestionList(generics.ListCreateAPIView):
@@ -68,12 +68,9 @@ class QuestionMaintain(generics.GenericAPIView):
     def delete(self, request, question_id):
         question = self.get_object(question_id)
         if question:
-            if QuoteAnswer.objects.filter(question=question).exists():
-                question.deleted = True
-                question.upd_by = request.user
-                question.save()
-            else:
-                question.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            question.deleted = True
+            question.upd_by = request.user
+            question.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response(status=status.HTTP_403_FORBIDDEN)

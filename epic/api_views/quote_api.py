@@ -6,18 +6,14 @@ from rest_framework.response import Response
 
 from epic.helpers.note_helper import create_note_for_requote, create_note_for_new_quote, create_note_for_saved_quote, \
     create_note_for_issue, create_note_for_order
-from epic.helpers.quote_helper import copy_quote_with_changes
 from epic.model_serializers.bike_serializer import BikeSerializer, FrameSerializer
 from epic.model_serializers.customer_serializer import CustomerSerializer
 from epic.model_serializers.note_serializer import CustomerNoteSerializer
-from epic.model_serializers.part_serializer import SupplierProductSerializer, PartSerializer
-from epic.model_serializers.quote_serializer import QuoteSerializer, QuotePartSerializer, QuoteChargeSerializer, \
-    QuoteAnswerSerializer
+from epic.model_serializers.quote_serializer import QuoteSerializer
 from epic.models.bike_models import Frame, Bike
-from epic.models.brand_models import Part, SupplierProduct
 from epic.models.customer_models import Customer
 from epic.models.note_models import CustomerNote
-from epic.models.quote_models import Quote, QuotePart, INITIAL, ARCHIVED, ISSUED, QuoteCharge, QuoteAnswer
+from epic.models.quote_models import Quote, INITIAL, ARCHIVED, ISSUED
 
 
 class QuotesApi(generics.ListCreateAPIView):
@@ -106,13 +102,6 @@ def quote_data_for_quote_or_customer(quote=None, customer=None):
 def build_quotes_and_related_data(quotes):
     quote_bike_ids = quotes.values_list('bike__id', flat=True)
     quote_serializer = QuoteSerializer(quotes, many=True)
-    quote_parts = QuotePart.objects.filter(quote__in=quotes)
-    quote_answers = QuoteAnswer.objects.filter(quote__in=quotes)
-    quote_answer_serializer = QuoteAnswerSerializer(quote_answers, many=True)
-    quote_charges = QuoteCharge.objects.filter(quote__in=quotes)
-    quote_charge_serializer = QuoteChargeSerializer(quote_charges, many=True)
-    quote_part_part_ids = quote_parts.values_list('part__id', flat=True)
-    quote_part_serializer = QuotePartSerializer(quote_parts, many=True)
     bikes = Bike.objects.filter(id__in=quote_bike_ids)
     bike_serializer = BikeSerializer(bikes, many=True)
     bike_frame_ids = bikes.values_list('frame__id', flat=True)
@@ -123,19 +112,10 @@ def build_quotes_and_related_data(quotes):
     notes = CustomerNote.objects.filter(quote__in=quotes)
     notes_serializer = CustomerNoteSerializer(notes, many=True)
 
-    parts_from_quotes = Part.objects.filter(id__in=list(quote_part_part_ids))
-    part_serializer = PartSerializer(parts_from_quotes, many=True)
-    supplier_product_list = SupplierProduct.objects.filter(part__in=parts_from_quotes)
-    supplier_product_serializer = SupplierProductSerializer(supplier_product_list, many=True)
     full_quote_data = {'quotes': quote_serializer.data,
-                       'quoteParts': quote_part_serializer.data,
-                       'quoteAnswers': quote_answer_serializer.data,
-                       'quoteCharges': quote_charge_serializer.data,
                        'frames': frame_serializer.data,
                        'bikes': bike_serializer.data,
-                       'notes': notes_serializer.data,
-                       'parts': part_serializer.data,
-                       'supplierProducts': supplier_product_serializer.data}
+                       'notes': notes_serializer.data}
     return full_quote_data
 
 
@@ -174,37 +154,6 @@ class QuoteMaintain(generics.GenericAPIView):
         customer = quote.customer
         quote.delete()
         return Response(quote_data_for_quote_or_customer(None, customer))
-
-
-class QuoteCopy(generics.GenericAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-
-    serializer_class = QuoteSerializer
-
-    def get_object(self, quote_id):
-        return get_quote_object(quote_id)
-
-    def post(self, request, quote_id):
-        quote = self.get_object(quote_id)
-        old_quote_desc = quote.quote_desc + "(v" + str(quote.version) + ")"
-        post_data = request.data
-
-        customer_id = post_data.get('customer', None)
-        bike_id = post_data.get('bike', None)
-        quote_desc = post_data.get('quote_desc', None)
-        customer = None
-        bike = None
-        if customer_id:
-            customer = Customer.objects.get(id=customer_id)
-
-        if bike_id:
-            bike = Bike.objects.get(id=bike_id)
-        print(customer, bike, quote_desc)
-        new_quote = copy_quote_with_changes(quote, request.user, quote_desc, bike, customer)
-        new_quote.recalculate_price()
-        create_note_for_new_quote(new_quote, request.user, old_quote_desc)
-        return Response(quote_data_for_quote_or_customer(new_quote))
 
 
 class QuoteArchive(generics.GenericAPIView):
@@ -283,21 +232,3 @@ class QuoteOrder(generics.GenericAPIView):
         quote.order()
         create_note_for_order(quote, request.user)
         return Response(QuoteSerializer(quote).data)
-
-
-class QuoteRecalculate(generics.GenericAPIView):
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-
-    serializer_class = QuoteSerializer
-
-    def get_object(self, quote_id):
-        try:
-            return Quote.objects.get(id=quote_id)
-        except Quote.DoesNotExist:
-            raise Http404
-
-    def post(self, request, quote_id):
-        quote = self.get_object(quote_id)
-        quote.recalculate_price()
-        return Response(quote_data_for_quote_or_customer(quote))
