@@ -144,7 +144,6 @@ class QuoteMaintain(generics.GenericAPIView):
         serializer = QuoteSerializer(quote, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            quote.recalculate_price()
             create_note_for_saved_quote(quote, request.user)
             return Response(quote_data_for_quote_or_customer(quote))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

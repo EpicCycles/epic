@@ -11,18 +11,6 @@ class CustomerModelTestCase(TestCase):
         self.customer_with_email = Customer.objects.create(first_name="Fred", last_name='Bloggs', email='f.b@c.com')
         self.customer_with_email2 = Customer.objects.create(first_name="Fred", last_name='not-Bloggs',
                                                             email='f.b@c.com')
-        self.c_n_m_home_phone = CustomerPhone.objects.create(customer=self.customer_no_email, number_type=HOME,
-                                                             telephone='01568770451')
-        self.c_n_m_home_phone2 = CustomerPhone.objects.create(customer=self.customer_no_email, number_type=HOME,
-                                                              telephone='01584875686')
-
-        self.c_n_m_address1 = CustomerAddress.objects.create(customer=self.customer_no_email, address1='1 New Street',
-                                                             postcode='TR1 1FF')
-        self.c_n_m_address2 = CustomerAddress.objects.create(customer=self.customer_no_email, address1='2 New Street',
-                                                             postcode='TR1 1FF')
-        self.c_n_m_fitting = Fitting.objects.create(customer=self.customer_no_email, saddle_height='23',
-                                                    bar_height='45', reach='23', note_text='New note',
-                                                    fitting_type=CUST)
 
     def test_create_new_email_customer(self):
         new_customer = Customer.objects.create(first_name=self.customer_no_email.first_name,
@@ -59,88 +47,3 @@ class CustomerModelTestCase(TestCase):
         self.assertNotEqual(check_customer.email, old_email)
         self.assertEqual(check_customer.add_date, old_add)
         self.assertNotEqual(check_customer.upd_date, old_upd)
-
-    def test_insert_new_telephone(self):
-        new_telephone = CustomerPhone.objects.create(customer=self.customer_no_email, telephone='07866311879')
-        self.assertEqual(new_telephone.telephone, '07866311879')
-        self.assertEqual(new_telephone.number_type, HOME)
-        self.assertEqual(new_telephone.customer, self.customer_no_email)
-        self.assertNotEqual(new_telephone.add_date, None)
-
-    def test_update_existing_telephone(self):
-        phone_id = self.c_n_m_home_phone.id
-        old_telephone = self.c_n_m_home_phone.telephone
-        old_type = self.c_n_m_home_phone.number_type
-        old_add_date = self.c_n_m_home_phone.add_date
-        old_upd_date = self.c_n_m_home_phone.upd_date
-        self.c_n_m_home_phone.telephone = '07813343266'
-        self.c_n_m_home_phone.number_type = WORK
-        self.c_n_m_home_phone.save()
-
-        check_phone = CustomerPhone.objects.get(id=phone_id)
-        self.assertEqual(old_add_date, check_phone.add_date)
-        self.assertNotEqual(old_telephone, check_phone.telephone)
-        self.assertNotEqual(old_type, check_phone.number_type)
-        self.assertNotEqual(old_upd_date, check_phone.upd_date)
-
-    def test_insert_new_address(self):
-        new_address = CustomerAddress.objects.create(customer=self.customer_no_email, address1='Address line 1',
-                                                     address2='Address line 2', address3='Address line 3',
-                                                     address4='Address line 4', postcode='HR6 9UN')
-
-        self.assertEqual(new_address.address1, 'Address line 1')
-        self.assertEqual(new_address.address2, 'Address line 2')
-        self.assertEqual(new_address.address3, 'Address line 3')
-        self.assertEqual(new_address.address4, 'Address line 4')
-        self.assertEqual(new_address.postcode, 'HR6 9UN')
-        self.assertNotEqual(new_address.add_date, None)
-
-    def test_update_address(self):
-        address_id = self.c_n_m_address1.id
-        old_address1 = self.c_n_m_address1.address1
-        old_address2 = self.c_n_m_address1.address2
-        old_address3 = self.c_n_m_address1.address3
-        old_address4 = self.c_n_m_address1.address4
-        old_postcode = self.c_n_m_address1.postcode
-        old_add_date = self.c_n_m_address1.add_date
-        old_upd_date = self.c_n_m_address1.upd_date
-        time.sleep(1)
-        self.c_n_m_address1.address1 = 'blah 1'
-        self.c_n_m_address1.address2 = 'blah 2'
-        self.c_n_m_address1.address3 = 'blah 3'
-        self.c_n_m_address1.address4 = 'blah 4'
-        self.c_n_m_address1.postcode = 'SY9 1EF'
-        self.c_n_m_address1.save()
-
-        check_address = CustomerAddress.objects.get(id=address_id)
-        self.assertEqual(check_address.add_date, old_add_date)
-        self.assertNotEqual(check_address.address1, old_address1)
-        self.assertNotEqual(check_address.address2, old_address2)
-        self.assertNotEqual(check_address.address3, old_address3)
-        self.assertNotEqual(check_address.address4, old_address4)
-        self.assertNotEqual(check_address.postcode, old_postcode)
-        self.assertNotEqual(check_address.upd_date, old_upd_date)
-
-    def test_update_fitting(self):
-        fitting_id = self.c_n_m_fitting.id
-        fitting_saddle = self.c_n_m_fitting.saddle_height
-        fitting_bar = self.c_n_m_fitting.bar_height
-        fitting_reach = self.c_n_m_fitting.reach
-        fitting_note_text = self.c_n_m_fitting.note_text
-        fitting_add = self.c_n_m_fitting.add_date
-        fitting_upd = self.c_n_m_fitting.upd_date
-        time.sleep(1)
-
-        self.c_n_m_fitting.saddle_height = '34 cm'
-        self.c_n_m_fitting.bar_height = '36 cm'
-        self.c_n_m_fitting.reach = '38 cm'
-        self.c_n_m_fitting.note_text = 'changed note_text'
-        self.c_n_m_fitting.save()
-
-        check_fitting = Fitting.objects.get(id=fitting_id)
-        self.assertEqual(check_fitting.add_date, fitting_add)
-        self.assertNotEqual(check_fitting.saddle_height, fitting_saddle)
-        self.assertNotEqual(check_fitting.bar_height, fitting_bar)
-        self.assertNotEqual(check_fitting.reach, fitting_reach)
-        self.assertNotEqual(check_fitting.note_text, fitting_note_text)
-        self.assertNotEqual(check_fitting.upd_date, fitting_upd)

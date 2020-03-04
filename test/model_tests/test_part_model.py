@@ -530,21 +530,3 @@ class PartModelTestCase(TestCase):
         self.assertEqual(check_part.part_name, 'Changed Name')
         self.assertNotEqual(check_part.brand, old_brand)
 
-    def test_section_string(self):
-        self.assertEqual(str(self.part_section2), self.part_section2.name)
-
-    def test_type_string(self):
-        self.assertEqual(str(self.part_type1), self.part_type1.name)
-
-    def test_attribute_string(self):
-        self.assertEqual(str(self.part_type_attribute1), self.part_type_attribute1.attribute_name)
-
-    def test_supplier_string(self):
-        self.assertEqual(str(self.supplier1), self.supplier1.supplier_name)
-
-    def test_brand_string(self):
-        self.assertEqual(str(self.brand1), self.brand1.brand_name)
-
-    def test_part_string(self):
-        expected = f'{self.part1.partType.name}: {self.part1.brand.brand_name} {self.part1.part_name}'
-        self.assertEqual(str(self.part1), expected)

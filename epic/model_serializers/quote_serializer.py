@@ -10,14 +10,10 @@ class QuoteSerializer(serializers.ModelSerializer):
 
 
 class ChargeSerializer(serializers.ModelSerializer):
-    can_be_deleted = serializers.SerializerMethodField()
 
     class Meta:
         model = Charge
         fields = '__all__'
-
-    def get_can_be_deleted(self, charge):
-        return False
 
     def validate(self, data):
         charge_name = data.get('charge_name')
