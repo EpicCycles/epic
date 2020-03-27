@@ -11,6 +11,8 @@ from epic.models.brand_models import Part, SupplierProduct
 
 @api_view()
 def parts_and_supplier_parts(request):
+    # first delete all non-standard parts
+    Part.objects.filter(standard= False).delete()
     q_parts = Part.objects.all()
     q_supplier_products = SupplierProduct.objects.all()
 

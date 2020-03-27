@@ -45,7 +45,7 @@ class CustomerList(generics.ListCreateAPIView):
 
     def get(self, request):
         """
-        Returns a JSON response with a listing of course objects
+        Returns a JSON response with a listing of customer objects
         """
         customers = self.get_queryset()
         serializer = PaginatedCustomerSerializer(customers, request, 20)

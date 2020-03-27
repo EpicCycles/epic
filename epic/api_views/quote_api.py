@@ -79,6 +79,10 @@ class QuotesApi(generics.ListCreateAPIView):
         serializer = QuoteSerializer(data=request.data)
         if serializer.is_valid():
             quote = serializer.save(created_by=user)
+            countNames = Quote.objects.filter(quote_desc=quote.quote_desc).count()
+            if countNames > quote.version:
+                quote.version = countNames
+                quote.save()
             create_note_for_new_quote(quote, user)
             return Response(quote_data_for_quote_or_customer(quote))
 

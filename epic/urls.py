@@ -1,6 +1,5 @@
 from django.urls import path
 
-from epic.api_views.archive_api import Archive
 from epic.api_views.bike_api import Frames, FrameUpload, Bikes
 from epic.api_views.brands_api import Brands, BrandMaintain
 from epic.api_views.charge_api import ChargeList, ChargeMaintain
@@ -17,7 +16,6 @@ from epic.api_views.user_api import CustomAuthToken, UserApi
 # good explanation of patterns here https://tutorial.djangogirls.org/en/extend_your_application/
 urlpatterns = [
     path('framework', Framework.as_view()),
-    path('archive/<archiveType>', Archive.as_view()),
     path('brands', Brands.as_view()),
     path('brand/<int:pk>', BrandMaintain.as_view()),
     path('suppliers', Suppliers.as_view()),
