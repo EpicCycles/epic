@@ -123,3 +123,4 @@ npm-debug.log*
 # Jest Coverage
 coverage
 © 2019 GitHub, Inc.
+/.idea/
