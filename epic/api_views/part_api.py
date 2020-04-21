@@ -106,9 +106,7 @@ class Parts(generics.ListCreateAPIView):
                 continue
 
             if processed_part_types.count(part_type_id) == 0:
-                processed_part_types.push(part_type_id)
-                Part.objects.filter(partType__id=part_type_id).update(standard__on=False, stocked__on=False,
-                                                                      upd_by=user)
+                processed_part_types.append(part_type_id)
 
             if part.get('id'):
                 existing_part = Part.objects.get(pk=part.get('id'))

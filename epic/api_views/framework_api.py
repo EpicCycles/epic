@@ -25,7 +25,7 @@ def validateAndPersistOption(option, part_type_attribute):
 
 
 def update_existing_attribute_option(option, option_id):
-    existing_option = AttributeOptions.objects.get(id=option_id)
+    existing_option = AttributeOptions.objects.filter(id=option_id).first()
     if existing_option is not None:
         serializer = AttributeOptionsSerializer(existing_option, data=option)
         if serializer.is_valid():
@@ -36,9 +36,7 @@ def update_existing_attribute_option(option, option_id):
             option['error_detail'] = serializer.errors
             return option
     else:
-        option['id'] = ''
-        option['error'] = True
-        return option
+        return create_attribute_option(option)
 
 
 def create_attribute_option(option):
@@ -89,7 +87,7 @@ def validateAndPersistAttribute(attribute, part_type_id):
 
 
 def update_existing_attribute(attribute, attribute_id):
-    existing_attribute = PartTypeAttribute.objects.get(id=attribute_id)
+    existing_attribute = PartTypeAttribute.objects.filter(id=attribute_id).first()
     if existing_attribute is not None:
         serializer = PartTypeAttributeSerializer(existing_attribute, data=attribute)
         if serializer.is_valid():
@@ -100,9 +98,7 @@ def update_existing_attribute(attribute, attribute_id):
             attribute['error_detail'] = serializer.errors
             return attribute
     else:
-        attribute['id'] = ''
-        attribute['error'] = True
-        return attribute
+        return create_new_attribute(attribute)
 
 
 def create_new_attribute(attribute):
@@ -135,8 +131,8 @@ def validateAndPersistSynonym(synonym, part_type_id):
 
 
 def update_existing_synonym(synonym, synonym_id):
-    existing_synonym = PartTypeSynonym.objects.get(id=synonym_id)
-    if existing_synonym is not None:
+    existing_synonym = PartTypeSynonym.objects.filter(id=synonym_id).first()
+    if existing_synonym:
         serializer = PartTypeSynonymSerializer(existing_synonym, data=synonym)
         if serializer.is_valid():
             serializer.save()
@@ -146,9 +142,7 @@ def update_existing_synonym(synonym, synonym_id):
             synonym['error_detail'] = serializer.errors
             return synonym
     else:
-        synonym['id'] = ''
-        synonym['error'] = True
-        return synonym
+        return create_new_synonym(synonym)
 
 
 def create_new_synonym(synonym):
@@ -208,7 +202,7 @@ def validateAndPersistPartType(part_type, include_in_section):
 
 
 def update_existing_part_type(part_type, part_type_id):
-    existing_part_type = PartType.objects.get(id=part_type_id)
+    existing_part_type = PartType.objects.filter(id=part_type_id).first()
     if existing_part_type is not None:
         serializer = PartTypeSerializer(existing_part_type, data=part_type)
         if serializer.is_valid():
@@ -219,9 +213,7 @@ def update_existing_part_type(part_type, part_type_id):
             part_type['error_detail'] = serializer.errors
             return part_type
     else:
-        part_type['id'] = ''
-        part_type['error'] = True
-        return part_type
+        return create_new_part_type(part_type)
 
 
 def create_new_part_type(part_type):
@@ -268,7 +260,7 @@ def validateAndPersist(part_section):
 
 
 def save_existing_part_section(part_section, part_section_id):
-    existing_part_section = PartSection.objects.get(id=part_section_id)
+    existing_part_section = PartSection.objects.filter(id=part_section_id).first()
     if existing_part_section is not None:
         serializer = SectionSerializer(existing_part_section, data=part_section)
         if serializer.is_valid():
@@ -279,9 +271,7 @@ def save_existing_part_section(part_section, part_section_id):
             part_section['error_detail'] = serializer.errors
             return part_section
     else:
-        part_section['id'] = ''
-        part_section['error'] = True
-        return part_section
+        return create_part_section(part_section)
 
 
 def create_part_section(part_section):
@@ -297,8 +287,8 @@ def create_part_section(part_section):
 
 
 class Framework(generics.ListCreateAPIView):
-    # authentication_classes = (TokenAuthentication,)
-    # permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = FrameworkSerializer
 
     def get_queryset(self):
