@@ -24,20 +24,29 @@
 ```
 
 ## Virtual environment
-Windows/PyCharm not required-
-Linux -`source myvenv/bin/activate`
+This is required for all te steps below.
 
-## Database migrations.
-The virtual environment must be started before running migrations.  Two commands are required:
+Set up a virtual environmane for this project - e.g. typically names venv
+
+### activate the virtual environment you have set up.
+
+Windows/PyCharm not required-
+Linux/Mac -`source myvenv/bin/activate`
+
+### Database migrations.
+The virtual environment must be started before running migrations.  
+
+Two commands are required:
 - `python manage.py makemigrations` set the migrations up and does any pre-validation
 - `python manage.py migrate` runs the migrations
 
-## start server
+### start server
 `python manage.py runserver`
 
-## Setting up users
+### Setting up users
 Need to have virtual environment and server up and running
 - `python manage.py createsuperuser` 
+
 ## code base
 
 ### Folder structure
@@ -46,7 +55,7 @@ This is what all the folders here are for:
 .                  # tree -L 1 -d
 ├── epic           # non React pages, database set up, api's (django)
 ├── mysite         # overall setup including config 
-├── myvenv         # virtual environment 
+├── venv         # virtual environment 
 ├── test           # test folder for python code
 ```
 ## testing 
